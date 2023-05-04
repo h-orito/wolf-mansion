@@ -178,9 +178,16 @@ data class VillageParticipant(
 
     fun changeRequestSkill(requestSkill: RequestSkill) = copy(requestSkill = requestSkill)
 
+    fun isDeadByDivine(): Boolean = skill?.isDeadByDivine() ?: false || status.hasCurseMark
+    fun isCounterKillByDivine(): Boolean = skill?.isCounterDeadByDivine() ?: false || status.hasCounterCurseMark
+
     fun suddenlyDeath(day: Int): VillageParticipant = copy(dead = dead.suddenlyDeath(day), status = status.respect())
     fun execute(day: Int): VillageParticipant = copy(dead = dead.execute(day), status = status.respect())
-    fun divineKill(day: Int): VillageParticipant = copy(dead = dead.divineKill(day), status = status.respect())
+    fun divineKill(day: Int): VillageParticipant = copy(
+        dead = dead.divineKill(day),
+        status = status.respect().clearCurseMark()
+    )
+
     fun attacked(day: Int): VillageParticipant = copy(dead = dead.attacked(day), status = status.respect())
     fun trapKill(day: Int): VillageParticipant = copy(dead = dead.trapKill(day), status = status.respect())
     fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day), status = status.respect())
@@ -253,6 +260,14 @@ data class VillageParticipant(
     }
 
     fun useInsurance(): VillageParticipant = copy(status = status.useInsurance())
+
+    fun addCurseMark(): VillageParticipant = copy(status = status.addCurseMark())
+
+    fun clearCurseMark(): VillageParticipant = copy(status = status.clearCurseMark())
+
+    fun addCounterCurseMark(): VillageParticipant = copy(status = status.addCounterCursed())
+
+    fun clearCounterCurseMark(): VillageParticipant = copy(status = status.clearCounterCursed())
 
     fun judgeWin(winCamp: Camp): VillageParticipant = copy(
         isWin = when {

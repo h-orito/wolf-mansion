@@ -229,6 +229,12 @@ class VillagePlayerDataSource(
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
         current.disrespectfulList.filterNot { changed.disrespectfulList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
+        if (current.hasCurseMark && !changed.hasCurseMark) {
+            deleteVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.呪縛符)
+        }
+        if (current.hasCounterCurseMark && !changed.hasCounterCurseMark) {
+            deleteVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.反呪符)
+        }
 
         // 追加
         changed.loverIdList.filterNot { current.loverIdList.contains(it) }
@@ -243,9 +249,15 @@ class VillagePlayerDataSource(
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
         changed.disrespectfulList.filterNot { current.disrespectfulList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
+        if (!current.hasCurseMark && changed.hasCurseMark) {
+            insertVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.呪縛符)
+        }
+        if (!current.hasCounterCurseMark && changed.hasCounterCurseMark) {
+            insertVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.反呪符)
+        }
     }
 
-    private fun insertVillagePlayerStatus(from: Int, to: Int, type: CDef.VillagePlayerStatusType) {
+    private fun insertVillagePlayerStatus(from: Int, to: Int?, type: CDef.VillagePlayerStatusType) {
         val status = VillagePlayerStatus()
         status.villagePlayerId = from
         status.toVillagePlayerId = to
@@ -253,10 +265,12 @@ class VillagePlayerDataSource(
         villagePlayerStatusBhv.insert(status)
     }
 
-    private fun deleteVillagePlayerStatus(from: Int, to: Int, type: CDef.VillagePlayerStatusType) {
+    private fun deleteVillagePlayerStatus(from: Int, to: Int?, type: CDef.VillagePlayerStatusType) {
         villagePlayerStatusBhv.queryDelete {
             it.query().setVillagePlayerId_Equal(from)
-            it.query().setToVillagePlayerId_Equal(to)
+            to?.let { to ->
+                it.query().setToVillagePlayerId_Equal(to)
+            }
             it.query().setVillagePlayerStatusCode_Equal_AsVillagePlayerStatusType(type)
         }
     }
@@ -389,7 +403,9 @@ class VillagePlayerDataSource(
                 insanedIdList = emptyList(),
                 persuadedIdList = emptyList(),
                 insuranceIdList = emptyList(),
-                disrespectfulList = emptyList()
+                disrespectfulList = emptyList(),
+                hasCurseMark = false,
+                hasCounterCurseMark = false
             ),
             dead = mapSimpleDead(villagePlayer),
             isSpectator = villagePlayer.isSpectator,
@@ -517,6 +533,8 @@ class VillagePlayerDataSource(
             persuadedIdList = toStatusList.filter { it.isVillagePlayerStatusCode信念 }.map { it.villagePlayerId },
             insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId },
             disrespectfulList = toStatusList.filter { it.isVillagePlayerStatusCode不敬 }.map { it.villagePlayerId },
+            hasCurseMark = statusList.any { it.isVillagePlayerStatusCode呪縛符 },
+            hasCounterCurseMark = statusList.any { it.isVillagePlayerStatusCode反呪符 }
         )
     }
 }

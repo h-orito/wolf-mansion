@@ -68,6 +68,8 @@ data class VillageParticipantsContent(
                 if (status.isInsaned()) list.add("狂気")
                 if (status.isPersuaded()) list.add("信念")
                 if (status.isDisrespectful()) list.add("不敬")
+                if (status.hasCurseMark) list.add("呪縛符")
+                if (status.hasCounterCurseMark) list.add("反呪符")
                 return list
             }
 

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of message_sendto.
+ * The base condition-bean of MESSAGE_SENDTO.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageSendtoCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsMessageSendtoCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "message_sendto";
+        return "MESSAGE_SENDTO";
     }
 
     // ===================================================================================
@@ -353,12 +353,12 @@ public class BsMessageSendtoCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnMessageReplytoId() { return doColumn("MESSAGE_REPLYTO_ID"); }
         /**
-         * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
+         * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageId() { return doColumn("MESSAGE_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -397,7 +397,7 @@ public class BsMessageSendtoCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "message_sendto"; }
+        protected String getTableDbName() { return "MESSAGE_SENDTO"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * MESSAGE by my MESSAGE_ID, named 'message'.

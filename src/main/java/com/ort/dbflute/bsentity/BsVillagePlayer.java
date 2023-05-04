@@ -110,22 +110,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** VILLAGE_PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerId;
 
-    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
-    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} */
+    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
     protected Integer _playerId;
 
     /** CHARA_ID: {NotNull, INT UNSIGNED(10)} */
     protected Integer _charaId;
 
-    /** SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
+    /** SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _skillCode;
 
-    /** REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
+    /** REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _requestSkillCode;
 
-    /** SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} */
+    /** SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _secondRequestSkillCode;
 
     /** ROOM_NUMBER: {INT UNSIGNED(10)} */
@@ -137,7 +137,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     /** IS_SPECTATOR: {NotNull, BIT, classification=Flg} */
     protected Boolean _isSpectator;
 
-    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} */
+    /** DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} */
     protected String _deadReasonCode;
 
     /** DEAD_DAY: {INT UNSIGNED(10)} */
@@ -186,7 +186,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_player";
+        return "VILLAGE_PLAYER";
     }
 
     // ===================================================================================
@@ -203,7 +203,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -214,7 +214,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -224,7 +224,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Get the value of requestSkillCode as the classification of Skill. <br>
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -235,7 +235,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of requestSkillCode as the classification of Skill. <br>
-     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -245,7 +245,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Get the value of secondRequestSkillCode as the classification of Skill. <br>
-     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -256,7 +256,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of secondRequestSkillCode as the classification of Skill. <br>
-     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -308,7 +308,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Get the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
      * 死亡理由
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -319,7 +319,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * Set the value of deadReasonCode as the classification of DeadReason. <br>
-     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
      * 死亡理由
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -522,6 +522,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSkillCode_おまかせ愉快犯陣営() {
         setSkillCodeAsSkill(CDef.Skill.おまかせ愉快犯陣営);
+    }
+
+    /**
+     * Set the value of skillCode as 反呪者 (CURSECOUNTER). <br>
+     * 反呪者
+     */
+    public void setSkillCode_反呪者() {
+        setSkillCodeAsSkill(CDef.Skill.反呪者);
+    }
+
+    /**
+     * Set the value of skillCode as 呪縛者 (CURSER). <br>
+     * 呪縛者
+     */
+    public void setSkillCode_呪縛者() {
+        setSkillCodeAsSkill(CDef.Skill.呪縛者);
     }
 
     /**
@@ -1421,6 +1437,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 反呪者 (CURSECOUNTER). <br>
+     * 反呪者
+     */
+    public void setRequestSkillCode_反呪者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.反呪者);
+    }
+
+    /**
+     * Set the value of requestSkillCode as 呪縛者 (CURSER). <br>
+     * 呪縛者
+     */
+    public void setRequestSkillCode_呪縛者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.呪縛者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 呪狼 (CURSEWOLF). <br>
      * 呪狼
      */
@@ -2314,6 +2346,22 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_おまかせ愉快犯陣営() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.おまかせ愉快犯陣営);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 反呪者 (CURSECOUNTER). <br>
+     * 反呪者
+     */
+    public void setSecondRequestSkillCode_反呪者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.反呪者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 呪縛者 (CURSER). <br>
+     * 呪縛者
+     */
+    public void setSecondRequestSkillCode_呪縛者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.呪縛者);
     }
 
     /**
@@ -3398,6 +3446,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCodeおまかせ愉快犯陣営() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ愉快犯陣営) : false;
+    }
+
+    /**
+     * Is the value of skillCode 反呪者? <br>
+     * 反呪者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode反呪者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.反呪者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 呪縛者? <br>
+     * 呪縛者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode呪縛者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.呪縛者) : false;
     }
 
     /**
@@ -4763,6 +4833,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 反呪者? <br>
+     * 反呪者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode反呪者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.反呪者) : false;
+    }
+
+    /**
+     * Is the value of requestSkillCode 呪縛者? <br>
+     * 呪縛者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode呪縛者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.呪縛者) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 呪狼? <br>
      * 呪狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6122,6 +6214,28 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCodeおまかせ愉快犯陣営() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.おまかせ愉快犯陣営) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 反呪者? <br>
+     * 反呪者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode反呪者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.反呪者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 呪縛者? <br>
+     * 呪縛者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode呪縛者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.呪縛者) : false;
     }
 
     /**
@@ -7631,11 +7745,11 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
         _village = village;
     }
 
-    /** village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'. */
+    /** VILLAGE_PLAYER_NOTIFICATION by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'. */
     protected OptionalEntity<VillagePlayerNotification> _villagePlayerNotificationAsOne;
 
     /**
-     * [get] village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * [get] VILLAGE_PLAYER_NOTIFICATION by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return the entity of foreign property(referrer-as-one) 'villagePlayerNotificationAsOne'. (NotNull, EmptyAllowed: when e.g. no data, no setupSelect)
      */
@@ -7645,7 +7759,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * [set] VILLAGE_PLAYER_NOTIFICATION by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
      * @param villagePlayerNotificationAsOne The entity of foreign property(referrer-as-one) 'villagePlayerNotificationAsOne'. (NullAllowed)
      */
     public void setVillagePlayerNotificationAsOne(OptionalEntity<VillagePlayerNotification> villagePlayerNotificationAsOne) {
@@ -8029,7 +8143,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -8039,7 +8153,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -8049,7 +8163,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -8059,7 +8173,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -8089,7 +8203,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -8099,7 +8213,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -8110,7 +8224,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 希望役職コード
      * @return The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -8120,7 +8234,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 希望役職コード
      * @param requestSkillCode The value of the column 'REQUEST_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -8131,7 +8245,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 第二希望役職コード
      * @return The value of the column 'SECOND_REQUEST_SKILL_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -8141,7 +8255,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] SECOND_REQUEST_SKILL_CODE: {IX, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 第二希望役職コード
      * @param secondRequestSkillCode The value of the column 'SECOND_REQUEST_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
      */
@@ -8214,7 +8328,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * [get] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
      * 死亡理由コード
      * @return The value of the column 'DEAD_REASON_CODE'. (NullAllowed even if selected: for no constraint)
      */
@@ -8224,7 +8338,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to dead_reason, classification=DeadReason} <br>
+     * [set] DEAD_REASON_CODE: {IX, VARCHAR(20), FK to DEAD_REASON, classification=DeadReason} <br>
      * 死亡理由コード
      * @param deadReasonCode The value of the column 'DEAD_REASON_CODE'. (NullAllowed: null update allowed for no constraint)
      */

@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of village_player_status_type.
+ * The abstract condition-query of VILLAGE_PLAYER_STATUS_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
     }
 
     public String asTableDbName() {
-        return "village_player_status_type";
+        return "VILLAGE_PLAYER_STATUS_TYPE";
     }
 
     // ===================================================================================
@@ -68,6 +68,22 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_Equal_信念() {
         setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
+     * Equal(=). As 反呪符 (COUNTERCURSEMARK). And OnlyOnceRegistered. <br>
+     * 反呪符
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_反呪符() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.反呪符);
+    }
+
+    /**
+     * Equal(=). As 呪縛符 (CURSEMARK). And OnlyOnceRegistered. <br>
+     * 呪縛符
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_呪縛符() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.呪縛符);
     }
 
     /**
@@ -139,6 +155,22 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_NotEqual_信念() {
         setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 反呪符 (COUNTERCURSEMARK). And OnlyOnceRegistered. <br>
+     * 反呪符
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_反呪符() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.反呪符);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪縛符 (CURSEMARK). And OnlyOnceRegistered. <br>
+     * 呪縛符
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_呪縛符() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.呪縛符);
     }
 
     /**
@@ -233,8 +265,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_PLAYER_STATUS_CODE from village_player_status where ...)} <br>
-     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {exists (select VILLAGE_PLAYER_STATUS_CODE from VILLAGE_PLAYER_STATUS where ...)} <br>
+     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayerStatus</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.query().set...
@@ -252,8 +284,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_PLAYER_STATUS_CODE from village_player_status where ...)} <br>
-     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {not exists (select VILLAGE_PLAYER_STATUS_CODE from VILLAGE_PLAYER_STATUS where ...)} <br>
+     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayerStatus</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.query().set...
@@ -279,8 +311,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_player_status where ...)} <br>
-     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER_STATUS where ...)} <br>
+     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayerStatus()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

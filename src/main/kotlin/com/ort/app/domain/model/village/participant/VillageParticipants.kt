@@ -143,6 +143,10 @@ data class VillageParticipants(
 
     fun useInsurance(id: Int): VillageParticipants = transformParticipant(id) { it.useInsurance() }
     fun disrespect(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.disrespect(fromId) }
+    fun addCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.addCurseMark() }
+    fun clearCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.clearCurseMark() }
+    fun addCounterCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.addCounterCurseMark() }
+    fun clearCounterCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.clearCounterCurseMark() }
 
     fun judgeWin(winCamp: Camp): VillageParticipants = copy(list = list.map { it.judgeWin(winCamp) })
 

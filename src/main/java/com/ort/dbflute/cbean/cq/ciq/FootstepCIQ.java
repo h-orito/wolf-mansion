@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of footstep.
+ * The condition-query for in-line of FOOTSTEP.
  * @author DBFlute(AutoGenerator)
  */
 public class FootstepCIQ extends AbstractBsFootstepCQ {

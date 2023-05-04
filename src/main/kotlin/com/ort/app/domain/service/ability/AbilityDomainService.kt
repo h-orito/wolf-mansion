@@ -70,6 +70,8 @@ class AbilityDomainService(
     private val yubisashiDomainService: YubisashiDomainService,
     private val revolutionDomainService: RevolutionDomainService,
     private val omniscienceDomainService: OmniscienceDomainService,
+    private val curseMarkDomainService: CurseMarkDomainService,
+    private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
@@ -173,6 +175,8 @@ class AbilityDomainService(
             CDef.AbilityType.濡衣 -> guiltyDomainService
             CDef.AbilityType.降霊 -> onmyoNecromanceDomainService
             CDef.AbilityType.革命 -> revolutionDomainService
+            CDef.AbilityType.呪縛 -> curseMarkDomainService
+            CDef.AbilityType.反呪 -> counterCurseMarkDomainService
         }
 
     fun createSetMessage(

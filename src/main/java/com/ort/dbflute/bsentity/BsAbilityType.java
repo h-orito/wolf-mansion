@@ -78,7 +78,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ability_type";
+        return "ABILITY_TYPE";
     }
 
     // ===================================================================================
@@ -198,11 +198,27 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 反呪 (COUNTERCURSE). <br>
+     * 反呪
+     */
+    public void setAbilityTypeCode_反呪() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.反呪);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 求愛 (COURT). <br>
      * 求愛
      */
     public void setAbilityTypeCode_求愛() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.求愛);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 呪縛 (CURSE). <br>
+     * 呪縛
+     */
+    public void setAbilityTypeCode_呪縛() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.呪縛);
     }
 
     /**
@@ -583,6 +599,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Is the value of abilityTypeCode 反呪? <br>
+     * 反呪
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode反呪() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.反呪) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 求愛? <br>
      * 求愛
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -591,6 +618,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode求愛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.求愛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 呪縛? <br>
+     * 呪縛
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode呪縛() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.呪縛) : false;
     }
 
     /**

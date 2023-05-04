@@ -90,7 +90,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     /** PLAYER_PASSWORD: {NotNull, CHAR(60)} */
     protected String _playerPassword;
 
-    /** AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} */
+    /** AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} */
     protected String _authorityCode;
 
     /** IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg} */
@@ -121,7 +121,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "player";
+        return "PLAYER";
     }
 
     // ===================================================================================
@@ -149,7 +149,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     //                                                             =======================
     /**
      * Get the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -160,7 +160,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
 
     /**
      * Set the value of authorityCode as the classification of Authority. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -307,11 +307,11 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         _authority = authority;
     }
 
-    /** player_detail by PLAYER_ID, named 'playerDetailAsOne'. */
+    /** PLAYER_DETAIL by PLAYER_ID, named 'playerDetailAsOne'. */
     protected OptionalEntity<PlayerDetail> _playerDetailAsOne;
 
     /**
-     * [get] player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * [get] PLAYER_DETAIL by PLAYER_ID, named 'playerDetailAsOne'.
      * Optional: alwaysPresent(), ifPresent().orElse(), get(), ...
      * @return the entity of foreign property(referrer-as-one) 'playerDetailAsOne'. (NotNull, EmptyAllowed: when e.g. no data, no setupSelect)
      */
@@ -321,7 +321,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * [set] PLAYER_DETAIL by PLAYER_ID, named 'playerDetailAsOne'.
      * @param playerDetailAsOne The entity of foreign property(referrer-as-one) 'playerDetailAsOne'. (NullAllowed)
      */
     public void setPlayerDetailAsOne(OptionalEntity<PlayerDetail> playerDetailAsOne) {
@@ -520,7 +520,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [get] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * [get] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限コード
      * @return The value of the column 'AUTHORITY_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -530,7 +530,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     }
 
     /**
-     * [set] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
+     * [set] AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
      * 権限コード
      * @param authorityCode The value of the column 'AUTHORITY_CODE'. (basically NotNull if update: for the constraint)
      */

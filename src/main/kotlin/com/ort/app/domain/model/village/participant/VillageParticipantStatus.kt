@@ -10,7 +10,11 @@ data class VillageParticipantStatus(
     // 保険勧誘してきた人
     val insuranceIdList: List<Int>,
     // 不敬を付与してきた人
-    val disrespectfulList: List<Int>
+    val disrespectfulList: List<Int>,
+    // 呪縛符
+    val hasCurseMark: Boolean,
+    // 反呪符
+    val hasCounterCurseMark: Boolean
 ) {
     fun hasLover(): Boolean = loverIdList.isNotEmpty()
 
@@ -37,6 +41,8 @@ data class VillageParticipantStatus(
                 && persuadedIdList.all { other.persuadedIdList.contains(it) }
                 && insuranceIdList.all { other.insuranceIdList.contains(it) }
                 && disrespectfulList.all { other.disrespectfulList.contains(it) }
+                && hasCurseMark == other.hasCurseMark
+                && hasCounterCurseMark == other.hasCounterCurseMark
     }
 
     fun addLover(id: Int): VillageParticipantStatus {
@@ -104,4 +110,12 @@ data class VillageParticipantStatus(
         copy(disrespectfulList = (disrespectfulList + fromParticipantId).distinct())
 
     fun respect(): VillageParticipantStatus = copy(disrespectfulList = emptyList())
+
+    fun addCurseMark(): VillageParticipantStatus = copy(hasCurseMark = true)
+
+    fun clearCurseMark(): VillageParticipantStatus = copy(hasCurseMark = false)
+
+    fun addCounterCursed(): VillageParticipantStatus = copy(hasCounterCurseMark = true)
+
+    fun clearCounterCursed(): VillageParticipantStatus = copy(hasCounterCurseMark = false)
 }

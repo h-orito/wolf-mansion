@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of wolf_allocation. (Singleton)
+ * The DB meta of WOLF_ALLOCATION. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class WolfAllocationDbm extends AbstractDBMeta {
@@ -69,7 +69,7 @@ public class WolfAllocationDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "wolf_allocation";
+    protected final String _tableDbName = "WOLF_ALLOCATION";
     protected final String _tableDispName = "WOLF_ALLOCATION";
     protected final String _tablePropertyName = "wolfAllocation";
     protected final TableSqlName _tableSqlName = new TableSqlName("WOLF_ALLOCATION", _tableDbName);
@@ -91,7 +91,7 @@ public class WolfAllocationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }

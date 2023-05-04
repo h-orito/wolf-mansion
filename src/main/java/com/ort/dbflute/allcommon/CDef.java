@@ -586,6 +586,12 @@ public interface CDef extends Classification {
         /** おまかせ（愉快犯陣営） */
         おまかせ愉快犯陣営("CRIMINALS", "おまかせ（愉快犯陣営）", emptyStrings())
         ,
+        /** 反呪者 */
+        反呪者("CURSECOUNTER", "反呪者", emptyStrings())
+        ,
+        /** 呪縛者 */
+        呪縛者("CURSER", "呪縛者", emptyStrings())
+        ,
         /** 呪狼 */
         呪狼("CURSEWOLF", "呪狼", emptyStrings())
         ,
@@ -1008,6 +1014,20 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "お");
                 _subItemMapMap.put(おまかせ愉快犯陣営.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "483");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "反");
+                _subItemMapMap.put(反呪者.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "482");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "縛");
+                _subItemMapMap.put(呪縛者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2460,8 +2480,14 @@ public interface CDef extends Classification {
         /** 指揮 */
         指揮("COMMAND", "指揮", emptyStrings())
         ,
+        /** 反呪 */
+        反呪("COUNTERCURSE", "反呪", emptyStrings())
+        ,
         /** 求愛 */
         求愛("COURT", "求愛", emptyStrings())
+        ,
+        /** 呪縛 */
+        呪縛("CURSE", "呪縛", emptyStrings())
         ,
         /** 占い */
         占い("DIVINE", "占い", emptyStrings())
@@ -2942,6 +2968,12 @@ public interface CDef extends Classification {
     public enum VillagePlayerStatusType implements CDef {
         /** 信念 */
         信念("BELIEF", "信念", emptyStrings())
+        ,
+        /** 反呪符 */
+        反呪符("COUNTERCURSEMARK", "反呪符", emptyStrings())
+        ,
+        /** 呪縛符 */
+        呪縛符("CURSEMARK", "呪縛符", emptyStrings())
         ,
         /** 不敬 */
         不敬("DISRESPECTFUL", "不敬", emptyStrings())

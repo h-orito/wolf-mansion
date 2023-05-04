@@ -78,7 +78,7 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_player_status_type";
+        return "VILLAGE_PLAYER_STATUS_TYPE";
     }
 
     // ===================================================================================
@@ -123,6 +123,22 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
      */
     public void setVillagePlayerStatusTypeCode_信念() {
         setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.信念);
+    }
+
+    /**
+     * Set the value of villagePlayerStatusTypeCode as 反呪符 (COUNTERCURSEMARK). <br>
+     * 反呪符
+     */
+    public void setVillagePlayerStatusTypeCode_反呪符() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.反呪符);
+    }
+
+    /**
+     * Set the value of villagePlayerStatusTypeCode as 呪縛符 (CURSEMARK). <br>
+     * 呪縛符
+     */
+    public void setVillagePlayerStatusTypeCode_呪縛符() {
+        setVillagePlayerStatusTypeCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.呪縛符);
     }
 
     /**
@@ -177,6 +193,28 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
     public boolean isVillagePlayerStatusTypeCode信念() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.信念) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 反呪符? <br>
+     * 反呪符
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode反呪符() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.反呪符) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusTypeCode 呪縛符? <br>
+     * 呪縛符
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusTypeCode呪縛符() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.呪縛符) : false;
     }
 
     /**

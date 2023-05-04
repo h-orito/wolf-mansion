@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of village_chara_group.
+ * The abstract condition-query of VILLAGE_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
     }
 
     public String asTableDbName() {
-        return "village_chara_group";
+        return "VILLAGE_CHARA_GROUP";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_Equal(Integer charaGroupId) {
@@ -304,7 +304,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotEqual(Integer charaGroupId) {
@@ -317,7 +317,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterThan(Integer charaGroupId) {
@@ -326,7 +326,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessThan(Integer charaGroupId) {
@@ -335,7 +335,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_GreaterEqual(Integer charaGroupId) {
@@ -344,7 +344,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupId The value of charaGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setCharaGroupId_LessEqual(Integer charaGroupId) {
@@ -355,7 +355,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -368,7 +368,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param minNumber The min number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of charaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -379,7 +379,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupIdList The collection of charaGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_InScope(Collection<Integer> charaGroupIdList) {
@@ -392,7 +392,7 @@ public abstract class AbstractBsVillageCharaGroupCQ extends AbstractConditionQue
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
      * @param charaGroupIdList The collection of charaGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setCharaGroupId_NotInScope(Collection<Integer> charaGroupIdList) {

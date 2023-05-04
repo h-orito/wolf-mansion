@@ -58,6 +58,8 @@ class ProgressDomainService(
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
     private val omniscienceDomainService: OmniscienceDomainService,
+    private val curseMarkDomainService: CurseMarkDomainService,
+    private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
     private val revolutionDomainService: RevolutionDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
@@ -112,6 +114,9 @@ class ProgressDomainService(
         daychange = persuadeDomainService.persuade(daychange)
         // 保険屋
         daychange = insuranceDomainService.insurance(daychange)
+        // 呪縛、反呪
+        daychange = curseMarkDomainService.curse(daychange)
+        daychange = counterCurseMarkDomainService.couterCurse(daychange)
         // 罠、爆弾メッセージ
         daychange = trapDomainService.addTrapMessages(daychange)
         daychange = bombDomainService.addBombMessages(daychange)

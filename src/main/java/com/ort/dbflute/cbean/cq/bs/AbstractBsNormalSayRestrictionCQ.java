@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of normal_say_restriction.
+ * The abstract condition-query of NORMAL_SAY_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     public String asTableDbName() {
-        return "normal_say_restriction";
+        return "NORMAL_SAY_RESTRICTION";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -174,7 +174,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCode The value of skillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_Equal(String skillCode) {
@@ -183,7 +183,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -341,6 +341,22 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_Equal_おまかせ愉快犯陣営() {
         setSkillCode_Equal_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
+    }
+
+    /**
+     * Equal(=). As 反呪者 (CURSECOUNTER). And OnlyOnceRegistered. <br>
+     * 反呪者
+     */
+    public void setSkillCode_Equal_反呪者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.反呪者);
+    }
+
+    /**
+     * Equal(=). As 呪縛者 (CURSER). And OnlyOnceRegistered. <br>
+     * 呪縛者
+     */
+    public void setSkillCode_Equal_呪縛者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.呪縛者);
     }
 
     /**
@@ -1093,7 +1109,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCode The value of skillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotEqual(String skillCode) {
@@ -1102,7 +1118,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -1260,6 +1276,22 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_おまかせ愉快犯陣営() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.おまかせ愉快犯陣営);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 反呪者 (CURSECOUNTER). And OnlyOnceRegistered. <br>
+     * 反呪者
+     */
+    public void setSkillCode_NotEqual_反呪者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.反呪者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 呪縛者 (CURSER). And OnlyOnceRegistered. <br>
+     * 呪縛者
+     */
+    public void setSkillCode_NotEqual_呪縛者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.呪縛者);
     }
 
     /**
@@ -2012,7 +2044,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCodeList The collection of skillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_InScope(Collection<String> skillCodeList) {
@@ -2021,7 +2053,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2165,7 +2197,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCodeList The collection of skillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotInScope(Collection<String> skillCodeList) {
@@ -2174,7 +2206,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2188,13 +2220,13 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      */
     public void setSkillCode_IsNull() { regSkillCode(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      */
     public void setSkillCode_IsNotNull() { regSkillCode(CK_ISNN, DOBJ); }
 
@@ -2203,7 +2235,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_Equal(String messageTypeCode) {
@@ -2212,7 +2244,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * Equal(=). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -2418,7 +2450,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @param messageTypeCode The value of messageTypeCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_NotEqual(String messageTypeCode) {
@@ -2427,7 +2459,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotEqual(&lt;&gt;). As MessageType. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -2633,7 +2665,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_InScope(Collection<String> messageTypeCodeList) {
@@ -2642,7 +2674,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * InScope {in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2656,7 +2688,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @param messageTypeCodeList The collection of messageTypeCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setMessageTypeCode_NotInScope(Collection<String> messageTypeCodeList) {
@@ -2665,7 +2697,7 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * NotInScope {not in ('a', 'b')}. As MessageType. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType} <br>
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType} <br>
      * メッセージ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2679,13 +2711,13 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      */
     public void setMessageTypeCode_IsNull() { regMessageTypeCode(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      */
     public void setMessageTypeCode_IsNotNull() { regMessageTypeCode(CK_ISNN, DOBJ); }
 

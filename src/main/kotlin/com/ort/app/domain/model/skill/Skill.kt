@@ -156,6 +156,8 @@ data class Skill(
             CDef.Skill.道化師 to AbilityType(CDef.AbilityType.道化),
             CDef.Skill.伝説の殺し屋 to AbilityType(CDef.AbilityType.殺し屋化),
             CDef.Skill.革命者 to AbilityType(CDef.AbilityType.革命),
+            CDef.Skill.呪縛者 to AbilityType(CDef.AbilityType.呪縛),
+            CDef.Skill.反呪者 to AbilityType(CDef.AbilityType.反呪),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -261,7 +263,8 @@ data class Skill(
                 CDef.Skill.陰陽師
             )
         val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
-        val hasAutoFootstepAbilitySkills = listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者, CDef.Skill.リア充)
+        val hasAutoFootstepAbilitySkills =
+            listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者, CDef.Skill.リア充)
 
         val madmanPriorityList = listOf(
             CDef.Skill.C国狂人,

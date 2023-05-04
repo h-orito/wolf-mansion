@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of village_player_skill_history.
+ * The condition-query for in-line of VILLAGE_PLAYER_SKILL_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerSkillHistoryCIQ extends AbstractBsVillagePlayerSkillHistoryCQ {
