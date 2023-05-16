@@ -3,6 +3,7 @@ package com.ort.app.api.view
 import com.ort.app.api.view.village.*
 import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.VillageSituation
@@ -69,6 +70,7 @@ data class VillageContent(
         village: Village,
         day: Int,
         myself: VillageParticipant?,
+        player: Player?,
         charachips: Charachips,
         keywords: RandomKeywords,
         villageSituation: VillageSituation,
@@ -88,7 +90,7 @@ data class VillageContent(
         participantList = village.allParticipants().sortedByRoomNumber().list.map {
             VillageFilterParticipantContent(village, it, charachips)
         },
-        roomAssignedRowList = mapRoomAssignRowList(village, day, charachips, myself),
+        roomAssignedRowList = mapRoomAssignRowList(village, day, charachips, myself, player),
         roomWidth = village.roomSize?.width,
         form = VillageFormContent(village, myself, participantSituation, day, charachips),
         myself = myself?.let { VillageParticipateContent(it, charachips, participantSituation) },
@@ -146,11 +148,12 @@ data class VillageContent(
             village: Village,
             day: Int,
             charachips: Charachips,
-            myself: VillageParticipant?
+            myself: VillageParticipant?,
+            player: Player?
         ): List<VillageRoomAssignedRow>? {
             village.roomSize ?: return null
             return List(village.roomSize.height) { columnIndex ->
-                VillageRoomAssignedRow(village, day, columnIndex, charachips, myself)
+                VillageRoomAssignedRow(village, day, columnIndex, charachips, myself, player)
             }
         }
 

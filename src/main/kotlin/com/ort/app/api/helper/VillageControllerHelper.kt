@@ -36,6 +36,7 @@ class VillageControllerHelper(
     fun setIndexModel(village: Village, day: Int, model: Model, villageForms: VillageForms) {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
         val myself = userInfo?.let { villageService.findVillageParticipant(village.id, it.username) }
+        val player = userInfo?.let { playerService.findPlayer(it.username) }
         val votes = voteService.findVotes(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
         val abilities = abilityService.findAbilities(village.id)
@@ -65,6 +66,7 @@ class VillageControllerHelper(
             village = village,
             day = day,
             myself = myself,
+            player = player,
             charachips = charachips,
             keywords = keywords,
             villageSituation = villageSituation,

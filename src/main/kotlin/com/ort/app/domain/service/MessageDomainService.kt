@@ -511,7 +511,7 @@ class MessageDomainService(
         }
         // あとは権限に応じて追加
         list += (MessageType.sayTypeList + MessageType.commonSystemTypeList).filter {
-            isViewable(village, myself, it, query.day)
+            isViewable(village, myself, player, it, query.day)
         }
         return list.distinct().map { it.toModel() }
     }
@@ -519,11 +519,12 @@ class MessageDomainService(
     fun isViewable(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         messageType: CDef.MessageType,
         day: Int
     ): Boolean {
         return if (messageType == CDef.MessageType.村建て発言) true
-        else detectMessageTypeDomainService(messageType).isViewable(village, myself, day)
+        else detectMessageTypeDomainService(messageType).isViewable(village, myself, player, day)
     }
 
     private fun detectMessageTypeDomainService(messageType: CDef.MessageType): MessageTypeDomainService {

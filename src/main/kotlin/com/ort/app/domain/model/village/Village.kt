@@ -105,31 +105,34 @@ data class Village(
 
     fun isSayableNormalSay(): Boolean = status.isNotFinished()
 
-    fun isViewableGraveSay(): Boolean = status.isSettled() || setting.rule.isVisibleGraveSpectateMessage
+    fun isViewableGraveSay(player: Player?): Boolean =
+        status.isSettled() || setting.rule.isVisibleGraveSpectateMessage || isProducer(player)
+
     fun isSayableGraveSay(): Boolean = status.isProgress()
 
-    fun isViewableMonologueSay(): Boolean = status.isSettled()
+    fun isViewableMonologueSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableMonologueSay(): Boolean = true
 
-    fun isViewableSpectateSay(): Boolean = !status.isProgress() || setting.rule.isVisibleGraveSpectateMessage
+    fun isViewableSpectateSay(player: Player?): Boolean =
+        !status.isProgress() || setting.rule.isVisibleGraveSpectateMessage || isProducer(player)
+
     fun isSayableSpectateSay(): Boolean = true
 
-    fun isViewableWerewolfSay(): Boolean = status.isSettled()
+    fun isViewableWerewolfSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableWerewolfSay(): Boolean = status.isProgress()
 
-    fun isViewableSympathizeSay(): Boolean = status.isSettled()
+    fun isViewableSympathizeSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableSympathizeSay(): Boolean = status.isProgress()
 
-    fun isViewableTelepathy(): Boolean = status.isSettled()
+    fun isViewableTelepathy(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableTelepathy(): Boolean = status.isProgress()
 
-    fun isViewableLoversSay(): Boolean = status.isSettled()
+    fun isViewableLoversSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableLoversSay(): Boolean = status.isProgress()
 
     fun isSayableCreatorSay(): Boolean = status.isNotFinished()
 
-    fun isViewableSecretSay(): Boolean = status.isSettled()
-
+    fun isViewableSecretSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
     fun isSayableSecretSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableSecretSay
 
     fun isSayableActionSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableAction
@@ -183,6 +186,7 @@ data class Village(
                     "$base\n\nプロローグ中は24時間アクセスなしで自動退村となるため、定期的にアクセスしてください。"
                 }
             }
+
             status.isProgress() -> {
                 if (latestDay() == 1) {
                     "特殊な能力を持つ人は、$daychangeDatetime までに行動を確定して下さい。"
@@ -190,9 +194,11 @@ data class Village(
                     "$daychangeDatetime までに、誰を処刑するべきかの投票先を決定して下さい。\n一番票を集めた人物が処刑されます。同数だった場合はランダムで決定されます。\n\n特殊な能力を持つ人は、$daychangeDatetime までに行動を確定して下さい。"
                 }
             }
+
             status.isEpilogue() -> {
                 "${winCamp!!.name}の勝利です！\n全てのログとユーザー名を公開します。\n\n$daychangeDatetime まで自由に書き込めますので、今回の感想などをどうぞ。"
             }
+
             status.toCdef() == CDef.VillageStatus.終了 -> "終了しました。"
             status.isCanceled() -> "この村は廃村となりました。"
             else -> ""

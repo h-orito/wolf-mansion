@@ -1,6 +1,7 @@
 package com.ort.app.api.view.village
 
 import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 
@@ -12,7 +13,8 @@ data class VillageRoomAssignedRow(
         day: Int,
         columnIndex: Int,
         charachips: Charachips,
-        myself: VillageParticipant?
+        myself: VillageParticipant?,
+        player: Player?
     ) : this(
         roomAssignedList = emptyList()
     ) {
@@ -20,7 +22,7 @@ data class VillageRoomAssignedRow(
         val maxHeight = charachips.charas().list.maxByOrNull { it.size.height }!!.size.height
         roomAssignedList = List(village.roomSize!!.width) { rowIndex ->
             val roomNumber = columnIndex * village.roomSize.width + rowIndex + 1
-            VillageRoomAssigned(village, day, roomNumber, charachips, myself, maxWidth, maxHeight)
+            VillageRoomAssigned(village, day, roomNumber, charachips, myself, player, maxWidth, maxHeight)
         }
     }
 
@@ -60,6 +62,7 @@ data class VillageRoomAssignedRow(
             roomNumber: Int,
             charachips: Charachips,
             myself: VillageParticipant?,
+            player: Player?,
             maxWidth: Int?,
             maxHeight: Int?
         ) : this(
@@ -86,7 +89,7 @@ data class VillageRoomAssignedRow(
             isDead = participant(village, roomNumber, day)?.isDeadWhen(day),
             deadDay = null,
             deadReason = null,
-            skillName = mapSkillName(village, myself, participant(village, roomNumber, day), day)
+            skillName = mapSkillName(village, myself, player, participant(village, roomNumber, day), day)
         ) {
             participant(village, roomNumber, day)?.let {
                 if (it.isDeadWhen(day)) {
@@ -103,16 +106,18 @@ data class VillageRoomAssignedRow(
             private fun mapSkillName(
                 village: Village,
                 myself: VillageParticipant?,
+                player: Player?,
                 participant: VillageParticipant?,
                 day: Int
             ): String? {
                 participant ?: return null
-                if (!isViewableMemberSkill(village, myself)) return null
+                if (!isViewableMemberSkill(village, myself, player)) return null
                 return participant.skillWhen(day)?.name
             }
 
-            private fun isViewableMemberSkill(village: Village, myself: VillageParticipant?): Boolean {
+            private fun isViewableMemberSkill(village: Village, myself: VillageParticipant?, player: Player?): Boolean {
                 if (myself != null && myself.isAdmin()) return true
+                if (village.isProducer(player)) return true
                 if (village.status.isSettled()) return true
                 return village.setting.rule.isOpenSkillInGrave &&
                         myself != null &&

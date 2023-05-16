@@ -109,18 +109,20 @@ class VillageMessageController(
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
         // 最終アクセス日時を更新
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+        val user = WolfMansionUserInfoUtil.getUserInfo()
+        val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
         }
+        val player = user?.let { playerService.findPlayer(it.username) }
         // 発言取得
-        val message = messageService.findMessage(village, myself, form.messageType!!, form.messageNumber!!)
-        val player = message?.fromParticipantId?.let {
+        val message = messageService.findMessage(village, myself, player, form.messageType!!, form.messageNumber!!)
+        val fromPlayer = message?.fromParticipantId?.let {
             playerService.findPlayer(village.allParticipants().member(it).playerId)
         }
         val charas =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val abilities = abilityService.findAbilities(village.id)
-        return VillageAnchorMessageContent(message, village, player, charas, abilities)
+        return VillageAnchorMessageContent(message, village, fromPlayer, charas, abilities)
     }
 
     // 参加者一覧取得

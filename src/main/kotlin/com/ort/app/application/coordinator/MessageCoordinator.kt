@@ -19,6 +19,7 @@ class MessageCoordinator(
     private val messageService: MessageService,
     private val charaService: CharaService,
     private val villageService: VillageService,
+    private val playerService: PlayerService,
     private val abilityService: AbilityService,
     private val randomKeywordService: RandomKeywordService,
     private val slackService: NotificationService,
@@ -91,7 +92,8 @@ class MessageCoordinator(
         // register access info
         accessInfoCoordinator.registerAccessInfo(village, myself, ipAddress)
         // notification
-        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, messages.last())
+        val players = playerService.findPlayers(village.id)
+        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, players, messages.last())
     }
 
     private fun assertSay(

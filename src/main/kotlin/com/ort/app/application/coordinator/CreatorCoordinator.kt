@@ -42,7 +42,8 @@ class CreatorCoordinator(
             messageDomainService.createCreatorMessage(village, text, isConvertDisable)
         )
         // notification
-        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, message)
+        val players = playerService.findPlayers(villageId)
+        notificationService.notifyReceiveMessageToCustomerIfNeeded(village, players, message)
     }
 
     fun cancel(villageId: Int) {

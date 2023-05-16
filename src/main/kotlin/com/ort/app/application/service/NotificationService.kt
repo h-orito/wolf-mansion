@@ -2,6 +2,7 @@ package com.ort.app.application.service
 
 import com.ort.app.domain.model.discord.DiscordRepository
 import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.slack.SlackRepository
 import com.ort.app.domain.model.toot.TootRepository
 import com.ort.app.domain.model.tweet.TweetRepository
@@ -108,6 +109,7 @@ class NotificationService(
 
     fun notifyReceiveMessageToCustomerIfNeeded(
         village: Village,
+        players: Players,
         message: Message
     ) {
         // 秘話→アンカー→キーワード→役職窓の順
@@ -115,11 +117,13 @@ class NotificationService(
         notifyReceiveSecretSayToCustomerIfNeeded(village, message)?.let {
             alreadyNotifiedParticipantIds.add(it)
         }
-        val idsByAnchor = notifyReceiveAnchorToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        val idsByAnchor =
+            notifyReceiveAnchorToCustomerIfNeeded(village, players, message, alreadyNotifiedParticipantIds)
         alreadyNotifiedParticipantIds.addAll(idsByAnchor)
-        val idsByKeyword = notifyReceiveKeywordToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        val idsByKeyword =
+            notifyReceiveKeywordToCustomerIfNeeded(village, players, message, alreadyNotifiedParticipantIds)
         alreadyNotifiedParticipantIds.addAll(idsByKeyword)
-        notifyReceiveAbilitySayToCustomerIfNeeded(village, message, alreadyNotifiedParticipantIds)
+        notifyReceiveAbilitySayToCustomerIfNeeded(village, players, message, alreadyNotifiedParticipantIds)
     }
 
     private fun notifyReceiveSecretSayToCustomerIfNeeded(
@@ -143,6 +147,7 @@ class NotificationService(
 
     private fun notifyReceiveAnchorToCustomerIfNeeded(
         village: Village,
+        players: Players,
         message: Message,
         alreadyNotifiedParticipantIds: List<Int>
     ): List<Int> {
@@ -154,7 +159,8 @@ class NotificationService(
             .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
             .filterNot { alreadyNotifiedParticipantIds.contains(it.id) }
             .filter {
-                messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+                val player = players.player(it.playerId)
+                messageDomainService.isViewable(village, it, player, message.content.type.toCdef(), village.latestDay())
             }.filter {
                 it.notification?.message?.anchor ?: false
             }.filter {
@@ -178,6 +184,7 @@ class NotificationService(
 
     private fun notifyReceiveKeywordToCustomerIfNeeded(
         village: Village,
+        players: Players,
         message: Message,
         alreadyNotifiedParticipantIds: List<Int>
     ): List<Int> {
@@ -188,11 +195,18 @@ class NotificationService(
             .asSequence()
             .filter {
                 val keywords = it.notification?.message?.keywords
+                val player = players.player(it.playerId)
 
                 it.id != message.fromParticipantId &&  // 自分の発言でない
                         !alreadyNotifiedParticipantIds.contains(it.id) &&  // 通知済みでない
                         // 発言を閲覧できる
-                        messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+                        messageDomainService.isViewable(
+                            village = village,
+                            myself = it,
+                            player = player,
+                            messageType = message.content.type.toCdef(),
+                            day = village.latestDay()
+                        )
                         // キーワードが含まれている
                         && !keywords.isNullOrEmpty()
                         && keywords.any { keyword -> message.content.text.contains(keyword) }
@@ -215,16 +229,18 @@ class NotificationService(
 
     private fun notifyReceiveAbilitySayToCustomerIfNeeded(
         village: Village,
+        players: Players,
         message: Message,
         alreadyNotifiedParticipantIds: List<Int>
     ) {
         if (!message.content.type.isOwlViewableType()) return
         val fromParticipant = village.participants.list.find { it.id == message.fromParticipantId } ?: return
-        village.participants.list
+        village.allParticipants().list
             .filterNot { it.id == message.fromParticipantId } // 自分の発言でない
             .filterNot { alreadyNotifiedParticipantIds.contains(it.id) } // 既にアンカーで通知していたら通知しない
             .filter {
-                messageDomainService.isViewable(village, it, message.content.type.toCdef(), village.latestDay())
+                val player = players.player(it.playerId)
+                messageDomainService.isViewable(village, it, player, message.content.type.toCdef(), village.latestDay())
             }.filter {
                 it.notification?.message?.abilitySay ?: false
             }.forEach {

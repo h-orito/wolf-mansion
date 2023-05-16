@@ -31,11 +31,12 @@ class MessageService(
     fun findMessage(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         messageType: String,
         messageNumber: Int
     ): Message? {
         val cdef = requireNotNull(CDef.MessageType.codeOf(messageType))
-        if (!messageDomainService.isViewable(village, myself, cdef, village.latestDay())) {
+        if (!messageDomainService.isViewable(village, myself, player, cdef, village.latestDay())) {
             return null
         }
         return messageRepository.findMessage(village, cdef, messageNumber)
