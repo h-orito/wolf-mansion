@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of SKILL_ALLOCATION.
+ * The condition-query for in-line of skill_allocation.
  * @author DBFlute(AutoGenerator)
  */
 public class SkillAllocationCIQ extends AbstractBsSkillAllocationCQ {

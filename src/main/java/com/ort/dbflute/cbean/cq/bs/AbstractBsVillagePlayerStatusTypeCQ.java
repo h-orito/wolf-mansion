@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE_PLAYER_STATUS_TYPE.
+ * The abstract condition-query of village_player_status_type.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_STATUS_TYPE";
+        return "village_player_status_type";
     }
 
     // ===================================================================================
@@ -265,8 +265,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_PLAYER_STATUS_CODE from VILLAGE_PLAYER_STATUS where ...)} <br>
-     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {exists (select VILLAGE_PLAYER_STATUS_CODE from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayerStatus</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.query().set...
@@ -284,8 +284,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_PLAYER_STATUS_CODE from VILLAGE_PLAYER_STATUS where ...)} <br>
-     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {not exists (select VILLAGE_PLAYER_STATUS_CODE from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayerStatus</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.query().set...
@@ -311,8 +311,8 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER_STATUS where ...)} <br>
-     * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player_status where ...)} <br>
+     * village_player_status by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayerStatus()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     statusCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

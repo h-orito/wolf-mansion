@@ -78,10 +78,10 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     /** VILLAGE_TAG_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villageTagId;
 
-    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} */
+    /** VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} */
     protected String _villageTagItemCode;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -106,7 +106,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_TAG";
+        return "village_tag";
     }
 
     // ===================================================================================
@@ -123,7 +123,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     //                                                             =======================
     /**
      * Get the value of villageTagItemCode as the classification of VillageTagItem. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -134,7 +134,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
 
     /**
      * Set the value of villageTagItemCode as the classification of VillageTagItem. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -370,7 +370,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -380,7 +380,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -390,7 +390,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [get] VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * [get] VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別コード
      * @return The value of the column 'VILLAGE_TAG_ITEM_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -400,7 +400,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
     }
 
     /**
-     * [set] VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * [set] VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別コード
      * @param villageTagItemCode The value of the column 'VILLAGE_TAG_ITEM_CODE'. (basically NotNull if update: for the constraint)
      */

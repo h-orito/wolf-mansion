@@ -72,6 +72,7 @@ class AbilityDomainService(
     private val omniscienceDomainService: OmniscienceDomainService,
     private val curseMarkDomainService: CurseMarkDomainService,
     private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
+    private val hiyasichukaDomainService: HiyasichukaDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
@@ -177,6 +178,7 @@ class AbilityDomainService(
             CDef.AbilityType.革命 -> revolutionDomainService
             CDef.AbilityType.呪縛 -> curseMarkDomainService
             CDef.AbilityType.反呪 -> counterCurseMarkDomainService
+            CDef.AbilityType.冷やし中華 -> hiyasichukaDomainService
         }
 
     fun createSetMessage(
@@ -390,6 +392,7 @@ class AbilityDomainService(
             myself.skill.hasDisturbAbility() -> {
                 disturbDomainService.getHistories(village, myself, footsteps, day)
             }
+
             else -> {
                 abilityType ?: return emptyList()
                 detectAbilityTypeService(abilityType).getHistories(village, myself, abilities, footsteps, day)
@@ -499,7 +502,12 @@ class AbilityDomainService(
         // 梟
         if (village.participants.filterBySkill(Skill(CDef.Skill.梟)).list.isNotEmpty()) {
             messages =
-                messages.add(messageDomainService.createOpenSkillMessage(daychange.village, "この村には強力な聴力を持つ者がいるようだ。"))
+                messages.add(
+                    messageDomainService.createOpenSkillMessage(
+                        daychange.village,
+                        "この村には強力な聴力を持つ者がいるようだ。"
+                    )
+                )
         }
 
         return daychange.copy(messages = messages)

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE_TAG.
+ * The base condition-query of village_tag.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
@@ -35,7 +35,7 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE_TAG) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village_tag) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE_TAG on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village_tag on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageTagCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageTagCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -121,14 +121,14 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @return this. (NotNull)
      */
     public BsVillageTagCQ addOrderBy_VillageTagItemCode_Asc() { regOBA("VILLAGE_TAG_ITEM_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @return this. (NotNull)
      */
     public BsVillageTagCQ addOrderBy_VillageTagItemCode_Desc() { regOBD("VILLAGE_TAG_ITEM_CODE"); return this; }
@@ -279,7 +279,7 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("VILLAGE_TAG", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_tag", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }
@@ -299,7 +299,7 @@ public class BsVillageTagCQ extends AbstractBsVillageTagCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageTagItemCQ xcreateQueryVillageTagItem() {
-        String nrp = xresolveNRP("VILLAGE_TAG", "villageTagItem"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_tag", "villageTagItem"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageTagItemCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageTagItem", nrp);
     }
     protected void xsetupOuterJoinVillageTagItem() { xregOutJo("villageTagItem"); }

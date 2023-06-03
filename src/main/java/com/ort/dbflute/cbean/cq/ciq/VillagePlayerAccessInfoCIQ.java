@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE_PLAYER_ACCESS_INFO.
+ * The condition-query for in-line of village_player_access_info.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerAccessInfoCIQ extends AbstractBsVillagePlayerAccessInfoCQ {

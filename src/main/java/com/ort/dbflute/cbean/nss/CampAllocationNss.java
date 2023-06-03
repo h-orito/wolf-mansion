@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.CampAllocationCQ;
 
 /**
- * The nest select set-upper of CAMP_ALLOCATION.
+ * The nest select set-upper of camp_allocation.
  * @author DBFlute(AutoGenerator)
  */
 public class CampAllocationNss {

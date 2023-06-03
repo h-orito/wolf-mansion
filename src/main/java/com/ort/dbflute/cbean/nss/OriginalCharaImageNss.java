@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.OriginalCharaImageCQ;
 
 /**
- * The nest select set-upper of ORIGINAL_CHARA_IMAGE.
+ * The nest select set-upper of original_chara_image.
  * @author DBFlute(AutoGenerator)
  */
 public class OriginalCharaImageNss {

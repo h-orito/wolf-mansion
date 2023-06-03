@@ -68,7 +68,7 @@ public abstract class BsAllowedSecretSayBhv extends AbstractBehaviorWritable<All
     /** {@inheritDoc} */
     public AllowedSecretSayDbm asDBMeta() { return AllowedSecretSayDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "ALLOWED_SECRET_SAY"; }
+    public String asTableDbName() { return "allowed_secret_say"; }
 
     // ===================================================================================
     //                                                                        New Instance

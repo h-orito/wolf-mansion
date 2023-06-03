@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerNotificationBhv extends AbstractBehaviorWri
     /** {@inheritDoc} */
     public VillagePlayerNotificationDbm asDBMeta() { return VillagePlayerNotificationDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_PLAYER_NOTIFICATION"; }
+    public String asTableDbName() { return "village_player_notification"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,7 +159,7 @@ public abstract class BsVillagePlayerNotificationBhv extends AbstractBehaviorWri
 
     /**
      * Select the entity by the primary-key value.
-     * @param villagePlayerId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
+     * @param villagePlayerId : PK, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

@@ -77,10 +77,10 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
     /** MESSAGE_REPLYTO_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _messageReplytoId;
 
-    /** MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE} */
+    /** MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message} */
     protected Integer _messageId;
 
-    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -105,7 +105,7 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_SENDTO";
+        return "message_sendto";
     }
 
     // ===================================================================================
@@ -263,7 +263,7 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE} <br>
+     * [get] MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message} <br>
      * メッセージID
      * @return The value of the column 'MESSAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -273,7 +273,7 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE} <br>
+     * [set] MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message} <br>
      * メッセージID
      * @param messageId The value of the column 'MESSAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -283,7 +283,7 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -293,7 +293,7 @@ public abstract class BsMessageSendto extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

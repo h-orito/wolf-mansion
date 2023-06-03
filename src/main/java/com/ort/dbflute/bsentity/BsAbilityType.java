@@ -78,7 +78,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ABILITY_TYPE";
+        return "ability_type";
     }
 
     // ===================================================================================
@@ -275,6 +275,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_隠蔽() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.隠蔽);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 冷やし中華 (HIYASICHUKA). <br>
+     * 冷やし中華
+     */
+    public void setAbilityTypeCode_冷やし中華() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.冷やし中華);
     }
 
     /**
@@ -706,6 +714,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode隠蔽() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.隠蔽) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 冷やし中華? <br>
+     * 冷やし中華
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode冷やし中華() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.冷やし中華) : false;
     }
 
     /**

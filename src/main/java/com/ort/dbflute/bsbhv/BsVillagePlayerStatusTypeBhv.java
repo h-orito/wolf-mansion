@@ -68,7 +68,7 @@ public abstract class BsVillagePlayerStatusTypeBhv extends AbstractBehaviorWrita
     /** {@inheritDoc} */
     public VillagePlayerStatusTypeDbm asDBMeta() { return VillagePlayerStatusTypeDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_PLAYER_STATUS_TYPE"; }
+    public String asTableDbName() { return "village_player_status_type"; }
 
     // ===================================================================================
     //                                                                        New Instance

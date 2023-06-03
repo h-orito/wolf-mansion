@@ -158,6 +158,7 @@ data class Skill(
             CDef.Skill.革命者 to AbilityType(CDef.AbilityType.革命),
             CDef.Skill.呪縛者 to AbilityType(CDef.AbilityType.呪縛),
             CDef.Skill.反呪者 to AbilityType(CDef.AbilityType.反呪),
+            CDef.Skill.冷やし中華 to AbilityType(CDef.AbilityType.冷やし中華),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -236,11 +237,19 @@ data class Skill(
                 CDef.Skill.死霊術師
             )
         val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師)
-        val hasRevivalMyselfAbilitySkills = listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼)
+        val hasRevivalMyselfAbilitySkills =
+            listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼)
         val hasTrapAbilitySkills = listOf(CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.画鋲, CDef.Skill.箪笥)
         val hasChangeRoomAbilitySkills = listOf(CDef.Skill.果実籠)
         val hasChangeMessageAbilitySkills =
-            listOf(CDef.Skill.虹職人, CDef.Skill.拡声者, CDef.Skill.濁点者, CDef.Skill.道化師, CDef.Skill.伝説の殺し屋, CDef.Skill.翻訳者)
+            listOf(
+                CDef.Skill.虹職人,
+                CDef.Skill.拡声者,
+                CDef.Skill.濁点者,
+                CDef.Skill.道化師,
+                CDef.Skill.伝説の殺し屋,
+                CDef.Skill.翻訳者
+            )
         val hasVoteAbilitySkills =
             listOf(
                 CDef.Skill.強運者,
@@ -293,7 +302,8 @@ data class Skill(
             CDef.Skill.歩狼
         )
 
-        val seerPriorityList = listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師, CDef.Skill.花占い師, CDef.Skill.感覚者)
+        val seerPriorityList =
+            listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師, CDef.Skill.花占い師, CDef.Skill.感覚者)
 
         fun byShortName(shortName: String): Skill? {
             val cdef = CDef.Skill.listAll().firstOrNull {

@@ -673,6 +673,9 @@ public interface CDef extends Classification {
         /** 飛狼 */
         飛狼("HISHAWOLF", "飛狼", emptyStrings())
         ,
+        /** 冷やし中華 */
+        冷やし中華("HIYASICHUKA", "冷やし中華", emptyStrings())
+        ,
         /** 狩人 */
         狩人("HUNTER", "狩人", emptyStrings())
         ,
@@ -1217,6 +1220,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "飛");
                 _subItemMapMap.put(飛狼.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "36");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "冷");
+                _subItemMapMap.put(冷やし中華.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2509,6 +2519,9 @@ public interface CDef extends Classification {
         ,
         /** 隠蔽 */
         隠蔽("HIDE", "隠蔽", emptyStrings())
+        ,
+        /** 冷やし中華 */
+        冷やし中華("HIYASICHUKA", "冷やし中華", emptyStrings())
         ,
         /** 狩猟 */
         狩猟("HUNTING", "狩猟", emptyStrings())

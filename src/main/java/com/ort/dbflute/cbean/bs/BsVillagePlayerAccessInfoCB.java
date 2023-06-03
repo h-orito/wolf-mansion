@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_PLAYER_ACCESS_INFO.
+ * The base condition-bean of village_player_access_info.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_ACCESS_INFO";
+        return "village_player_access_info";
     }
 
     // ===================================================================================
@@ -97,7 +97,7 @@ public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
+     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      * @return this. (NotNull)
      */
@@ -336,7 +336,7 @@ public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerAccessInfoId() { return doColumn("VILLAGE_PLAYER_ACCESS_INFO_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+         * VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -376,7 +376,7 @@ public class BsVillagePlayerAccessInfoCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_PLAYER_ACCESS_INFO"; }
+        protected String getTableDbName() { return "village_player_access_info"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.

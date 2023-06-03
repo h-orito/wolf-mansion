@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
     /** {@inheritDoc} */
     public VillagePlayerAccessInfoDbm asDBMeta() { return VillagePlayerAccessInfoDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "VILLAGE_PLAYER_ACCESS_INFO"; }
+    public String asTableDbName() { return "village_player_access_info"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -188,7 +188,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
 
     /**
      * Select the entity by the unique-key value.
-     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
+     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).

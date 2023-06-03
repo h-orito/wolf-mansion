@@ -89,7 +89,7 @@ public abstract class BsOriginalChara extends AbstractEntity implements DomainEn
     /** ORIGINAL_CHARA_SHORT_NAME: {NotNull, CHAR(1)} */
     protected String _originalCharaShortName;
 
-    /** ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP} */
+    /** ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group} */
     protected Integer _originalCharaGroupId;
 
     /** DISPLAY_WIDTH: {NotNull, INT UNSIGNED(10)} */
@@ -120,7 +120,7 @@ public abstract class BsOriginalChara extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ORIGINAL_CHARA";
+        return "original_chara";
     }
 
     // ===================================================================================
@@ -320,7 +320,7 @@ public abstract class BsOriginalChara extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [get] ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP} <br>
+     * [get] ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group} <br>
      * オリジナルキャラクターグループID
      * @return The value of the column 'ORIGINAL_CHARA_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -330,7 +330,7 @@ public abstract class BsOriginalChara extends AbstractEntity implements DomainEn
     }
 
     /**
-     * [set] ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP} <br>
+     * [set] ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group} <br>
      * オリジナルキャラクターグループID
      * @param originalCharaGroupId The value of the column 'ORIGINAL_CHARA_GROUP_ID'. (basically NotNull if update: for the constraint)
      */
