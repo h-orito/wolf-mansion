@@ -92,22 +92,16 @@ class RevivalDomainService(
 
     private fun revivalHero(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
-        // 絶対人狼以外の人狼系役職が生存しているか
-        val existsNonAbsoluteAliveWolf = village.participants
-            .filterAlive()
-            .list.any { it.skill!!.hasAttackAbility() && it.skill.toCdef() != CDef.Skill.絶対人狼 }
-        if (!existsNonAbsoluteAliveWolf) return daychange
-
         var messages = daychange.messages.copy()
         village.participants.filterDead().filterBySkill(CDef.Skill.勇者.toModel()).list.forEach {
             // 能力行使済みか
-            if (hasAlreadyUseAbility(
-                    village = village,
-                    myself = it,
-                    abilities = daychange.abilities,
-                    abilityType = AbilityType(CDef.AbilityType.世界を救う)
-                )
-            ) {
+            val hasAlreadyUse = hasAlreadyUseAbility(
+                village = village,
+                myself = it,
+                abilities = daychange.abilities,
+                abilityType = AbilityType(CDef.AbilityType.世界を救う)
+            )
+            if (hasAlreadyUse || it.camp!!.toCdef() != CDef.Camp.村人陣営) {
                 return@forEach
             }
             village = village.reviveParticipant(it.id)
