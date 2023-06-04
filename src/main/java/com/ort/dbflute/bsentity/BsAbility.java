@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
  *
  * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, ATTACKER_CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DAY, CHARA_ID, ATTACKER_CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, TARGET_SKILL_CODE, TARGET_CAMP_CODE, TARGET_ROOMS, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -52,6 +52,9 @@ import com.ort.dbflute.exentity.*;
  * Integer attackerCharaId = entity.getAttackerCharaId();
  * Integer targetCharaId = entity.getTargetCharaId();
  * String targetFootstep = entity.getTargetFootstep();
+ * String targetSkillCode = entity.getTargetSkillCode();
+ * String targetCampCode = entity.getTargetCampCode();
+ * String targetRooms = entity.getTargetRooms();
  * String abilityTypeCode = entity.getAbilityTypeCode();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
@@ -63,6 +66,9 @@ import com.ort.dbflute.exentity.*;
  * entity.setAttackerCharaId(attackerCharaId);
  * entity.setTargetCharaId(targetCharaId);
  * entity.setTargetFootstep(targetFootstep);
+ * entity.setTargetSkillCode(targetSkillCode);
+ * entity.setTargetCampCode(targetCampCode);
+ * entity.setTargetRooms(targetRooms);
  * entity.setAbilityTypeCode(abilityTypeCode);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
@@ -100,6 +106,15 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
 
     /** TARGET_FOOTSTEP: {VARCHAR(1000)} */
     protected String _targetFootstep;
+
+    /** TARGET_SKILL_CODE: {VARCHAR(20)} */
+    protected String _targetSkillCode;
+
+    /** TARGET_CAMP_CODE: {VARCHAR(20)} */
+    protected String _targetCampCode;
+
+    /** TARGET_ROOMS: {VARCHAR(1000)} */
+    protected String _targetRooms;
 
     /** ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType} */
     protected String _abilityTypeCode;
@@ -230,6 +245,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
      */
     public void setAbilityTypeCode_誑かす() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 曇天 (CLOUD). <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_曇天() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.曇天);
     }
 
     /**
@@ -401,6 +424,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as ナマ足 (NAMAASHI). <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_ナマ足() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 死霊蘇生 (NECROMANCE). <br>
      * 死霊蘇生
      */
@@ -470,6 +501,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
      */
     public void setAbilityTypeCode_革命() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 世界を救う (SAVETHEWORLD). <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_世界を救う() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**
@@ -633,6 +672,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode誑かす() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.誑かす) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 曇天? <br>
+     * 曇天
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode曇天() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.曇天) : false;
     }
 
     /**
@@ -867,6 +917,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Is the value of abilityTypeCode ナマ足? <br>
+     * ナマ足
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCodeナマ足() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.ナマ足) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 死霊蘇生? <br>
      * 死霊蘇生
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -963,6 +1024,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode革命() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.革命) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 世界を救う? <br>
+     * 世界を救う
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode世界を救う() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.世界を救う) : false;
     }
 
     /**
@@ -1166,6 +1238,9 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
         sb.append(dm).append(xfND(_attackerCharaId));
         sb.append(dm).append(xfND(_targetCharaId));
         sb.append(dm).append(xfND(_targetFootstep));
+        sb.append(dm).append(xfND(_targetSkillCode));
+        sb.append(dm).append(xfND(_targetCampCode));
+        sb.append(dm).append(xfND(_targetRooms));
         sb.append(dm).append(xfND(_abilityTypeCode));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
@@ -1317,6 +1392,66 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public void setTargetFootstep(String targetFootstep) {
         registerModifiedProperty("targetFootstep");
         _targetFootstep = targetFootstep;
+    }
+
+    /**
+     * [get] TARGET_SKILL_CODE: {VARCHAR(20)} <br>
+     * 行使対象の役職コード
+     * @return The value of the column 'TARGET_SKILL_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getTargetSkillCode() {
+        checkSpecifiedProperty("targetSkillCode");
+        return convertEmptyToNull(_targetSkillCode);
+    }
+
+    /**
+     * [set] TARGET_SKILL_CODE: {VARCHAR(20)} <br>
+     * 行使対象の役職コード
+     * @param targetSkillCode The value of the column 'TARGET_SKILL_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setTargetSkillCode(String targetSkillCode) {
+        registerModifiedProperty("targetSkillCode");
+        _targetSkillCode = targetSkillCode;
+    }
+
+    /**
+     * [get] TARGET_CAMP_CODE: {VARCHAR(20)} <br>
+     * 行使対象の陣営コード
+     * @return The value of the column 'TARGET_CAMP_CODE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getTargetCampCode() {
+        checkSpecifiedProperty("targetCampCode");
+        return convertEmptyToNull(_targetCampCode);
+    }
+
+    /**
+     * [set] TARGET_CAMP_CODE: {VARCHAR(20)} <br>
+     * 行使対象の陣営コード
+     * @param targetCampCode The value of the column 'TARGET_CAMP_CODE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setTargetCampCode(String targetCampCode) {
+        registerModifiedProperty("targetCampCode");
+        _targetCampCode = targetCampCode;
+    }
+
+    /**
+     * [get] TARGET_ROOMS: {VARCHAR(1000)} <br>
+     * 行使対象の部屋
+     * @return The value of the column 'TARGET_ROOMS'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getTargetRooms() {
+        checkSpecifiedProperty("targetRooms");
+        return convertEmptyToNull(_targetRooms);
+    }
+
+    /**
+     * [set] TARGET_ROOMS: {VARCHAR(1000)} <br>
+     * 行使対象の部屋
+     * @param targetRooms The value of the column 'TARGET_ROOMS'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setTargetRooms(String targetRooms) {
+        registerModifiedProperty("targetRooms");
+        _targetRooms = targetRooms;
     }
 
     /**

@@ -70,10 +70,19 @@ class DivineDomainService(
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
 
+        val existsCloud = daychange.abilities.filterByDay(village.latestDay() - 1)
+            .filterByType(AbilityType(CDef.AbilityType.曇天)).list.isNotEmpty()
+
         village.participants.filterAlive().list.shuffled().filter { it.skill!!.hasDivineAbility() }.shuffled().forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
-            messages = messages.add(createDivineMessage(village, it, target))
+
+            // 曇天の場合占星術は失敗
+            if (existsCloud && it.skill!!.toCdef() == CDef.Skill.占星術師) {
+                messages = messages.add(createDivineMessage(village, it, target, existsCloud))
+                return@forEach
+            }
+            messages = messages.add(createDivineMessage(village, it, target, existsCloud))
             village = divineKillIfNeeded(village, it, target)
             village = counterDivineKillIfNeeded(village, it, target)
         }
@@ -81,12 +90,21 @@ class DivineDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createDivineMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
+    private fun createDivineMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+        existsCloud: Boolean
+    ): Message {
         val text: String = when (myself.skill!!.toCdef()) {
             CDef.Skill.占い師 -> createSeerDivineMessageText(myself, target)
             CDef.Skill.賢者 -> createWiseDivineMessageText(myself, target)
             CDef.Skill.管狐 -> createWiseDivineMessageText(myself, target)
-            CDef.Skill.占星術師 -> createAstrologerDivineMessageText(village, myself, target)
+            CDef.Skill.占星術師 -> {
+                if (existsCloud) createAstrologerFailedMessageText(myself, target)
+                else createAstrologerDivineMessageText(village, myself, target)
+            }
+
             CDef.Skill.花占い師 -> createFlowerDivineMessageText(myself, target)
             CDef.Skill.感覚者 -> creatSixthsensorDivineMessageText(village, myself, target)
             else -> throw IllegalStateException("unknown skill. ${myself.skill.name}")
@@ -128,6 +146,13 @@ class DivineDomainService(
             ) {
                 "${it.key.name}が${it.value.size}名"
             }
+    }
+
+    private fun createAstrologerFailedMessageText(
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): String {
+        return "${myself.name()}は、${target.name()}のあたりを占おうとしたが、本日は曇天のため占星術を行えなかった。"
     }
 
     private fun createFlowerDivineMessageText(myself: VillageParticipant, target: VillageParticipant): String {

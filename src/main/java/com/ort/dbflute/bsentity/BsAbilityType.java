@@ -182,6 +182,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 曇天 (CLOUD). <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_曇天() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.曇天);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 同棲 (COHABIT). <br>
      * 同棲
      */
@@ -350,6 +358,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as ナマ足 (NAMAASHI). <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_ナマ足() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 死霊蘇生 (NECROMANCE). <br>
      * 死霊蘇生
      */
@@ -419,6 +435,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_革命() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 世界を救う (SAVETHEWORLD). <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_世界を救う() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**
@@ -582,6 +606,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode誑かす() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.誑かす) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 曇天? <br>
+     * 曇天
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode曇天() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.曇天) : false;
     }
 
     /**
@@ -816,6 +851,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Is the value of abilityTypeCode ナマ足? <br>
+     * ナマ足
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCodeナマ足() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.ナマ足) : false;
+    }
+
+    /**
      * Is the value of abilityTypeCode 死霊蘇生? <br>
      * 死霊蘇生
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -912,6 +958,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode革命() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.革命) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 世界を救う? <br>
+     * 世界を救う
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode世界を救う() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.世界を救う) : false;
     }
 
     /**

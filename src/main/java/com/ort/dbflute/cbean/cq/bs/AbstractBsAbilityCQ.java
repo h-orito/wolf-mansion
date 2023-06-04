@@ -843,6 +843,465 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_Equal(String targetSkillCode) {
+        doSetTargetSkillCode_Equal(fRES(targetSkillCode));
+    }
+
+    protected void doSetTargetSkillCode_Equal(String targetSkillCode) {
+        regTargetSkillCode(CK_EQ, targetSkillCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_NotEqual(String targetSkillCode) {
+        doSetTargetSkillCode_NotEqual(fRES(targetSkillCode));
+    }
+
+    protected void doSetTargetSkillCode_NotEqual(String targetSkillCode) {
+        regTargetSkillCode(CK_NES, targetSkillCode);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_GreaterThan(String targetSkillCode) {
+        regTargetSkillCode(CK_GT, fRES(targetSkillCode));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_LessThan(String targetSkillCode) {
+        regTargetSkillCode(CK_LT, fRES(targetSkillCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_GreaterEqual(String targetSkillCode) {
+        regTargetSkillCode(CK_GE, fRES(targetSkillCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_LessEqual(String targetSkillCode) {
+        regTargetSkillCode(CK_LE, fRES(targetSkillCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCodeList The collection of targetSkillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_InScope(Collection<String> targetSkillCodeList) {
+        doSetTargetSkillCode_InScope(targetSkillCodeList);
+    }
+
+    protected void doSetTargetSkillCode_InScope(Collection<String> targetSkillCodeList) {
+        regINS(CK_INS, cTL(targetSkillCodeList), xgetCValueTargetSkillCode(), "TARGET_SKILL_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCodeList The collection of targetSkillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetSkillCode_NotInScope(Collection<String> targetSkillCodeList) {
+        doSetTargetSkillCode_NotInScope(targetSkillCodeList);
+    }
+
+    protected void doSetTargetSkillCode_NotInScope(Collection<String> targetSkillCodeList) {
+        regINS(CK_NINS, cTL(targetSkillCodeList), xgetCValueTargetSkillCode(), "TARGET_SKILL_CODE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setTargetSkillCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param targetSkillCode The value of targetSkillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetSkillCode_LikeSearch(String targetSkillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetSkillCode_LikeSearch(targetSkillCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setTargetSkillCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param targetSkillCode The value of targetSkillCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setTargetSkillCode_LikeSearch(String targetSkillCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(targetSkillCode), xgetCValueTargetSkillCode(), "TARGET_SKILL_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetSkillCode_NotLikeSearch(String targetSkillCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetSkillCode_NotLikeSearch(targetSkillCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @param targetSkillCode The value of targetSkillCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setTargetSkillCode_NotLikeSearch(String targetSkillCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(targetSkillCode), xgetCValueTargetSkillCode(), "TARGET_SKILL_CODE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     */
+    public void setTargetSkillCode_IsNull() { regTargetSkillCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     */
+    public void setTargetSkillCode_IsNullOrEmpty() { regTargetSkillCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     */
+    public void setTargetSkillCode_IsNotNull() { regTargetSkillCode(CK_ISNN, DOBJ); }
+
+    protected void regTargetSkillCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueTargetSkillCode(), "TARGET_SKILL_CODE"); }
+    protected abstract ConditionValue xgetCValueTargetSkillCode();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_Equal(String targetCampCode) {
+        doSetTargetCampCode_Equal(fRES(targetCampCode));
+    }
+
+    protected void doSetTargetCampCode_Equal(String targetCampCode) {
+        regTargetCampCode(CK_EQ, targetCampCode);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_NotEqual(String targetCampCode) {
+        doSetTargetCampCode_NotEqual(fRES(targetCampCode));
+    }
+
+    protected void doSetTargetCampCode_NotEqual(String targetCampCode) {
+        regTargetCampCode(CK_NES, targetCampCode);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_GreaterThan(String targetCampCode) {
+        regTargetCampCode(CK_GT, fRES(targetCampCode));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_LessThan(String targetCampCode) {
+        regTargetCampCode(CK_LT, fRES(targetCampCode));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_GreaterEqual(String targetCampCode) {
+        regTargetCampCode(CK_GE, fRES(targetCampCode));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_LessEqual(String targetCampCode) {
+        regTargetCampCode(CK_LE, fRES(targetCampCode));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCodeList The collection of targetCampCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_InScope(Collection<String> targetCampCodeList) {
+        doSetTargetCampCode_InScope(targetCampCodeList);
+    }
+
+    protected void doSetTargetCampCode_InScope(Collection<String> targetCampCodeList) {
+        regINS(CK_INS, cTL(targetCampCodeList), xgetCValueTargetCampCode(), "TARGET_CAMP_CODE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCodeList The collection of targetCampCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetCampCode_NotInScope(Collection<String> targetCampCodeList) {
+        doSetTargetCampCode_NotInScope(targetCampCodeList);
+    }
+
+    protected void doSetTargetCampCode_NotInScope(Collection<String> targetCampCodeList) {
+        regINS(CK_NINS, cTL(targetCampCodeList), xgetCValueTargetCampCode(), "TARGET_CAMP_CODE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setTargetCampCode_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param targetCampCode The value of targetCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetCampCode_LikeSearch(String targetCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetCampCode_LikeSearch(targetCampCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)} <br>
+     * <pre>e.g. setTargetCampCode_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param targetCampCode The value of targetCampCode as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setTargetCampCode_LikeSearch(String targetCampCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(targetCampCode), xgetCValueTargetCampCode(), "TARGET_CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetCampCode_NotLikeSearch(String targetCampCode, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetCampCode_NotLikeSearch(targetCampCode, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @param targetCampCode The value of targetCampCode as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setTargetCampCode_NotLikeSearch(String targetCampCode, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(targetCampCode), xgetCValueTargetCampCode(), "TARGET_CAMP_CODE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setTargetCampCode_IsNull() { regTargetCampCode(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setTargetCampCode_IsNullOrEmpty() { regTargetCampCode(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     */
+    public void setTargetCampCode_IsNotNull() { regTargetCampCode(CK_ISNN, DOBJ); }
+
+    protected void regTargetCampCode(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueTargetCampCode(), "TARGET_CAMP_CODE"); }
+    protected abstract ConditionValue xgetCValueTargetCampCode();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_Equal(String targetRooms) {
+        doSetTargetRooms_Equal(fRES(targetRooms));
+    }
+
+    protected void doSetTargetRooms_Equal(String targetRooms) {
+        regTargetRooms(CK_EQ, targetRooms);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_NotEqual(String targetRooms) {
+        doSetTargetRooms_NotEqual(fRES(targetRooms));
+    }
+
+    protected void doSetTargetRooms_NotEqual(String targetRooms) {
+        regTargetRooms(CK_NES, targetRooms);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_GreaterThan(String targetRooms) {
+        regTargetRooms(CK_GT, fRES(targetRooms));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_LessThan(String targetRooms) {
+        regTargetRooms(CK_LT, fRES(targetRooms));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_GreaterEqual(String targetRooms) {
+        regTargetRooms(CK_GE, fRES(targetRooms));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_LessEqual(String targetRooms) {
+        regTargetRooms(CK_LE, fRES(targetRooms));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRoomsList The collection of targetRooms as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_InScope(Collection<String> targetRoomsList) {
+        doSetTargetRooms_InScope(targetRoomsList);
+    }
+
+    protected void doSetTargetRooms_InScope(Collection<String> targetRoomsList) {
+        regINS(CK_INS, cTL(targetRoomsList), xgetCValueTargetRooms(), "TARGET_ROOMS");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRoomsList The collection of targetRooms as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setTargetRooms_NotInScope(Collection<String> targetRoomsList) {
+        doSetTargetRooms_NotInScope(targetRoomsList);
+    }
+
+    protected void doSetTargetRooms_NotInScope(Collection<String> targetRoomsList) {
+        regINS(CK_NINS, cTL(targetRoomsList), xgetCValueTargetRooms(), "TARGET_ROOMS");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)} <br>
+     * <pre>e.g. setTargetRooms_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param targetRooms The value of targetRooms as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetRooms_LikeSearch(String targetRooms, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetRooms_LikeSearch(targetRooms, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)} <br>
+     * <pre>e.g. setTargetRooms_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param targetRooms The value of targetRooms as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setTargetRooms_LikeSearch(String targetRooms, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(targetRooms), xgetCValueTargetRooms(), "TARGET_ROOMS", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setTargetRooms_NotLikeSearch(String targetRooms, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setTargetRooms_NotLikeSearch(targetRooms, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @param targetRooms The value of targetRooms as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setTargetRooms_NotLikeSearch(String targetRooms, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(targetRooms), xgetCValueTargetRooms(), "TARGET_ROOMS", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     */
+    public void setTargetRooms_IsNull() { regTargetRooms(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     */
+    public void setTargetRooms_IsNullOrEmpty() { regTargetRooms(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     */
+    public void setTargetRooms_IsNotNull() { regTargetRooms(CK_ISNN, DOBJ); }
+
+    protected void regTargetRooms(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueTargetRooms(), "TARGET_ROOMS"); }
+    protected abstract ConditionValue xgetCValueTargetRooms();
+
+    /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
      * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @param abilityTypeCode The value of abilityTypeCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -922,6 +1381,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_誑かす() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
+     * Equal(=). As 曇天 (CLOUD). And OnlyOnceRegistered. <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_Equal_曇天() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.曇天);
     }
 
     /**
@@ -1093,6 +1560,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ナマ足 (NAMAASHI). And OnlyOnceRegistered. <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_Equal_ナマ足() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * Equal(=). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
      * 死霊蘇生
      */
@@ -1162,6 +1637,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_革命() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * Equal(=). As 世界を救う (SAVETHEWORLD). And OnlyOnceRegistered. <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_Equal_世界を救う() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**
@@ -1321,6 +1804,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_誑かす() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 曇天 (CLOUD). And OnlyOnceRegistered. <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_NotEqual_曇天() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.曇天);
     }
 
     /**
@@ -1492,6 +1983,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As ナマ足 (NAMAASHI). And OnlyOnceRegistered. <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_NotEqual_ナマ足() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
      * 死霊蘇生
      */
@@ -1561,6 +2060,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_革命() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 世界を救う (SAVETHEWORLD). And OnlyOnceRegistered. <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_NotEqual_世界を救う() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**

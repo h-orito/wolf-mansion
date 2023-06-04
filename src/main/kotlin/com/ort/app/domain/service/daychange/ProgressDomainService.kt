@@ -32,6 +32,7 @@ class ProgressDomainService(
     private val loneAttackDomainService: LoneAttackDomainService,
     private val beatDomainService: BeatDomainService,
     private val huntingDomainService: HuntingDomainService,
+    private val saveTheWorldDomainService: SaveTheWorldDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val stalkingDomainService: StalkingDomainService,
     private val trapDomainService: TrapDomainService,
@@ -41,6 +42,8 @@ class ProgressDomainService(
     private val bakeryDomainService: BakeryDomainService,
     private val gonfoxDomainService: GonfoxDomainService,
     private val guiltyDomainService: GuiltyDomainService,
+    private val cloudyDomainService: CloudyDomainService,
+    private val hotLimitDomainService: HotLimitDomainService,
     private val falseChargesDomainService: FalseChargesDomainService,
     private val rainbowDomainService: RainbowDomainService,
     private val loudSpeakDomainService: LoudSpeakDomainService,
@@ -125,6 +128,8 @@ class ProgressDomainService(
         daychange = bombDomainService.addBombMessages(daychange)
         // 革命宣言
         daychange = revolutionDomainService.revolution(daychange)
+        // ナマ足
+        daychange = hotLimitDomainService.charm(daychange)
         // 処刑
         daychange = executeDomainService.execute(daychange)
         // 怨恨
@@ -136,6 +141,8 @@ class ProgressDomainService(
         daychange = wallPunchDomainService.wallPunch(daychange)
         // 全知
         daychange = omniscienceDomainService.omniscience(daychange)
+        // 曇天
+        daychange = cloudyDomainService.cloud(daychange)
         // 占い、呪殺、逆呪殺
         daychange = divineDomainService.divine(daychange)
         // 捜査
@@ -152,6 +159,8 @@ class ProgressDomainService(
         daychange = loneAttackDomainService.loneAttack(daychange, charas)
         // 狩猟
         daychange = huntingDomainService.hunting(daychange)
+        // 討伐
+        daychange = saveTheWorldDomainService.saveTheWorld(daychange)
         // 殴打
         daychange = beatDomainService.beat(daychange, charas)
         // 罠発動

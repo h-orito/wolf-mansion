@@ -373,6 +373,21 @@ public class BsAbilityCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnTargetFootstep() { return doColumn("TARGET_FOOTSTEP"); }
         /**
+         * TARGET_SKILL_CODE: {VARCHAR(20)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnTargetSkillCode() { return doColumn("TARGET_SKILL_CODE"); }
+        /**
+         * TARGET_CAMP_CODE: {VARCHAR(20)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnTargetCampCode() { return doColumn("TARGET_CAMP_CODE"); }
+        /**
+         * TARGET_ROOMS: {VARCHAR(1000)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnTargetRooms() { return doColumn("TARGET_ROOMS"); }
+        /**
          * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
          * @return The information object of specified column. (NotNull)
          */

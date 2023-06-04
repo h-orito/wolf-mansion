@@ -10,12 +10,14 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.service.MessageDomainService
+import com.ort.app.domain.service.ability.SeduceDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
 class ExecuteDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
+    private val seduceDomainService: SeduceDomainService
 ) {
 
     fun execute(daychange: Daychange): Daychange {
@@ -54,17 +56,38 @@ class ExecuteDomainService(
             val to = village.participants.chara(it.targetCharaId)
             village = village.disrespect(to.id, from.id)
         }
+        // ナマ足を出している人に投票していたら恋絆を付与
+        val tawawaCharaIds = daychange.abilities.filterByDay(village.latestDay() - 1)
+            .filterByType(CDef.AbilityType.ナマ足.toModel()).list.map {
+                it.charaId
+            }
+        var messages = daychange.messages.copy()
+        votes.filter { tawawaCharaIds.contains(it.targetCharaId) }
+            .filterNot { it.charaId == it.targetCharaId } // 自分自身には恋絆を付与しない
+            .forEach {
+                val mermaid = village.participants.chara(it.targetCharaId)
+                val target = village.participants.chara(it.charaId)
+                village = village.seduceParticipant(mermaid.id, target.id)
+                messages = messages.add(seduceDomainService.createSeducedMessage(village, mermaid, target))
+            }
 
         executedParticipants.forEach {
             village = village.executeParticipant(it.id)
         }
 
-        var messages = daychange.messages.copy()
         messages = messages.add(createEachVoteMessage(village, votes, existsBlackbox))
         if (existsRevolution) {
             messages = messages.add(createRevolutionMessage(village))
         }
-        messages = messages.add(createExecuteMessage(village, votedCountMap, votedPersonNumMap, executedParticipants, existsBlackbox))
+        messages = messages.add(
+            createExecuteMessage(
+                village,
+                votedCountMap,
+                votedPersonNumMap,
+                executedParticipants,
+                existsBlackbox
+            )
+        )
         if (existsBlackbox) {
             messages = messages.add(createBlackboxMessage(village, executedParticipants))
         }
@@ -138,7 +161,8 @@ class ExecuteDomainService(
     ): VillageParticipant? {
         // 革命中は少数決、そうでなければ多数決
         val votedCount =
-            if (existsRevolution) votedMap.filterNot { (_, count) -> count == 0 }.map { (_, count) -> count }.minOrNull()
+            if (existsRevolution) votedMap.filterNot { (_, count) -> count == 0 }.map { (_, count) -> count }
+                .minOrNull()
             else votedMap.map { (_, count) -> count }.maxOrNull()
         votedCount ?: return null
         val candidates = votedMap

@@ -67,6 +67,9 @@ public class AbilityCIQ extends AbstractBsAbilityCQ {
     protected ConditionValue xgetCValueAttackerCharaId() { return _myCQ.xdfgetAttackerCharaId(); }
     protected ConditionValue xgetCValueTargetCharaId() { return _myCQ.xdfgetTargetCharaId(); }
     protected ConditionValue xgetCValueTargetFootstep() { return _myCQ.xdfgetTargetFootstep(); }
+    protected ConditionValue xgetCValueTargetSkillCode() { return _myCQ.xdfgetTargetSkillCode(); }
+    protected ConditionValue xgetCValueTargetCampCode() { return _myCQ.xdfgetTargetCampCode(); }
+    protected ConditionValue xgetCValueTargetRooms() { return _myCQ.xdfgetTargetRooms(); }
     protected ConditionValue xgetCValueAbilityTypeCode() { return _myCQ.xdfgetAbilityTypeCode(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }

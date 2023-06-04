@@ -193,6 +193,66 @@ public class BsAbilityCQ extends AbstractBsAbilityCQ {
      */
     public BsAbilityCQ addOrderBy_TargetFootstep_Desc() { regOBD("TARGET_FOOTSTEP"); return this; }
 
+    protected ConditionValue _targetSkillCode;
+    public ConditionValue xdfgetTargetSkillCode()
+    { if (_targetSkillCode == null) { _targetSkillCode = nCV(); }
+      return _targetSkillCode; }
+    protected ConditionValue xgetCValueTargetSkillCode() { return xdfgetTargetSkillCode(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetSkillCode_Asc() { regOBA("TARGET_SKILL_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetSkillCode_Desc() { regOBD("TARGET_SKILL_CODE"); return this; }
+
+    protected ConditionValue _targetCampCode;
+    public ConditionValue xdfgetTargetCampCode()
+    { if (_targetCampCode == null) { _targetCampCode = nCV(); }
+      return _targetCampCode; }
+    protected ConditionValue xgetCValueTargetCampCode() { return xdfgetTargetCampCode(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetCampCode_Asc() { regOBA("TARGET_CAMP_CODE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetCampCode_Desc() { regOBD("TARGET_CAMP_CODE"); return this; }
+
+    protected ConditionValue _targetRooms;
+    public ConditionValue xdfgetTargetRooms()
+    { if (_targetRooms == null) { _targetRooms = nCV(); }
+      return _targetRooms; }
+    protected ConditionValue xgetCValueTargetRooms() { return xdfgetTargetRooms(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetRooms_Asc() { regOBA("TARGET_ROOMS"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @return this. (NotNull)
+     */
+    public BsAbilityCQ addOrderBy_TargetRooms_Desc() { regOBD("TARGET_ROOMS"); return this; }
+
     protected ConditionValue _abilityTypeCode;
     public ConditionValue xdfgetAbilityTypeCode()
     { if (_abilityTypeCode == null) { _abilityTypeCode = nCV(); }

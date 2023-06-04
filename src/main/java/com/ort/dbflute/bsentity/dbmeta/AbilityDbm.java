@@ -49,6 +49,9 @@ public class AbilityDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((Ability)et).getAttackerCharaId(), (et, vl) -> ((Ability)et).setAttackerCharaId(cti(vl)), "attackerCharaId");
         setupEpg(_epgMap, et -> ((Ability)et).getTargetCharaId(), (et, vl) -> ((Ability)et).setTargetCharaId(cti(vl)), "targetCharaId");
         setupEpg(_epgMap, et -> ((Ability)et).getTargetFootstep(), (et, vl) -> ((Ability)et).setTargetFootstep((String)vl), "targetFootstep");
+        setupEpg(_epgMap, et -> ((Ability)et).getTargetSkillCode(), (et, vl) -> ((Ability)et).setTargetSkillCode((String)vl), "targetSkillCode");
+        setupEpg(_epgMap, et -> ((Ability)et).getTargetCampCode(), (et, vl) -> ((Ability)et).setTargetCampCode((String)vl), "targetCampCode");
+        setupEpg(_epgMap, et -> ((Ability)et).getTargetRooms(), (et, vl) -> ((Ability)et).setTargetRooms((String)vl), "targetRooms");
         setupEpg(_epgMap, et -> ((Ability)et).getAbilityTypeCode(), (et, vl) -> {
             CDef.AbilityType cls = (CDef.AbilityType)gcls(et, columnAbilityTypeCode(), vl);
             if (cls != null) {
@@ -100,6 +103,9 @@ public class AbilityDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnAttackerCharaId = cci("ATTACKER_CHARA_ID", "ATTACKER_CHARA_ID", null, null, Integer.class, "attackerCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnTargetCharaId = cci("TARGET_CHARA_ID", "TARGET_CHARA_ID", null, null, Integer.class, "targetCharaId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnTargetFootstep = cci("TARGET_FOOTSTEP", "TARGET_FOOTSTEP", null, null, String.class, "targetFootstep", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnTargetSkillCode = cci("TARGET_SKILL_CODE", "TARGET_SKILL_CODE", null, null, String.class, "targetSkillCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnTargetCampCode = cci("TARGET_CAMP_CODE", "TARGET_CAMP_CODE", null, null, String.class, "targetCampCode", null, false, false, false, "VARCHAR", 20, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnTargetRooms = cci("TARGET_ROOMS", "TARGET_ROOMS", null, null, String.class, "targetRooms", null, false, false, false, "VARCHAR", 1000, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAbilityTypeCode = cci("ABILITY_TYPE_CODE", "ABILITY_TYPE_CODE", null, null, String.class, "abilityTypeCode", null, true, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "abilityType", null, CDef.DefMeta.AbilityType, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
@@ -137,6 +143,21 @@ public class AbilityDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnTargetFootstep() { return _columnTargetFootstep; }
     /**
+     * TARGET_SKILL_CODE: {VARCHAR(20)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnTargetSkillCode() { return _columnTargetSkillCode; }
+    /**
+     * TARGET_CAMP_CODE: {VARCHAR(20)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnTargetCampCode() { return _columnTargetCampCode; }
+    /**
+     * TARGET_ROOMS: {VARCHAR(1000)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnTargetRooms() { return _columnTargetRooms; }
+    /**
      * ABILITY_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to ability_type, classification=AbilityType}
      * @return The information object of specified column. (NotNull)
      */
@@ -170,6 +191,9 @@ public class AbilityDbm extends AbstractDBMeta {
         ls.add(columnAttackerCharaId());
         ls.add(columnTargetCharaId());
         ls.add(columnTargetFootstep());
+        ls.add(columnTargetSkillCode());
+        ls.add(columnTargetCampCode());
+        ls.add(columnTargetRooms());
         ls.add(columnAbilityTypeCode());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());

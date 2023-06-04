@@ -127,6 +127,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 曇天 (CLOUD). And OnlyOnceRegistered. <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_Equal_曇天() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.曇天);
+    }
+
+    /**
      * Equal(=). As 同棲 (COHABIT). And OnlyOnceRegistered. <br>
      * 同棲
      */
@@ -295,6 +303,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ナマ足 (NAMAASHI). And OnlyOnceRegistered. <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_Equal_ナマ足() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * Equal(=). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
      * 死霊蘇生
      */
@@ -364,6 +380,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_Equal_革命() {
         setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * Equal(=). As 世界を救う (SAVETHEWORLD). And OnlyOnceRegistered. <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_Equal_世界を救う() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**
@@ -523,6 +547,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_誑かす() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 曇天 (CLOUD). And OnlyOnceRegistered. <br>
+     * 曇天
+     */
+    public void setAbilityTypeCode_NotEqual_曇天() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.曇天);
     }
 
     /**
@@ -694,6 +726,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As ナマ足 (NAMAASHI). And OnlyOnceRegistered. <br>
+     * ナマ足
+     */
+    public void setAbilityTypeCode_NotEqual_ナマ足() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.ナマ足);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 死霊蘇生 (NECROMANCE). And OnlyOnceRegistered. <br>
      * 死霊蘇生
      */
@@ -763,6 +803,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_革命() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 世界を救う (SAVETHEWORLD). And OnlyOnceRegistered. <br>
+     * 世界を救う
+     */
+    public void setAbilityTypeCode_NotEqual_世界を救う() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.世界を救う);
     }
 
     /**

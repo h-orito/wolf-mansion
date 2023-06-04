@@ -247,6 +247,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 曇天者 (CLOUDY). <br>
+     * 曇天者
+     */
+    public void setSkillCode_曇天者() {
+        setSkillCodeAsSkill(CDef.Skill.曇天者);
+    }
+
+    /**
      * Set the value of skillCode as 道化師 (CLOWN). <br>
      * 道化師
      */
@@ -527,6 +535,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 勇者 (HERO). <br>
+     * 勇者
+     */
+    public void setSkillCode_勇者() {
+        setSkillCodeAsSkill(CDef.Skill.勇者);
+    }
+
+    /**
      * Set the value of skillCode as 飛狼 (HISHAWOLF). <br>
      * 飛狼
      */
@@ -655,6 +671,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 共有者 (LISTENMASON). <br>
+     * 共有者
+     */
+    public void setSkillCode_共有者() {
+        setSkillCodeAsSkill(CDef.Skill.共有者);
+    }
+
+    /**
      * Set the value of skillCode as 黙狼 (LISTENWOLF). <br>
      * 黙狼
      */
@@ -740,6 +764,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
      */
     public void setSkillCode_霊能者() {
         setSkillCodeAsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Set the value of skillCode as 魅惑の人魚 (MERMAID). <br>
+     * 魅惑の人魚
+     */
+    public void setSkillCode_魅惑の人魚() {
+        setSkillCodeAsSkill(CDef.Skill.魅惑の人魚);
     }
 
     /**
@@ -1206,6 +1238,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Is the value of skillCode 曇天者? <br>
+     * 曇天者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode曇天者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.曇天者) : false;
+    }
+
+    /**
      * Is the value of skillCode 道化師? <br>
      * 道化師
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1591,6 +1634,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Is the value of skillCode 勇者? <br>
+     * 勇者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode勇者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.勇者) : false;
+    }
+
+    /**
      * Is the value of skillCode 飛狼? <br>
      * 飛狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1767,6 +1821,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Is the value of skillCode 共有者? <br>
+     * 共有者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode共有者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.共有者) : false;
+    }
+
+    /**
      * Is the value of skillCode 黙狼? <br>
      * 黙狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1885,6 +1950,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode霊能者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.霊能者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 魅惑の人魚? <br>
+     * 魅惑の人魚
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode魅惑の人魚() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.魅惑の人魚) : false;
     }
 
     /**

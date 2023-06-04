@@ -159,6 +159,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 曇天者 (CLOUDY). And OnlyOnceRegistered. <br>
+     * 曇天者
+     */
+    public void setSkillCode_Equal_曇天者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.曇天者);
+    }
+
+    /**
      * Equal(=). As 道化師 (CLOWN). And OnlyOnceRegistered. <br>
      * 道化師
      */
@@ -439,6 +447,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 勇者 (HERO). And OnlyOnceRegistered. <br>
+     * 勇者
+     */
+    public void setSkillCode_Equal_勇者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.勇者);
+    }
+
+    /**
      * Equal(=). As 飛狼 (HISHAWOLF). And OnlyOnceRegistered. <br>
      * 飛狼
      */
@@ -567,6 +583,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 共有者 (LISTENMASON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setSkillCode_Equal_共有者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
      * Equal(=). As 黙狼 (LISTENWOLF). And OnlyOnceRegistered. <br>
      * 黙狼
      */
@@ -652,6 +676,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_Equal_霊能者() {
         setSkillCode_Equal_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * Equal(=). As 魅惑の人魚 (MERMAID). And OnlyOnceRegistered. <br>
+     * 魅惑の人魚
+     */
+    public void setSkillCode_Equal_魅惑の人魚() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.魅惑の人魚);
     }
 
     /**
@@ -1102,6 +1134,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 曇天者 (CLOUDY). And OnlyOnceRegistered. <br>
+     * 曇天者
+     */
+    public void setSkillCode_NotEqual_曇天者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.曇天者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 道化師 (CLOWN). And OnlyOnceRegistered. <br>
      * 道化師
      */
@@ -1382,6 +1422,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 勇者 (HERO). And OnlyOnceRegistered. <br>
+     * 勇者
+     */
+    public void setSkillCode_NotEqual_勇者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.勇者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 飛狼 (HISHAWOLF). And OnlyOnceRegistered. <br>
      * 飛狼
      */
@@ -1510,6 +1558,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 共有者 (LISTENMASON). And OnlyOnceRegistered. <br>
+     * 共有者
+     */
+    public void setSkillCode_NotEqual_共有者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.共有者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 黙狼 (LISTENWOLF). And OnlyOnceRegistered. <br>
      * 黙狼
      */
@@ -1595,6 +1651,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_霊能者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.霊能者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 魅惑の人魚 (MERMAID). And OnlyOnceRegistered. <br>
+     * 魅惑の人魚
+     */
+    public void setSkillCode_NotEqual_魅惑の人魚() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.魅惑の人魚);
     }
 
     /**

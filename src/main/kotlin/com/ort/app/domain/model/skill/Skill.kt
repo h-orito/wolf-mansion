@@ -30,7 +30,7 @@ data class Skill(
 
     fun isViewableWerewolfSay(): Boolean = toCdef().isViewableWerewolfSay
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
-    fun isViewableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
+    fun isViewableSympathizeSay(): Boolean = listOf(CDef.Skill.共鳴者, CDef.Skill.共有者).contains(toCdef())
     fun isSayableSympathizeSay(): Boolean = toCdef() == CDef.Skill.共鳴者
     fun isViewableTelepathy(): Boolean = camp().isFoxs()
     fun isSayableTelepathy(): Boolean = toCdef() == CDef.Skill.仙狐
@@ -159,6 +159,9 @@ data class Skill(
             CDef.Skill.呪縛者 to AbilityType(CDef.AbilityType.呪縛),
             CDef.Skill.反呪者 to AbilityType(CDef.AbilityType.反呪),
             CDef.Skill.冷やし中華 to AbilityType(CDef.AbilityType.冷やし中華),
+            CDef.Skill.勇者 to AbilityType(CDef.AbilityType.世界を救う),
+            CDef.Skill.曇天者 to AbilityType(CDef.AbilityType.曇天),
+            CDef.Skill.魅惑の人魚 to AbilityType(CDef.AbilityType.ナマ足),
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -184,6 +187,7 @@ data class Skill(
                 CDef.Skill.蘇生者,
                 CDef.Skill.保険屋,
                 CDef.Skill.マタギ,
+                CDef.Skill.勇者,
                 CDef.Skill.牧師,
                 CDef.Skill.死霊術師,
                 CDef.Skill.バールのようなもの,
@@ -238,7 +242,7 @@ data class Skill(
             )
         val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師)
         val hasRevivalMyselfAbilitySkills =
-            listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼)
+            listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼, CDef.Skill.勇者)
         val hasTrapAbilitySkills = listOf(CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.画鋲, CDef.Skill.箪笥)
         val hasChangeRoomAbilitySkills = listOf(CDef.Skill.果実籠)
         val hasChangeMessageAbilitySkills =
@@ -262,7 +266,11 @@ data class Skill(
                 CDef.Skill.王族,
                 CDef.Skill.革命者
             )
-        val hasVotedAbilitySkills = listOf(CDef.Skill.バールのようなもの, CDef.Skill.怨恨者)
+        val hasVotedAbilitySkills = listOf(
+            CDef.Skill.バールのようなもの,
+            CDef.Skill.怨恨者,
+            CDef.Skill.魅惑の人魚
+        )
         val isSuicideSkills =
             listOf(
                 CDef.Skill.餡麺麭者,
@@ -274,7 +282,8 @@ data class Skill(
                 CDef.Skill.陰陽師,
                 CDef.Skill.リア充
             )
-        val hasLoneAttackAbilitySkills = listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼)
+        val hasLoneAttackAbilitySkills =
+            listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼, CDef.Skill.勇者)
         val hasAutoFootstepAbilitySkills =
             listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者, CDef.Skill.リア充)
 

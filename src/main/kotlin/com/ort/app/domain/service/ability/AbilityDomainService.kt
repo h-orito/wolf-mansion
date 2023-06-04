@@ -40,12 +40,15 @@ class AbilityDomainService(
     private val fruitsBasketDomainService: FruitsBasketDomainService,
     private val freezerDomainService: FreezerDomainService,
     private val guiltyDomainService: GuiltyDomainService,
+    private val cloudyDomainService: CloudyDomainService,
+    private val hotLimitDomainService: HotLimitDomainService,
     private val hideDomainService: HideDomainService,
     private val guardDomainService: GuardDomainService,
     private val wandererDomainService: WandererDomainService,
     private val investigateDomainService: InvestigateDomainService,
     private val loneAttackDomainService: LoneAttackDomainService,
     private val huntingDomainService: HuntingDomainService,
+    private val saveTheWorldDomainService: SaveTheWorldDomainService,
     private val beatDomainService: BeatDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val loveStealDomainService: LoveStealDomainService,
@@ -165,6 +168,7 @@ class AbilityDomainService(
             CDef.AbilityType.指差死 -> yubisashiDomainService
             CDef.AbilityType.保険 -> insuranceDomainService
             CDef.AbilityType.狩猟 -> huntingDomainService
+            CDef.AbilityType.世界を救う -> saveTheWorldDomainService
             CDef.AbilityType.隠蔽 -> hideDomainService
             CDef.AbilityType.恋泥棒 -> loveStealDomainService
             CDef.AbilityType.破局 -> breakupDomainService
@@ -174,11 +178,13 @@ class AbilityDomainService(
             CDef.AbilityType.道化 -> clownDomainService
             CDef.AbilityType.殺し屋化 -> assassinDomainService
             CDef.AbilityType.濡衣 -> guiltyDomainService
+            CDef.AbilityType.曇天 -> cloudyDomainService
             CDef.AbilityType.降霊 -> onmyoNecromanceDomainService
             CDef.AbilityType.革命 -> revolutionDomainService
             CDef.AbilityType.呪縛 -> curseMarkDomainService
             CDef.AbilityType.反呪 -> counterCurseMarkDomainService
             CDef.AbilityType.冷やし中華 -> hiyasichukaDomainService
+            CDef.AbilityType.ナマ足 -> hotLimitDomainService
         }
 
     fun createSetMessage(
@@ -488,6 +494,16 @@ class AbilityDomainService(
     fun addOpenSkillMessages(daychange: Daychange): Daychange {
         val village = daychange.village
         var messages = daychange.messages.copy()
+
+        // 勇者
+        val heros = village.participants.filterBySkill(Skill(CDef.Skill.勇者)).list
+        if (heros.isNotEmpty()) {
+            val text = heros.joinToString(
+                separator = "、",
+                postfix = "は勇者のようだ。"
+            ) { it.name() }
+            messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
+        }
 
         // 絶対人狼
         val absoluteWolfs = village.participants.filterBySkill(Skill(CDef.Skill.絶対人狼)).list

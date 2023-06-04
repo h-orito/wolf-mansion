@@ -518,7 +518,7 @@ pre.spolicyviodisp {
 	<tbody id="table-list-body">
 	<tr>
 		<td class="rownumcell">1</td>
-		<td class="namecell" data-name="ability"><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=11">ABILITY</a></td>
+		<td class="namecell" data-name="ability"><a href="#ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=14">ABILITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#ability_type" title="FK_ABILITY_ABILITY_TYPE">ABILITY_TYPE</a>, <a href="#village_day" title="FK_ABILITY_VILLAGE_DAY">VILLAGE_DAY</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -969,7 +969,7 @@ pre.spolicyviodisp {
 	</tbody>
 </table>
 
-<h2 id="ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=11">
+<h2 id="ability" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE}, nameLength=7, columnCount=14">
 ABILITY
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/22</span>
 </h2>
@@ -1107,6 +1107,60 @@ ABILITY
 	</tr>
 	<tr>
 		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="ability_target_skill_code">TARGET_SKILL_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>行使対象の役職コード</pre></td>
+		<td class="subcell">targetSkillCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2023/06/04</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="ability_target_camp_code">TARGET_CAMP_CODE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 20 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>行使対象の陣営コード</pre></td>
+		<td class="subcell">targetCampCode</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2023/06/04</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">9</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="ability_target_rooms">TARGET_ROOMS</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 1000 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>行使対象の部屋</pre></td>
+		<td class="subcell">targetRooms</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2023/06/04</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">10</td>
 		<td class="flgcell" title="PRIMARY"><span class="flgplus">+</span>o</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1124,7 +1178,7 @@ ABILITY
 		<td class="subcell">first</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">11</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1142,7 +1196,7 @@ ABILITY
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">12</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1160,7 +1214,7 @@ ABILITY
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">13</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -1178,7 +1232,7 @@ ABILITY
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">14</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -8714,7 +8768,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=35<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=餡</td>
+				<td>order=36<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=餡</td>
 			</tr>
 			<tr>
 				<td>ASTROLOGER</td>
@@ -8794,7 +8848,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=15<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=パ</td>
+				<td>order=17<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=パ</td>
 			</tr>
 			<tr>
 				<td>BAR</td>
@@ -8897,6 +8951,26 @@ WOLF_ALLOCATION
 				<td>order=401<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=誑</td>
 			</tr>
 			<tr>
+				<td>CLOUDY</td>
+				<td>曇天者</td>
+				<td>曇天者</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=217<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=曇</td>
+			</tr>
+			<tr>
 				<td>CLOWN</td>
 				<td>道化師</td>
 				<td>道化師</td>
@@ -8974,7 +9048,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=17<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=指</td>
+				<td>order=19<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=指</td>
 			</tr>
 			<tr>
 				<td>CORONER</td>
@@ -8994,7 +9068,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=8<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=検</td>
+				<td>order=9<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=検</td>
 			</tr>
 			<tr>
 				<td>COURTSHIP</td>
@@ -9114,7 +9188,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=12<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=探</td>
+				<td>order=14<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=探</td>
 			</tr>
 			<tr>
 				<td>DRAWERS</td>
@@ -9154,7 +9228,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=25<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=止</td>
+				<td>order=27<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=止</td>
 			</tr>
 			<tr>
 				<td>EVILBAKERY</td>
@@ -9234,7 +9308,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=27<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=執</td>
+				<td>order=29<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=執</td>
 			</tr>
 			<tr>
 				<td>FALSECHARGES</td>
@@ -9254,7 +9328,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=20<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=冤</td>
+				<td>order=22<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=冤</td>
 			</tr>
 			<tr>
 				<td>FANATIC</td>
@@ -9294,7 +9368,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=18<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=妄</td>
+				<td>order=20<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=妄</td>
 			</tr>
 			<tr>
 				<td>FLOWERSEER</td>
@@ -9534,7 +9608,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=7<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=導</td>
+				<td>order=8<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=導</td>
 			</tr>
 			<tr>
 				<td>HARDWOLF</td>
@@ -9574,7 +9648,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=22<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=申</td>
+				<td>order=24<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=申</td>
 			</tr>
 			<tr>
 				<td>HERMITFOX</td>
@@ -9595,6 +9669,26 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=403<br>,&nbsp;campCode=FOX<br>,&nbsp;skill_short_name=仙</td>
+			</tr>
+			<tr>
+				<td>HERO</td>
+				<td>勇者</td>
+				<td>勇者</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=38<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=勇</td>
 			</tr>
 			<tr>
 				<td>HISHAWOLF</td>
@@ -9634,7 +9728,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=36<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=冷</td>
+				<td>order=37<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=冷</td>
 			</tr>
 			<tr>
 				<td>HUNTER</td>
@@ -9654,7 +9748,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=9<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=狩</td>
+				<td>order=10<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=狩</td>
 			</tr>
 			<tr>
 				<td>IMMORAL</td>
@@ -9734,7 +9828,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=26<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=保</td>
+				<td>order=28<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=保</td>
 			</tr>
 			<tr>
 				<td>JOROGUMO</td>
@@ -9854,7 +9948,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=28<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=弁</td>
+				<td>order=30<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=弁</td>
 			</tr>
 			<tr>
 				<td>LEFTOVER</td>
@@ -9915,6 +10009,26 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td>order=202<br>,&nbsp;campCode=WEREWOLF<br>,&nbsp;skill_short_name=聴</td>
+			</tr>
+			<tr>
+				<td>LISTENMASON</td>
+				<td>共有者</td>
+				<td>共有者</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=13<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=有</td>
 			</tr>
 			<tr>
 				<td>LISTENWOLF</td>
@@ -10034,7 +10148,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=16<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=運</td>
+				<td>order=18<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=運</td>
 			</tr>
 			<tr>
 				<td>MADMAN</td>
@@ -10074,7 +10188,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=11<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=共</td>
+				<td>order=12<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=共</td>
 			</tr>
 			<tr>
 				<td>MATAGI</td>
@@ -10094,7 +10208,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=30<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=マ</td>
+				<td>order=32<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=マ</td>
 			</tr>
 			<tr>
 				<td>MAYOR</td>
@@ -10114,7 +10228,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=29<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=市</td>
+				<td>order=31<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=市</td>
 			</tr>
 			<tr>
 				<td>MEDIUM</td>
@@ -10134,7 +10248,27 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=6<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=霊</td>
+				<td>order=7<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=霊</td>
+			</tr>
+			<tr>
+				<td>MERMAID</td>
+				<td>魅惑の人魚</td>
+				<td>魅惑の人魚</td>
+				<td class="commentcell">&nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td class="flgcell"> &nbsp;</td>
+				<td>order=306<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=魅</td>
 			</tr>
 			<tr>
 				<td>MIMIDOSHIMA</td>
@@ -10154,7 +10288,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=306<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=耳</td>
+				<td>order=307<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=耳</td>
 			</tr>
 			<tr>
 				<td>NECROMANCER</td>
@@ -10234,7 +10368,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=307<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=充</td>
+				<td>order=308<br>,&nbsp;campCode=LOVERS<br>,&nbsp;skill_short_name=充</td>
 			</tr>
 			<tr>
 				<td>NOVILLAGERS</td>
@@ -10274,7 +10408,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=13<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=監</td>
+				<td>order=15<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=監</td>
 			</tr>
 			<tr>
 				<td>OMNISCIENCE</td>
@@ -10294,7 +10428,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=34<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=全</td>
+				<td>order=35<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=全</td>
 			</tr>
 			<tr>
 				<td>ONMYOJI</td>
@@ -10354,7 +10488,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=32<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=牧</td>
+				<td>order=34<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=牧</td>
 			</tr>
 			<tr>
 				<td>PUSHPIN</td>
@@ -10414,7 +10548,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=21<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=転</td>
+				<td>order=23<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=転</td>
 			</tr>
 			<tr>
 				<td>RESENTER</td>
@@ -10454,7 +10588,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=24<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=蘇</td>
+				<td>order=26<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=蘇</td>
 			</tr>
 			<tr>
 				<td>REVOLUTIONARY</td>
@@ -10574,7 +10708,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=感</td>
+				<td>order=6<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=感</td>
 			</tr>
 			<tr>
 				<td>SLEEPWALKER</td>
@@ -10594,7 +10728,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=19<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=夢</td>
+				<td>order=21<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=夢</td>
 			</tr>
 			<tr>
 				<td>SMELLWOLF</td>
@@ -10634,7 +10768,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=31<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=防</td>
+				<td>order=33<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=防</td>
 			</tr>
 			<tr>
 				<td>STALKER</td>
@@ -10734,7 +10868,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=14<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=罠</td>
+				<td>order=16<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=罠</td>
 			</tr>
 			<tr>
 				<td>TRICKFOX</td>
@@ -10834,7 +10968,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=23<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=壁</td>
+				<td>order=25<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=壁</td>
 			</tr>
 			<tr>
 				<td>WANDERER</td>
@@ -10854,7 +10988,7 @@ WOLF_ALLOCATION
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
 				<td class="flgcell"> &nbsp;</td>
-				<td>order=10<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=風</td>
+				<td>order=11<br>,&nbsp;campCode=VILLAGER<br>,&nbsp;skill_short_name=風</td>
 			</tr>
 			<tr>
 				<td>WEREWOLF</td>
@@ -11208,6 +11342,11 @@ WOLF_ALLOCATION
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
+				<td>CLOUD</td>
+				<td>曇天</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
 				<td>COHABIT</td>
 				<td>同棲</td>
 				<td class="commentcell">&nbsp;</td>
@@ -11313,6 +11452,11 @@ WOLF_ALLOCATION
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
+				<td>NAMAASHI</td>
+				<td>ナマ足</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
 				<td>NECROMANCE</td>
 				<td>死霊蘇生</td>
 				<td class="commentcell">&nbsp;</td>
@@ -11355,6 +11499,11 @@ WOLF_ALLOCATION
 			<tr>
 				<td>REVOLUTION</td>
 				<td>革命</td>
+				<td class="commentcell">&nbsp;</td>
+			</tr>
+			<tr>
+				<td>SAVETHEWORLD</td>
+				<td>世界を救う</td>
 				<td class="commentcell">&nbsp;</td>
 			</tr>
 			<tr>
@@ -12123,6 +12272,15 @@ function StoreClient() {
 				}
 				, 'TARGET_FOOTSTEP': {
 					'databaseComment': '行使対象の足音'
+				}
+				, 'TARGET_SKILL_CODE': {
+					'databaseComment': '行使対象の役職コード'
+				}
+				, 'TARGET_CAMP_CODE': {
+					'databaseComment': '行使対象の陣営コード'
+				}
+				, 'TARGET_ROOMS': {
+					'databaseComment': '行使対象の部屋'
 				}
 				, 'ABILITY_TYPE_CODE': {
 					'databaseComment': '能力種別コード'
