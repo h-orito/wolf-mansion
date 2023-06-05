@@ -10,6 +10,8 @@ import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituatio
 import com.ort.app.domain.model.situation.village.VillageWholeDetail
 import com.ort.app.domain.model.situation.village.VillageWholeSituation
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.dead.DeadReason
@@ -495,26 +497,18 @@ class AbilityDomainService(
         val village = daychange.village
         var messages = daychange.messages.copy()
 
-        // 勇者
-        val heros = village.participants.filterBySkill(Skill(CDef.Skill.勇者)).list
-        if (heros.isNotEmpty()) {
-            val text = heros.joinToString(
-                separator = "、",
-                postfix = "は勇者のようだ。"
-            ) { it.name() }
-            messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
+        // 勇者、絶対人狼
+        Skills.openSkills.forEach { cdefSkill ->
+            val targets = village.participants.filterBySkill(cdefSkill.toModel()).list
+            if (targets.isNotEmpty()) {
+                val text = targets.joinToString(
+                    separator = "、",
+                    postfix = "は${cdefSkill.toModel().name}のようだ。"
+                ) { it.name() }
+                messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
+            }
         }
-
-        // 絶対人狼
-        val absoluteWolfs = village.participants.filterBySkill(Skill(CDef.Skill.絶対人狼)).list
-        if (absoluteWolfs.isNotEmpty()) {
-            val text = absoluteWolfs.joinToString(
-                separator = "、",
-                postfix = "は絶対人狼のようだ。"
-            ) { it.name() }
-            messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
-        }
-
+        
         // 梟
         if (village.participants.filterBySkill(Skill(CDef.Skill.梟)).list.isNotEmpty()) {
             messages =

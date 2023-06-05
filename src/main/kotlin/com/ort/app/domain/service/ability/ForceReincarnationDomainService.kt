@@ -58,34 +58,12 @@ class ForceReincarnationDomainService(
             val skill = village.getRevivableSkills().shuffled().first()
             village = village.forceReincarnation(target.id, skill)
             messages = messages.add(createForceReincarnationMessage(village, target))
-            // 絶対人狼に転生した場合、メッセージ追加
-            if (skill.toCdef() == CDef.Skill.絶対人狼) {
-                messages = messages.add(
-                    Message.ofSystemMessage(day = village.latestDay(), message = "${target.name()}は絶対人狼のようだ。")
-                )
-            }
-            // 勇者に転生した場合、メッセージ追加
-            if (skill.toCdef() == CDef.Skill.勇者) {
-                messages = messages.add(
-                    Message.ofSystemMessage(day = village.latestDay(), message = "${target.name()}は勇者のようだ。")
-                )
-            }
-
             // 対象が同棲者で、相方が来ている場合、相方も転生する
             if (cohabitDomainService.isCohabiting(daychange, target)) {
                 val cohabitor = target.getTargetCohabitor(village)!!
                 val cohabitorSkill = Skills.revivables().list.shuffled().first()
                 village = village.forceReincarnation(cohabitor.id, cohabitorSkill)
                 messages = messages.add(createForceReincarnationMessage(village, cohabitor))
-                // 絶対人狼に転生した場合、メッセージ追加
-                if (cohabitorSkill.toCdef() == CDef.Skill.絶対人狼) {
-                    messages = messages.add(
-                        Message.ofSystemMessage(
-                            day = village.latestDay(),
-                            message = "${cohabitor.name()}は絶対人狼のようだ。"
-                        )
-                    )
-                }
             }
         }
 

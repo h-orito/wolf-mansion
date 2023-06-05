@@ -5,6 +5,7 @@ import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -33,7 +34,7 @@ class GiveBabaDomainService(
             .filterNotDummy(village.dummyParticipant()).list
             .filterNot {
                 it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.ババ }
-            }
+            }.filterNot { Skills.openSkills.contains(it.skill!!.toCdef()) }
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
@@ -50,9 +51,9 @@ class GiveBabaDomainService(
             messages = messages.add(createGiveBabaMessage(village, baba, target))
 
             // 既に死亡していたり同棲者の場合は交換しない
-            if (target.isDead() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
+            if (!isGiveSuccess(target)) return@forEach
             // 役職交換
-            val targetSkill = target.skill
+            val targetSkill = target.skill!!
             village = village.assignParticipantSkill(baba.id, targetSkill)
             village = village.assignParticipantSkill(target.id, CDef.Skill.ババ.toModel())
             messages = messages.add(createGivenBabaMessage(village, target))
@@ -61,15 +62,23 @@ class GiveBabaDomainService(
         return daychange.copy(messages = messages, village = village)
     }
 
+    private fun isGiveSuccess(target: VillageParticipant): Boolean {
+        if (target.isDead()) return false
+        val skill = target.skill!!.toCdef()
+        if (skill == CDef.Skill.同棲者) return false
+        return !Skills.openSkills.contains(skill)
+    }
+
     private fun createGiveBabaMessage(
         village: Village,
         baba: VillageParticipant,
         target: VillageParticipant
     ): Message {
+        val targetSkill = target.skill!!.toCdef()
         val text = when {
             target.isDead() -> "${target.name()}は死亡しているため、${baba.name()}はババを押し付けられなかった。"
-            target.skill!!.toCdef() == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${baba.name()}はババを押し付けられなかった。"
-            target.skill.toCdef() == CDef.Skill.絶対人狼 -> "${target.name()}は絶対人狼のため、${baba.name()}はババを押し付けられなかった。"
+            targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${baba.name()}はババを押し付けられなかった。"
+            Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${baba.name()}はババを押し付けられなかった。"
             else -> "${baba.name()}は、${target.name()}にババを押し付けた。"
         }
         return messageDomainService.createPrivateAbilityMessage(

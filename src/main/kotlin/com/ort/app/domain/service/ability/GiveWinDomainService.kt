@@ -7,6 +7,7 @@ import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.footstep.Footstep
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -37,7 +38,7 @@ class GiveWinDomainService(
             .filterNotDummy(village.dummyParticipant()).list
             .filterNot {
                 it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.当選者 }
-            }.filterNot { it.skill!!.toCdef() == CDef.Skill.絶対人狼 }
+            }.filterNot { Skills.openSkills.contains(it.skill!!.toCdef()) }
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean =
@@ -79,22 +80,30 @@ class GiveWinDomainService(
     fun giveWin(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.当選者.toModel()).list.shuffled().forEach { winner ->
-            val ability = daychange.abilities.findYesterday(village, winner, abilityType) ?: return@forEach
-            val target = village.participants.chara(ability.targetCharaId!!)
-            messages = messages.add(createGiveWinMessage(village, winner, target))
+        village.participants.filterAlive().filterBySkill(CDef.Skill.当選者.toModel()).list.shuffled()
+            .forEach { winner ->
+                val ability = daychange.abilities.findYesterday(village, winner, abilityType) ?: return@forEach
+                val target = village.participants.chara(ability.targetCharaId!!)
+                messages = messages.add(createGiveWinMessage(village, winner, target))
 
-            // 既に死亡していたり同棲者の場合は交換しない
-            if (target.isDead() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
+                // 既に死亡していたり同棲者の場合は交換しない
+                if (!isGiveSuccess(target)) return@forEach
 
-            // 役職交換
-            val targetSkill = target.skill
-            village = village.assignParticipantSkill(winner.id, targetSkill)
-            village = village.assignParticipantSkill(target.id, CDef.Skill.当選者.toModel())
-            messages = messages.add(createGivenWinMessage(village, target))
-        }
+                // 役職交換
+                val targetSkill = target.skill!!
+                village = village.assignParticipantSkill(winner.id, targetSkill)
+                village = village.assignParticipantSkill(target.id, CDef.Skill.当選者.toModel())
+                messages = messages.add(createGivenWinMessage(village, target))
+            }
 
         return daychange.copy(messages = messages, village = village)
+    }
+
+    private fun isGiveSuccess(target: VillageParticipant): Boolean {
+        if (target.isDead()) return false
+        val skill = target.skill!!.toCdef()
+        if (skill == CDef.Skill.同棲者) return false
+        return !Skills.openSkills.contains(skill)
     }
 
     private fun createGiveWinMessage(
@@ -102,10 +111,11 @@ class GiveWinDomainService(
         winner: VillageParticipant,
         target: VillageParticipant
     ): Message {
+        val targetSkill = target.skill!!.toCdef()
         val text = when {
             target.isDead() -> "${target.name()}は死亡しているため、${winner.name()}は当選権利を譲れなかった。"
-            target.skill!!.toCdef() == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${winner.name()}は当選権利を譲れなかった。"
-            target.skill.toCdef() == CDef.Skill.絶対人狼 -> "${target.name()}は絶対人狼のため、${winner.name()}は当選権利を譲れなかった。"
+            targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${winner.name()}は当選権利を譲れなかった。"
+            Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${winner.name()}は当選権利を譲れなかった。"
             else -> "${winner.name()}は、${target.name()}に当選権利を譲った。"
         }
         return messageDomainService.createPrivateAbilityMessage(

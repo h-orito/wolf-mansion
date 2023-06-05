@@ -127,24 +127,6 @@ class RevivalDomainService(
                 }
                 village = village.assignParticipantSkill(it.id, skill)
                 messages = messages.add(createRevivalMessage(village, it))
-                // 絶対人狼に転生した場合、メッセージ追加
-                if (skill.toCdef() == CDef.Skill.絶対人狼) {
-                    messages = messages.add(
-                        messageDomainService.createOpenSkillMessage(
-                            village = village,
-                            text = "${it.name()}は絶対人狼のようだ。"
-                        )
-                    )
-                }
-                // 勇者に転生した場合、メッセージ追加
-                if (skill.toCdef() == CDef.Skill.勇者) {
-                    messages = messages.add(
-                        messageDomainService.createOpenSkillMessage(
-                            village = village,
-                            text = "${it.name()}は勇者のようだ。"
-                        )
-                    )
-                }
             }
         return daychange.copy(village = village, messages = messages)
     }

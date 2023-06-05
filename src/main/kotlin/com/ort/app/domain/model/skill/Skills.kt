@@ -13,6 +13,7 @@ data class Skills(val list: List<Skill>) {
         )
 
         private val notRevivableSkills = listOf(CDef.Skill.同棲者, CDef.Skill.恋人)
+        val openSkills = listOf(CDef.Skill.勇者, CDef.Skill.絶対人狼)
 
         fun revivables(): Skills = Skills(
             list = all().filterNotSomeone().list.filterNot { notRevivableSkills.contains(it.toCdef()) }

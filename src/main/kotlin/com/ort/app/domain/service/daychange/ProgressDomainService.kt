@@ -75,7 +75,8 @@ class ProgressDomainService(
     private val miserableDomainService: MiserableDomainService,
     private val executeDomainService: ExecuteDomainService,
     private val resentDomainService: ResentDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
+    private val skillChangeDomainService: SkillChangeDomainService
 ) {
 
     fun changeDayIfNeeded(daychange: Daychange, commits: Commits, charas: Charas): Daychange {
@@ -191,6 +192,8 @@ class ProgressDomainService(
         daychange = onmyoNecromanceDomainService.necromance(daychange)
         // 復活
         daychange = revivalDomainService.revival(daychange)
+        // 役職変化通知
+        daychange = skillChangeDomainService.notify(beforeDaychange, daychange)
         // 後追い
         daychange = suicideDomainService.suicide(daychange)
         // 2日目専用メッセージ
