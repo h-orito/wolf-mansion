@@ -36,8 +36,6 @@ class TweetRepositoryImpl : TweetRepository {
     override fun tweet(msg: String) {
         if (debug.toBoolean()) return
         // API有料化に伴い機能停止
-        if (true) return
-
         val cb = ConfigurationBuilder()
         cb.setDebugEnabled(true)
             .setOAuthConsumerKey(consumerKey)
