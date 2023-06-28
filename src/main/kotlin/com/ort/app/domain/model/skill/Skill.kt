@@ -175,7 +175,7 @@ data class Skill(
         private val criminalSkills = Skills.all().filterNotSomeone().filterByCamp(CDef.Camp.愉快犯陣営).list
         private val jingaiSkills = wolfSkills + foxSkills + criminalSkills
         private val sayableSkills = Skills.all().filterNotSomeone().list.filter {
-            it.isSayableWerewolfSay() || it.isSayableSympathizeSay() || it.toCdef() == CDef.Skill.恋人 || it.toCdef() == CDef.Skill.同棲者
+            it.isSayableWerewolfSay() || it.isSayableSympathizeSay() || it.isSayableTelepathy() || it.toCdef() == CDef.Skill.恋人 || it.toCdef() == CDef.Skill.同棲者
         }
         private val notSayableSkills =
             Skills.all().filterNotSomeone().list.filter { !sayableSkills.map { it.code }.contains(it.code) }

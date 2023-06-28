@@ -18,8 +18,6 @@ class RevivalDomainService(
 ) {
 
     fun revival(orgDaychange: Daychange): Daychange {
-        // 梟が存在するか
-        val existOwl = orgDaychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()
         // 蘇生者、死霊術師、陰陽師
         var daychange = revivalByResuscitate(orgDaychange)
         // 絶対人狼
@@ -30,14 +28,6 @@ class RevivalDomainService(
         daychange = revivalReincarnation(daychange)
         // 餡麺麭者
         daychange = revivalAnpanman(daychange)
-        // 梟が0→1名以上になった場合、メッセージ追加
-        if (!existOwl && daychange.village.participants.filterBySkill(CDef.Skill.梟.toModel()).list.isNotEmpty()) {
-            daychange = daychange.copy(
-                messages = daychange.messages.add(
-                    messageDomainService.createOpenSkillMessage(daychange.village, "この村には強力な聴力を持つ者がいるようだ。")
-                )
-            )
-        }
         // 保険による復活
         daychange = revivalByInsurance(daychange)
 
