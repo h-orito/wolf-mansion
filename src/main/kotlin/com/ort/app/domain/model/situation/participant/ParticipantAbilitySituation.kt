@@ -25,6 +25,8 @@ data class ParticipantAbilitySituation(
     val cMadmanList: List<VillageParticipant> = emptyList(),
     val foxList: List<VillageParticipant> = emptyList(),
     val loversList: List<VillageParticipant> = emptyList(),
+    val masonsList: List<VillageParticipant> = emptyList(),
+    val listenMasonsList: List<VillageParticipant> = emptyList(),
     val targetPrefix: String? = null,
     val targetSuffix: String? = null,
     val isTargetingAndFootstep: Boolean = false

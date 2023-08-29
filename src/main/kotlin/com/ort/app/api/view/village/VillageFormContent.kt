@@ -2,7 +2,6 @@ package com.ort.app.api.view.village
 
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
@@ -223,6 +222,10 @@ data class VillageFormContent(
         val foxCharaNameList: String,
         /** 恋人陣営のキャラ名（恋人陣営向け） */
         val loversCharaNameList: String,
+        /** 共鳴者のキャラ名（共鳴、共有向け） */
+        val masonsCharaNameList: String,
+        /** 共有者のキャラ名（共鳴、共有向け） */
+        val listenMasonsCharaNameList: String,
         /** 対象選択の前に表示する文言 */
         val targetPrefixMessage: String?,
         /** 対象選択の後に表示する文言 */
@@ -245,6 +248,8 @@ data class VillageFormContent(
             cMadmanCharaNameList = situation.ability.cMadmanList.joinToString("、") { it.name() },
             foxCharaNameList = situation.ability.foxList.joinToString("、") { it.name() },
             loversCharaNameList = mapLoversCharaNameList(village, situation.ability.loversList),
+            masonsCharaNameList = situation.ability.masonsList.joinToString("、") { it.name() },
+            listenMasonsCharaNameList = situation.ability.listenMasonsList.joinToString("、") { it.name() },
             targetPrefixMessage = situation.ability.targetPrefix,
             targetSuffixMessage = situation.ability.targetSuffix,
             isTargetingAndFootstep = situation.ability.isTargetingAndFootstep,
@@ -384,31 +389,37 @@ data class VillageFormContent(
                         normalLength = restrict.maxLength
                         normalLeftCount = restrict.remainingCount
                     }
+
                     CDef.MessageType.人狼の囁き -> {
                         whisperCount = restrict.maxCount
                         whisperLength = restrict.maxLength
                         whisperLeftCount = restrict.remainingCount
                     }
+
                     CDef.MessageType.共鳴発言 -> {
                         masonCount = restrict.maxCount
                         masonLength = restrict.maxLength
                         masonLeftCount = restrict.remainingCount
                     }
+
                     CDef.MessageType.恋人発言 -> {
                         loversCount = restrict.maxCount
                         loversLength = restrict.maxLength
                         loversLeftCount = restrict.remainingCount
                     }
+
                     CDef.MessageType.念話 -> {
                         telepathyCount = restrict.maxCount
                         telepathyCount = restrict.maxLength
                         telepathyLeftCount = restrict.remainingCount
                     }
+
                     CDef.MessageType.アクション -> {
                         actionCount = restrict.maxCount
                         actionLength = restrict.maxLength
                         actionLeftCount = restrict.remainingCount
                     }
+
                     else -> {
                     }
                 }

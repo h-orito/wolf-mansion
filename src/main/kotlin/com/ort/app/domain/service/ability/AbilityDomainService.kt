@@ -129,6 +129,8 @@ class AbilityDomainService(
             cMadmanList = getCMadmanList(village, myself),
             foxList = getFoxList(village, myself),
             loversList = getLoversList(village, myself),
+            masonsList = getMasonsList(village, myself),
+            listenMasonsList = getListenMasonsList(village, myself),
             targetPrefix = getTargetPrefix(village, myself, day, abilityType),
             targetSuffix = getTargetSuffix(village, myself, day, abilityType),
             isTargetingAndFootstep = isTargetingAndFootstep(village, myself, day, abilityType)
@@ -434,6 +436,16 @@ class AbilityDomainService(
         return village.participants.sortedByRoomNumber().list.filter { it.status.hasLover() }
     }
 
+    private fun getMasonsList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !myself.skill.isViewableSympathizeSay()) return emptyList()
+        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.共鳴者 }
+    }
+
+    private fun getListenMasonsList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+        if (myself?.skill == null || !myself.skill.isViewableSympathizeSay()) return emptyList()
+        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.共有者 }
+    }
+
     private fun getTargetPrefix(
         village: Village,
         myself: VillageParticipant?,
@@ -508,7 +520,7 @@ class AbilityDomainService(
                 messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
             }
         }
-        
+
         // 梟
         if (village.participants.filterBySkill(Skill(CDef.Skill.梟)).list.isNotEmpty()) {
             messages =
