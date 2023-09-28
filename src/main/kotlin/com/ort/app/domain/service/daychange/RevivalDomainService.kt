@@ -4,6 +4,7 @@ import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -123,19 +124,31 @@ class RevivalDomainService(
 
     private fun revivalAnpanman(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
-        // パン屋が生存しているか
-        val existsBakery = village.participants
+
+        // 生存しているパン屋
+        val bakeries = village.participants
             .filterAlive()
-            .list.any {
-                val skill = it.skill!!.toCdef()
-                skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
-            }
-        if (!existsBakery) return daychange
+            .list.filter { it.skill!!.toCdef() == CDef.Skill.パン屋 }
+        val bakeryCount = bakeries.size
+        val evilBakeries = village.participants
+            .filterAlive()
+            .list.filter { it.skill!!.toCdef() == CDef.Skill.闇パン屋 }
+        val evilBakeryCount = evilBakeries.size
+
+        if (bakeries.isEmpty() && evilBakeries.isEmpty()) return daychange
 
         var messages = daychange.messages.copy()
         village.participants.filterDead().filterBySkill(CDef.Skill.餡麺麭者.toModel()).list.forEach {
             village = village.reviveParticipant(it.id)
             messages = messages.add(createAnpanmanRevivalMessage(village, it))
+            // パン屋なし、闇パン屋生存の場合闇堕ち
+            if (bakeries.isEmpty() && evilBakeries.isNotEmpty()) {
+                village = village.insaneParticipant(evilBakeries.first().id, it.id)
+                messages = messages.add(createEvilAnpanmanMessage(village, it))
+            } else if (bakeries.isNotEmpty() && evilBakeries.isEmpty()) {
+                village = village.persuadeParticipant(bakeries.first().id, it.id)
+                messages = messages.add(createRightAnpanmanMessage(village, it))
+            }
         }
         return daychange.copy(village = village, messages = messages)
     }
@@ -162,6 +175,24 @@ class RevivalDomainService(
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = "餡麺麭！新しい顔よ！それーっ！\n不思議なことに、${participant.name()}が生き返った。"
+        )
+    }
+
+    private fun createEvilAnpanmanMessage(village: Village, anpanman: VillageParticipant): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = anpanman,
+            text = "${anpanman.name()}は、闇堕ちした。",
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    private fun createRightAnpanmanMessage(village: Village, anpanman: VillageParticipant): Message {
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = anpanman,
+            text = "${anpanman.name()}は、正義の心を取り戻した。",
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
     }
 
