@@ -71,6 +71,8 @@ data class Dead(
         )
     }
 
+    fun existsSuddenly(): Boolean = histories.existsSuddenly()
+
     private fun dead(day: Int, reason: DeadReason): Dead {
         if (isDead) return this
         return copy(

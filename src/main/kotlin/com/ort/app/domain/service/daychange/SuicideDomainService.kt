@@ -11,13 +11,16 @@ import org.springframework.stereotype.Service
 
 @Service
 class SuicideDomainService(
-    private val roomDomainService: RoomDomainService
+    private val roomDomainService: RoomDomainService,
+    private val suddenlyDeathDomainService: SuddenlyDeathDomainService
 ) {
 
-    fun suicide(daychange: Daychange): Daychange {
+    fun suicide(orgDaychange: Daychange): Daychange {
+        // 突然死者が蘇生されている可能性があるため、再度突然死させる
+        val daychange = suddenlyDeathDomainService.reSuddenlyDeath(orgDaychange)
+
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-
         while (existsSuicideTarget(village)) {
             val target = findSuicideTarget(village)!!
 

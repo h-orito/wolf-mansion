@@ -271,10 +271,12 @@ data class VillageParticipant(
 
     fun judgeWin(winCamp: Camp): VillageParticipant = copy(
         isWin = when {
+            // 突然死したことがあったら必ず敗北
+            dead.existsSuddenly() -> false
             // ババは必ず敗北
             skill!!.toCdef() == CDef.Skill.ババ -> false
             // 当選者は必ず勝利
-            skill!!.toCdef() == CDef.Skill.当選者 -> true
+            skill.toCdef() == CDef.Skill.当選者 -> true
             // 愉快犯陣営は生存していれば勝利
             camp!!.isCriminals() -> isAlive()
             // 勝敗判定陣営が一致していたら勝利

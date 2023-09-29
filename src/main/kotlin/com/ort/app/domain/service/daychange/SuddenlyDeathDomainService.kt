@@ -42,4 +42,25 @@ class SuddenlyDeathDomainService(
             players = players
         )
     }
+
+    // 蘇生された人で突然死したことがある人を再度突然死させる
+    fun reSuddenlyDeath(daychange: Daychange): Daychange {
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+        daychange.village.participants.filterAlive().list
+            .filter { it.dead.existsSuddenly() }
+            .forEach {
+                // 突然死
+                village = village.suddenlyDeathParticipant(it.id)
+                // 突然死メッセージ
+                messages =
+                    messages.add(
+                        messageDomainService.createSuddenlyDeathMessage(village, it)
+                    )
+            }
+        return daychange.copy(
+            village = village,
+            messages = messages
+        )
+    }
 }

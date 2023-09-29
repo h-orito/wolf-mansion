@@ -16,4 +16,6 @@ data class DeadHistories(val list: List<DeadHistory>) {
         return list.size == other.list.size
                 && list.all { history -> other.list.any { otherHistory -> history.isSame(otherHistory) } }
     }
+
+    fun existsSuddenly(): Boolean = list.any { it.isDead && it.reason!!.isSuddenly() }
 }
