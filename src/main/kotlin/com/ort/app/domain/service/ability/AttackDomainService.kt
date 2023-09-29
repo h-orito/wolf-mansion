@@ -296,7 +296,7 @@ class AttackDomainService(
                 messages = messages.add(createUpgradeSilentWolfMessage(village, attacker))
             }
             // 襲撃されたのが夜狐の場合、狐憑きを付与する
-            if (shouldFoxPossession(daychange, target)) {
+            if (shouldFoxPossession(daychange, attacker, target)) {
                 village = village.foxPossessionParticipant(target.id, attacker.id)
                 messages = messages.add(createNightFoxPossessionMessage(village, attacker, target))
                 messages = messages.add(createNightFoxPossessionedMessage(village, attacker, target))
@@ -333,6 +333,7 @@ class AttackDomainService(
 
     fun shouldFoxPossession(
         daychange: Daychange,
+        attacker: VillageParticipant,
         target: VillageParticipant
     ): Boolean {
         // 対象が夜狐でない場合は付与しない
@@ -341,6 +342,8 @@ class AttackDomainService(
         if (target.isDead()) return false
         // 護衛されている場合は付与しない
         if (daychange.guarded.any { it.id == target.id }) return false
+        // 襲撃者に恋絆が付与されている場合は付与しない
+        if (attacker.status.hasLover()) return false
 
         return true
     }

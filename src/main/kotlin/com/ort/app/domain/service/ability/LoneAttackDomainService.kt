@@ -51,7 +51,7 @@ class LoneAttackDomainService(
 
             if (!attackDomainService.isAttackSuccess(daychange, target)) {
                 // 襲撃されたのが夜狐の場合、狐憑きを付与する
-                if (attackDomainService.shouldFoxPossession(daychange, target)) {
+                if (attackDomainService.shouldFoxPossession(daychange, it, target)) {
                     village = village.foxPossessionParticipant(target.id, it.id)
                     messages = messages.add(attackDomainService.createNightFoxPossessionMessage(village, it, target))
                     messages = messages.add(attackDomainService.createNightFoxPossessionedMessage(village, it, target))
