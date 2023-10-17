@@ -61,8 +61,8 @@ class HotLimitDomainService(
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        targetCharaId ?: return "${myself.name()}がナマ足を出すことにしました。"
-        return "${myself.name()}がナマ足を出すのをやめました。"
+        targetCharaId ?: return "${myself.name()}がナマ足を出すのをやめました"
+        return "${myself.name()}がナマ足を出すことにしました。"
     }
 
     override fun getTargetPrefix(): String = "発動させる場合自分を選択してください"

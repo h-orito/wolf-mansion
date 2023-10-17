@@ -57,8 +57,8 @@ class HiyasichukaDomainService : AbilityTypeDomainService {
         targetCharaId: Int?,
         footstep: String?
     ): String {
-        targetCharaId ?: return "${myself.name()}が始まることにしました。"
-        return "${myself.name()}が始まるのをやめました。"
+        targetCharaId ?: return "${myself.name()}が始まるのをやめました。"
+        return "${myself.name()}が始まることにしました。"
     }
 
     override fun getTargetPrefix(): String? = "始まる場合自分を選択してください"
