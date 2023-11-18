@@ -133,7 +133,7 @@ data class Village(
     fun isSayableCreatorSay(): Boolean = status.isNotFinished()
 
     fun isViewableSecretSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
-    fun isSayableSecretSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableSecretSay
+    fun isSayableSecretSay(): Boolean = status.isNotFinished() && setting.rule.secretSayRange.canSay()
 
     fun isSayableActionSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableAction
 
@@ -391,6 +391,7 @@ data class Village(
                 val list = revivableSkills.filter { r -> allocatableSkills.any { r.code == it.code } }
                 if (list.isNotEmpty()) list else listOf(CDef.Skill.村人.toModel())
             }
+
             else -> {
                 // 1日目時点でこの村に含まれる役職
                 val allocatableSkills = participants.list.map { it.skillWhen(1)!! }.distinctBy { it.code }

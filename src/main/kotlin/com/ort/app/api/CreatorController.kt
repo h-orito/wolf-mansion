@@ -17,11 +17,7 @@ import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.domain.model.village.setting.VillageOrganize
-import com.ort.app.domain.model.village.setting.VillageRandomOrganize
-import com.ort.app.domain.model.village.setting.VillageTags
-import com.ort.app.domain.model.village.setting.toModel
+import com.ort.app.domain.model.village.setting.*
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
@@ -30,11 +26,7 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.InitBinder
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -72,7 +64,8 @@ class CreatorController(
             return "redirect:/village/$villageId#bottom"
         }
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+        val charachips =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         setSettingsIndexModel(village, charachips, model)
         return "village-settings"
     }
@@ -86,7 +79,8 @@ class CreatorController(
         model: Model
     ): String {
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charachips = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+        val charachips =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         if (bindingResult.hasErrors()) {
             setSettingsIndexModel(village, charachips, model, form)
             return "village-settings"
@@ -250,14 +244,14 @@ class CreatorController(
                     isAvailableSameWolfAttack = form.availableSameWolfAttack!!,
                     isOpenSkillInGrave = form.openSkillInGrave!!,
                     isVisibleGraveSpectateMessage = form.visibleGraveSpectateMessage!!,
-                    isAvailableSecretSay = form.allowedSecretSayCode!! != CDef.AllowedSecretSay.なし.code(),
                     isAvailableSpectate = form.availableSpectate!!,
                     isAvailableSuddenlyDeath = form.availableSuddonlyDeath!!,
                     isAvailableCommit = form.availableCommit!!,
                     isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
                     isAvailableAction = form.availableAction!!,
                     isRandomOrganization = form.randomOrganization!!,
-                    isReincarnationSkillAll = form.reincarnationSkillAll!!
+                    isReincarnationSkillAll = form.reincarnationSkillAll!!,
+                    secretSayRange = SecretSayRange(CDef.AllowedSecretSay.codeOf(form.allowedSecretSayCode!!))
                 ),
                 organize = VillageOrganize(
                     fixedOrganization = form.organization.orEmpty(),

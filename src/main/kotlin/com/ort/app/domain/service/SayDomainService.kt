@@ -1,28 +1,18 @@
 package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.setting.SayRestriction
-import com.ort.app.domain.service.message.say.ActionSayDomainService
-import com.ort.app.domain.service.message.say.GraveSayDomainService
-import com.ort.app.domain.service.message.say.LoversSayDomainService
-import com.ort.app.domain.service.message.say.MonologueSayDomainService
-import com.ort.app.domain.service.message.say.NormalSayDomainService
-import com.ort.app.domain.service.message.say.SayTypeDomainService
-import com.ort.app.domain.service.message.say.SecretSayDomainService
-import com.ort.app.domain.service.message.say.SpectateSayDomainService
-import com.ort.app.domain.service.message.say.SympathizeSayDomainService
-import com.ort.app.domain.service.message.say.TelepathyDomainService
-import com.ort.app.domain.service.message.say.WerewolfSayDomainService
+import com.ort.app.domain.service.message.say.*
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
@@ -38,7 +28,7 @@ class SayDomainService(
     private val telepathyDomainService: TelepathyDomainService,
     private val loversSayDomainService: LoversSayDomainService,
     private val secretSayDomainService: SecretSayDomainService,
-    private val actionSayDomainService: ActionSayDomainService
+    private val actionSayDomainService: ActionSayDomainService,
 ) {
 
     private val defaultMessageTypeOrder = listOf(
@@ -55,17 +45,21 @@ class SayDomainService(
     fun convertToSituation(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         charachips: Charachips,
         day: Int,
-        latestDayMessageCountMap: Map<CDef.MessageType, Int>?
+        latestDayMessageCountMap: Map<CDef.MessageType, Int>?,
+        creatorPlayerId: Int
     ): ParticipantSaySituation {
+        val selectableMessageTypeList =
+            getSelectableMessageTypeList(village, myself, player, latestDayMessageCountMap, day, creatorPlayerId)
         return ParticipantSaySituation(
             isAvailableSay = isAvailableSay(village, myself, day),
-            selectableMessageTypeList = getSelectableMessageTypeList(village, myself, latestDayMessageCountMap, day),
+            selectableMessageTypeList = selectableMessageTypeList,
             selectableFaceTypeList = getSelectableFaceTypeList(myself, charachips),
             defaultMessageType = detectDefaultMessageType(
                 isAvailableSay(village, myself, day),
-                getSelectableMessageTypeList(village, myself, latestDayMessageCountMap, day)
+                selectableMessageTypeList
             )
         )
     }
@@ -96,12 +90,18 @@ class SayDomainService(
     private fun getSelectableMessageTypeList(
         village: Village,
         myself: VillageParticipant?,
+        player: Player?,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>?,
-        day: Int
+        day: Int,
+        creatorPlayerId: Int
     ): List<ParticipantSayMessageTypeSituation> {
         if (!isAvailableSay(village, myself, day)) return listOf()
         return MessageType.sayTypeList
-            .filter { detectSayTypeService(it).isSayable(village, myself!!) }
+            .filter {
+                detectSayTypeService(it).isSayable(village, myself!!)
+                        // 村建ては常に秘話を使えるようにする（本来domain service側を修正すべきだがサボっている）
+                        || (it == CDef.MessageType.秘話 && village.isCreator(player))
+            }
             .map {
                 val restrict =
                     if (village.status.isProgress()) village.setting.sayRestriction.restrict(myself!!, it)
@@ -118,7 +118,7 @@ class SayDomainService(
                         maxLength = restrict?.length ?: MessageContent.defaultLengthMax,
                         maxLine = MessageContent.defaultLineMax
                     ),
-                    targetList = getSecretSayTargetList(it, village, myself!!)
+                    targetList = getSecretSayTargetList(it, village, creatorPlayerId, myself!!, player!!)
                 )
             }
     }
@@ -163,10 +163,20 @@ class SayDomainService(
     private fun getSecretSayTargetList(
         messageType: CDef.MessageType,
         village: Village,
-        myself: VillageParticipant
+        creatorPlayerId: Int,
+        myself: VillageParticipant,
+        player: Player,
     ): List<VillageParticipant> {
-        return if (messageType != CDef.MessageType.秘話) emptyList()
-        else village.allParticipants().sortedByRoomNumber().list.filterNot { it.id == myself.id }
+        if (messageType != CDef.MessageType.秘話) return emptyList()
+        val base = village.allParticipants().sortedByRoomNumber().list.filter { it.id != myself.id }
+        // 管理者および村建ては全員
+        return if (myself.isAdmin() || village.isCreator(player)) base
+        // 全員秘話可能
+        else if (village.setting.rule.secretSayRange.canSayAll()) base
+        // 村建てとのみ
+        else if (village.setting.rule.secretSayRange.canOnlyCreator()) base.filter { it.playerId == creatorPlayerId }
+        // 秘話なし
+        else emptyList()
     }
 
     private fun isSelectableFaceType(chara: Chara, messageContent: MessageContent): Boolean =

@@ -97,7 +97,7 @@ data class VillageSettingsContent(
         isReincarnationSkillAll = village.setting.rule.isReincarnationSkillAll,
         isOpenSkillInGrave = village.setting.rule.isOpenSkillInGrave,
         isVisibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage,
-        allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING",
+        allowedSecretSayCode = village.setting.rule.secretSayRange.code,
         isAvailableSuddenlyDeath = village.setting.rule.isAvailableSuddenlyDeath,
         isAvailableCommit = village.setting.rule.isAvailableCommit,
         isAvailableAction = village.setting.rule.isAvailableAction,
@@ -241,7 +241,7 @@ data class VillageSettingsContent(
         /** 最大人数 */
         val maxNum: Int?,
     ) {
-        constructor(wolfAllocation: VillageRandomOrganize.WolfAllocation): this(
+        constructor(wolfAllocation: VillageRandomOrganize.WolfAllocation) : this(
             minNum = wolfAllocation.min,
             maxNum = wolfAllocation.max
         )

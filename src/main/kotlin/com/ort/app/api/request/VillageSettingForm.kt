@@ -171,7 +171,7 @@ data class VillageSettingForm(
         availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack,
         openSkillInGrave = village.setting.rule.isOpenSkillInGrave,
         visibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage,
-        allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING",
+        allowedSecretSayCode = village.setting.rule.secretSayRange.code,
         availableSpectate = village.setting.rule.isAvailableSpectate,
         availableSuddonlyDeath = village.setting.rule.isAvailableSuddenlyDeath,
         availableCommit = village.setting.rule.isAvailableCommit,

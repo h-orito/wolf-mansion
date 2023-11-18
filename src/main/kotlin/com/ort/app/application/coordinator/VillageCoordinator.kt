@@ -314,12 +314,21 @@ class VillageCoordinator(
         val latestDayMessageCountMap = myself?.let {
             messageService.findParticipantDayMessageCount(village, village.latestDay(), it)
         }
+        val creator = playerService.findPlayer(village.createPlayerName)!!
 
         return ParticipantSituation(
             participate = participateDomainService.convertToSituation(village, myself, player, charachips),
             skillRequest = skillRequestDomainService.convertToSituation(village, myself, myself?.requestSkill),
             commit = commitDomainService.convertToSituation(village, myself, commits),
-            say = sayDomainService.convertToSituation(village, myself, charachips, day, latestDayMessageCountMap),
+            say = sayDomainService.convertToSituation(
+                village = village,
+                myself = myself,
+                player = player,
+                charachips = charachips,
+                day = day,
+                latestDayMessageCountMap = latestDayMessageCountMap,
+                creatorPlayerId = creator.id
+            ),
             rp = rpDomainService.convertToSituation(village, myself, charachips, day),
             ability = abilityDomainService.convertToParticipantSituation(
                 village,

@@ -11,10 +11,10 @@ data class VillageRule(
     val isAvailableSuddenlyDeath: Boolean,
     val isAvailableCommit: Boolean,
     val isAvailableGuardSameTarget: Boolean,
-    val isAvailableSecretSay: Boolean,
     val isAvailableAction: Boolean,
     val isRandomOrganization: Boolean,
-    val isReincarnationSkillAll: Boolean
+    val isReincarnationSkillAll: Boolean,
+    val secretSayRange: SecretSayRange
 ) {
     fun isSame(other: VillageRule): Boolean {
         return isOpenVote == other.isOpenVote
@@ -27,9 +27,9 @@ data class VillageRule(
                 && isAvailableSuddenlyDeath == other.isAvailableSuddenlyDeath
                 && isAvailableCommit == other.isAvailableCommit
                 && isAvailableGuardSameTarget == other.isAvailableGuardSameTarget
-                && isAvailableSecretSay == other.isAvailableSecretSay
                 && isAvailableAction == other.isAvailableAction
                 && isRandomOrganization == other.isRandomOrganization
                 && isReincarnationSkillAll == other.isReincarnationSkillAll
+                && secretSayRange.code == other.secretSayRange.code
     }
 }

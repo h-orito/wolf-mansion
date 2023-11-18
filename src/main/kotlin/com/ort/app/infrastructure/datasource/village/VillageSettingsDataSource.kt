@@ -5,23 +5,8 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.setting.*
-import com.ort.dbflute.allcommon.CDef
-import com.ort.dbflute.exbhv.CampAllocationBhv
-import com.ort.dbflute.exbhv.NormalSayRestrictionBhv
-import com.ort.dbflute.exbhv.SkillAllocationBhv
-import com.ort.dbflute.exbhv.SkillSayRestrictionBhv
-import com.ort.dbflute.exbhv.VillageCharaGroupBhv
-import com.ort.dbflute.exbhv.VillageSettingsBhv
-import com.ort.dbflute.exbhv.VillageTagBhv
-import com.ort.dbflute.exbhv.WolfAllocationBhv
-import com.ort.dbflute.exentity.CampAllocation
-import com.ort.dbflute.exentity.NormalSayRestriction
-import com.ort.dbflute.exentity.SkillAllocation
-import com.ort.dbflute.exentity.SkillSayRestriction
-import com.ort.dbflute.exentity.Village
-import com.ort.dbflute.exentity.VillageCharaGroup
-import com.ort.dbflute.exentity.VillageSettings
-import com.ort.dbflute.exentity.WolfAllocation
+import com.ort.dbflute.exbhv.*
+import com.ort.dbflute.exentity.*
 import org.springframework.stereotype.Repository
 import java.time.format.DateTimeFormatter
 import com.ort.dbflute.exentity.VillageTag as DbVillageTag
@@ -61,9 +46,7 @@ class VillageSettingsDataSource(
             settings.isAvailableCommit = it.rule.isAvailableCommit
             settings.isAvailableAction = it.rule.isAvailableAction
             settings.organize = it.organize.fixedOrganization.replace("\r\n", "\n")
-            settings.allowedSecretSayCodeAsAllowedSecretSay =
-                if (it.rule.isAvailableSecretSay) CDef.AllowedSecretSay.全員
-                else CDef.AllowedSecretSay.なし
+            settings.allowedSecretSayCodeAsAllowedSecretSay = it.rule.secretSayRange.toCdef()
             settings.isRandomOrganize = it.rule.isRandomOrganization
             settings.isReincarnationSkillAll = it.rule.isReincarnationSkillAll
             settings.originalCharaGroupId = if (it.chara.isOriginalCharachip) it.chara.charachipIds.first() else null
@@ -154,10 +137,10 @@ class VillageSettingsDataSource(
                 isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
                 isAvailableCommit = setting.isAvailableCommit,
                 isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
                 isAvailableAction = setting.isAvailableAction,
                 isRandomOrganization = setting.isRandomOrganize,
-                isReincarnationSkillAll = setting.isReincarnationSkillAll
+                isReincarnationSkillAll = setting.isReincarnationSkillAll,
+                secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay)
             ),
             joinPassword = setting.joinPassword,
             organize = VillageOrganize(
@@ -209,10 +192,10 @@ class VillageSettingsDataSource(
                 isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
                 isAvailableCommit = setting.isAvailableCommit,
                 isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableSecretSay = !setting.isAllowedSecretSayCodeなし,
                 isAvailableAction = setting.isAvailableAction,
                 isRandomOrganization = setting.isRandomOrganize,
-                isReincarnationSkillAll = setting.isReincarnationSkillAll
+                isReincarnationSkillAll = setting.isReincarnationSkillAll,
+                secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay)
             ),
             joinPassword = setting.joinPassword,
             organize = VillageOrganize(
@@ -285,8 +268,7 @@ class VillageSettingsDataSource(
         s.isRandomOrganize = setting.rule.isRandomOrganization
         s.isReincarnationSkillAll = setting.rule.isReincarnationSkillAll
         s.joinPassword = setting.joinPassword
-        s.allowedSecretSayCodeAsAllowedSecretSay = if (setting.rule.isAvailableSecretSay) CDef.AllowedSecretSay.全員
-        else CDef.AllowedSecretSay.なし
+        s.allowedSecretSayCodeAsAllowedSecretSay = setting.rule.secretSayRange.toCdef()
         villageSettingsBhv.update(s)
     }
 

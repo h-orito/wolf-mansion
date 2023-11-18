@@ -231,7 +231,13 @@ data class NewVillageForm(
     }
 
     private fun initializeCampAllocationList(): List<RandomOrganizationCampForm> {
-        return listOf(CDef.Camp.村人陣営, CDef.Camp.人狼陣営, CDef.Camp.狐陣営, CDef.Camp.恋人陣営, CDef.Camp.愉快犯陣営).map {
+        return listOf(
+            CDef.Camp.村人陣営,
+            CDef.Camp.人狼陣営,
+            CDef.Camp.狐陣営,
+            CDef.Camp.恋人陣営,
+            CDef.Camp.愉快犯陣営
+        ).map {
             RandomOrganizationCampForm(it)
         }
     }
@@ -243,7 +249,12 @@ data class NewVillageForm(
     }
 
     private fun initializeSkillSayRestrictList(): List<MessageTypeSayRestrictForm> {
-        return listOf(CDef.MessageType.人狼の囁き, CDef.MessageType.共鳴発言, CDef.MessageType.恋人発言, CDef.MessageType.念話).map {
+        return listOf(
+            CDef.MessageType.人狼の囁き,
+            CDef.MessageType.共鳴発言,
+            CDef.MessageType.恋人発言,
+            CDef.MessageType.念話
+        ).map {
             MessageTypeSayRestrictForm(it)
         }
     }
@@ -269,7 +280,7 @@ data class NewVillageForm(
         availableSameWolfAttack = village.setting.rule.isAvailableSameWolfAttack
         openSkillInGrave = village.setting.rule.isOpenSkillInGrave
         visibleGraveSpectateMessage = village.setting.rule.isVisibleGraveSpectateMessage
-        allowedSecretSayCode = if (village.setting.rule.isAvailableSecretSay) "EVERYTHING" else "NOTHING"
+        allowedSecretSayCode = village.setting.rule.secretSayRange.code
         availableSpectate = village.setting.rule.isAvailableSpectate
         creatorIsProducer = village.setting.rule.isCreatorIsProducer
         availableSuddonlyDeath = village.setting.rule.isAvailableSuddenlyDeath
@@ -371,7 +382,6 @@ data class NewVillageForm(
                     isAvailableSameWolfAttack = availableSameWolfAttack!!,
                     isOpenSkillInGrave = openSkillInGrave!!,
                     isVisibleGraveSpectateMessage = visibleGraveSpectateMessage!!,
-                    isAvailableSecretSay = allowedSecretSayCode!! != CDef.AllowedSecretSay.なし.code(),
                     isAvailableSpectate = availableSpectate!!,
                     isCreatorIsProducer = creatorIsProducer!!,
                     isAvailableSuddenlyDeath = availableSuddonlyDeath!!,
@@ -380,7 +390,8 @@ data class NewVillageForm(
                     isAvailableAction = availableAction!!,
                     isRandomOrganization = randomOrganization!!,
                     isPossibleSkillRequest = possibleSkillRequest!!,
-                    isReincarnationSkillAll = reincarnationSkillAll!!
+                    isReincarnationSkillAll = reincarnationSkillAll!!,
+                    secretSayRange = SecretSayRange(CDef.AllowedSecretSay.codeOf(allowedSecretSayCode!!))
                 ),
                 organize = VillageOrganize(
                     fixedOrganization = organization.orEmpty(),
