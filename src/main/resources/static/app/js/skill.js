@@ -23,7 +23,8 @@ $(function() {
 			url: url,
 			data: {
 				'tags': tags,
-				'name': $('#skill-name').val()
+				'name': $('#skill-name').val(),
+				'villageId': $('#villageId').val()
             }
 		}).then(function (skillCodes) {
 			const anchors = skillCodes.map(code => '#' + code);

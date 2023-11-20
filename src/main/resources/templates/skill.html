@@ -41,6 +41,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
+                                <label class="col-sm-3 col-xs-12 control-label">村に登場する役職</label>
+                                <div class="col-sm-9 col-xs-12">
+                                    <select id="villageId" class="form-control">
+                                        <option value="">抽出したい場合は選択してください</option>
+                                        <option th:each="v : ${villageList}" th:value="${v.id}"
+                                                th:text="${v.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3"></div>
+                                <div class="col-xs-12 col-sm-9">
+                                    <p>
+                                        闇鍋の村は選択できません。<br/>
+                                        状態がプロローグ中/廃村の場合は全人数の編成に含まれる役職で抽出します。<br/>
+                                        それ以外の場合は、1日目開始時点での編成に含まれる役職で抽出します。
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="form-group">
                                 <div class="col-sm-12 col-xs-12">
                                     <input type="button" class="btn btn-sm btn-success pull-right" value="検索"
                                            data-search/>
