@@ -215,9 +215,16 @@ data class Skill(
             ).contains(it.toCdef())
         }
 
+        // ------------------------
         // タグ用
+        // ------------------------
+        // 指揮官
         val hasCommandAbilitySkills = listOf(CDef.Skill.指揮官, CDef.Skill.煽動者, CDef.Skill.騙狐, CDef.Skill.不止者)
+
+        // 護衛
         val hasGuardAbilitySkills = listOf(CDef.Skill.狩人, CDef.Skill.風来狩人, CDef.Skill.壁殴り代行)
+
+        // 陣営変化
         val hasChangeCampAbilitySkills =
             listOf(
                 CDef.Skill.牧師,
@@ -231,6 +238,8 @@ data class Skill(
                 CDef.Skill.泥棒猫,
                 CDef.Skill.破局者
             )
+
+        // 役職変化
         val hasChangeSkillAbilitySkills =
             listOf(
                 CDef.Skill.申し子,
@@ -240,11 +249,21 @@ data class Skill(
                 CDef.Skill.当選者,
                 CDef.Skill.死霊術師
             )
+
+        // 他者蘇生
         val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師)
+
+        // 自己蘇生
         val hasRevivalMyselfAbilitySkills =
             listOf(CDef.Skill.申し子, CDef.Skill.転生者, CDef.Skill.餡麺麭者, CDef.Skill.絶対人狼, CDef.Skill.勇者)
+
+        // 踏むと死亡
         val hasTrapAbilitySkills = listOf(CDef.Skill.罠師, CDef.Skill.爆弾魔, CDef.Skill.画鋲, CDef.Skill.箪笥)
+
+        // 部屋交換
         val hasChangeRoomAbilitySkills = listOf(CDef.Skill.果実籠)
+
+        // 語尾変化
         val hasChangeMessageAbilitySkills =
             listOf(
                 CDef.Skill.虹職人,
@@ -254,6 +273,8 @@ data class Skill(
                 CDef.Skill.伝説の殺し屋,
                 CDef.Skill.翻訳者
             )
+
+        // 投票
         val hasVoteAbilitySkills =
             listOf(
                 CDef.Skill.強運者,
@@ -266,11 +287,15 @@ data class Skill(
                 CDef.Skill.王族,
                 CDef.Skill.革命者
             )
+
+        // 被投票
         val hasVotedAbilitySkills = listOf(
             CDef.Skill.バールのようなもの,
             CDef.Skill.怨恨者,
             CDef.Skill.魅惑の人魚
         )
+
+        // 後追い
         val isSuicideSkills =
             listOf(
                 CDef.Skill.餡麺麭者,
@@ -282,11 +307,116 @@ data class Skill(
                 CDef.Skill.陰陽師,
                 CDef.Skill.リア充
             )
+
+        // 単独襲撃
         val hasLoneAttackAbilitySkills =
             listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼, CDef.Skill.勇者)
+
+        // 足音発生
         val hasAutoFootstepAbilitySkills =
             listOf(CDef.Skill.妄想癖, CDef.Skill.夢遊病者, CDef.Skill.冤罪者, CDef.Skill.濡衣者, CDef.Skill.リア充)
 
+        // 回数制限
+        val limitedCountSkills = listOf(
+            CDef.Skill.風来狩人,
+            CDef.Skill.罠師,
+            CDef.Skill.牧師,
+            CDef.Skill.爆弾魔,
+            CDef.Skill.破局者,
+            CDef.Skill.教唆者,
+            CDef.Skill.濡衣者,
+            CDef.Skill.果実籠,
+            CDef.Skill.求愛者,
+            CDef.Skill.ストーカー,
+            CDef.Skill.絡新婦,
+            CDef.Skill.美人局,
+            CDef.Skill.誑狐,
+            CDef.Skill.トラック,
+            CDef.Skill.蘇生者,
+            CDef.Skill.死霊術師,
+            CDef.Skill.陰陽師,
+            CDef.Skill.保険屋,
+            CDef.Skill.マタギ,
+            CDef.Skill.黒箱者,
+            CDef.Skill.泥棒猫,
+            CDef.Skill.バールのようなもの,
+            CDef.Skill.冷凍者,
+            CDef.Skill.革命者,
+            CDef.Skill.呪縛者,
+            CDef.Skill.反呪者,
+            CDef.Skill.冷やし中華,
+            CDef.Skill.勇者,
+            CDef.Skill.曇天者,
+            CDef.Skill.魅惑の人魚,
+        )
+
+        // 毎日使用可能
+        val availableEverydaySkills = CDef.Skill.listOfHasAttackAbility() +
+                CDef.Skill.listOfHasDivineAbility() +
+                listOf(
+                    CDef.Skill.狩人,
+                    CDef.Skill.探偵,
+                    CDef.Skill.監視者,
+                    CDef.Skill.指揮官,
+                    CDef.Skill.壁殴り代行,
+                    CDef.Skill.不止者,
+                    CDef.Skill.全知者,
+                    CDef.Skill.煽動者,
+                    CDef.Skill.闇探偵,
+                    CDef.Skill.同棲者,
+                    CDef.Skill.騙狐,
+                    CDef.Skill.一匹狼,
+                    CDef.Skill.虹職人,
+                    CDef.Skill.拡声者,
+                    CDef.Skill.濁点者,
+                    CDef.Skill.道化師,
+                    CDef.Skill.伝説の殺し屋,
+                    CDef.Skill.翻訳者,
+                    CDef.Skill.ババ,
+                    CDef.Skill.当選者,
+                )
+
+        // 対象指定＆足音発生
+        val targetingAndFootstepSkills = CDef.Skill.listOfHasAttackAbility() +
+                CDef.Skill.listOfHasDivineAbility() +
+                listOf(
+                    CDef.Skill.風来狩人,
+                    CDef.Skill.罠師,
+                    CDef.Skill.牧師,
+                    CDef.Skill.爆弾魔,
+                    CDef.Skill.破局者,
+                    CDef.Skill.教唆者,
+                    CDef.Skill.求愛者,
+                    CDef.Skill.ストーカー,
+                    CDef.Skill.絡新婦,
+                    CDef.Skill.美人局,
+                    CDef.Skill.誑狐,
+                    CDef.Skill.トラック,
+                    CDef.Skill.蘇生者,
+                    CDef.Skill.死霊術師,
+                    CDef.Skill.陰陽師,
+                    CDef.Skill.保険屋,
+                    CDef.Skill.マタギ,
+                    CDef.Skill.泥棒猫,
+                    CDef.Skill.バールのようなもの,
+                    CDef.Skill.呪縛者,
+                    CDef.Skill.反呪者,
+                    CDef.Skill.勇者,
+                    CDef.Skill.狩人,
+                    CDef.Skill.一匹狼,
+                    CDef.Skill.虹職人,
+                    CDef.Skill.拡声者,
+                    CDef.Skill.濁点者,
+                    CDef.Skill.道化師,
+                    CDef.Skill.伝説の殺し屋,
+                    CDef.Skill.翻訳者,
+                    CDef.Skill.ババ,
+                    CDef.Skill.当選者,
+                )
+
+        // ------------------------
+        // 役職希望での自動変更用優先度
+        // ------------------------
         val madmanPriorityList = listOf(
             CDef.Skill.C国狂人,
             CDef.Skill.聴狂人,
@@ -310,7 +440,6 @@ data class Skill(
             CDef.Skill.王狼,
             CDef.Skill.歩狼
         )
-
         val seerPriorityList =
             listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師, CDef.Skill.花占い師, CDef.Skill.感覚者)
 

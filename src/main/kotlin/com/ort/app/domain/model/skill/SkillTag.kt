@@ -35,7 +35,10 @@ enum class SkillTag {
     被投票,
     後追い,
     単独襲撃,
-    足音発生
+    足音発生,
+    回数制限,
+    毎日使用可能,
+    対象指定_足音発生
     ;
 
     companion object {
@@ -87,6 +90,9 @@ enum class SkillTag {
             投票 to Skill.hasVoteAbilitySkills.map { it.toModel() },
             被投票 to Skill.hasVotedAbilitySkills.map { it.toModel() },
             後追い to Skill.isSuicideSkills.map { it.toModel() },
+            回数制限 to Skill.limitedCountSkills.map { it.toModel() },
+            毎日使用可能 to Skill.availableEverydaySkills.map { it.toModel() },
+            対象指定_足音発生 to Skill.targetingAndFootstepSkills.map { it.toModel() }
         )
 
         private fun listOfSkill(predicate: (Skill) -> Boolean): List<Skill> =
