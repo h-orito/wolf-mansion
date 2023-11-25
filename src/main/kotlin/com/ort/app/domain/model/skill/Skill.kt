@@ -138,6 +138,7 @@ data class Skill(
             CDef.Skill.蘇生者 to AbilityType(CDef.AbilityType.蘇生),
             CDef.Skill.死霊術師 to AbilityType(CDef.AbilityType.死霊蘇生),
             CDef.Skill.陰陽師 to AbilityType(CDef.AbilityType.降霊),
+            CDef.Skill.海王者 to AbilityType(CDef.AbilityType.人魚化),
             CDef.Skill.ババ to AbilityType(CDef.AbilityType.ババを渡す),
             CDef.Skill.当選者 to AbilityType(CDef.AbilityType.当選),
             CDef.Skill.不止者 to AbilityType(CDef.AbilityType.指差死),
@@ -190,6 +191,7 @@ data class Skill(
                         CDef.Skill.勇者,
                         CDef.Skill.牧師,
                         CDef.Skill.死霊術師,
+                        CDef.Skill.海王者,
                         CDef.Skill.バールのようなもの,
                         CDef.Skill.破局者,
                         CDef.Skill.教唆者,
@@ -247,11 +249,14 @@ data class Skill(
                 CDef.Skill.トラック,
                 CDef.Skill.ババ,
                 CDef.Skill.当選者,
-                CDef.Skill.死霊術師
+                CDef.Skill.死霊術師,
+                CDef.Skill.陰陽師,
+                CDef.Skill.海王者
             )
 
         // 他者蘇生
-        val hasRevivalOtherAbilitySkills = listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師)
+        val hasRevivalOtherAbilitySkills =
+            listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師, CDef.Skill.海王者)
 
         // 自己蘇生
         val hasRevivalMyselfAbilitySkills =
@@ -336,6 +341,7 @@ data class Skill(
             CDef.Skill.蘇生者,
             CDef.Skill.死霊術師,
             CDef.Skill.陰陽師,
+            CDef.Skill.海王者,
             CDef.Skill.保険屋,
             CDef.Skill.マタギ,
             CDef.Skill.黒箱者,
@@ -398,6 +404,7 @@ data class Skill(
                     CDef.Skill.蘇生者,
                     CDef.Skill.死霊術師,
                     CDef.Skill.陰陽師,
+                    CDef.Skill.海王者,
                     CDef.Skill.保険屋,
                     CDef.Skill.マタギ,
                     CDef.Skill.泥棒猫,

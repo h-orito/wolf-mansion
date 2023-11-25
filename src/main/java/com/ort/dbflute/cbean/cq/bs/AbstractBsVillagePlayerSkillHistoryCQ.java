@@ -1162,6 +1162,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 海王者 (POSEIDON). And OnlyOnceRegistered. <br>
+     * 海王者
+     */
+    public void setSkillCode_Equal_海王者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.海王者);
+    }
+
+    /**
      * Equal(=). As 画鋲 (PUSHPIN). And OnlyOnceRegistered. <br>
      * 画鋲
      */
@@ -2166,6 +2174,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_牧師() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.牧師);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 海王者 (POSEIDON). And OnlyOnceRegistered. <br>
+     * 海王者
+     */
+    public void setSkillCode_NotEqual_海王者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.海王者);
     }
 
     /**

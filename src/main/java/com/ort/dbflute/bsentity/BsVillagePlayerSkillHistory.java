@@ -887,6 +887,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 海王者 (POSEIDON). <br>
+     * 海王者
+     */
+    public void setSkillCode_海王者() {
+        setSkillCodeAsSkill(CDef.Skill.海王者);
+    }
+
+    /**
      * Set the value of skillCode as 画鋲 (PUSHPIN). <br>
      * 画鋲
      */
@@ -2147,6 +2155,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode牧師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 海王者? <br>
+     * 海王者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode海王者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.海王者) : false;
     }
 
     /**

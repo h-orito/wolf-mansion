@@ -19,7 +19,7 @@ class RevivalDomainService(
 ) {
 
     fun revival(orgDaychange: Daychange): Daychange {
-        // 蘇生者、死霊術師、陰陽師
+        // 蘇生者、死霊術師、陰陽師、海王者
         var daychange = revivalByResuscitate(orgDaychange)
         // 絶対人狼
         daychange = revivalAbsoluteWolf(daychange)
@@ -40,12 +40,18 @@ class RevivalDomainService(
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().list.filter {
-            listOf(CDef.Skill.蘇生者, CDef.Skill.死霊術師, CDef.Skill.陰陽師).contains(it.skill!!.toCdef())
+            listOf(
+                CDef.Skill.蘇生者,
+                CDef.Skill.死霊術師,
+                CDef.Skill.陰陽師,
+                CDef.Skill.海王者
+            ).contains(it.skill!!.toCdef())
         }.shuffled().forEach {
             val abilityType = when (it.skill!!.toCdef()) {
                 CDef.Skill.蘇生者 -> CDef.AbilityType.蘇生.toModel()
                 CDef.Skill.死霊術師 -> CDef.AbilityType.死霊蘇生.toModel()
                 CDef.Skill.陰陽師 -> CDef.AbilityType.降霊.toModel()
+                CDef.Skill.海王者 -> CDef.AbilityType.人魚化.toModel()
                 else -> throw IllegalStateException("想定外の役職です。")
             }
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
@@ -53,11 +59,13 @@ class RevivalDomainService(
             // 蘇生済み/同棲者の場合は失敗
             if (target.isAlive() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
             village = village.reviveParticipant(target.id)
-            // 死霊蘇生、降霊の場合は役職変化
+            // 死霊蘇生、降霊、人魚化の場合は役職変化
             if (abilityType.toCdef() == CDef.AbilityType.死霊蘇生) {
                 village = village.assignParticipantSkill(target.id, CDef.Skill.黙狼.toModel())
             } else if (abilityType.toCdef() == CDef.AbilityType.降霊) {
                 village = village.assignParticipantSkill(target.id, CDef.Skill.妖狐.toModel())
+            } else if (abilityType.toCdef() == CDef.AbilityType.人魚化) {
+                village = village.assignParticipantSkill(target.id, CDef.Skill.魅惑の人魚.toModel())
             }
             messages = messages.add(createRevivalMessage(village, target))
         }

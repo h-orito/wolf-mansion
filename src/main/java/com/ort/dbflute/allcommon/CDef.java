@@ -805,6 +805,9 @@ public interface CDef extends Classification {
         /** 牧師 */
         牧師("PASTOR", "牧師", emptyStrings())
         ,
+        /** 海王者 */
+        海王者("POSEIDON", "海王者", emptyStrings())
+        ,
         /** 画鋲 */
         画鋲("PUSHPIN", "画鋲", emptyStrings())
         ,
@@ -1478,7 +1481,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "307");
+                subItemMap.put("order", "308");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "耳");
                 _subItemMapMap.put(耳年増.code(), Collections.unmodifiableMap(subItemMap));
@@ -1506,7 +1509,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "308");
+                subItemMap.put("order", "309");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "充");
                 _subItemMapMap.put(リア充.code(), Collections.unmodifiableMap(subItemMap));
@@ -1552,6 +1555,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "牧");
                 _subItemMapMap.put(牧師.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "307");
+                subItemMap.put("campCode", "LOVERS");
+                subItemMap.put("skill_short_name", "海");
+                _subItemMapMap.put(海王者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2677,6 +2687,9 @@ public interface CDef extends Classification {
         ,
         /** 翻訳 */
         翻訳("TRANSLATE", "翻訳", emptyStrings())
+        ,
+        /** 人魚化 */
+        人魚化("TRANSMERMAID", "人魚化", emptyStrings())
         ,
         /** 罠設置 */
         罠設置("TRAP", "罠設置", emptyStrings())

@@ -1109,6 +1109,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 海王者 (POSEIDON). <br>
+     * 海王者
+     */
+    public void setSkillCode_海王者() {
+        setSkillCodeAsSkill(CDef.Skill.海王者);
+    }
+
+    /**
      * Set the value of skillCode as 画鋲 (PUSHPIN). <br>
      * 画鋲
      */
@@ -2093,6 +2101,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 海王者 (POSEIDON). <br>
+     * 海王者
+     */
+    public void setRequestSkillCode_海王者() {
+        setRequestSkillCodeAsSkill(CDef.Skill.海王者);
+    }
+
+    /**
      * Set the value of requestSkillCode as 画鋲 (PUSHPIN). <br>
      * 画鋲
      */
@@ -3074,6 +3090,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_牧師() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.牧師);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 海王者 (POSEIDON). <br>
+     * 海王者
+     */
+    public void setSecondRequestSkillCode_海王者() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.海王者);
     }
 
     /**
@@ -4465,6 +4489,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode牧師() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of skillCode 海王者? <br>
+     * 海王者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode海王者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.海王者) : false;
     }
 
     /**
@@ -5951,6 +5986,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 海王者? <br>
+     * 海王者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode海王者() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.海王者) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 画鋲? <br>
      * 画鋲
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -7431,6 +7477,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode牧師() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.牧師) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 海王者? <br>
+     * 海王者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode海王者() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.海王者) : false;
     }
 
     /**

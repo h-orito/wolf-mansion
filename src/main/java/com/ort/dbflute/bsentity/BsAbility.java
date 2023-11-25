@@ -552,6 +552,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 人魚化 (TRANSMERMAID). <br>
+     * 人魚化
+     */
+    public void setAbilityTypeCode_人魚化() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.人魚化);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 罠設置 (TRAP). <br>
      * 罠設置
      */
@@ -1098,6 +1106,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode翻訳() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.翻訳) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 人魚化? <br>
+     * 人魚化
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode人魚化() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.人魚化) : false;
     }
 
     /**
