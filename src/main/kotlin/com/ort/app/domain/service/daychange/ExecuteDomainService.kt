@@ -56,6 +56,16 @@ class ExecuteDomainService(
             val to = village.participants.chara(it.targetCharaId)
             village = village.disrespect(to.id, from.id)
         }
+        // 帝狼が処刑された場合、投票した人に不敬を付与
+        executedParticipants.filter { it.skill!!.toCdef() == CDef.Skill.帝狼 }
+            .forEach { executed ->
+                votes.filter { it.targetCharaId == executed.charaId }.forEach {
+                    val from = village.participants.chara(it.charaId)
+                    val to = village.participants.chara(it.targetCharaId)
+                    village = village.disrespect(to.id, from.id)
+                }
+            }
+
         // ナマ足を出している人に投票していたら恋絆を付与
         val tawawaCharaIds = daychange.abilities.filterByDay(village.latestDay() - 1)
             .filterByType(CDef.AbilityType.ナマ足.toModel()).list.map {

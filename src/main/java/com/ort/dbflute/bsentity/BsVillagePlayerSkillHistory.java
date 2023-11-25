@@ -351,6 +351,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 剖狼 (DISSECTWOLF). <br>
+     * 剖狼
+     */
+    public void setSkillCode_剖狼() {
+        setSkillCodeAsSkill(CDef.Skill.剖狼);
+    }
+
+    /**
      * Set the value of skillCode as 箪笥 (DRAWERS). <br>
      * 箪笥
      */
@@ -364,6 +372,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
      */
     public void setSkillCode_不止者() {
         setSkillCodeAsSkill(CDef.Skill.不止者);
+    }
+
+    /**
+     * Set the value of skillCode as 帝狼 (EMPERORWOLF). <br>
+     * 帝狼
+     */
+    public void setSkillCode_帝狼() {
+        setSkillCodeAsSkill(CDef.Skill.帝狼);
     }
 
     /**
@@ -1397,6 +1413,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Is the value of skillCode 剖狼? <br>
+     * 剖狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode剖狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.剖狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 箪笥? <br>
      * 箪笥
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -1416,6 +1443,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode不止者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.不止者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 帝狼? <br>
+     * 帝狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode帝狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.帝狼) : false;
     }
 
     /**
@@ -2454,7 +2492,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 囁き可能 <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, C国狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 臭狼, 帝狼, 剖狼, C国狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_AvailableWerewolfSay() {
@@ -2464,7 +2502,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 囁きを見られる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 聴狂人]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, C国狂人, 聴狂人]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWerewolfSay() {
@@ -2494,7 +2532,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 襲撃能力を持つ <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasAttackAbility() {
@@ -2524,7 +2562,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_WolfCount() {
@@ -2544,7 +2582,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 人狼が誰かを知ることができる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, C国狂人, 狂信者, 煽動者]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, C国狂人, 狂信者, 煽動者]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_ViewableWolfCharaName() {
@@ -2554,7 +2592,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_DivineResultWolf() {
@@ -2564,7 +2602,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_PsychicResultWolf() {

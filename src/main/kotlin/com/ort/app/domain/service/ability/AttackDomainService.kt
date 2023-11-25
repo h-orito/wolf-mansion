@@ -318,9 +318,11 @@ class AttackDomainService(
         // 対象者は死亡
         village = village.attackedParticipant(target.id)
 
-        // 襲撃したのが智狼の場合メッセージ追加
+        // 襲撃したのが智狼・剖狼の場合メッセージ追加
         if (attacker.skill!!.toCdef() == CDef.Skill.智狼 && attacker.isAlive()) {
             messages = messages.add(createWiseWolfMessage(village))
+        } else if (attacker.skill.toCdef() == CDef.Skill.剖狼 && attacker.isAlive()) {
+            messages = messages.add(createDissectWolfMessage(village))
         }
 
         return daychange.copy(
@@ -498,6 +500,20 @@ class AttackDomainService(
             .filter { it.dead.isAttacked() }
             .joinToString(separator = "\n") {
                 "${it.name()}は${it.skill!!.name}だったようだ。"
+            }
+        return messageDomainService.createPublicAbilityMessage(
+            village = village,
+            text = text,
+            messageType = CDef.MessageType.襲撃結果.toModel()
+        )
+    }
+
+    private fun createDissectWolfMessage(village: Village): Message {
+        val text = village.participants
+            .filterDeadDay(village.latestDay()).list
+            .filter { it.dead.isAttacked() }
+            .joinToString(separator = "\n") {
+                "${it.name()}は${it.camp!!.name}に与していたようだ。"
             }
         return messageDomainService.createPublicAbilityMessage(
             village = village,

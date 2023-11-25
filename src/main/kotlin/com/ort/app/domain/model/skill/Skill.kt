@@ -284,7 +284,6 @@ data class Skill(
                 CDef.Skill.組長,
                 CDef.Skill.黒箱者,
                 CDef.Skill.冷凍者,
-                CDef.Skill.王族,
                 CDef.Skill.革命者
             )
 
@@ -292,7 +291,9 @@ data class Skill(
         val hasVotedAbilitySkills = listOf(
             CDef.Skill.バールのようなもの,
             CDef.Skill.怨恨者,
-            CDef.Skill.魅惑の人魚
+            CDef.Skill.魅惑の人魚,
+            CDef.Skill.王族,
+            CDef.Skill.帝狼,
         )
 
         // 後追い
@@ -432,6 +433,8 @@ data class Skill(
             CDef.Skill.絶対人狼,
             CDef.Skill.堅狼,
             CDef.Skill.臭狼,
+            CDef.Skill.王族,
+            CDef.Skill.帝狼,
             CDef.Skill.人狼,
             CDef.Skill.黙狼,
             CDef.Skill.静狼,

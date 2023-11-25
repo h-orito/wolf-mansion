@@ -9,7 +9,7 @@ data-directory: playsql/data/common/tsv/UTF-8
 01-AUTHORITY.tsv (2)
 02-CAMP.tsv (5)
 03-VILLAGE_STATUS.tsv (6)
-04-SKILL.tsv (121)
+04-SKILL.tsv (123)
 05-MESSAGE_TYPE.tsv (24)
 06-DEAD_REASON.tsv (8)
 07-ABILITY_TYPE.tsv (51)
