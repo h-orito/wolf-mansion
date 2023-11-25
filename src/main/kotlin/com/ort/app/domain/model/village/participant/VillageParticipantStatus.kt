@@ -14,7 +14,9 @@ data class VillageParticipantStatus(
     // 呪縛符
     val hasCurseMark: Boolean,
     // 反呪符
-    val hasCounterCurseMark: Boolean
+    val hasCounterCurseMark: Boolean,
+    // 念力
+    val hasTelekinesis: Boolean,
 ) {
     fun hasLover(): Boolean = loverIdList.isNotEmpty()
 
@@ -43,6 +45,7 @@ data class VillageParticipantStatus(
                 && disrespectfulList.all { other.disrespectfulList.contains(it) }
                 && hasCurseMark == other.hasCurseMark
                 && hasCounterCurseMark == other.hasCounterCurseMark
+                && hasTelekinesis == other.hasTelekinesis
     }
 
     fun addLover(id: Int): VillageParticipantStatus {
@@ -118,4 +121,8 @@ data class VillageParticipantStatus(
     fun addCounterCursed(): VillageParticipantStatus = copy(hasCounterCurseMark = true)
 
     fun clearCounterCursed(): VillageParticipantStatus = copy(hasCounterCurseMark = false)
+
+    fun addTelekinesis(): VillageParticipantStatus = copy(hasTelekinesis = true)
+
+    fun clearTelekinesis(): VillageParticipantStatus = copy(hasTelekinesis = false)
 }

@@ -1059,6 +1059,14 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Set the value of skillCode as 念狐 (TELEFOX). <br>
+     * 念狐
+     */
+    public void setSkillCode_念狐() {
+        setSkillCodeAsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * Set the value of skillCode as 泥棒猫 (THIEFCAT). <br>
      * 泥棒猫
      */
@@ -2576,6 +2584,17 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
     }
 
     /**
+     * Is the value of skillCode 念狐? <br>
+     * 念狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode念狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.念狐) : false;
+    }
+
+    /**
      * Is the value of skillCode 泥棒猫? <br>
      * 泥棒猫
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2811,7 +2830,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {

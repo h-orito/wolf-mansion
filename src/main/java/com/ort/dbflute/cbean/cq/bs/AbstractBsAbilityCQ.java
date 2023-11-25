@@ -1472,6 +1472,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 念力付与 (GIVETELEKINESIS). And OnlyOnceRegistered. <br>
+     * 念力付与
+     */
+    public void setAbilityTypeCode_Equal_念力付与() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.念力付与);
+    }
+
+    /**
      * Equal(=). As 護衛 (GUARD). And OnlyOnceRegistered. <br>
      * 護衛
      */
@@ -1908,6 +1916,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_フルーツバスケット() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.フルーツバスケット);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 念力付与 (GIVETELEKINESIS). And OnlyOnceRegistered. <br>
+     * 念力付与
+     */
+    public void setAbilityTypeCode_NotEqual_念力付与() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.念力付与);
     }
 
     /**

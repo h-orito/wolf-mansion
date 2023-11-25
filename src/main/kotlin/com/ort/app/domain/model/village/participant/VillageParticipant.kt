@@ -105,7 +105,7 @@ data class VillageParticipant(
 
     fun isSayableTelepathy(): Boolean {
         if (isAdmin()) return true
-        return isAlive() && skill?.isSayableTelepathy() ?: false
+        return isAlive() && (skill?.isSayableTelepathy() == true || status.hasTelekinesis)
     }
 
     fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover() || skill?.isViewableLoversSay() ?: false
@@ -268,6 +268,10 @@ data class VillageParticipant(
     fun addCounterCurseMark(): VillageParticipant = copy(status = status.addCounterCursed())
 
     fun clearCounterCurseMark(): VillageParticipant = copy(status = status.clearCounterCursed())
+
+    fun addTelekinesis(): VillageParticipant = copy(status = status.addTelekinesis())
+
+    fun clearTelekinesis(): VillageParticipant = copy(status = status.clearTelekinesis())
 
     fun judgeWin(winCamp: Camp): VillageParticipant = copy(
         isWin = when {

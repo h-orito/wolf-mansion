@@ -147,6 +147,8 @@ data class VillageParticipants(
     fun clearCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.clearCurseMark() }
     fun addCounterCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.addCounterCurseMark() }
     fun clearCounterCurseMark(id: Int): VillageParticipants = transformParticipant(id) { it.clearCounterCurseMark() }
+    fun addTelekinesis(id: Int): VillageParticipants = transformParticipant(id) { it.addTelekinesis() }
+    fun clearTelekinesis(id: Int): VillageParticipants = transformParticipant(id) { it.clearTelekinesis() }
 
     fun judgeWin(winCamp: Camp): VillageParticipants = copy(list = list.map { it.judgeWin(winCamp) })
 

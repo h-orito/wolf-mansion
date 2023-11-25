@@ -1253,6 +1253,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 念狐 (TELEFOX). <br>
+     * 念狐
+     */
+    public void setSkillCode_念狐() {
+        setSkillCodeAsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * Set the value of skillCode as 泥棒猫 (THIEFCAT). <br>
      * 泥棒猫
      */
@@ -2245,6 +2253,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 念狐 (TELEFOX). <br>
+     * 念狐
+     */
+    public void setRequestSkillCode_念狐() {
+        setRequestSkillCodeAsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * Set the value of requestSkillCode as 泥棒猫 (THIEFCAT). <br>
      * 泥棒猫
      */
@@ -3234,6 +3250,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_濁点者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 念狐 (TELEFOX). <br>
+     * 念狐
+     */
+    public void setSecondRequestSkillCode_念狐() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.念狐);
     }
 
     /**
@@ -4690,6 +4714,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 念狐? <br>
+     * 念狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode念狐() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.念狐) : false;
+    }
+
+    /**
      * Is the value of skillCode 泥棒猫? <br>
      * 泥棒猫
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4925,7 +4960,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoCount() {
@@ -6184,6 +6219,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 念狐? <br>
+     * 念狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode念狐() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.念狐) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 泥棒猫? <br>
      * 泥棒猫
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6419,7 +6465,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_NoCount() {
@@ -7678,6 +7724,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 念狐? <br>
+     * 念狐
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode念狐() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.念狐) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 泥棒猫? <br>
      * 泥棒猫
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -7913,7 +7970,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_NoCount() {

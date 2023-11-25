@@ -67,7 +67,7 @@ map:{
 	        		}
 	        		; noCount = map:{
 	        			; groupComment=勝敗判定時、人間にも人狼にもカウントされない
-	        			; elementList= list:{妖狐;誑狐;ごん;仙狐;管狐;稲荷;騙狐;夜狐;梟}
+	        			; elementList= list:{妖狐;誑狐;ごん;仙狐;管狐;稲荷;騙狐;夜狐;念狐;梟}
 	        		}
 	        		; viewableWolfCharaName = map:{
 	        			; groupComment=人狼が誰かを知ることができる

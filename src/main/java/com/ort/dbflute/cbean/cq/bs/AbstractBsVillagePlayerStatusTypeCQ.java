@@ -126,6 +126,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
         setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
     }
 
+    /**
+     * Equal(=). As 念力 (TELEKINESIS). And OnlyOnceRegistered. <br>
+     * 念力
+     */
+    public void setVillagePlayerStatusTypeCode_Equal_念力() {
+        setVillagePlayerStatusTypeCode_Equal_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.念力);
+    }
+
     protected void doSetVillagePlayerStatusTypeCode_Equal(String villagePlayerStatusTypeCode) {
         regVillagePlayerStatusTypeCode(CK_EQ, villagePlayerStatusTypeCode);
     }
@@ -211,6 +219,14 @@ public abstract class AbstractBsVillagePlayerStatusTypeCQ extends AbstractCondit
      */
     public void setVillagePlayerStatusTypeCode_NotEqual_保険() {
         setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 念力 (TELEKINESIS). And OnlyOnceRegistered. <br>
+     * 念力
+     */
+    public void setVillagePlayerStatusTypeCode_NotEqual_念力() {
+        setVillagePlayerStatusTypeCode_NotEqual_AsVillagePlayerStatusType(CDef.VillagePlayerStatusType.念力);
     }
 
     protected void doSetVillagePlayerStatusTypeCode_NotEqual(String villagePlayerStatusTypeCode) {

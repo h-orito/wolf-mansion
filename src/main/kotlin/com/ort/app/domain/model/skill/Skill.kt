@@ -67,7 +67,8 @@ data class Skill(
         CDef.Skill.管狐,
         CDef.Skill.稲荷,
         CDef.Skill.騙狐,
-        CDef.Skill.夜狐
+        CDef.Skill.夜狐,
+        CDef.Skill.念狐
     ).contains(toCdef())
 
     fun isDivineResultWolf(): Boolean = toCdef().isDivineResultWolf
@@ -159,6 +160,7 @@ data class Skill(
             CDef.Skill.勇者 to AbilityType(CDef.AbilityType.世界を救う),
             CDef.Skill.曇天者 to AbilityType(CDef.AbilityType.曇天),
             CDef.Skill.魅惑の人魚 to AbilityType(CDef.AbilityType.ナマ足),
+            CDef.Skill.念狐 to AbilityType(CDef.AbilityType.念力付与)
         )
 
         private val shortNameToSkill = Skills.all().filterNotSomeone().list.associate {
@@ -214,6 +216,7 @@ data class Skill(
                         CDef.Skill.トラック,
                         CDef.Skill.ババ,
                         CDef.Skill.泥棒猫,
+                        CDef.Skill.念狐
                     ).contains(it.toCdef())
         }
 
@@ -382,6 +385,7 @@ data class Skill(
                     CDef.Skill.翻訳者,
                     CDef.Skill.ババ,
                     CDef.Skill.当選者,
+                    CDef.Skill.念狐
                 )
 
         // 対象指定＆足音発生
@@ -422,6 +426,7 @@ data class Skill(
                     CDef.Skill.翻訳者,
                     CDef.Skill.ババ,
                     CDef.Skill.当選者,
+                    CDef.Skill.念狐,
                 )
 
         // ------------------------

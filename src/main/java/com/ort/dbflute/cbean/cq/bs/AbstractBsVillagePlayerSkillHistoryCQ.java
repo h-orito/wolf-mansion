@@ -1306,6 +1306,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSkillCode_Equal_念狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * Equal(=). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -2321,6 +2329,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSkillCode_NotEqual_念狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -2539,7 +2555,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      */
     public void setSkillCode_InScope_NoCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());

@@ -214,6 +214,14 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
         setVillagePlayerStatusCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.保険);
     }
 
+    /**
+     * Set the value of villagePlayerStatusCode as 念力 (TELEKINESIS). <br>
+     * 念力
+     */
+    public void setVillagePlayerStatusCode_念力() {
+        setVillagePlayerStatusCodeAsVillagePlayerStatusType(CDef.VillagePlayerStatusType.念力);
+    }
+
     // ===================================================================================
     //                                                        Classification Determination
     //                                                        ============================
@@ -303,6 +311,17 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
     public boolean isVillagePlayerStatusCode保険() {
         CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusCodeAsVillagePlayerStatusType();
         return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.保険) : false;
+    }
+
+    /**
+     * Is the value of villagePlayerStatusCode 念力? <br>
+     * 念力
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isVillagePlayerStatusCode念力() {
+        CDef.VillagePlayerStatusType cdef = getVillagePlayerStatusCodeAsVillagePlayerStatusType();
+        return cdef != null ? cdef.equals(CDef.VillagePlayerStatusType.念力) : false;
     }
 
     // ===================================================================================

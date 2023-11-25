@@ -235,6 +235,9 @@ class VillagePlayerDataSource(
         if (current.hasCounterCurseMark && !changed.hasCounterCurseMark) {
             deleteVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.反呪符)
         }
+        if (current.hasTelekinesis && !changed.hasTelekinesis) {
+            deleteVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.念力)
+        }
 
         // 追加
         changed.loverIdList.filterNot { current.loverIdList.contains(it) }
@@ -254,6 +257,9 @@ class VillagePlayerDataSource(
         }
         if (!current.hasCounterCurseMark && changed.hasCounterCurseMark) {
             insertVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.反呪符)
+        }
+        if (!current.hasTelekinesis && changed.hasTelekinesis) {
+            insertVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.念力)
         }
     }
 
@@ -405,7 +411,8 @@ class VillagePlayerDataSource(
                 insuranceIdList = emptyList(),
                 disrespectfulList = emptyList(),
                 hasCurseMark = false,
-                hasCounterCurseMark = false
+                hasCounterCurseMark = false,
+                hasTelekinesis = false
             ),
             dead = mapSimpleDead(villagePlayer),
             isSpectator = villagePlayer.isSpectator,
@@ -534,7 +541,8 @@ class VillagePlayerDataSource(
             insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId },
             disrespectfulList = toStatusList.filter { it.isVillagePlayerStatusCode不敬 }.map { it.villagePlayerId },
             hasCurseMark = statusList.any { it.isVillagePlayerStatusCode呪縛符 },
-            hasCounterCurseMark = statusList.any { it.isVillagePlayerStatusCode反呪符 }
+            hasCounterCurseMark = statusList.any { it.isVillagePlayerStatusCode反呪符 },
+            hasTelekinesis = statusList.any { it.isVillagePlayerStatusCode念力 }
         )
     }
 }

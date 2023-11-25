@@ -859,6 +859,9 @@ public interface CDef extends Classification {
         /** 濁点者 */
         濁点者("TATSUYA", "濁点者", emptyStrings())
         ,
+        /** 念狐 */
+        念狐("TELEFOX", "念狐", emptyStrings())
+        ,
         /** 泥棒猫 */
         泥棒猫("THIEFCAT", "泥棒猫", emptyStrings())
         ,
@@ -1684,6 +1687,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "408");
+                subItemMap.put("campCode", "FOX");
+                subItemMap.put("skill_short_name", "念");
+                _subItemMapMap.put(念狐.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "513");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "泥");
@@ -1884,11 +1894,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
          * @return The determination, true or false.
          */
         public boolean isNoCount() {
-            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 騙狐.equals(this) || 夜狐.equals(this) || 梟.equals(this);
+            return 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 騙狐.equals(this) || 夜狐.equals(this) || 念狐.equals(this) || 梟.equals(this);
         }
 
         /**
@@ -2123,11 +2133,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 勝敗判定時、人間にも人狼にもカウントされない <br>
-         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+         * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoCount() {
-            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟));
+            return new ArrayList<Skill>(Arrays.asList(妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟));
         }
 
         /**
@@ -2606,6 +2616,9 @@ public interface CDef extends Classification {
         ,
         /** フルーツバスケット */
         フルーツバスケット("FRUITSBASKET", "フルーツバスケット", emptyStrings())
+        ,
+        /** 念力付与 */
+        念力付与("GIVETELEKINESIS", "念力付与", emptyStrings())
         ,
         /** 護衛 */
         護衛("GUARD", "護衛", emptyStrings())
@@ -3107,6 +3120,9 @@ public interface CDef extends Classification {
         ,
         /** 保険 */
         保険("INSURANCE", "保険", emptyStrings())
+        ,
+        /** 念力 */
+        念力("TELEKINESIS", "念力", emptyStrings())
         ;
         private static final Map<String, VillagePlayerStatusType> _codeClsMap = new HashMap<String, VillagePlayerStatusType>();
         private static final Map<String, VillagePlayerStatusType> _nameClsMap = new HashMap<String, VillagePlayerStatusType>();

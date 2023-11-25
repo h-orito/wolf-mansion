@@ -61,6 +61,7 @@ class ProgressDomainService(
     private val omniscienceDomainService: OmniscienceDomainService,
     private val curseMarkDomainService: CurseMarkDomainService,
     private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
+    private val telekinesisDomainService: TelekinesisDomainService,
     private val revolutionDomainService: RevolutionDomainService,
     private val hiyasichukaDomainService: HiyasichukaDomainService,
     private val revivalDomainService: RevivalDomainService,
@@ -122,6 +123,8 @@ class ProgressDomainService(
         // 呪縛、反呪
         daychange = curseMarkDomainService.curse(daychange)
         daychange = counterCurseMarkDomainService.couterCurse(daychange)
+        // 念力
+        daychange = telekinesisDomainService.telekinesis(daychange)
         // 罠、爆弾メッセージ
         daychange = trapDomainService.addTrapMessages(daychange)
         daychange = bombDomainService.addBombMessages(daychange)

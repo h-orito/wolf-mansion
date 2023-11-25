@@ -2153,6 +2153,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSkillCode_Equal_念狐() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * Equal(=). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -3168,6 +3176,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSkillCode_NotEqual_念狐() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -3386,7 +3402,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      */
     public void setSkillCode_InScope_NoCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
@@ -4377,6 +4393,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_Equal_濁点者() {
         setRequestSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Equal(=). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setRequestSkillCode_Equal_念狐() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.念狐);
     }
 
     /**
@@ -5395,6 +5419,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setRequestSkillCode_NotEqual_念狐() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -5613,7 +5645,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      */
     public void setRequestSkillCode_InScope_NoCount() {
         setRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());
@@ -6604,6 +6636,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_Equal_濁点者() {
         setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.濁点者);
+    }
+
+    /**
+     * Equal(=). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSecondRequestSkillCode_Equal_念狐() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.念狐);
     }
 
     /**
@@ -7622,6 +7662,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 念狐 (TELEFOX). And OnlyOnceRegistered. <br>
+     * 念狐
+     */
+    public void setSecondRequestSkillCode_NotEqual_念狐() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.念狐);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 泥棒猫 (THIEFCAT). And OnlyOnceRegistered. <br>
      * 泥棒猫
      */
@@ -7840,7 +7888,7 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人間にも人狼にもカウントされない <br>
-     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 梟]
+     * The group elements:[妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 梟]
      */
     public void setSecondRequestSkillCode_InScope_NoCount() {
         setSecondRequestSkillCode_InScope_AsSkill(CDef.Skill.listOfNoCount());

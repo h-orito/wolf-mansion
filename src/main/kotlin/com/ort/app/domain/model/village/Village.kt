@@ -334,6 +334,8 @@ data class Village(
     fun addCurseMark(id: Int): Village = copy(participants = participants.addCurseMark(id))
     fun addCounterCurseMark(id: Int): Village = copy(participants = participants.addCounterCurseMark(id))
     fun clearCounterCurseMark(id: Int): Village = copy(participants = participants.clearCounterCurseMark(id))
+    fun addTelekinesis(id: Int): Village = copy(participants = participants.addTelekinesis(id))
+    fun clearTelekinesis(id: Int): Village = copy(participants = participants.clearTelekinesis(id))
 
     fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
         return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))

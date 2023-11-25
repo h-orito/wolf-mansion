@@ -336,6 +336,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 念力付与 (GIVETELEKINESIS). <br>
+     * 念力付与
+     */
+    public void setAbilityTypeCode_念力付与() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.念力付与);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 護衛 (GUARD). <br>
      * 護衛
      */
@@ -809,6 +817,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCodeフルーツバスケット() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.フルーツバスケット) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 念力付与? <br>
+     * 念力付与
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode念力付与() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.念力付与) : false;
     }
 
     /**

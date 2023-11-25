@@ -79,6 +79,7 @@ class AbilityDomainService(
     private val omniscienceDomainService: OmniscienceDomainService,
     private val curseMarkDomainService: CurseMarkDomainService,
     private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
+    private val telekinesisDomainService: TelekinesisDomainService,
     private val hiyasichukaDomainService: HiyasichukaDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
@@ -191,6 +192,7 @@ class AbilityDomainService(
             CDef.AbilityType.革命 -> revolutionDomainService
             CDef.AbilityType.呪縛 -> curseMarkDomainService
             CDef.AbilityType.反呪 -> counterCurseMarkDomainService
+            CDef.AbilityType.念力付与 -> telekinesisDomainService
             CDef.AbilityType.冷やし中華 -> hiyasichukaDomainService
             CDef.AbilityType.ナマ足 -> hotLimitDomainService
         }
