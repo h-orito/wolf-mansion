@@ -106,17 +106,13 @@ class DivineDomainService(
             }
 
             CDef.Skill.花占い師 -> createFlowerDivineMessageText(myself, target)
-            CDef.Skill.感覚者 -> creatSixthsensorDivineMessageText(village, myself, target)
+            CDef.Skill.感覚者 -> createSixthsensorDivineMessageText(village, myself, target)
+            CDef.Skill.興信者 -> createDetectSerDivineMessageText(myself, target)
             else -> throw IllegalStateException("unknown skill. ${myself.skill.name}")
         }
         val type = when (myself.skill.toCdef()) {
-            CDef.Skill.占い師 -> CDef.MessageType.白黒占い結果.toModel()
             CDef.Skill.賢者 -> CDef.MessageType.役職占い結果.toModel()
-            CDef.Skill.管狐 -> CDef.MessageType.白黒占い結果.toModel()
-            CDef.Skill.占星術師 -> CDef.MessageType.白黒占い結果.toModel()
-            CDef.Skill.花占い師 -> CDef.MessageType.白黒占い結果.toModel()
-            CDef.Skill.感覚者 -> CDef.MessageType.白黒占い結果.toModel()
-            else -> throw IllegalStateException("unknown skill. ${myself.skill.name}")
+            else -> CDef.MessageType.白黒占い結果.toModel()
         }
         return messageDomainService.createPrivateAbilityMessage(village, myself, text, type)
     }
@@ -160,7 +156,7 @@ class DivineDomainService(
         return "${myself.name()}は、${target.name()}を占った。\n${target.name()}は恋をして${result}ようだ。"
     }
 
-    private fun creatSixthsensorDivineMessageText(
+    private fun createSixthsensorDivineMessageText(
         village: Village,
         myself: VillageParticipant,
         target: VillageParticipant
@@ -185,6 +181,14 @@ class DivineDomainService(
             ) {
                 "${it.key.name}に与する者が${it.value.size}名"
             }
+    }
+
+    private fun createDetectSerDivineMessageText(
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): String {
+        val result = if (target.skill!!.toCdef().campCode() == target.camp!!.code) "いない" else "いる"
+        return "${myself.name()}は、${target.name()}を占った。\n${target.name()}は陣営変化して${result}ようだ。"
     }
 
     private fun divineKillIfNeeded(village: Village, myself: VillageParticipant, target: VillageParticipant): Village {

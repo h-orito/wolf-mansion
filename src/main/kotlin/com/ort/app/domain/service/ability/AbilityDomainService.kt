@@ -38,6 +38,7 @@ class AbilityDomainService(
     private val instigateDomainService: InstigateDomainService,
     private val courtDomainService: CourtDomainService,
     private val divineDomainService: DivineDomainService,
+    private val deadDivineDomainService: DeadDivineDomainService,
     private val badgerGameDomainService: BadgerGameDomainService,
     private val fruitsBasketDomainService: FruitsBasketDomainService,
     private val freezerDomainService: FreezerDomainService,
@@ -150,6 +151,7 @@ class AbilityDomainService(
             CDef.AbilityType.煽動 -> instigateDomainService
             CDef.AbilityType.求愛 -> courtDomainService
             CDef.AbilityType.占い -> divineDomainService
+            CDef.AbilityType.死者占い -> deadDivineDomainService
             CDef.AbilityType.美人局 -> badgerGameDomainService
             CDef.AbilityType.フルーツバスケット -> fruitsBasketDomainService
             CDef.AbilityType.護衛 -> guardDomainService
@@ -542,6 +544,7 @@ class AbilityDomainService(
         daychange = attackDomainService.addDefaultAbilities(daychange)
         // 占い
         daychange = divineDomainService.addDefaultAbilities(daychange)
+        daychange = deadDivineDomainService.addDefaultAbilities(daychange)
         // 徘徊
         daychange = disturbDomainService.addDefaultFootsteps(daychange)
         // 同棲

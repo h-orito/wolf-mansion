@@ -175,6 +175,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 死者占い (DEADDIVINE). And OnlyOnceRegistered. <br>
+     * 死者占い
+     */
+    public void setAbilityTypeCode_Equal_死者占い() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.死者占い);
+    }
+
+    /**
      * Equal(=). As 占い (DIVINE). And OnlyOnceRegistered. <br>
      * 占い
      */
@@ -595,6 +603,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_呪縛() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.呪縛);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 死者占い (DEADDIVINE). And OnlyOnceRegistered. <br>
+     * 死者占い
+     */
+    public void setAbilityTypeCode_NotEqual_死者占い() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.死者占い);
     }
 
     /**

@@ -343,6 +343,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 興信者 (DETECTSEER). <br>
+     * 興信者
+     */
+    public void setSkillCode_興信者() {
+        setSkillCodeAsSkill(CDef.Skill.興信者);
+    }
+
+    /**
      * Set the value of skillCode as 箪笥 (DRAWERS). <br>
      * 箪笥
      */
@@ -887,6 +895,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as 覚者 (REMEMBERSEER). <br>
+     * 覚者
+     */
+    public void setSkillCode_覚者() {
+        setSkillCodeAsSkill(CDef.Skill.覚者);
+    }
+
+    /**
      * Set the value of skillCode as 怨恨者 (RESENTER). <br>
      * 怨恨者
      */
@@ -1367,6 +1383,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode探偵() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.探偵) : false;
+    }
+
+    /**
+     * Is the value of skillCode 興信者? <br>
+     * 興信者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode興信者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.興信者) : false;
     }
 
     /**
@@ -2118,6 +2145,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Is the value of skillCode 覚者? <br>
+     * 覚者
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode覚者() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.覚者) : false;
+    }
+
+    /**
      * Is the value of skillCode 怨恨者? <br>
      * 怨恨者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -2436,7 +2474,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
 
     /**
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 興信者, 管狐]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_HasDivineAbility() {

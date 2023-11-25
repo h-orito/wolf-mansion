@@ -61,7 +61,7 @@ enum class SkillTag {
             念話 to listOfSkill { it.isSayableTelepathy() },
             人狼系 to listOfSkill { it.hasAttackAbility() },
             妖狐系 to listOfSkill { it.isFoxCount() },
-            占い to listOfSkill { it.hasDivineAbility() },
+            占い to listOfSkill { it.hasDivineAbility() || it.hasDeadDivineAbility() },
             護衛 to Skill.hasGuardAbilitySkills.map { it.toModel() },
             徘徊 to listOfSkill { it.hasDisturbAbility() },
             調査 to listOfSkill { it.hasInvestigateAbility() },

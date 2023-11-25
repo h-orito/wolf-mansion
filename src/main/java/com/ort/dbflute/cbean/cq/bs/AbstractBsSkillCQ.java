@@ -255,6 +255,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 興信者 (DETECTSEER). And OnlyOnceRegistered. <br>
+     * 興信者
+     */
+    public void setSkillCode_Equal_興信者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.興信者);
+    }
+
+    /**
      * Equal(=). As 箪笥 (DRAWERS). And OnlyOnceRegistered. <br>
      * 箪笥
      */
@@ -799,6 +807,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 覚者 (REMEMBERSEER). And OnlyOnceRegistered. <br>
+     * 覚者
+     */
+    public void setSkillCode_Equal_覚者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.覚者);
+    }
+
+    /**
      * Equal(=). As 怨恨者 (RESENTER). And OnlyOnceRegistered. <br>
      * 怨恨者
      */
@@ -1227,6 +1243,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_探偵() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.探偵);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 興信者 (DETECTSEER). And OnlyOnceRegistered. <br>
+     * 興信者
+     */
+    public void setSkillCode_NotEqual_興信者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.興信者);
     }
 
     /**
@@ -1774,6 +1798,14 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 覚者 (REMEMBERSEER). And OnlyOnceRegistered. <br>
+     * 覚者
+     */
+    public void setSkillCode_NotEqual_覚者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.覚者);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 怨恨者 (RESENTER). And OnlyOnceRegistered. <br>
      * 怨恨者
      */
@@ -2036,7 +2068,7 @@ public abstract class AbstractBsSkillCQ extends AbstractConditionQuery {
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い能力を持つ <br>
-     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 管狐]
+     * The group elements:[占い師, 賢者, 占星術師, 花占い師, 感覚者, 興信者, 管狐]
      */
     public void setSkillCode_InScope_HasDivineAbility() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfHasDivineAbility());

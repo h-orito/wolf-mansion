@@ -37,6 +37,7 @@ data class Skill(
     fun isViewableLoversSay(): Boolean = toCdef() == CDef.Skill.耳年増
     fun hasAttackAbility(): Boolean = toCdef().isHasAttackAbility
     fun hasDivineAbility(): Boolean = toCdef().isHasDivineAbility
+    fun hasDeadDivineAbility(): Boolean = toCdef() == CDef.Skill.覚者
     fun hasDisturbAbility(): Boolean = toCdef().isHasDisturbAbility
     fun hasSkillPsychicAbility(): Boolean = toCdef().isHasSkillPsychicAbility
     fun hasInvestigateAbility(): Boolean =
@@ -48,13 +49,7 @@ data class Skill(
     fun isViewableAttackMessage(): Boolean = toCdef().isHasAttackAbility
     fun isViewableCoronerMessage(): Boolean = toCdef() == CDef.Skill.検死官
     fun isViewableDivineMessage(): Boolean =
-        listOf(
-            CDef.Skill.占い師,
-            CDef.Skill.占星術師,
-            CDef.Skill.花占い師,
-            CDef.Skill.感覚者,
-            CDef.Skill.管狐
-        ).contains(toCdef())
+        toCdef() != CDef.Skill.賢者 && (hasDivineAbility() || hasDeadDivineAbility())
 
     fun isViewableWiseMessage(): Boolean = toCdef() == CDef.Skill.賢者
     fun isViewableInvestigateMessage(): Boolean =
@@ -112,6 +107,7 @@ data class Skill(
         } + CDef.Skill.listOfHasDivineAbility().associateWith {
             AbilityType(CDef.AbilityType.占い)
         } + mapOf(
+            CDef.Skill.覚者 to AbilityType(CDef.AbilityType.死者占い),
             CDef.Skill.狩人 to AbilityType(CDef.AbilityType.護衛),
             CDef.Skill.風来狩人 to AbilityType(CDef.AbilityType.風来護衛),
             CDef.Skill.壁殴り代行 to AbilityType(CDef.AbilityType.壁殴り),
@@ -180,39 +176,43 @@ data class Skill(
         private val notSayableSkills =
             Skills.all().filterNotSomeone().list.filter { !sayableSkills.map { it.code }.contains(it.code) }
         private val footstepSkills = Skills.all().list.filter {
-            it.hasAttackAbility() || it.hasDisturbAbility() || it.hasDivineAbility() || listOf(
-                CDef.Skill.狩人,
-                CDef.Skill.風来狩人,
-                CDef.Skill.罠師,
-                CDef.Skill.蘇生者,
-                CDef.Skill.保険屋,
-                CDef.Skill.マタギ,
-                CDef.Skill.勇者,
-                CDef.Skill.牧師,
-                CDef.Skill.死霊術師,
-                CDef.Skill.バールのようなもの,
-                CDef.Skill.破局者,
-                CDef.Skill.教唆者,
-                CDef.Skill.求愛者,
-                CDef.Skill.ストーカー,
-                CDef.Skill.絡新婦,
-                CDef.Skill.美人局,
-                CDef.Skill.誑狐,
-                CDef.Skill.陰陽師,
-                CDef.Skill.呪縛者,
-                CDef.Skill.反呪者,
-                CDef.Skill.爆弾魔,
-                CDef.Skill.一匹狼,
-                CDef.Skill.虹職人,
-                CDef.Skill.拡声者,
-                CDef.Skill.濁点者,
-                CDef.Skill.道化師,
-                CDef.Skill.伝説の殺し屋,
-                CDef.Skill.翻訳者,
-                CDef.Skill.トラック,
-                CDef.Skill.ババ,
-                CDef.Skill.泥棒猫,
-            ).contains(it.toCdef())
+            it.hasAttackAbility() ||
+                    it.hasDisturbAbility() ||
+                    it.hasDivineAbility() ||
+                    it.hasDeadDivineAbility() ||
+                    listOf(
+                        CDef.Skill.狩人,
+                        CDef.Skill.風来狩人,
+                        CDef.Skill.罠師,
+                        CDef.Skill.蘇生者,
+                        CDef.Skill.保険屋,
+                        CDef.Skill.マタギ,
+                        CDef.Skill.勇者,
+                        CDef.Skill.牧師,
+                        CDef.Skill.死霊術師,
+                        CDef.Skill.バールのようなもの,
+                        CDef.Skill.破局者,
+                        CDef.Skill.教唆者,
+                        CDef.Skill.求愛者,
+                        CDef.Skill.ストーカー,
+                        CDef.Skill.絡新婦,
+                        CDef.Skill.美人局,
+                        CDef.Skill.誑狐,
+                        CDef.Skill.陰陽師,
+                        CDef.Skill.呪縛者,
+                        CDef.Skill.反呪者,
+                        CDef.Skill.爆弾魔,
+                        CDef.Skill.一匹狼,
+                        CDef.Skill.虹職人,
+                        CDef.Skill.拡声者,
+                        CDef.Skill.濁点者,
+                        CDef.Skill.道化師,
+                        CDef.Skill.伝説の殺し屋,
+                        CDef.Skill.翻訳者,
+                        CDef.Skill.トラック,
+                        CDef.Skill.ババ,
+                        CDef.Skill.泥棒猫,
+                    ).contains(it.toCdef())
         }
 
         // ------------------------
@@ -354,6 +354,7 @@ data class Skill(
         val availableEverydaySkills = CDef.Skill.listOfHasAttackAbility() +
                 CDef.Skill.listOfHasDivineAbility() +
                 listOf(
+                    CDef.Skill.覚者,
                     CDef.Skill.狩人,
                     CDef.Skill.探偵,
                     CDef.Skill.監視者,
@@ -380,6 +381,7 @@ data class Skill(
         val targetingAndFootstepSkills = CDef.Skill.listOfHasAttackAbility() +
                 CDef.Skill.listOfHasDivineAbility() +
                 listOf(
+                    CDef.Skill.覚者,
                     CDef.Skill.風来狩人,
                     CDef.Skill.罠師,
                     CDef.Skill.牧師,
@@ -441,7 +443,15 @@ data class Skill(
             CDef.Skill.歩狼
         )
         val seerPriorityList =
-            listOf(CDef.Skill.賢者, CDef.Skill.占星術師, CDef.Skill.占い師, CDef.Skill.花占い師, CDef.Skill.感覚者)
+            listOf(
+                CDef.Skill.賢者,
+                CDef.Skill.占星術師,
+                CDef.Skill.占い師,
+                CDef.Skill.花占い師,
+                CDef.Skill.感覚者,
+                CDef.Skill.覚者,
+                CDef.Skill.興信者,
+            )
 
         fun byShortName(shortName: String): Skill? {
             val cdef = CDef.Skill.listAll().firstOrNull {

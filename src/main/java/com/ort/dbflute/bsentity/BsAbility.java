@@ -296,6 +296,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 死者占い (DEADDIVINE). <br>
+     * 死者占い
+     */
+    public void setAbilityTypeCode_死者占い() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.死者占い);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 占い (DIVINE). <br>
      * 占い
      */
@@ -738,6 +746,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode呪縛() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.呪縛) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 死者占い? <br>
+     * 死者占い
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode死者占い() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.死者占い) : false;
     }
 
     /**
