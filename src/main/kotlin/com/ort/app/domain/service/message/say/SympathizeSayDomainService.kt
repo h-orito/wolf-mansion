@@ -16,6 +16,10 @@ class SympathizeSayDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableSympathizeSay(player) || myself?.isViewableSympathizeSay() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         village.isSayableSympathizeSay() && myself?.isSayableSympathizeSay() ?: false
 }

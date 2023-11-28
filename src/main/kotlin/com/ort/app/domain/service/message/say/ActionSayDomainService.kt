@@ -15,6 +15,10 @@ class ActionSayDomainService : SayTypeDomainService {
         day: Int
     ): Boolean = true
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         myself?.isAdmin() ?: false || village.isSayableActionSay()
 }

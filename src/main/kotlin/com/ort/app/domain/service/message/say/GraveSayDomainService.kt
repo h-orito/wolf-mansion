@@ -17,7 +17,11 @@ class GraveSayDomainService : SayTypeDomainService {
         return village.isViewableGraveSay(player) || myself?.isViewableGraveSay() ?: false
     }
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean {
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean {
         return village.isSayableGraveSay() && myself?.isSayableGraveSay() ?: false
     }
 }

@@ -16,8 +16,13 @@ class SecretSayDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableSecretSay(player) || myself?.isViewableSecretSay() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean {
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean {
         return if (myself?.isAdmin() == true) true
+        else if (village.isCreator(player)) true
         else village.isSayableSecretSay() && myself?.isSayableSecretSay() ?: false
     }
 }

@@ -67,13 +67,14 @@ class SayDomainService(
     fun assertSay(
         village: Village,
         myself: VillageParticipant,
+        player: Player,
         chara: Chara,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>,
         messageContent: MessageContent
     ) {
         if (!isAvailableSay(village, myself, village.latestDay())) throw WolfMansionBusinessException("発言できません")
         // 発言種別ごとのチェック
-        if (!detectSayTypeService(messageContent.type.toCdef()).isSayable(village, myself)) {
+        if (!detectSayTypeService(messageContent.type.toCdef()).isSayable(village, myself, player)) {
             throw WolfMansionBusinessException("不正な発言種別です")
         }
         // 表情種別チェック
@@ -97,11 +98,7 @@ class SayDomainService(
     ): List<ParticipantSayMessageTypeSituation> {
         if (!isAvailableSay(village, myself, day)) return listOf()
         return MessageType.sayTypeList
-            .filter {
-                detectSayTypeService(it).isSayable(village, myself!!)
-                        // 村建ては常に秘話を使えるようにする（本来domain service側を修正すべきだがサボっている）
-                        || (it == CDef.MessageType.秘話 && village.isCreator(player))
-            }
+            .filter { detectSayTypeService(it).isSayable(village, myself!!, player) }
             .map {
                 val restrict =
                     if (village.status.isProgress()) village.setting.sayRestriction.restrict(myself!!, it)

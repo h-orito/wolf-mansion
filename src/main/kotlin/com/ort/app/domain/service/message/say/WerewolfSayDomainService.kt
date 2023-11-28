@@ -16,6 +16,10 @@ class WerewolfSayDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableWerewolfSay(player) || myself?.isViewableWerewolfSay() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         village.isSayableWerewolfSay() && myself?.isSayableWerewolfSay() ?: false
 }

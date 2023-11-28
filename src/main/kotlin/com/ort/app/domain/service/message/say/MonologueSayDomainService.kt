@@ -16,6 +16,10 @@ class MonologueSayDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableMonologueSay(player) || myself?.isViewableMonologueSay() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         village.isSayableMonologueSay() && myself?.isSayableMonologueSay() ?: false
 }

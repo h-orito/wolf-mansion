@@ -16,6 +16,10 @@ class TelepathyDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableTelepathy(player) || myself?.isViewableTelepathy() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         village.isSayableTelepathy() && myself?.isSayableTelepathy() ?: false
 }

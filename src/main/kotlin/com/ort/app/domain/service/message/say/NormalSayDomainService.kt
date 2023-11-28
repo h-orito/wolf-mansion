@@ -15,7 +15,11 @@ class NormalSayDomainService : SayTypeDomainService {
         day: Int
     ): Boolean = true
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean {
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean {
         myself ?: return false
         return myself.isSayableNormalSay(village.status.isEpilogue()) && village.isSayableNormalSay()
     }

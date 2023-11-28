@@ -64,7 +64,6 @@ class VillageSayController(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("sayForm") sayForm: VillageSayForm,
         result: BindingResult,
-        model: Model
     ): VillageSayConfirmContent? {
         if (result.hasErrors()) return null
         val village = villageService.findVillage(villageId) ?: return null

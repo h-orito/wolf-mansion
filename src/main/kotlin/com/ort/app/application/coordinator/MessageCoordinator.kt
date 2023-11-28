@@ -4,6 +4,7 @@ import com.ort.app.application.service.*
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageTime
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
@@ -53,7 +54,8 @@ class MessageCoordinator(
     ): Message {
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, messageText, faceType, isConvertDisable)
-        assertSay(village, myself, messageContent)
+        val player = playerService.findPlayer(myself.playerId)
+        assertSay(village, myself, player, messageContent)
         val toParticipant = targetCharaId?.let { village.allParticipants().chara(it) }
         return Message(
             fromParticipantId = myself.id,
@@ -78,7 +80,8 @@ class MessageCoordinator(
         // assert
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
-        assertSay(village, myself, messageContent)
+        val player = playerService.findPlayer(myself.playerId)
+        assertSay(village, myself, player, messageContent)
         // register message
         val messages = messageDomainService.createSayMessages(
             village = village,
@@ -99,12 +102,13 @@ class MessageCoordinator(
     private fun assertSay(
         village: Village,
         myself: VillageParticipant,
+        player: Player,
         messageContent: MessageContent
     ) {
         val chara = charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip)
             ?: throw WolfMansionBusinessException("chara not found.")
         val latestDayMessageCountMap =
             messageService.findParticipantDayMessageCount(village, village.latestDay(), myself)
-        sayDomainService.assertSay(village, myself, chara, latestDayMessageCountMap, messageContent)
+        sayDomainService.assertSay(village, myself, player, chara, latestDayMessageCountMap, messageContent)
     }
 }

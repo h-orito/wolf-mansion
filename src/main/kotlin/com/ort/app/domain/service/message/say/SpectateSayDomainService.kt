@@ -16,6 +16,10 @@ class SpectateSayDomainService : SayTypeDomainService {
     ): Boolean =
         village.isViewableSpectateSay(player) || day == 0 || myself?.isViewableSpectateSay() ?: false
 
-    override fun isSayable(village: Village, myself: VillageParticipant?): Boolean =
+    override fun isSayable(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?
+    ): Boolean =
         village.isSayableSpectateSay() && myself?.isSayableSpectateSay() ?: false
 }
