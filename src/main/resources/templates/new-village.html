@@ -289,11 +289,11 @@
                                     <li>陣営の抽選率＝[陣営の配分 / 全陣営の配分の合計]です。</li>
                                     <li>役職の抽選率＝[役職の配分 / 陣営内の役職の配分の合計]です。</li>
                                     <li>ダミーは必ず村人となるため、村人の最少人数は1以上にする必要があります。</li>
-                                    <li>人狼系役職のいずれかの最大人数もしくは配分を1以上にする必要があります。</li>
+                                    <li>人狼系役職のいずれかの最多人数もしくは配分を1以上にする必要があります。</li>
                                     <li>割り振った結果以下の条件を1つでも満たすと50回まで再抽選しますが、50回で決まらなかった場合1日目開始時にエラーとなります。
                                         <ul>
                                             <li>2日目にPP発生</li>
-                                            <li>人狼カウントの最少最大設定を満たしていない</li>
+                                            <li>人狼カウントの最少最多設定を満たしていない</li>
                                             <li>恋人や同棲者が奇数</li>
                                             <li>妖狐系なしで背徳者がいるなど、勝利条件を満たせない役職がある</li>
                                         </ul>
@@ -321,7 +321,7 @@
                                                    th:field="*{wolfAllocation.minNum}"
                                                    class="form-control input-sm" placeholder="0"/>
                                         </td>
-                                        <td>最大人数</td>
+                                        <td>最多人数</td>
                                         <td>
                                             <input type="number"
                                                    th:field="*{wolfAllocation.maxNum}"
@@ -356,7 +356,7 @@
                                                        th:field="*{campAllocationList[__${stat.index}__].minNum}"
                                                        class="form-control input-sm" placeholder="0"/>
                                             </td>
-                                            <td>最大人数</td>
+                                            <td>最多人数</td>
                                             <td>
                                                 <input type="number"
                                                        th:field="*{campAllocationList[__${stat.index}__].maxNum}"
@@ -388,7 +388,7 @@
                                                        th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}"
                                                        class="form-control input-sm" placeholder="0"/>
                                             </td>
-                                            <td>最大人数</td>
+                                            <td>最多人数</td>
                                             <td>
                                                 <input type="number"
                                                        th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}"

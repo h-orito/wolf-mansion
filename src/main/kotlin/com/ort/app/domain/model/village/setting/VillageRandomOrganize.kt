@@ -45,12 +45,12 @@ data class VillageRandomOrganize(
 
         val countMap = Skills.all().filterNotSomeone().list.map { it.toCdef() to 0 }.toMap().toMutableMap()
 
-        // 最低人数が決まっている役職を先に割り当てる
+        // 最少人数が決まっている役職を先に割り当てる
         skillAllocation.filter { it.min > 0 }.forEach {
             countMap[it.skill.toCdef()] = it.min
         }
 
-        // 最低人数が決まっている陣営を先に割り当てる
+        // 最少人数が決まっている陣営を先に割り当てる
         campAllocation.filter { it.min > 0 }.forEach { c ->
             val campSkillSum = countMap.entries.filter { it.key.campCode() == c.camp.code }.sumOf { it.value }
             repeat(c.min - campSkillSum) {
@@ -112,7 +112,7 @@ data class VillageRandomOrganize(
         // 配分が0より大きい役職がいない
         if (campSkillAllocationList.none { it.allocation > 0 }) return false
 
-        // 全役職が既に最大人数（maxが設定されていない、割り振られていない役職が1つでもあれば問題なし）
+        // 全役職が既に最多人数（maxが設定されていない、割り振られていない役職が1つでもあれば問題なし）
         if (campSkillAllocationList.all { s ->
                 val max = s.max
                 val current = countMap[s.skill.toCdef()]
@@ -134,7 +134,7 @@ data class VillageRandomOrganize(
         if (skillAllocation.allocation <= 0) {
             return false
         }
-        // 既に最大人数
+        // 既に最多人数
         val max = skillAllocation.max
         val current = countMap[skillAllocation.skill.toCdef()]
         return if (max != null && current != null && max <= current) false

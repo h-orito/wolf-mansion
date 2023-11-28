@@ -151,7 +151,7 @@
                                             <input type="hidden"
                                                    th:field="*{wolfAllocation.minNum}"/>
                                         </td>
-                                        <td>最大人数</td>
+                                        <td>最多人数</td>
                                         <td>
                                             <span th:text="*{wolfAllocation.maxNum}"></span>
                                             <input type="hidden"
@@ -178,7 +178,7 @@
                                             <td>
                                                 <span th:text="*{campAllocationList[__${stat.index}__].minNum}"></span>
                                             </td>
-                                            <td>最大人数</td>
+                                            <td>最多人数</td>
                                             <td>
                                                 <span th:text="*{campAllocationList[__${stat.index}__].maxNum}"></span>
                                             </td>
@@ -198,7 +198,7 @@
                                             <td>
                                                 <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].minNum}">村人</span>
                                             </td>
-                                            <td>最大人数</td>
+                                            <td>最多人数</td>
                                             <td>
                                                 <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].maxNum}">村人</span>
                                             </td>

@@ -158,13 +158,13 @@ class NewVillageFormValidator : Validator {
             return
         }
 
-        // 人狼カウントの最大人数が狼系の最低人数を下回っていたらNG
+        // 人狼カウントの最多人数が狼系の最低人数を下回っていたらNG
         if (wolfAllocation.maxNum != null && wolfAllocation.maxNum!! < wolfMinSum) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.wolfmaxgtmin")
             return
         }
 
-        // 最低>最大だったらNG
+        // 最少>最多だったらNG
         if (wolfAllocation.maxNum != null && wolfAllocation.maxNum!! < wolfAllocation.minNum!!) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmingtmax")
             return
@@ -188,7 +188,7 @@ class NewVillageFormValidator : Validator {
             return
         }
 
-        // 陣営の最大人数 < 陣営の役職の最低人数の合計だったらNG
+        // 陣営の最多人数 < 陣営の役職の最低人数の合計だったらNG
         if (campAllocationList.any {
                 val maxNum = it.maxNum
                 val minSum = it.skillAllocation!!.map { skill -> skill.minNum!! }.sum()
@@ -209,7 +209,7 @@ class NewVillageFormValidator : Validator {
 
         val organizationList = organization.replace("\r\n", "\n").split("\n")
 
-        // 最低人数〜最大人数までの構成が存在するか
+        // 最低人数〜最多人数までの構成が存在するか
         val minNum: Int = form.startPersonMinNum!!
         val maxNum: Int = form.personMaxNum!!
         for (num in minNum..maxNum) {

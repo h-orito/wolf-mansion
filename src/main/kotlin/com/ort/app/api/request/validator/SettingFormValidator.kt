@@ -19,7 +19,7 @@ class SettingFormValidator : Validator {
 
         val form = target as VillageSettingForm
 
-        // 定員＜最低開始人数
+        // 定員＜最少開始人数
         if (form.personMaxNum!! < form.startPersonMinNum!!) {
             errors.rejectValue("personMaxNum", "NewVillageForm.validator.personMaxNum")
         }
@@ -77,7 +77,7 @@ class SettingFormValidator : Validator {
         val wolfAllocation = form.wolfAllocation ?: return
         val startPersonMin = form.startPersonMinNum!!
 
-        // 村人は最低一人必要
+        // 村人は最少一人必要
         val villagerSkillOrg = campAllocationList
             .first { CDef.Camp.codeOf(it.campCode) == CDef.Camp.村人陣営 }
             .skillAllocation!!
@@ -87,14 +87,14 @@ class SettingFormValidator : Validator {
             return
         }
 
-        // 陣営の最低人数の合計が村の最低人数よりも多かったらNG
+        // 陣営の最少人数の合計が村の最少人数よりも多かったらNG
         val campMinSum = campAllocationList.sumBy { it.minNum!! }
         if (startPersonMin < campMinSum) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmin")
             return
         }
 
-        // 役職の最低人数の合計が村の最低人数よりも多かったらNG
+        // 役職の最少人数の合計が村の最少人数よりも多かったらNG
         val skillMinSum = campAllocationList
             .flatMap { it.skillAllocation!!.map { skill -> skill.minNum!! } }
             .sum()
@@ -103,7 +103,7 @@ class SettingFormValidator : Validator {
             return
         }
 
-        // 狼系の最低人数が村の最低人数の半数を超えたらNG
+        // 狼系の最少人数が村の最少人数の半数を超えたらNG
         val wolfMinSum = campAllocationList.filter {
             CDef.Camp.codeOf(it.campCode) == CDef.Camp.人狼陣営
         }.flatMap {
@@ -116,13 +116,13 @@ class SettingFormValidator : Validator {
             return
         }
 
-        // 人狼カウントの最大人数が狼系の最低人数を下回っていたらNG
+        // 人狼カウントの最多人数が狼系の最少人数を下回っていたらNG
         if (wolfAllocation.maxNum != null && wolfAllocation.maxNum!! < wolfMinSum) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.wolfmaxgtmin")
             return
         }
 
-        // 最低>最大だったらNG
+        // 最少>最多だったらNG
         if (wolfAllocation.maxNum != null && wolfAllocation.maxNum!! < wolfAllocation.minNum!!) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmingtmax")
             return
@@ -146,7 +146,7 @@ class SettingFormValidator : Validator {
             return
         }
 
-        // 陣営の最大人数 < 陣営の役職の最低人数の合計だったらNG
+        // 陣営の最多人数 < 陣営の役職の最少人数の合計だったらNG
         if (campAllocationList.any {
                 val maxNum = it.maxNum
                 val minSum = it.skillAllocation!!.map { skill -> skill.minNum!! }.sum()
@@ -167,7 +167,7 @@ class SettingFormValidator : Validator {
 
         val organizationList = organization.replace("\r\n", "\n").split("\n")
 
-        // 最低人数〜最大人数までの構成が存在するか
+        // 最少人数〜最多人数までの構成が存在するか
         val minNum: Int = form.startPersonMinNum!!
         val maxNum: Int = form.personMaxNum!!
         for (num in minNum..maxNum) {

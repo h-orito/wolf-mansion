@@ -188,9 +188,9 @@ data class VillageSettingsContent(
         val campCode: String,
         /** 陣営名 */
         val campName: String,
-        /** 最低人数 */
+        /** 最少人数 */
         val minNum: Int,
-        /** 最大人数 */
+        /** 最多人数 */
         val maxNum: Int?,
         /** 配分 */
         val allocation: Int,
@@ -218,9 +218,9 @@ data class VillageSettingsContent(
             val skillCode: String,
             /** 役職名 */
             val skillName: String,
-            /** 最低人数 */
+            /** 最少人数 */
             val minNum: Int,
-            /** 最大人数 */
+            /** 最多人数 */
             val maxNum: Int?,
             /** 配分 */
             val allocation: Int
@@ -236,9 +236,9 @@ data class VillageSettingsContent(
     }
 
     data class RandomWolfOrganization(
-        /** 最低人数 */
+        /** 最少人数 */
         val minNum: Int,
-        /** 最大人数 */
+        /** 最多人数 */
         val maxNum: Int?,
     ) {
         constructor(wolfAllocation: VillageRandomOrganize.WolfAllocation) : this(

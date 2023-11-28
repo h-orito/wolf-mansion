@@ -14,13 +14,13 @@ data class RandomOrganizationCampForm(
     /** 陣営名 */
     var campName: String? = null,
 
-    /** 最低人数 */
+    /** 最少人数 */
     @field:NotNull
     @field:Min(0)
     @field:Max(100)
     var minNum: Int? = null,
 
-    /** 最大人数 */
+    /** 最多人数 */
     @field:Min(0)
     @field:Max(100)
     var maxNum: Int? = null,

@@ -13,13 +13,13 @@ data class RandomOrganizationSkillForm(
     /** 役職名 */
     var skillName: String? = null,
 
-    /** 最低人数 */
+    /** 最少人数 */
     @field:NotNull
     @Min(0)
     @Max(100)
     var minNum: Int? = null,
 
-    /** 最大人数 */
+    /** 最多人数 */
     @Min(0)
     @Max(100)
     var maxNum: Int? = null,
