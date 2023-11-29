@@ -1186,6 +1186,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 暴狼 (RAMPAGEWOLF). And OnlyOnceRegistered. <br>
+     * 暴狼
+     */
+    public void setSkillCode_Equal_暴狼() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.暴狼);
+    }
+
+    /**
      * Equal(=). As 転生者 (REINCARNATION). And OnlyOnceRegistered. <br>
      * 転生者
      */
@@ -2209,6 +2217,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * NotEqual(&lt;&gt;). As 暴狼 (RAMPAGEWOLF). And OnlyOnceRegistered. <br>
+     * 暴狼
+     */
+    public void setSkillCode_NotEqual_暴狼() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.暴狼);
+    }
+
+    /**
      * NotEqual(&lt;&gt;). As 転生者 (REINCARNATION). And OnlyOnceRegistered. <br>
      * 転生者
      */
@@ -2545,7 +2561,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼]
      */
     public void setSkillCode_InScope_WolfCount() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfWolfCount());
@@ -2575,7 +2591,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      */
     public void setSkillCode_InScope_DivineResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfDivineResultWolf());
@@ -2585,7 +2601,7 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
      * 役職 <br>
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      */
     public void setSkillCode_InScope_PsychicResultWolf() {
         setSkillCode_InScope_AsSkill(CDef.Skill.listOfPsychicResultWolf());

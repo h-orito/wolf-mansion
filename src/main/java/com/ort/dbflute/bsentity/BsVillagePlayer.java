@@ -1133,6 +1133,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 暴狼 (RAMPAGEWOLF). <br>
+     * 暴狼
+     */
+    public void setSkillCode_暴狼() {
+        setSkillCodeAsSkill(CDef.Skill.暴狼);
+    }
+
+    /**
      * Set the value of skillCode as 転生者 (REINCARNATION). <br>
      * 転生者
      */
@@ -2133,6 +2141,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 暴狼 (RAMPAGEWOLF). <br>
+     * 暴狼
+     */
+    public void setRequestSkillCode_暴狼() {
+        setRequestSkillCodeAsSkill(CDef.Skill.暴狼);
+    }
+
+    /**
      * Set the value of requestSkillCode as 転生者 (REINCARNATION). <br>
      * 転生者
      */
@@ -3130,6 +3146,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_虹職人() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.虹職人);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 暴狼 (RAMPAGEWOLF). <br>
+     * 暴狼
+     */
+    public void setSecondRequestSkillCode_暴狼() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.暴狼);
     }
 
     /**
@@ -4549,6 +4573,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of skillCode 暴狼? <br>
+     * 暴狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode暴狼() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.暴狼) : false;
+    }
+
+    /**
      * Is the value of skillCode 転生者? <br>
      * 転生者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -4950,7 +4985,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_WolfCount() {
@@ -4980,7 +5015,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_DivineResultWolf() {
@@ -4990,7 +5025,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_PsychicResultWolf() {
@@ -6054,6 +6089,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 暴狼? <br>
+     * 暴狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode暴狼() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.暴狼) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 転生者? <br>
      * 転生者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6455,7 +6501,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_WolfCount() {
@@ -6485,7 +6531,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_DivineResultWolf() {
@@ -6495,7 +6541,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isRequestSkillCode_PsychicResultWolf() {
@@ -7559,6 +7605,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of secondRequestSkillCode 暴狼? <br>
+     * 暴狼
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode暴狼() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.暴狼) : false;
+    }
+
+    /**
      * Is the value of secondRequestSkillCode 転生者? <br>
      * 転生者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -7960,7 +8017,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 勝敗判定時、人狼にカウントされる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_WolfCount() {
@@ -7990,7 +8047,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 占い結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_DivineResultWolf() {
@@ -8000,7 +8057,7 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
 
     /**
      * 霊能結果が人狼となる <br>
-     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 一匹狼]
+     * The group elements:[人狼, 呪狼, 智狼, 絶対人狼, 歩狼, 銀狼, 金狼, 飛狼, 角狼, 王狼, 静狼, 堅狼, 黙狼, 臭狼, 帝狼, 剖狼, 暴狼, 一匹狼]
      * @return The determination, true or false.
      */
     public boolean isSecondRequestSkillCode_PsychicResultWolf() {

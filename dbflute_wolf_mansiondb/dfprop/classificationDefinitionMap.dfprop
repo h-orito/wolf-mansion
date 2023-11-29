@@ -63,7 +63,7 @@ map:{
 	        		}
 	        		; wolfCount = map:{
 	        			; groupComment=勝敗判定時、人狼にカウントされる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼;暴狼}
 	        		}
 	        		; noCount = map:{
 	        			; groupComment=勝敗判定時、人間にも人狼にもカウントされない
@@ -75,11 +75,11 @@ map:{
 	        		}
 	        		; divineResultWolf = map:{
 	        			; groupComment=占い結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼;暴狼;一匹狼}
 	        		}
 	        		; psychicResultWolf = map:{
 	        			; groupComment=霊能結果が人狼となる
-	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼;一匹狼}
+	        			; elementList= list:{人狼;呪狼;智狼;絶対人狼;歩狼;銀狼;金狼;飛狼;角狼;王狼;静狼;堅狼;黙狼;臭狼;帝狼;剖狼;暴狼;一匹狼}
 	        		}
 					; someoneSkill = map:{
 						; groupComment=おまかせ系

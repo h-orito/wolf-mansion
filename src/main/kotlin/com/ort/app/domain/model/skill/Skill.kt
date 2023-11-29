@@ -36,6 +36,7 @@ data class Skill(
     fun isSayableTelepathy(): Boolean = toCdef() == CDef.Skill.仙狐
     fun isViewableLoversSay(): Boolean = toCdef() == CDef.Skill.耳年増
     fun hasAttackAbility(): Boolean = toCdef().isHasAttackAbility
+    fun hasLoneAttackAbility(): Boolean = toCdef() == CDef.Skill.一匹狼 || toCdef() == CDef.Skill.暴狼
     fun hasDivineAbility(): Boolean = toCdef().isHasDivineAbility
     fun hasDeadDivineAbility(): Boolean = toCdef() == CDef.Skill.覚者
     fun hasDisturbAbility(): Boolean = toCdef().isHasDisturbAbility
@@ -132,6 +133,7 @@ data class Skill(
             CDef.Skill.美人局 to AbilityType(CDef.AbilityType.美人局),
             CDef.Skill.誑狐 to AbilityType(CDef.AbilityType.誑かす),
             CDef.Skill.一匹狼 to AbilityType(CDef.AbilityType.単独襲撃),
+            CDef.Skill.暴狼 to AbilityType(CDef.AbilityType.単独襲撃),
             CDef.Skill.虹職人 to AbilityType(CDef.AbilityType.虹塗り),
             CDef.Skill.拡声者 to AbilityType(CDef.AbilityType.拡声),
             CDef.Skill.濁点者 to AbilityType(CDef.AbilityType.叫び),
@@ -207,6 +209,7 @@ data class Skill(
                         CDef.Skill.反呪者,
                         CDef.Skill.爆弾魔,
                         CDef.Skill.一匹狼,
+                        CDef.Skill.暴狼,
                         CDef.Skill.虹職人,
                         CDef.Skill.拡声者,
                         CDef.Skill.濁点者,
@@ -319,7 +322,7 @@ data class Skill(
 
         // 単独襲撃
         val hasLoneAttackAbilitySkills =
-            listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼, CDef.Skill.勇者)
+            listOf(CDef.Skill.マタギ, CDef.Skill.バールのようなもの, CDef.Skill.一匹狼, CDef.Skill.暴狼, CDef.Skill.勇者)
 
         // 足音発生
         val hasAutoFootstepAbilitySkills =
@@ -377,6 +380,7 @@ data class Skill(
                     CDef.Skill.同棲者,
                     CDef.Skill.騙狐,
                     CDef.Skill.一匹狼,
+                    CDef.Skill.暴狼,
                     CDef.Skill.虹職人,
                     CDef.Skill.拡声者,
                     CDef.Skill.濁点者,
@@ -418,6 +422,7 @@ data class Skill(
                     CDef.Skill.勇者,
                     CDef.Skill.狩人,
                     CDef.Skill.一匹狼,
+                    CDef.Skill.暴狼,
                     CDef.Skill.虹職人,
                     CDef.Skill.拡声者,
                     CDef.Skill.濁点者,

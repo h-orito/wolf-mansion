@@ -546,6 +546,8 @@ class AbilityDomainService(
 
         // 襲撃
         daychange = attackDomainService.addDefaultAbilities(daychange)
+        // 単独襲撃
+        daychange = loneAttackDomainService.addDefaultAbilities(daychange)
         // 占い
         daychange = divineDomainService.addDefaultAbilities(daychange)
         daychange = deadDivineDomainService.addDefaultAbilities(daychange)

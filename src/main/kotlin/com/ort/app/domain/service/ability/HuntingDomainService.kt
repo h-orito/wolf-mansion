@@ -99,7 +99,7 @@ class HuntingDomainService(
         return target.skill!!.let {
             it.hasAttackAbility() ||
                     it.isFoxCount() ||
-                    it.toCdef() == CDef.Skill.一匹狼
+                    it.hasLoneAttackAbility()
         }
     }
 }
