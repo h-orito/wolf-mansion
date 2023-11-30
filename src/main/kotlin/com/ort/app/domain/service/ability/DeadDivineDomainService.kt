@@ -41,6 +41,7 @@ class DeadDivineDomainService(
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
+        if (!canUseDay(village.latestDay())) return daychange
         var abilities = daychange.abilities.copy()
         var footsteps = daychange.footsteps.copy()
         village.participants.filterAlive().list
