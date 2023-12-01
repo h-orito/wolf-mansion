@@ -48,6 +48,7 @@ class LoneAttackDomainService(
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
+        if (!canUseDay(village.latestDay())) return daychange
         var abilities = daychange.abilities.copy()
         var footsteps = daychange.footsteps.copy()
 
@@ -69,7 +70,7 @@ class LoneAttackDomainService(
             )
             footsteps = footsteps.add(footstep)
         }
-        
+
         return daychange.copy(
             abilities = abilities,
             footsteps = footsteps
