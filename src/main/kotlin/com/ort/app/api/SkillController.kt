@@ -19,7 +19,10 @@ class SkillController(
     @GetMapping("/skill")
     private fun index(model: Model): String {
         model.addAttribute("content", SkillContent())
-        model.addAttribute("villageList", villageService.findVillages(VillageQuery(isRandomOrg = false)).list)
+        model.addAttribute(
+            "villageList",
+            villageService.findVillages(VillageQuery(isRandomOrg = false)).list.reversed()
+        )
         return "skill"
     }
 
