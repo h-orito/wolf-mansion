@@ -175,7 +175,9 @@
                             <span style="display: block; text-align: center;">
                                 <img src="" th:src="${chara.url}"
                                      th:width="${chara.width}"
-                                     th:height="${chara.height}"/></span>
+                                     th:height="${chara.height}"
+                                     loading="lazy"
+                                /></span>
                             <span style="display: block; text-align: center;" th:text="${chara.name}"></span> <a
                                 href="javascript:void(0);" class="btn btn-xs btn-success"
                                 style="display: block; text-align: center;"
