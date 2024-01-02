@@ -200,6 +200,13 @@ data class VillageRandomOrganize(
             return true
         }
 
+        // 襲撃可能な狼がいないのでやりなおし
+        val attackableCount = countMap.entries.filter { it.key.isHasAttackAbility }.sumOf { it.value }
+        if (attackableCount <= 0) {
+            logger.info("襲撃可能な狼がいないのでやり直し")
+            return true
+        }
+
         // 恋人と同棲者は二人ペアでなければいけないので奇数ならやりなおし
         val loversCount = countMap[CDef.Skill.恋人]
         if (loversCount != null && loversCount % 2 == 1) {
