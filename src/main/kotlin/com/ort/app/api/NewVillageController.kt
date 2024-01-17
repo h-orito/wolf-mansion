@@ -8,7 +8,7 @@ import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -169,7 +169,7 @@ class NewVillageController(
             )
         ).list.map { NewVillageDivertContent(it.id, it.id.toString().padStart(4, '0'), it.name) }
         model.addAttribute("villageList", finishedVillages)
-        model.addAttribute("skillListStr", Skill.getSkillListStr())
+        model.addAttribute("skillListStr", Skills.getSkillListStr())
         model.addAttribute("nowYear", LocalDateTime.now().year)
         val charachips = charaService.findCharachips().list.map {
             OptionContent(name = "${it.name}（${it.designer!!.name}様作）", value = it.id.toString())

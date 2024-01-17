@@ -78,7 +78,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ability_type";
+        return "ABILITY_TYPE";
     }
 
     // ===================================================================================
@@ -451,6 +451,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_革命() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.革命);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 暴走転生 (RUNAWAY). <br>
+     * 暴走転生
+     */
+    public void setAbilityTypeCode_暴走転生() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.暴走転生);
     }
 
     /**
@@ -1004,6 +1012,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode革命() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.革命) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 暴走転生? <br>
+     * 暴走転生
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode暴走転生() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.暴走転生) : false;
     }
 
     /**

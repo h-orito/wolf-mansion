@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of allowed_secret_say.
+ * The condition-query for in-line of ALLOWED_SECRET_SAY.
  * @author DBFlute(AutoGenerator)
  */
 public class AllowedSecretSayCIQ extends AbstractBsAllowedSecretSayCQ {

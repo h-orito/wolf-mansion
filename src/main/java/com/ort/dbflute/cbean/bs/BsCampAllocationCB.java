@@ -22,7 +22,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of camp_allocation.
+ * The base condition-bean of CAMP_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCampAllocationCB extends AbstractConditionBean {
@@ -78,7 +78,7 @@ public class BsCampAllocationCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "camp_allocation";
+        return "CAMP_ALLOCATION";
     }
 
     // ===================================================================================
@@ -86,8 +86,8 @@ public class BsCampAllocationCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
-     * @param campCode : PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param campCode : PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp. (NotNull)
      * @return this. (NotNull)
      */
     public CampAllocationCB acceptPK(Integer villageId, CDef.Camp campCode) {
@@ -337,12 +337,12 @@ public class BsCampAllocationCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
+         * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCampCode() { return doColumn("CAMP_CODE"); }
@@ -389,7 +389,7 @@ public class BsCampAllocationCB extends AbstractConditionBean {
             columnCampCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "camp_allocation"; }
+        protected String getTableDbName() { return "CAMP_ALLOCATION"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CAMP by my CAMP_CODE, named 'camp'.

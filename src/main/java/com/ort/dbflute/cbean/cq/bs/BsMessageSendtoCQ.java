@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of message_sendto.
+ * The base condition-query of MESSAGE_SENDTO.
  * @author DBFlute(AutoGenerator)
  */
 public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
@@ -35,7 +35,7 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from message_sendto) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from MESSAGE_SENDTO) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join message_sendto on ... and FOO = [value] ...}
+     * {select ... from ... left outer join MESSAGE_SENDTO on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
      * @return this. (NotNull)
      */
     public BsMessageSendtoCQ addOrderBy_MessageId_Asc() { regOBA("MESSAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
      * @return this. (NotNull)
      */
     public BsMessageSendtoCQ addOrderBy_MessageId_Desc() { regOBD("MESSAGE_ID"); return this; }
@@ -121,14 +121,14 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return this. (NotNull)
      */
     public BsMessageSendtoCQ addOrderBy_VillagePlayerId_Asc() { regOBA("VILLAGE_PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return this. (NotNull)
      */
     public BsMessageSendtoCQ addOrderBy_VillagePlayerId_Desc() { regOBD("VILLAGE_PLAYER_ID"); return this; }
@@ -279,7 +279,7 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
         return xgetQueRlMap(prop);
     }
     protected MessageCQ xcreateQueryMessage() {
-        String nrp = xresolveNRP("message_sendto", "message"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("MESSAGE_SENDTO", "message"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new MessageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "message", nrp);
     }
     protected void xsetupOuterJoinMessage() { xregOutJo("message"); }
@@ -299,7 +299,7 @@ public class BsMessageSendtoCQ extends AbstractBsMessageSendtoCQ {
         return xgetQueRlMap(prop);
     }
     protected VillagePlayerCQ xcreateQueryVillagePlayer() {
-        String nrp = xresolveNRP("message_sendto", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("MESSAGE_SENDTO", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillagePlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayer", nrp);
     }
     protected void xsetupOuterJoinVillagePlayer() { xregOutJo("villagePlayer"); }

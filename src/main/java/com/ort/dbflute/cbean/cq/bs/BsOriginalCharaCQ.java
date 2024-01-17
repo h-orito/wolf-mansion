@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of original_chara.
+ * The base condition-query of ORIGINAL_CHARA.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaCQ extends AbstractBsOriginalCharaCQ {
@@ -35,7 +35,7 @@ public class BsOriginalCharaCQ extends AbstractBsOriginalCharaCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from original_chara) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from ORIGINAL_CHARA) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsOriginalCharaCQ extends AbstractBsOriginalCharaCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join original_chara on ... and FOO = [value] ...}
+     * {select ... from ... left outer join ORIGINAL_CHARA on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -155,14 +155,14 @@ public class BsOriginalCharaCQ extends AbstractBsOriginalCharaCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsOriginalCharaCQ addOrderBy_OriginalCharaGroupId_Asc() { regOBA("ORIGINAL_CHARA_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @return this. (NotNull)
      */
     public BsOriginalCharaCQ addOrderBy_OriginalCharaGroupId_Desc() { regOBD("ORIGINAL_CHARA_GROUP_ID"); return this; }
@@ -350,7 +350,7 @@ public class BsOriginalCharaCQ extends AbstractBsOriginalCharaCQ {
         return xgetQueRlMap(prop);
     }
     protected OriginalCharaGroupCQ xcreateQueryOriginalCharaGroup() {
-        String nrp = xresolveNRP("original_chara", "originalCharaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("ORIGINAL_CHARA", "originalCharaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new OriginalCharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "originalCharaGroup", nrp);
     }
     protected void xsetupOuterJoinOriginalCharaGroup() { xregOutJo("originalCharaGroup"); }

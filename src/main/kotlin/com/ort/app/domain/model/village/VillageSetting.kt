@@ -4,7 +4,11 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.domain.model.village.setting.*
+import com.ort.app.domain.model.village.setting.SayRestriction
+import com.ort.app.domain.model.village.setting.VillageCharaSetting
+import com.ort.app.domain.model.village.setting.VillageOrganize
+import com.ort.app.domain.model.village.setting.VillageRule
+import com.ort.app.domain.model.village.setting.VillageTags
 import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
@@ -21,7 +25,7 @@ data class VillageSetting(
     val tags: VillageTags
 ) {
     fun allRequestableSkillList(): List<Skill> {
-        return if (rule.isRandomOrganization) Skills.all().list
+        return if (rule.isRandomOrganization) Skills.requestables().list
         else organize.allRequestableSkillList()
     }
 

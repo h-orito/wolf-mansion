@@ -2,6 +2,7 @@ package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.VillageSettingForm
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.toModel
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
@@ -84,6 +85,18 @@ class SettingFormValidator : Validator {
             .first { CDef.Skill.codeOf(it.skillCode) == CDef.Skill.村人 }
         if (villagerSkillOrg.minNum!! <= 0) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.novillager")
+            return
+        }
+
+        // 初期配役に含められない役職の最少最多が0より多い
+        val existsNotOrganizableSkillNotMinMaxZero = campAllocationList.any {
+            it.skillAllocation!!.any {
+                !CDef.Skill.codeOf(it.skillCode).toModel().isRequestable()
+                        && (it.minNum != 0 || it.maxNum != 0)
+            }
+        }
+        if (existsNotOrganizableSkillNotMinMaxZero) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.cantorganize")
             return
         }
 

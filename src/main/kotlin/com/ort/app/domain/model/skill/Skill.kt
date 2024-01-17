@@ -28,6 +28,7 @@ data class Skill(
         return histories.list.lastOrNull { it.day == maxDay }!!.skill
     }
 
+    fun isRequestable(): Boolean = toCdef() != CDef.Skill.暴走トラック
     fun isViewableWerewolfSay(): Boolean = toCdef().isViewableWerewolfSay
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
     fun isViewableSympathizeSay(): Boolean = listOf(CDef.Skill.共鳴者, CDef.Skill.共有者).contains(toCdef())
@@ -138,6 +139,7 @@ data class Skill(
             CDef.Skill.拡声者 to AbilityType(CDef.AbilityType.拡声),
             CDef.Skill.濁点者 to AbilityType(CDef.AbilityType.叫び),
             CDef.Skill.トラック to AbilityType(CDef.AbilityType.強制転生),
+            CDef.Skill.暴走トラック to AbilityType(CDef.AbilityType.暴走転生),
             CDef.Skill.蘇生者 to AbilityType(CDef.AbilityType.蘇生),
             CDef.Skill.死霊術師 to AbilityType(CDef.AbilityType.死霊蘇生),
             CDef.Skill.陰陽師 to AbilityType(CDef.AbilityType.降霊),
@@ -252,6 +254,7 @@ data class Skill(
             listOf(
                 CDef.Skill.申し子,
                 CDef.Skill.転生者,
+                CDef.Skill.暴走トラック,
                 CDef.Skill.トラック,
                 CDef.Skill.ババ,
                 CDef.Skill.当選者,
@@ -343,6 +346,7 @@ data class Skill(
             CDef.Skill.絡新婦,
             CDef.Skill.美人局,
             CDef.Skill.誑狐,
+            CDef.Skill.暴走トラック,
             CDef.Skill.トラック,
             CDef.Skill.蘇生者,
             CDef.Skill.死霊術師,
@@ -493,9 +497,6 @@ data class Skill(
             }
             return skillPersonNumMap
         }
-
-        fun getSkillListStr(): String =
-            Skills.all().filterNotSomeone().list.joinToString(separator = " / ") { "${it.name}:${it.shortName}" }
 
         fun getSomeoneCandidateList(someoneSkill: Skill): List<Skill> {
             return when (someoneSkill.toCdef()) {

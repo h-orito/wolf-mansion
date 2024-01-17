@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of village_player_notification.
+ * The base condition-query of VILLAGE_PLAYER_NOTIFICATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotificationCQ {
@@ -35,7 +35,7 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from village_player_notification) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from VILLAGE_PLAYER_NOTIFICATION) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join village_player_notification on ... and FOO = [value] ...}
+     * {select ... from ... left outer join VILLAGE_PLAYER_NOTIFICATION on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return this. (NotNull)
      */
     public BsVillagePlayerNotificationCQ addOrderBy_VillagePlayerId_Asc() { regOBA("VILLAGE_PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return this. (NotNull)
      */
     public BsVillagePlayerNotificationCQ addOrderBy_VillagePlayerId_Desc() { regOBD("VILLAGE_PLAYER_ID"); return this; }
@@ -396,7 +396,7 @@ public class BsVillagePlayerNotificationCQ extends AbstractBsVillagePlayerNotifi
         return xgetQueRlMap(prop);
     }
     protected VillagePlayerCQ xcreateQueryVillagePlayer() {
-        String nrp = xresolveNRP("village_player_notification", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("VILLAGE_PLAYER_NOTIFICATION", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillagePlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayer", nrp);
     }
     protected void xsetupOuterJoinVillagePlayer() { xregOutJo("villagePlayer"); }

@@ -98,7 +98,7 @@ public abstract class BsOriginalCharaGroup extends AbstractEntity implements Dom
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "original_chara_group";
+        return "ORIGINAL_CHARA_GROUP";
     }
 
     // ===================================================================================

@@ -2,6 +2,8 @@ package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.NewVillageForm
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.skill.toModel
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
@@ -129,8 +131,20 @@ class NewVillageFormValidator : Validator {
             return
         }
 
+        // 初期配役に含められない役職の最少最多が0より多い
+        val existsNotOrganizableSkillNotMinMaxZero = campAllocationList.any {
+            it.skillAllocation!!.any {
+                !CDef.Skill.codeOf(it.skillCode).toModel().isRequestable()
+                        && (it.minNum != 0 || it.maxNum != 0)
+            }
+        }
+        if (existsNotOrganizableSkillNotMinMaxZero) {
+            errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.cantorganize")
+            return
+        }
+
         // 陣営の最低人数の合計が村の最低人数よりも多かったらNG
-        val campMinSum = campAllocationList.sumBy { it.minNum!! }
+        val campMinSum = campAllocationList.sumOf { it.minNum!! }
         if (startPersonMin < campMinSum) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmin")
             return
@@ -233,7 +247,7 @@ class NewVillageFormValidator : Validator {
             for (index in org.indices) {
                 val shortName = org[index].toString()
                 val skill = Skill.byShortName(shortName)
-                if (skill == null) {
+                if (skill == null || Skills.organizables().list.none { it.toCdef() == skill.toCdef() }) {
                     errors.rejectValue(
                         "organization",
                         "NewVillageForm.validator.organization.noexistskill",

@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerSkillHistoryCQ;
 
 /**
- * The nest select set-upper of village_player_skill_history.
+ * The nest select set-upper of VILLAGE_PLAYER_SKILL_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerSkillHistoryNss {

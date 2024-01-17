@@ -15,9 +15,23 @@ data class Skills(val list: List<Skill>) {
         private val notRevivableSkills = listOf(CDef.Skill.同棲者, CDef.Skill.恋人)
         val openSkills = listOf(CDef.Skill.勇者, CDef.Skill.絶対人狼)
 
+        // 転生で割り当て可能な役職
         fun revivables(): Skills = Skills(
             list = all().filterNotSomeone().list.filterNot { notRevivableSkills.contains(it.toCdef()) }
         )
+
+        // 役職希望で選択できる役職
+        fun requestables(): Skills = Skills(
+            list = all().list.filter { it.isRequestable() }
+        )
+
+        // 編成に含めることができる役職
+        fun organizables(): Skills = Skills(
+            list = all().filterNotSomeone().list.filter { it.isRequestable() }
+        )
+
+        fun getSkillListStr(): String =
+            organizables().list.joinToString(separator = " / ") { "${it.name}:${it.shortName}" }
     }
 
     fun filterByCamp(camp: CDef.Camp): Skills = copy(list = list.filter { it.toCdef().campCode() == camp.code() })

@@ -42,7 +42,7 @@ data class VillageRandomOrganize(
         retryCount: Int
     ): Map<CDef.Skill, Int> {
         check(retryCount < 50) { "50回試行しましたが割り振れませんでした。" }
-
+        // TODO: 転生でのみ発生する役職は最少最多を0扱いにする
         val countMap = Skills.all().filterNotSomeone().list.map { it.toCdef() to 0 }.toMap().toMutableMap()
 
         // 最少人数が決まっている役職を先に割り当てる

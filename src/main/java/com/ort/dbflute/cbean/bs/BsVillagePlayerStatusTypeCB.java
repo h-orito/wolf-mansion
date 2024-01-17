@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of village_player_status_type.
+ * The base condition-bean of VILLAGE_PLAYER_STATUS_TYPE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerStatusTypeCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerStatusTypeCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_player_status_type";
+        return "VILLAGE_PLAYER_STATUS_TYPE";
     }
 
     // ===================================================================================
@@ -304,10 +304,10 @@ public class BsVillagePlayerStatusTypeCB extends AbstractConditionBean {
             columnVillagePlayerStatusTypeCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "village_player_status_type"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_STATUS_TYPE"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_player_status where ...) as FOO_MAX} <br>
+         * {select max(FOO) from VILLAGE_PLAYER_STATUS where ...) as FOO_MAX} <br>
          * VILLAGE_PLAYER_STATUS by VILLAGE_PLAYER_STATUS_CODE, named 'villagePlayerStatusList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(statusCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

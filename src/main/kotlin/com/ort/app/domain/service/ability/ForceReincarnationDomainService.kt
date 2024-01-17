@@ -44,29 +44,40 @@ class ForceReincarnationDomainService(
     override fun getTargetPrefix(): String = "強制転生させる対象"
     override fun getTargetSuffix(): String? = "を強制転生させる"
 
-    fun forceReincarnation(daychange: Daychange): Daychange {
-        var village = daychange.village.copy()
-        var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.トラック.toModel()).list.forEach { track ->
-            val ability = daychange.abilities.findYesterday(village, track, abilityType) ?: return@forEach
-            val target = village.participants.chara(ability.targetCharaId!!)
-            // 既に死亡している場合は転生しない
-            if (target.isDead()) return@forEach
-            // 対象が同棲者で、不在の場合は転生しない
-            if (cohabitDomainService.isAbsence(daychange, target)) return@forEach
-            // ランダム役職で転生
-            val skill = village.getRevivableSkills().shuffled().first()
-            village = village.forceReincarnation(target.id, skill)
-            messages = messages.add(createForceReincarnationMessage(village, target))
-            // 対象が同棲者で、相方が来ている場合、相方も転生する
-            if (cohabitDomainService.isCohabiting(daychange, target)) {
-                val cohabitor = target.getTargetCohabitor(village)!!
-                val cohabitorSkill = Skills.revivables().list.shuffled().first()
-                village = village.forceReincarnation(cohabitor.id, cohabitorSkill)
-                messages = messages.add(createForceReincarnationMessage(village, cohabitor))
-            }
+    fun forceReincarnation(orgDaychange: Daychange): Daychange {
+        var daychange = orgDaychange.copy()
+        daychange.village.participants.filterAlive().filterBySkill(CDef.Skill.トラック.toModel()).list.forEach { track ->
+            val ability = daychange.abilities.findYesterday(daychange.village, track, abilityType) ?: return@forEach
+            val target = daychange.village.participants.chara(ability.targetCharaId!!)
+            // 転生
+            daychange = forceReincarnationTarget(daychange, target)
         }
 
+        return daychange
+    }
+
+    fun forceReincarnationTarget(
+        daychange: Daychange,
+        target: VillageParticipant
+    ): Daychange {
+        // 既に死亡している場合は転生しない
+        if (target.isDead()) return daychange
+        // 対象が同棲者で、不在の場合は転生しない
+        if (cohabitDomainService.isAbsence(daychange, target)) return daychange
+
+        var village = daychange.village.copy()
+        var messages = daychange.messages.copy()
+        // ランダム役職で転生
+        val skill = village.getRevivableSkills().shuffled().first()
+        village = village.forceReincarnation(target.id, skill)
+        messages = messages.add(createForceReincarnationMessage(village, target))
+        // 対象が同棲者で、相方が来ている場合、相方も転生する
+        if (cohabitDomainService.isCohabiting(daychange, target)) {
+            val cohabitor = target.getTargetCohabitor(village)!!
+            val cohabitorSkill = Skills.revivables().list.shuffled().first()
+            village = village.forceReincarnation(cohabitor.id, cohabitorSkill)
+            messages = messages.add(createForceReincarnationMessage(village, cohabitor))
+        }
         return daychange.copy(messages = messages, village = village)
     }
 

@@ -835,6 +835,9 @@ public interface CDef extends Classification {
         /** 王族 */
         王族("ROYALTY", "王族", emptyStrings())
         ,
+        /** 暴走トラック */
+        暴走トラック("RUNAWAYTRUCK", "暴走トラック", emptyStrings())
+        ,
         /** 占い師 */
         占い師("SEER", "占い師", emptyStrings())
         ,
@@ -948,7 +951,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "511");
+                subItemMap.put("order", "512");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "バ");
                 _subItemMapMap.put(ババ.code(), Collections.unmodifiableMap(subItemMap));
@@ -1102,7 +1105,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "515");
+                subItemMap.put("order", "516");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "箪");
                 _subItemMapMap.put(箪笥.code(), Collections.unmodifiableMap(subItemMap));
@@ -1571,7 +1574,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "514");
+                subItemMap.put("order", "515");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "鋲");
                 _subItemMapMap.put(画鋲.code(), Collections.unmodifiableMap(subItemMap));
@@ -1620,17 +1623,24 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "517");
+                subItemMap.put("order", "518");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "革");
                 _subItemMapMap.put(革命者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "516");
+                subItemMap.put("order", "517");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "族");
                 _subItemMapMap.put(王族.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "511");
+                subItemMap.put("campCode", "CRIMINAL");
+                subItemMap.put("skill_short_name", "走");
+                _subItemMapMap.put(暴走トラック.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1704,7 +1714,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "513");
+                subItemMap.put("order", "514");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "泥");
                 _subItemMapMap.put(泥棒猫.code(), Collections.unmodifiableMap(subItemMap));
@@ -1781,7 +1791,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "512");
+                subItemMap.put("order", "513");
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "当");
                 _subItemMapMap.put(当選者.code(), Collections.unmodifiableMap(subItemMap));
@@ -2695,6 +2705,9 @@ public interface CDef extends Classification {
         ,
         /** 革命 */
         革命("REVOLUTION", "革命", emptyStrings())
+        ,
+        /** 暴走転生 */
+        暴走転生("RUNAWAY", "暴走転生", emptyStrings())
         ,
         /** 世界を救う */
         世界を救う("SAVETHEWORLD", "世界を救う", emptyStrings())

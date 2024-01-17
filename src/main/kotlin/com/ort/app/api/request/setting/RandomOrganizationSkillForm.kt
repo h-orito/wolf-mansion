@@ -34,6 +34,7 @@ data class RandomOrganizationSkillForm(
         skillCode = skill.code,
         skillName = skill.name,
         minNum = if (skill.toCdef() == CDef.Skill.村人) 1 else 0,
+        maxNum = if (skill.isRequestable()) null else 0,
         allocation = 50
     )
 }

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_player_notification.
+ * The base condition-bean of VILLAGE_PLAYER_NOTIFICATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_player_notification";
+        return "VILLAGE_PLAYER_NOTIFICATION";
     }
 
     // ===================================================================================
@@ -85,7 +85,7 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villagePlayerId : PK, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
+     * @param villagePlayerId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
      * @return this. (NotNull)
      */
     public VillagePlayerNotificationCB acceptPK(Integer villagePlayerId) {
@@ -315,7 +315,7 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -386,7 +386,7 @@ public class BsVillagePlayerNotificationCB extends AbstractConditionBean {
             columnVillagePlayerId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "village_player_notification"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_NOTIFICATION"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.

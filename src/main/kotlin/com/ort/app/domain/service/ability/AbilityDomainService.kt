@@ -72,6 +72,7 @@ class AbilityDomainService(
     private val onmyoNecromanceDomainService: OnmyoNecromanceDomainService,
     private val poseidonDomainService: PoseidonDomainService,
     private val forceReincarnationDomainService: ForceReincarnationDomainService,
+    private val runawayDomainService: RunawayDomainService,
     private val giveBabaDomainService: GiveBabaDomainService,
     private val giveWinDomainService: GiveWinDomainService,
     private val yubisashiDomainService: YubisashiDomainService,
@@ -169,6 +170,7 @@ class AbilityDomainService(
             CDef.AbilityType.叫び -> shoutDomainService
             CDef.AbilityType.翻訳 -> translateDomainService
             CDef.AbilityType.強制転生 -> forceReincarnationDomainService
+            CDef.AbilityType.暴走転生 -> runawayDomainService
             CDef.AbilityType.蘇生 -> resuscitateDomainService
             CDef.AbilityType.死霊蘇生 -> necromanceDomainService
             CDef.AbilityType.人魚化 -> poseidonDomainService

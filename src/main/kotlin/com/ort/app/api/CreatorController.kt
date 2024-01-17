@@ -16,6 +16,7 @@ import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.setting.*
 import com.ort.app.fw.exception.WolfMansionBusinessException
@@ -204,7 +205,7 @@ class CreatorController(
         form: VillageSettingForm? = null
     ) {
         model.addAttribute("content", VillageSettingsContent(village, charachips))
-        model.addAttribute("skillListStr", Skill.getSkillListStr())
+        model.addAttribute("skillListStr", Skills.getSkillListStr())
         model.addAttribute("nowYear", LocalDate.now().year)
         model.addAttribute(
             "settingsForm",
