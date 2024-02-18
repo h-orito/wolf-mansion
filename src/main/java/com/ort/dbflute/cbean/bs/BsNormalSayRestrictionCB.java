@@ -22,7 +22,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of NORMAL_SAY_RESTRICTION.
+ * The base condition-bean of normal_say_restriction.
  * @author DBFlute(AutoGenerator)
  */
 public class BsNormalSayRestrictionCB extends AbstractConditionBean {
@@ -78,7 +78,7 @@ public class BsNormalSayRestrictionCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "NORMAL_SAY_RESTRICTION";
+        return "normal_say_restriction";
     }
 
     // ===================================================================================
@@ -86,9 +86,9 @@ public class BsNormalSayRestrictionCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
-     * @param skillCode : PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill. (NotNull)
-     * @param messageTypeCode : PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param skillCode : PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill. (NotNull)
+     * @param messageTypeCode : PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType. (NotNull)
      * @return this. (NotNull)
      */
     public NormalSayRestrictionCB acceptPK(Integer villageId, CDef.Skill skillCode, CDef.MessageType messageTypeCode) {
@@ -367,17 +367,17 @@ public class BsNormalSayRestrictionCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+         * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
         /**
-         * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
+         * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnMessageTypeCode() { return doColumn("MESSAGE_TYPE_CODE"); }
@@ -420,7 +420,7 @@ public class BsNormalSayRestrictionCB extends AbstractConditionBean {
             columnMessageTypeCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "NORMAL_SAY_RESTRICTION"; }
+        protected String getTableDbName() { return "normal_say_restriction"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * MESSAGE_TYPE by my MESSAGE_TYPE_CODE, named 'messageType'.

@@ -78,7 +78,7 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ABILITY_TYPE";
+        return "ability_type";
     }
 
     // ===================================================================================
@@ -179,6 +179,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
      */
     public void setAbilityTypeCode_誑かす() {
         setAbilityTypeCodeAsAbilityType(CDef.AbilityType.誑かす);
+    }
+
+    /**
+     * Set the value of abilityTypeCode as 浮気 (CHEATLOVE). <br>
+     * 浮気
+     */
+    public void setAbilityTypeCode_浮気() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.浮気);
     }
 
     /**
@@ -638,6 +646,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode誑かす() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.誑かす) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 浮気? <br>
+     * 浮気
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode浮気() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.浮気) : false;
     }
 
     /**

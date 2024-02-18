@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of ALLOWED_SECRET_SAY. (Singleton)
+ * The DB meta of allowed_secret_say. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class AllowedSecretSayDbm extends AbstractDBMeta {
@@ -58,7 +58,7 @@ public class AllowedSecretSayDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "ALLOWED_SECRET_SAY";
+    protected final String _tableDbName = "allowed_secret_say";
     protected final String _tableDispName = "ALLOWED_SECRET_SAY";
     protected final String _tablePropertyName = "allowedSecretSay";
     protected final TableSqlName _tableSqlName = new TableSqlName("ALLOWED_SECRET_SAY", _tableDbName);

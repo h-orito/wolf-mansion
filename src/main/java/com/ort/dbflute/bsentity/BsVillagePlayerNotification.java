@@ -86,7 +86,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
     /** DISCORD_WEBHOOK_URL: {NotNull, VARCHAR(1000)} */
@@ -135,7 +135,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_NOTIFICATION";
+        return "village_player_notification";
     }
 
     // ===================================================================================
@@ -254,7 +254,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -264,7 +264,7 @@ public abstract class BsVillagePlayerNotification extends AbstractEntity impleme
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

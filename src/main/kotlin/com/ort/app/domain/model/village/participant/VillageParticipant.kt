@@ -231,6 +231,11 @@ data class VillageParticipant(
     fun court(participantId: Int): VillageParticipant = love(participantId)
     fun courted(participantId: Int): VillageParticipant = love(participantId)
     fun stalking(participantId: Int): VillageParticipant = love(participantId)
+    fun cheatLove(village: Village, participantId: Int): VillageParticipant {
+        // 恋絆を解除して新たに恋をする
+        return breakup(village).love(participantId)
+    }
+
     fun seduced(participantId: Int): VillageParticipant = love(participantId)
 
     fun insurance(participantId: Int): VillageParticipant =

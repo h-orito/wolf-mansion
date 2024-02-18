@@ -7,56 +7,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.VoteDomainService
-import com.ort.app.domain.service.ability.AbilityDomainService
-import com.ort.app.domain.service.ability.AssassinDomainService
-import com.ort.app.domain.service.ability.AttackDomainService
-import com.ort.app.domain.service.ability.AutopsyDomainService
-import com.ort.app.domain.service.ability.BadgerGameDomainService
-import com.ort.app.domain.service.ability.BakeryDomainService
-import com.ort.app.domain.service.ability.BeatDomainService
-import com.ort.app.domain.service.ability.BombDomainService
-import com.ort.app.domain.service.ability.BreakupDomainService
-import com.ort.app.domain.service.ability.CheatDomainService
-import com.ort.app.domain.service.ability.CloudyDomainService
-import com.ort.app.domain.service.ability.ClownDomainService
-import com.ort.app.domain.service.ability.CohabitDomainService
-import com.ort.app.domain.service.ability.CounterCurseMarkDomainService
-import com.ort.app.domain.service.ability.CourtDomainService
-import com.ort.app.domain.service.ability.CurseMarkDomainService
-import com.ort.app.domain.service.ability.DeadDivineDomainService
-import com.ort.app.domain.service.ability.DivineDomainService
-import com.ort.app.domain.service.ability.FalseChargesDomainService
-import com.ort.app.domain.service.ability.ForceReincarnationDomainService
-import com.ort.app.domain.service.ability.FruitsBasketDomainService
-import com.ort.app.domain.service.ability.GiveBabaDomainService
-import com.ort.app.domain.service.ability.GiveWinDomainService
-import com.ort.app.domain.service.ability.GonfoxDomainService
-import com.ort.app.domain.service.ability.GuardDomainService
-import com.ort.app.domain.service.ability.GuiltyDomainService
-import com.ort.app.domain.service.ability.HiyasichukaDomainService
-import com.ort.app.domain.service.ability.HotLimitDomainService
-import com.ort.app.domain.service.ability.HuntingDomainService
-import com.ort.app.domain.service.ability.InsaneDomainService
-import com.ort.app.domain.service.ability.InsuranceDomainService
-import com.ort.app.domain.service.ability.InvestigateDomainService
-import com.ort.app.domain.service.ability.LoneAttackDomainService
-import com.ort.app.domain.service.ability.LoudSpeakDomainService
-import com.ort.app.domain.service.ability.LoveStealDomainService
-import com.ort.app.domain.service.ability.OmniscienceDomainService
-import com.ort.app.domain.service.ability.PersuadeDomainService
-import com.ort.app.domain.service.ability.RainbowDomainService
-import com.ort.app.domain.service.ability.RevolutionDomainService
-import com.ort.app.domain.service.ability.RunawayDomainService
-import com.ort.app.domain.service.ability.SaveTheWorldDomainService
-import com.ort.app.domain.service.ability.SeduceDomainService
-import com.ort.app.domain.service.ability.ShoutDomainService
-import com.ort.app.domain.service.ability.StalkingDomainService
-import com.ort.app.domain.service.ability.TelekinesisDomainService
-import com.ort.app.domain.service.ability.TranslateDomainService
-import com.ort.app.domain.service.ability.TrapDomainService
-import com.ort.app.domain.service.ability.WallPunchDomainService
-import com.ort.app.domain.service.ability.WandererDomainService
-import com.ort.app.domain.service.ability.YubisashiDomainService
+import com.ort.app.domain.service.ability.*
 import org.springframework.stereotype.Service
 import java.time.LocalDateTime
 
@@ -66,7 +17,7 @@ class ProgressDomainService(
     private val bombDomainService: BombDomainService,
     private val pushpinDomainService: PushpinDomainService,
     private val drawerDomainService: DrawerDomainService,
-    private val cheatDomainService: CheatDomainService,
+    private val cheatFoxDomainService: CheatFoxDomainService,
     private val insaneDomainService: InsaneDomainService,
     private val persuadeDomainService: PersuadeDomainService,
     private val insuranceDomainService: InsuranceDomainService,
@@ -85,6 +36,7 @@ class ProgressDomainService(
     private val saveTheWorldDomainService: SaveTheWorldDomainService,
     private val seduceDomainService: SeduceDomainService,
     private val stalkingDomainService: StalkingDomainService,
+    private val cheatLoveDomainService: CheatLoveDomainService,
     private val trapDomainService: TrapDomainService,
     private val wallPunchDomainService: WallPunchDomainService,
     private val psychicDomainService: PsychicDomainService,
@@ -158,12 +110,14 @@ class ProgressDomainService(
         daychange = courtDomainService.court(daychange)
         // ストーキング
         daychange = stalkingDomainService.stalking(daychange)
+        // 浮気
+        daychange = cheatLoveDomainService.cheatLove(daychange)
         // 誘惑
         daychange = seduceDomainService.seduce(daychange)
         // 美人局
         daychange = badgerGameDomainService.badgerGame(daychange)
         // 誑かす
-        daychange = cheatDomainService.cheat(daychange)
+        daychange = cheatFoxDomainService.cheat(daychange)
         // 唆す
         daychange = insaneDomainService.insane(daychange)
         // 説得する

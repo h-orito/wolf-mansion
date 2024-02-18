@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of ALLOWED_SECRET_SAY.
+ * The base condition-query of allowed_secret_say.
  * @author DBFlute(AutoGenerator)
  */
 public class BsAllowedSecretSayCQ extends AbstractBsAllowedSecretSayCQ {
@@ -35,7 +35,7 @@ public class BsAllowedSecretSayCQ extends AbstractBsAllowedSecretSayCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from ALLOWED_SECRET_SAY) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from allowed_secret_say) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsAllowedSecretSayCQ extends AbstractBsAllowedSecretSayCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join ALLOWED_SECRET_SAY on ... and FOO = [value] ...}
+     * {select ... from ... left outer join allowed_secret_say on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>

@@ -1,7 +1,6 @@
 package com.ort.app.domain.service.ability
 
 import com.ort.app.domain.model.ability.Abilities
-import com.ort.app.domain.model.ability.Ability
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
@@ -46,23 +45,6 @@ class StalkingDomainService(
     override fun getTargetSuffix(): String? = "をストーキングする"
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
     override fun isTargetingAndFootstep(): Boolean = true
-
-    fun addDefaultAbilities(daychange: Daychange): Daychange {
-        val village = daychange.village
-        var abilities = daychange.abilities.copy()
-        if (!canUseDay(village.latestDay())) return daychange
-        village.participants.filterAlive().filterBySkill(CDef.Skill.ストーカー.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
-            abilities = abilities.add(ability)
-        }
-        return daychange.copy(abilities = abilities)
-    }
 
     fun stalking(daychange: Daychange): Daychange {
         var village = daychange.village.copy()

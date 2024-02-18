@@ -29,7 +29,7 @@ class AbilityDomainService(
     private val disturbDomainService: DisturbDomainService,
     private val attackDomainService: AttackDomainService,
     private val bombDomainService: BombDomainService,
-    private val cheatDomainService: CheatDomainService,
+    private val cheatFoxDomainService: CheatFoxDomainService,
     private val insaneDomainService: InsaneDomainService,
     private val persuadeDomainService: PersuadeDomainService,
     private val insuranceDomainService: InsuranceDomainService,
@@ -57,6 +57,7 @@ class AbilityDomainService(
     private val loveStealDomainService: LoveStealDomainService,
     private val breakupDomainService: BreakupDomainService,
     private val stalkingDomainService: StalkingDomainService,
+    private val cheatLoveDomainService: CheatLoveDomainService,
     private val trapDomainService: TrapDomainService,
     private val wallPunchDomainService: WallPunchDomainService,
     private val fantasistDomainService: FantasistDomainService,
@@ -146,7 +147,7 @@ class AbilityDomainService(
             CDef.AbilityType.襲撃 -> attackDomainService
             CDef.AbilityType.襲撃希望 -> attackDomainService
             CDef.AbilityType.爆弾設置 -> bombDomainService
-            CDef.AbilityType.誑かす -> cheatDomainService
+            CDef.AbilityType.誑かす -> cheatFoxDomainService
             CDef.AbilityType.教唆 -> insaneDomainService
             CDef.AbilityType.説得 -> persuadeDomainService
             CDef.AbilityType.同棲 -> cohabitDomainService
@@ -163,6 +164,7 @@ class AbilityDomainService(
             CDef.AbilityType.単独襲撃 -> loneAttackDomainService
             CDef.AbilityType.誘惑 -> seduceDomainService
             CDef.AbilityType.ストーキング -> stalkingDomainService
+            CDef.AbilityType.浮気 -> cheatLoveDomainService
             CDef.AbilityType.罠設置 -> trapDomainService
             CDef.AbilityType.壁殴り -> wallPunchDomainService
             CDef.AbilityType.虹塗り -> rainbowDomainService
@@ -546,6 +548,8 @@ class AbilityDomainService(
     fun addDefaultAbilities(beforeDaychange: Daychange): Daychange {
         var daychange = beforeDaychange.copy()
 
+        // 浮気
+        daychange = cheatLoveDomainService.addDefaultAbilities(daychange)
         // 襲撃
         daychange = attackDomainService.addDefaultAbilities(daychange)
         // 単独襲撃

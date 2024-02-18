@@ -135,6 +135,7 @@ data class VillageParticipants(
         transformParticipant(from.id) { it.addLover(to.id) }
 
     fun stalking(fromId: Int, toId: Int): VillageParticipants = transformParticipant(fromId) { it.stalking(toId) }
+    fun cheatLove(village: Village, fromId: Int, toId: Int): VillageParticipants = transformParticipant(fromId) { it.cheatLove(village, toId) }
     fun seduce(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.seduced(fromId) }
     fun insurance(fromId: Int, toId: Int): VillageParticipants = transformParticipant(toId) { it.insurance(fromId) }
     fun breakup(id: Int, village: Village): VillageParticipants = transformParticipant(id) { it.breakup(village) }

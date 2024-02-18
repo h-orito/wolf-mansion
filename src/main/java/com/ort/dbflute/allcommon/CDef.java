@@ -565,6 +565,9 @@ public interface CDef extends Classification {
         /** 誑狐 */
         誑狐("CHEATERFOX", "誑狐", emptyStrings())
         ,
+        /** 浮気者 */
+        浮気者("CHEATLOVER", "浮気者", emptyStrings())
+        ,
         /** 曇天者 */
         曇天者("CLOUDY", "曇天者", emptyStrings())
         ,
@@ -958,7 +961,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "305");
+                subItemMap.put("order", "306");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "美");
                 _subItemMapMap.put(美人局.code(), Collections.unmodifiableMap(subItemMap));
@@ -1004,6 +1007,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "FOX");
                 subItemMap.put("skill_short_name", "誑");
                 _subItemMapMap.put(誑狐.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "304");
+                subItemMap.put("campCode", "LOVERS");
+                subItemMap.put("skill_short_name", "浮");
+                _subItemMapMap.put(浮気者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -1336,7 +1346,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "304");
+                subItemMap.put("order", "305");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "絡");
                 _subItemMapMap.put(絡新婦.code(), Collections.unmodifiableMap(subItemMap));
@@ -1483,14 +1493,14 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "306");
+                subItemMap.put("order", "307");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "魅");
                 _subItemMapMap.put(魅惑の人魚.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "308");
+                subItemMap.put("order", "309");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "耳");
                 _subItemMapMap.put(耳年増.code(), Collections.unmodifiableMap(subItemMap));
@@ -1518,7 +1528,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "309");
+                subItemMap.put("order", "310");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "充");
                 _subItemMapMap.put(リア充.code(), Collections.unmodifiableMap(subItemMap));
@@ -1567,7 +1577,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "307");
+                subItemMap.put("order", "308");
                 subItemMap.put("campCode", "LOVERS");
                 subItemMap.put("skill_short_name", "海");
                 _subItemMapMap.put(海王者.code(), Collections.unmodifiableMap(subItemMap));
@@ -2603,6 +2613,9 @@ public interface CDef extends Classification {
         ,
         /** 誑かす */
         誑かす("CHEAT", "誑かす", emptyStrings())
+        ,
+        /** 浮気 */
+        浮気("CHEATLOVE", "浮気", emptyStrings())
         ,
         /** 曇天 */
         曇天("CLOUD", "曇天", emptyStrings())

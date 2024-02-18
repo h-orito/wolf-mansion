@@ -1,4 +1,371 @@
 map:{
+    ; 2024/02/18 22:27:39 = map:{
+        ; diffDate = 2024/02/18 22:27:39
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; ability = map:{
+                ; tableName = ability
+                ; diffType = ADD
+            }
+            ; ability_type = map:{
+                ; tableName = ability_type
+                ; diffType = ADD
+            }
+            ; allowed_secret_say = map:{
+                ; tableName = allowed_secret_say
+                ; diffType = ADD
+            }
+            ; authority = map:{
+                ; tableName = authority
+                ; diffType = ADD
+            }
+            ; camp = map:{
+                ; tableName = camp
+                ; diffType = ADD
+            }
+            ; camp_allocation = map:{
+                ; tableName = camp_allocation
+                ; diffType = ADD
+            }
+            ; chara = map:{
+                ; tableName = chara
+                ; diffType = ADD
+            }
+            ; chara_group = map:{
+                ; tableName = chara_group
+                ; diffType = ADD
+            }
+            ; chara_image = map:{
+                ; tableName = chara_image
+                ; diffType = ADD
+            }
+            ; commit = map:{
+                ; tableName = commit
+                ; diffType = ADD
+            }
+            ; dead_reason = map:{
+                ; tableName = dead_reason
+                ; diffType = ADD
+            }
+            ; designer = map:{
+                ; tableName = designer
+                ; diffType = ADD
+            }
+            ; face_type = map:{
+                ; tableName = face_type
+                ; diffType = ADD
+            }
+            ; footstep = map:{
+                ; tableName = footstep
+                ; diffType = ADD
+            }
+            ; message = map:{
+                ; tableName = message
+                ; diffType = ADD
+            }
+            ; message_sendto = map:{
+                ; tableName = message_sendto
+                ; diffType = ADD
+            }
+            ; message_type = map:{
+                ; tableName = message_type
+                ; diffType = ADD
+            }
+            ; normal_say_restriction = map:{
+                ; tableName = normal_say_restriction
+                ; diffType = ADD
+            }
+            ; original_chara = map:{
+                ; tableName = original_chara
+                ; diffType = ADD
+            }
+            ; original_chara_group = map:{
+                ; tableName = original_chara_group
+                ; diffType = ADD
+            }
+            ; original_chara_image = map:{
+                ; tableName = original_chara_image
+                ; diffType = ADD
+            }
+            ; player = map:{
+                ; tableName = player
+                ; diffType = ADD
+            }
+            ; player_detail = map:{
+                ; tableName = player_detail
+                ; diffType = ADD
+            }
+            ; random_content = map:{
+                ; tableName = random_content
+                ; diffType = ADD
+            }
+            ; random_keyword = map:{
+                ; tableName = random_keyword
+                ; diffType = ADD
+            }
+            ; skill = map:{
+                ; tableName = skill
+                ; diffType = ADD
+            }
+            ; skill_allocation = map:{
+                ; tableName = skill_allocation
+                ; diffType = ADD
+            }
+            ; skill_say_restriction = map:{
+                ; tableName = skill_say_restriction
+                ; diffType = ADD
+            }
+            ; village = map:{
+                ; tableName = village
+                ; diffType = ADD
+            }
+            ; village_chara_group = map:{
+                ; tableName = village_chara_group
+                ; diffType = ADD
+            }
+            ; village_day = map:{
+                ; tableName = village_day
+                ; diffType = ADD
+            }
+            ; village_player = map:{
+                ; tableName = village_player
+                ; diffType = ADD
+            }
+            ; village_player_access_info = map:{
+                ; tableName = village_player_access_info
+                ; diffType = ADD
+            }
+            ; village_player_dead_history = map:{
+                ; tableName = village_player_dead_history
+                ; diffType = ADD
+            }
+            ; village_player_notification = map:{
+                ; tableName = village_player_notification
+                ; diffType = ADD
+            }
+            ; village_player_room_history = map:{
+                ; tableName = village_player_room_history
+                ; diffType = ADD
+            }
+            ; village_player_skill_history = map:{
+                ; tableName = village_player_skill_history
+                ; diffType = ADD
+            }
+            ; village_player_status = map:{
+                ; tableName = village_player_status
+                ; diffType = ADD
+            }
+            ; village_player_status_type = map:{
+                ; tableName = village_player_status_type
+                ; diffType = ADD
+            }
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = ADD
+            }
+            ; village_status = map:{
+                ; tableName = village_status
+                ; diffType = ADD
+            }
+            ; village_tag = map:{
+                ; tableName = village_tag
+                ; diffType = ADD
+            }
+            ; village_tag_item = map:{
+                ; tableName = village_tag_item
+                ; diffType = ADD
+            }
+            ; vote = map:{
+                ; tableName = vote
+                ; diffType = ADD
+            }
+            ; wolf_allocation = map:{
+                ; tableName = wolf_allocation
+                ; diffType = ADD
+            }
+            ; ABILITY = map:{
+                ; tableName = ABILITY
+                ; diffType = DELETE
+            }
+            ; ABILITY_TYPE = map:{
+                ; tableName = ABILITY_TYPE
+                ; diffType = DELETE
+            }
+            ; ALLOWED_SECRET_SAY = map:{
+                ; tableName = ALLOWED_SECRET_SAY
+                ; diffType = DELETE
+            }
+            ; AUTHORITY = map:{
+                ; tableName = AUTHORITY
+                ; diffType = DELETE
+            }
+            ; CAMP = map:{
+                ; tableName = CAMP
+                ; diffType = DELETE
+            }
+            ; CAMP_ALLOCATION = map:{
+                ; tableName = CAMP_ALLOCATION
+                ; diffType = DELETE
+            }
+            ; CHARA = map:{
+                ; tableName = CHARA
+                ; diffType = DELETE
+            }
+            ; CHARA_GROUP = map:{
+                ; tableName = CHARA_GROUP
+                ; diffType = DELETE
+            }
+            ; CHARA_IMAGE = map:{
+                ; tableName = CHARA_IMAGE
+                ; diffType = DELETE
+            }
+            ; COMMIT = map:{
+                ; tableName = COMMIT
+                ; diffType = DELETE
+            }
+            ; DEAD_REASON = map:{
+                ; tableName = DEAD_REASON
+                ; diffType = DELETE
+            }
+            ; DESIGNER = map:{
+                ; tableName = DESIGNER
+                ; diffType = DELETE
+            }
+            ; FACE_TYPE = map:{
+                ; tableName = FACE_TYPE
+                ; diffType = DELETE
+            }
+            ; FOOTSTEP = map:{
+                ; tableName = FOOTSTEP
+                ; diffType = DELETE
+            }
+            ; MESSAGE = map:{
+                ; tableName = MESSAGE
+                ; diffType = DELETE
+            }
+            ; MESSAGE_SENDTO = map:{
+                ; tableName = MESSAGE_SENDTO
+                ; diffType = DELETE
+            }
+            ; MESSAGE_TYPE = map:{
+                ; tableName = MESSAGE_TYPE
+                ; diffType = DELETE
+            }
+            ; NORMAL_SAY_RESTRICTION = map:{
+                ; tableName = NORMAL_SAY_RESTRICTION
+                ; diffType = DELETE
+            }
+            ; ORIGINAL_CHARA = map:{
+                ; tableName = ORIGINAL_CHARA
+                ; diffType = DELETE
+            }
+            ; ORIGINAL_CHARA_GROUP = map:{
+                ; tableName = ORIGINAL_CHARA_GROUP
+                ; diffType = DELETE
+            }
+            ; ORIGINAL_CHARA_IMAGE = map:{
+                ; tableName = ORIGINAL_CHARA_IMAGE
+                ; diffType = DELETE
+            }
+            ; PLAYER = map:{
+                ; tableName = PLAYER
+                ; diffType = DELETE
+            }
+            ; PLAYER_DETAIL = map:{
+                ; tableName = PLAYER_DETAIL
+                ; diffType = DELETE
+            }
+            ; RANDOM_CONTENT = map:{
+                ; tableName = RANDOM_CONTENT
+                ; diffType = DELETE
+            }
+            ; RANDOM_KEYWORD = map:{
+                ; tableName = RANDOM_KEYWORD
+                ; diffType = DELETE
+            }
+            ; SKILL = map:{
+                ; tableName = SKILL
+                ; diffType = DELETE
+            }
+            ; SKILL_ALLOCATION = map:{
+                ; tableName = SKILL_ALLOCATION
+                ; diffType = DELETE
+            }
+            ; SKILL_SAY_RESTRICTION = map:{
+                ; tableName = SKILL_SAY_RESTRICTION
+                ; diffType = DELETE
+            }
+            ; VILLAGE = map:{
+                ; tableName = VILLAGE
+                ; diffType = DELETE
+            }
+            ; VILLAGE_CHARA_GROUP = map:{
+                ; tableName = VILLAGE_CHARA_GROUP
+                ; diffType = DELETE
+            }
+            ; VILLAGE_DAY = map:{
+                ; tableName = VILLAGE_DAY
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER = map:{
+                ; tableName = VILLAGE_PLAYER
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_ACCESS_INFO = map:{
+                ; tableName = VILLAGE_PLAYER_ACCESS_INFO
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_DEAD_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_DEAD_HISTORY
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_NOTIFICATION = map:{
+                ; tableName = VILLAGE_PLAYER_NOTIFICATION
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_ROOM_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_ROOM_HISTORY
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_SKILL_HISTORY = map:{
+                ; tableName = VILLAGE_PLAYER_SKILL_HISTORY
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_STATUS = map:{
+                ; tableName = VILLAGE_PLAYER_STATUS
+                ; diffType = DELETE
+            }
+            ; VILLAGE_PLAYER_STATUS_TYPE = map:{
+                ; tableName = VILLAGE_PLAYER_STATUS_TYPE
+                ; diffType = DELETE
+            }
+            ; VILLAGE_SETTINGS = map:{
+                ; tableName = VILLAGE_SETTINGS
+                ; diffType = DELETE
+            }
+            ; VILLAGE_STATUS = map:{
+                ; tableName = VILLAGE_STATUS
+                ; diffType = DELETE
+            }
+            ; VILLAGE_TAG = map:{
+                ; tableName = VILLAGE_TAG
+                ; diffType = DELETE
+            }
+            ; VILLAGE_TAG_ITEM = map:{
+                ; tableName = VILLAGE_TAG_ITEM
+                ; diffType = DELETE
+            }
+            ; VOTE = map:{
+                ; tableName = VOTE
+                ; diffType = DELETE
+            }
+            ; WOLF_ALLOCATION = map:{
+                ; tableName = WOLF_ALLOCATION
+                ; diffType = DELETE
+            }
+        }
+    }
     ; 2024/01/17 14:57:14 = map:{
         ; diffDate = 2024/01/17 14:57:14
         ; diffAuthor = h-orito

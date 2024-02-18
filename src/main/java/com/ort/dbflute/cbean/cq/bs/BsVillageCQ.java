@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE.
+ * The base condition-query of village.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageCQ extends AbstractBsVillageCQ {
@@ -35,7 +35,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -253,14 +253,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_VillageStatusCode_Asc() { regOBA("VILLAGE_STATUS_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_VillageStatusCode_Desc() { regOBD("VILLAGE_STATUS_CODE"); return this; }
@@ -333,14 +333,14 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Asc() { regOBA("WIN_CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsVillageCQ addOrderBy_WinCampCode_Desc() { regOBD("WIN_CAMP_CODE"); return this; }
@@ -497,7 +497,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageStatusCQ xcreateQueryVillageStatus() {
-        String nrp = xresolveNRP("VILLAGE", "villageStatus"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "villageStatus"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageStatusCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageStatus", nrp);
     }
     protected void xsetupOuterJoinVillageStatus() { xregOutJo("villageStatus"); }
@@ -517,7 +517,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected CampCQ xcreateQueryCamp() {
-        String nrp = xresolveNRP("VILLAGE", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
     }
     protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }
@@ -525,7 +525,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
     public VillageSettingsCQ queryVillageSettingsAsOne() { return xdfgetConditionQueryVillageSettingsAsOne(); }
@@ -535,7 +535,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageSettingsCQ xcreateQueryVillageSettingsAsOne() {
-        String nrp = xresolveNRP("VILLAGE", "villageSettingsAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "villageSettingsAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageSettingsCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageSettingsAsOne", nrp);
     }
     protected void xsetupOuterJoinVillageSettingsAsOne() { xregOutJo("villageSettingsAsOne"); }
@@ -543,7 +543,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * WOLF_ALLOCATION by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
     public WolfAllocationCQ queryWolfAllocationAsOne() { return xdfgetConditionQueryWolfAllocationAsOne(); }
@@ -553,7 +553,7 @@ public class BsVillageCQ extends AbstractBsVillageCQ {
         return xgetQueRlMap(prop);
     }
     protected WolfAllocationCQ xcreateQueryWolfAllocationAsOne() {
-        String nrp = xresolveNRP("VILLAGE", "wolfAllocationAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village", "wolfAllocationAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new WolfAllocationCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "wolfAllocationAsOne", nrp);
     }
     protected void xsetupOuterJoinWolfAllocationAsOne() { xregOutJo("wolfAllocationAsOne"); }

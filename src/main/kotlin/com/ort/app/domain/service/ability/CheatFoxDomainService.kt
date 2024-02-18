@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
 
 @Service
-class CheatDomainService(
+class CheatFoxDomainService(
     private val messageDomainService: MessageDomainService
 ) : AbilityTypeDomainService {
 

@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerCQ;
 
 /**
- * The nest select set-upper of VILLAGE_PLAYER.
+ * The nest select set-upper of village_player.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerNss {
@@ -72,7 +72,7 @@ public class VillagePlayerNss {
     }
     /**
      * With nested relation columns to select clause. <br>
-     * VILLAGE_PLAYER_NOTIFICATION by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
+     * village_player_notification by VILLAGE_PLAYER_ID, named 'villagePlayerNotificationAsOne'.
      * @return The set-upper of more nested relation. {...with[nested-relation].with[more-nested-relation]} (NotNull)
      */
     public VillagePlayerNotificationNss withVillagePlayerNotificationAsOne() {

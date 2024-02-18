@@ -309,6 +309,10 @@ data class Village(
         return copy(participants = participants.stalking(fromParticipantId, toParticipantId))
     }
 
+    fun cheatLoveParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
+        return copy(participants = participants.cheatLove(this, fromParticipantId, toParticipantId))
+    }
+
     fun seduceParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
         return copy(participants = participants.seduce(fromParticipantId, toParticipantId))
     }
