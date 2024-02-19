@@ -30,6 +30,8 @@ class CheatLoveDomainService(
         abilities: Abilities,
         votes: Votes
     ): List<VillageParticipant> {
+        // 陣営変化していたら使用不可能
+        if (!myself.camp!!.isLovers()) return emptyList()
         // 一度選んだ人は選べない
         val pastTargetCharaIds = abilities
             .filterPastDay(village.latestDay())
@@ -38,13 +40,15 @@ class CheatLoveDomainService(
         return village.participants
             .filterAlive()
             .filterNotParticipant(myself)
+            .filterNotDummy(village.dummyParticipant())
             .sortedByRoomNumber()
             .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
     override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean {
-        // 対象がいなくなったら可能になる
-        return getSelectableTargetList(village, myself, abilities, Votes(emptyList())).isEmpty()
+        // 対象がいないか、陣営変化していたら可能になる
+        return !myself.camp!!.isLovers() ||
+                getSelectableTargetList(village, myself, abilities, Votes(emptyList())).isEmpty()
     }
 
     override fun isTargetingAndFootstep(): Boolean = true
@@ -57,7 +61,8 @@ class CheatLoveDomainService(
         var footsteps = daychange.footsteps.copy()
         if (!canUseDay(village.latestDay())) return daychange
         village.participants.filterAlive().filterBySkill(CDef.Skill.浮気者.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
+            val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().firstOrNull()
+                ?: return@forEach
             val ability = Ability(
                 day = village.latestDay(),
                 type = abilityType,
