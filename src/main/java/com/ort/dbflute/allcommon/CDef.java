@@ -1904,11 +1904,11 @@ public interface CDef extends Classification {
         /**
          * Is the classification in the group? <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔]
+         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 爆弾魔]
          * @return The determination, true or false.
          */
         public boolean isNoDeadByAttack() {
-            return 壁殴り代行.equals(this) || 堅狼.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 騙狐.equals(this) || 夜狐.equals(this) || 爆弾魔.equals(this);
+            return 壁殴り代行.equals(this) || 堅狼.equals(this) || 妖狐.equals(this) || 誑狐.equals(this) || ごん.equals(this) || 仙狐.equals(this) || 管狐.equals(this) || 稲荷.equals(this) || 騙狐.equals(this) || 夜狐.equals(this) || 念狐.equals(this) || 爆弾魔.equals(this);
         }
 
         /**
@@ -2143,11 +2143,11 @@ public interface CDef extends Classification {
         /**
          * Get the list of group classification elements. (returns new copied list) <br>
          * 襲撃されても死なない <br>
-         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔]
+         * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 爆弾魔]
          * @return The snapshot list of classification elements in the group. (NotNull)
          */
         public static List<Skill> listOfNoDeadByAttack() {
-            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔));
+            return new ArrayList<Skill>(Arrays.asList(壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 爆弾魔));
         }
 
         /**

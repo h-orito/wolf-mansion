@@ -2867,7 +2867,7 @@ public abstract class BsNormalSayRestriction extends AbstractEntity implements D
 
     /**
      * 襲撃されても死なない <br>
-     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 爆弾魔]
+     * The group elements:[壁殴り代行, 堅狼, 妖狐, 誑狐, ごん, 仙狐, 管狐, 稲荷, 騙狐, 夜狐, 念狐, 爆弾魔]
      * @return The determination, true or false.
      */
     public boolean isSkillCode_NoDeadByAttack() {
