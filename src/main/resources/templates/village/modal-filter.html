@@ -91,7 +91,7 @@
                             </label>
                         </div>
                     </div>
-                    <div id="filter-character" style="margin-top: 25px;">
+                    <div id="filter-character" class="clearfix" style="margin-top: 25px;">
                         <strong>発言者</strong>
                         <div style="margin-top: 10px;">
                             <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
@@ -117,24 +117,42 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top: 25px;">
+                    <div class="clearfix" style="margin-top: 25px;">
                         <strong>キーワード</strong>
                         <input type="text" class="form-control" data-filter-message-keyword placeholder="スペース区切り"
                                style="margin-top: 5px;"/>
                         <a href="javascript:void(0);" data-filter-message-clear style="margin-top: 10px;">クリア</a>
                     </div>
-                    <div style="margin-top: 25px;">
+                    <div id="filter-to-character" class="clearfix" style="margin-top: 25px;">
                         <strong>宛先</strong>
-                        <select class="form-control" data-filter-to-participant>
-                            <option value=""></option>
-                            <option th:each="participant: ${content.participantList}" th:text="${participant.name}"
-                                    th:value="${participant.id}"></option>
-                        </select>
-                        <a href="javascript:void(0);"
-                           th:if="${content.myself != null}" th:data-filter-to-me="${content.myself.id}"
-                           style="margin-top: 10px;">自分宛</a>
+                        <div style="margin-top: 10px;">
+                            <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a> /
+                            <a href="javascript:void(0);" data-filter-to-participant-alloff>全てOFF</a> /
+                            <a href="javascript:void(0);" data-filter-to-participant-reverse>反転</a> /
+                            <a href="javascript:void(0);"
+                               th:if="${content.myself != null}" th:data-filter-to-me="${content.myself.id}"
+                               style="margin-top: 10px;">自分宛</a>
+                        </div>
+                        <div style="margin-top: 10px;">
+                            <div th:each="participant,s: ${content.participantList}"
+                                 class="col-sm-12 col-xs-12 checkbox"
+                                 th:style="'border-top: 1px solid #ccc; ' + ${s.last ? 'border-bottom: 1px solid #ccc;' : ''}">
+                                <label style="display: flex; padding-top: 5px; padding-bottom: 5px;">
+                                    <input type="checkbox" th:value="${participant.id}"/>
+                                    <div style="padding-right: 5px;">
+                                        <img th:src="${participant.imgUrl}" th:width="${participant.imgWidth / 2}"
+                                             th:height="${participant.imgHeight / 2}"/>
+                                    </div>
+                                    <div style="flex: 1;">
+                                        <p th:text="${participant.name}"></p>
+                                        <p class="text-danger" style="margin-bottom: 0;"
+                                           th:text="${participant.deadStatus}"></p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div style="margin-top: 25px;">
+                    <div class="clearfix" style="margin-top: 25px;">
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox" value="dummy" data-dsetting-unspoiled> エピローグ前同等の表示にする
@@ -145,8 +163,8 @@
                     <div class="clearfix col-sm-12 col-xs-12 small">
                         <a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small"
                            data-filter-submit>抽出</a> <a href="javascript:void(0);"
-                                                        class="btn btn-primary btn-sm pull-right small"
-                                                        data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
+                                                          class="btn btn-primary btn-sm pull-right small"
+                                                          data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
                     </div>
                 </div>
             </div>

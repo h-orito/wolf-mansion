@@ -9,9 +9,9 @@ data class MessageQuery(
     val day: Int,
     val pageSize: Int?,
     val pageNum: Int?,
-    val toParticipantId: Int?,
+    val fromParticipantIds: List<Int>,
+    val toParticipantIds: List<Int>,
     val requestTypes: List<MessageType>,
-    val participantIds: List<Int>,
     val keywords: String?,
     val isPaging: Boolean,
     val isDispLatest: Boolean,
@@ -35,7 +35,7 @@ data class MessageQuery(
             myself?.skill?.toCdef() == CDef.Skill.梟 &&
             requestMessageTypes.any { MessageType.owlViewableSayTypeList.contains(it.toCdef()) }
         ) {
-            requestMessageTypes = if (participantIds.isNotEmpty()) {
+            requestMessageTypes = if (fromParticipantIds.isNotEmpty()) {
                 // 人で絞っている場合、梟が視認可能な発言について誰が発言したかわかってしまうため、一切見えなくする
                 requestMessageTypes.filterNot { MessageType.owlViewableSayTypeList.contains(it.toCdef()) }
             } else {
@@ -55,7 +55,7 @@ data class MessageQuery(
         if (messageTypeList.any { it.toCdef() == CDef.MessageType.独り言 }) return false
         // 自分が取得対象になっていなければ不要
         myself ?: return false
-        if (participantIds.isNotEmpty() && !participantIds.contains(myself.id)) return false
+        if (fromParticipantIds.isNotEmpty() && !fromParticipantIds.contains(myself.id)) return false
         // 求めていなければ不要
         if (requestTypes.isNotEmpty() && requestTypes.none { it.toCdef() == CDef.MessageType.独り言 }) return false
 
@@ -67,7 +67,9 @@ data class MessageQuery(
         if (messageTypeList.any { it.toCdef() == CDef.MessageType.秘話 }) return false
         // 自分が取得対象になっていなければ不要
         myself ?: return false
-        if (participantIds.isNotEmpty() && !participantIds.contains(myself.id)) return false
+        val containFromMyself = fromParticipantIds.isEmpty() || fromParticipantIds.contains(myself.id)
+        val containToMyself = toParticipantIds.isEmpty() || toParticipantIds.contains(myself.id)
+        if (!containFromMyself && !containToMyself) return false
         // 求めていなければ不要
         if (requestTypes.isNotEmpty() && requestTypes.none { it.toCdef() == CDef.MessageType.秘話 }) return false
 

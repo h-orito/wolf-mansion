@@ -267,9 +267,9 @@ class MessageDataSource(
         cb.query().setDay_Equal(query.day)
         queryMessageType(cb, query, myself)
         // 参加者で絞る
-        if (query.participantIds.isNotEmpty()) {
+        if (query.fromParticipantIds.isNotEmpty()) {
             cb.orScopeQuery { orCB ->
-                orCB.query().setVillagePlayerId_InScope(query.participantIds)
+                orCB.query().setVillagePlayerId_InScope(query.fromParticipantIds)
                 orCB.query().setVillagePlayerId_IsNull()
             }
         }
@@ -279,12 +279,12 @@ class MessageDataSource(
                 op.splitByBlank().likeContain().asOrSplit()
             }
         }
-        query.toParticipantId?.let { toParticipantId ->
+        if (query.toParticipantIds.isNotEmpty()) {
             cb.orScopeQuery { orCB ->
                 orCB.query().existsMessageSendto { sendToCB ->
-                    sendToCB.query().setVillagePlayerId_Equal(toParticipantId)
+                    sendToCB.query().setVillagePlayerId_InScope(query.toParticipantIds)
                 }
-                orCB.query().setToVillagePlayerId_Equal(toParticipantId)
+                orCB.query().setToVillagePlayerId_InScope(query.toParticipantIds)
             }
         }
     }

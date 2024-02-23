@@ -21,8 +21,8 @@ data class VillageGetMessageListForm(
     /** 何ページ目か */
     val pageNum: Int? = null,
 
-    /** 宛先 */
-    val toParticipantId: Int? = null,
+    /** 宛先参加者IDカンマ区切り */
+    val toParticipantIds: String? = null,
 
     /** 種別カンマ区切り */
     val types: String? = null,
@@ -44,9 +44,9 @@ data class VillageGetMessageListForm(
         day = day ?: village.latestDay(),
         pageSize = pageSize,
         pageNum = pageNum,
-        toParticipantId = toParticipantId,
+        toParticipantIds = mappingToToParticipantIds(village),
         requestTypes = mappingToTypes(),
-        participantIds = mappingToParticipantIds(village),
+        fromParticipantIds = mappingToParticipantIds(village),
         keywords = keywords,
         isPaging = isPaging ?: false,
         isDispLatest = isDispLatest ?: false
@@ -54,6 +54,14 @@ data class VillageGetMessageListForm(
 
     private fun mappingToTypes(): List<MessageType> {
         return types?.split(",")?.flatMap { typeMap.getOrDefault(it, emptyList()) } ?: emptyList()
+    }
+
+
+    private fun mappingToToParticipantIds(village: Village): List<Int> {
+        val ids = if (toParticipantIds.isNullOrEmpty()) emptyList() else toParticipantIds.split(",").map { it.toInt() }
+        // 全員選択されている場合は空にすることで全員表示させる
+        return if (village.allParticipants().filterNotGone().list.size == ids.size) emptyList()
+        else ids
     }
 
     private fun mappingToParticipantIds(village: Village): List<Int> {

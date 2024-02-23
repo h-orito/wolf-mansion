@@ -37,7 +37,7 @@ $(function () {
     const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
     let latestDay;
     let canAutoRefresh = true; // 発言確認中はfalseになる
-    let filterToParticipantId = null;
+    let filterToParticipantIds = [];
     let filterParticipantIds = [];
     let filterTypes = [];
     let filterKeywords = [];
@@ -120,7 +120,7 @@ $(function () {
                 'day': day,
                 'pageSize': pageSize != null ? pageSize : 30,
                 'pageNum': isNoPaging ? null : pageNum,
-                'toParticipantId': filterToParticipantId,
+                'toParticipantIds': filterToParticipantIds.join(','),
                 'types': filterTypes.join(','),
                 'participantIds': filterParticipantIds.join(','),
                 'keywords': filterKeywords.join(' '),
@@ -932,10 +932,10 @@ $(function () {
 
     function resetFilter() {
         doFilterParticipantAllOff();
+        doFilterToParticipantAllOff();
         doFilterTypeAllOn();
         resetKeyword();
         $('[data-dsetting-unspoiled]').prop('checked', false);
-        $('[data-filter-to-participant]').val(null);
         doFilter();
     }
 
@@ -965,6 +965,43 @@ $(function () {
             const checked = $(elm).prop('checked');
             $(elm).prop('checked', !checked);
         });
+    });
+
+    // 宛先
+    $('[data-filter-to-participant-allon]').on('click', function () {
+		doFilterToParticipantAllOn();
+	});
+
+	function doFilterToParticipantAllOn() {
+		$('#filter-to-character').find('input').each((idx, elm) => {
+			$(elm).prop('checked', true);
+		});
+	}
+
+	$('[data-filter-to-participant-alloff]').on('click', function () {
+		doFilterToParticipantAllOff();
+	});
+
+	function doFilterToParticipantAllOff() {
+		$('#filter-to-character').find('input').each((idx, elm) => {
+			$(elm).prop('checked', false);
+		});
+	}
+
+	$('[data-filter-to-participant-reverse]').on('click', function () {
+		$('#filter-to-character').find('input').each((idx, elm) => {
+			const checked = $(elm).prop('checked');
+			$(elm).prop('checked', !checked);
+		});
+	});
+
+    // 自分宛
+    $('[data-filter-to-me]').on('click', function(){
+    	const myself = $(this).data('filter-to-me');
+    	$('#filter-to-character').find('input').each((idx, elm) => {
+			const value = $(elm).val();
+			$(elm).prop('checked', value == myself);
+		});
     });
 
     // 発言種別
@@ -1003,11 +1040,6 @@ $(function () {
         $('#modal-filter [data-filter-message-keyword]').val('');
     }
 
-    // 自分宛て
-    $('[data-filter-to-me]').on('click', function(){
-    	$('[data-filter-to-participant]').val($(this).data('filter-to-me'));
-    });
-
     $('[data-filter-submit]').on('click', function () {
         doFilter();
     });
@@ -1019,9 +1051,11 @@ $(function () {
         filterParticipantIds = $('#filter-character').find('input').filter((idx, elm) => {
             return $(elm).prop('checked');
         }).map((idx, elm) => $(elm).val()).get().sort();
+		filterToParticipantIds = $('#filter-to-character').find('input').filter((idx, elm) => {
+			return $(elm).prop('checked');
+		}).map((idx, elm) => $(elm).val()).get().sort();
         filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
-        filterToParticipantId = $('[data-filter-to-participant]').val();
         // 発言読み込み
         loadAndDisplayMessageWithCurrentSetting();
         // 日付を跨いでも維持できるように一時的にcookieに入れておく
@@ -1030,13 +1064,13 @@ $(function () {
         saveDisplaySetting('filter_type', filterTypes.join(','));
         saveDisplaySetting('filter_keyword', filterKeywords.join(' '));
         saveDisplaySetting('filter_spoiled_content', filterSpoiled);
-        saveDisplaySetting('filter_to_participant_id', filterToParticipantId);
+        saveDisplaySetting('filter_to_participant_ids', filterToParticipantIds.join(','));
         // 抽出中ならfooterボタンをactiveに
         if (filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
-            || (filterToParticipantId != null && filterToParticipantId !== '')
+            || filterToParticipantIds.length > 0 && filterToParticipantIds[0] !== ''
         ) {
             $('#filter-button').addClass('active');
             $('#filter-buttom-text').text('抽出中');
@@ -1081,7 +1115,8 @@ $(function () {
         const filterKeyword = getDisplaySetting('filter_keyword');
         filterKeywords = filterKeyword.split(' ');
         filterSpoiled = getDisplaySetting('filter_spoiled_content');
-        filterToParticipantId = getDisplaySetting('filter_to_participant_id');
+        const filterToParticipantId = getDisplaySetting('filter_to_participant_ids');
+        filterToParticipantIds = filterToParticipantId == null ? [] : filterToParticipantId.split(',');
         // 復元
         $('#filter-character').find('input').each(function (idx, elm) {
             const participantId = $(elm).val();
@@ -1090,6 +1125,13 @@ $(function () {
                 $(elm).prop('checked', false);
             }
         });
+		$('#filter-to-character').find('input').each(function (idx, elm) {
+			const participantId = $(elm).val();
+			$(elm).prop('checked', true)
+			if ($.inArray(participantId, filterToParticipantIds) === -1) {
+				$(elm).prop('checked', false);
+			}
+		});
         $('#filter-type').find('label').each((idx, elm) => {
             $(elm).addClass('active');
             if ($.inArray($(elm).find('input').val(), filterTypes) === -1) {
@@ -1100,14 +1142,13 @@ $(function () {
         if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
-        $('[data-filter-to-participant]').val(filterToParticipantId);
 
         // 抽出中ならfooterボタンをactiveに
         if (filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
-            || (filterToParticipantId != null && filterToParticipantId !== '')
+            || filterToParticipantIds.length > 0 && filterToParticipantIds[0] !== ''
         ) {
             $('#filter-button').addClass('active');
             $('#filter-buttom-text').text('抽出中');
@@ -1121,6 +1162,7 @@ $(function () {
     $('body').on('click', '[data-message-hashtag]', function () {
         const keyword = $(this).data('message-hashtag')
         doFilterParticipantAllOn();
+        doFilterToParticipantAllOn();
         doFilterTypeAllOn();
         $('#modal-filter [data-filter-message-keyword]').val(keyword);
         doFilter();
