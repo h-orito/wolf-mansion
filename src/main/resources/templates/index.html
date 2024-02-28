@@ -36,6 +36,15 @@
                                 class="hidden-xs">【投票】
                             の2つを使って推理・説得する <br class="hidden-xs">「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
                         </div>
+                        <div th:if="${aprilSkillCode}"
+                             class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
+                             style="padding-left: 40px; padding-right: 40px; word-break: break-word; line-height: 1.5em;">
+                            <div class="alert alert-normal margin-top: 20px;"
+                                 style="border: 1px solid #ffffff; padding: 5px; margin-bottom: 10px; border-radius: 4px;"
+                            >
+                                <p class="text-left" th:utext="#{${'skill.' + aprilSkillCode + '.description'}}"></p>
+                            </div>
+                        </div>
                         <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
                             <a href="javascript:void(0);" th:href="@{/about}"
                                class="col-sm-4 col-xs-4 top-menu-selectable h100px">
