@@ -34,7 +34,7 @@ jobs:
 
       - name: build
         run: |
-          ./gradlew jibDockerBuild
+          ./gradlew jibDockerBuild --stacktrace
 
       - name: deploy
         run: |

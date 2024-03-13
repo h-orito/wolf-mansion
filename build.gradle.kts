@@ -45,7 +45,7 @@ dependencies {
     implementation("org.thymeleaf:thymeleaf:3.0.9.RELEASE")
     implementation("org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0")
-    // dbflute, myself
+    // dbflute, mysql
     implementation("org.dbflute:dbflute-runtime:1.2.1")
     implementation("mysql:mysql-connector-java:8.0.25")
     // apache commons
@@ -62,7 +62,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-    testImplementation("com.codeborne:selenide:5.5.0")
+//    testImplementation("com.codeborne:selenide:5.5.0")
 }
 
 tasks.withType<Test> {
