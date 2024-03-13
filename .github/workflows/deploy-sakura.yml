@@ -1,6 +1,7 @@
-name: delivery_sakura
+name: deploy_to_sakura
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master

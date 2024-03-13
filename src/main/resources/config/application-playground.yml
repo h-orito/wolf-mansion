@@ -38,7 +38,10 @@ logging:
   file.name: /app/logs/wolf-mansion.log
 
 app:
-  debug: true
+  debug: false
+  original-image:
+    basedir: /var/www/html/wmansion/original
+    baseurl: /wmansion/original
 
 twitter:
   oauth:
@@ -50,7 +53,7 @@ twitter:
 mastodon:
   oauth:
     host: mstdn.jp
-    access-token:
+    access-token: ${WOLF_MANSION_MASTODON_ACCESS_TOKEN}
 
 slack:
   webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
