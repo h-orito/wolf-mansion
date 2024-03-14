@@ -21,7 +21,7 @@ jobs:
 
       - name: download arm64 JDK 11
         run: |
-          download_url="https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jre11.0.19-linux_aarch64.tar.gz"
+          download_url="https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch64.tar.gz"
           wget -O $RUNNER_TEMP/java_package.tar.gz $download_url
 
       - name: set up JDK 11
