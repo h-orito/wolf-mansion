@@ -23,7 +23,6 @@ class MessageCoordinator(
     private val playerService: PlayerService,
     private val abilityService: AbilityService,
     private val randomKeywordService: RandomKeywordService,
-    private val slackService: NotificationService,
     private val accessInfoCoordinator: AccessInfoCoordinator,
     private val notificationService: NotificationService,
     // domain service
@@ -39,7 +38,7 @@ class MessageCoordinator(
             randomKeywords = randomKeywordService.findRandomKeywords()
         )
         val registered = messageService.registerMessage(village, replacedMessage)
-        slackService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
+        notificationService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
         return registered
     }
 
