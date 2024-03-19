@@ -1,6 +1,14 @@
 package com.ort.app.application.coordinator
 
-import com.ort.app.application.service.*
+import com.ort.app.application.service.AbilityService
+import com.ort.app.application.service.CharaService
+import com.ort.app.application.service.CommitService
+import com.ort.app.application.service.FootstepApplicationService
+import com.ort.app.application.service.MessageService
+import com.ort.app.application.service.NotificationService
+import com.ort.app.application.service.PlayerService
+import com.ort.app.application.service.VillageService
+import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
@@ -18,7 +26,16 @@ import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.setting.VillageCharaSetting
 import com.ort.app.domain.model.vote.Vote
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.domain.service.*
+import com.ort.app.domain.service.AdminDomainService
+import com.ort.app.domain.service.CommitDomainService
+import com.ort.app.domain.service.CreatorDomainService
+import com.ort.app.domain.service.FootstepDomainService
+import com.ort.app.domain.service.MessageDomainService
+import com.ort.app.domain.service.ParticipateDomainService
+import com.ort.app.domain.service.RpDomainService
+import com.ort.app.domain.service.SayDomainService
+import com.ort.app.domain.service.SkillRequestDomainService
+import com.ort.app.domain.service.VoteDomainService
 import com.ort.app.domain.service.ability.AbilityDomainService
 import com.ort.app.domain.service.ability.AttackDomainService
 import com.ort.app.domain.service.room.RoomDomainService
@@ -30,6 +47,8 @@ import org.springframework.web.multipart.MultipartFile
 
 @Service
 class VillageCoordinator(
+    private val accessInfoCoordinator: AccessInfoCoordinator,
+    private val messageCoordinator: MessageCoordinator,
     // application service
     private val villageService: VillageService,
     private val playerService: PlayerService,
@@ -90,37 +109,37 @@ class VillageCoordinator(
             )
         } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip)
             ?: throw IllegalStateException("chara not found.")
-        val participant = villageService.participate(
+        val myself = villageService.participate(
             village.id, player.id, chara, firstRequestSkill, secondRequestSkill, isSpectator
         )
-        villageService.addIpAddress(participant, ipAddress)
         val afterVillage = villageService.findVillage(village.id)!!
         // N人目シスメ
-        messageService.registerMessage(
-            afterVillage,
-            messageDomainService.createParticipateSystemMessage(afterVillage, participant, isSpectator)
+        messageCoordinator.registerMessage(
+            afterVillage.id,
+            messageDomainService.createParticipateSystemMessage(afterVillage, myself, isSpectator)
         )
         // 参加発言
-        messageService.registerMessage(
-            afterVillage,
-            messageDomainService.createJoinMessage(afterVillage, participant, isSpectator, chara, joinMessage)
+        messageCoordinator.registerMessage(
+            afterVillage.id,
+            messageDomainService.createJoinMessage(afterVillage, myself, isSpectator, chara, joinMessage)
         )
         if (!isSpectator) {
             // 希望役職シスメ
-            messageService.registerMessage(afterVillage, messageDomainService.createSkillRequestMessage(participant))
+            messageService.registerMessage(afterVillage, messageDomainService.createSkillRequestMessage(myself))
             // 人数が揃ったらツイート
             notificationService.notifyParticipantEnoughToCustomerIfNeeded(afterVillage)
         }
         // IPアドレスが重複している人がいたら通知
-        if (!playerService.findPlayer(participant.playerId).shouldCheckAccessInfo) return participant
-        val isContain = village.allParticipants().filterNotParticipant(participant).list
+        accessInfoCoordinator.registerAccessInfo(afterVillage, myself, ipAddress)
+        if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return myself
+        val isContain = village.allParticipants().filterNotParticipant(myself).list
             .filterNot { it.playerId == 1 }
             .flatMap { it.ipAddresses }.distinct()
             .contains(ipAddress)
         if (isContain) {
             slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
-        return participant
+        return myself
     }
 
     fun assertParticipate(
