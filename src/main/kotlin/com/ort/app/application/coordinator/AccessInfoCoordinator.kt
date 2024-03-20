@@ -33,6 +33,4 @@ class AccessInfoCoordinator(
             slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
     }
-
-
 }

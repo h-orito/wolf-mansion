@@ -13,7 +13,7 @@
     <div layout:fragment="content">
         <div id="wrapper">
             <!--/* トップ画像 */-->
-            <div th:if="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-image" data-goto="">
+            <div th:if="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-image" data-goto="village/609">
                 <img src="" th:src="@{/app/images/april-top.png}" style="width: 100%;">
                 <span th:if="${user != null}"
                       style="color: #ff0000; position: absolute; bottom: 5px; right: 20px;"
@@ -34,14 +34,17 @@
             <div class="col-sm-12 col-xs-12 top-menu">
                 <div class="top-menu-inner h500px" style="display: block; text-align: center;">
                     <div class="row">
-                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                        <div th:unless="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
                             <h2 class="h5">状況のみで推理・説得する、新しい人狼</h2>
                         </div>
-                        <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
+                        <div th:unless="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
                              style="padding-left: 40px; padding-right: 40px; word-break: break-word; line-height: 1.5em;">
                             WOLF MANSIONでは、<br class="hidden-xs">占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と<br
                                 class="hidden-xs">【投票】
                             の2つを使って推理・説得する <br class="hidden-xs">「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+                        </div>
+                        <div th:if="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
+                            <h2 class="h5">あなたには、この館の「謎」が解けますか？</h2>
                         </div>
                         <div th:if="${aprilSkillCode}"
                              class="col-sm-12 col-xs-12 top-menu-inner-row h100px"
@@ -152,6 +155,9 @@
                     <div class="row">
                         <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
                             <h2 class="h5">開催中の村</h2>
+                        </div>
+                        <div th:if="${aprilSkillCode}" class="col-sm-12 col-xs-12 top-image" data-goto="village/552">
+                            <img src="" th:src="@{/app/images/april-top2.png}" style="width: 100%;">
                         </div>
                         <div class="col-sm-12 col-xs-12 top-menu-inner-row">
                             <div class="col-sm-12 col-xs-12 top-menu-selectable-area">

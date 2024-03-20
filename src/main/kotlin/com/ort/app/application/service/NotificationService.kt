@@ -3,9 +3,7 @@ package com.ort.app.application.service
 import com.ort.app.domain.model.discord.DiscordRepository
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.player.Players
-import com.ort.app.domain.model.slack.SlackRepository
 import com.ort.app.domain.model.toot.TootRepository
-import com.ort.app.domain.model.tweet.TweetRepository
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.dbflute.allcommon.CDef
@@ -15,8 +13,6 @@ import java.time.format.DateTimeFormatter
 @Service
 class NotificationService(
     private val discordRepository: DiscordRepository,
-    private val slackRepository: SlackRepository,
-    private val tweetRepository: TweetRepository,
     private val tootRepository: TootRepository,
     private val messageDomainService: MessageDomainService
 ) {
@@ -26,12 +22,10 @@ class NotificationService(
     fun notifyToDeveloperIfNeeded(villageId: Int, message: Message) {
         if (!message.shouldNotify()) return
         discordRepository.post(villageId, message.time.day, message.content.text)
-//        slackRepository.post(villageId, message.time.day, message.content.text)
     }
 
     fun notifyToDeveloperTextIfNeeded(village: Village, text: String) {
         discordRepository.post(village.id, village.latestDay(), text)
-//        slackRepository.post(village.id, village.latestDay(), text)
     }
 
     fun notifyParticipantEnoughToCustomerIfNeeded(village: Village) {
@@ -41,7 +35,6 @@ class NotificationService(
 
         val startDateTime = village.setting.startDatetime.format(format)
         val msg = "人数が揃いました。次回更新時に村が開始されます。\r\n村名：${village.name}\r\n開始予定：${startDateTime}"
-        tweetRepository.tweet(msg, village.id)
         tootRepository.toot(msg, village.id)
     }
 
@@ -53,13 +46,11 @@ class NotificationService(
                 村名：${village.name}
                 開始予定：$startDatetime
             """.trimIndent()
-        tweetRepository.tweet(msg, village.id)
         tootRepository.toot(msg, village.id)
     }
 
     fun notifyDaychange(villageId: Int, list: List<String>) =
         list.forEach {
-            tweetRepository.tweet(it, villageId) // admin twitter
             tootRepository.toot(it, villageId) // admin mastodon
         }
 
