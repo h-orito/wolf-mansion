@@ -661,6 +661,7 @@ $(function () {
         if ($footstepSelect.length === 0) {
             return;
         }
+		$('[data-skill-submit-button]').prop('disabled', true);
         const $attackerSelect = $('[data-attacker-select]');
         const charaId = $attackerSelect == null ? null : $attackerSelect.val();
         const $targetSelect = $('[data-ability-target-select]');
@@ -671,6 +672,7 @@ $(function () {
             }
         }).then(function (response) {
             if (response == '') {
+				$('[data-skill-submit-button]').prop('disabled', false);
                 return;
             }
             $footstepSelect.empty();
@@ -682,6 +684,7 @@ $(function () {
             if (footstepTarget != null) {
             	$footstepSelect.val(footstepTarget)
             }
+			$('[data-skill-submit-button]').prop('disabled', false);
         });
     }
 
