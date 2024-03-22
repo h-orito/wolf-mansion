@@ -1,6 +1,7 @@
 package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.situation.participant.ParticipantParticipateSituation
@@ -21,6 +22,7 @@ class ParticipateDomainService {
             isParticipating = myself != null,
             isAvailableParticipate = isAvailableParticipate(player, village),
             isAvailableSpectate = isAvailableSpectate(player, village, charachips),
+            selectableCharachipList = getSelectableCharachipList(village, charachips),
             selectableCharaList = getSelectableCharaList(village, charachips),
             isAvailableLeave = isAvailableLeave(village, myself),
             myself = myself
@@ -39,8 +41,23 @@ class ParticipateDomainService {
                 village.canSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
+    private fun getSelectableCharachipList(village: Village, charachips: Charachips): List<Charachip> {
+        // 選べるキャラが1名もいないキャラチップは表示しない
+        return charachips.list.filterNot { charachip ->
+            charachip.charas.list.all { chara ->
+                village.allParticipants().list.any { it.charaId == chara.id }
+            }
+        }
+    }
+
     private fun getSelectableCharaList(village: Village, charachips: Charachips): List<Chara> {
         return charachips.list.flatMap { it.charas.list }.filterNot { chara ->
+            village.allParticipants().list.any { it.charaId == chara.id }
+        }
+    }
+
+    fun getSelectableCharaList(village: Village, charachip: Charachip): List<Chara> {
+        return charachip.charas.list.filterNot { chara ->
             village.allParticipants().list.any { it.charaId == chara.id }
         }
     }

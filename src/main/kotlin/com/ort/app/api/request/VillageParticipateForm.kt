@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull
 
 data class VillageParticipateForm(
     // キャラチップ制の場合
+    val charachipId: Int? = null,
     val charaId: Int? = null,
     // オリジナルキャラ制の場合
     val charaName: String? = null,

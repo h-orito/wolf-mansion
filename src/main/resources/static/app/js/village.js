@@ -11,6 +11,7 @@ $(function () {
     const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
     const GET_ATTACKTARGET_URL = contextPath + 'village/getAttackTargetList';
     const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
+    const GET_SELECTABLE_CHARA_URL = contextPath + 'getSelectableCharaList/' + villageId;
     const GET_FACEIMG_URL = contextPath + 'getFaceImgUrl/' + villageId;
     const SAY_CONFIRM_URL = contextPath + 'village/' + villageId + '/confirm';
     const ACTION_CONFIRM_URL = contextPath + 'village/' + villageId + '/action-confirm';
@@ -65,6 +66,10 @@ $(function () {
         	// 選択していた足音をプルダウンから選択する
         	const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
             replaceFootstepList(nowSelectedFootstep);
+        }
+        if ($('#participate-charachip-select').length > 0) {
+        	// 参戦可能なキャラを読み込んで選択状態にする
+        	loadSelectableCharaList($('[data-selected-chara]').data('selected-chara'));
         }
 
         selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
@@ -1545,50 +1550,74 @@ $(function () {
     // ----------------------------------------------
     // 参戦
     // ----------------------------------------------
+	$('body').on('change', '#participate-charachip-select', function () {
+		loadSelectableCharaList();
+	});
+
+	function loadSelectableCharaList(selectedCharaId) {
+		const $charaSelect = $('#participate-chara-select');
+		const $modalSelectableCharaArea = $('#modal-selectable-chara-area');
+		$.ajax({
+			type: 'GET',
+			url: GET_SELECTABLE_CHARA_URL,
+			data: {
+				charachipId: $('#participate-charachip-select').val()
+			}
+		}).then(function (response) {
+			if (response == '') {
+				return;
+			}
+			$charaSelect.empty();
+			$.each(response, function (idx, val) {
+				$charaSelect.append($('<option></option>', {
+					'value': val.id,
+					text: val.name
+				}));
+			});
+			$modalSelectableCharaArea.empty();
+			$.each(response, function (idx, val) {
+				const $div = $('<div></div>', {
+					class: 'col-xs-6 col-sm-4',
+					style: 'border: 1px solid #464545;'
+				});
+				const $span1 = $('<span></span>', {
+					style: 'display: block; text-align: center;'
+				});
+				const $img = $('<img>', {
+					src: val.url,
+					width: val.width,
+					height: val.height,
+					loading: 'lazy'
+				});
+				$span1.append($img);
+				$div.append($span1);
+				const $span2 = $('<span></span>', {
+					style: 'display: block; text-align: center;',
+					text: val.name
+				});
+				$div.append($span2);
+				const $selectAnchor = $('<a></a>', {
+					href: 'javascript:void(0)',
+					'data-select-participate-chara': val.id,
+					class: 'btn btn-xs btn-success',
+                    style: 'display: block; text-align: center;',
+					text: '選択'
+				});
+				$div.append($selectAnchor);
+				$modalSelectableCharaArea.append($div);
+			});
+
+			if (selectedCharaId != null && selectedCharaId !== '') {
+				$charaSelect.val(selectedCharaId)
+			}
+		});
+	}
+
     // 参戦でキャラを画像選択
-    $('[data-select-participate-chara]').on('click', function () {
+    $('body').on('click', '[data-select-participate-chara]', function () {
         const charaId = $(this).data('select-participate-chara');
         $('#participate-chara-select').val(charaId);
         $('#modal-select-participate-chara').modal('hide');
-    });
-
-    $('[data-selectable-chara-next-page]').on('click', function () {
-        const $page = $('[data-selectable-chara-page]');
-        const page = $page.data('selectable-chara-page');
-        const max = $('[data-selectable-chara-count]').data('selectable-chara-count');
-        if (max <= page * 100) return;
-        $('[data-selectable-chara-previous-page]').removeClass('disabled');
-        const newPage = page + 1;
-        if (max <= newPage * 100 - 1) {
-            $('[data-selectable-chara-next-page]').addClass('disabled');
-        }
-        $page.data('selectable-chara-page', newPage);
-        $.each($('[data-selectable-chara-page]').find('div'), function (idx, elm) {
-            if ((newPage - 1) * 100 <= idx && idx < newPage * 100) {
-                $(elm).css('display', 'block');
-            } else {
-                $(elm).css('display', 'none');
-            }
-        });
-    });
-
-    $('[data-selectable-chara-previous-page]').on('click', function () {
-        const $page = $('[data-selectable-chara-page]');
-        const page = $page.data('selectable-chara-page');
-        if (page === 1) return;
-        $('[data-selectable-chara-next-page]').removeClass('disabled');
-        const newPage = page - 1;
-        if (newPage === 1) {
-            $('[data-selectable-chara-previous-page]').addClass('disabled');
-        }
-        $page.data('selectable-chara-page', newPage);
-        $.each($('[data-selectable-chara-page]').find('div'), function (idx, elm) {
-            if ((newPage - 1) * 100 <= idx && idx < newPage * 100) {
-                $(elm).css('display', 'block');
-            } else {
-                $(elm).css('display', 'none');
-            }
-        });
     });
 
     // ----------------------------------------------

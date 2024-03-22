@@ -54,6 +54,8 @@ data class VillageFormContent(
         val isDispChangeRequestNgMessage: Boolean,
         /** 退村フォームを表示するか */
         val isDispLeaveVillageForm: Boolean,
+        /** 参戦フォームで選択するキャラチップリスト */
+        val selectableCharachipList: List<OptionContent>,
         /** 参戦フォームで選択するキャラクターリスト */
         val selectableCharaList: List<VillageCharaContent>,
         /** 参戦フォームで選択する希望役職リスト */
@@ -70,6 +72,12 @@ data class VillageFormContent(
                     !myself.isSpectator &&
                     !village.setting.rule.isPossibleSkillRequest,
             isDispLeaveVillageForm = situation.participate.isAvailableLeave,
+            selectableCharachipList = situation.participate.selectableCharachipList.map {
+                OptionContent(
+                    it.name,
+                    it.id.toString()
+                )
+            },
             selectableCharaList = situation.participate.selectableCharaList.map { VillageCharaContent(it) },
             selectableSkillList = situation.skillRequest.selectableSkillList.map { VillageSkillContent(it) }
         )

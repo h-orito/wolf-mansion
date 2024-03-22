@@ -5,6 +5,7 @@ import com.ort.app.api.request.VillageChangeRequestSkillForm
 import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageParticipateForm
 import com.ort.app.api.request.validator.VillageParticipateFormValidator
+import com.ort.app.api.view.village.VillageFormContent
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -19,10 +20,7 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.InitBinder
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 
 @Controller
@@ -212,4 +210,16 @@ class VillageParticipateController(
         // 最新の日へ
         return "redirect:/village/$villageId#bottom"
     }
+
+    @GetMapping("/getSelectableCharaList/{villageId}")
+    @ResponseBody
+    private fun getSelectableCharaList(
+        @PathVariable villageId: Int,
+        form: GetSelectableCharaListForm
+    ): List<VillageFormContent.VillageParticipateFormContent.VillageCharaContent> {
+        val charas = villageCoordinator.findSelectableCharaList(villageId, form.charachipId)
+        return charas.map { VillageFormContent.VillageParticipateFormContent.VillageCharaContent(it) }
+    }
+
+    data class GetSelectableCharaListForm(val charachipId: Int = 0)
 }

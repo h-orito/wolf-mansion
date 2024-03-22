@@ -10,6 +10,7 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.ability.Abilities
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.commit.Commit
@@ -360,6 +361,14 @@ class VillageCoordinator(
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
             admin = adminDomainService.convertToSituation(village, myself),
             creator = creatorDomainService.convertToSituation(village, player)
+        )
+    }
+
+    fun findSelectableCharaList(villageId: Int, charachipId: Int): List<Chara> {
+        val village = villageService.findVillage(villageId)!!
+        return participateDomainService.getSelectableCharaList(
+            village = village,
+            charachip = charaService.findCharachip(charachipId, false)!!
         )
     }
 
