@@ -156,11 +156,17 @@ class ExecuteDomainService(
     ): List<VillageParticipant> {
         val map = votedMap.filterNot { it.value <= 0 }.toMutableMap()
         val executed = mutableListOf<VillageParticipant>()
-        repeat(executeCount) {
-            decideExecutedParticipant(map, existsRevolution)?.let {
-                executed.add(it)
-                map.remove(it)
+        var expectExecutedCount = executeCount
+        while (true) {
+            // 処刑対象（0票など、処刑対象がいなくなることもある）
+            val executedParticipant = decideExecutedParticipant(map, existsRevolution) ?: break
+            executed.add(executedParticipant)
+            map.remove(executedParticipant)
+            // 絶対人狼や勇者など、公開役職が処刑されたら処刑対象者を＋1
+            if (executedParticipant.skill!!.isOpenSkill()) {
+                expectExecutedCount += 1
             }
+            if (executed.size >= expectExecutedCount) break
         }
         return executed.toList()
     }

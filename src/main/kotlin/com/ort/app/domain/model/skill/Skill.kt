@@ -80,6 +80,7 @@ data class Skill(
     fun isCounterDeadByInvestigate(): Boolean = toCdef() == CDef.Skill.臭狼
     fun isNoDeadByAttack(): Boolean = toCdef().isNoDeadByAttack
     fun isNoSound(): Boolean = toCdef() == CDef.Skill.防音者
+    fun isOpenSkill(): Boolean = Skills.openSkills.contains(toCdef())
 
     fun getAbility(): AbilityType? = skillToAbility[toCdef()]
 
