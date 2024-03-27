@@ -63,13 +63,13 @@ $(function () {
             const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
             replaceAttackTargetList(nowSelectedTarget, nowSelectedFootstep); // 画面表示時にも取得して切り替える
         } else if ($('[data-footstep-select]').length > 0) {
-        	// 選択していた足音をプルダウンから選択する
-        	const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
+            // 選択していた足音をプルダウンから選択する
+            const nowSelectedFootstep = $('[data-selected-footstep]').data('selected-footstep');
             replaceFootstepList(nowSelectedFootstep);
         }
         if ($('#participate-charachip-select').length > 0) {
-        	// 参戦可能なキャラを読み込んで選択状態にする
-        	loadSelectableCharaList($('[data-selected-chara]').data('selected-chara'));
+            // 参戦可能なキャラを読み込んで選択状態にする
+            loadSelectableCharaList($('[data-selected-chara]').data('selected-chara'));
         }
 
         selectDefaultFootsteps(); // 狐と狂人だったら選択していた足音の部屋を選択状態にする
@@ -141,10 +141,10 @@ $(function () {
             $("[data-message-area]").html(messageTemplate(response));
             // 画像を大きく表示
             if (getDisplaySetting('is_disp_image_large')) {
-            	$('[data-message-area] .message-face img').each(function() {
-            		$(this).attr('width', parseInt($(this).attr('width')) * 2);
-            		$(this).attr('height', parseInt($(this).attr('height')) * 2)
-            	});
+                $('[data-message-area] .message-face img').each(function () {
+                    $(this).attr('width', parseInt($(this).attr('width')) * 2);
+                    $(this).attr('height', parseInt($(this).attr('height')) * 2)
+                });
             }
             $("[data-message-area]").removeClass('loading');
 
@@ -334,13 +334,13 @@ $(function () {
             response.message.messageContent = escapeAndSetAnchor(response.message.messageContent, response.message.isConvertDisable);
             let $anchorMessage = makeAnchorMessage($(messagePartialTemplate(response.message)), anchorClassName);
             $thisMessage.after($anchorMessage);
-			// 画像を大きく表示
-			if (getDisplaySetting('is_disp_image_large')) {
-				$anchorMessage.find('.message-face img').each(function() {
-					$(this).attr('width', parseInt($(this).attr('width')) * 2);
-					$(this).attr('height', parseInt($(this).attr('height')) * 2)
-				});
-			}
+            // 画像を大きく表示
+            if (getDisplaySetting('is_disp_image_large')) {
+                $anchorMessage.find('.message-face img').each(function () {
+                    $(this).attr('width', parseInt($(this).attr('width')) * 2);
+                    $(this).attr('height', parseInt($(this).attr('height')) * 2)
+                });
+            }
             $('.' + anchorClassName).collapse('toggle');
             return false;
         });
@@ -456,8 +456,13 @@ $(function () {
         });
     }
 
-    $('#faceType').on('change', function () {
-        changeFace($(this).val());
+    $('[data-select-charaimage-facetype]').on('click', function () {
+        const faceTypeCode = $(this).data('select-charaimage-facetype');
+        const url = $(this).data('select-charaimage-url');
+        $('#faceType').val(faceTypeCode);
+        // $('#say-face-img').attr('src', url);
+        changeFace(faceTypeCode);
+        $('#modal-select-chara-image').modal('hide');
     });
 
     // 秘話モーダルでキャラ選択
@@ -654,7 +659,7 @@ $(function () {
                 }));
             });
             if (attackTarget != null) {
-            	$targetSelect.val(attackTarget)
+                $targetSelect.val(attackTarget)
             }
             replaceFootstepList(footstep);
         });
@@ -666,7 +671,7 @@ $(function () {
         if ($footstepSelect.length === 0) {
             return;
         }
-		$('[data-skill-submit-button]').prop('disabled', true);
+        $('[data-skill-submit-button]').prop('disabled', true);
         const $attackerSelect = $('[data-attacker-select]');
         const charaId = $attackerSelect == null ? null : $attackerSelect.val();
         const $targetSelect = $('[data-ability-target-select]');
@@ -677,7 +682,7 @@ $(function () {
             }
         }).then(function (response) {
             if (response == '') {
-				$('[data-skill-submit-button]').prop('disabled', false);
+                $('[data-skill-submit-button]').prop('disabled', false);
                 return;
             }
             $footstepSelect.empty();
@@ -687,9 +692,9 @@ $(function () {
                 }));
             });
             if (footstepTarget != null) {
-            	$footstepSelect.val(footstepTarget)
+                $footstepSelect.val(footstepTarget)
             }
-			$('[data-skill-submit-button]').prop('disabled', false);
+            $('[data-skill-submit-button]').prop('disabled', false);
         });
     }
 
@@ -977,39 +982,39 @@ $(function () {
 
     // 宛先
     $('[data-filter-to-participant-allon]').on('click', function () {
-		doFilterToParticipantAllOn();
-	});
+        doFilterToParticipantAllOn();
+    });
 
-	function doFilterToParticipantAllOn() {
-		$('#filter-to-character').find('input').each((idx, elm) => {
-			$(elm).prop('checked', true);
-		});
-	}
+    function doFilterToParticipantAllOn() {
+        $('#filter-to-character').find('input').each((idx, elm) => {
+            $(elm).prop('checked', true);
+        });
+    }
 
-	$('[data-filter-to-participant-alloff]').on('click', function () {
-		doFilterToParticipantAllOff();
-	});
+    $('[data-filter-to-participant-alloff]').on('click', function () {
+        doFilterToParticipantAllOff();
+    });
 
-	function doFilterToParticipantAllOff() {
-		$('#filter-to-character').find('input').each((idx, elm) => {
-			$(elm).prop('checked', false);
-		});
-	}
+    function doFilterToParticipantAllOff() {
+        $('#filter-to-character').find('input').each((idx, elm) => {
+            $(elm).prop('checked', false);
+        });
+    }
 
-	$('[data-filter-to-participant-reverse]').on('click', function () {
-		$('#filter-to-character').find('input').each((idx, elm) => {
-			const checked = $(elm).prop('checked');
-			$(elm).prop('checked', !checked);
-		});
-	});
+    $('[data-filter-to-participant-reverse]').on('click', function () {
+        $('#filter-to-character').find('input').each((idx, elm) => {
+            const checked = $(elm).prop('checked');
+            $(elm).prop('checked', !checked);
+        });
+    });
 
     // 自分宛
-    $('[data-filter-to-me]').on('click', function(){
-    	const myself = $(this).data('filter-to-me');
-    	$('#filter-to-character').find('input').each((idx, elm) => {
-			const value = $(elm).val();
-			$(elm).prop('checked', value == myself);
-		});
+    $('[data-filter-to-me]').on('click', function () {
+        const myself = $(this).data('filter-to-me');
+        $('#filter-to-character').find('input').each((idx, elm) => {
+            const value = $(elm).val();
+            $(elm).prop('checked', value == myself);
+        });
     });
 
     // 発言種別
@@ -1059,9 +1064,9 @@ $(function () {
         filterParticipantIds = $('#filter-character').find('input').filter((idx, elm) => {
             return $(elm).prop('checked');
         }).map((idx, elm) => $(elm).val()).get().sort();
-		filterToParticipantIds = $('#filter-to-character').find('input').filter((idx, elm) => {
-			return $(elm).prop('checked');
-		}).map((idx, elm) => $(elm).val()).get().sort();
+        filterToParticipantIds = $('#filter-to-character').find('input').filter((idx, elm) => {
+            return $(elm).prop('checked');
+        }).map((idx, elm) => $(elm).val()).get().sort();
         filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
         // 発言読み込み
@@ -1133,13 +1138,13 @@ $(function () {
                 $(elm).prop('checked', false);
             }
         });
-		$('#filter-to-character').find('input').each(function (idx, elm) {
-			const participantId = $(elm).val();
-			$(elm).prop('checked', true)
-			if ($.inArray(participantId, filterToParticipantIds) === -1) {
-				$(elm).prop('checked', false);
-			}
-		});
+        $('#filter-to-character').find('input').each(function (idx, elm) {
+            const participantId = $(elm).val();
+            $(elm).prop('checked', true)
+            if ($.inArray(participantId, filterToParticipantIds) === -1) {
+                $(elm).prop('checked', false);
+            }
+        });
         $('#filter-type').find('label').each((idx, elm) => {
             $(elm).addClass('active');
             if ($.inArray($(elm).find('input').val(), filterTypes) === -1) {
@@ -1333,13 +1338,13 @@ $(function () {
             $('[data-dsetting-disp-random-tag-area]').prop('checked', true);
             $('[data-random-tag-area]').removeClass('hidden');
         }
-		if (getDisplaySetting('is_disp_image_large')) {
-			$('[data-dsetting-disp-image-large]').prop('checked', true);
-		}
-		if (getDisplaySetting('is_disp_message_large')) {
-			$('[data-dsetting-disp-message-large]').prop('checked', true);
-			$('.village-wrapper').addClass('large')
-		}
+        if (getDisplaySetting('is_disp_image_large')) {
+            $('[data-dsetting-disp-image-large]').prop('checked', true);
+        }
+        if (getDisplaySetting('is_disp_message_large')) {
+            $('[data-dsetting-disp-message-large]').prop('checked', true);
+            $('.village-wrapper').addClass('large')
+        }
         if (!getDisplaySetting('is_open_situation_tab')) {
             $('[data-situation-tab-open]').click();
         }
@@ -1452,20 +1457,20 @@ $(function () {
         }
     });
 
-	$('[data-dsetting-disp-image-large]').on('change', function () {
-		const isCheck = $(this).prop('checked');
-		saveDisplaySetting('is_disp_image_large', isCheck);
-	});
+    $('[data-dsetting-disp-image-large]').on('change', function () {
+        const isCheck = $(this).prop('checked');
+        saveDisplaySetting('is_disp_image_large', isCheck);
+    });
 
-	$('[data-dsetting-disp-message-large]').on('change', function () {
-		const isCheck = $(this).prop('checked');
-		saveDisplaySetting('is_disp_message_large', isCheck);
-		if (isCheck) {
-			$('.village-wrapper').addClass('large');
-		} else {
-			$('.village-wrapper').removeClass('large');
-		}
-	});
+    $('[data-dsetting-disp-message-large]').on('change', function () {
+        const isCheck = $(this).prop('checked');
+        saveDisplaySetting('is_disp_message_large', isCheck);
+        if (isCheck) {
+            $('.village-wrapper').addClass('large');
+        } else {
+            $('.village-wrapper').removeClass('large');
+        }
+    });
 
     $('[data-situation-tab-open]').on('click', function () {
         const isOpen = $($(this).attr('href')).hasClass('in');
@@ -1550,68 +1555,68 @@ $(function () {
     // ----------------------------------------------
     // 参戦
     // ----------------------------------------------
-	$('body').on('change', '#participate-charachip-select', function () {
-		loadSelectableCharaList();
-	});
+    $('body').on('change', '#participate-charachip-select', function () {
+        loadSelectableCharaList();
+    });
 
-	function loadSelectableCharaList(selectedCharaId) {
-		const $charaSelect = $('#participate-chara-select');
-		const $modalSelectableCharaArea = $('#modal-selectable-chara-area');
-		$.ajax({
-			type: 'GET',
-			url: GET_SELECTABLE_CHARA_URL,
-			data: {
-				charachipId: $('#participate-charachip-select').val()
-			}
-		}).then(function (response) {
-			if (response == '') {
-				return;
-			}
-			$charaSelect.empty();
-			$.each(response, function (idx, val) {
-				$charaSelect.append($('<option></option>', {
-					'value': val.id,
-					text: val.name
-				}));
-			});
-			$modalSelectableCharaArea.empty();
-			$.each(response, function (idx, val) {
-				const $div = $('<div></div>', {
-					class: 'col-xs-6 col-sm-4',
-					style: 'border: 1px solid #464545;'
-				});
-				const $span1 = $('<span></span>', {
-					style: 'display: block; text-align: center;'
-				});
-				const $img = $('<img>', {
-					src: val.url,
-					width: val.width,
-					height: val.height,
-					loading: 'lazy'
-				});
-				$span1.append($img);
-				$div.append($span1);
-				const $span2 = $('<span></span>', {
-					style: 'display: block; text-align: center;',
-					text: val.name
-				});
-				$div.append($span2);
-				const $selectAnchor = $('<a></a>', {
-					href: 'javascript:void(0)',
-					'data-select-participate-chara': val.id,
-					class: 'btn btn-xs btn-success',
+    function loadSelectableCharaList(selectedCharaId) {
+        const $charaSelect = $('#participate-chara-select');
+        const $modalSelectableCharaArea = $('#modal-selectable-chara-area');
+        $.ajax({
+            type: 'GET',
+            url: GET_SELECTABLE_CHARA_URL,
+            data: {
+                charachipId: $('#participate-charachip-select').val()
+            }
+        }).then(function (response) {
+            if (response == '') {
+                return;
+            }
+            $charaSelect.empty();
+            $.each(response, function (idx, val) {
+                $charaSelect.append($('<option></option>', {
+                    'value': val.id,
+                    text: val.name
+                }));
+            });
+            $modalSelectableCharaArea.empty();
+            $.each(response, function (idx, val) {
+                const $div = $('<div></div>', {
+                    class: 'col-xs-6 col-sm-4',
+                    style: 'border: 1px solid #464545;'
+                });
+                const $span1 = $('<span></span>', {
+                    style: 'display: block; text-align: center;'
+                });
+                const $img = $('<img>', {
+                    src: val.url,
+                    width: val.width,
+                    height: val.height,
+                    loading: 'lazy'
+                });
+                $span1.append($img);
+                $div.append($span1);
+                const $span2 = $('<span></span>', {
                     style: 'display: block; text-align: center;',
-					text: '選択'
-				});
-				$div.append($selectAnchor);
-				$modalSelectableCharaArea.append($div);
-			});
+                    text: val.name
+                });
+                $div.append($span2);
+                const $selectAnchor = $('<a></a>', {
+                    href: 'javascript:void(0)',
+                    'data-select-participate-chara': val.id,
+                    class: 'btn btn-xs btn-success',
+                    style: 'display: block; text-align: center;',
+                    text: '選択'
+                });
+                $div.append($selectAnchor);
+                $modalSelectableCharaArea.append($div);
+            });
 
-			if (selectedCharaId != null && selectedCharaId !== '') {
-				$charaSelect.val(selectedCharaId)
-			}
-		});
-	}
+            if (selectedCharaId != null && selectedCharaId !== '') {
+                $charaSelect.val(selectedCharaId)
+            }
+        });
+    }
 
     // 参戦でキャラを画像選択
     $('body').on('click', '[data-select-participate-chara]', function () {

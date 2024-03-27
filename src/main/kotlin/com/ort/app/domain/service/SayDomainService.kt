@@ -1,8 +1,8 @@
 package com.ort.app.domain.service
 
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachips
-import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.player.Player
@@ -56,7 +56,7 @@ class SayDomainService(
         return ParticipantSaySituation(
             isAvailableSay = isAvailableSay(village, myself, day),
             selectableMessageTypeList = selectableMessageTypeList,
-            selectableFaceTypeList = getSelectableFaceTypeList(myself, charachips),
+            selectableCharaImageList = getSelectableFaceTypeList(myself, charachips),
             defaultMessageType = detectDefaultMessageType(
                 isAvailableSay(village, myself, day),
                 selectableMessageTypeList
@@ -120,13 +120,12 @@ class SayDomainService(
             }
     }
 
-    private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachips: Charachips): List<FaceType> {
+    private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachips: Charachips): List<CharaImage> {
         myself ?: return listOf()
         return charachips.list
             .flatMap { it.charas.list }
             .first { it.id == myself.charaId }.images.list
             .filter { it.isDisplay }
-            .map { it.faceType }
     }
 
     private fun detectDefaultMessageType(

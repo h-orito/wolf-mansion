@@ -15,13 +15,17 @@
                     <div class="alert alert-dead small" th:if="${content.myself.dead}">
                         <ul>
                             <li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
-                            <li th:if="${!content.settings.visibleGraveSpectateMessage}">墓下では推理発言やCOを行っても問題ありません。</li>
+                            <li th:if="${!content.settings.visibleGraveSpectateMessage}">
+                                墓下では推理発言やCOを行っても問題ありません。
+                            </li>
                         </ul>
                     </div>
                     <div class="alert alert-warning-say small"
                          th:if="${!content.myself.dead || (content.myself.dead && content.settings.visibleGraveSpectateMessage)}">
                         <ul>
-                            <li th:if="${content.settings.visibleGraveSpectateMessage}">この村は、墓下や見学発言を生存者が参照できます。</li>
+                            <li th:if="${content.settings.visibleGraveSpectateMessage}">
+                                この村は、墓下や見学発言を生存者が参照できます。
+                            </li>
                             <li th:if="${content.settings.visibleGraveSpectateMessage}">
                                 進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。
                             </li>
@@ -164,14 +168,20 @@
                             </div>
                             <div class="col-sm-12 col-xs-12" style="display: flex;">
                                 <div>
-                                    <img id="say-face-img" th:src="${content.myself.charaImageUrl}"
+                                    <img id="say-face-img"
+                                         th:src="${content.myself.charaImageUrl}"
                                          th:width="${content.myself.charaImageWidth}"
-                                         th:height="${content.myself.charaImageHeight}">
-                                    <div style="position: absolute; bottom: 0;">
+                                         th:height="${content.myself.charaImageHeight}"
+                                         style="cursor: pointer;"
+                                         data-toggle="modal"
+                                         data-target="#modal-select-chara-image"
+                                    />
+                                    <div class="hidden">
                                         表情<br> <select class="form-control small" th:field="*{faceType}"
-                                                       th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.myself.charaImageWidth} + 'px;'">
-                                        <option th:each="face : ${content.form.say.faceTypeList}"
-                                                th:value="${face.value}" th:text="${face.name}"></option>
+                                                         th:style="'padding-left: 0px; padding-right: 0px; font-size: 86%; max-width: ' + ${content.myself.charaImageWidth} + 'px;'">
+                                        <option th:each="charaImage : ${content.form.say.charaImageList}"
+                                                th:value="${charaImage.faceType.code}"
+                                                th:text="${charaImage.faceType.name}"></option>
                                     </select>
                                     </div>
                                 </div>
@@ -239,6 +249,40 @@
                             <a href="javascript:void(0);" class="btn btn-xs btn-success"
                                style="display: block; text-align: center;"
                                th:data-select-secretsay-chara="${chara.value}">選択</a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-xs-12 small">
+                        <a href="javascript:void(0);"
+                           class="btn btn-primary pull-right small"
+                           data-dismiss="modal"
+                           style="margin-top: 10px;">閉じる</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" th:if="${content.form.say.charaImageList}"
+         id="modal-select-chara-image" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body row">
+                    <div class="col-sm-12 col-xs-12">
+                        <h4>表情選択</h4>
+                        <div class="col-sm-4 col-xs-6"
+                             style="border: 1px solid #464545; padding: 5px;"
+                             th:each="charaImage : ${content.form.say.charaImageList}">
+                            <span style="display: block; text-align: center;">
+                                <img src="" th:src="${charaImage.url}"
+                                     th:width="${content.myself.charaImageWidth}"
+                                     th:height="${content.myself.charaImageHeight}"/>
+                            </span>
+                            <span style="display: block; text-align: center;"
+                                  th:text="${charaImage.faceType.name}"></span>
+                            <a href="javascript:void(0);" class="btn btn-xs btn-success"
+                               style="display: block; text-align: center;"
+                               th:data-select-charaimage-facetype="${charaImage.faceType.code}"
+                               th:data-select-charaimage-url="${charaImage.url}"
+                            >選択</a>
                         </div>
                     </div>
                     <div class="col-sm-12 col-xs-12 small">

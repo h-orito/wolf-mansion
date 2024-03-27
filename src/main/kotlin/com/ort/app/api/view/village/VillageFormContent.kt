@@ -2,6 +2,7 @@ package com.ort.app.api.view.village
 
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
@@ -139,7 +140,7 @@ data class VillageFormContent(
         /** 発言制限 */
         val restrict: SayRestrictContent,
         /** 選択可能な表情区分 */
-        val faceTypeList: List<OptionContent>,
+        val charaImageList: List<CharaImage>,
         /** 秘話相手 */
         val secretSayTargetList: List<SecretSayTarget>
     ) {
@@ -156,12 +157,7 @@ data class VillageFormContent(
             isAvailableSecretSay = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.秘話 },
             isAvailableAction = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.アクション },
             restrict = SayRestrictContent(myself, situation),
-            faceTypeList = situation.say.selectableFaceTypeList.map {
-                OptionContent(
-                    name = it.name,
-                    value = it.code
-                )
-            },
+            charaImageList = situation.say.selectableCharaImageList,
             secretSayTargetList = situation.say.selectableMessageTypeList
                 .firstOrNull { it.messageType.toCdef() == CDef.MessageType.秘話 }?.targetList
                 ?.map { SecretSayTarget(it, charachips) } ?: emptyList()
