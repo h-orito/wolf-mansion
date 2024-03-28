@@ -456,11 +456,14 @@ $(function () {
         });
     }
 
+	$('#faceType').on('change', function () {
+		changeFace($(this).val());
+	});
+
     $('[data-select-charaimage-facetype]').on('click', function () {
         const faceTypeCode = $(this).data('select-charaimage-facetype');
         const url = $(this).data('select-charaimage-url');
         $('#faceType').val(faceTypeCode);
-        // $('#say-face-img').attr('src', url);
         changeFace(faceTypeCode);
         $('#modal-select-chara-image').modal('hide');
     });
