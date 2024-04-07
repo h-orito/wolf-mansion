@@ -36,6 +36,9 @@ ul {
     .form-horizontal .control-label {
         padding-top: 5px;
     }
+    .modal-dialog {
+        width: 80vw;
+    }
 }
 
 .top-image {

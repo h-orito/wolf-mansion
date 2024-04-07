@@ -10,7 +10,7 @@ data class VillageFilterParticipantContent(
     val imgWidth: Int,
     val imgHeight: Int,
     val imgUrl: String,
-    val deadStatus: String
+    val deadStatus: String?
 ) {
     constructor(
         village: Village,
@@ -26,9 +26,9 @@ data class VillageFilterParticipantContent(
     )
 
     companion object {
-        private fun mappingToDeadStatus(village: Village, participant: VillageParticipant): String {
-            if (participant.isSpectator) return " "
-            if (participant.isAlive()) return " "
+        private fun mappingToDeadStatus(village: Village, participant: VillageParticipant): String? {
+            if (participant.isSpectator) return "見学"
+            if (participant.isAlive()) return "生存"
             return participant.dead.let {
                 val reason = it.reason!!.getDisplayName(village.isSettled())
                 "${it.deadDay}d${reason}"

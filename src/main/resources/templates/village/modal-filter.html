@@ -26,145 +26,178 @@
             <div class="modal-body row">
                 <div class="col-sm-12 col-xs-12">
                     <h4>発言抽出</h4>
-                    <div id="filter-type" style="margin-top: 15px;">
-                        <strong>発言種別</strong>
-                        <div style="margin-top: 10px;">
-                            <a href="javascript:void(0);" data-filter-type-allon>全てON</a> /
-                            <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a> /
-                            <a href="javascript:void(0);" data-filter-type-reverse>反転</a>
-                        </div>
-                        <div class="btn-group btn-saytypes" data-toggle="buttons"
-                             style="display: flex; margin-top: 10px;">
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="NORMAL_SAY"
-                                       autocomplete="false"/>通常
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="GRAVE_SPECTATE_SAY"
-                                       autocomplete="false"/>墓下見学
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="MONOLOGUE_SAY"
-                                       autocomplete="false"/>独り言
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="CREATOR_SAY"
-                                       autocomplete="false"/>村建て発言
-                            </label>
-                        </div>
-                        <div class="btn-group btn-saytypes" data-toggle="buttons"
-                             style="display: flex; margin-top: 10px;">
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="WEREWOLF_SAY"
-                                       autocomplete="false"/>囁き
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="MASON_SAY"
-                                       autocomplete="false"/>共鳴
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="LOVERS_SAY"
-                                       autocomplete="false"/>恋人
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="TELEPATHY"
-                                       autocomplete="false"/>念話
-                            </label>
-                        </div>
-                        <div class="btn-group btn-saytypes" data-toggle="buttons"
-                             style="display: flex; margin-top: 10px;">
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="SECRET_SAY"
-                                       autocomplete="false"/>秘話
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="ACTION"
-                                       autocomplete="false"/>アクション
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="PUBLIC_SYSTEM"
-                                       autocomplete="false"/>公開システム
-                            </label>
-                            <label class="btn btn-sm btn-success active" style="flex: 1;">
-                                <input type="checkbox" class="btn btn-sm btn-success" value="PRIVATE_SYSTEM"
-                                       autocomplete="false"/>非公開システム
-                            </label>
-                        </div>
-                    </div>
-                    <div id="filter-character" class="clearfix" style="margin-top: 25px;">
-                        <strong>発言者</strong>
-                        <div style="margin-top: 10px;">
-                            <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
-                            <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a> /
-                            <a href="javascript:void(0);" data-filter-participant-reverse>反転</a>
-                        </div>
-                        <div style="margin-top: 10px;">
-                            <div th:each="participant,s: ${content.participantList}"
-                                 class="col-sm-12 col-xs-12 checkbox"
-                                 th:style="'border-top: 1px solid #ccc; ' + ${s.last ? 'border-bottom: 1px solid #ccc;' : ''}">
-                                <label style="display: flex; padding-top: 5px; padding-bottom: 5px;">
-                                    <input type="checkbox" th:value="${participant.id}"/>
-                                    <div style="padding-right: 5px;">
-                                        <img th:src="${participant.imgUrl}" th:width="${participant.imgWidth / 2}"
-                                             th:height="${participant.imgHeight / 2}"/>
+                    <div style="display: flex; flex-direction: column;">
+                        <div style="flex: 1; overflow-y: auto; max-height: 80vh;">
+                            <div id="filter-type" style="margin-top: 15px;">
+                                <strong>発言種別</strong>
+                                <div style="margin-top: 10px;">
+                                    <a href="javascript:void(0);" data-filter-type-allon>全てON</a> /
+                                    <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a> /
+                                    <a href="javascript:void(0);" data-filter-type-reverse>反転</a>
+                                </div>
+                                <div class="btn-group btn-saytypes" data-toggle="buttons"
+                                     style="display: flex; margin-top: 10px;">
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="NORMAL_SAY"
+                                               autocomplete="false"/>通常
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="GRAVE_SPECTATE_SAY"
+                                               autocomplete="false"/>墓下見学
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="MONOLOGUE_SAY"
+                                               autocomplete="false"/>独り言
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="CREATOR_SAY"
+                                               autocomplete="false"/>村建て発言
+                                    </label>
+                                </div>
+                                <div class="btn-group btn-saytypes" data-toggle="buttons"
+                                     style="display: flex; margin-top: 10px;">
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="WEREWOLF_SAY"
+                                               autocomplete="false"/>囁き
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="MASON_SAY"
+                                               autocomplete="false"/>共鳴
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="LOVERS_SAY"
+                                               autocomplete="false"/>恋人
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="TELEPATHY"
+                                               autocomplete="false"/>念話
+                                    </label>
+                                </div>
+                                <div class="btn-group btn-saytypes" data-toggle="buttons"
+                                     style="display: flex; margin-top: 10px;">
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="SECRET_SAY"
+                                               autocomplete="false"/>秘話
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="ACTION"
+                                               autocomplete="false"/>アクション
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="PUBLIC_SYSTEM"
+                                               autocomplete="false"/>公開システム
+                                    </label>
+                                    <label class="btn btn-sm btn-success active" style="flex: 1;">
+                                        <input type="checkbox" class="btn btn-sm btn-success" value="PRIVATE_SYSTEM"
+                                               autocomplete="false"/>非公開システム
+                                    </label>
+                                </div>
+                            </div>
+                            <div id="filter-character" class="clearfix" style="margin-top: 40px;">
+                                <details open>
+                                    <summary style="display: list-item;"><strong>発言者（クリックで開閉）</strong></summary>
+                                    <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
+                                        <div class="row">
+                                            <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
+                                            <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a> /
+                                            <a href="javascript:void(0);" data-filter-participant-reverse>反転</a>
+                                        </div>
                                     </div>
-                                    <div style="flex: 1;">
-                                        <p th:text="${participant.name}"></p>
-                                        <p class="text-danger" style="margin-bottom: 0;"
-                                           th:text="${participant.deadStatus}"></p>
+                                    <div class="col-sm-12 col-xs-12" style="margin-top: 10px;">
+                                        <div class="row" style="border-bottom: 1px solid #ccc;">
+                                            <div th:each="participant,s: ${content.participantList}"
+                                                 class="col-lg-4 col-sm-6 col-xs-12"
+                                                 style="border-top: 1px solid #ccc;">
+                                                <label class="row"
+                                                       style="display: flex; min-height: 70px; padding: 10px;">
+                                                    <input type="checkbox" th:value="${participant.id}"
+                                                           style="margin-top: auto; margin-bottom: auto;"/>
+                                                    <div style="padding-left: 10px; padding-right: 10px;">
+                                                        <img th:src="${participant.imgUrl}"
+                                                             th:width="${participant.imgWidth / 2}"
+                                                             th:height="${participant.imgHeight / 2}"/>
+                                                    </div>
+                                                    <div style="flex: 1; font-weight: normal;">
+                                                        <p th:text="${participant.name}"></p>
+                                                        <p class="text-danger" style="margin-bottom: 0;"
+                                                           th:if="${participant.deadStatus != '生存' && participant.deadStatus != '見学'}"
+                                                           th:text="${participant.deadStatus}"></p>
+                                                        <p style="margin-bottom: 0;"
+                                                           th:if="${participant.deadStatus == '生存' || participant.deadStatus == '見学'}"
+                                                           th:text="${participant.deadStatus}"></p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </label>
+                                </details>
+                            </div>
+                            <div class="clearfix" style="margin-top: 40px;">
+                                <strong>キーワード</strong>
+                                <input type="text" class="form-control" data-filter-message-keyword
+                                       placeholder="スペース区切り"
+                                       style="margin-top: 5px;"/>
+                                <a href="javascript:void(0);" data-filter-message-clear
+                                   style="margin-top: 10px;">クリア</a>
+                            </div>
+                            <div id="filter-to-character" class="clearfix" style="margin-top: 40px;">
+                                <details open>
+                                    <summary style="display: list-item;"><strong>宛先（クリックで開閉）</strong></summary>
+                                    <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
+                                        <div class="row">
+                                            <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a> /
+                                            <a href="javascript:void(0);" data-filter-to-participant-alloff>全てOFF</a> /
+                                            <a href="javascript:void(0);" data-filter-to-participant-reverse>反転</a> /
+                                            <a href="javascript:void(0);"
+                                               th:if="${content.myself != null}"
+                                               th:data-filter-to-me="${content.myself.id}"
+                                               style="margin-top: 10px;">自分宛</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-xs-12" style="margin-top: 10px;">
+                                        <div class="row" style="border-bottom: 1px solid #ccc;">
+                                            <div th:each="participant,s: ${content.participantList}"
+                                                 class="col-lg-4 col-sm-6 col-xs-12"
+                                                 style="border-top: 1px solid #ccc;">
+                                                <label class="row"
+                                                       style="display: flex; min-height: 70px; padding: 10px;">
+                                                    <input type="checkbox" th:value="${participant.id}"
+                                                           style="margin-top: auto; margin-bottom: auto;"/>
+                                                    <div style="padding-left: 10px; padding-right: 10px;">
+                                                        <img th:src="${participant.imgUrl}"
+                                                             th:width="${participant.imgWidth / 2}"
+                                                             th:height="${participant.imgHeight / 2}"/>
+                                                    </div>
+                                                    <div style="flex: 1; font-weight: normal;">
+                                                        <p th:text="${participant.name}"></p>
+                                                        <p class="text-danger" style="margin-bottom: 0;"
+                                                           th:if="${participant.deadStatus != '生存' && participant.deadStatus != '見学'}"
+                                                           th:text="${participant.deadStatus}"></p>
+                                                        <p style="margin-bottom: 0;"
+                                                           th:if="${participant.deadStatus == '生存' || participant.deadStatus == '見学'}"
+                                                           th:text="${participant.deadStatus}"></p>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </details>
+                            </div>
+                            <div class="clearfix" style="margin-top: 40px; margin-bottom: 20px;">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" value="dummy" data-dsetting-unspoiled> エピローグ前同等の表示にする
+                                    </label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="clearfix" style="margin-top: 25px;">
-                        <strong>キーワード</strong>
-                        <input type="text" class="form-control" data-filter-message-keyword placeholder="スペース区切り"
-                               style="margin-top: 5px;"/>
-                        <a href="javascript:void(0);" data-filter-message-clear style="margin-top: 10px;">クリア</a>
-                    </div>
-                    <div id="filter-to-character" class="clearfix" style="margin-top: 25px;">
-                        <strong>宛先</strong>
-                        <div style="margin-top: 10px;">
-                            <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a> /
-                            <a href="javascript:void(0);" data-filter-to-participant-alloff>全てOFF</a> /
-                            <a href="javascript:void(0);" data-filter-to-participant-reverse>反転</a> /
+                        <div class="clearfix col-sm-12 col-xs-12 small" style="margin-top: 20px;">
+                            <a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small"
+                               data-filter-submit>抽出</a>
                             <a href="javascript:void(0);"
-                               th:if="${content.myself != null}" th:data-filter-to-me="${content.myself.id}"
-                               style="margin-top: 10px;">自分宛</a>
+                               class="btn btn-primary btn-sm pull-right small"
+                               data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
                         </div>
-                        <div style="margin-top: 10px;">
-                            <div th:each="participant,s: ${content.participantList}"
-                                 class="col-sm-12 col-xs-12 checkbox"
-                                 th:style="'border-top: 1px solid #ccc; ' + ${s.last ? 'border-bottom: 1px solid #ccc;' : ''}">
-                                <label style="display: flex; padding-top: 5px; padding-bottom: 5px;">
-                                    <input type="checkbox" th:value="${participant.id}"/>
-                                    <div style="padding-right: 5px;">
-                                        <img th:src="${participant.imgUrl}" th:width="${participant.imgWidth / 2}"
-                                             th:height="${participant.imgHeight / 2}"/>
-                                    </div>
-                                    <div style="flex: 1;">
-                                        <p th:text="${participant.name}"></p>
-                                        <p class="text-danger" style="margin-bottom: 0;"
-                                           th:text="${participant.deadStatus}"></p>
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix" style="margin-top: 25px;">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" value="dummy" data-dsetting-unspoiled> エピローグ前同等の表示にする
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="clearfix col-sm-12 col-xs-12 small">
-                        <a href="javascript:void(0);" class="btn btn-success btn-sm pull-right small"
-                           data-filter-submit>抽出</a> <a href="javascript:void(0);"
-                                                          class="btn btn-primary btn-sm pull-right small"
-                                                          data-dismiss="modal" style="margin-right: 10px;">閉じる</a>
                     </div>
                 </div>
             </div>
