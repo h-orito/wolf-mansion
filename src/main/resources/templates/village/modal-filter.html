@@ -27,7 +27,7 @@
                 <div class="col-sm-12 col-xs-12">
                     <h4>発言抽出</h4>
                     <div style="display: flex; flex-direction: column;">
-                        <div style="flex: 1; overflow-y: auto; max-height: 80vh; max-height: 80dvh;">
+                        <div style="flex: 1; overflow-y: auto; max-height: 80vh; max-height: 80dvh; width: 100%; overflow-x: hidden;">
                             <div id="filter-type" style="margin-top: 15px;">
                                 <strong>発言種別</strong>
                                 <div style="margin-top: 10px;">
@@ -85,24 +85,27 @@
                                     </label>
                                     <label class="btn btn-sm btn-success active" style="flex: 1;">
                                         <input type="checkbox" class="btn btn-sm btn-success" value="PUBLIC_SYSTEM"
-                                               autocomplete="false"/>公開システム
+                                               autocomplete="false"/>公開シスメ
                                     </label>
                                     <label class="btn btn-sm btn-success active" style="flex: 1;">
                                         <input type="checkbox" class="btn btn-sm btn-success" value="PRIVATE_SYSTEM"
-                                               autocomplete="false"/>非公開システム
+                                               autocomplete="false"/>非公開シスメ
                                     </label>
                                 </div>
                             </div>
                             <div id="filter-character" class="clearfix" style="margin-top: 40px;">
                                 <details open>
-                                    <summary style="display: list-item;"><strong>発言者（クリックで開閉）</strong></summary>
-                                    <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
-                                        <div class="row">
-                                            <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
-                                            <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a> /
-                                            <a href="javascript:void(0);" data-filter-participant-reverse>反転</a>
+                                    <summary style="display: list-item;">
+                                        <strong>発言者（クリックで開閉）</strong>
+                                        <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
+                                            <div class="row">
+                                                <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
+                                                <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a>
+                                                /
+                                                <a href="javascript:void(0);" data-filter-participant-reverse>反転</a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </summary>
                                     <div class="col-sm-12 col-xs-12" style="margin-top: 10px;">
                                         <div class="row" style="border-bottom: 1px solid #ccc;">
                                             <div th:each="participant,s: ${content.participantList}"
@@ -142,18 +145,23 @@
                             </div>
                             <div id="filter-to-character" class="clearfix" style="margin-top: 40px;">
                                 <details open>
-                                    <summary style="display: list-item;"><strong>宛先（クリックで開閉）</strong></summary>
-                                    <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
-                                        <div class="row">
-                                            <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a> /
-                                            <a href="javascript:void(0);" data-filter-to-participant-alloff>全てOFF</a> /
-                                            <a href="javascript:void(0);" data-filter-to-participant-reverse>反転</a> /
-                                            <a href="javascript:void(0);"
-                                               th:if="${content.myself != null}"
-                                               th:data-filter-to-me="${content.myself.id}"
-                                               style="margin-top: 10px;">自分宛</a>
+                                    <summary style="display: list-item;">
+                                        <strong>宛先（クリックで開閉）</strong>
+                                        <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
+                                            <div class="row">
+                                                <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a>
+                                                /
+                                                <a href="javascript:void(0);"
+                                                   data-filter-to-participant-alloff>全てOFF</a> /
+                                                <a href="javascript:void(0);"
+                                                   data-filter-to-participant-reverse>反転</a> /
+                                                <a href="javascript:void(0);"
+                                                   th:if="${content.myself != null}"
+                                                   th:data-filter-to-me="${content.myself.id}"
+                                                   style="margin-top: 10px;">自分宛</a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </summary>
                                     <div class="col-sm-12 col-xs-12" style="margin-top: 10px;">
                                         <div class="row" style="border-bottom: 1px solid #ccc;">
                                             <div th:each="participant,s: ${content.participantList}"
