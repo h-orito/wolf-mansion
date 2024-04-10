@@ -1,6 +1,9 @@
 package com.ort.app.api.view
 
-import com.ort.app.api.view.village.*
+import com.ort.app.api.view.village.VillageFilterParticipantContent
+import com.ort.app.api.view.village.VillageFormContent
+import com.ort.app.api.view.village.VillageMemberContent
+import com.ort.app.api.view.village.VillageRoomAssignedRow
 import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.player.Player
@@ -99,7 +102,7 @@ data class VillageContent(
         villageFootstepList = villageSituation.footstep.list.map { VillageFootstepContent(it.day, it.footstep) },
         dayChangeDatetime = mapDayChangeDatetime(village),
         isDispUnspoiler = village.status.isSettled(),
-        randomKeywords = keywords.list.joinToString(separator = ",") { it.keyword },
+        randomKeywords = keywords.list.sortedBy { it.keyword }.joinToString(separator = ",") { it.keyword },
         situationList = villageSituation.whole.list.map { VillageSituationContent(it) },
         isDispSpoilerContent = isDispSpoilerContent,
         isCreatePlayer = participantSituation.creator.isCreator
