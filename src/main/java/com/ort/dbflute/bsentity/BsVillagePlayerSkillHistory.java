@@ -255,6 +255,14 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     }
 
     /**
+     * Set the value of skillCode as ちくわ大明神 (CHIKUWA). <br>
+     * ちくわ大明神
+     */
+    public void setSkillCode_ちくわ大明神() {
+        setSkillCodeAsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Set the value of skillCode as 曇天者 (CLOUDY). <br>
      * 曇天者
      */
@@ -1318,6 +1326,17 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
     public boolean isSkillCode浮気者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.浮気者) : false;
+    }
+
+    /**
+     * Is the value of skillCode ちくわ大明神? <br>
+     * ちくわ大明神
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeちくわ大明神() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ちくわ大明神) : false;
     }
 
     /**

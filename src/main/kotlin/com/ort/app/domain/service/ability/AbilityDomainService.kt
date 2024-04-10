@@ -83,6 +83,7 @@ class AbilityDomainService(
     private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
     private val telekinesisDomainService: TelekinesisDomainService,
     private val hiyasichukaDomainService: HiyasichukaDomainService,
+    private val chikuwaDomainService: ChikuwaDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
@@ -198,6 +199,7 @@ class AbilityDomainService(
             CDef.AbilityType.反呪 -> counterCurseMarkDomainService
             CDef.AbilityType.念力付与 -> telekinesisDomainService
             CDef.AbilityType.冷やし中華 -> hiyasichukaDomainService
+            CDef.AbilityType.誰だ今の -> chikuwaDomainService
             CDef.AbilityType.ナマ足 -> hotLimitDomainService
         }
 

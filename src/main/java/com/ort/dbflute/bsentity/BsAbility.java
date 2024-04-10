@@ -256,6 +256,14 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     }
 
     /**
+     * Set the value of abilityTypeCode as 誰だ今の (CHIKUWA). <br>
+     * 誰だ今の
+     */
+    public void setAbilityTypeCode_誰だ今の() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.誰だ今の);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 曇天 (CLOUD). <br>
      * 曇天
      */
@@ -723,6 +731,17 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
     public boolean isAbilityTypeCode浮気() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.浮気) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 誰だ今の? <br>
+     * 誰だ今の
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode誰だ今の() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.誰だ今の) : false;
     }
 
     /**

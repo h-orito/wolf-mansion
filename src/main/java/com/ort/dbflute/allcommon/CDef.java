@@ -568,6 +568,9 @@ public interface CDef extends Classification {
         /** 浮気者 */
         浮気者("CHEATLOVER", "浮気者", emptyStrings())
         ,
+        /** ちくわ大明神 */
+        ちくわ大明神("CHIKUWA", "ちくわ大明神", emptyStrings())
+        ,
         /** 曇天者 */
         曇天者("CLOUDY", "曇天者", emptyStrings())
         ,
@@ -1017,6 +1020,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "40");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "竹");
+                _subItemMapMap.put(ちくわ大明神.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "217");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "曇");
@@ -1290,7 +1300,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "40");
+                subItemMap.put("order", "41");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "勇");
                 _subItemMapMap.put(勇者.code(), Collections.unmodifiableMap(subItemMap));
@@ -2616,6 +2626,9 @@ public interface CDef extends Classification {
         ,
         /** 浮気 */
         浮気("CHEATLOVE", "浮気", emptyStrings())
+        ,
+        /** 誰だ今の */
+        誰だ今の("CHIKUWA", "誰だ今の", emptyStrings())
         ,
         /** 曇天 */
         曇天("CLOUD", "曇天", emptyStrings())

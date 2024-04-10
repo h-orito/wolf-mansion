@@ -135,6 +135,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 誰だ今の (CHIKUWA). And OnlyOnceRegistered. <br>
+     * 誰だ今の
+     */
+    public void setAbilityTypeCode_Equal_誰だ今の() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.誰だ今の);
+    }
+
+    /**
      * Equal(=). As 曇天 (CLOUD). And OnlyOnceRegistered. <br>
      * 曇天
      */
@@ -595,6 +603,14 @@ public abstract class AbstractBsAbilityTypeCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_浮気() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.浮気);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 誰だ今の (CHIKUWA). And OnlyOnceRegistered. <br>
+     * 誰だ今の
+     */
+    public void setAbilityTypeCode_NotEqual_誰だ今の() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.誰だ今の);
     }
 
     /**

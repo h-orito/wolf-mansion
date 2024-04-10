@@ -477,6 +477,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as ちくわ大明神 (CHIKUWA). <br>
+     * ちくわ大明神
+     */
+    public void setSkillCode_ちくわ大明神() {
+        setSkillCodeAsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Set the value of skillCode as 曇天者 (CLOUDY). <br>
      * 曇天者
      */
@@ -1501,6 +1509,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as ちくわ大明神 (CHIKUWA). <br>
+     * ちくわ大明神
+     */
+    public void setRequestSkillCode_ちくわ大明神() {
+        setRequestSkillCodeAsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Set the value of requestSkillCode as 曇天者 (CLOUDY). <br>
      * 曇天者
      */
@@ -2522,6 +2538,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_浮気者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.浮気者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as ちくわ大明神 (CHIKUWA). <br>
+     * ちくわ大明神
+     */
+    public void setSecondRequestSkillCode_ちくわ大明神() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.ちくわ大明神);
     }
 
     /**
@@ -3716,6 +3740,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode浮気者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.浮気者) : false;
+    }
+
+    /**
+     * Is the value of skillCode ちくわ大明神? <br>
+     * ちくわ大明神
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCodeちくわ大明神() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ちくわ大明神) : false;
     }
 
     /**
@@ -5257,6 +5292,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode ちくわ大明神? <br>
+     * ちくわ大明神
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCodeちくわ大明神() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ちくわ大明神) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 曇天者? <br>
      * 曇天者
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -6792,6 +6838,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode浮気者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.浮気者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode ちくわ大明神? <br>
+     * ちくわ大明神
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCodeちくわ大明神() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.ちくわ大明神) : false;
     }
 
     /**

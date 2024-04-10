@@ -1377,6 +1377,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setSkillCode_Equal_ちくわ大明神() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Equal(=). As 曇天者 (CLOUDY). And OnlyOnceRegistered. <br>
      * 曇天者
      */
@@ -2421,6 +2429,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSkillCode_NotEqual_浮気者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.浮気者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setSkillCode_NotEqual_ちくわ大明神() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.ちくわ大明神);
     }
 
     /**
@@ -3668,6 +3684,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setRequestSkillCode_Equal_ちくわ大明神() {
+        setRequestSkillCode_Equal_AsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Equal(=). As 曇天者 (CLOUDY). And OnlyOnceRegistered. <br>
      * 曇天者
      */
@@ -4712,6 +4736,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setRequestSkillCode_NotEqual_浮気者() {
         setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.浮気者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setRequestSkillCode_NotEqual_ちくわ大明神() {
+        setRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ちくわ大明神);
     }
 
     /**
@@ -5959,6 +5991,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setSecondRequestSkillCode_Equal_ちくわ大明神() {
+        setSecondRequestSkillCode_Equal_AsSkill(CDef.Skill.ちくわ大明神);
+    }
+
+    /**
      * Equal(=). As 曇天者 (CLOUDY). And OnlyOnceRegistered. <br>
      * 曇天者
      */
@@ -7003,6 +7043,14 @@ public abstract class AbstractBsVillagePlayerCQ extends AbstractConditionQuery {
      */
     public void setSecondRequestSkillCode_NotEqual_浮気者() {
         setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.浮気者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As ちくわ大明神 (CHIKUWA). And OnlyOnceRegistered. <br>
+     * ちくわ大明神
+     */
+    public void setSecondRequestSkillCode_NotEqual_ちくわ大明神() {
+        setSecondRequestSkillCode_NotEqual_AsSkill(CDef.Skill.ちくわ大明神);
     }
 
     /**
