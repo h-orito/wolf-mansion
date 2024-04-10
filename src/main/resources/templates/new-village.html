@@ -300,7 +300,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        転生時の役職候補を「編成に含まれる役職」にした場合、転生時の役職は闇鍋設定の「配分」が0でない役職から等確率でランダムに選択されます（つまり、0にすれば転生時に選ばれません）。
+                                        転生時の役職候補を「編成に含まれる役職」にした場合、転生時の役職は闇鍋設定の「転生配分」を参照しランダムに選ばれます（つまり、陣営や役職の転生配分を0にすれば転生時に選ばれません）。
                                     </li>
                                 </ul>
                                 <span th:if="${#fields.hasErrors('campAllocationList')}"
@@ -308,7 +308,7 @@
                                 <table class="table-bordered table-condensed small">
                                     <tbody>
                                     <tr>
-                                        <td class="bg-danger text-white" colspan="7">
+                                        <td class="bg-danger text-white" colspan="9">
                                             <strong>人狼カウント</strong>
                                         </td>
                                     </tr>
@@ -328,18 +328,16 @@
                                                    th:field="*{wolfAllocation.maxNum}"
                                                    class="form-control input-sm" placeholder="0"/>
                                         </td>
-                                        <td></td>
-                                        <td>
-                                        </td>
+                                        <td colspan="4"></td>
                                     </tr>
                                     <th:block th:each="camp, stat: *{campAllocationList}">
                                         <tr>
-                                            <td class="bg-info text-white" colspan="7">
+                                            <td class="bg-info text-white" colspan="9">
                                                 <strong th:text="${camp.campName}"></strong>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="7">
+                                            <td colspan="9">
                                                 陣営全体の配分
                                             </td>
                                         </tr>
@@ -369,9 +367,15 @@
                                                        th:field="*{campAllocationList[__${stat.index}__].allocation}"
                                                        class="form-control input-sm" placeholder="0"/>
                                             </td>
+                                            <td>転生配分（0-100）</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].reincarnationAllocation}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td colspan="7">
+                                            <td colspan="9">
                                                 役職ごとの配分
                                             </td>
                                         </tr>
@@ -399,6 +403,12 @@
                                             <td>
                                                 <input type="number"
                                                        th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}"
+                                                       class="form-control input-sm" placeholder="0"/>
+                                            </td>
+                                            <td>転生配分（0-100）</td>
+                                            <td>
+                                                <input type="number"
+                                                       th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].reincarnationAllocation}"
                                                        class="form-control input-sm" placeholder="0"/>
                                             </td>
                                         </tr>

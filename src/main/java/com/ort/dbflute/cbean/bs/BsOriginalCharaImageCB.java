@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of original_chara_image.
+ * The base condition-bean of ORIGINAL_CHARA_IMAGE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaImageCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsOriginalCharaImageCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "original_chara_image";
+        return "ORIGINAL_CHARA_IMAGE";
     }
 
     // ===================================================================================
@@ -323,7 +323,7 @@ public class BsOriginalCharaImageCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnOriginalCharaImageId() { return doColumn("ORIGINAL_CHARA_IMAGE_ID"); }
         /**
-         * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
+         * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnOriginalCharaId() { return doColumn("ORIGINAL_CHARA_ID"); }
@@ -373,7 +373,7 @@ public class BsOriginalCharaImageCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "original_chara_image"; }
+        protected String getTableDbName() { return "ORIGINAL_CHARA_IMAGE"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * ORIGINAL_CHARA by my ORIGINAL_CHARA_ID, named 'originalChara'.

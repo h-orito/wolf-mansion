@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village. (Singleton)
+ * The DB meta of VILLAGE. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageDbm extends AbstractDBMeta {
@@ -91,7 +91,7 @@ public class VillageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village";
+    protected final String _tableDbName = "VILLAGE";
     protected final String _tableDispName = "VILLAGE";
     protected final String _tablePropertyName = "village";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE", _tableDbName);
@@ -133,7 +133,7 @@ public class VillageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnCreatePlayerName() { return _columnCreatePlayerName; }
     /**
-     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_status, classification=VillageStatus}
+     * VILLAGE_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_STATUS, classification=VillageStatus}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageStatusCode() { return _columnVillageStatusCode; }
@@ -153,7 +153,7 @@ public class VillageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnEpilogueDay() { return _columnEpilogueDay; }
     /**
-     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to camp, classification=Camp}
+     * WIN_CAMP_CODE: {IX, VARCHAR(20), FK to CAMP, classification=Camp}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnWinCampCode() { return _columnWinCampCode; }
@@ -232,7 +232,7 @@ public class VillageDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_CAMP", "camp", this, CampDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "villageList", false);
     }
     /**
-     * village_settings by VILLAGE_ID, named 'villageSettingsAsOne'.
+     * VILLAGE_SETTINGS by VILLAGE_ID, named 'villageSettingsAsOne'.
      * @return The information object of foreign property(referrer-as-one). (NotNull)
      */
     public ForeignInfo foreignVillageSettingsAsOne() {
@@ -240,7 +240,7 @@ public class VillageDbm extends AbstractDBMeta {
         return cfi("FK_VILLAGE_SETTINGS_VILLAGE", "villageSettingsAsOne", this, VillageSettingsDbm.getInstance(), mp, 2, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "village", false);
     }
     /**
-     * wolf_allocation by VILLAGE_ID, named 'wolfAllocationAsOne'.
+     * WOLF_ALLOCATION by VILLAGE_ID, named 'wolfAllocationAsOne'.
      * @return The information object of foreign property(referrer-as-one). (NotNull)
      */
     public ForeignInfo foreignWolfAllocationAsOne() {

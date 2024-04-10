@@ -297,13 +297,13 @@ data class NewVillageForm(
             campAllocation.copy(
                 minNum = dbCampAllocation?.min ?: 0,
                 maxNum = dbCampAllocation?.max ?: 0,
-                allocation = dbCampAllocation?.allocation ?: 0,
+                allocation = dbCampAllocation?.initAllocation ?: 0,
                 skillAllocation = campAllocation.skillAllocation!!.map { skillAllocation ->
                     val dbSkillAllocation = dbSkillAllocationList.find { it.skill.code == skillAllocation.skillCode }
                     skillAllocation.copy(
                         minNum = dbSkillAllocation?.min ?: 0,
                         maxNum = dbSkillAllocation?.max ?: 0,
-                        allocation = dbSkillAllocation?.allocation ?: 0
+                        allocation = dbSkillAllocation?.initAllocation ?: 0
                     )
                 }
             )
@@ -401,7 +401,8 @@ data class NewVillageForm(
                                 camp = Camp(CDef.Camp.codeOf(it.campCode)),
                                 min = it.minNum!!,
                                 max = it.maxNum,
-                                allocation = it.allocation!!
+                                initAllocation = it.allocation!!,
+                                reincarnationAllocation = it.reincarnationAllocation!!
                             )
                         } ?: emptyList(),
                         skillAllocation = campAllocationList?.flatMap { it.skillAllocation!! }?.map {
@@ -409,7 +410,8 @@ data class NewVillageForm(
                                 skill = Skill(CDef.Skill.codeOf(it.skillCode)),
                                 min = it.minNum!!,
                                 max = it.maxNum,
-                                allocation = it.allocation!!
+                                initAllocation = it.allocation!!,
+                                reincarnationAllocation = it.reincarnationAllocation!!
                             )
                         } ?: emptyList(),
                         wolfAllocation = if (campAllocationList == null) null else wolfAllocation?.let {

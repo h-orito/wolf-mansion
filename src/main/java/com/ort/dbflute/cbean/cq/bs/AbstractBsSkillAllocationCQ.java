@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of skill_allocation.
+ * The abstract condition-query of SKILL_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     }
 
     public String asTableDbName() {
-        return "skill_allocation";
+        return "SKILL_ALLOCATION";
     }
 
     // ===================================================================================
@@ -45,7 +45,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
     //                                                                               =====
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -58,7 +58,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -71,7 +71,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -80,7 +80,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -89,7 +89,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -98,7 +98,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -109,7 +109,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -122,7 +122,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -133,7 +133,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -146,7 +146,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -159,13 +159,13 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNull() { regVillageId(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      */
     public void setVillageId_IsNotNull() { regVillageId(CK_ISNN, DOBJ); }
 
@@ -174,7 +174,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCode The value of skillCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_Equal(String skillCode) {
@@ -183,7 +183,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * Equal(=). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -1221,7 +1221,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCode The value of skillCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotEqual(String skillCode) {
@@ -1230,7 +1230,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotEqual(&lt;&gt;). As Skill. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -2268,7 +2268,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCodeList The collection of skillCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_InScope(Collection<String> skillCodeList) {
@@ -2277,7 +2277,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * InScope {in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2421,7 +2421,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @param skillCodeList The collection of skillCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setSkillCode_NotInScope(Collection<String> skillCodeList) {
@@ -2430,7 +2430,7 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * NotInScope {not in ('a', 'b')}. As Skill. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -2444,13 +2444,13 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      */
     public void setSkillCode_IsNull() { regSkillCode(CK_ISN, DOBJ); }
 
     /**
      * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      */
     public void setSkillCode_IsNotNull() { regSkillCode(CK_ISNN, DOBJ); }
 
@@ -2819,6 +2819,123 @@ public abstract class AbstractBsSkillAllocationCQ extends AbstractConditionQuery
 
     protected void regAllocation(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueAllocation(), "ALLOCATION"); }
     protected abstract ConditionValue xgetCValueAllocation();
+
+    /**
+     * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as equal. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_Equal(Integer reincarnationAllocation) {
+        doSetReincarnationAllocation_Equal(reincarnationAllocation);
+    }
+
+    protected void doSetReincarnationAllocation_Equal(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_EQ, reincarnationAllocation);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as notEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_NotEqual(Integer reincarnationAllocation) {
+        doSetReincarnationAllocation_NotEqual(reincarnationAllocation);
+    }
+
+    protected void doSetReincarnationAllocation_NotEqual(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_NES, reincarnationAllocation);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as greaterThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_GreaterThan(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_GT, reincarnationAllocation);
+    }
+
+    /**
+     * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as lessThan. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_LessThan(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_LT, reincarnationAllocation);
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as greaterEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_GreaterEqual(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_GE, reincarnationAllocation);
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocation The value of reincarnationAllocation as lessEqual. (basically NotNull: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_LessEqual(Integer reincarnationAllocation) {
+        regReincarnationAllocation(CK_LE, reincarnationAllocation);
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of reincarnationAllocation. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of reincarnationAllocation. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param opLambda The callback for option of range-of. (NotNull)
+     */
+    public void setReincarnationAllocation_RangeOf(Integer minNumber, Integer maxNumber, ConditionOptionCall<RangeOfOption> opLambda) {
+        setReincarnationAllocation_RangeOf(minNumber, maxNumber, xcROOP(opLambda));
+    }
+
+    /**
+     * RangeOf with various options. (versatile) <br>
+     * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
+     * And NullIgnored, OnlyOnceRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param minNumber The min number of reincarnationAllocation. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param maxNumber The max number of reincarnationAllocation. (basically NotNull: if op.allowOneSide(), null allowed)
+     * @param rangeOfOption The option of range-of. (NotNull)
+     */
+    protected void setReincarnationAllocation_RangeOf(Integer minNumber, Integer maxNumber, RangeOfOption rangeOfOption) {
+        regROO(minNumber, maxNumber, xgetCValueReincarnationAllocation(), "REINCARNATION_ALLOCATION", rangeOfOption);
+    }
+
+    /**
+     * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocationList The collection of reincarnationAllocation as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_InScope(Collection<Integer> reincarnationAllocationList) {
+        doSetReincarnationAllocation_InScope(reincarnationAllocationList);
+    }
+
+    protected void doSetReincarnationAllocation_InScope(Collection<Integer> reincarnationAllocationList) {
+        regINS(CK_INS, cTL(reincarnationAllocationList), xgetCValueReincarnationAllocation(), "REINCARNATION_ALLOCATION");
+    }
+
+    /**
+     * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @param reincarnationAllocationList The collection of reincarnationAllocation as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setReincarnationAllocation_NotInScope(Collection<Integer> reincarnationAllocationList) {
+        doSetReincarnationAllocation_NotInScope(reincarnationAllocationList);
+    }
+
+    protected void doSetReincarnationAllocation_NotInScope(Collection<Integer> reincarnationAllocationList) {
+        regINS(CK_NINS, cTL(reincarnationAllocationList), xgetCValueReincarnationAllocation(), "REINCARNATION_ALLOCATION");
+    }
+
+    protected void regReincarnationAllocation(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueReincarnationAllocation(), "REINCARNATION_ALLOCATION"); }
+    protected abstract ConditionValue xgetCValueReincarnationAllocation();
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>

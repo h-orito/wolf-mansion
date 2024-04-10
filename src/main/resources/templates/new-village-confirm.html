@@ -137,7 +137,7 @@
                                     <table class="table-bordered table-condensed small">
                                         <tbody>
                                         <tr>
-                                            <td class="bg-danger text-white" colspan="7">
+                                            <td class="bg-danger text-white" colspan="9">
                                                 <strong>人狼カウント</strong>
                                             </td>
                                         </tr>
@@ -157,18 +157,16 @@
                                                 <input type="hidden"
                                                        th:field="*{wolfAllocation.maxNum}"/>
                                             </td>
-                                            <td></td>
-                                            <td>
-                                            </td>
+                                            <td colspan="4"></td>
                                         </tr>
                                         <th:block th:each="camp, stat: *{campAllocationList}">
                                             <tr>
-                                                <td class="bg-info text-white" colspan="7">
+                                                <td class="bg-info text-white" colspan="9">
                                                     <strong th:text="${camp.campName}"></strong>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="7">陣営全体の配分</td>
+                                                <td colspan="9">陣営全体の配分</td>
                                             </tr>
                                             <tr>
                                                 <td>
@@ -196,9 +194,15 @@
                                                     <input type="hidden"
                                                            th:field="*{campAllocationList[__${stat.index}__].allocation}"/>
                                                 </td>
+                                                <td>転生配分（0-100）</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].reincarnationAllocation}"></span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].reincarnationAllocation}"/>
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="7">役職ごとの配分</td>
+                                                <td colspan="9">役職ごとの配分</td>
                                             </tr>
                                             <tr th:each="skill, sta: *{campAllocationList[__${stat.index}__].skillAllocation}">
                                                 <td>
@@ -225,6 +229,12 @@
                                                     <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}">村人</span>
                                                     <input type="hidden"
                                                            th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].allocation}"/>
+                                                </td>
+                                                <td>転生配分（0-100）</td>
+                                                <td>
+                                                    <span th:text="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].reincarnationAllocation}">村人</span>
+                                                    <input type="hidden"
+                                                           th:field="*{campAllocationList[__${stat.index}__].skillAllocation[__${sta.index}__].reincarnationAllocation}"/>
                                                 </td>
                                             </tr>
                                         </th:block>

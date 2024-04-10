@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID, SKILL_CODE
  *
  * [column]
- *     VILLAGE_ID, SKILL_CODE, MIN_NUM, MAX_NUM, ALLOCATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, SKILL_CODE, MIN_NUM, MAX_NUM, ALLOCATION, REINCARNATION_ALLOCATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -51,6 +51,7 @@ import com.ort.dbflute.exentity.*;
  * Integer minNum = entity.getMinNum();
  * Integer maxNum = entity.getMaxNum();
  * Integer allocation = entity.getAllocation();
+ * Integer reincarnationAllocation = entity.getReincarnationAllocation();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -60,6 +61,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setMinNum(minNum);
  * entity.setMaxNum(maxNum);
  * entity.setAllocation(allocation);
+ * entity.setReincarnationAllocation(reincarnationAllocation);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -79,10 +81,10 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
     protected Integer _villageId;
 
-    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} */
+    /** SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} */
     protected String _skillCode;
 
     /** MIN_NUM: {NotNull, INT UNSIGNED(10)} */
@@ -93,6 +95,9 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /** ALLOCATION: {NotNull, INT UNSIGNED(10)} */
     protected Integer _allocation;
+
+    /** REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)} */
+    protected Integer _reincarnationAllocation;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -116,7 +121,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "skill_allocation";
+        return "SKILL_ALLOCATION";
     }
 
     // ===================================================================================
@@ -134,7 +139,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     //                                                             =======================
     /**
      * Get the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -145,7 +150,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
 
     /**
      * Set the value of skillCode as the classification of Skill. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -2818,6 +2823,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_minNum));
         sb.append(dm).append(xfND(_maxNum));
         sb.append(dm).append(xfND(_allocation));
+        sb.append(dm).append(xfND(_reincarnationAllocation));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -2851,7 +2857,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -2861,7 +2867,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -2871,7 +2877,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [get] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @return The value of the column 'SKILL_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -2881,7 +2887,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     }
 
     /**
-     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill} <br>
+     * [set] SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill} <br>
      * 役職コード
      * @param skillCode The value of the column 'SKILL_CODE'. (basically NotNull if update: for the constraint)
      */
@@ -2949,6 +2955,26 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
     public void setAllocation(Integer allocation) {
         registerModifiedProperty("allocation");
         _allocation = allocation;
+    }
+
+    /**
+     * [get] REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)} <br>
+     * 転生配分
+     * @return The value of the column 'REINCARNATION_ALLOCATION'. (basically NotNull if selected: for the constraint)
+     */
+    public Integer getReincarnationAllocation() {
+        checkSpecifiedProperty("reincarnationAllocation");
+        return _reincarnationAllocation;
+    }
+
+    /**
+     * [set] REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)} <br>
+     * 転生配分
+     * @param reincarnationAllocation The value of the column 'REINCARNATION_ALLOCATION'. (basically NotNull if update: for the constraint)
+     */
+    public void setReincarnationAllocation(Integer reincarnationAllocation) {
+        registerModifiedProperty("reincarnationAllocation");
+        _reincarnationAllocation = reincarnationAllocation;
     }
 
     /**

@@ -1,8 +1,10 @@
 package com.ort.app.domain.model.village.setting
 
 import com.ort.app.domain.model.camp.Camp
+import com.ort.app.domain.model.camp.toModel
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.skill.toModel
 import com.ort.dbflute.allcommon.CDef
 import org.slf4j.LoggerFactory
 import java.util.*
@@ -18,18 +20,22 @@ data class VillageRandomOrganize(
         return createSkillPersonCountMap(participantsCount, 0)
     }
 
+    fun getReincarnationSkill(camp: Camp?): Skill? = gachaReincarnationSkill(campAllocation, skillAllocation, camp)
+
     data class SkillAllocation(
         val skill: Skill,
         val min: Int,
         val max: Int?,
-        val allocation: Int
+        val initAllocation: Int,
+        val reincarnationAllocation: Int
     )
 
     data class CampAllocation(
         val camp: Camp,
         val min: Int,
         val max: Int?,
-        val allocation: Int
+        val initAllocation: Int,
+        val reincarnationAllocation: Int
     )
 
     data class WolfAllocation(
@@ -42,7 +48,6 @@ data class VillageRandomOrganize(
         retryCount: Int
     ): Map<CDef.Skill, Int> {
         check(retryCount < 50) { "50回試行しましたが割り振れませんでした。" }
-        // TODO: 転生でのみ発生する役職は最少最多を0扱いにする
         val countMap = Skills.all().filterNotSomeone().list.map { it.toCdef() to 0 }.toMap().toMutableMap()
 
         // 最少人数が決まっている役職を先に割り当てる
@@ -107,10 +112,10 @@ data class VillageRandomOrganize(
         }
 
         // 配分が0
-        if (camp.allocation <= 0) return false
+        if (camp.initAllocation <= 0) return false
 
         // 配分が0より大きい役職がいない
-        if (campSkillAllocationList.none { it.allocation > 0 }) return false
+        if (campSkillAllocationList.none { it.initAllocation > 0 }) return false
 
         // 全役職が既に最多人数（maxが設定されていない、割り振られていない役職が1つでもあれば問題なし）
         if (campSkillAllocationList.all { s ->
@@ -131,7 +136,7 @@ data class VillageRandomOrganize(
         camp: Camp
     ): Boolean {
         // 配分が0
-        if (skillAllocation.allocation <= 0) {
+        if (skillAllocation.initAllocation <= 0) {
             return false
         }
         // 既に最多人数
@@ -154,11 +159,11 @@ data class VillageRandomOrganize(
     }
 
     private fun gachaSkill(skillAllocationList: List<SkillAllocation>): CDef.Skill {
-        var sum = skillAllocationList.sumOf { it.allocation }
+        var sum = skillAllocationList.sumOf { it.initAllocation }
         for (skill in skillAllocationList) {
             val rand = Random()
             val random = rand.nextInt(sum)
-            val allocation = skill.allocation
+            val allocation = skill.initAllocation
             if (random < allocation) {
                 return skill.skill.toCdef()
             }
@@ -168,11 +173,11 @@ data class VillageRandomOrganize(
     }
 
     private fun gachaCamp(campAllocationList: List<CampAllocation>): CDef.Camp {
-        var sum = campAllocationList.sumOf { it.allocation }
+        var sum = campAllocationList.sumOf { it.initAllocation }
         for (camp in campAllocationList) {
             val rand = Random()
             val random = rand.nextInt(sum)
-            val allocation = camp.allocation
+            val allocation = camp.initAllocation
             if (random < allocation) {
                 return camp.camp.toCdef()
             }
@@ -249,5 +254,62 @@ data class VillageRandomOrganize(
             return true
         }
         return false
+    }
+
+    private fun gachaReincarnationSkill(
+        campAllocationList: List<CampAllocation>,
+        skillAllocationList: List<SkillAllocation>,
+        camp: Camp?
+    ): Skill? {
+        val targetCamp = if (camp != null) camp else {
+            // 割り振っても良い陣営
+            val campList = campAllocationList.filter { c ->
+                val existAllocatableSkill = skillAllocationList.any { s ->
+                    s.skill.camp().code == c.camp.code
+                            && s.reincarnationAllocation > 0
+                            && Skills.revivables().list.any { it.toCdef() == s.skill.toCdef() }
+                }
+                // 転生可能な役職があり、陣営の配分が0以上な陣営
+                existAllocatableSkill && c.reincarnationAllocation > 0
+            }
+            // 陣営を抽選
+            gachaReincarnationCamp(campList).toModel()
+        }
+        // 割り振っても良い役職
+        val skillList = skillAllocationList.filter { s ->
+            s.skill.camp().code == targetCamp.code
+                    && s.reincarnationAllocation > 0
+                    && Skills.revivables().list.any { it.toCdef() == s.skill.toCdef() }
+        }
+        // 役職を抽選
+        return gachaReincarnationSkill(skillList)?.toModel()
+    }
+
+    private fun gachaReincarnationCamp(campAllocationList: List<CampAllocation>): CDef.Camp {
+        var sum = campAllocationList.sumOf { it.reincarnationAllocation }
+        for (camp in campAllocationList) {
+            val rand = Random()
+            val random = rand.nextInt(sum)
+            val allocation = camp.reincarnationAllocation
+            if (random < allocation) {
+                return camp.camp.toCdef()
+            }
+            sum -= allocation
+        }
+        throw IllegalStateException("should not reach")
+    }
+
+    private fun gachaReincarnationSkill(skillAllocationList: List<SkillAllocation>): CDef.Skill? {
+        var sum = skillAllocationList.sumOf { it.reincarnationAllocation }
+        for (skill in skillAllocationList) {
+            val rand = Random()
+            val random = rand.nextInt(sum)
+            val allocation = skill.reincarnationAllocation
+            if (random < allocation) {
+                return skill.skill.toCdef()
+            }
+            sum -= allocation
+        }
+        return null
     }
 }

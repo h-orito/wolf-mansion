@@ -22,7 +22,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of skill_allocation.
+ * The base condition-bean of SKILL_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillAllocationCB extends AbstractConditionBean {
@@ -78,7 +78,7 @@ public class BsSkillAllocationCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "skill_allocation";
+        return "SKILL_ALLOCATION";
     }
 
     // ===================================================================================
@@ -86,8 +86,8 @@ public class BsSkillAllocationCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
-     * @param skillCode : PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param skillCode : PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill. (NotNull)
      * @return this. (NotNull)
      */
     public SkillAllocationCB acceptPK(Integer villageId, CDef.Skill skillCode) {
@@ -346,12 +346,12 @@ public class BsSkillAllocationCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+         * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
@@ -370,6 +370,11 @@ public class BsSkillAllocationCB extends AbstractConditionBean {
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnAllocation() { return doColumn("ALLOCATION"); }
+        /**
+         * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnReincarnationAllocation() { return doColumn("REINCARNATION_ALLOCATION"); }
         /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
@@ -398,7 +403,7 @@ public class BsSkillAllocationCB extends AbstractConditionBean {
             columnSkillCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "skill_allocation"; }
+        protected String getTableDbName() { return "SKILL_ALLOCATION"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * SKILL by my SKILL_CODE, named 'skill'.

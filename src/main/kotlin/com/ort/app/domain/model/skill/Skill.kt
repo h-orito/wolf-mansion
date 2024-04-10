@@ -29,6 +29,7 @@ data class Skill(
     }
 
     fun isRequestable(): Boolean = toCdef() != CDef.Skill.暴走トラック
+    fun isRevivable(): Boolean = !listOf(CDef.Skill.同棲者, CDef.Skill.恋人).contains(toCdef())
     fun isViewableWerewolfSay(): Boolean = toCdef().isViewableWerewolfSay
     fun isSayableWerewolfSay(): Boolean = toCdef().isAvailableWerewolfSay
     fun isViewableSympathizeSay(): Boolean = listOf(CDef.Skill.共鳴者, CDef.Skill.共有者).contains(toCdef())

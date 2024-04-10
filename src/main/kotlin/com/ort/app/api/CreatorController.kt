@@ -262,7 +262,8 @@ class CreatorController(
                                 camp = Camp(CDef.Camp.codeOf(it.campCode)),
                                 min = it.minNum!!,
                                 max = it.maxNum,
-                                allocation = it.allocation!!
+                                initAllocation = it.allocation!!,
+                                reincarnationAllocation = it.reincarnationAllocation!!
                             )
                         } ?: emptyList(),
                         skillAllocation = form.campAllocationList?.flatMap { it.skillAllocation!! }?.map {
@@ -270,7 +271,8 @@ class CreatorController(
                                 skill = Skill(CDef.Skill.codeOf(it.skillCode)),
                                 min = it.minNum!!,
                                 max = it.maxNum,
-                                allocation = it.allocation!!
+                                initAllocation = it.allocation!!,
+                                reincarnationAllocation = it.reincarnationAllocation!!
                             )
                         } ?: emptyList(),
                         wolfAllocation = form.wolfAllocation?.let {

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_player_skill_history.
+ * The base condition-bean of VILLAGE_PLAYER_SKILL_HISTORY.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_player_skill_history";
+        return "VILLAGE_PLAYER_SKILL_HISTORY";
     }
 
     // ===================================================================================
@@ -353,7 +353,7 @@ public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerSkillHistoryId() { return doColumn("VILLAGE_PLAYER_SKILL_HISTORY_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -363,7 +363,7 @@ public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
         /**
-         * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+         * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnSkillCode() { return doColumn("SKILL_CODE"); }
@@ -402,7 +402,7 @@ public class BsVillagePlayerSkillHistoryCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_player_skill_history"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_SKILL_HISTORY"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * SKILL by my SKILL_CODE, named 'skill'.

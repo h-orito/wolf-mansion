@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of skill_allocation.
+ * The condition-query for in-line of SKILL_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class SkillAllocationCIQ extends AbstractBsSkillAllocationCQ {
@@ -66,6 +66,7 @@ public class SkillAllocationCIQ extends AbstractBsSkillAllocationCQ {
     protected ConditionValue xgetCValueMinNum() { return _myCQ.xdfgetMinNum(); }
     protected ConditionValue xgetCValueMaxNum() { return _myCQ.xdfgetMaxNum(); }
     protected ConditionValue xgetCValueAllocation() { return _myCQ.xdfgetAllocation(); }
+    protected ConditionValue xgetCValueReincarnationAllocation() { return _myCQ.xdfgetReincarnationAllocation(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

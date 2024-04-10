@@ -67,7 +67,7 @@ public abstract class BsVillagePlayerDeadHistoryBhv extends AbstractBehaviorWrit
     /** {@inheritDoc} */
     public VillagePlayerDeadHistoryDbm asDBMeta() { return VillagePlayerDeadHistoryDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "village_player_dead_history"; }
+    public String asTableDbName() { return "VILLAGE_PLAYER_DEAD_HISTORY"; }
 
     // ===================================================================================
     //                                                                        New Instance

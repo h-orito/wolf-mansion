@@ -78,7 +78,7 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "village_player_status_type";
+        return "VILLAGE_PLAYER_STATUS_TYPE";
     }
 
     // ===================================================================================

@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of village_tag_item.
+ * The abstract condition-query of VILLAGE_TAG_ITEM.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageTagItemCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageTagItemCQ extends AbstractConditionQuery 
     }
 
     public String asTableDbName() {
-        return "village_tag_item";
+        return "VILLAGE_TAG_ITEM";
     }
 
     // ===================================================================================
@@ -201,8 +201,8 @@ public abstract class AbstractBsVillageTagItemCQ extends AbstractConditionQuery 
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select VILLAGE_TAG_ITEM_CODE from village_tag where ...)} <br>
-     * village_tag by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
+     * {exists (select VILLAGE_TAG_ITEM_CODE from VILLAGE_TAG where ...)} <br>
+     * VILLAGE_TAG by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillageTag</span>(tagCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tagCB.query().set...
@@ -220,8 +220,8 @@ public abstract class AbstractBsVillageTagItemCQ extends AbstractConditionQuery 
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select VILLAGE_TAG_ITEM_CODE from village_tag where ...)} <br>
-     * village_tag by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
+     * {not exists (select VILLAGE_TAG_ITEM_CODE from VILLAGE_TAG where ...)} <br>
+     * VILLAGE_TAG by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillageTag</span>(tagCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tagCB.query().set...
@@ -247,8 +247,8 @@ public abstract class AbstractBsVillageTagItemCQ extends AbstractConditionQuery 
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_tag where ...)} <br>
-     * village_tag by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_TAG where ...)} <br>
+     * VILLAGE_TAG by VILLAGE_TAG_ITEM_CODE, named 'villageTagAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillageTag()</span>.<span style="color: #CC4747">max</span>(tagCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tagCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

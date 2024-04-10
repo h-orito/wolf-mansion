@@ -211,6 +211,27 @@ class NewVillageFormValidator : Validator {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmaxltskillminsum")
             return
         }
+
+        // 転生 --------------------------------------------
+        // 一つも割り当てられる陣営がない
+        if (campAllocationList.none { it.reincarnationAllocation!! > 0 }) {
+            errors.rejectValue(
+                "campAllocationList",
+                "NewVillageForm.validator.campAllocationList.reincarnationAllocationAllZero"
+            )
+            return
+        }
+
+        // 陣営配分があるのに役職配分がすべて0
+        if (campAllocationList.any { camp ->
+                camp.reincarnationAllocation!! > 0 && camp.skillAllocation!!.all { it.allocation == 0 }
+            }) {
+            errors.rejectValue(
+                "campAllocationList",
+                "NewVillageForm.validator.campAllocationList.reincarnationAllocationButSkillAllocationAllZero"
+            )
+            return
+        }
     }
 
     private fun validateFixOrganization(errors: Errors, form: NewVillageForm) {

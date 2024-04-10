@@ -31,6 +31,12 @@ data class RandomOrganizationCampForm(
     @field:Max(100)
     var allocation: Int? = null,
 
+    /** 転生配分 */
+    @field:NotNull
+    @field:Min(0)
+    @field:Max(100)
+    var reincarnationAllocation: Int? = null,
+
     /** 役職ごとの配分 */
     @Valid
     @field:NotNull
@@ -41,6 +47,7 @@ data class RandomOrganizationCampForm(
         campName = cdef.alias(),
         minNum = 0,
         allocation = 50,
+        reincarnationAllocation = 50,
         skillAllocation = initializeSkillAllocation(cdef)
     )
 

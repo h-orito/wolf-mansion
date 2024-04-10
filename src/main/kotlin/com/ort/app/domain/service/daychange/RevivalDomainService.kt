@@ -2,6 +2,7 @@ package com.ort.app.domain.service.daychange
 
 import com.ort.app.domain.model.ability.AbilityType
 import com.ort.app.domain.model.ability.toModel
+import com.ort.app.domain.model.camp.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.toModel
@@ -119,10 +120,10 @@ class RevivalDomainService(
                 village = village.reviveParticipant(it.id)
                 val skill = if (it.skill?.toCdef() == CDef.Skill.申し子) {
                     // 村陣営のランダム役職で転生
-                    village.getRevivableSkills().filter { it.camp().toCdef() == CDef.Camp.村人陣営 }.shuffled().first()
+                    village.getReincarnationSkill(CDef.Camp.村人陣営.toModel())
                 } else {
                     // 転生者はランダム役職で転生
-                    village.getRevivableSkills().shuffled().first()
+                    village.getReincarnationSkill()
                 }
                 village = village.assignParticipantSkill(it.id, skill)
                 messages = messages.add(createRevivalMessage(village, it))
@@ -137,11 +138,9 @@ class RevivalDomainService(
         val bakeries = village.participants
             .filterAlive()
             .list.filter { it.skill!!.toCdef() == CDef.Skill.パン屋 }
-        val bakeryCount = bakeries.size
         val evilBakeries = village.participants
             .filterAlive()
             .list.filter { it.skill!!.toCdef() == CDef.Skill.闇パン屋 }
-        val evilBakeryCount = evilBakeries.size
 
         if (bakeries.isEmpty() && evilBakeries.isEmpty()) return daychange
 

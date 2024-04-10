@@ -1,5 +1,6 @@
 package com.ort.app.domain.model.village.setting
 
+import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.dbflute.allcommon.CDef
@@ -45,5 +46,9 @@ data class VillageOrganize(
                 skill.toCdef() to count
             }.toMap()
         }
+    }
+
+    fun getReincarnationSkill(camp: Camp?): Skill? {
+        return randomOrganization.getReincarnationSkill(camp)
     }
 }

@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of original_chara_image. (Singleton)
+ * The DB meta of ORIGINAL_CHARA_IMAGE. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class OriginalCharaImageDbm extends AbstractDBMeta {
@@ -73,7 +73,7 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "original_chara_image";
+    protected final String _tableDbName = "ORIGINAL_CHARA_IMAGE";
     protected final String _tableDispName = "ORIGINAL_CHARA_IMAGE";
     protected final String _tablePropertyName = "originalCharaImage";
     protected final TableSqlName _tableSqlName = new TableSqlName("ORIGINAL_CHARA_IMAGE", _tableDbName);
@@ -102,7 +102,7 @@ public class OriginalCharaImageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnOriginalCharaImageId() { return _columnOriginalCharaImageId; }
     /**
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnOriginalCharaId() { return _columnOriginalCharaId; }

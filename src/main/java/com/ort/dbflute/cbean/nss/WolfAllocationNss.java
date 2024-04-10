@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.WolfAllocationCQ;
 
 /**
- * The nest select set-upper of wolf_allocation.
+ * The nest select set-upper of WOLF_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class WolfAllocationNss {

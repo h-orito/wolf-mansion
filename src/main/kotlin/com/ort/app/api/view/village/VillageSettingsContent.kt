@@ -194,6 +194,8 @@ data class VillageSettingsContent(
         val maxNum: Int?,
         /** 配分 */
         val allocation: Int,
+        /** 転生配分 */
+        val reincarnationAllocation: Int,
         /** 役職ごとの配分 */
         val skillAllocation: List<RandomSkillOrganization>
     ) {
@@ -205,7 +207,8 @@ data class VillageSettingsContent(
             campName = campAllocation.camp.name,
             minNum = campAllocation.min,
             maxNum = campAllocation.max,
-            allocation = campAllocation.allocation,
+            allocation = campAllocation.initAllocation,
+            reincarnationAllocation = campAllocation.reincarnationAllocation,
             skillAllocation = Skills.all().filterNotSomeone()
                 .filterByCamp(campAllocation.camp.toCdef()).list
                 .mapNotNull { skill ->
@@ -223,14 +226,17 @@ data class VillageSettingsContent(
             /** 最多人数 */
             val maxNum: Int?,
             /** 配分 */
-            val allocation: Int
+            val allocation: Int,
+            /** 転生配分 */
+            val reincarnationAllocation: Int
         ) {
             constructor(skillAllocation: VillageRandomOrganize.SkillAllocation) : this(
                 skillCode = skillAllocation.skill.code,
                 skillName = skillAllocation.skill.name,
                 minNum = skillAllocation.min,
                 maxNum = skillAllocation.max,
-                allocation = skillAllocation.allocation
+                allocation = skillAllocation.initAllocation,
+                reincarnationAllocation = skillAllocation.reincarnationAllocation
             )
         }
     }

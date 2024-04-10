@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of original_chara.
+ * The condition-query for in-line of ORIGINAL_CHARA.
  * @author DBFlute(AutoGenerator)
  */
 public class OriginalCharaCIQ extends AbstractBsOriginalCharaCQ {

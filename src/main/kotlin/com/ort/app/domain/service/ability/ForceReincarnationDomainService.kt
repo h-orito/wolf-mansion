@@ -4,7 +4,6 @@ import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.daychange.Daychange
 import com.ort.app.domain.model.message.Message
-import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -68,13 +67,13 @@ class ForceReincarnationDomainService(
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         // ランダム役職で転生
-        val skill = village.getRevivableSkills().shuffled().first()
+        val skill = village.getReincarnationSkill()
         village = village.forceReincarnation(target.id, skill)
         messages = messages.add(createForceReincarnationMessage(village, target))
         // 対象が同棲者で、相方が来ている場合、相方も転生する
         if (cohabitDomainService.isCohabiting(daychange, target)) {
             val cohabitor = target.getTargetCohabitor(village)!!
-            val cohabitorSkill = Skills.revivables().list.shuffled().first()
+            val cohabitorSkill = village.getReincarnationSkill()
             village = village.forceReincarnation(cohabitor.id, cohabitorSkill)
             messages = messages.add(createForceReincarnationMessage(village, cohabitor))
         }

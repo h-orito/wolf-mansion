@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_player_status. (Singleton)
+ * The DB meta of VILLAGE_PLAYER_STATUS. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerStatusDbm extends AbstractDBMeta {
@@ -79,7 +79,7 @@ public class VillagePlayerStatusDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_player_status";
+    protected final String _tableDbName = "VILLAGE_PLAYER_STATUS";
     protected final String _tableDispName = "VILLAGE_PLAYER_STATUS";
     protected final String _tablePropertyName = "villagePlayerStatus";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER_STATUS", _tableDbName);
@@ -107,17 +107,17 @@ public class VillagePlayerStatusDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerStatusId() { return _columnVillagePlayerStatusId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnToVillagePlayerId() { return _columnToVillagePlayerId; }
     /**
-     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
+     * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerStatusCode() { return _columnVillagePlayerStatusCode; }

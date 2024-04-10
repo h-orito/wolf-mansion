@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.SkillAllocationCQ;
 
 /**
- * The nest select set-upper of skill_allocation.
+ * The nest select set-upper of SKILL_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class SkillAllocationNss {

@@ -12,12 +12,11 @@ data class Skills(val list: List<Skill>) {
             list = CDef.Skill.listOfSomeoneSkill().sortedBy { it.order().toInt() }.map { Skill(it) }
         )
 
-        private val notRevivableSkills = listOf(CDef.Skill.同棲者, CDef.Skill.恋人)
         val openSkills = listOf(CDef.Skill.勇者, CDef.Skill.絶対人狼)
 
         // 転生で割り当て可能な役職
         fun revivables(): Skills = Skills(
-            list = all().filterNotSomeone().list.filterNot { notRevivableSkills.contains(it.toCdef()) }
+            list = all().filterNotSomeone().list.filter { it.isRevivable() }
         )
 
         // 役職希望で選択できる役職

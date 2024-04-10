@@ -5,8 +5,22 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.setting.*
-import com.ort.dbflute.exbhv.*
-import com.ort.dbflute.exentity.*
+import com.ort.dbflute.exbhv.CampAllocationBhv
+import com.ort.dbflute.exbhv.NormalSayRestrictionBhv
+import com.ort.dbflute.exbhv.SkillAllocationBhv
+import com.ort.dbflute.exbhv.SkillSayRestrictionBhv
+import com.ort.dbflute.exbhv.VillageCharaGroupBhv
+import com.ort.dbflute.exbhv.VillageSettingsBhv
+import com.ort.dbflute.exbhv.VillageTagBhv
+import com.ort.dbflute.exbhv.WolfAllocationBhv
+import com.ort.dbflute.exentity.CampAllocation
+import com.ort.dbflute.exentity.NormalSayRestriction
+import com.ort.dbflute.exentity.SkillAllocation
+import com.ort.dbflute.exentity.SkillSayRestriction
+import com.ort.dbflute.exentity.Village
+import com.ort.dbflute.exentity.VillageCharaGroup
+import com.ort.dbflute.exentity.VillageSettings
+import com.ort.dbflute.exentity.WolfAllocation
 import org.springframework.stereotype.Repository
 import java.time.format.DateTimeFormatter
 import com.ort.dbflute.exentity.VillageTag as DbVillageTag
@@ -206,7 +220,8 @@ class VillageSettingsDataSource(
                             skill = Skill(it.skillCodeAsSkill),
                             min = it.minNum,
                             max = it.maxNum,
-                            allocation = it.allocation
+                            initAllocation = it.allocation,
+                            reincarnationAllocation = it.reincarnationAllocation
                         )
                     },
                     campAllocation = campAllocationList.map {
@@ -214,7 +229,8 @@ class VillageSettingsDataSource(
                             camp = Camp(it.campCodeAsCamp),
                             min = it.minNum,
                             max = it.maxNum,
-                            allocation = it.allocation
+                            initAllocation = it.allocation,
+                            reincarnationAllocation = it.reincarnationAllocation
                         )
                     },
                     wolfAllocation = village.wolfAllocationAsOne.map {
@@ -322,7 +338,8 @@ class VillageSettingsDataSource(
         a.campCodeAsCamp = campAllocation.camp.toCdef()
         a.minNum = campAllocation.min
         a.maxNum = campAllocation.max
-        a.allocation = campAllocation.allocation
+        a.allocation = campAllocation.initAllocation
+        a.reincarnationAllocation = campAllocation.reincarnationAllocation
         campAllocationBhv.insert(a)
     }
 
@@ -335,7 +352,8 @@ class VillageSettingsDataSource(
         a.skillCodeAsSkill = skillAllocation.skill.toCdef()
         a.minNum = skillAllocation.min
         a.maxNum = skillAllocation.max
-        a.allocation = skillAllocation.allocation
+        a.allocation = skillAllocation.initAllocation
+        a.reincarnationAllocation = skillAllocation.reincarnationAllocation
         skillAllocationBhv.insert(a)
     }
 

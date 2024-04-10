@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of skill_allocation. (Singleton)
+ * The DB meta of SKILL_ALLOCATION. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillAllocationDbm extends AbstractDBMeta {
@@ -55,6 +55,7 @@ public class SkillAllocationDbm extends AbstractDBMeta {
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getMinNum(), (et, vl) -> ((SkillAllocation)et).setMinNum(cti(vl)), "minNum");
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getMaxNum(), (et, vl) -> ((SkillAllocation)et).setMaxNum(cti(vl)), "maxNum");
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getAllocation(), (et, vl) -> ((SkillAllocation)et).setAllocation(cti(vl)), "allocation");
+        setupEpg(_epgMap, et -> ((SkillAllocation)et).getReincarnationAllocation(), (et, vl) -> ((SkillAllocation)et).setReincarnationAllocation(cti(vl)), "reincarnationAllocation");
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getRegisterDatetime(), (et, vl) -> ((SkillAllocation)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getRegisterTrace(), (et, vl) -> ((SkillAllocation)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((SkillAllocation)et).getUpdateDatetime(), (et, vl) -> ((SkillAllocation)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -79,7 +80,7 @@ public class SkillAllocationDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "skill_allocation";
+    protected final String _tableDbName = "SKILL_ALLOCATION";
     protected final String _tableDispName = "SKILL_ALLOCATION";
     protected final String _tablePropertyName = "skillAllocation";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL_ALLOCATION", _tableDbName);
@@ -97,18 +98,19 @@ public class SkillAllocationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnMinNum = cci("MIN_NUM", "MIN_NUM", null, null, Integer.class, "minNum", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnMaxNum = cci("MAX_NUM", "MAX_NUM", null, null, Integer.class, "maxNum", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAllocation = cci("ALLOCATION", "ALLOCATION", null, null, Integer.class, "allocation", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnReincarnationAllocation = cci("REINCARNATION_ALLOCATION", "REINCARNATION_ALLOCATION", null, null, Integer.class, "reincarnationAllocation", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }
@@ -127,6 +129,11 @@ public class SkillAllocationDbm extends AbstractDBMeta {
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnAllocation() { return _columnAllocation; }
+    /**
+     * REINCARNATION_ALLOCATION: {NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnReincarnationAllocation() { return _columnReincarnationAllocation; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -155,6 +162,7 @@ public class SkillAllocationDbm extends AbstractDBMeta {
         ls.add(columnMinNum());
         ls.add(columnMaxNum());
         ls.add(columnAllocation());
+        ls.add(columnReincarnationAllocation());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

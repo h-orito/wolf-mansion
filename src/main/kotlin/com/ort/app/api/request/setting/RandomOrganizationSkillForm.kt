@@ -15,26 +15,33 @@ data class RandomOrganizationSkillForm(
 
     /** 最少人数 */
     @field:NotNull
-    @Min(0)
-    @Max(100)
+    @field:Min(0)
+    @field:Max(100)
     var minNum: Int? = null,
 
     /** 最多人数 */
-    @Min(0)
-    @Max(100)
+    @field:Min(0)
+    @field:Max(100)
     var maxNum: Int? = null,
 
     /** 配分 */
     @field:NotNull
-    @Min(0)
-    @Max(100)
-    var allocation: Int? = null
+    @field:Min(0)
+    @field:Max(100)
+    var allocation: Int? = null,
+
+    /** 転生配分 */
+    @field:NotNull
+    @field:Min(0)
+    @field:Max(100)
+    var reincarnationAllocation: Int? = null
 ) {
     constructor(skill: Skill) : this(
         skillCode = skill.code,
         skillName = skill.name,
         minNum = if (skill.toCdef() == CDef.Skill.村人) 1 else 0,
         maxNum = if (skill.isRequestable()) null else 0,
-        allocation = 50
+        allocation = 50,
+        reincarnationAllocation = if (skill.isRevivable()) 50 else 0
     )
 }

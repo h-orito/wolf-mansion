@@ -1,5 +1,6 @@
 package com.ort.app.domain.model.village
 
+import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
@@ -42,4 +43,7 @@ data class VillageSetting(
     fun mapToSkillCount(participantsCount: Int): Map<CDef.Skill, Int> =
         organize.mapToSkillCount(rule.isRandomOrganization, participantsCount)
 
+    fun getReincarnationSkillByRandom(camp: Camp?): Skill? {
+        return organize.getReincarnationSkill(camp)
+    }
 }

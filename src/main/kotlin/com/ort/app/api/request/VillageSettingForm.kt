@@ -194,7 +194,8 @@ data class VillageSettingForm(
                 campName = campAllocation.camp.name,
                 minNum = campAllocation.min,
                 maxNum = campAllocation.max,
-                allocation = campAllocation.allocation,
+                allocation = campAllocation.initAllocation,
+                reincarnationAllocation = campAllocation.reincarnationAllocation,
                 skillAllocation = Skills.all().filterNotSomeone()
                     .filterByCamp(cdefCamp).list
                     .mapNotNull { skill ->
@@ -205,7 +206,8 @@ data class VillageSettingForm(
                                     skillName = s.skill.name,
                                     minNum = s.min,
                                     maxNum = s.max,
-                                    allocation = s.allocation
+                                    allocation = s.initAllocation,
+                                    reincarnationAllocation = s.reincarnationAllocation
                                 )
                             }
                     }
