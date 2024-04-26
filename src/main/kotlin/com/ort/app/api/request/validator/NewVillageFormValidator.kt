@@ -224,7 +224,7 @@ class NewVillageFormValidator : Validator {
 
         // 陣営配分があるのに役職配分がすべて0
         if (campAllocationList.any { camp ->
-                camp.reincarnationAllocation!! > 0 && camp.skillAllocation!!.all { it.allocation == 0 }
+                camp.reincarnationAllocation!! > 0 && camp.skillAllocation!!.all { it.reincarnationAllocation == 0 }
             }) {
             errors.rejectValue(
                 "campAllocationList",
