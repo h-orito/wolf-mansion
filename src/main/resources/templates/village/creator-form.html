@@ -49,7 +49,7 @@
                                        th:each="statusDto, s : ${content.memberList}" th:if=${s.first}>
                                     <tr th:each="member : ${statusDto.statusMemberList}">
                                         <td th:text="${member.charaName}"></td>
-                                        <td th:text="*{#temporals.format(member.lastAccessDatetime, 'yyyy/MM/dd HH:mm')}"></td>
+                                        <td th:text="${member.lastAccess}"></td>
                                     </tr>
                                 </table>
                             </div>
