@@ -19,6 +19,11 @@ class FalseChargesDomainService(
         if (victims.isEmpty()) return daychange
         var footsteps = daychange.footsteps.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.冤罪者.toModel()).list.forEach {
+            // 冤罪者になった当日は足音を出さない
+            if (village.latestDay() >= 2 && it.skillWhen(village.latestDay() - 1)
+                    ?.toCdef() != CDef.Skill.冤罪者
+            ) return@forEach
+
             val target = victims.shuffled().first()
             val candidates = footstepDomainService.getCandidateList(village, it.charaId, target.charaId)
             footsteps = footsteps.add(

@@ -296,16 +296,18 @@ data class NewVillageForm(
             val dbCampAllocation = dbCampAllocationList.find { it.camp.code == campAllocation.campCode }
             campAllocation.copy(
                 minNum = dbCampAllocation?.min ?: 0,
-                maxNum = dbCampAllocation?.max ?: 0,
+                maxNum = dbCampAllocation?.max,
                 allocation = dbCampAllocation?.initAllocation ?: 0,
                 skillAllocation = campAllocation.skillAllocation!!.map { skillAllocation ->
                     val dbSkillAllocation = dbSkillAllocationList.find { it.skill.code == skillAllocation.skillCode }
                     skillAllocation.copy(
                         minNum = dbSkillAllocation?.min ?: 0,
-                        maxNum = dbSkillAllocation?.max ?: 0,
-                        allocation = dbSkillAllocation?.initAllocation ?: 0
+                        maxNum = dbSkillAllocation?.max,
+                        allocation = dbSkillAllocation?.initAllocation ?: 0,
+                        reincarnationAllocation = dbSkillAllocation?.reincarnationAllocation ?: 50
                     )
-                }
+                },
+                reincarnationAllocation = dbCampAllocation?.reincarnationAllocation ?: 50
             )
         }
         wolfAllocation = village.setting.organize.randomOrganization.wolfAllocation?.let {

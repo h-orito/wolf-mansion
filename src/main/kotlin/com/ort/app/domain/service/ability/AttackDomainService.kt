@@ -120,10 +120,10 @@ class AttackDomainService(
         day: Int
     ): List<String> {
         val attacks = abilities.filterByType(CDef.AbilityType.襲撃.toModel()).filterPastDay(day).sortedByDay()
-        val wolfCharaIds = village.participants.list.filter { it.skill!!.hasAttackAbility() }.map { it.charaId }
-        val wolfFootsteps = footsteps.list.filter { wolfCharaIds.contains(it.charaId) }
         return attacks.list.map { ability ->
-            val footstep = wolfFootsteps.firstOrNull { it.day == ability.day }?.roomNumbers ?: "なし"
+            val footstep =
+                footsteps.list.firstOrNull { it.day == ability.day && it.charaId == ability.attackerCharaId }?.roomNumbers
+                    ?: "なし"
             val from = village.participants.chara(ability.attackerCharaId!!)
             val target = village.participants.chara(ability.targetCharaId!!)
             "${ability.day}日目 ${from.nameWhen(ability.day)} が ${target.nameWhen(ability.day)} を襲撃する（$footstep）"
