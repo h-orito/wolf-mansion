@@ -8,7 +8,6 @@ import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.canCreateVillage
-import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import java.time.LocalDateTime
 
 @Controller
 class IndexController(
@@ -40,13 +38,6 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
-
-        val now = LocalDateTime.now()
-        if (now.isAfter(LocalDateTime.of(2024, 4, 1, 0, 0, 0)) &&
-            now.isBefore(LocalDateTime.of(2024, 4, 2, 0, 0, 0))
-        ) {
-            model.addAttribute("aprilSkillCode", Skills.all().filterNotSomeone().list.random().code.lowercase())
-        }
 
         return "index"
     }
