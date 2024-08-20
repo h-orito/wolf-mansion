@@ -25,7 +25,7 @@ jobs:
           ./gradlew build -x test
 
       - name: Copy to remote server
-        uses: appleboy/scp-action@0.1.7
+        uses: appleboy/scp-action@v0.1.7
         with:
           source: build/libs/wolf-mansion-0.0.1-SNAPSHOT.jar
           target: ${{ secrets.SSH_APP_PATH }}/wolf-mansion.jar
