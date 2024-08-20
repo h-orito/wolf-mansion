@@ -25,10 +25,10 @@ jobs:
           ./gradlew build -x test
 
       - name: Copy to remote server
-        uses: garygrossgarten/github-action-scp@release
+        uses: appleboy/ssh-action@0.1.7
         with:
-          local: build/libs/wolf-mansion-0.0.1-SNAPSHOT.jar
-          remote: ${{ secrets.SSH_APP_PATH }}/wolf-mansion.jar
+          source: build/libs/wolf-mansion-0.0.1-SNAPSHOT.jar
+          target: ${{ secrets.SSH_APP_PATH }}/wolf-mansion.jar
           host: ${{ secrets.HOST }}
           port: ${{ secrets.PORT }}
           username: ${{ secrets.SSH_USER }}
