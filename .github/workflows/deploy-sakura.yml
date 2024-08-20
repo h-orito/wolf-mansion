@@ -42,5 +42,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
           script: |
-            mv ${{ secrets.SSH_APP_PATH }}/wolf-mansion-0.0.1-SNAPSHOT.jar ${{ secrets.SSH_APP_PATH }}/wolf-mansion.jar
+            mv ${{ secrets.SSH_APP_PATH }}/build/libs/wolf-mansion-0.0.1-SNAPSHOT.jar ${{ secrets.SSH_APP_PATH }}/wolf-mansion.jar
             sudo sh deploy/deploy_mansion2.sh
