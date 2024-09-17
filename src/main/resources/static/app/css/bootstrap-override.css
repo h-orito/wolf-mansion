@@ -36,6 +36,7 @@ ul {
     .form-horizontal .control-label {
         padding-top: 5px;
     }
+
     .modal-dialog {
         width: 80vw;
     }
@@ -85,6 +86,22 @@ ul {
     text-decoration: none;
     color: #fff;
     cursor: pointer;
+}
+
+.top-menu-selectable td {
+    padding: 0 !important;
+}
+
+.top-menu-selectable td a {
+    padding: 5px;
+}
+
+.top-menu-selectable a {
+    color: #fff;
+    text-decoration: unset !important;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .top-menu-selectable-inner {
