@@ -937,24 +937,6 @@ $(function () {
     // ----------------------------------------------
     // 抽出
     // ----------------------------------------------
-    $('#filter-button').on('click', function () {
-        if ($(this).hasClass('active')) {
-            resetFilter();
-            return false; // modalを開かない
-        } else {
-            return true;
-        }
-    });
-
-    function resetFilter() {
-        doFilterParticipantAllOff();
-        doFilterToParticipantAllOff();
-        doFilterTypeAllOn();
-        resetKeyword();
-        $('[data-dsetting-unspoiled]').prop('checked', false);
-        doFilter();
-    }
-
     // キャラクター
     $('[data-filter-participant-allon]').on('click', function () {
         doFilterParticipantAllOn();
@@ -1057,32 +1039,81 @@ $(function () {
     }
 
     $('[data-filter-submit]').on('click', function () {
-        doFilter();
+        doFilter(false);
     });
 
-    function doFilter() {
+	$('[data-filter-newtab-submit]').on('click', function () {
+		doFilter(true);
+	});
+
+	$('[data-filter-reset]').on('click', function () {
+		if (window.confirm('抽出条件をリセットしてよろしいですか？')) {
+			resetFilter();
+		}
+	});
+
+    function doFilter(openNewTab = false) {
         filterTypes = $('#filter-type').find('label.active input').map(function () {
             return $(this).val();
         }).get();
+        if (filterTypes.length == $('#filter-type label').length) {
+			filterTypes = []; // 全部表示する場合は空にする
+        }
         filterParticipantIds = $('#filter-character').find('input').filter((idx, elm) => {
             return $(elm).prop('checked');
         }).map((idx, elm) => $(elm).val()).get().sort();
+        if (filterParticipantIds.length == $('#filter-character input').length) {
+        	filterParticipantIds = []; // 全部表示する場合は空にする
+        }
         filterToParticipantIds = $('#filter-to-character').find('input').filter((idx, elm) => {
             return $(elm).prop('checked');
         }).map((idx, elm) => $(elm).val()).get().sort();
+        if (filterToParticipantIds.length == $('#filter-to-character input').length) {
+			filterToParticipantIds = []; // 全部表示する場合は空にする
+		}
         filterKeywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
         filterSpoiled = $('[data-dsetting-unspoiled]').prop('checked');
-        // 発言読み込み
-        loadAndDisplayMessageWithCurrentSetting();
-        // 日付を跨いでも維持できるように一時的にcookieに入れておく
-        saveDisplaySetting('filter_village_id', villageId);
-        saveDisplaySetting('filter_participant', filterParticipantIds.join(','));
-        saveDisplaySetting('filter_type', filterTypes.join(','));
-        saveDisplaySetting('filter_keyword', filterKeywords.join(' '));
-        saveDisplaySetting('filter_spoiled_content', filterSpoiled);
-        saveDisplaySetting('filter_to_participant_ids', filterToParticipantIds.join(','));
+
+		// URLパラメータ設定
+		const url = new URL(location);
+        if (filterParticipantIds.length > 0) {
+			url.searchParams.set('fpid', filterParticipantIds.join(','));
+        } else {
+        	url.searchParams.delete('fpid');
+        }
+        if (filterTypes.length > 0) {
+        	url.searchParams.set('typ', filterTypes.join(','));
+        } else {
+        	url.searchParams.delete('typ');
+        }
+        if (filterKeywords.length > 0 && filterKeywords[0] !== '') {
+        	url.searchParams.set('kwd', filterKeywords.join(' '));
+        } else {
+        	url.searchParams.delete('kwd');
+        }
+        if (filterSpoiled) {
+        	url.searchParams.set('spl', 'true');
+        } else {
+        	url.searchParams.delete('spl');
+        }
+        if (filterToParticipantIds.length > 0) {
+        	url.searchParams.set('tpid', filterToParticipantIds.join(','));
+        } else {
+        	url.searchParams.delete('tpid');
+        }
+
+        if (openNewTab) {
+			window.open(url);
+			return;
+        } else {
+			// 発言読み込み
+			loadAndDisplayMessageWithCurrentSetting();
+        	window.history.pushState({}, "", url);
+        	addFilterParameterToDayLink();
+        }
+
         // 抽出中ならfooterボタンをactiveに
-        if (filterTypes.length != $('#filter-type label').length
+        if (filterTypes.length > 0 && filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
@@ -1096,6 +1127,24 @@ $(function () {
         }
 
         $('#modal-filter').modal('hide');
+    }
+
+    function addFilterParameterToDayLink() {
+    	const searchParams = $(location).attr('search');
+    	$('[data-day-link]').each((idx, elm) => {
+			$(elm).attr('href', function (idx, attr) {
+				return attr + searchParams;
+			});
+		});
+    }
+
+    function resetFilter() {
+        doFilterParticipantAllOff();
+        doFilterToParticipantAllOff();
+        doFilterTypeAllOn();
+        resetKeyword();
+        $('[data-dsetting-unspoiled]').prop('checked', false);
+        doFilter();
     }
 
     function filterSpoiledContent() {
@@ -1117,22 +1166,15 @@ $(function () {
         }
     }
 
-    // フィルタを引き継ぐ
+    // フィルタを復元
     function restoreFilter() {
-        const filterVillageId = getDisplaySetting('filter_village_id');
-        if (filterVillageId == null || filterVillageId != villageId) {
-            saveDisplaySetting('filter_village_id', 0);
-            return;
-        }
-        const filterParticipantId = getDisplaySetting('filter_participant');
-        filterParticipantIds = filterParticipantId == null ? [] : filterParticipantId.split(',');
-        const filterType = getDisplaySetting('filter_type');
-        filterTypes = filterType == null ? [] : filterType.split(',');
-        const filterKeyword = getDisplaySetting('filter_keyword');
-        filterKeywords = filterKeyword.split(' ');
-        filterSpoiled = getDisplaySetting('filter_spoiled_content');
-        const filterToParticipantId = getDisplaySetting('filter_to_participant_ids');
-        filterToParticipantIds = filterToParticipantId == null ? [] : filterToParticipantId.split(',');
+    	filterParticipantIds = getParam('fpid');
+    	filterTypes = getParam('typ');
+    	filterKeywords = getParam('kwd');
+    	const spl = getParam('spl');
+    	filterSpoiled = spl.length === 1 && spl[0] === 'true';
+    	filterToParticipantIds = getParam('tpid');
+
         // 復元
         $('#filter-character').find('input').each(function (idx, elm) {
             const participantId = $(elm).val();
@@ -1150,17 +1192,17 @@ $(function () {
         });
         $('#filter-type').find('label').each((idx, elm) => {
             $(elm).addClass('active');
-            if ($.inArray($(elm).find('input').val(), filterTypes) === -1) {
+            if (filterTypes.length > 0 && $.inArray($(elm).find('input').val(), filterTypes) === -1) {
                 $(elm).removeClass('active');
             }
         });
-        $('#modal-filter [data-filter-message-keyword]').val(filterKeyword);
+        $('#modal-filter [data-filter-message-keyword]').val(filterKeywords.join(' '));
         if (filterSpoiled && $('[data-dsetting-unspoiled]').length != 0) {
             $('[data-dsetting-unspoiled]').prop('checked', true);
         }
 
         // 抽出中ならfooterボタンをactiveに
-        if (filterTypes.length != $('#filter-type label').length
+        if (filterTypes.length != 0 && filterTypes.length != $('#filter-type label').length
             || filterParticipantIds.length > 0 && filterParticipantIds[0] !== ''
             || filterKeywords.length > 0 && filterKeywords[0] !== ''
             || filterSpoiled
@@ -1172,7 +1214,31 @@ $(function () {
             $('#filter-button').removeClass('active');
             $('#filter-buttom-text').text('抽出');
         }
+
+        // 日付リンクもフィルタを引き継ぐ
+        addFilterParameterToDayLink();
     }
+
+    function getParam(name) {
+    	const searchArr = $(location).attr('search').split('?');
+    	if (searchArr.length < 2) return [];
+    	let values = [];
+    	searchArr[1].split('&').forEach(function (param) {
+    		const temp = param.split('=');
+			if (temp[0] === name) {
+				const value = decodeURIComponent(temp[1]);
+				if (value == null || value === '') return [];
+				if (name === 'kwd') {
+					values = value.split('+');
+				} else {
+					values = value.split(',');
+				}
+			}
+    	});
+    	return values;
+    }
+
+	// ---------------------------------------------------------------
 
     // ハッシュタグ
     $('body').on('click', '[data-message-hashtag]', function () {
