@@ -1039,11 +1039,11 @@ $(function () {
     }
 
     $('[data-filter-submit]').on('click', function () {
-        doFilter(false);
+        doFilter();
     });
 
 	$('[data-filter-newtab-submit]').on('click', function () {
-		doFilter(true);
+		doFilterWithNewTab();
 	});
 
 	$('[data-filter-reset]').on('click', function () {
@@ -1052,7 +1052,7 @@ $(function () {
 		}
 	});
 
-    function doFilter(openNewTab = false) {
+    function doFilter() {
         filterTypes = $('#filter-type').find('label.active input').map(function () {
             return $(this).val();
         }).get();
@@ -1102,15 +1102,10 @@ $(function () {
         	url.searchParams.delete('tpid');
         }
 
-        if (openNewTab) {
-			window.open(url);
-			return;
-        } else {
-			// 発言読み込み
-			loadAndDisplayMessageWithCurrentSetting();
-        	window.history.pushState({}, "", url);
-        	addFilterParameterToDayLink();
-        }
+		// 発言読み込み
+		loadAndDisplayMessageWithCurrentSetting();
+		window.history.pushState({}, "", url);
+		addFilterParameterToDayLink();
 
         // 抽出中ならfooterボタンをactiveに
         if (filterTypes.length > 0 && filterTypes.length != $('#filter-type label').length
@@ -1128,6 +1123,59 @@ $(function () {
 
         $('#modal-filter').modal('hide');
     }
+
+    function doFilterWithNewTab() {
+		let types = $('#filter-type').find('label.active input').map(function () {
+			return $(this).val();
+		}).get();
+		if (types.length == $('#filter-type label').length) {
+			types = []; // 全部表示する場合は空にする
+		}
+		let participantIds = $('#filter-character').find('input').filter((idx, elm) => {
+			return $(elm).prop('checked');
+		}).map((idx, elm) => $(elm).val()).get().sort();
+		if (participantIds.length == $('#filter-character input').length) {
+			participantIds = []; // 全部表示する場合は空にする
+		}
+		let toParticipantIds = $('#filter-to-character').find('input').filter((idx, elm) => {
+			return $(elm).prop('checked');
+		}).map((idx, elm) => $(elm).val()).get().sort();
+		if (toParticipantIds.length == $('#filter-to-character input').length) {
+			toParticipantIds = []; // 全部表示する場合は空にする
+		}
+		keywords = $('#modal-filter [data-filter-message-keyword]').val().replace(/　/g, ' ').split(' ');
+		spoiled = $('[data-dsetting-unspoiled]').prop('checked');
+
+		// URLパラメータ設定
+		const url = new URL(location);
+		if (participantIds.length > 0) {
+			url.searchParams.set('fpid', participantIds.join(','));
+		} else {
+			url.searchParams.delete('fpid');
+		}
+		if (types.length > 0) {
+			url.searchParams.set('typ', types.join(','));
+		} else {
+			url.searchParams.delete('typ');
+		}
+		if (keywords.length > 0 && keywords[0] !== '') {
+			url.searchParams.set('kwd', keywords.join(' '));
+		} else {
+			url.searchParams.delete('kwd');
+		}
+		if (spoiled) {
+			url.searchParams.set('spl', 'true');
+		} else {
+			url.searchParams.delete('spl');
+		}
+		if (toParticipantIds.length > 0) {
+			url.searchParams.set('tpid', toParticipantIds.join(','));
+		} else {
+			url.searchParams.delete('tpid');
+		}
+
+		window.open(url);
+	}
 
     function addFilterParameterToDayLink() {
     	const searchParams = $(location).attr('search');
