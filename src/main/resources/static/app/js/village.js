@@ -709,7 +709,9 @@ $(function () {
         replaceFootstepList();
     });
 
+    // ----------------------------------------------
     // 文字数カウント
+    // ----------------------------------------------
     $('body').on('keyup', '[data-say-textarea]', function () {
         updateSayCount($(this));
     });
@@ -811,7 +813,7 @@ $(function () {
         }
     });
 
-    // 文字数カウント
+    // アクション文字数カウント
     $('body').on('keyup', '[data-action-text]', function () {
         updateActionCount($(this));
     });
@@ -858,6 +860,48 @@ $(function () {
             leftCount: $countspan.data('message-restrict-action-left-count')
         };
     }
+
+    $('body').on('keyup', '#name,#shortName', function () {
+		updateNameCount($(this));
+	});
+
+	function updateNameCount() {
+		const $nameInput = $('#name');
+		const $shortNameInput = $('#shortName');
+		const $countspan = $nameInput.closest('form').find('[data-name-count]');
+		const nameLen = $nameInput.val().length;
+		const shortNameLen = $shortNameInput.val().length;
+		$countspan.text('略称: ' + shortNameLen + '/1,  名前: ' + nameLen + '/40');
+		const $submitbtn = $nameInput.closest('form').find('[data-name-submit]');
+		if (nameLen > 40 || shortNameLen > 1) {
+			$countspan.addClass('text-danger');
+			$submitbtn.prop('disabled', true);
+		} else {
+			$countspan.removeClass('text-danger');
+			$submitbtn.prop('disabled', false);
+		}
+	}
+
+    $('body').on('keyup', '#memo', function () {
+		updateMemoCount($(this));
+	});
+
+	function updateMemoCount($input) {
+		if ($input.length === 0) {
+			return;
+		}
+		const $countspan = $input.closest('form').find('[data-memo-count]');
+		const len = $input.val().length;
+		$countspan.text('文字数: ' + len + '/20');
+		const $submitbtn = $input.closest('form').find('[data-memo-submit]');
+		if (len > 20) {
+			$countspan.addClass('text-danger');
+			$submitbtn.prop('disabled', true);
+		} else {
+			$countspan.removeClass('text-danger');
+			$submitbtn.prop('disabled', false);
+		}
+	}
 
     // 画面上部遷移
     $('body').on('click', '[data-goto-top]', function () {
