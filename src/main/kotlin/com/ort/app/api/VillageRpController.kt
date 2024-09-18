@@ -7,6 +7,7 @@ import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageRpController(
@@ -40,6 +42,7 @@ class VillageRpController(
     private fun changeName(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeNameForm") changeNameForm: VillageChangeNameForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -60,7 +63,7 @@ class VillageRpController(
             return "village"
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 簡易メモを変更する
@@ -68,6 +71,7 @@ class VillageRpController(
     private fun memo(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeNameForm") memoForm: VillageMemoForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -88,7 +92,7 @@ class VillageRpController(
             return "village"
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 表情差分を編集する
@@ -96,6 +100,7 @@ class VillageRpController(
     private fun faceType(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("faceTypeModifyForm") faceTypeModifyForm: VillageFaceTypeModifyForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -123,7 +128,7 @@ class VillageRpController(
             return "village"
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 表情差分を追加する
@@ -131,6 +136,7 @@ class VillageRpController(
     private fun faceType(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("faceTypeForm") faceTypeForm: VillageFaceTypeForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -161,6 +167,6 @@ class VillageRpController(
             return "village"
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 }

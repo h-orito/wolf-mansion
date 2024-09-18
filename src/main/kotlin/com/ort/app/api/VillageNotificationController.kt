@@ -6,6 +6,7 @@ import com.ort.app.api.request.VillageNotificationForm
 import com.ort.app.application.service.*
 import com.ort.app.domain.model.village.participant.VillageParticipantNotificationCondition
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -15,6 +16,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageNotificationController(
@@ -31,6 +33,7 @@ class VillageNotificationController(
     private fun saveNotification(
         @PathVariable villageId: Int,  //
         @Validated @ModelAttribute("notificationForm") notificationForm: VillageNotificationForm,  //
+        request: HttpServletRequest,  //
         result: BindingResult,  //
         model: Model
     ): String {
@@ -64,6 +67,6 @@ class VillageNotificationController(
         )
         notificationService.notifyTest(notificationForm.webhookUrl, village.id)
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 }

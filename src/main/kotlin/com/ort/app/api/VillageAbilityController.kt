@@ -12,6 +12,7 @@ import com.ort.app.api.view.VillageGetFootstepListContent
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageAbilityController(
@@ -35,6 +37,7 @@ class VillageAbilityController(
     private fun setAbility(
         @PathVariable villageId: Int,  //
         @Validated @ModelAttribute("abilityForm") abilityForm: VillageAbilityForm,  //
+        request: HttpServletRequest,  //
         result: BindingResult,  //
         model: Model
     ): String {
@@ -58,7 +61,7 @@ class VillageAbilityController(
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("abilityErrorMessage", e.message)
         }
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 投票セットする
@@ -66,6 +69,7 @@ class VillageAbilityController(
     private fun setVote(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("voteForm") voteForm: VillageVoteForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -87,7 +91,7 @@ class VillageAbilityController(
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("voteErrorMessage", e.message)
         }
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // コミットする
@@ -95,6 +99,7 @@ class VillageAbilityController(
     private fun setCommit(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("commitForm") commitForm: VillageCommitForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -116,7 +121,7 @@ class VillageAbilityController(
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("commitErrorMessage", e.message)
         }
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 襲撃対象候補取得

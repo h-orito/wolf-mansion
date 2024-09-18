@@ -14,6 +14,7 @@ import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getIpAddress
+import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.slf4j.LoggerFactory
@@ -81,7 +82,9 @@ class VillageSayController(
                 sayForm.secretSayTargetCharaId
             )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+            val charas = village.setting.chara.let {
+                charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
+            }
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,
@@ -102,6 +105,7 @@ class VillageSayController(
     private fun say(
         @PathVariable villageId: Int,  //
         @Validated @ModelAttribute("sayForm") sayForm: VillageSayForm,  //
+        request: HttpServletRequest,  //
         result: BindingResult,  //
         model: Model
     ): String {
@@ -129,7 +133,7 @@ class VillageSayController(
             model.addAttribute("sayErrorMessage", e.message)
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom" // 抽出内容を維持
     }
 
     // アクション確認画面へ
@@ -155,7 +159,9 @@ class VillageSayController(
                 null
             )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+            val charas = village.setting.chara.let {
+                charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
+            }
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,
@@ -176,6 +182,7 @@ class VillageSayController(
     private fun action(
         @PathVariable villageId: Int,  //
         @Validated @ModelAttribute("actionForm") actionForm: VillageActionForm,  //
+        request: HttpServletRequest,  //
         result: BindingResult,  //
         model: Model
     ): String {
@@ -203,6 +210,6 @@ class VillageSayController(
             model.addAttribute("actionErrorMessage", e.message)
         }
         // 最新の日付を表示
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 }

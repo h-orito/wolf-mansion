@@ -13,6 +13,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getIpAddress
+import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Controller
@@ -47,6 +48,7 @@ class VillageParticipateController(
     private fun confirmParticipate(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model //
     ): String {
@@ -106,6 +108,7 @@ class VillageParticipateController(
     private fun participate(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -157,7 +160,7 @@ class VillageParticipateController(
             return "village"
         }
         // 最新の日へ
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 希望役職変更
@@ -165,6 +168,7 @@ class VillageParticipateController(
     private fun changeSkill(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeRequestSkill") changeRequestSkillForm: VillageChangeRequestSkillForm,
+        request: HttpServletRequest,  //
         result: BindingResult,
         model: Model
     ): String {
@@ -187,12 +191,16 @@ class VillageParticipateController(
             model.addAttribute("changeRequestSkillErrorMessage", e.message)
         }
         // 最新の日へ
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     // 退村
     @PostMapping("/village/{villageId}/leave")
-    private fun leave(@PathVariable villageId: Int, model: Model): String {
+    private fun leave(
+        @PathVariable villageId: Int,
+        request: HttpServletRequest,  //
+        model: Model
+    ): String {
         val village = villageService.findVillage(villageId)
             ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
@@ -208,7 +216,7 @@ class VillageParticipateController(
             model.addAttribute("leaveErrorMessage", e.message)
         }
         // 最新の日へ
-        return "redirect:/village/$villageId#bottom"
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
     @GetMapping("/getSelectableCharaList/{villageId}")

@@ -45,3 +45,7 @@ fun HttpServletRequest.getIpAddress(): String {
     return if (xForwardedFor.isNullOrEmpty()) this.remoteAddr
     else xForwardedFor
 }
+
+fun HttpServletRequest.getRefererQueryString(): String {
+    return this.getHeader("Referer")?.substringAfter("?", "")?.ifBlank { null }?.let { "?$it" } ?: ""
+}
