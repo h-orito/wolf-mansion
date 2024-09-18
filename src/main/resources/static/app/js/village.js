@@ -1181,7 +1181,8 @@ $(function () {
     	const searchParams = $(location).attr('search');
     	$('[data-day-link]').each((idx, elm) => {
 			$(elm).attr('href', function (idx, attr) {
-				return attr + searchParams;
+				const href = attr.split('?')[0];
+				return href + searchParams;
 			});
 		});
     }
