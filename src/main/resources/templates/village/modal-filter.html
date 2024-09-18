@@ -28,11 +28,32 @@
                     <h4>発言抽出</h4>
                     <div style="display: flex; flex-direction: column;">
                         <div style="flex: 1; overflow-y: auto; max-height: 80vh; max-height: 80dvh; width: 100%; overflow-x: hidden;">
+                            <div>
+                                <strong>ショートカット機能</strong>
+                                <div style="margin-top: 10px;">
+                                    <a href="javascript:void(0);" data-filter-shortcut-werewolf-say>囁き</a>
+                                    &nbsp;/&nbsp;
+                                    <a href="javascript:void(0);" data-filter-shortcut-mason-say>共鳴</a>
+                                    &nbsp;/&nbsp;
+                                    <a href="javascript:void(0);" data-filter-shortcut-lovers-say>恋人</a>
+                                    &nbsp;/&nbsp;
+                                    <a href="javascript:void(0);" data-filter-shortcut-telepathy>念話</a>
+                                    <span th:if="${user != null}">
+                                        &nbsp;/&nbsp;
+                                        <a href="javascript:void(0);" data-filter-shortcut-tome>自分宛</a>
+                                    </span>
+                                    <span th:if="${notificationForm != null && notificationForm.keyword != null && notificationForm.keyword != ''}">
+                                        &nbsp;/&nbsp;
+                                        <a href="javascript:void(0);" data-filter-shortcut-keyword>通知キーワード</a>
+                                    </span>
+                                </div>
+                                <hr/>
+                            </div>
                             <div id="filter-type" style="margin-top: 15px;">
                                 <strong>発言種別</strong>
                                 <div style="margin-top: 10px;">
-                                    <a href="javascript:void(0);" data-filter-type-allon>全てON</a> /
-                                    <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a> /
+                                    <a href="javascript:void(0);" data-filter-type-allon>全てON</a>&nbsp;/&nbsp;
+                                    <a href="javascript:void(0);" data-filter-type-alloff>全てOFF</a>&nbsp;/&nbsp;
                                     <a href="javascript:void(0);" data-filter-type-reverse>反転</a>
                                 </div>
                                 <div class="btn-group btn-saytypes" data-toggle="buttons"
@@ -99,9 +120,8 @@
                                         <strong>発言者（クリックで開閉）</strong>
                                         <div class="col-xs-12 col-sm-12" style="margin-top: 10px;">
                                             <div class="row">
-                                                <a href="javascript:void(0);" data-filter-participant-allon>全てON</a> /
-                                                <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a>
-                                                /
+                                                <a href="javascript:void(0);" data-filter-participant-allon>全てON</a>&nbsp;/&nbsp;
+                                                <a href="javascript:void(0);" data-filter-participant-alloff>全てOFF</a>&nbsp;/&nbsp;
                                                 <a href="javascript:void(0);" data-filter-participant-reverse>反転</a>
                                             </div>
                                         </div>
@@ -152,9 +172,9 @@
                                                 <a href="javascript:void(0);" data-filter-to-participant-allon>全てON</a>
                                                 /
                                                 <a href="javascript:void(0);"
-                                                   data-filter-to-participant-alloff>全てOFF</a> /
+                                                   data-filter-to-participant-alloff>全てOFF</a>&nbsp;/&nbsp;
                                                 <a href="javascript:void(0);"
-                                                   data-filter-to-participant-reverse>反転</a> /
+                                                   data-filter-to-participant-reverse>反転</a>&nbsp;/&nbsp;
                                                 <a href="javascript:void(0);"
                                                    th:if="${content.myself != null}"
                                                    th:data-filter-to-me="${content.myself.id}"

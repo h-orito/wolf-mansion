@@ -1093,8 +1093,54 @@ $(function () {
 	$('[data-filter-reset]').on('click', function () {
 		if (window.confirm('抽出条件をリセットしてよろしいですか？')) {
 			resetFilter();
+			doFilter();
 		}
 	});
+
+	$('[data-filter-shortcut-werewolf-say]').on('click', function () {
+		sayShortcutFilter('WEREWOLF_SAY');
+	});
+
+	$('[data-filter-shortcut-mason-say]').on('click', function () {
+		sayShortcutFilter('MASON_SAY');
+	});
+
+	$('[data-filter-shortcut-lovers-say]').on('click', function () {
+		sayShortcutFilter('LOVERS_SAY');
+	});
+
+	$('[data-filter-shortcut-telepathy]').on('click', function () {
+		sayShortcutFilter('TELEPATHY');
+	});
+
+	$('[data-filter-shortcut-tome]').on('click', function () {
+		resetFilter();
+		const myself = $('#filter-to-character [data-filter-to-me]').data('filter-to-me');
+		$('#filter-to-character').find('input').each((idx, elm) => {
+			const value = $(elm).val();
+			$(elm).prop('checked', value == myself);
+		});
+		doFilter();
+	});
+
+	$('[data-filter-shortcut-keyword]').on('click', function () {
+		resetFilter();
+		const keyword = $('#keyword').val();
+		$('#modal-filter [data-filter-message-keyword]').val(keyword);
+		doFilter();
+	});
+
+	function sayShortcutFilter(type) {
+		resetFilter();
+		$('#filter-type').find('label').each(function () {
+			if ($(this).find('input').val() === type) {
+				$(this).addClass('active');
+			} else {
+				$(this).removeClass('active');
+			}
+		});
+		doFilter();
+	}
 
     function doFilter() {
         filterTypes = $('#filter-type').find('label.active input').map(function () {
@@ -1237,7 +1283,6 @@ $(function () {
         doFilterTypeAllOn();
         resetKeyword();
         $('[data-dsetting-unspoiled]').prop('checked', false);
-        doFilter();
     }
 
     function filterSpoiledContent() {
