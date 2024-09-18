@@ -563,6 +563,15 @@ ul.announce > li {
     z-index: 100;
 }
 
+.user-alert {
+    position: fixed;
+    top: 5px;
+    left: 5px;
+    padding: 5px;
+    margin-bottom: 0px;
+    z-index: 100;
+}
+
 .flash {
     animation: Flash 1s infinite;
 }

@@ -103,6 +103,11 @@
         <div id="time-alert" class="hidden time-alert alert alert-info">
             更新まで <span id="left-time">00:00:00</span>
         </div>
+        <a th:if="${user != null}" th:href="@{/user/{username}(username=${user.username})}" target="_blank">
+            <div class="user-alert alert alert-info"
+                 th:text="'ユーザID: ' + ${user.username}">
+            </div>
+        </a>
         <div layout:replace="~{village/agelimit-confirm::agelimit-confirm}"></div>
         <script id="message-template" type="text/x-handlebars-template"
                 layout:include="~{village-template/message::message}"></script>

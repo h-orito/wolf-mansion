@@ -100,31 +100,46 @@
                         </div>
                         <div class="col-sm-12 col-xs-12 top-menu-inner-row h100px">
                             <a href="javascript:void(0);" th:href="@{/new-player}" th:if="${user == null}"
-                               class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-                                    class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-pencil"></span> <span
-                                    class="h6" style="display: block;">ID登録</span>
-										Register
+                               class="col-sm-6 col-xs-6 top-menu-selectable h100px">
+                                <span class="top-menu-selectable-inner">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                    <span class="h6" style="display: block;">ID登録</span>
+                                    Register
 								</span>
-                            </a> <a href="javascript:void(0);" th:href="@{/login}" th:if="${user == null}"
-                                    class="col-sm-6 col-xs-6 top-menu-selectable h100px"> <span
-                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span
-                                class="h6" style="display: block;">ログイン</span>
-										Login
+                            </a>
+                            <a href="javascript:void(0);" th:href="@{/login}" th:if="${user == null}"
+                               class="col-sm-6 col-xs-6 top-menu-selectable h100px">
+                                <span class="top-menu-selectable-inner">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                    <span class="h6" style="display: block;">ログイン</span>
+                                    Login
 								</span>
-                        </a> <a href="javascript:void(0);" th:href="@{/change-password}" th:if="${user != null}"
-                                class="col-sm-6 col-xs-6 top-menu-selectable h100px">
-									<span class="top-menu-selectable-inner"> <span
-                                            class="glyphicon glyphicon-wrench"></span> <span class="h6"
-                                                                                             style="display: block;">パスワード変更</span>
-										Change Password
+                            </a>
+                            <a href="javascript:void(0);" th:href="@{/user/{username}(username=${user.username})}"
+                               th:if="${user != null}"
+                               class="col-sm-4 col-xs-4 top-menu-selectable h100px">
+                                <span class="top-menu-selectable-inner">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    <span class="h6" style="display: block;">マイページ</span>
+                                    My Page
 								</span>
-                        </a> <a href="javascript:void(0);" th:if="${user != null}"
-                                class="col-sm-6 col-xs-6 top-menu-selectable h100px" data-submit-logout> <span
-                                class="top-menu-selectable-inner"> <span class="glyphicon glyphicon-lock"></span> <span
-                                class="h6" style="display: block;">ログアウト</span>
-										Logout
+                            </a>
+                            <a href="javascript:void(0);" th:href="@{/change-password}" th:if="${user != null}"
+                               class="col-sm-4 col-xs-4 top-menu-selectable h100px">
+                                <span class="top-menu-selectable-inner">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                    <span class="h6" style="display: block;">パスワード変更</span>
+                                    Change Password
 								</span>
-                        </a>
+                            </a>
+                            <a href="javascript:void(0);" th:if="${user != null}"
+                               class="col-sm-4 col-xs-4 top-menu-selectable h100px" data-submit-logout>
+                                <span class="top-menu-selectable-inner">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                    <span class="h6" style="display: block;">ログアウト</span>
+                                    Logout
+								</span>
+                            </a>
                         </div>
                     </div>
                 </div>
