@@ -163,6 +163,44 @@ class VillageParticipateController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    // 参加見学切り替え
+    @PostMapping("/village/{villageId}/switch-participate")
+    private fun switchParticipate(
+        @PathVariable villageId: Int,
+        request: HttpServletRequest,  //
+        model: Model
+    ): String {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        }
+        if (myself == null) {
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms()
+            )
+            return "village"
+        }
+
+        try {
+            villageCoordinator.switchParticipate(village, myself)
+        } catch (e: WolfMansionBusinessException) {
+            model.addAttribute("participateErrorMessage", e.message)
+            villageControllerHelper.setIndexModel(
+                village,
+                village.latestDay(),
+                model,
+                VillageForms()
+            )
+            return "village"
+        }
+        // 最新の日へ
+        return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
     // 希望役職変更
     @PostMapping("/village/{villageId}/change-skill")
     private fun changeSkill(

@@ -2,9 +2,16 @@ package com.ort.app.infrastructure.datasource.village
 
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
-import com.ort.app.domain.model.skill.*
+import com.ort.app.domain.model.skill.RequestSkill
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.domain.model.village.participant.*
+import com.ort.app.domain.model.skill.SkillHistories
+import com.ort.app.domain.model.skill.SkillHistory
+import com.ort.app.domain.model.skill.toModel
+import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.village.participant.VillageParticipantName
+import com.ort.app.domain.model.village.participant.VillageParticipantNotificationCondition
+import com.ort.app.domain.model.village.participant.VillageParticipantStatus
+import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.model.village.participant.dead.Dead
 import com.ort.app.domain.model.village.participant.dead.DeadHistories
 import com.ort.app.domain.model.village.participant.dead.DeadHistory
@@ -14,8 +21,20 @@ import com.ort.app.domain.model.village.room.RoomHistories
 import com.ort.app.domain.model.village.room.RoomHistory
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.bsbhv.loader.LoaderOfVillagePlayer
-import com.ort.dbflute.exbhv.*
-import com.ort.dbflute.exentity.*
+import com.ort.dbflute.exbhv.VillagePlayerAccessInfoBhv
+import com.ort.dbflute.exbhv.VillagePlayerBhv
+import com.ort.dbflute.exbhv.VillagePlayerDeadHistoryBhv
+import com.ort.dbflute.exbhv.VillagePlayerNotificationBhv
+import com.ort.dbflute.exbhv.VillagePlayerRoomHistoryBhv
+import com.ort.dbflute.exbhv.VillagePlayerSkillHistoryBhv
+import com.ort.dbflute.exbhv.VillagePlayerStatusBhv
+import com.ort.dbflute.exentity.VillagePlayer
+import com.ort.dbflute.exentity.VillagePlayerAccessInfo
+import com.ort.dbflute.exentity.VillagePlayerDeadHistory
+import com.ort.dbflute.exentity.VillagePlayerNotification
+import com.ort.dbflute.exentity.VillagePlayerRoomHistory
+import com.ort.dbflute.exentity.VillagePlayerSkillHistory
+import com.ort.dbflute.exentity.VillagePlayerStatus
 import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 
@@ -147,6 +166,14 @@ class VillagePlayerDataSource(
         val vPlayer = VillagePlayer()
         vPlayer.lastAccessDatetime = LocalDateTime.now()
         update(participant.id, vPlayer)
+    }
+
+    fun updateIsSpectator(villageId: Int, participantId: Int, spectator: Boolean) {
+        val vPlayer = VillagePlayer()
+        vPlayer.isSpectator = spectator
+        vPlayer.requestSkillCodeAsSkill = CDef.Skill.おまかせ
+        vPlayer.secondRequestSkillCodeAsSkill = CDef.Skill.おまかせ
+        update(participantId, vPlayer)
     }
 
     fun updateDaychangeDifference(current: VillageParticipants, changed: VillageParticipants) {

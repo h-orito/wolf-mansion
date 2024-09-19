@@ -4,7 +4,12 @@ import com.ort.app.domain.model.ability.Abilities
 import com.ort.app.domain.model.ability.toModel
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.FaceType
-import com.ort.app.domain.model.message.*
+import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.message.MessageContent
+import com.ort.app.domain.model.message.MessageQuery
+import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.message.Messages
+import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
@@ -13,7 +18,17 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
 import com.ort.app.domain.service.message.say.MessageTypeDomainService
-import com.ort.app.domain.service.message.system.*
+import com.ort.app.domain.service.message.system.AttackMessageDomainService
+import com.ort.app.domain.service.message.system.CoronerMessageDomainService
+import com.ort.app.domain.service.message.system.DivineMessageDomainService
+import com.ort.app.domain.service.message.system.FoxMessageDomainService
+import com.ort.app.domain.service.message.system.GuruMessageDomainService
+import com.ort.app.domain.service.message.system.InvestigateMessageDomainService
+import com.ort.app.domain.service.message.system.LoversMessageDomainService
+import com.ort.app.domain.service.message.system.PrivateAbilityMessageDomainService
+import com.ort.app.domain.service.message.system.PrivateSystemMessageDomainService
+import com.ort.app.domain.service.message.system.PsychicMessageDomainService
+import com.ort.app.domain.service.message.system.WiseMessageDomainService
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
 import java.util.*
@@ -220,6 +235,22 @@ class MessageDomainService(
             "（見学）${village.spectators.count}人目、${participant.name()}。"
         } else {
             "${village.participants.count}人目、${participant.name()}。"
+        }
+        return Message.ofSystemMessage(
+            day = village.latestDay(),
+            message = message
+        )
+    }
+
+    fun createSwitchParticipateSystemMessage(
+        village: Village,
+        participant: VillageParticipant,
+        isSpectator: Boolean
+    ): Message {
+        val message = if (isSpectator) {
+            "（参加 → 見学）${village.spectators.count}人目、${participant.name()}。"
+        } else {
+            "（見学 → 参加）${village.participants.count}人目、${participant.name()}。"
         }
         return Message.ofSystemMessage(
             day = village.latestDay(),

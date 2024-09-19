@@ -171,6 +171,43 @@ class VillageCoordinator(
     }
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
+    fun switchParticipate(
+        village: Village,
+        myself: VillageParticipant,
+    ): VillageParticipant {
+        // assert
+        assertSwitchParticipate(village, myself)
+        val isSpectator = !myself.isSpectator
+        // 参加→見学 or 見学→参加
+        val afterMyself = villageService.switchParticipate(village.id, myself.id, isSpectator)
+        // シスメ登録
+        val afterVillage = villageService.findVillage(village.id)!!
+        messageCoordinator.registerMessage(
+            afterVillage.id,
+            messageDomainService.createSwitchParticipateSystemMessage(afterVillage, myself, isSpectator)
+        )
+        if (!isSpectator) {
+            // 人数が揃ったらツイート
+            notificationService.notifyParticipantEnoughToCustomerIfNeeded(afterVillage)
+        }
+        return afterMyself
+    }
+
+    fun assertSwitchParticipate(
+        village: Village,
+        myself: VillageParticipant,
+    ) {
+        val player = playerService.findPlayer(myself.playerId)
+        if (myself.isSpectator) { // 見学→参加
+            participateDomainService.assertSwitchToParticipate(village, player)
+        } else { // 参加→見学
+            val charachips =
+                village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+            participateDomainService.assertSwitchToSpectate(village, player, charachips)
+        }
+    }
+
+    @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun changeRequestSkill(
         village: Village,
         myself: VillageParticipant,

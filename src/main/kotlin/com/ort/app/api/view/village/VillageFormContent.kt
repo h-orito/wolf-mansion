@@ -49,6 +49,8 @@ data class VillageFormContent(
     data class VillageParticipateFormContent(
         /** 参戦フォームを表示するか */
         val isDispParticipateForm: Boolean,
+        /** 参加見学切り替えフォームを表示するか */
+        val isDispSwitchParticipateForm: Boolean,
         /** 希望役職変更フォームを表示するか */
         val isDispChangeRequestSkillForm: Boolean,
         /** 役職希望無効のメッセージを表示するか */
@@ -68,6 +70,7 @@ data class VillageFormContent(
             situation: ParticipantSituation
         ) : this(
             isDispParticipateForm = situation.participate.isAvailableParticipate || situation.participate.isAvailableSpectate,
+            isDispSwitchParticipateForm = situation.participate.isAvailableSwitchParticipate,
             isDispChangeRequestSkillForm = situation.skillRequest.isAvailableSkillRequest,
             isDispChangeRequestNgMessage = village.status.isPrologue() && myself != null &&
                     !myself.isSpectator &&

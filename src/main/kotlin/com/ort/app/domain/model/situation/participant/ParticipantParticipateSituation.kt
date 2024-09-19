@@ -8,6 +8,7 @@ data class ParticipantParticipateSituation(
     val isParticipating: Boolean,
     val isAvailableParticipate: Boolean,
     val isAvailableSpectate: Boolean,
+    val isAvailableSwitchParticipate: Boolean,
     val selectableCharachipList: List<Charachip>,
     val selectableCharaList: List<Chara>,
     val isAvailableLeave: Boolean,

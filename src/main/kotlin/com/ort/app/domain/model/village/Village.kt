@@ -74,6 +74,12 @@ data class Village(
         }
     }
 
+    fun assertSwitchToParticipate(player: Player?) {
+        if (!canParticipate(player)) {
+            throw WolfMansionBusinessException("参加できません")
+        }
+    }
+
     fun canSpectate(charaNum: Int): Boolean =
         setting.rule.isAvailableSpectate
                 && status.isPrologue()
@@ -88,6 +94,12 @@ data class Village(
         }
         if (!setting.joinPassword.isNullOrEmpty() && setting.joinPassword != joinPassword) {
             throw WolfMansionBusinessException("入村パスワードが誤っています。")
+        }
+    }
+
+    fun assertSwitchToSpectate(charaNum: Int) {
+        if (!canSpectate(charaNum)) {
+            throw WolfMansionBusinessException("参加できません")
         }
     }
 

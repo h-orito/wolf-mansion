@@ -168,6 +168,11 @@ class VillageDataSource(
         return findVillageParticipant(vPlayer.villagePlayerId, true)!!
     }
 
+    override fun switchParticipate(villageId: Int, participantId: Int, isSpectator: Boolean): VillageParticipant {
+        villagePlayerDataSource.updateIsSpectator(villageId, participantId, isSpectator)
+        return findVillageParticipant(participantId, true)!!
+    }
+
     override fun addIpAddress(participant: VillageParticipant, ipAddress: String) {
         villagePlayerDataSource.insertVillagePlayerAccessInfo(participant.id, ipAddress)
     }

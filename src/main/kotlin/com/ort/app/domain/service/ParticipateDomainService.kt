@@ -22,6 +22,7 @@ class ParticipateDomainService {
             isParticipating = myself != null,
             isAvailableParticipate = isAvailableParticipate(player, village),
             isAvailableSpectate = isAvailableSpectate(player, village, charachips),
+            isAvailableSwitchParticipate = isAvailableSwitchParticipate(myself, player, village, charachips),
             selectableCharachipList = getSelectableCharachipList(village, charachips),
             selectableCharaList = getSelectableCharaList(village, charachips),
             isAvailableLeave = isAvailableLeave(village, myself),
@@ -39,6 +40,17 @@ class ParticipateDomainService {
         player ?: return false
         return player.isAvailableParticipateVillage(village.id) &&
                 village.canSpectate(charachips.list.sumOf { it.charas.list.size })
+    }
+
+    private fun isAvailableSwitchParticipate(
+        myself: VillageParticipant?,
+        player: Player?,
+        village: Village,
+        charachips: Charachips
+    ): Boolean {
+        myself ?: return false
+        return if (myself.isSpectator) village.canParticipate(player)
+        else village.canSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
     private fun getSelectableCharachipList(village: Village, charachips: Charachips): List<Charachip> {
@@ -76,6 +88,13 @@ class ParticipateDomainService {
         village.assertParticipate(charaId, joinPassword, player)
     }
 
+    fun assertSwitchToParticipate(
+        village: Village,
+        player: Player,
+    ) {
+        village.assertSwitchToParticipate(player)
+    }
+
     fun assertSpectate(
         village: Village,
         player: Player,
@@ -84,7 +103,15 @@ class ParticipateDomainService {
         charachips: Charachips
     ) {
         player.assertSpectate(village.id)
-        village.assertSpectate(charaId, joinPassword, charachips.list.sumBy { it.charas.list.size })
+        village.assertSpectate(charaId, joinPassword, charachips.list.sumOf { it.charas.list.size })
+    }
+
+    fun assertSwitchToSpectate(
+        village: Village,
+        player: Player,
+        charachips: Charachips
+    ) {
+        village.assertSwitchToSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
     fun assertLeave(village: Village, myself: VillageParticipant) = village.assertLeave()

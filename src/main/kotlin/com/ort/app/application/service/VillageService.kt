@@ -74,6 +74,8 @@ class VillageService(
     ): VillageParticipant =
         villageRepository.participate(villageId, playerId, chara, firstRequestSkill, secondRequestSkill, isSpectator)
 
+    fun switchParticipate(villageId: Int, participantId: Int, isSpectator: Boolean) = villageRepository.switchParticipate(villageId, participantId, isSpectator)
+
     fun leave(participant: VillageParticipant) = villageRepository.leave(participant)
 
     fun changeParticipantName(participant: VillageParticipant, name: String, shortName: String) =

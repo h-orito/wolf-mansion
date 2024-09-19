@@ -87,6 +87,7 @@ class VillageControllerHelper(
         charachips: Charachips
     ) {
         setParticipateFormIfNeeded(situation, model, forms)
+        setSwitchParticipateFormIfNeeded(situation, model, forms)
         setChangeRequestSkillFormIfNeeded(situation, myself, model, forms)
         setLeaveFormIfNeeded(situation, model)
         setCommitFormIfNeeded(situation, model)
@@ -110,6 +111,18 @@ class VillageControllerHelper(
         model.addAttribute(
             "participateForm",
             forms.participateForm ?: VillageParticipateForm()
+        )
+    }
+
+    private fun setSwitchParticipateFormIfNeeded(
+        situation: ParticipantSituation,
+        model: Model,
+        forms: VillageForms
+    ) {
+        if (!situation.participate.isAvailableSwitchParticipate) return
+        model.addAttribute(
+            "switchParticipateForm",
+            forms.switchParticipateForm ?: VillageSwitchParticipateForm()
         )
     }
 

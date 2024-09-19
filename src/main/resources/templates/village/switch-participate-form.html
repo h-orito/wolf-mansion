@@ -1,0 +1,51 @@
+<html lang="ja" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>フッター</title>
+    <link rel="shortcut icon" href="../../static/app/images/favicon.ico" th:href="@{/app/images/favicon.ico}"/>
+    <link rel="stylesheet" href="../../static/lib/bootstrap/css/bootstrap.min.css"
+          th:href="@{/lib/bootstrap/css/bootstrap.min.css}"/>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <script src="../../static/lib/bootstrap/js/bootstrap.min.js"
+            th:src="@{/lib/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="../../static/resources/lib/handlebars/js/handlebars-v4.0.10.js"
+            th:src="@{/resources/lib/handlebars/js/handlebars-v4.0.10.js}"></script>
+    <script src="../../static/resources/app/js/common.js" th:src="@{/resources/app/js/common.js}"></script>
+</head>
+<body>
+<div class="col-sm-12 col-xs-12" th:if="${content.form.participate.dispSwitchParticipateForm}"
+     layout:fragment="switch-participate-form">
+    <div class="panel-group" id="switchparticipateform-panel">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a class="h5" data-toggle="collapse" data-parent="#switchparticipateform-panel"
+                   href="#switchparticipateform-content" data-participateform-tab-open>参加見学切り替え</a>
+            </div>
+            <div id="switchparticipateform-content" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <form method="post" action=""
+                          th:action="@{/village/{villageId}/switch-participate(villageId=${content.villageId})}"
+                          th:object="${switchParticipateForm}" class="form-horizontal">
+                        <span th:if="${switchParticipateErrorMessage != null}" class="text-danger"
+                              th:text="${switchParticipateErrorMessage}">error</span>
+                        <div class="form-group">
+                            <div class="col-sm-12 col-xs-12">
+                                <input type="submit" class="btn btn-sm btn-success pull-right"
+                                       value="参加見学を切り替える"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -60,6 +60,12 @@ interface VillageRepository {
         spectator: Boolean
     ): VillageParticipant
 
+    fun switchParticipate(
+        villageId: Int,
+        participantId: Int,
+        isSpectator: Boolean
+    ): VillageParticipant
+
     fun leave(participant: VillageParticipant)
 
     fun changeParticipantName(participant: VillageParticipant, name: String, shortName: String)

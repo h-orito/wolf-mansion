@@ -1505,6 +1505,7 @@ $(function () {
             'is_open_voteform_tab': true,
             'is_open_creatorform_tab': true,
             'is_open_participateform_tab': true,
+            'is_open_switchparticipateform_tab': true,
             'bottom_fix_tab': 'no-fix',
             'is_no_paging': false,
             'page_size': 30,
@@ -1569,6 +1570,9 @@ $(function () {
         }
         if (!getDisplaySetting('is_open_participateform_tab')) {
             $('[data-participateform-tab-open]').click();
+        }
+        if (!getDisplaySetting('is_open_switchparticipateform_tab')) {
+            $('[data-switchparticipateform-tab-open]').click();
         }
         if (!getDisplaySetting('is_open_changeskillform_tab')) {
             $('[data-changeskillform-tab-open]').click();
@@ -1707,6 +1711,11 @@ $(function () {
     $('[data-participateform-tab-open]').on('click', function () {
         const isOpen = $($(this).attr('href')).hasClass('in');
         saveDisplaySetting('is_open_participateform_tab', !isOpen); // クリック後は逆になるので、逆を保存
+    });
+
+    $('[data-switchparticipateform-tab-open]').on('click', function () {
+        const isOpen = $($(this).attr('href')).hasClass('in');
+        saveDisplaySetting('is_open_switchparticipateform_tab', !isOpen); // クリック後は逆になるので、逆を保存
     });
 
     $('[data-changeskillform-tab-open]').on('click', function () {
