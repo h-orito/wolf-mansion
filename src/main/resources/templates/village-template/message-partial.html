@@ -25,9 +25,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
 			<span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+                <a href="javascript:void(0);" data-copy-anchor>>>{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
+            </span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -66,9 +71,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>. {{characterName}}{{#if
-                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+                <a href="javascript:void(0);" data-copy-anchor>>>*{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
+            </span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -105,12 +115,17 @@
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
-			<span style="margin-left: -15px;">{{#if messageNumber}}
-                <a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.
-				{{/if}}{{characterName}}{{#if playerName}} [<a href="javascript:void(0);"
-                                                               data-user-page>{{playerName}}</a>]{{/if}}
-			</span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span style="margin-left: -15px;">
+                {{#if messageNumber}}
+                    <a href="javascript:void(0);" data-copy-anchor>>>-{{messageNumber}}</a>.&nbsp;
+                {{/if}}{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
+            </span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -140,12 +155,17 @@
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
-            <span style="margin-left: -15px;">{{#if messageNumber}}
-                <a href="javascript:void(0);" data-copy-anchor>>>s{{messageNumber}}</a>.
-				{{/if}}{{characterName}} → {{targetCharacterName}}{{#if playerName}} [<a
-                        href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+            <span style="margin-left: -15px;">
+                {{#if messageNumber}}
+                    <a href="javascript:void(0);" data-copy-anchor>>>s{{messageNumber}}</a>.&nbsp;
+                {{/if}}{{characterName}} → {{targetCharacterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
             </span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -176,10 +196,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>. {{characterName}}{{#if
-                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+                <a href="javascript:void(0);" data-copy-anchor>>>={{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
             </span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -216,10 +240,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>?{{messageNumber}}</a>. {{characterName}}{{#if
-                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+                <a href="javascript:void(0);" data-copy-anchor>>>?{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
             </span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -256,10 +284,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>_{{messageNumber}}</a>. {{characterName}}{{#if
-                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+                <a href="javascript:void(0);" data-copy-anchor>>>_{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
             </span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -296,10 +328,14 @@
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
             <span style="margin-left: -15px;">
-                <a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>. {{characterName}}{{#if
-					playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}
+                <a href="javascript:void(0);" data-copy-anchor>>>+{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
             </span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
@@ -335,9 +371,15 @@
      data-spoiled-content>
     <div class="row">
         <div class="col-sm-12 col-xs-12 small">
-            <span style="margin-left: -15px;"><a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>. {{characterName}}{{#if
-                playerName}} [<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]{{/if}}</span>
-            <span style="margin-left: 5px;">{{timeFormat messageDatetime}}</span>
+            <span style="margin-left: -15px;">
+                <a href="javascript:void(0);" data-copy-anchor>>>@{{messageNumber}}</a>.&nbsp;{{characterName}}
+                {{#if playerName}}
+                    <span data-spoiled-content>
+                        &nbsp;[<a href="javascript:void(0);" data-user-page>{{playerName}}</a>]
+                    </span>
+                {{/if}}
+            </span>
+            <span>&nbsp;{{timeFormat messageDatetime}}</span>
         </div>
         <div class="col-sm-12 col-xs-12">
             <div class="row" style="display: flex;">
