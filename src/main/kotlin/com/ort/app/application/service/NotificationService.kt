@@ -129,7 +129,7 @@ class NotificationService(
             discordRepository.postToWebhook(
                 webhookUrl = it.discordWebhookUrl,
                 villageId = village.id,
-                message = "${fromParticipant.name()}から秘話が届きました。",
+                message = "${fromParticipant.name()}から秘話が届きました。${createMessageNotificationUrl(village, message)}",
                 shouldContainVillageUrl = false
             )
             return toParticipant.id
@@ -165,7 +165,7 @@ class NotificationService(
                 discordRepository.postToWebhook(
                     webhookUrl = it.notification!!.discordWebhookUrl,
                     villageId = village.id,
-                    message = text,
+                    message = "${text}${createMessageNotificationUrl(village, message)}",
                     shouldContainVillageUrl = false
                 )
                 notifiedParticipantIds.add(it.id)
@@ -210,7 +210,7 @@ class NotificationService(
                 discordRepository.postToWebhook(
                     webhookUrl = it.notification!!.discordWebhookUrl,
                     villageId = village.id,
-                    message = text,
+                    message = "${text}${createMessageNotificationUrl(village, message)}",
                     shouldContainVillageUrl = false
                 )
                 notifiedParticipantIds.add(it.id)
@@ -242,5 +242,13 @@ class NotificationService(
                     shouldContainVillageUrl = false
                 )
             }
+    }
+
+    private fun createMessageNotificationUrl(
+        village: Village,
+        message: Message
+    ): String {
+        val typeStr = MessageDomainService.convertMessageTypeToMessageUrlType(message.content.type) ?: return ""
+        return "\nhttps://wolfort.net/wolf-mansion/village/${village.id}/message?anchors=${typeStr}${message.content.num}"
     }
 }

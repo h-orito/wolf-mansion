@@ -3,6 +3,7 @@ package com.ort.app.api
 import com.ort.app.api.helper.VillageControllerHelper
 import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageListForm
+import com.ort.app.api.request.VillageMessageForm
 import com.ort.app.api.view.VillageListContent
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
@@ -74,5 +75,25 @@ class VillageController(
             model.addAttribute("noAd", true)
         }
         return "village"
+    }
+
+    // 村メッセージ表示
+    @GetMapping("/village/{villageId}/message")
+    private fun villageMessage(
+        @PathVariable villageId: Int,
+        @ModelAttribute("form") form: VillageMessageForm,
+        model: Model
+    ): String {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        // いったん表示して後からAPIでメッセージ取得しにくるので、そのまま渡す
+        villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
+        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+            model.addAttribute("noAd", true)
+        }
+        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+            model.addAttribute("noAd", true)
+        }
+        return "village-message"
     }
 }

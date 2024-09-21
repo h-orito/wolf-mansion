@@ -58,6 +58,40 @@ class MessageDomainService(
         const val orRegex = "(?!\\[\\[fortune)\\[\\[([^\\]]*or.*?)$"
         const val whoRegex = "(?!\\[\\[allwho)(\\[\\[who)$"
         const val allwhoRegex = "\\[\\[allwho$"
+
+        fun convertMessageUrlTypeToMessageType(typeStr: String): MessageType? {
+            return when (typeStr) {
+                "n" -> CDef.MessageType.通常発言.toModel()
+                "w" -> CDef.MessageType.人狼の囁き.toModel()
+                "m" -> CDef.MessageType.共鳴発言.toModel()
+                "f" -> CDef.MessageType.念話.toModel()
+                "l" -> CDef.MessageType.恋人発言.toModel()
+                "g" -> CDef.MessageType.死者の呻き.toModel()
+                "s" -> CDef.MessageType.見学発言.toModel()
+                "M" -> CDef.MessageType.独り言.toModel()
+                "S" -> CDef.MessageType.秘話.toModel()
+                "c" -> CDef.MessageType.村建て発言.toModel()
+                "a" -> CDef.MessageType.アクション.toModel()
+                else -> null
+            }
+        }
+
+        fun convertMessageTypeToMessageUrlType(type: MessageType): String? {
+            return when (type.toCdef()) {
+                CDef.MessageType.通常発言 -> "n"
+                CDef.MessageType.人狼の囁き -> "w"
+                CDef.MessageType.共鳴発言 -> "m"
+                CDef.MessageType.念話 -> "f"
+                CDef.MessageType.恋人発言 -> "l"
+                CDef.MessageType.死者の呻き -> "g"
+                CDef.MessageType.見学発言 -> "s"
+                CDef.MessageType.独り言 -> "M"
+                CDef.MessageType.秘話 -> "S"
+                CDef.MessageType.村建て発言 -> "c"
+                CDef.MessageType.アクション -> "a"
+                else -> null
+            }
+        }
     }
 
     fun setViewableQuery(
