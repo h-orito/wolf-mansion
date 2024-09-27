@@ -40,6 +40,8 @@ data class VillageAnchorMessageContent(
             if (message.fromParticipantId == null) return false
             // 対象は発言系メッセージのみ
             if (!message.content.type.isSayType()) return false
+            // エピローグの発言でない
+            if (village.epilogueDay == message.time.day) return false
             // 虹塗りされている
             val charaId = village.allParticipants().member(message.fromParticipantId).charaId
             return abilities.filterByDay(message.time.day - 1)
@@ -50,6 +52,8 @@ data class VillageAnchorMessageContent(
             if (message.fromParticipantId == null) return false
             // 対象は発言系メッセージのみ
             if (!message.content.type.isSayType()) return false
+            // エピローグの発言でない
+            if (village.epilogueDay == message.time.day) return false
             // 大声にされている
             val charaId = village.allParticipants().member(message.fromParticipantId).charaId
             return abilities.filterByDay(message.time.day - 1)

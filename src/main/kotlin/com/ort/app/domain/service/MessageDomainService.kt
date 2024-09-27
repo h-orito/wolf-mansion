@@ -381,13 +381,15 @@ class MessageDomainService(
         messageContent: MessageContent,
         abilities: Abilities
     ): Messages {
-        val transformation = MessageTransformation(
-            dakuten = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.叫び.toModel()),
-            clowning = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.道化.toModel()),
-            assassin = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.殺し屋化.toModel()),
-            translate = messageContent.type.toCdef() == CDef.MessageType.通常発言 &&
-                    abilities.isTargetedYesterday(village, myself, CDef.AbilityType.翻訳.toModel())
-        )
+        val transformation =
+            if (village.status.isSettled()) MessageTransformation() // エピでは変換しない
+            else MessageTransformation(
+                dakuten = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.叫び.toModel()),
+                clowning = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.道化.toModel()),
+                assassin = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.殺し屋化.toModel()),
+                translate = messageContent.type.toCdef() == CDef.MessageType.通常発言 &&
+                        abilities.isTargetedYesterday(village, myself, CDef.AbilityType.翻訳.toModel())
+            )
         return if (transformation.translate) {
             val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
             val translatedMessage = createSayMessage(
@@ -457,10 +459,8 @@ class MessageDomainService(
                     else it.map { "$it゛" }.joinToString("")
                 }
             }
-
             return messageContent.copy(text = text)
         }
-
     }
 
     fun createSayMessage(

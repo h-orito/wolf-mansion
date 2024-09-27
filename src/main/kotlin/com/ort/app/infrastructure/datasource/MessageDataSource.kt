@@ -1,7 +1,12 @@
 package com.ort.app.infrastructure.datasource
 
-import com.ort.app.domain.model.message.*
 import com.ort.app.domain.model.message.Message
+import com.ort.app.domain.model.message.MessageContent
+import com.ort.app.domain.model.message.MessageQuery
+import com.ort.app.domain.model.message.MessageRepository
+import com.ort.app.domain.model.message.MessageTime
+import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.message.Messages
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
