@@ -7,6 +7,7 @@ $(function () {
     const villageId = $("[data-village-id]").data('village-id');
     const day = $("[data-day]").data('day');
     const GET_MESSAGE_URL = contextPath + 'village/getMessageList';
+    const VILLAGE_UPDATE_URL = contextPath + 'village/' + villageId + '/update';
     const GET_LATEST_MESSAGE_DATETIME_URL = contextPath + 'village/getLatestMessageDatetime';
     const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
     const GET_ATTACKTARGET_URL = contextPath + 'village/getAttackTargetList';
@@ -29,6 +30,7 @@ $(function () {
     const orRegex = /(?!\[\[fortune\]\])(\[\[[^\]]*or.*?\]\])/g; // [[fortune]]でなく、さらに]を含まない[[(.*)or(.*?)]]
     const whoRegex = /(?!\[\[allwho\]\])(\[\[who\]\])/g;
     const allWhoRegex = /(\[\[allwho\]\])/g;
+	const gwhoRegex = /(\[\[gwho\]\])/g;
     // 文字装飾
     const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g;
     const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g;
@@ -148,12 +150,6 @@ $(function () {
             }
             $("[data-message-area]").removeClass('loading');
 
-            // 最新の日付が変わったら通知
-            if (latestDay != null && latestDay < response.latestDay) {
-                $('.daychange-alert').css('display', 'block');
-            }
-            latestDay = response.latestDay;
-
             // 必要ならネタバレ防止
             filterSpoiledContent();
 
@@ -175,6 +171,7 @@ $(function () {
                 item = item.replace(orRegex, '<span class="extra-small">$1</span>');
                 item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
                 item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
+                item = item.replace(gwhoRegex, '<span class="extra-small">$1</span>');
                 const userRandomKeywords = $('#random-keywords').text();
                 if (userRandomKeywords != null) {
                     $.each(userRandomKeywords.split(','), function (idx, elm) {
@@ -229,6 +226,27 @@ $(function () {
             return message.messageContent.replace(/ \(([^\(]*)\)、/g, '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)、');
         }
         return message.messageContent;
+    }
+
+	function updateVillage() {
+        return $.ajax({
+            type: 'POST',
+            url: VILLAGE_UPDATE_URL
+        }).then(function (response) {
+            // 最新の日付が変わったら通知
+            if (latestDay != null && latestDay < response.latestDay) {
+                $('.daychange-alert').css('display', 'block');
+            }
+            latestDay = response.latestDay;
+
+            // セッションが切れていたら通知
+            const $userAlert = $('#user-alert');
+            if (!response.login && $userAlert.length > 0) {
+            	$userAlert.removeClass('alert-info')
+            	$userAlert.addClass('alert-danger')
+            	$userAlert.text('要再ログイン')
+            }
+        });
     }
 
     function loadParticipantsIfNeeded() {
@@ -1902,13 +1920,18 @@ $(function () {
                     }
                 }
             });
+            updateVillage();
         } else {
             timeIntervalMilliSecond = 24 * 60 * 60 * 1000;
         }
-        // if ($('#sayform-content').length > 0 && $('#log-ad-area').length > 0 && $('#log-ad-area').height() <= 10) {
-        //     alert('当サイトは広告料でサーバー代を賄っています。広告表示にご協力ください。');
-        // }
     }, timeIntervalMilliSecondToRefresh);
+
+	// 10秒後に1回だけ表示
+    setTimeout(function () {
+		if ($('#sayform-content').length > 0 && $('#log-ad-area').length > 0 && $('#log-ad-area').height() <= 10) {
+ 			alert('当サイトは広告料でサーバー代を賄っています。広告表示にご協力ください。');
+		}
+    }, 10000);
 
     // ----------------------------------------------
     // ユーザページリンク

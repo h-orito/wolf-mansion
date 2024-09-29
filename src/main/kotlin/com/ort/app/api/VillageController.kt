@@ -5,24 +5,29 @@ import com.ort.app.api.request.VillageForms
 import com.ort.app.api.request.VillageListForm
 import com.ort.app.api.request.VillageMessageForm
 import com.ort.app.api.view.VillageListContent
+import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class VillageController(
     private val villageControllerHelper: VillageControllerHelper,
     private val villageService: VillageService,
-    private val charaService: CharaService
+    private val charaService: CharaService,
+    private val daychangeCoordinator: DaychangeCoordinator,
 ) {
     // 村一覧初期表示
     @GetMapping("/village-list")
@@ -96,4 +101,31 @@ class VillageController(
         }
         return "village-message"
     }
+
+    // 最終アクセス時間更新、日付更新
+    @PostMapping("/village/{villageId}/update")
+    @ResponseBody
+    private fun villageUpdate(
+        @PathVariable villageId: Int
+    ): VillageUpdateResponse {
+        val village = villageService.findVillage(villageId, excludeGone = false)
+            ?: throw WolfMansionBusinessException("village not found.")
+        // 最終アクセス日時を更新
+        val user = WolfMansionUserInfoUtil.getUserInfo()
+        val myself = user?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        }?.also { villageService.updateLastAccessDatetime(it) }
+        // 更新時間が過ぎていたら日付更新
+        daychangeCoordinator.changeDayIfNeeded(village)
+
+        return VillageUpdateResponse(
+            login = myself != null,
+            latestDay = village.latestDay()
+        )
+    }
+
+    data class VillageUpdateResponse(
+        val login: Boolean,
+        val latestDay: Int,
+    )
 }

@@ -15,6 +15,7 @@ $(function () {
     const orRegex = /(?!\[\[fortune\]\])(\[\[[^\]]*or.*?\]\])/g; // [[fortune]]でなく、さらに]を含まない[[(.*)or(.*?)]]
     const whoRegex = /(?!\[\[allwho\]\])(\[\[who\]\])/g;
     const allWhoRegex = /(\[\[allwho\]\])/g;
+    const gwhoRegex = /(\[\[gwho\]\])/g;
     // 文字装飾
     const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g;
     const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g;
@@ -85,6 +86,7 @@ $(function () {
                 item = item.replace(orRegex, '<span class="extra-small">$1</span>');
                 item = item.replace(whoRegex, '<span class="extra-small">$1</span>');
                 item = item.replace(allWhoRegex, '<span class="extra-small">$1</span>');
+                item = item.replace(gwhoRegex, '<span class="extra-small">$1</span>');
                 const userRandomKeywords = $('#random-keywords').text();
                 if (userRandomKeywords != null) {
                     $.each(userRandomKeywords.split(','), function (idx, elm) {

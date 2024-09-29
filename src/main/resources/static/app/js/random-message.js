@@ -19,7 +19,12 @@ $(function() {
 
 		$('#keyword-table').find('tbody tr').each(function(){
 			const word = $(this).find('td').eq(0).text();
-			if (word.indexOf(keyword) != -1) {
+			const contents = $(this).find('td').eq(1).text().split('\n').map(content => {
+				return content.trim();
+			}).filter(content => {
+				return content.length > 0 && content !== '全て表示';
+			});
+			if (word.indexOf(keyword) != -1 || contents.some(content => content.indexOf(keyword) != -1)){
 				$(this).removeClass('hidden');
 			} else {
 				$(this).addClass('hidden');

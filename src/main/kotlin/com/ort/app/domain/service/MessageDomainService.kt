@@ -58,6 +58,7 @@ class MessageDomainService(
         const val orRegex = "(?!\\[\\[fortune)\\[\\[([^\\]]*or.*?)$"
         const val whoRegex = "(?!\\[\\[allwho)(\\[\\[who)$"
         const val allwhoRegex = "\\[\\[allwho$"
+        const val gwhoRegex = "\\[\\[gwho$"
 
         fun convertMessageUrlTypeToMessageType(typeStr: String): MessageType? {
             return when (typeStr) {
@@ -118,6 +119,7 @@ class MessageDomainService(
                 replaced = replaceOrMessage(replaced)
                 replaced = replaceWhoMessage(replaced, participants)
                 replaced = replaceAllwhoMessage(replaced, participants)
+                replaced = replaceGwhoMessage(replaced, participants)
                 randomKeywords.list.forEach { randomKeyword ->
                     replaced = replaceUserDefinedRandomMessage(replaced, randomKeyword)
                 }
@@ -545,6 +547,14 @@ class MessageDomainService(
         if (!allwhoMatcher.find()) return mes
         val selected = participants.list.random()
         return mes.replace(allwhoRegex.toRegex(), selected.charaName.name + allwhoMatcher.group(0))
+    }
+
+    // [[gwho]]の変換
+    private fun replaceGwhoMessage(mes: String, participants: VillageParticipants): String {
+        val gwhoMatcher = Pattern.compile(gwhoRegex).matcher(mes)
+        if (!gwhoMatcher.find()) return mes
+        val selected = participants.filterDead().list.randomOrNull() ?: return mes
+        return mes.replace(gwhoRegex.toRegex(), selected.charaName.name + gwhoMatcher.group(0))
     }
 
     // ユーザ定義キーワードの変換

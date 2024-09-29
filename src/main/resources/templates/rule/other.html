@@ -28,7 +28,8 @@
             </li>
             <li>&#091;&#091;who&#093;&#093;で生存者のいずれかをランダムで表示します。
                 <ul>
-                    <li>&#091;&#091;who&#093;&#093; → 司書 クララ<span class="extra-small">&#091;&#091;who&#093;&#093;</span>
+                    <li>&#091;&#091;who&#093;&#093; → 司書 クララ<span
+                            class="extra-small">&#091;&#091;who&#093;&#093;</span>
                     </li>
                 </ul>
             </li>
@@ -36,6 +37,12 @@
                 <ul>
                     <li>&#091;&#091;allwho&#093;&#093; → 楽天家 ゲルト<span
                             class="extra-small">&#091;&#091;allwho&#093;&#093;</span></li>
+                </ul>
+            </li>
+            <li>&#091;&#091;gwho&#093;&#093;で死者のいずれかをランダムで表示します。
+                <ul>
+                    <li>&#091;&#091;gwho&#093;&#093; → 楽天家 ゲルト<span
+                            class="extra-small">&#091;&#091;gwho&#093;&#093;</span></li>
                 </ul>
             </li>
             <li>他にも、<a th:href="@{/random-message}">ユーザー定義のランダム発言</a>を登録して使用することができます。
@@ -52,13 +59,15 @@
             </li>
             <li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093;で文字を大きくできます。
                 <ul>
-                    <li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093; → <span style="font-size: 16px;">文字列</span>
+                    <li>&#091;&#091;large&#093;&#093;文字列&#091;&#091;/large&#093;&#093; → <span
+                            style="font-size: 16px;">文字列</span>
                     </li>
                 </ul>
             </li>
             <li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093;で文字を小さくできます。
                 <ul>
-                    <li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093; → <span style="font-size: 10px;">文字列</span>
+                    <li>&#091;&#091;small&#093;&#093;文字列&#091;&#091;/small&#093;&#093; → <span
+                            style="font-size: 10px;">文字列</span>
                     </li>
                 </ul>
             </li>
@@ -75,7 +84,11 @@
             </li>
             <li>&#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093;でルビを振れます。
                 <ul>
-                    <li>&#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093; → <ruby>文字列<rt>ルビ</rt></ruby>
+                    <li>&#091;&#091;ruby&#093;&#093;文字列&#091;&#091;rt&#093;&#093;ルビ&#091;&#091;/rt&#093;&#093;&#091;&#091;/ruby&#093;&#093;
+                        →
+                        <ruby>文字列
+                            <rt>ルビ</rt>
+                        </ruby>
                     </li>
                 </ul>
             </li>
@@ -203,7 +216,9 @@
         </div>
         <div class="col-sm-12 col-xs-12" data-message>
             <div class="row">
-                <div class="message col-sm-12 col-xs-12 message-private-seer">占い師向けシステムメッセージです。進行中は占い師本人しか参照できません。</div>
+                <div class="message col-sm-12 col-xs-12 message-private-seer">
+                    占い師向けシステムメッセージです。進行中は占い師本人しか参照できません。
+                </div>
             </div>
         </div>
         <div class="col-sm-12 col-xs-12" data-message>
@@ -227,12 +242,16 @@
         </div>
         <div class="col-sm-12 col-xs-12" data-message>
             <div class="row">
-                <div class="message col-sm-12 col-xs-12 message-private-lover">恋人向けシステムメッセージです。進行中は恋人系役職しか参照できません。</div>
+                <div class="message col-sm-12 col-xs-12 message-private-lover">
+                    恋人向けシステムメッセージです。進行中は恋人系役職しか参照できません。
+                </div>
             </div>
         </div>
         <div class="col-sm-12 col-xs-12" data-message>
             <div class="row">
-                <div class="message col-sm-12 col-xs-12 message-private-fox">妖狐向けシステムメッセージです。進行中は妖狐系役職しか参照できません。</div>
+                <div class="message col-sm-12 col-xs-12 message-private-fox">
+                    妖狐向けシステムメッセージです。進行中は妖狐系役職しか参照できません。
+                </div>
             </div>
         </div>
         <div class="col-sm-12 col-xs-12" data-message>
@@ -243,7 +262,9 @@
     </li>
     <li id="call-owner">国主の召喚方法
         <ul>
-            <li>「＠国主」「@国主」をつけて発言すると、国主に発言内容が通知されます。（発言者、役職、発言種別等は通知されないので、必要であれば添えて発言してください。）</li>
+            <li>
+                「＠国主」「@国主」をつけて発言すると、国主に発言内容が通知されます。（発言者、役職、発言種別等は通知されないので、必要であれば添えて発言してください。）
+            </li>
             <li>もしくは、twitterで話しかけるとそれなりの速度で反応します。</li>
         </ul>
     </li>

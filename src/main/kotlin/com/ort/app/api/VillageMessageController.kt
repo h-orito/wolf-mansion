@@ -8,7 +8,6 @@ import com.ort.app.api.view.VillageAnchorMessagesContent
 import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
 import com.ort.app.api.view.VillageParticipantsContent
-import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.service.*
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.vote.Votes
@@ -33,7 +32,6 @@ class VillageMessageController(
     private val commitService: CommitService,
     private val messageService: MessageService,
     private val abilityService: AbilityService,
-    private val daychangeCoordinator: DaychangeCoordinator,
 ) {
     // 発言取得
     @GetMapping("/village/getMessageList")
@@ -45,14 +43,11 @@ class VillageMessageController(
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
-        // 最終アクセス日時を更新
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
-        }?.also { villageService.updateLastAccessDatetime(it) }
+        }
         val myselfPlayer = user?.let { playerService.findPlayer(user.username) }
-        // 更新時間が過ぎていたら日付更新
-        daychangeCoordinator.changeDayIfNeeded(village)
         // 発言取得
         val query = form.toMessageQuery(village)
         val messages = messageService.findMeesages(village, myself, myselfPlayer, query)
@@ -112,7 +107,6 @@ class VillageMessageController(
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
         val village = villageService.findVillage(form.villageId!!, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
-        // 最終アクセス日時を更新
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
@@ -140,7 +134,6 @@ class VillageMessageController(
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
         val village = villageService.findVillage(villageId, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
-        // 最終アクセス日時を更新
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)

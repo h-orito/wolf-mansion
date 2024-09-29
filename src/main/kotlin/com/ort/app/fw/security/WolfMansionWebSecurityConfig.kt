@@ -53,7 +53,8 @@ class WolfMansionWebSecurityConfig(
         http.csrf().ignoringAntMatchers(
             "/village/*/confirm",
             "/village/*/say",
-            "/api/login"
+            "/api/login",
+            "/village/*/update"
         )
     }
 
