@@ -130,7 +130,7 @@ class PrologueDomainService(
                         messageType = CDef.MessageType.通常発言.code(),
                         text = dummyChara.defaultFirstdayMessage,
                         faceCode = dummyChara.defaultImage().faceType.code,
-                        isConvertDisable = true
+                        isConvertDisable = false
                     )
                 )
             )
