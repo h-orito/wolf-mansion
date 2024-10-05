@@ -162,7 +162,7 @@ class VillageMessageController(
 
         companion object {
             fun of(anchorStr: String): Anchors {
-                val anchors = anchorStr.split(",").mapNotNull {
+                val anchors = anchorStr.split("_").mapNotNull {
                     if (it.isBlank()) return@mapNotNull null
                     val matcher = Pattern.compile("([nwmflgsMSca])(\\d{1,5})").matcher(it)
                     if (!matcher.find()) return@mapNotNull null
