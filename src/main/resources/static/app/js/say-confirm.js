@@ -15,6 +15,9 @@ $(function() {
 	const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
 	const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
 	const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
+    const netabareRegex = /\[\[netabare\]\](.*?)\[\[\/netabare\]\]/g;
+    const cwRegex = /\[\[cw\]\](.*?)\[\[\/cw\]\]/g;
+    const transparencyRegex = /\[\[tp\]\](.*?)\[\[\/tp\]\]/g;
 
 	// ---------------------
 	// execute
@@ -72,6 +75,9 @@ $(function() {
 			mes = mes.replace(largeRegex, '<span style="font-size: 16px;">$1</span>');
 			mes = mes.replace(smallRegex, '<span style="font-size: 10px;">$1</span>');
             mes = mes.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>');
+            mes = mes.replace(netabareRegex, '<span class="netabare">$1</span>');
+            mes = mes.replace(cwRegex, '<span class="netabare">$1</span>');
+            mes = mes.replace(transparencyRegex, '<span class="transparency">$1</span>');
 		}
 		return mes;
 	}
