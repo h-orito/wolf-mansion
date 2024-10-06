@@ -38,6 +38,7 @@ $(function () {
     const largeRegex = /\[\[large\]\](.*?)\[\[\/large\]\]/g;
     const smallRegex = /\[\[small\]\](.*?)\[\[\/small\]\]/g;
     const rubyRegex = /\[\[ruby\]\](.*?)\[\[rt\]\](.*?)\[\[\/rt\]\]\[\[\/ruby\]\]/g;
+    const netabareRegex = /\[\[netabare\]\](.*?)\[\[\/netabare\]\]/g;
     let latestDay;
     let canAutoRefresh = true; // 発言確認中はfalseになる
     let filterToParticipantIds = [];
@@ -217,6 +218,7 @@ $(function () {
             mes = mes.replace(largeRegex, '<span style="font-size: 150%;">$1</span>');
             mes = mes.replace(smallRegex, '<span style="font-size: 80%;">$1</span>');
             mes = mes.replace(rubyRegex, '<ruby>$1<rt>$2</rt></ruby>');
+            mes = mes.replace(netabareRegex, '<span class="netabare">$1</span>');
         }
         return mes;
     }
@@ -2035,4 +2037,11 @@ $(function () {
         const label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
         input.parent().parent().next(':text').val(label);
     });
+
+	// ----------------------------------------------
+	// 文字装飾
+	// ----------------------------------------------
+	$('body').on('click', '.netabare', function () {
+		$(this).removeClass('netabare');
+	});
 });
