@@ -667,3 +667,8 @@ ul.announce > li {
 	background-color: #333;
 	color: #333 !important;
 }
+
+.transparency {
+	cursor: pointer;
+	opacity: 0;
+}
