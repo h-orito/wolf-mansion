@@ -55,6 +55,9 @@
                                 <script>
                                     (adsbygoogle = window.adsbygoogle || []).push({});
 
+
+
+
                                 </script>
                             </div>
                         </div>
@@ -73,8 +76,14 @@
 
                     <!--/* 日付リスト */-->
                     <div layout:replace="~{village/village-day-list::village-day-list}"></div>
-                    <a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small"
-                       style="margin-bottom: 10px;">サイトトップへ</a>
+
+                    <div style="margin-bottom: 10px;">
+                        <a href="javascript:void(0);" th:href="@{/}" class="btn btn-default btn-sm small">サイトトップへ</a>
+                        <a href="javascript:void(0);"
+                           th:href="@{/village/{villageId}/scrap(villageId=${content.villageId})}"
+                           class="btn btn-success btn-sm small"
+                           style="margin-left: 10px;">切り抜き画面へ</a>
+                    </div>
                 </div>
             </div>
 
@@ -103,7 +112,8 @@
         <div id="time-alert" class="hidden time-alert alert alert-info">
             更新まで <span id="left-time">00:00:00</span>
         </div>
-        <a id="user-alert" th:if="${user != null}" th:href="@{/user/{username}(username=${user.username})}" target="_blank">
+        <a id="user-alert" th:if="${user != null}" th:href="@{/user/{username}(username=${user.username})}"
+           target="_blank">
             <div class="user-alert alert alert-info"
                  th:text="'ユーザID: ' + ${user.username}">
             </div>
