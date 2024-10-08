@@ -6,6 +6,7 @@ $(function () {
     // ----------------------------------------------
     const villageId = $("[data-village-id]").data('village-id');
     const GET_MESSAGE_URL = contextPath + 'village/' + villageId + '/getAnchorMessages';
+    const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
     const messageTemplate = Handlebars.compile($("#message-template").html());
     const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
     Handlebars.registerPartial('messagePartial', messagePartialTemplate);
@@ -39,8 +40,11 @@ $(function () {
     // メッセージ取得
     // ----------------------------------------------
     function loadAndDisplayMessage() {
+    	if (getParam('anchors') == '') {
+    		$("[data-message-area]").empty();
+    		return;
+    	}
         $("[data-message-area]").addClass('loading');
-        console.log(getParam('anchors'));
         return $.ajax({
             type: 'GET',
             url: GET_MESSAGE_URL,
@@ -343,4 +347,63 @@ $(function () {
         const userName = $(this).text();
         window.open(contextPath + 'user/' + userName);
     });
+
+	// ----------------------------------------------
+	// 文字装飾
+	// ----------------------------------------------
+	$('body').on('click', '.netabare', function () {
+		$(this).removeClass('netabare');
+	});
+	$('body').on('click', '.transparency', function () {
+		$(this).removeClass('transparency');
+	});
+
+	// ----------------------------------------------
+	// メッセージ追加
+	// ----------------------------------------------
+	$('[data-anchor-btn]').on('click', function () {
+		loadAnchor();
+	});
+
+	function loadAnchor() {
+		const anchor = $('[data-anchor]').val();
+		let str = '';
+		if (anchor.startsWith('>>*')) {
+			str = 'w' + anchor.substring(3);
+		} else if (anchor.startsWith('>>#')) {
+			str = 'c' + anchor.substring(3);
+		} else if (anchor.startsWith('>>s')) {
+			str = 'S' + anchor.substring(3);
+		} else if (anchor.startsWith('>>=')) {
+			str = 'm' + anchor.substring(2);
+		} else if (anchor.startsWith('>>?')) {
+			str = 'l' + anchor.substring(3);
+		} else if (anchor.startsWith('>>_')) {
+			str = 'f' + anchor.substring(3);
+		} else if (anchor.startsWith('>>@')) {
+			str = 's' + anchor.substring(3);
+		} else if (anchor.startsWith('>>-')) {
+			str = 'M' + anchor.substring(3);
+		} else if (anchor.startsWith('>>+')) {
+			str = 'g' + anchor.substring(3);
+		} else if (anchor.startsWith('>>a')) {
+			str = 'a' + anchor.substring(3);
+		} else if (anchor.startsWith('>>')) {
+			str = 'n' + anchor.substring(2);
+		} else {
+			return;
+		}
+
+		if (location.href.indexOf('?') == -1) {
+			window.location.replace(location.href + '?anchors=' + str);
+		} else {
+			window.location.replace(location.href + '_' + str);
+		}
+		loadAndDisplayMessage();
+	}
+
+	$('#scrap-form').submit(function (e) {
+		loadAnchor();
+		return false;
+	});
 });

@@ -96,10 +96,27 @@ class VillageController(
         if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
             model.addAttribute("noAd", true)
         }
+        return "village-message"
+    }
+
+    // 村切り抜き画面
+    @GetMapping("/village/{villageId}/scrap")
+    private fun scrap(
+        @PathVariable villageId: Int,
+        @ModelAttribute("form") form: VillageMessageForm,
+        model: Model
+    ): String {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+//        if (!village.status.isSettled()) {
+//            throw WolfMansionBusinessException("village not settled.")
+//        }
+        // いったん表示して後からAPIでメッセージ取得しにくるので、そのまま渡す
+        villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
         if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
             model.addAttribute("noAd", true)
         }
-        return "village-message"
+        return "scrap"
     }
 
     // 最終アクセス時間更新、日付更新
