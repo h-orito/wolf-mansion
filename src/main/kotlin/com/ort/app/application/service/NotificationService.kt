@@ -249,6 +249,6 @@ class NotificationService(
         message: Message
     ): String {
         val typeStr = MessageDomainService.convertMessageTypeToMessageUrlType(message.content.type) ?: return ""
-        return "\nhttps://wolfort.net/wolf-mansion/village/${village.id}/message?anchors=${typeStr}${message.content.num}"
+        return "\n<https://wolfort.net/wolf-mansion/village/${village.id}/message?anchors=${typeStr}${message.content.num}>"
     }
 }

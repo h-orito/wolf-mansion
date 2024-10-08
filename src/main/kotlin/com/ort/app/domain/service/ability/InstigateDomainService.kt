@@ -68,7 +68,7 @@ class InstigateDomainService : AbilityTypeDomainService {
         footstep: String?
     ): String {
         val target = village.participants.chara(targetCharaId!!)
-        return "${myself.name()}は、${target.name()}を指差した。"
+        return "${myself.name()}は、${target.name()}を指差した。 #CO発言"
     }
 
     override fun getTargetSuffix(): String? = "を指差す"

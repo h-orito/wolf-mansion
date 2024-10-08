@@ -1,7 +1,6 @@
 package com.ort.app.infrastructure.discord
 
 import com.ort.app.domain.model.discord.DiscordRepository
-import com.ort.app.domain.model.village.Village
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -29,7 +28,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         try {
             val restTemplate = RestTemplate()
             val request = Request(
-                content = "<@!$masterUserId>\nhttps://wolfort.net/wolf-mansion/village/$villageId\n$message"
+                content = "<@!$masterUserId>\n<https://wolfort.net/wolf-mansion/village/$villageId>\n$message"
             )
             val formHeaders = HttpHeaders()
             formHeaders.contentType = MediaType.APPLICATION_JSON
@@ -49,7 +48,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         try {
             val restTemplate = RestTemplate()
             val content =
-                if (shouldContainVillageUrl) "https://wolfort.net/wolf-mansion/village/$villageId\n$message"
+                if (shouldContainVillageUrl) "<https://wolfort.net/wolf-mansion/village/$villageId>\n$message"
                 else message
             val request = Request(
                 content = content,
