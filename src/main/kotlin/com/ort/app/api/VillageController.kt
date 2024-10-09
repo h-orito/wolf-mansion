@@ -127,16 +127,16 @@ class VillageController(
     ): VillageUpdateResponse {
         val village = villageService.findVillage(villageId, excludeGone = false)
             ?: throw WolfMansionBusinessException("village not found.")
-        // 最終アクセス日時を更新
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
+        // 最終アクセス日時を更新
+        user?.let {
             villageService.findVillageParticipant(village.id, it.username)
-        }?.also { villageService.updateLastAccessDatetime(it) }
+        }?.let { villageService.updateLastAccessDatetime(it) }
         // 更新時間が過ぎていたら日付更新
         daychangeCoordinator.changeDayIfNeeded(village)
 
         return VillageUpdateResponse(
-            login = myself != null,
+            login = user != null,
             latestDay = village.latestDay()
         )
     }

@@ -406,4 +406,13 @@ $(function () {
 		loadAnchor();
 		return false;
 	});
+
+	$('[data-scrap-remove-btn]').on('click', function () {
+		if (location.href.indexOf('?') == -1) {
+			return;
+		}
+		const url = location.href.split('?')[0];
+		window.location.replace(url);
+		loadAndDisplayMessage();
+	});
 });
