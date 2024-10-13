@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of SKILL_ALLOCATION.
+ * The base condition-query of skill_allocation.
  * @author DBFlute(AutoGenerator)
  */
 public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
@@ -35,7 +35,7 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from SKILL_ALLOCATION) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from skill_allocation) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join SKILL_ALLOCATION on ... and FOO = [value] ...}
+     * {select ... from ... left outer join skill_allocation on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsSkillAllocationCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsSkillAllocationCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -101,14 +101,14 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsSkillAllocationCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsSkillAllocationCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }
@@ -339,7 +339,7 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
         return xgetQueRlMap(prop);
     }
     protected SkillCQ xcreateQuerySkill() {
-        String nrp = xresolveNRP("SKILL_ALLOCATION", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("skill_allocation", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new SkillCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "skill", nrp);
     }
     protected void xsetupOuterJoinSkill() { xregOutJo("skill"); }
@@ -359,7 +359,7 @@ public class BsSkillAllocationCQ extends AbstractBsSkillAllocationCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("SKILL_ALLOCATION", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("skill_allocation", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

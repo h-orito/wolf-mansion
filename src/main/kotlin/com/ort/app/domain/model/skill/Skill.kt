@@ -464,6 +464,7 @@ data class Skill(
             CDef.Skill.絶対人狼,
             CDef.Skill.堅狼,
             CDef.Skill.臭狼,
+            CDef.Skill.剖狼,
             CDef.Skill.王族,
             CDef.Skill.帝狼,
             CDef.Skill.人狼,
@@ -474,7 +475,9 @@ data class Skill(
             CDef.Skill.金狼,
             CDef.Skill.銀狼,
             CDef.Skill.王狼,
-            CDef.Skill.歩狼
+            CDef.Skill.歩狼,
+            CDef.Skill.喰狼,
+            CDef.Skill.バー狼,
         )
         val seerPriorityList =
             listOf(

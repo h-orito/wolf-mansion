@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE_CHARA_GROUP.
+ * The base condition-query of village_chara_group.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
@@ -35,7 +35,7 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE_CHARA_GROUP) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village_chara_group) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE_CHARA_GROUP on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village_chara_group on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageCharaGroupCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsVillageCharaGroupCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -121,14 +121,14 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsVillageCharaGroupCQ addOrderBy_CharaGroupId_Asc() { regOBA("CHARA_GROUP_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
+     * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
      * @return this. (NotNull)
      */
     public BsVillageCharaGroupCQ addOrderBy_CharaGroupId_Desc() { regOBD("CHARA_GROUP_ID"); return this; }
@@ -279,7 +279,7 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
         return xgetQueRlMap(prop);
     }
     protected CharaGroupCQ xcreateQueryCharaGroup() {
-        String nrp = xresolveNRP("VILLAGE_CHARA_GROUP", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_chara_group", "charaGroup"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CharaGroupCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "charaGroup", nrp);
     }
     protected void xsetupOuterJoinCharaGroup() { xregOutJo("charaGroup"); }
@@ -299,7 +299,7 @@ public class BsVillageCharaGroupCQ extends AbstractBsVillageCharaGroupCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("VILLAGE_CHARA_GROUP", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_chara_group", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.SkillSayRestrictionCQ;
 
 /**
- * The nest select set-upper of SKILL_SAY_RESTRICTION.
+ * The nest select set-upper of skill_say_restriction.
  * @author DBFlute(AutoGenerator)
  */
 public class SkillSayRestrictionNss {

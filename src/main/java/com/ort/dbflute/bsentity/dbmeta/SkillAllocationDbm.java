@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of SKILL_ALLOCATION. (Singleton)
+ * The DB meta of skill_allocation. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillAllocationDbm extends AbstractDBMeta {
@@ -80,7 +80,7 @@ public class SkillAllocationDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "SKILL_ALLOCATION";
+    protected final String _tableDbName = "skill_allocation";
     protected final String _tableDispName = "SKILL_ALLOCATION";
     protected final String _tablePropertyName = "skillAllocation";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL_ALLOCATION", _tableDbName);
@@ -105,12 +105,12 @@ public class SkillAllocationDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {PK, IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }

@@ -363,13 +363,16 @@ class MessageDomainService(
         faceType: FaceType,
         messageType: MessageType
     ): Message {
+        val t = if (attacker.skill?.toCdef() == CDef.Skill.バー狼) {
+            MessageTransformation.createBarlowText(text)
+        } else text
         return createSayMessage(
             village = village,
             myself = attacker,
             target = null,
             messageContent = MessageContent.invoke(
                 messageType = messageType.code,
-                text = text,
+                text = t,
                 faceCode = faceType.code,
                 isConvertDisable = true
             )
@@ -390,7 +393,9 @@ class MessageDomainService(
                 clowning = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.道化.toModel()),
                 assassin = abilities.isTargetedYesterday(village, myself, CDef.AbilityType.殺し屋化.toModel()),
                 translate = messageContent.type.toCdef() == CDef.MessageType.通常発言 &&
-                        abilities.isTargetedYesterday(village, myself, CDef.AbilityType.翻訳.toModel())
+                        abilities.isTargetedYesterday(village, myself, CDef.AbilityType.翻訳.toModel()),
+                barlow = messageContent.type.toCdef() == CDef.MessageType.人狼の囁き &&
+                        myself.skill?.toCdef() == CDef.Skill.バー狼
             )
         return if (transformation.translate) {
             val (languageName, translated, reTranslated) = translateRepository.reTranslate(messageContent.text)
@@ -430,9 +435,24 @@ class MessageDomainService(
         val translate: Boolean = false,
         val dakuten: Boolean = false,
         val clowning: Boolean = false,
-        val assassin: Boolean = false
+        val assassin: Boolean = false,
+        val barlow: Boolean = false, // バーロー
     ) {
         private val cards: List<String> = listOf("♠", "♥", "♦", "♣")
+
+        companion object {
+            fun createBarlowText(text: String): String {
+                var suffixCount = text.length / 3
+                if (suffixCount < 1) {
+                    suffixCount = 1
+                }
+                var count = text.length - suffixCount - 2
+                if (count < 1) {
+                    count = 1
+                }
+                return "ラ${"ー".repeat(count)}ン${"！".repeat(suffixCount)}"
+            }
+        }
 
         // 再翻訳以外の変換
         fun transform(messageContent: MessageContent): MessageContent {
@@ -460,6 +480,9 @@ class MessageDomainService(
                     if (it.isEmpty()) it
                     else it.map { "$it゛" }.joinToString("")
                 }
+            }
+            if (barlow) {
+                text = createBarlowText(text)
             }
             return messageContent.copy(text = text)
         }

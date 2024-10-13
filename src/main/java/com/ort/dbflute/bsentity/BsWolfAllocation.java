@@ -74,7 +74,7 @@ public abstract class BsWolfAllocation extends AbstractEntity implements DomainE
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** MIN_NUM: {NotNull, INT UNSIGNED(10)} */
@@ -105,7 +105,7 @@ public abstract class BsWolfAllocation extends AbstractEntity implements DomainE
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "WOLF_ALLOCATION";
+        return "wolf_allocation";
     }
 
     // ===================================================================================
@@ -218,7 +218,7 @@ public abstract class BsWolfAllocation extends AbstractEntity implements DomainE
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -228,7 +228,7 @@ public abstract class BsWolfAllocation extends AbstractEntity implements DomainE
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */

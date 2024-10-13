@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VILLAGE_PLAYER_SKILL_HISTORY.
+ * The base condition-query of village_player_skill_history.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillHistoryCQ {
@@ -35,7 +35,7 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VILLAGE_PLAYER_SKILL_HISTORY) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from village_player_skill_history) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VILLAGE_PLAYER_SKILL_HISTORY on ... and FOO = [value] ...}
+     * {select ... from ... left outer join village_player_skill_history on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsVillagePlayerSkillHistoryCQ addOrderBy_VillagePlayerId_Asc() { regOBA("VILLAGE_PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return this. (NotNull)
      */
     public BsVillagePlayerSkillHistoryCQ addOrderBy_VillagePlayerId_Desc() { regOBD("VILLAGE_PLAYER_ID"); return this; }
@@ -141,14 +141,14 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
 
     /**
      * Add order-by as ascend. <br>
-     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsVillagePlayerSkillHistoryCQ addOrderBy_SkillCode_Asc() { regOBA("SKILL_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
+     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
      * @return this. (NotNull)
      */
     public BsVillagePlayerSkillHistoryCQ addOrderBy_SkillCode_Desc() { regOBD("SKILL_CODE"); return this; }
@@ -299,7 +299,7 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
         return xgetQueRlMap(prop);
     }
     protected SkillCQ xcreateQuerySkill() {
-        String nrp = xresolveNRP("VILLAGE_PLAYER_SKILL_HISTORY", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_player_skill_history", "skill"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new SkillCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "skill", nrp);
     }
     protected void xsetupOuterJoinSkill() { xregOutJo("skill"); }
@@ -319,7 +319,7 @@ public class BsVillagePlayerSkillHistoryCQ extends AbstractBsVillagePlayerSkillH
         return xgetQueRlMap(prop);
     }
     protected VillagePlayerCQ xcreateQueryVillagePlayer() {
-        String nrp = xresolveNRP("VILLAGE_PLAYER_SKILL_HISTORY", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("village_player_skill_history", "villagePlayer"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillagePlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villagePlayer", nrp);
     }
     protected void xsetupOuterJoinVillagePlayer() { xregOutJo("villagePlayer"); }

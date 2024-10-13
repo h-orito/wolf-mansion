@@ -67,7 +67,7 @@ public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<O
     /** {@inheritDoc} */
     public OriginalCharaImageDbm asDBMeta() { return OriginalCharaImageDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "ORIGINAL_CHARA_IMAGE"; }
+    public String asTableDbName() { return "original_chara_image"; }
 
     // ===================================================================================
     //                                                                        New Instance

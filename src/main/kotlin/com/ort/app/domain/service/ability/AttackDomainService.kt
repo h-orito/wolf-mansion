@@ -281,10 +281,14 @@ class AttackDomainService(
         val target = village.participants.chara(ability.targetCharaId!!)
 
         // 襲撃メッセージ
-        if (village.latestDay() > 2) messages = messages.add(createAttackMessage(village, attacker, target, charas))
+        val isAttackSuccess = isAttackSuccess(daychange, target)
+        if (village.latestDay() > 2) {
+            val attackMessages = createAttackMessages(village, attacker, target, charas, isAttackSuccess)
+            attackMessages.forEach { messages = messages.add(it) }
+        }
 
         // 襲撃失敗していたら誰も死亡させず終了
-        if (!isAttackSuccess(daychange, target)) {
+        if (!isAttackSuccess) {
             // 将棋狼で特定条件を満たした場合、人狼に成る
             if (shouldUpgradeShogiWolf(daychange, attacker, target)) {
                 village = village.assignParticipantSkill(attacker.id, CDef.Skill.人狼.toModel())
@@ -393,6 +397,32 @@ class AttackDomainService(
         return messageDomainService.createEachVoteMessage(village, text, CDef.MessageType.非公開システムメッセージ.toModel())
     }
 
+    private val gourmetSuccessMessages = listOf(
+        "ほー いいじゃないか こういうのでいいんだよ こういうので",
+        "うん、うまい肉だ いかにも肉って肉だ",
+        "食べはじめたばかりなのにごはん不足が当選確実",
+        "まるで俺の体は製鉄所 胃はその溶鉱炉のようだ",
+        "うおォン 俺はまるで人間火力発電所だ",
+        "ああ なんてことだ 食べ始めているのに さらに腹がへっていくかのようだ",
+    )
+
+    private fun createAttackMessages(
+        village: Village,
+        attacker: VillageParticipant,
+        target: VillageParticipant,
+        charas: Charas,
+        attackSuccess: Boolean
+    ): List<Message> {
+        val messages = mutableListOf<Message>()
+        // 今日がお前の命日だ！
+        messages.add(createAttackMessage(village, attacker, target, charas))
+        // 井之頭五郎
+        if (attacker.skill!!.toCdef() == CDef.Skill.喰狼) {
+            messages.add(createGourmetMessage(village, attacker, charas, attackSuccess))
+        }
+        return messages
+    }
+
     private fun createAttackMessage(
         village: Village,
         attacker: VillageParticipant,
@@ -400,6 +430,27 @@ class AttackDomainService(
         charas: Charas
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
+        val attackerChara = charas.chara(attacker.charaId)
+        val faceType = if (hasFaceType(attackerChara)) CDef.FaceType.囁き.toModel() else charas.chara(attacker.charaId)
+            .defaultImage().faceType
+        return messageDomainService.createAttackMessage(
+            village,
+            attacker,
+            text,
+            faceType,
+            CDef.MessageType.人狼の囁き.toModel()
+        )
+    }
+
+    private fun createGourmetMessage(
+        village: Village,
+        attacker: VillageParticipant,
+        charas: Charas,
+        isAttackSuccess: Boolean
+    ): Message {
+        val text =
+            if (isAttackSuccess) gourmetSuccessMessages.shuffled().first()
+            else "がーんだな…出鼻をくじかれた"
         val attackerChara = charas.chara(attacker.charaId)
         val faceType = if (hasFaceType(attackerChara)) CDef.FaceType.囁き.toModel() else charas.chara(attacker.charaId)
             .defaultImage().faceType

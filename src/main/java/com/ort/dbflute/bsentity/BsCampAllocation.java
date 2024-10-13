@@ -81,10 +81,10 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} */
+    /** CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} */
     protected String _campCode;
 
     /** MIN_NUM: {NotNull, INT UNSIGNED(10)} */
@@ -121,7 +121,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "CAMP_ALLOCATION";
+        return "camp_allocation";
     }
 
     // ===================================================================================
@@ -139,7 +139,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     //                                                             =======================
     /**
      * Get the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * <p>It's treated as case insensitive and if the code value is null, it returns null.</p>
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
@@ -150,7 +150,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
 
     /**
      * Set the value of campCode as the classification of Camp. <br>
-     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営
      * @param cdef The instance of classification definition (as ENUM type). (NullAllowed: if null, null value is set to the column)
      */
@@ -390,7 +390,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -400,7 +400,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     }
 
     /**
-     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -410,7 +410,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     }
 
     /**
-     * [get] CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [get] CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @return The value of the column 'CAMP_CODE'. (basically NotNull if selected: for the constraint)
      */
@@ -420,7 +420,7 @@ public abstract class BsCampAllocation extends AbstractEntity implements DomainE
     }
 
     /**
-     * [set] CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp} <br>
+     * [set] CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp} <br>
      * 陣営コード
      * @param campCode The value of the column 'CAMP_CODE'. (basically NotNull if update: for the constraint)
      */

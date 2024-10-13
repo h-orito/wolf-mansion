@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of VOTE.
+ * The base condition-query of vote.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVoteCQ extends AbstractBsVoteCQ {
@@ -35,7 +35,7 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from VOTE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from vote) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join VOTE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join vote on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -101,14 +101,14 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_Day_Asc() { regOBA("DAY"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return this. (NotNull)
      */
     public BsVoteCQ addOrderBy_Day_Desc() { regOBD("DAY"); return this; }
@@ -296,7 +296,7 @@ public class BsVoteCQ extends AbstractBsVoteCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageDayCQ xcreateQueryVillageDay() {
-        String nrp = xresolveNRP("VOTE", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("vote", "villageDay"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageDayCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "villageDay", nrp);
     }
     protected void xsetupOuterJoinVillageDay() { xregOutJo("villageDay"); }

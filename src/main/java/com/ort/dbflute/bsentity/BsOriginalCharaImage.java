@@ -82,7 +82,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
     /** ORIGINAL_CHARA_IMAGE_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _originalCharaImageId;
 
-    /** ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA} */
+    /** ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara} */
     protected Integer _originalCharaId;
 
     /** FACE_TYPE_NAME: {NotNull, VARCHAR(20)} */
@@ -116,7 +116,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ORIGINAL_CHARA_IMAGE";
+        return "original_chara_image";
     }
 
     // ===================================================================================
@@ -331,7 +331,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
     }
 
     /**
-     * [get] ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA} <br>
+     * [get] ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara} <br>
      * オリジナルキャラクターID
      * @return The value of the column 'ORIGINAL_CHARA_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -341,7 +341,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
     }
 
     /**
-     * [set] ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA} <br>
+     * [set] ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara} <br>
      * オリジナルキャラクターID
      * @param originalCharaId The value of the column 'ORIGINAL_CHARA_ID'. (basically NotNull if update: for the constraint)
      */

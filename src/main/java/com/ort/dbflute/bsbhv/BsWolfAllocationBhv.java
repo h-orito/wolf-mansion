@@ -67,7 +67,7 @@ public abstract class BsWolfAllocationBhv extends AbstractBehaviorWritable<WolfA
     /** {@inheritDoc} */
     public WolfAllocationDbm asDBMeta() { return WolfAllocationDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "WOLF_ALLOCATION"; }
+    public String asTableDbName() { return "wolf_allocation"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -159,7 +159,7 @@ public abstract class BsWolfAllocationBhv extends AbstractBehaviorWritable<WolfA
 
     /**
      * Select the entity by the primary-key value.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
