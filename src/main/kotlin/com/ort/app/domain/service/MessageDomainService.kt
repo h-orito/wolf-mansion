@@ -457,6 +457,9 @@ class MessageDomainService(
         // 再翻訳以外の変換
         fun transform(messageContent: MessageContent): MessageContent {
             var text = messageContent.text
+            if (barlow) {
+                text = createBarlowText(text)
+            }
             if (assassin) {
                 text = text.split("\r\n").joinToString("\r\n") {
                     if (it.isEmpty()) it else "$it──────"
@@ -480,9 +483,6 @@ class MessageDomainService(
                     if (it.isEmpty()) it
                     else it.map { "$it゛" }.joinToString("")
                 }
-            }
-            if (barlow) {
-                text = createBarlowText(text)
             }
             return messageContent.copy(text = text)
         }
