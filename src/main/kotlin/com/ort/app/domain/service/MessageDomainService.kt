@@ -461,11 +461,19 @@ class MessageDomainService(
                 text = createBarlowText(text)
             }
             if (assassin) {
+                if (barlow) {
+                    // ！！！を除去
+                    text = text.replace("！", "")
+                }
                 text = text.split("\r\n").joinToString("\r\n") {
                     if (it.isEmpty()) it else "$it──────"
                 }
             }
             if (clowning) {
+                if (barlow) {
+                    // ！！！を除去
+                    text = text.replace("！", "")
+                }
                 text = text.split("\r\n").joinToString("\r\n") {
                     if (it.isEmpty()) it
                     else {
