@@ -458,7 +458,9 @@ class MessageDomainService(
         fun transform(messageContent: MessageContent): MessageContent {
             var text = messageContent.text
             if (barlow) {
-                text = createBarlowText(text)
+                text = text.split("\r\n").joinToString("\r\n") {
+                    if (it.isEmpty()) it else createBarlowText(it)
+                }
             }
             if (assassin) {
                 if (barlow) {
