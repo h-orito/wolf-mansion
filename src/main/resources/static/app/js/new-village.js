@@ -50,11 +50,25 @@ $(function () {
             width: dummyChara.size.width,
             height: dummyChara.size.height
         }));
+		$('#dummy-chara-img2').html($('<img />', {
+			src: dummyChara.images.list[0].url,
+			width: dummyChara.size.width,
+			height: dummyChara.size.height
+		}));
+        $('#dummyCharaName').val(dummyChara.name);
+        $('#dummyCharaShortName').val(dummyChara.shortName);
         if (dummyChara.defaultJoinMessage != null && $('#characterSetId').val().length < 2 && dummyChara.defaultJoinMessage !== '') {
             if ($('#dummy-chara-join-message').val() === '') {
                 $('#dummy-chara-join-message').val(dummyChara.defaultJoinMessage);
             } else if (manualChanged && window.confirm('ダミーキャラの入村発言を上書きしてもよろしいですか？')) {
                 $('#dummy-chara-join-message').val(dummyChara.defaultJoinMessage);
+            }
+        }
+        if (dummyChara.defaultFirstdayMessage != null && $('#characterSetId').val().length < 2 && dummyChara.defaultFirstdayMessage !== '') {
+            if ($('#dummy-chara-day1-message').val() === '') {
+                $('#dummy-chara-day1-message').val(dummyChara.defaultFirstdayMessage);
+            } else if (manualChanged && window.confirm('ダミーキャラの1日目発言を上書きしてもよろしいですか？')) {
+                $('#dummy-chara-day1-message').val(dummyChara.defaultFirstdayMessage);
             }
         }
     }
@@ -169,6 +183,11 @@ $(function () {
                 width: 60,
                 height: 60
             }));
+			$('#dummy-chara-img2').html($('<img />', {
+				src: contextPath + 'app/images/placeholder.png',
+				width: 60,
+				height: 60
+			}));
         } else {
             $('#use-charachip').removeClass('hidden');
             replaceCharaSet($('#characterSetId').val(), false);

@@ -89,6 +89,7 @@ data class VillageFormContent(
         data class VillageCharaContent(
             val id: Int,
             val name: String,
+            val shortName: String,
             val url: String,
             val width: Int,
             val height: Int
@@ -96,6 +97,7 @@ data class VillageFormContent(
             constructor(chara: Chara) : this(
                 id = chara.id,
                 name = chara.name,
+                shortName = chara.shortName,
                 url = chara.defaultImage().url,
                 width = chara.size.width,
                 height = chara.size.height

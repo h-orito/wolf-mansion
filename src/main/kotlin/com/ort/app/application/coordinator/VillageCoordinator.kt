@@ -81,8 +81,8 @@ class VillageCoordinator(
         village: Village,
         player: Player,
         charaId: Int?,
-        charaName: String?,
-        charaShortName: String?,
+        charaName: String,
+        charaShortName: String,
         charaImageFile: MultipartFile?,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
@@ -104,14 +104,21 @@ class VillageCoordinator(
         val chara = if (village.setting.chara.isOriginalCharachip) {
             charaService.registerOriginalChara(
                 village.setting.chara.charachipIds.first(),
-                charaName!!,
-                charaShortName!!,
+                charaName,
+                charaShortName,
                 charaImageFile!!
             )
         } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip)
             ?: throw IllegalStateException("chara not found.")
         val myself = villageService.participate(
-            village.id, player.id, chara, firstRequestSkill, secondRequestSkill, isSpectator
+            villageId = village.id,
+            playerId = player.id,
+            chara = chara,
+            charaName = charaName,
+            charaShortName = charaShortName,
+            firstRequestSkill = firstRequestSkill,
+            secondRequestSkill = secondRequestSkill,
+            isSpectator = isSpectator
         )
         val afterVillage = villageService.findVillage(village.id)!!
         // N人目シスメ
@@ -306,10 +313,11 @@ class VillageCoordinator(
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun registerVillage(
         paramVillage: Village,
-        dummyCharaName: String?,
-        dummyCharaShortName: String?,
+        dummyCharaName: String,
+        dummyCharaShortName: String,
         dummyCharaImage: MultipartFile?,
-        joinMessage: String
+        joinMessage: String,
+        day1Message: String?,
     ): Village {
         // オリジナル画像を使用する場合はキャラチップ登録
         val param = if (paramVillage.setting.chara.isOriginalCharachip) {
@@ -319,7 +327,8 @@ class VillageCoordinator(
                     chara = VillageCharaSetting(
                         isOriginalCharachip = true,
                         charachipIds = listOf(charachip.id),
-                        dummyCharaId = 1 // dummy
+                        dummyCharaId = 1, // dummy
+                        dummyDay1Message = day1Message
                     )
                 )
             )
@@ -428,8 +437,8 @@ class VillageCoordinator(
 
     private fun participateDummyChara(
         village: Village,
-        dummyCharaName: String?,
-        dummyCharaShortName: String?,
+        dummyCharaName: String,
+        dummyCharaShortName: String,
         dummyCharaImage: MultipartFile?,
         joinMessage: String
     ) {

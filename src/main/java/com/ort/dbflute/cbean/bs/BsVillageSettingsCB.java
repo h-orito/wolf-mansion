@@ -472,6 +472,11 @@ public class BsVillageSettingsCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnOriginalCharaGroupId() { return doColumn("ORIGINAL_CHARA_GROUP_ID"); }
         /**
+         * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+         * @return The information object of specified column. (NotNull)
+         */
+        public SpecifiedColumn columnDay1DummyMessage() { return doColumn("DAY1_DUMMY_MESSAGE"); }
+        /**
          * REGISTER_DATETIME: {NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */

@@ -1253,6 +1253,8 @@
             name="IS_CREATOR_PRODUCER" required="true" type="BIT"/>
         <column comment="オリジナルキャラクターグループID" dbType="INT UNSIGNED"
             javaType="Integer" name="ORIGINAL_CHARA_GROUP_ID" size="10" type="INTEGER"/>
+        <column comment="1日目のダミー発言メッセージ" dbType="TEXT" javaType="String"
+            name="DAY1_DUMMY_MESSAGE" size="65535" type="LONGVARCHAR"/>
         <column comment="登録日時" dbType="DATETIME"
             javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
             required="true" size="19" type="TIMESTAMP"/>

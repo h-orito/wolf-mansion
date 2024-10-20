@@ -1,4 +1,21 @@
 map:{
+    ; 2024/10/20 16:07:54 = map:{
+        ; diffDate = 2024/10/20 16:07:54
+        ; diffAuthor = h-orito
+        ; diffGitBranch = master
+        ; tableDiff = map:{
+            ; village_settings = map:{
+                ; tableName = village_settings
+                ; diffType = CHANGE
+                ; columnDiff = map:{
+                    ; DAY1_DUMMY_MESSAGE = map:{
+                        ; columnName = DAY1_DUMMY_MESSAGE
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
     ; 2024/10/13 21:46:52 = map:{
         ; diffDate = 2024/10/13 21:46:52
         ; diffAuthor = h-orito

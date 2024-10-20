@@ -1858,6 +1858,159 @@ public abstract class AbstractBsVillageSettingsCQ extends AbstractConditionQuery
     protected abstract ConditionValue xgetCValueOriginalCharaGroupId();
 
     /**
+     * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_Equal(String day1DummyMessage) {
+        doSetDay1DummyMessage_Equal(fRES(day1DummyMessage));
+    }
+
+    protected void doSetDay1DummyMessage_Equal(String day1DummyMessage) {
+        regDay1DummyMessage(CK_EQ, day1DummyMessage);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_NotEqual(String day1DummyMessage) {
+        doSetDay1DummyMessage_NotEqual(fRES(day1DummyMessage));
+    }
+
+    protected void doSetDay1DummyMessage_NotEqual(String day1DummyMessage) {
+        regDay1DummyMessage(CK_NES, day1DummyMessage);
+    }
+
+    /**
+     * GreaterThan(&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as greaterThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_GreaterThan(String day1DummyMessage) {
+        regDay1DummyMessage(CK_GT, fRES(day1DummyMessage));
+    }
+
+    /**
+     * LessThan(&lt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as lessThan. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_LessThan(String day1DummyMessage) {
+        regDay1DummyMessage(CK_LT, fRES(day1DummyMessage));
+    }
+
+    /**
+     * GreaterEqual(&gt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as greaterEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_GreaterEqual(String day1DummyMessage) {
+        regDay1DummyMessage(CK_GE, fRES(day1DummyMessage));
+    }
+
+    /**
+     * LessEqual(&lt;=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as lessEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_LessEqual(String day1DummyMessage) {
+        regDay1DummyMessage(CK_LE, fRES(day1DummyMessage));
+    }
+
+    /**
+     * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessageList The collection of day1DummyMessage as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_InScope(Collection<String> day1DummyMessageList) {
+        doSetDay1DummyMessage_InScope(day1DummyMessageList);
+    }
+
+    protected void doSetDay1DummyMessage_InScope(Collection<String> day1DummyMessageList) {
+        regINS(CK_INS, cTL(day1DummyMessageList), xgetCValueDay1DummyMessage(), "DAY1_DUMMY_MESSAGE");
+    }
+
+    /**
+     * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessageList The collection of day1DummyMessage as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     */
+    public void setDay1DummyMessage_NotInScope(Collection<String> day1DummyMessageList) {
+        doSetDay1DummyMessage_NotInScope(day1DummyMessageList);
+    }
+
+    protected void doSetDay1DummyMessage_NotInScope(Collection<String> day1DummyMessageList) {
+        regINS(CK_NINS, cTL(day1DummyMessageList), xgetCValueDay1DummyMessage(), "DAY1_DUMMY_MESSAGE");
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)} <br>
+     * <pre>e.g. setDay1DummyMessage_LikeSearch("xxx", op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">likeContain()</span>);</pre>
+     * @param day1DummyMessage The value of day1DummyMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDay1DummyMessage_LikeSearch(String day1DummyMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDay1DummyMessage_LikeSearch(day1DummyMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * LikeSearch with various options. (versatile) {like '%xxx%' escape ...}. And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)} <br>
+     * <pre>e.g. setDay1DummyMessage_LikeSearch("xxx", new <span style="color: #CC4747">LikeSearchOption</span>().likeContain());</pre>
+     * @param day1DummyMessage The value of day1DummyMessage as likeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of like-search. (NotNull)
+     */
+    protected void setDay1DummyMessage_LikeSearch(String day1DummyMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_LS, fRES(day1DummyMessage), xgetCValueDay1DummyMessage(), "DAY1_DUMMY_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param opLambda The callback for option of like-search. (NotNull)
+     */
+    public void setDay1DummyMessage_NotLikeSearch(String day1DummyMessage, ConditionOptionCall<LikeSearchOption> opLambda) {
+        setDay1DummyMessage_NotLikeSearch(day1DummyMessage, xcLSOP(opLambda));
+    }
+
+    /**
+     * NotLikeSearch with various options. (versatile) {not like 'xxx%' escape ...} <br>
+     * And NullOrEmptyIgnored, SeveralRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @param day1DummyMessage The value of day1DummyMessage as notLikeSearch. (basically NotNull, NotEmpty: error as default, or no condition as option)
+     * @param likeSearchOption The option of not-like-search. (NotNull)
+     */
+    protected void setDay1DummyMessage_NotLikeSearch(String day1DummyMessage, LikeSearchOption likeSearchOption) {
+        regLSQ(CK_NLS, fRES(day1DummyMessage), xgetCValueDay1DummyMessage(), "DAY1_DUMMY_MESSAGE", likeSearchOption);
+    }
+
+    /**
+     * IsNull {is null}. And OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     */
+    public void setDay1DummyMessage_IsNull() { regDay1DummyMessage(CK_ISN, DOBJ); }
+
+    /**
+     * IsNullOrEmpty {is null or empty}. And OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     */
+    public void setDay1DummyMessage_IsNullOrEmpty() { regDay1DummyMessage(CK_ISNOE, DOBJ); }
+
+    /**
+     * IsNotNull {is not null}. And OnlyOnceRegistered. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     */
+    public void setDay1DummyMessage_IsNotNull() { regDay1DummyMessage(CK_ISNN, DOBJ); }
+
+    protected void regDay1DummyMessage(ConditionKey ky, Object vl) { regQ(ky, vl, xgetCValueDay1DummyMessage(), "DAY1_DUMMY_MESSAGE"); }
+    protected abstract ConditionValue xgetCValueDay1DummyMessage();
+
+    /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @param registerDatetime The value of registerDatetime as equal. (basically NotNull: error as default, or no condition as option)

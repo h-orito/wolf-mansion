@@ -99,6 +99,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
             ((VillageSettings)et).setIsCreatorProducer((Boolean)vl);
         }, "isCreatorProducer");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getOriginalCharaGroupId(), (et, vl) -> ((VillageSettings)et).setOriginalCharaGroupId(cti(vl)), "originalCharaGroupId");
+        setupEpg(_epgMap, et -> ((VillageSettings)et).getDay1DummyMessage(), (et, vl) -> ((VillageSettings)et).setDay1DummyMessage((String)vl), "day1DummyMessage");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterDatetime(), (et, vl) -> ((VillageSettings)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getRegisterTrace(), (et, vl) -> ((VillageSettings)et).setRegisterTrace((String)vl), "registerTrace");
         setupEpg(_epgMap, et -> ((VillageSettings)et).getUpdateDatetime(), (et, vl) -> ((VillageSettings)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
@@ -160,6 +161,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnIsReincarnationSkillAll = cci("IS_REINCARNATION_SKILL_ALL", "IS_REINCARNATION_SKILL_ALL", null, null, Boolean.class, "isReincarnationSkillAll", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnIsCreatorProducer = cci("IS_CREATOR_PRODUCER", "IS_CREATOR_PRODUCER", null, null, Boolean.class, "isCreatorProducer", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
     protected final ColumnInfo _columnOriginalCharaGroupId = cci("ORIGINAL_CHARA_GROUP_ID", "ORIGINAL_CHARA_GROUP_ID", null, null, Integer.class, "originalCharaGroupId", null, false, false, false, "INT UNSIGNED", 10, 0, null, null, false, null, null, "originalCharaGroup", null, null, false);
+    protected final ColumnInfo _columnDay1DummyMessage = cci("DAY1_DUMMY_MESSAGE", "DAY1_DUMMY_MESSAGE", null, null, String.class, "day1DummyMessage", null, false, false, false, "TEXT", 65535, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
@@ -281,6 +283,11 @@ public class VillageSettingsDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnOriginalCharaGroupId() { return _columnOriginalCharaGroupId; }
     /**
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnDay1DummyMessage() { return _columnDay1DummyMessage; }
+    /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
@@ -326,6 +333,7 @@ public class VillageSettingsDbm extends AbstractDBMeta {
         ls.add(columnIsReincarnationSkillAll());
         ls.add(columnIsCreatorProducer());
         ls.add(columnOriginalCharaGroupId());
+        ls.add(columnDay1DummyMessage());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());

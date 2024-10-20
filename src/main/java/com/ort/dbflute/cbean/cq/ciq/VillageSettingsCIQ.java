@@ -84,6 +84,7 @@ public class VillageSettingsCIQ extends AbstractBsVillageSettingsCQ {
     protected ConditionValue xgetCValueIsReincarnationSkillAll() { return _myCQ.xdfgetIsReincarnationSkillAll(); }
     protected ConditionValue xgetCValueIsCreatorProducer() { return _myCQ.xdfgetIsCreatorProducer(); }
     protected ConditionValue xgetCValueOriginalCharaGroupId() { return _myCQ.xdfgetOriginalCharaGroupId(); }
+    protected ConditionValue xgetCValueDay1DummyMessage() { return _myCQ.xdfgetDay1DummyMessage(); }
     protected ConditionValue xgetCValueRegisterDatetime() { return _myCQ.xdfgetRegisterDatetime(); }
     protected ConditionValue xgetCValueRegisterTrace() { return _myCQ.xdfgetRegisterTrace(); }
     protected ConditionValue xgetCValueUpdateDatetime() { return _myCQ.xdfgetUpdateDatetime(); }

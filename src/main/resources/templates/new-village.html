@@ -215,22 +215,22 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">ダミーキャラ名</label>
-                            <div class="col-sm-9 col-xs-12">
-                                <input type="text" class="form-control" th:field="*{dummyCharaName}"/>
-                                <span th:if="${#fields.hasErrors('dummyCharaName')}" th:errors="*{dummyCharaName}"
-                                      class="help-block text-danger">error!</span>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">ダミーキャラ名</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" th:field="*{dummyCharaName}"/>
+                            <span th:if="${#fields.hasErrors('dummyCharaName')}" th:errors="*{dummyCharaName}"
+                                  class="help-block text-danger">error!</span>
                         </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">ダミーキャラ名略称</label>
-                            <div class="col-sm-9 col-xs-12">
-                                <input type="text" class="form-control" th:field="*{dummyCharaShortName}"/>
-                                <span th:if="${#fields.hasErrors('dummyCharaShortName')}"
-                                      th:errors="*{dummyCharaShortName}"
-                                      class="help-block text-danger">error!</span>
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">ダミーキャラ名略称</label>
+                        <div class="col-sm-9 col-xs-12">
+                            <input type="text" class="form-control" th:field="*{dummyCharaShortName}"/>
+                            <span th:if="${#fields.hasErrors('dummyCharaShortName')}"
+                                  th:errors="*{dummyCharaShortName}"
+                                  class="help-block text-danger">error!</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -247,6 +247,23 @@
                                 </div>
                             </div>
                             <span th:if="${#fields.hasErrors('dummyJoinMessage')}" th:errors="*{dummyJoinMessage}"
+                                  class="help-block text-danger">error!</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">ダミーキャラの1日目発言</label>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-12 col-xs-12" style="display: flex;">
+                                    <div id="dummy-chara-img2"></div>
+                                    <div style="flex: 1; margin-left: 5px; min-height: 77px;">
+											<textarea id="dummy-chara-day1-message" class="form-control"
+                                                      th:field="*{dummyDay1Message}"
+                                                      style="min-height: 77px;"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <span th:if="${#fields.hasErrors('dummyDay1Message')}" th:errors="*{dummyDay1Message}"
                                   class="help-block text-danger">error!</span>
                         </div>
                     </div>

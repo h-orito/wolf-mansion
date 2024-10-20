@@ -1799,6 +1799,7 @@ $(function () {
         loadSelectableCharaList();
     });
 
+	let charas = [];
     function loadSelectableCharaList(selectedCharaId) {
         const $charaSelect = $('#participate-chara-select');
         const $modalSelectableCharaArea = $('#modal-selectable-chara-area');
@@ -1812,6 +1813,7 @@ $(function () {
             if (response == '') {
                 return;
             }
+            charas = response;
             $charaSelect.empty();
             $.each(response, function (idx, val) {
                 $charaSelect.append($('<option></option>', {
@@ -1854,6 +1856,9 @@ $(function () {
 
             if (selectedCharaId != null && selectedCharaId !== '') {
                 $charaSelect.val(selectedCharaId)
+           		selectChara(selectedCharaId);
+            } else {
+           		selectChara(charas[0].id.toString());
             }
         });
     }
@@ -1862,8 +1867,21 @@ $(function () {
     $('body').on('click', '[data-select-participate-chara]', function () {
         const charaId = $(this).data('select-participate-chara');
         $('#participate-chara-select').val(charaId);
+        selectChara(charaId);
         $('#modal-select-participate-chara').modal('hide');
     });
+
+    // 参戦でキャラをプルダウン選択
+    $('#participate-chara-select').on('change', function () {
+		const charaId = $(this).val();
+		selectChara(charaId);
+    });
+
+    function selectChara(charaId) {
+		const chara = charas.find(c => c.id == charaId);
+		$('#charaName').val(chara.name);
+		$('#charaShortName').val(chara.shortName);
+    }
 
     // ----------------------------------------------
     // 残り時間

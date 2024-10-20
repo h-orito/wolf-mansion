@@ -59,11 +59,11 @@
                                 <th>ダミーキャラ</th>
                                 <td th:text="${dummyCharaName}"></td>
                             </tr>
-                            <tr th:if="*{shouldOriginalImage}">
+                            <tr>
                                 <th>ダミーキャラ名</th>
                                 <td th:text="*{dummyCharaName}"></td>
                             </tr>
-                            <tr th:if="*{shouldOriginalImage}">
+                            <tr>
                                 <th>ダミーキャラ名略称</th>
                                 <td th:text="*{dummyCharaShortName}"></td>
                             </tr>
@@ -105,6 +105,38 @@
                                                     <th:block th:if="*{dummyJoinMessage}">
                                                         <th:block
                                                                 th:each="str, stat : *{dummyJoinMessage.split('\r\n|\r|\n', -1)}">
+                                                            <th:block th:text="${str}"/>
+                                                            <br th:if="${!stat.last}"/>
+                                                        </th:block>
+                                                    </th:block>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr th:if="*{dummyDay1Message != null && dummyDay1Message != ''}">
+                                <th>ダミーキャラ1日目発言</th>
+                                <td>
+                                    <div class="col-sm-12 col-xs-12">
+                                        <div class="row" style="display: flex;">
+                                            <div class="col-sm-12 col-xs-12" style="display: flex;">
+                                                <div>
+                                                    <img th:unless="*{shouldOriginalImage}"
+                                                         th:src="${characterImgUrl}"
+                                                         th:width="${characterImgWidth}"
+                                                         th:height="${characterImgHeight}"/>
+                                                    <img id="dummy-chara-img2"
+                                                         th:if="*{shouldOriginalImage}"
+                                                         th:src="@{/app/images/placeholder.png}"
+                                                         th:width="60"
+                                                         th:height="60"/>
+                                                </div>
+                                                <div class="message message-normal"
+                                                     th:style="'flex: 1; margin-left: 5px; min-height: ' + ${characterImgHeight} + 'px;'">
+                                                    <th:block th:if="*{dummyDay1Message}">
+                                                        <th:block
+                                                                th:each="str, stat : *{dummyDay1Message.split('\r\n|\r|\n', -1)}">
                                                             <th:block th:text="${str}"/>
                                                             <br th:if="${!stat.last}"/>
                                                         </th:block>
@@ -464,6 +496,7 @@
                            th:value="${charachipId}"/>
                     <input type="hidden" th:field="*{dummyCharaId}"/>
                     <input type="hidden" th:field="*{dummyJoinMessage}"/>
+                    <input type="hidden" th:field="*{dummyDay1Message}"/>
                     <input type="hidden" th:field="*{joinPassword}"/>
                     <input type="hidden" th:field="*{organization}"/>
                     <input type="hidden" th:field="*{allowedSecretSayCode}"/>

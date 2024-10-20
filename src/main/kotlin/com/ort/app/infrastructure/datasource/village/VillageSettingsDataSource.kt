@@ -64,6 +64,7 @@ class VillageSettingsDataSource(
             settings.isRandomOrganize = it.rule.isRandomOrganization
             settings.isReincarnationSkillAll = it.rule.isReincarnationSkillAll
             settings.originalCharaGroupId = if (it.chara.isOriginalCharachip) it.chara.charachipIds.first() else null
+            settings.day1DummyMessage = it.chara.dummyDay1Message
         }
         villageSettingsBhv.insert(settings)
     }
@@ -132,6 +133,7 @@ class VillageSettingsDataSource(
             chara = VillageCharaSetting(
                 isOriginalCharachip = isOriginalCharaGroup,
                 dummyCharaId = setting.dummyCharaId,
+                dummyDay1Message = setting.day1DummyMessage,
                 charachipIds =
                 if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
                 else village.villageCharaGroupList.map { it.charaGroupId }
@@ -187,6 +189,7 @@ class VillageSettingsDataSource(
             chara = VillageCharaSetting(
                 isOriginalCharachip = isOriginalCharaGroup,
                 dummyCharaId = setting.dummyCharaId,
+                dummyDay1Message = setting.day1DummyMessage,
                 charachipIds =
                 if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
                 else village.villageCharaGroupList.map { it.charaGroupId }
@@ -285,6 +288,7 @@ class VillageSettingsDataSource(
         s.isReincarnationSkillAll = setting.rule.isReincarnationSkillAll
         s.joinPassword = setting.joinPassword
         s.allowedSecretSayCodeAsAllowedSecretSay = setting.rule.secretSayRange.toCdef()
+        s.day1DummyMessage = setting.chara.dummyDay1Message
         villageSettingsBhv.update(s)
     }
 

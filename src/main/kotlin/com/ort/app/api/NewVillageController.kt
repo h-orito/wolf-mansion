@@ -130,10 +130,11 @@ class NewVillageController(
             villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
             villageCoordinator.registerVillage(
                 villageForm.toVillage(player),
-                villageForm.dummyCharaName,
-                villageForm.dummyCharaShortName,
+                villageForm.dummyCharaName!!,
+                villageForm.dummyCharaShortName!!,
                 villageForm.dummyCharaImageFile,
-                villageForm.dummyJoinMessage!!
+                villageForm.dummyJoinMessage!!,
+                villageForm.dummyDay1Message
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)

@@ -57,7 +57,10 @@ class NewVillageFormValidator : Validator {
         }
 
         // ダミーキャラ発言
-        validateMessage(errors, form)
+        validateMessage(errors, form.dummyJoinMessage!!.trim(), "dummyJoinMessage")
+        if (!form.dummyDay1Message.isNullOrEmpty()) {
+            validateMessage(errors, form.dummyDay1Message!!.trim(), "dummyDay1Message")
+        }
 
         // オリジナル画像
         validateOriginalImage(errors, form)
@@ -82,18 +85,17 @@ class NewVillageFormValidator : Validator {
         validateRpSayRestrict(errors, form)
     }
 
-    private fun validateMessage(errors: Errors, form: NewVillageForm) {
-        val message: String = form.dummyJoinMessage!!.trim()
+    private fun validateMessage(errors: Errors, message: String, field: String) {
         // 改行数＋それ以外の文字が400文字以上
         val length = message.length
         val lineSeparatorNum = message.split("\r\n").size - 1
         val messageLength = length - lineSeparatorNum
         if (messageLength !in 1..400) {
-            errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.length")
+            errors.rejectValue(field, "VillageSayForm.validator.message.length")
         }
         // 行数が21以上
         if (message.split("\r\n").size > 20) {
-            errors.rejectValue("dummyJoinMessage", "VillageSayForm.validator.message.line")
+            errors.rejectValue(field, "VillageSayForm.validator.message.line")
         }
     }
 

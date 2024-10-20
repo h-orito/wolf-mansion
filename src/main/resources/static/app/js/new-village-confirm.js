@@ -16,6 +16,7 @@ $(function() {
             reader.readAsDataURL(files[0]);
             reader.onloadend = function(){
                 $('#dummy-chara-img').attr('src', this.result);
+                $('#dummy-chara-img2').attr('src', this.result);
             }
         }
     });

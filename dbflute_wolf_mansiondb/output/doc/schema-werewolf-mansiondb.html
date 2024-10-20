@@ -908,7 +908,7 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">40</td>
-		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=27">VILLAGE_SETTINGS</a></td>
+		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=28">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#original_chara_group" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">ORIGINAL_CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
 		<td class="relcell">&nbsp;</td>
@@ -7416,7 +7416,7 @@ VILLAGE_PLAYER_STATUS_TYPE
 	</tbody>
 </table>
 
-<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=27">
+<h2 id="village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=28">
 VILLAGE_SETTINGS
 &nbsp;<span class="tablefirstdatetitle">since 2017/12/18</span>
 </h2>
@@ -7864,6 +7864,24 @@ VILLAGE_SETTINGS
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="village_settings_day1_dummy_message">DAY1_DUMMY_MESSAGE</td>
+		<td class="typecell">TEXT</td>
+		<td class="sizecell"> 65535 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>1日目のダミー発言メッセージ</pre></td>
+		<td class="subcell">day1DummyMessage</td>
+		<td class="subcell">String</td>
+		<td class="subcell">2024/10/20</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">25</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell">*</td>
 		<td class="comcolcell columnnamecell" id="village_settings_register_datetime">REGISTER_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -7877,7 +7895,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">25</td>
+		<td class="rownumcell">26</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7895,7 +7913,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">26</td>
+		<td class="rownumcell">27</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -7913,7 +7931,7 @@ VILLAGE_SETTINGS
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">27</td>
+		<td class="rownumcell">28</td>
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
@@ -13702,6 +13720,9 @@ function StoreClient() {
 				}
 				, 'ORIGINAL_CHARA_GROUP_ID': {
 					'databaseComment': 'オリジナルキャラクターグループID'
+				}
+				, 'DAY1_DUMMY_MESSAGE': {
+					'databaseComment': '1日目のダミー発言メッセージ'
 				}
 				, 'REGISTER_DATETIME': {
 					'databaseComment': '登録日時'

@@ -8,7 +8,6 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.fw.exception.WolfMansionBusinessException
-import com.ort.dbflute.cbean.CharaCB
 import com.ort.dbflute.cbean.VillageDayCB
 import com.ort.dbflute.exbhv.CharaBhv
 import com.ort.dbflute.exbhv.VillageDayBhv
@@ -44,7 +43,8 @@ class DebugController(
         // 参戦していないキャラを人数分探す
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
         val charas = charaService.findCharas(village.setting.chara.charachipIds.first(), false)
-        val charaList = charas.list.filterNot { c -> village.participants.list.any { it.charaId == c.id } }.take(participateForm.personNumber!!)
+        val charaList = charas.list.filterNot { c -> village.participants.list.any { it.charaId == c.id } }
+            .take(participateForm.personNumber!!)
         for (i in charaList.indices) {
             val playerId = i + 2
             // 希望役職をランダムに取得
@@ -56,8 +56,8 @@ class DebugController(
                 village = village,
                 player = player,
                 charaId = charaList[i].id,
-                charaName = null,
-                charaShortName = null,
+                charaName = charaList[i].name,
+                charaShortName = charaList[i].shortName,
                 charaImageFile = null,
                 firstRequestSkill = randomSkill,
                 secondRequestSkill = randomSkill2,

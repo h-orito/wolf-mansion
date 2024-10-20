@@ -533,6 +533,26 @@ public class BsVillageSettingsCQ extends AbstractBsVillageSettingsCQ {
      */
     public BsVillageSettingsCQ addOrderBy_OriginalCharaGroupId_Desc() { regOBD("ORIGINAL_CHARA_GROUP_ID"); return this; }
 
+    protected ConditionValue _day1DummyMessage;
+    public ConditionValue xdfgetDay1DummyMessage()
+    { if (_day1DummyMessage == null) { _day1DummyMessage = nCV(); }
+      return _day1DummyMessage; }
+    protected ConditionValue xgetCValueDay1DummyMessage() { return xdfgetDay1DummyMessage(); }
+
+    /**
+     * Add order-by as ascend. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_Day1DummyMessage_Asc() { regOBA("DAY1_DUMMY_MESSAGE"); return this; }
+
+    /**
+     * Add order-by as descend. <br>
+     * DAY1_DUMMY_MESSAGE: {TEXT(65535)}
+     * @return this. (NotNull)
+     */
+    public BsVillageSettingsCQ addOrderBy_Day1DummyMessage_Desc() { regOBD("DAY1_DUMMY_MESSAGE"); return this; }
+
     protected ConditionValue _registerDatetime;
     public ConditionValue xdfgetRegisterDatetime()
     { if (_registerDatetime == null) { _registerDatetime = nCV(); }

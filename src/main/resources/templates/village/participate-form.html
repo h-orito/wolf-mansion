@@ -62,7 +62,8 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
                                 <div class="col-sm-4">
-                                    <select class="form-control" th:field="*{charaId}" id="participate-chara-select"
+                                    <select class="form-control" th:field="*{charaId}"
+                                            id="participate-chara-select"
                                             th:data-selected-chara="*{charaId}">
                                         <option value="">選択してください</option>
                                     </select> <span th:if="${#fields.hasErrors('charaId')}" th:errors="*{charaId}"
@@ -75,28 +76,26 @@
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">キャラクター名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" th:field="*{charaName}"/>
+                                    <span th:if="${#fields.hasErrors('charaName')}" th:errors="*{charaName}"
+                                          class="help-block text-danger">error!</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">キャラクター名略称</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" th:field="*{charaShortName}"/>
+                                    <span th:if="${#fields.hasErrors('charaShortName')}"
+                                          th:errors="*{charaShortName}"
+                                          class="help-block text-danger">error!</span>
+                                </div>
+                            </div>
+                        </div>
                         <div th:if="${content.settings.shouldOriginalImage}">
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="row">
-                                    <label class="col-sm-2 control-label">キャラクター名</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" th:field="*{charaName}"/>
-                                        <span th:if="${#fields.hasErrors('charaName')}" th:errors="*{charaName}"
-                                              class="help-block text-danger">error!</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-12 col-xs-12">
-                                <div class="row">
-                                    <label class="col-sm-2 control-label">キャラクター名略称</label>
-                                    <div class="col-sm-4">
-                                        <input type="text" class="form-control" th:field="*{charaShortName}"/>
-                                        <span th:if="${#fields.hasErrors('charaShortName')}"
-                                              th:errors="*{charaShortName}"
-                                              class="help-block text-danger">error!</span>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-sm-12 col-xs-12">
                                 <div class="row">
                                     <label class="col-sm-2 control-label">キャラクター画像</label>

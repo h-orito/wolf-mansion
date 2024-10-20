@@ -104,6 +104,8 @@ class VillagePlayerDataSource(
         villageId: Int,
         playerId: Int,
         chara: Chara,
+        charaName: String,
+        charaShortName: String,
         spectator: Boolean,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill
@@ -118,8 +120,8 @@ class VillagePlayerDataSource(
         vPlayer.requestSkillCodeAsSkill = firstRequestSkill.toCdef()
         vPlayer.secondRequestSkillCodeAsSkill = secondRequestSkill.toCdef()
         vPlayer.lastAccessDatetime = LocalDateTime.now()
-        vPlayer.charaName = chara.name
-        vPlayer.charaShortName = chara.shortName
+        vPlayer.charaName = charaName
+        vPlayer.charaShortName = charaShortName
         villagePlayerBhv.insert(vPlayer)
         return vPlayer
     }

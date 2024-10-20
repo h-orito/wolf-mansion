@@ -3,8 +3,13 @@ package com.ort.app.infrastructure.datasource
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.skill.Skill
-import com.ort.app.domain.model.village.*
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.model.village.VillageDay
+import com.ort.app.domain.model.village.VillageDays
+import com.ort.app.domain.model.village.VillageQuery
+import com.ort.app.domain.model.village.VillageRepository
+import com.ort.app.domain.model.village.VillageStatus
+import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.room.RoomSize
 import com.ort.app.infrastructure.datasource.village.VillageDayDataSource
@@ -153,6 +158,8 @@ class VillageDataSource(
         villageId: Int,
         playerId: Int,
         chara: Chara,
+        charaName: String,
+        charaShortName: String,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
         spectator: Boolean
@@ -161,6 +168,8 @@ class VillageDataSource(
             villageId,
             playerId,
             chara,
+            charaName,
+            charaShortName,
             spectator,
             firstRequestSkill,
             secondRequestSkill

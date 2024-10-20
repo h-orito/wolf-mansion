@@ -21,7 +21,7 @@ import com.ort.dbflute.exentity.*;
  *     VILLAGE_ID
  *
  * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, IS_CREATOR_PRODUCER, ORIGINAL_CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
+ *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, IS_CREATOR_PRODUCER, ORIGINAL_CHARA_GROUP_ID, DAY1_DUMMY_MESSAGE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
  *
  * [sequence]
  *     
@@ -69,6 +69,7 @@ import com.ort.dbflute.exentity.*;
  * Boolean isReincarnationSkillAll = entity.getIsReincarnationSkillAll();
  * Boolean isCreatorProducer = entity.getIsCreatorProducer();
  * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
+ * String day1DummyMessage = entity.getDay1DummyMessage();
  * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
  * String registerTrace = entity.getRegisterTrace();
  * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
@@ -96,6 +97,7 @@ import com.ort.dbflute.exentity.*;
  * entity.setIsReincarnationSkillAll(isReincarnationSkillAll);
  * entity.setIsCreatorProducer(isCreatorProducer);
  * entity.setOriginalCharaGroupId(originalCharaGroupId);
+ * entity.setDay1DummyMessage(day1DummyMessage);
  * entity.setRegisterDatetime(registerDatetime);
  * entity.setRegisterTrace(registerTrace);
  * entity.setUpdateDatetime(updateDatetime);
@@ -183,6 +185,9 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
 
     /** ORIGINAL_CHARA_GROUP_ID: {IX, INT UNSIGNED(10), FK to original_chara_group} */
     protected Integer _originalCharaGroupId;
+
+    /** DAY1_DUMMY_MESSAGE: {TEXT(65535)} */
+    protected String _day1DummyMessage;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _registerDatetime;
@@ -1328,6 +1333,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
         sb.append(dm).append(xfND(_isReincarnationSkillAll));
         sb.append(dm).append(xfND(_isCreatorProducer));
         sb.append(dm).append(xfND(_originalCharaGroupId));
+        sb.append(dm).append(xfND(_day1DummyMessage));
         sb.append(dm).append(xfND(_registerDatetime));
         sb.append(dm).append(xfND(_registerTrace));
         sb.append(dm).append(xfND(_updateDatetime));
@@ -1834,6 +1840,26 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
     public void setOriginalCharaGroupId(Integer originalCharaGroupId) {
         registerModifiedProperty("originalCharaGroupId");
         _originalCharaGroupId = originalCharaGroupId;
+    }
+
+    /**
+     * [get] DAY1_DUMMY_MESSAGE: {TEXT(65535)} <br>
+     * 1日目のダミー発言メッセージ
+     * @return The value of the column 'DAY1_DUMMY_MESSAGE'. (NullAllowed even if selected: for no constraint)
+     */
+    public String getDay1DummyMessage() {
+        checkSpecifiedProperty("day1DummyMessage");
+        return convertEmptyToNull(_day1DummyMessage);
+    }
+
+    /**
+     * [set] DAY1_DUMMY_MESSAGE: {TEXT(65535)} <br>
+     * 1日目のダミー発言メッセージ
+     * @param day1DummyMessage The value of the column 'DAY1_DUMMY_MESSAGE'. (NullAllowed: null update allowed for no constraint)
+     */
+    public void setDay1DummyMessage(String day1DummyMessage) {
+        registerModifiedProperty("day1DummyMessage");
+        _day1DummyMessage = day1DummyMessage;
     }
 
     /**

@@ -55,6 +55,10 @@ class SettingFormValidator : Validator {
             errors.rejectValue("joinPassword", "VillageSayForm.validator.joinPassword.length")
         }
 
+        if (!form.dummyDay1Message.isNullOrEmpty()) {
+            validateMessage(errors, form.dummyDay1Message!!.trim(), "dummyDay1Message")
+        }
+
         // 構成
         validateOrganization(errors, form)
 
@@ -62,6 +66,20 @@ class SettingFormValidator : Validator {
         validateSayRestrict(errors, form)
         validateSkillSayRestrict(errors, form)
         validateRpSayRestrict(errors, form)
+    }
+
+    private fun validateMessage(errors: Errors, message: String, field: String) {
+        // 改行数＋それ以外の文字が400文字以上
+        val length = message.length
+        val lineSeparatorNum = message.split("\r\n").size - 1
+        val messageLength = length - lineSeparatorNum
+        if (messageLength !in 1..400) {
+            errors.rejectValue(field, "VillageSayForm.validator.message.length")
+        }
+        // 行数が21以上
+        if (message.split("\r\n").size > 20) {
+            errors.rejectValue(field, "VillageSayForm.validator.message.line")
+        }
     }
 
     private fun validateOrganization(errors: Errors, form: VillageSettingForm) {

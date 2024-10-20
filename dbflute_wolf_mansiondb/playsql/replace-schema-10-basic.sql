@@ -560,6 +560,7 @@ CREATE TABLE VILLAGE_SETTINGS
     IS_REINCARNATION_SKILL_ALL        BOOLEAN        NOT NULL COMMENT '全ての役職に転生可能か',
     IS_CREATOR_PRODUCER               BOOLEAN        NOT NULL COMMENT 'プロデューサー機能ありか',
     ORIGINAL_CHARA_GROUP_ID           INT UNSIGNED COMMENT 'オリジナルキャラクターグループID',
+    DAY1_DUMMY_MESSAGE                TEXT                    COMMENT '1日目のダミー発言メッセージ',
     REGISTER_DATETIME                 DATETIME       NOT NULL COMMENT '登録日時',
     REGISTER_TRACE                    VARCHAR(64)    NOT NULL COMMENT '登録トレース',
     UPDATE_DATETIME                   DATETIME       NOT NULL COMMENT '更新日時',

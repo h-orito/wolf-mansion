@@ -117,10 +117,12 @@ data class NewVillageForm(
     var dummyCharaImageFile: MultipartFile? = null,
 
     /** ダミーキャラ名 */
+    @field:NotNull
     @field:Length(min = 1, max = 40)
     var dummyCharaName: String? = null,
 
     /** ダミーキャラ略称 */
+    @field:NotNull
     @field:Length(min = 1, max = 1)
     var dummyCharaShortName: String? = null,
 
@@ -128,6 +130,10 @@ data class NewVillageForm(
     @field:NotNull
     @field:Length(min = 1, max = 400)
     var dummyJoinMessage: String? = null,
+
+    /** ダミーキャラ1日目発言 */
+    @field:Length(max = 400)
+    var dummyDay1Message: String? = null,
 
     /** 入村パスワード */
     var joinPassword: String? = null,
@@ -373,6 +379,7 @@ data class NewVillageForm(
                 chara = VillageCharaSetting(
                     isOriginalCharachip = shouldOriginalImage!!,
                     dummyCharaId = dummyCharaId!!,
+                    dummyDay1Message = dummyDay1Message,
                     charachipIds = characterSetId!!,
                 ),
                 personMin = startPersonMinNum!!,

@@ -11,7 +11,6 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Service
-import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDateTime
 
 @Service
@@ -68,13 +67,25 @@ class VillageService(
         villageId: Int,
         playerId: Int,
         chara: Chara,
+        charaName: String,
+        charaShortName: String,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
         isSpectator: Boolean
     ): VillageParticipant =
-        villageRepository.participate(villageId, playerId, chara, firstRequestSkill, secondRequestSkill, isSpectator)
+        villageRepository.participate(
+            villageId = villageId,
+            playerId = playerId,
+            chara = chara,
+            charaName = charaName,
+            charaShortName = charaShortName,
+            firstRequestSkill = firstRequestSkill,
+            secondRequestSkill = secondRequestSkill,
+            spectator = isSpectator
+        )
 
-    fun switchParticipate(villageId: Int, participantId: Int, isSpectator: Boolean) = villageRepository.switchParticipate(villageId, participantId, isSpectator)
+    fun switchParticipate(villageId: Int, participantId: Int, isSpectator: Boolean) =
+        villageRepository.switchParticipate(villageId, participantId, isSpectator)
 
     fun leave(participant: VillageParticipant) = villageRepository.leave(participant)
 

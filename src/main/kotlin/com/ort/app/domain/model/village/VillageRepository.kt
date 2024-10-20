@@ -55,6 +55,8 @@ interface VillageRepository {
         villageId: Int,
         playerId: Int,
         chara: Chara,
+        charaName: String,
+        charaShortName: String,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
         spectator: Boolean

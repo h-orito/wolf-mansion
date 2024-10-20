@@ -236,6 +236,9 @@ class CreatorController(
                 }
             ),
             setting = village.setting.copy(
+                chara = village.setting.chara.copy(
+                    dummyDay1Message = form.dummyDay1Message,
+                ),
                 personMin = form.startPersonMinNum!!,
                 personMax = form.personMaxNum!!,
                 dayChangeIntervalSeconds = form.dayChangeIntervalHours!! * 3600 + form.dayChangeIntervalMinutes!! * 60 + form.dayChangeIntervalSeconds!!,

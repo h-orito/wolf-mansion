@@ -131,6 +131,10 @@ data class VillageSettingForm(
     @field:Valid
     var wolfAllocation: RandomOrganizationWolfForm? = null,
 
+    /** ダミーキャラ1日目発言 */
+    @field:Length(max = 400)
+    var dummyDay1Message: String? = null,
+
     /** 入村パスワード */
     var joinPassword: String? = null,
 
@@ -219,6 +223,7 @@ data class VillageSettingForm(
                 maxNum = it.max
             )
         } ?: RandomOrganizationWolfForm(),
+        dummyDay1Message = village.setting.chara.dummyDay1Message,
         joinPassword = village.setting.joinPassword,
         sayRestrictList = Skills.all().filterNotSomeone().list.map { s ->
             val restrict = village.setting.sayRestriction.normalSayRestriction.find { it.skill.code == s.code }

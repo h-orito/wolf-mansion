@@ -119,7 +119,8 @@ class PrologueDomainService(
 
     private fun addDummyCharaMessage(daychange: Daychange, charas: Charas): Daychange {
         val dummyChara = charas.chara(daychange.village.dummyParticipant().charaId)
-        if (dummyChara.defaultFirstdayMessage.isNullOrEmpty()) return daychange
+        val message = daychange.village.setting.chara.dummyDay1Message
+        if (message.isNullOrEmpty()) return daychange
         return daychange.copy(
             messages = daychange.messages.add(
                 messageDomainService.createSayMessage(
@@ -128,7 +129,7 @@ class PrologueDomainService(
                     target = null,
                     messageContent = MessageContent.invoke(
                         messageType = CDef.MessageType.通常発言.code(),
-                        text = dummyChara.defaultFirstdayMessage,
+                        text = message,
                         faceCode = dummyChara.defaultImage().faceType.code,
                         isConvertDisable = false
                     )
