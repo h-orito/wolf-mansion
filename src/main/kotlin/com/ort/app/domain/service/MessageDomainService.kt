@@ -416,6 +416,24 @@ class MessageDomainService(
                 transformation = transformation
             )
             Messages(listOf(translatedMessage, reTranslatedMessage))
+        } else if (transformation.barlow) {
+            val baseMessage = createSayMessage(
+                village = village,
+                myself = myself,
+                target = target,
+                messageContent = messageContent.copy(
+                    type = CDef.MessageType.独り言.toModel(),
+                    text = messageContent.text
+                )
+            )
+            val barlowMessage = createSayMessage(
+                village = village,
+                myself = myself,
+                target = target,
+                messageContent = messageContent,
+                transformation = transformation
+            )
+            Messages(listOf(baseMessage, barlowMessage))
         } else {
             Messages(
                 listOf(
@@ -442,6 +460,11 @@ class MessageDomainService(
 
         companion object {
             fun createBarlowText(text: String): String {
+                // 10%の確率で変換しない
+                val rnd = Random()
+                val num = rnd.nextInt(10)
+                if (num == 0) return text
+
                 var suffixCount = text.length / 3
                 if (suffixCount < 1) {
                     suffixCount = 1
