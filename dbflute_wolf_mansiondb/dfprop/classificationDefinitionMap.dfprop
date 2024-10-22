@@ -59,7 +59,7 @@ map:{
 	        		}
 	        		; noDeadByAttack = map:{
 	        			; groupComment=襲撃されても死なない
-	        			; elementList= list:{壁殴り代行;堅狼;妖狐;誑狐;ごん;仙狐;管狐;稲荷;騙狐;夜狐;念狐;爆弾魔}
+	        			; elementList= list:{壁殴り代行;堅狼;妖狐;誑狐;ごん;仙狐;管狐;稲荷;騙狐;夜狐;念狐;爆弾魔;暴走トラック}
 	        		}
 	        		; wolfCount = map:{
 	        			; groupComment=勝敗判定時、人狼にカウントされる
