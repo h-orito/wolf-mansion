@@ -152,10 +152,10 @@ class ProgressDomainService(
         daychange = assassinDomainService.assassin(daychange)
         // 翻訳
         daychange = translateDomainService.translate(daychange)
-        // 冷やし中華
-        daychange = hiyasichukaDomainService.start(daychange)
         // 情緒
         daychange = emotionDomainService.start(daychange)
+        // 冷やし中華
+        daychange = hiyasichukaDomainService.start(daychange)
         // 突然死
         daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
         // 破局
