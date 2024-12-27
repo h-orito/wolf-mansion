@@ -621,6 +621,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of skillCode as 情緒 (EMOTION). <br>
+     * 情緒
+     */
+    public void setSkillCode_情緒() {
+        setSkillCodeAsSkill(CDef.Skill.情緒);
+    }
+
+    /**
      * Set the value of skillCode as 帝狼 (EMPERORWOLF). <br>
      * 帝狼
      */
@@ -1669,6 +1677,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Set the value of requestSkillCode as 情緒 (EMOTION). <br>
+     * 情緒
+     */
+    public void setRequestSkillCode_情緒() {
+        setRequestSkillCodeAsSkill(CDef.Skill.情緒);
+    }
+
+    /**
      * Set the value of requestSkillCode as 帝狼 (EMPERORWOLF). <br>
      * 帝狼
      */
@@ -2714,6 +2730,14 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
      */
     public void setSecondRequestSkillCode_不止者() {
         setSecondRequestSkillCodeAsSkill(CDef.Skill.不止者);
+    }
+
+    /**
+     * Set the value of secondRequestSkillCode as 情緒 (EMOTION). <br>
+     * 情緒
+     */
+    public void setSecondRequestSkillCode_情緒() {
+        setSecondRequestSkillCodeAsSkill(CDef.Skill.情緒);
     }
 
     /**
@@ -3986,6 +4010,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSkillCode不止者() {
         CDef.Skill cdef = getSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.不止者) : false;
+    }
+
+    /**
+     * Is the value of skillCode 情緒? <br>
+     * 情緒
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSkillCode情緒() {
+        CDef.Skill cdef = getSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.情緒) : false;
     }
 
     /**
@@ -5560,6 +5595,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     }
 
     /**
+     * Is the value of requestSkillCode 情緒? <br>
+     * 情緒
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isRequestSkillCode情緒() {
+        CDef.Skill cdef = getRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.情緒) : false;
+    }
+
+    /**
      * Is the value of requestSkillCode 帝狼? <br>
      * 帝狼
      * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
@@ -7128,6 +7174,17 @@ public abstract class BsVillagePlayer extends AbstractEntity implements DomainEn
     public boolean isSecondRequestSkillCode不止者() {
         CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
         return cdef != null ? cdef.equals(CDef.Skill.不止者) : false;
+    }
+
+    /**
+     * Is the value of secondRequestSkillCode 情緒? <br>
+     * 情緒
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isSecondRequestSkillCode情緒() {
+        CDef.Skill cdef = getSecondRequestSkillCodeAsSkill();
+        return cdef != null ? cdef.equals(CDef.Skill.情緒) : false;
     }
 
     /**

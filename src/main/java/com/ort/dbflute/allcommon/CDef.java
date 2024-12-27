@@ -622,6 +622,9 @@ public interface CDef extends Classification {
         /** 不止者 */
         不止者("DYINGPOINTER", "不止者", emptyStrings())
         ,
+        /** 情緒 */
+        情緒("EMOTION", "情緒", emptyStrings())
+        ,
         /** 帝狼 */
         帝狼("EMPERORWOLF", "帝狼", emptyStrings())
         ,
@@ -1152,6 +1155,13 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "41");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "情");
+                _subItemMapMap.put(情緒.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
                 subItemMap.put("order", "114");
                 subItemMap.put("campCode", "WEREWOLF");
                 subItemMap.put("skill_short_name", "帝");
@@ -1320,7 +1330,7 @@ public interface CDef extends Classification {
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
-                subItemMap.put("order", "41");
+                subItemMap.put("order", "42");
                 subItemMap.put("campCode", "VILLAGER");
                 subItemMap.put("skill_short_name", "勇");
                 _subItemMapMap.put(勇者.code(), Collections.unmodifiableMap(subItemMap));
@@ -2676,6 +2686,9 @@ public interface CDef extends Classification {
         ,
         /** 道化 */
         道化("DOUKE", "道化", emptyStrings())
+        ,
+        /** 情緒 */
+        情緒("EMOTION", "情緒", emptyStrings())
         ,
         /** 強制転生 */
         強制転生("FORCE_REINCARNATION", "強制転生", emptyStrings())

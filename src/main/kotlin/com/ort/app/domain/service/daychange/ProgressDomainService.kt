@@ -27,6 +27,7 @@ import com.ort.app.domain.service.ability.CourtDomainService
 import com.ort.app.domain.service.ability.CurseMarkDomainService
 import com.ort.app.domain.service.ability.DeadDivineDomainService
 import com.ort.app.domain.service.ability.DivineDomainService
+import com.ort.app.domain.service.ability.EmotionDomainService
 import com.ort.app.domain.service.ability.FalseChargesDomainService
 import com.ort.app.domain.service.ability.ForceReincarnationDomainService
 import com.ort.app.domain.service.ability.FruitsBasketDomainService
@@ -117,6 +118,7 @@ class ProgressDomainService(
     private val telekinesisDomainService: TelekinesisDomainService,
     private val revolutionDomainService: RevolutionDomainService,
     private val hiyasichukaDomainService: HiyasichukaDomainService,
+    private val emotionDomainService: EmotionDomainService,
     private val chikuwaDomainService: ChikuwaDomainService,
     private val revivalDomainService: RevivalDomainService,
     private val suicideDomainService: SuicideDomainService,
@@ -152,6 +154,8 @@ class ProgressDomainService(
         daychange = translateDomainService.translate(daychange)
         // 冷やし中華
         daychange = hiyasichukaDomainService.start(daychange)
+        // 情緒
+        daychange = emotionDomainService.start(daychange)
         // 突然死
         daychange = suddenlyDeathDomainService.deadIfNeeded(daychange)
         // 破局

@@ -270,6 +270,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 情緒 (EMOTION). <br>
+     * 情緒
+     */
+    public void setAbilityTypeCode_情緒() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.情緒);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 強制転生 (FORCE_REINCARNATION). <br>
      * 強制転生
      */
@@ -775,6 +783,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCode道化() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.道化) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 情緒? <br>
+     * 情緒
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode情緒() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.情緒) : false;
     }
 
     /**

@@ -674,6 +674,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
     }
 
     /**
+     * Equal(=). As 情緒 (EMOTION). And OnlyOnceRegistered. <br>
+     * 情緒
+     */
+    public void setSkillCode_Equal_情緒() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.情緒);
+    }
+
+    /**
      * Equal(=). As 帝狼 (EMPERORWOLF). And OnlyOnceRegistered. <br>
      * 帝狼
      */
@@ -1742,6 +1750,14 @@ public abstract class AbstractBsVillagePlayerSkillHistoryCQ extends AbstractCond
      */
     public void setSkillCode_NotEqual_不止者() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.不止者);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 情緒 (EMOTION). And OnlyOnceRegistered. <br>
+     * 情緒
+     */
+    public void setSkillCode_NotEqual_情緒() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.情緒);
     }
 
     /**

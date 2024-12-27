@@ -165,6 +165,7 @@ data class Skill(
             CDef.Skill.反呪者 to AbilityType(CDef.AbilityType.反呪),
             CDef.Skill.冷やし中華 to AbilityType(CDef.AbilityType.冷やし中華),
             CDef.Skill.ちくわ大明神 to AbilityType(CDef.AbilityType.誰だ今の),
+            CDef.Skill.情緒 to AbilityType(CDef.AbilityType.情緒),
             CDef.Skill.勇者 to AbilityType(CDef.AbilityType.世界を救う),
             CDef.Skill.曇天者 to AbilityType(CDef.AbilityType.曇天),
             CDef.Skill.魅惑の人魚 to AbilityType(CDef.AbilityType.ナマ足),
