@@ -1949,6 +1949,8 @@ $(function () {
             timeIntervalMilliSecond = 24 * 60 * 60 * 1000;
         }
     }, timeIntervalMilliSecondToRefresh);
+    // 村を開いた直後も1回呼び出す
+    updateVillage();
 
 	// 10秒後に1回だけ表示
     setTimeout(function () {
