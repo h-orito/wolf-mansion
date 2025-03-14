@@ -1472,6 +1472,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 情緒 (EMOTION). And OnlyOnceRegistered. <br>
+     * 情緒
+     */
+    public void setAbilityTypeCode_Equal_情緒() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.情緒);
+    }
+
+    /**
      * Equal(=). As 強制転生 (FORCE_REINCARNATION). And OnlyOnceRegistered. <br>
      * 強制転生
      */
@@ -1940,6 +1948,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_道化() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.道化);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 情緒 (EMOTION). And OnlyOnceRegistered. <br>
+     * 情緒
+     */
+    public void setAbilityTypeCode_NotEqual_情緒() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.情緒);
     }
 
     /**

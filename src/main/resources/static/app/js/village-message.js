@@ -375,7 +375,7 @@ $(function () {
 		} else if (anchor.startsWith('>>s')) {
 			str = 'S' + anchor.substring(3);
 		} else if (anchor.startsWith('>>=')) {
-			str = 'm' + anchor.substring(2);
+			str = 'm' + anchor.substring(3);
 		} else if (anchor.startsWith('>>?')) {
 			str = 'l' + anchor.substring(3);
 		} else if (anchor.startsWith('>>_')) {
