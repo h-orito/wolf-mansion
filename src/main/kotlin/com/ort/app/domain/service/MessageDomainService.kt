@@ -459,11 +459,22 @@ class MessageDomainService(
         private val cards: List<String> = listOf("♠", "♥", "♦", "♣")
 
         companion object {
+            private val barlowMessages = listOf(
+                "たったひとつの真実見抜く、見た目は人狼、頭脳は大人！",
+                "真実はいつもひとつ！",
+                "あれれ～～～？？？",
+                "幼馴染で同級生の、毛利"
+            )
+
             fun createBarlowText(text: String): String {
                 // 10%の確率で変換しない
                 val rnd = Random()
-                val num = rnd.nextInt(10)
+                var num = rnd.nextInt(10)
                 if (num == 0) return text
+
+                // 10％の確率で特定のセリフを喋る
+                num = rnd.nextInt(10)
+                if (num == 0) return barlowMessages.random()
 
                 var suffixCount = text.length / 3
                 if (suffixCount < 1) {
