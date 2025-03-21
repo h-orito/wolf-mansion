@@ -1,0 +1,54 @@
+2024-10-22 09:52:37,534 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionInlineQuery.vm[line 84, column 1]
+2024-10-22 09:52:37,534 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionInlineQuery.vm[line 84, column 1]
+2024-10-22 09:52:37,534 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionInlineQuery.vm[line 84, column 1]
+2024-10-22 09:52:37,534 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionInlineQuery.vm[line 84, column 1]
+2024-10-22 09:52:37,535 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionInlineQuery.vm[line 84, column 1]
+2024-10-22 09:52:37,538 - ResourceManager : found om/java/cbean/BsConditionQuery.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,538 - RHS of #set statement is null. Context will not be modified. om/java/cbean/BsConditionQuery.vm[line 104, column 1]
+2024-10-22 09:52:37,539 - ResourceManager : found om/java/cbean/NestSelectSetupper.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:37,541 - ResourceManager : found om/java/plugin/simpledto/ControlPluginSimpleDtoGenerate.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:37,542 - ResourceManager : found om/java/plugin/flexdto/ControlPluginFlexDtoGenerate.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:38,118 - 
+2024-10-22 09:52:38,118 - DfFlutistLog4JLogSystem initialized using logfile './log/velocity.log'
+2024-10-22 09:52:38,118 - Initializing Velocity, Calling init()...
+2024-10-22 09:52:38,118 - *******************************************************************
+2024-10-22 09:52:38,118 - Starting Apache Velocity v1.7 (compiled: 2010-11-19 12:14:37)
+2024-10-22 09:52:38,118 - RuntimeInstance initializing.
+2024-10-22 09:52:38,118 - Default Properties File: org/apache/velocity/runtime/defaults/velocity.properties
+2024-10-22 09:52:38,118 - Trying to use logger class org.dbflute.friends.velocity.DfFlutistLog4JLogSystem
+2024-10-22 09:52:38,118 - Using logger class org.dbflute.friends.velocity.DfFlutistLog4JLogSystem
+2024-10-22 09:52:38,119 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2024-10-22 09:52:38,121 - ResourceLoader instantiated: org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:38,121 - FileResourceLoader : initialization starting.
+2024-10-22 09:52:38,121 - Do unicode file recognition:  false
+2024-10-22 09:52:38,121 - FileResourceLoader : adding path '/home/h-orito/workspace/wolf-mansion/mydbflute/dbflute-1.2.1/templates'
+2024-10-22 09:52:38,121 - FileResourceLoader : initialization complete.
+2024-10-22 09:52:38,126 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl) with class java.util.Collections$SynchronizedMap cache map.
+2024-10-22 09:52:38,127 - Default ResourceManager initialization complete.
+2024-10-22 09:52:38,127 - Loaded System Directive: org.apache.velocity.runtime.directive.Stop
+2024-10-22 09:52:38,128 - Loaded System Directive: org.apache.velocity.runtime.directive.Define
+2024-10-22 09:52:38,128 - Loaded System Directive: org.apache.velocity.runtime.directive.Break
+2024-10-22 09:52:38,129 - Loaded System Directive: org.apache.velocity.runtime.directive.Evaluate
+2024-10-22 09:52:38,129 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2024-10-22 09:52:38,129 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2024-10-22 09:52:38,130 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2024-10-22 09:52:38,130 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2024-10-22 09:52:38,130 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2024-10-22 09:52:38,140 - Created '20' parsers.
+2024-10-22 09:52:38,142 - Velocimacro : initialization starting.
+2024-10-22 09:52:38,142 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2024-10-22 09:52:38,142 - Velocimacro : Default library not found.
+2024-10-22 09:52:38,142 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2024-10-22 09:52:38,142 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2024-10-22 09:52:38,142 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2024-10-22 09:52:38,142 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2024-10-22 09:52:38,142 - Velocimacro : Velocimacro : initialization complete.
+2024-10-22 09:52:38,142 - RuntimeInstance successfully initialized.
+2024-10-22 09:52:38,159 - ResourceManager : found om/ControlSql2EntityJava.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:38,318 - ResourceManager : found om/java/plugin/simpledto/ControlPluginSimpleDtoSql2Entity.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
+2024-10-22 09:52:38,326 - ResourceManager : found om/java/plugin/flexdto/ControlPluginFlexDtoSql2Entity.vm with loader org.apache.velocity.runtime.resource.loader.FileResourceLoader
