@@ -1,0 +1,123 @@
+@use 'tailwindcss';
+
+:root {
+  --background: #222222;
+  --foreground: #ffffff;
+  --primary: #00bc8c;
+  --warning: var(--color-yellow-500);
+  --danger: var(--color-red-500);
+  --info: var(--color-blue-500);
+  --secondary: #464545;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: sans-serif;
+}
+
+/* リスト用のスタイル */
+.list-content {
+  @apply list-disc space-y-2 pl-6 text-sm;
+}
+
+/* 入れ子リスト用のスタイル */
+.list-content-nested {
+  @apply mt-2 list-disc space-y-2 pl-6;
+}
+
+/* セクション用のスタイル */
+.content-section {
+  @apply mb-8 bg-[#333333] p-6;
+}
+
+/* セクションタイトル用のスタイル */
+.section-title {
+  @apply mb-4 flex items-center gap-2 text-xl font-bold;
+}
+
+/* リンク用のスタイル */
+.link-style {
+  @apply text-[var(--primary)] hover:underline;
+}
+
+/** inputの基本スタイル */
+.input-style {
+  @apply w-full rounded-md border border-gray-600 bg-white px-3 py-2 text-black placeholder-gray-400 focus:border-[var(--primary)] focus:outline-none;
+}
+
+.input-select {
+  @apply w-full rounded-md text-black focus:border-[var(--primary)] focus:outline-none
+}
+
+.input-radio {
+  @apply block w-full border-[var(--primary)] px-3 py-1 text-[var(--primary)];
+}
+
+.input-active {
+  @apply bg-[var(--primary)] text-white;
+}
+
+/** text */
+.text-primary {
+  @apply text-[var(--primary)];
+}
+.text-warning {
+  @apply text-[var(--warning)];
+}
+.text-danger {
+  @apply text-[var(--danger)];
+}
+.text-info {
+  @apply text-[var(--info)];
+}
+.text-secondary {
+  @apply text-[var(--secondary)];
+}
+
+/** border */
+.border-primary {
+  @apply border-[var(--primary)];
+}
+.border-warning {
+  @apply border-[var(--warning)];
+}
+.border-danger {
+  @apply border-[var(--danger)];
+}
+.border-info {
+  @apply border-[var(--info)];
+}
+.border-secondary {
+  @apply border-[var(--secondary)];
+}
+
+/** bg */
+.bg-primary {
+  @apply bg-[var(--primary)];
+}
+.bg-warning {
+  @apply bg-[var(--warning)];
+}
+.bg-danger {
+  @apply bg-[var(--danger)];
+}
+.bg-info {
+  @apply bg-[var(--info)];
+}
+.bg-secondary {
+  @apply bg-[var(--secondary)];
+}
+
+/** table */
+.table {
+  @apply w-full border-collapse border text-sm border-gray-500;
+
+  .th {
+    @apply font-bold p-2 border border-gray-500;
+  }
+
+  .td {
+    @apply p-2 border border-gray-500;
+  }
+}
