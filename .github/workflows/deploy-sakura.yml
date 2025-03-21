@@ -5,7 +5,8 @@ on:
   push:
     branches:
       - master
-
+    paths:
+      - "backend/**"
 jobs:
   delivery:
     runs-on: [ ubuntu-latest ]
@@ -22,6 +23,7 @@ jobs:
 
       - name: build
         run: |
+          cd backend
           ./gradlew build -x test
 
       - name: Copy to remote server
