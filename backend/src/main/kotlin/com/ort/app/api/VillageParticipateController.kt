@@ -17,6 +17,7 @@ import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -27,7 +28,9 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.server.ResponseStatusException
 
 @Controller
 class VillageParticipateController(
@@ -108,6 +111,28 @@ class VillageParticipateController(
         return "participate-confirm"
     }
 
+    @PostMapping("/api/village/{villageId}/confirm-participate")
+    @ResponseBody
+    private fun apiConfirmParticipate(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
+            ?: throw WolfMansionBusinessException("player not found.")
+        villageCoordinator.assertParticipate(
+            village,
+            player,
+            participateForm.charaId,
+            participateForm.charaName,
+            participateForm.charaShortName,
+            participateForm.charaImageFile,
+            participateForm.joinPassword,
+            participateForm.spectator == true
+        )
+    }
+
     // 入村
     @PostMapping("/village/{villageId}/participate")
     private fun participate(
@@ -168,6 +193,42 @@ class VillageParticipateController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/participate")
+    @ResponseBody
+    private fun apiParticipate(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
+            ?: throw WolfMansionBusinessException("player not found.")
+        val first = participateForm.requestedSkill?.let {
+            CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
+        } ?: Skill(CDef.Skill.おまかせ)
+        val second = participateForm.secondRequestedSkill?.let {
+            CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
+        } ?: Skill(CDef.Skill.おまかせ)
+
+        if (village.setting.chara.isOriginalCharachip && participateForm.charaImageFile == null) {
+            throw WolfMansionBusinessException("キャラクター画像は必須です")
+        }
+        villageCoordinator.participate(
+            village,
+            player,
+            participateForm.charaId,
+            participateForm.charaName!!,
+            participateForm.charaShortName!!,
+            participateForm.charaImageFile,
+            first,
+            second,
+            participateForm.joinMessage!!,
+            participateForm.joinPassword,
+            participateForm.spectator == true,
+            httpServletRequest.getIpAddress()
+        )
+    }
+
     // 参加見学切り替え
     @PostMapping("/village/{villageId}/switch-participate")
     private fun switchParticipate(
@@ -206,6 +267,19 @@ class VillageParticipateController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/switch-participate")
+    @ResponseBody
+    private fun apiSwitchParticipate(
+        @PathVariable villageId: Int,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("myself not found.")
+        villageCoordinator.switchParticipate(village, myself)
+    }
+
     // 希望役職変更
     @PostMapping("/village/{villageId}/change-skill")
     private fun changeSkill(
@@ -237,6 +311,23 @@ class VillageParticipateController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/change-skill")
+    private fun apiChangeSkill(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageChangeRequestSkillForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("myself not found.")
+        val first = CDef.Skill.codeOf(body.requestedSkill!!)?.let { cdef -> Skill(cdef) }
+            ?: throw WolfMansionBusinessException("skill not found.")
+        val second = CDef.Skill.codeOf(body.secondRequestedSkill!!)?.let { cdef -> Skill(cdef) }
+            ?: throw WolfMansionBusinessException("skill not found.")
+        villageCoordinator.changeRequestSkill(village, myself, first, second)
+    }
+
     // 退村
     @PostMapping("/village/{villageId}/leave")
     private fun leave(
@@ -260,6 +351,18 @@ class VillageParticipateController(
         }
         // 最新の日へ
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/leave")
+    private fun apiLeave(
+        @PathVariable villageId: Int,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("myself not found.")
+        villageCoordinator.leave(village, myself)
     }
 
     @GetMapping("/getSelectableCharaList/{villageId}")

@@ -6,10 +6,10 @@ $(function () {
     // ----------------------------------------------
     const villageId = $("[data-village-id]").data('village-id');
     const day = $("[data-day]").data('day');
-    const GET_MESSAGE_URL = contextPath + 'village/getMessageList';
-    const VILLAGE_UPDATE_URL = contextPath + 'village/' + villageId + '/update';
-    const GET_LATEST_MESSAGE_DATETIME_URL = contextPath + 'village/getLatestMessageDatetime';
-    const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
+    const GET_MESSAGE_URL = contextPath + 'api/village/' + villageId + '/messages';
+    const VILLAGE_UPDATE_URL = contextPath + 'api/village/' + villageId + '/update';
+    const GET_LATEST_MESSAGE_DATETIME_URL = contextPath + 'api/village/' + villageId + '/latest-message-datetime';
+    const GET_ANCHOR_MESSAGE_URL = contextPath + 'api/village/anchor-message';
     const GET_ATTACKTARGET_URL = contextPath + 'village/getAttackTargetList';
     const GET_FOOTSTEP_URL = contextPath + 'village/getFootstepList';
     const GET_SELECTABLE_CHARA_URL = contextPath + 'getSelectableCharaList/' + villageId;

@@ -18,37 +18,26 @@ import java.time.format.DateTimeFormatter
 data class VillageMessageListContent(
     /** メッセージリスト */
     var messageList: List<VillageMessageContent>,
-
     /** 村状態メッセージ */
     val villageStatusMessage: String?,
-
     /** コミット状態メッセージ */
     val commitStatusMessage: String?,
-
     /** 突然死候補メッセージ */
     val suddenlyDeathMessage: String?,
-
     /** 最新日付 */
     val latestDay: Int,
-
     /** 総ページ数 */
     val allPageCount: Int,
-
     /** 前のページがあるか */
     val isExistPrePage: Boolean,
-
     /** 次のページがあるか */
     val isExistNextPage: Boolean,
-
     /** 現在のページ番号 */
     val currentPageNum: Int?,
-
     /** 最新を表示か */
     val isDispLatest: Boolean,
-
     /** 表示するページ番号リスト */
     val pageNumList: List<Int>,
-
     /** 最新発言の文字列型日時uuuuMMddHHMiss */
     val latestMessageDatetime: String?
 ) {

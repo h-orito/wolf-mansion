@@ -5,13 +5,8 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
-import jakarta.validation.constraints.NotNull
 
 data class VillageGetMessageListForm(
-    /** 村ID */
-    @NotNull
-    val villageId: Int? = null,
-
     /** 何日目か */
     val day: Int? = null,
 

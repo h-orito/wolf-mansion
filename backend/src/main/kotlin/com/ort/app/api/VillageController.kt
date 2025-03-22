@@ -120,7 +120,7 @@ class VillageController(
     }
 
     // 最終アクセス時間更新、日付更新
-    @PostMapping("/village/{villageId}/update")
+    @PostMapping("/api/village/{villageId}/update")
     @ResponseBody
     private fun villageUpdate(
         @PathVariable villageId: Int

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@typescript-eslint/parser": "^8.27.0",
+    "cookies-next": "^5.1.0",
     "dayjs": "^1.11.13",
     "eslint-config-prettier": "^10.1.1",
     "next": "15.2.3",
@@ -30,6 +31,7 @@
     "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.2.3",
+    "openapi-typescript": "^7.6.1",
     "postcss": "^8.5.3",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "sass": "^1.86.0",

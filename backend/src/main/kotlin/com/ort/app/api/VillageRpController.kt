@@ -14,6 +14,7 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import jakarta.servlet.http.HttpServletRequest
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -23,6 +24,10 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.server.ResponseStatusException
 
 @Controller
 class VillageRpController(
@@ -70,6 +75,20 @@ class VillageRpController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PutMapping("/api/village/{villageId}/my-name")
+    @ResponseBody
+    private fun apiChangeName(
+        @PathVariable villageId: Int,
+        @Validated body: VillageChangeNameForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "ログインしてください")
+        villageCoordinator.changeName(village, myself, body.name!!, body.shortName!!)
+    }
+
     // 簡易メモを変更する
     @PostMapping("/village/{villageId}/memo")
     private fun memo(
@@ -97,6 +116,20 @@ class VillageRpController(
         }
         // 最新の日付を表示
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/memo")
+    @ResponseBody
+    private fun apiMemo(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageMemoForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw ResponseStatusException(HttpStatus.FORBIDDEN, "ログインしてください")
+        villageService.changeMemo(myself, body.memo!!)
     }
 
     // 表情差分を編集する
@@ -133,6 +166,22 @@ class VillageRpController(
         }
         // 最新の日付を表示
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
+    @PutMapping("/api/village/{villageId}/face-type")
+    @ResponseBody
+    private fun apiFaceType(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated @ModelAttribute("faceTypeModifyForm") body: VillageFaceTypeModifyForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("ログインしてください")
+        body.faceTypeList!!.forEach {
+            charaService.updateOriginalCharaImage(it.code!!, it.name!!, it.display!!)
+        }
     }
 
     // 表情差分を追加する
@@ -172,5 +221,24 @@ class VillageRpController(
         }
         // 最新の日付を表示
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/face-type")
+    @ResponseBody
+    private fun apiPostFaceType(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated @ModelAttribute("faceTypeForm") body: VillageFaceTypeForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            villageService.findVillageParticipant(village.id, it.username)
+        } ?: throw WolfMansionBusinessException("ログインしてください")
+        charaService.registerOriginalCharaImage(
+            village.setting.chara.charachipIds.first(),
+            myself.charaId,
+            body.faceTypeName!!,
+            body.image!!
+        )
     }
 }

@@ -1,8 +1,8 @@
 package com.ort.app.api.request
 
-import org.hibernate.validator.constraints.Length
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
+import org.hibernate.validator.constraints.Length
 
 data class PlayerCreateForm(
     /** ユーザID  */
@@ -12,6 +12,7 @@ data class PlayerCreateForm(
     val userId: String? = null,
 
     /** パスワード  */
+    // TODO: DB拡張して72文字までにしたい
     @field:NotNull
     @field:Length(min = 3, max = 12)
     @field:Pattern(regexp = "[a-zA-Z0-9]*")

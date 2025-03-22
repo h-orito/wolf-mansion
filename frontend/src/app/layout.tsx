@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
 import './globals.css'
+import { ServerCookie } from '@/components/cookie/ServerCookie'
 
 const notoSans = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
@@ -41,7 +42,9 @@ export default function RootLayout({
   return (
     <html>
       <body className={`${notoSans.variable} flex justify-center px-2`}>
-        <div className='lg:w-[960px] md:w-[720px] w-full'>{children}</div>
+        <div className='lg:w-[960px] md:w-[720px] w-full'>
+          <ServerCookie>{children}</ServerCookie>
+        </div>
       </body>
     </html>
   )

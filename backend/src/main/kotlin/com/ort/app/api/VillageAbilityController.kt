@@ -15,6 +15,8 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.constraints.NotNull
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -23,7 +25,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.server.ResponseStatusException
 
 @Controller
 class VillageAbilityController(
@@ -64,6 +68,25 @@ class VillageAbilityController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/ability")
+    @ResponseBody
+    private fun apiSetAbility(
+        @PathVariable villageId: Int,  //
+        @RequestBody @Validated body: VillageAbilityForm,  //
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()
+            ?.let { villageService.findVillageParticipant(village.id, it.username) }
+        villageCoordinator.setAbility(
+            village,
+            myself,
+            body.attackerCharaId,
+            body.targetCharaId,
+            body.footstep
+        )
+    }
+
     // 投票セットする
     @PostMapping("/village/{villageId}/setVote")
     private fun setVote(
@@ -92,6 +115,23 @@ class VillageAbilityController(
             model.addAttribute("voteErrorMessage", e.message)
         }
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/vote")
+    @ResponseBody
+    private fun apiSetVote(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageVoteForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()
+            ?.let { villageService.findVillageParticipant(village.id, it.username) }
+        villageCoordinator.setVote(
+            village,
+            myself,
+            body.targetCharaId!!
+        )
     }
 
     // コミットする
@@ -124,6 +164,23 @@ class VillageAbilityController(
         return "redirect:/village/$villageId${request.getRefererQueryString()}#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/commit")
+    @ResponseBody
+    private fun apiCommit(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageCommitForm,
+    ) {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()
+            ?.let { villageService.findVillageParticipant(village.id, it.username) }
+        villageCoordinator.setCommit(
+            village,
+            myself,
+            body.commit!!
+        )
+    }
+
     // 襲撃対象候補取得
     @GetMapping("/village/getAttackTargetList")
     @ResponseBody
@@ -140,6 +197,22 @@ class VillageAbilityController(
         val targets = villageCoordinator.getAttackableTargets(village, myself, form.charaId!!)
         return VillageGetAttackTargetListContent(targets)
     }
+
+    @GetMapping("/api/village/{villageId}/attack-target-list")
+    @ResponseBody
+    private fun attackTargetList(
+        @PathVariable villageId: Int,
+        @Validated form: AttackTargetListRequest,
+    ): VillageGetAttackTargetListContent {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()
+            ?.let { villageService.findVillageParticipant(village.id, it.username) }
+        val targets = villageCoordinator.getAttackableTargets(village, myself, form.charaId)
+        return VillageGetAttackTargetListContent(targets)
+    }
+
+    data class AttackTargetListRequest(val charaId: Int = 0)
 
     // 足音候補取得
     @GetMapping("/village/getFootstepList")
@@ -158,4 +231,26 @@ class VillageAbilityController(
             villageCoordinator.getSelectableFootstepList(village, myself, form.charaId, form.targetCharaId)
         return VillageGetFootstepListContent(footsteps)
     }
+
+    @GetMapping("/api/village/{villageId}/footstep-list")
+    @ResponseBody
+    private fun footstepList(
+        @PathVariable villageId: Int,
+        @Validated body: FootStepListRequest,
+    ): VillageGetFootstepListContent {
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. id: $villageId")
+        val myself = WolfMansionUserInfoUtil.getUserInfo()
+            ?.let { villageService.findVillageParticipant(village.id, it.username) }
+        val footsteps = villageCoordinator.getSelectableFootstepList(village, myself, body.charaId, body.targetCharaId)
+        return VillageGetFootstepListContent(footsteps)
+    }
+
+    data class FootStepListRequest(
+        /** 実行者キャラID(狼のみ)  */
+        val charaId: Int? = null,
+        /** 対象キャラID  */
+        @field:NotNull
+        val targetCharaId: Int? = null
+    )
 }
