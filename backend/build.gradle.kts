@@ -42,17 +42,16 @@ dependencies {
     }
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // thymeleaf
-//    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
     implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.0.RELEASE")
     implementation("org.thymeleaf:thymeleaf:3.1.3.RELEASE")
-//    implementation("org.thymeleaf:thymeleaf-spring4:3.1.3.RELEASE")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.4.0")
     // dbflute, mysql
     implementation("org.dbflute:dbflute-runtime:1.2.8")
     implementation("mysql:mysql-connector-java:8.0.25")
     // jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
+    // swagger
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
