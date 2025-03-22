@@ -2,7 +2,6 @@ package com.ort.app.api
 
 import com.ort.app.api.request.VillageLeaveForm
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.cbean.VillageDayCB
@@ -14,9 +13,11 @@ import com.ort.dbflute.exbhv.VoteBhv
 import com.ort.dbflute.exentity.VillagePlayer
 import com.ort.dbflute.exentity.Vote
 import org.springframework.stereotype.Controller
+import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
 import java.time.LocalDateTime
 import java.util.function.Consumer
@@ -42,6 +43,21 @@ class AdminController(
             ?: return "redirect:/village/$villageId#bottom"
         villageCoordinator.leave(village, participant)
         return "redirect:/village/$villageId#bottom"
+    }
+
+    // 管理者機能：強制退村
+    @PostMapping("/api/admin/village/{villageId}/leave")
+    @ResponseBody
+    private fun apiLeave(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageLeaveForm
+    ) {
+        // 退村させる
+        val village = villageService.findVillage(villageId)
+            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val participant = villageService.findVillageParticipant(body.villagePlayerId!!)
+            ?: throw WolfMansionBusinessException("participant not found. id: ${body.villagePlayerId}")
+        villageCoordinator.leave(village, participant)
     }
 
     // 管理者機能：全員アクセス
@@ -85,9 +101,21 @@ class AdminController(
     }
 
     // 管理者機能：参加プレイヤー
-    @GetMapping("/admin/village/{villageId}/player", produces=["application/json;charset=UTF-8"])
+    @GetMapping("/admin/village/{villageId}/player", produces = ["application/json;charset=UTF-8"])
     @ResponseBody
     private fun player(@PathVariable villageId: Int): List<VillageCharaPlayerContent> {
+        return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
+            cb.setupSelect_Player()
+            cb.query().setVillageId_Equal(villageId)
+            cb.query().setIsGone_Equal_False()
+            cb.query().addOrderBy_VillagePlayerId_Asc()
+        }.map { VillageCharaPlayerContent(charaName = it.charaName, playerName = it.player.get().playerName) }
+    }
+
+    // 管理者機能：参加プレイヤー
+    @GetMapping("/api/admin/village/{villageId}/player", produces = ["application/json;charset=UTF-8"])
+    @ResponseBody
+    private fun apiPlayer(@PathVariable villageId: Int): List<VillageCharaPlayerContent> {
         return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
             cb.setupSelect_Player()
             cb.query().setVillageId_Equal(villageId)

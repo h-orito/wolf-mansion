@@ -19,7 +19,7 @@ class WolfMansionWebSecurityConfig(
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         return http.authorizeHttpRequests { authz ->
             authz
-                .requestMatchers("/admin/**")
+                .requestMatchers("/admin/**", "/api/admin/**")
                 .hasRole("ADMIN")
                 .requestMatchers("/app/**", "/lib/**", "/**")
                 .permitAll()
