@@ -6,6 +6,8 @@ import com.ort.app.api.view.CharaGroupListContent
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
@@ -29,6 +31,12 @@ class CharaController(
         return "chara-list"
     }
 
+    @GetMapping("/api/chara-groups")
+    @ResponseBody
+    private fun apiCharaGroups(): Charachips {
+        return charaService.findCharachips()
+    }
+
     @GetMapping("/chara-group/{charaGroupId}")
     private fun charaGroup(@PathVariable charaGroupId: Int, model: Model): String {
         val charachip = charaService.findCharachip(charaGroupId, false)
@@ -36,6 +44,13 @@ class CharaController(
         val content = CharaGroupContent(charachip)
         model.addAttribute("content", content)
         return "chara"
+    }
+
+    @GetMapping("/api/chara-group/{charaGroupId}")
+    @ResponseBody
+    private fun apiCharaGroup(@PathVariable charaGroupId: Int): Charachip {
+        return charaService.findCharachip(charaGroupId, false)
+            ?: throw WolfMansionBusinessException("charachip not found. $charaGroupId")
     }
 
     @GetMapping("/getCharacterList")
@@ -57,7 +72,8 @@ class CharaController(
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return null
         val participant = villageService.findVillageParticipant(villageId, userInfo.username) ?: return null
         val village = villageService.findVillage(villageId) ?: return null
-        val chara = charaService.findChara(participant.charaId, village.setting.chara.isOriginalCharachip) ?: return null
+        val chara =
+            charaService.findChara(participant.charaId, village.setting.chara.isOriginalCharachip) ?: return null
         return chara.images.list.firstOrNull { it.faceType.code == faceTypeCode }?.url
     }
 }

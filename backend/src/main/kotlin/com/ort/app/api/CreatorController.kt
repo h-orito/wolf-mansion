@@ -18,7 +18,12 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.setting.*
+import com.ort.app.domain.model.village.setting.SayRestriction
+import com.ort.app.domain.model.village.setting.SecretSayRange
+import com.ort.app.domain.model.village.setting.VillageOrganize
+import com.ort.app.domain.model.village.setting.VillageRandomOrganize
+import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.app.domain.model.village.setting.toModel
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
@@ -27,7 +32,13 @@ import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.WebDataBinder
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.InitBinder
+import org.springframework.web.bind.annotation.ModelAttribute
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.ResponseBody
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -104,6 +115,26 @@ class CreatorController(
         return "redirect:/village/$villageId#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/settings")
+    @ResponseBody
+    private fun apiStoreSettings(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated @ModelAttribute("settingsForm") body: VillageSettingForm,
+    ) {
+        val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
+        if (village.setting.chara.isOriginalCharachip && body.joinPassword.isNullOrEmpty()) {
+            throw WolfMansionBusinessException("オリジナルキャラクターを登録する村ではパスワードは必須です")
+        }
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        try {
+            creatorCoordinator.saveSettings(merge(village, body))
+        } catch (e: WolfMansionBusinessException) {
+            throw WolfMansionBusinessException(e.message!!)
+        }
+    }
+
     // 村建て機能：強制退村
     @PostMapping("/village/{villageId}/kick")
     private fun kick(
@@ -116,6 +147,18 @@ class CreatorController(
         val charaId = kickForm.charaId ?: throw WolfMansionBusinessException("存在しない参加者です")
         creatorCoordinator.kick(villageId, charaId)
         return "redirect:/village/$villageId#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/kick")
+    @ResponseBody
+    private fun apiKick(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageKickForm
+    ) {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        creatorCoordinator.kick(villageId, body.charaId!!)
     }
 
     // 村建て機能：村建て発言確認画面へ
@@ -141,6 +184,18 @@ class CreatorController(
         return "creator-say-confirm"
     }
 
+    @PostMapping("/api/village/{villageId}/creator-say-confirm")
+    @ResponseBody
+    private fun apiSayConfirm(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageSayForm,
+    ) {
+        // TODO: 発言確認みたいにMessageViewを返すべき
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+    }
+
     // 村建て機能：村建て発言
     @PostMapping("/village/{villageId}/creator-say")
     private fun creatorSay(
@@ -162,6 +217,18 @@ class CreatorController(
         return "redirect:/village/$villageId#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/creator-say")
+    @ResponseBody
+    private fun apiCreatorSay(
+        @PathVariable villageId: Int,
+        @RequestBody @Validated body: VillageSayForm,
+    ) {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        creatorCoordinator.say(villageId, body.message!!, body.convertDisable ?: false)
+    }
+
     // 村建て機能：廃村
     @PostMapping("/village/{villageId}/cancel")
     private fun cancel(
@@ -172,6 +239,15 @@ class CreatorController(
         }
         creatorCoordinator.cancel(villageId)
         return "redirect:/village/$villageId#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/cancel")
+    @ResponseBody
+    private fun apiCancel(@PathVariable villageId: Int) {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        creatorCoordinator.cancel(villageId)
     }
 
     // 村建て機能：エピローグ延長
@@ -186,6 +262,15 @@ class CreatorController(
         return "redirect:/village/$villageId#bottom"
     }
 
+    @PostMapping("/api/village/{villageId}/extend-epilogue")
+    @ResponseBody
+    private fun apiExtend(@PathVariable villageId: Int) {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        creatorCoordinator.extendEpilogue(villageId)
+    }
+
     // 村建て機能：エピローグ短縮
     @PostMapping("/village/{villageId}/shorten-epilogue")
     private fun shorten(
@@ -196,6 +281,15 @@ class CreatorController(
         }
         creatorCoordinator.shortenEpilogue(villageId)
         return "redirect:/village/$villageId#bottom"
+    }
+
+    @PostMapping("/api/village/{villageId}/shorten-epilogue")
+    @ResponseBody
+    private fun apiShorten(@PathVariable villageId: Int) {
+        if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
+            throw WolfMansionBusinessException("この機能は村建てのみ使用可能です。")
+        }
+        creatorCoordinator.shortenEpilogue(villageId)
     }
 
     private fun setSettingsIndexModel(

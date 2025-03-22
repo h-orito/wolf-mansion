@@ -47,8 +47,8 @@ class WolfMansionWebSecurityConfig(
             it.ignoringRequestMatchers(
                 "/village/*/confirm",
                 "/village/*/say",
-                "/api/login",
-                "/village/*/update"
+                "/api/*",
+                "/village/*/update",
             )
         }.build()
     }
