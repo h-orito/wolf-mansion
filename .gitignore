@@ -25,5 +25,6 @@ dist/
 nbdist/
 .nb-gradle/
 
+*.log
 /log/
-dbflute_wolf_mansiondb/log/*
+backend/dbflute_wolf_mansiondb/log/*.log

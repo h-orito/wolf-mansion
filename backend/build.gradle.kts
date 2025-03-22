@@ -47,7 +47,7 @@ dependencies {
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.4.0")
     // dbflute, mysql
     implementation("org.dbflute:dbflute-runtime:1.2.8")
-    implementation("mysql:mysql-connector-java:8.0.25")
+    implementation("mysql:mysql-connector-java:8.0.33")
     // jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     // swagger

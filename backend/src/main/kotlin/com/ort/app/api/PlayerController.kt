@@ -15,7 +15,6 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import jakarta.servlet.http.Cookie
 import jakarta.servlet.http.HttpServletResponse
-import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -27,13 +26,14 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class PlayerController(
     private val playerService: PlayerService,
     private val playerCoordinator: PlayerCoordinator,
     private val charaService: CharaService,
-    private val passwordEncoder: PasswordEncoder,
     private val playerChangePasswordFormValidator: PlayerChangePasswordFormValidator
 ) {
 
@@ -96,6 +96,20 @@ class PlayerController(
         return "redirect:/"
     }
 
+    @PostMapping("/api/new-player")
+    @ResponseBody
+    private fun apiCreatePlayer(
+        @RequestBody @Validated body: PlayerCreateForm, //
+        @CookieValue(name = COOKIE_NAME_ID_REGISTER, required = false) isRecentRegistered: Boolean?, //
+        response: HttpServletResponse, //
+    ) {
+        if (isRecentRegistered == true) {
+            throw WolfMansionBusinessException("連続して複数のIDを取得することはできません。時間をおいてから再度取得してください。")
+        }
+        playerService.registerPlayer(body.userId!!, body.password!!)
+        registerCookie(response)
+    }
+
     // パスワード変更
     @GetMapping("/change-password")
     private fun changePasswordIndex(model: Model): String {
@@ -119,6 +133,15 @@ class PlayerController(
         return "redirect:/"
     }
 
+    @PostMapping("/api/change-password")
+    private fun apiChangePassword(
+        @RequestBody @Validated body: PlayerChangePasswordForm,  //
+    ) {
+        val userInfo = WolfMansionUserInfoUtil.getUserInfo()
+            ?: throw WolfMansionBusinessException("ユーザ情報が取得できませんでした")
+        playerService.updatePassword(userInfo.username, body.password!!)
+    }
+
     // ユーザー一覧
     @GetMapping("/user-list")
     private fun index(form: UserListForm, model: Model): String {
@@ -126,6 +149,13 @@ class PlayerController(
         val content = PlayerListContent(players)
         model.addAttribute("content", content)
         return "player-list"
+    }
+
+    @GetMapping("/api/user-list")
+    @ResponseBody
+    private fun apiUserList(form: UserListForm): PlayerListContent {
+        val players = playerService.findAllPlayers(pageSize = 30, pageNum = form.pageNum ?: 1)
+        return PlayerListContent(players)
     }
 
     // ユーザ情報
@@ -155,6 +185,26 @@ class PlayerController(
         return "user"
     }
 
+    @GetMapping("/api/user")
+    @ResponseBody
+    private fun apiUser(request: ApiUserRequest): PlayerRecordsContent {
+        val player = playerService.findPlayer(request.userName)
+            ?: throw WolfMansionBusinessException("player not found. name: ${request.userName}")
+        val playerRecords = playerCoordinator.findPlayerRecords(player)
+        val originalCharachipVillages =
+            playerRecords.participateVillageList.filter { it.village.setting.chara.isOriginalCharachip }
+        val originalCharaIdList = originalCharachipVillages.map { it.participant.charaId }
+        val originalCharas = charaService.findCharasByCharachipId(originalCharaIdList, true)
+        val charachipVillages =
+            playerRecords.participateVillageList.filterNot { it.village.setting.chara.isOriginalCharachip }
+        val charaIdList = charachipVillages.map { it.participant.charaId }
+        val charas = charaService.findCharasByCharachipId(charaIdList, false)
+
+        return PlayerRecordsContent(playerRecords, charas, originalCharas, player.twitterUserName, player.introduction)
+    }
+
+    data class ApiUserRequest(val userName: String = "")
+
     @PostMapping("/user-detail")
     private fun userDetail(
         @Validated @ModelAttribute("userDetailForm") form: UserDetailForm,
@@ -167,6 +217,14 @@ class PlayerController(
         }
         playerService.updatePlayerDetail(username, form.twitterUserName, form.introduction)
         return "redirect:/user/${userInfo.username}"
+    }
+
+    @PostMapping("/api/user-detail")
+    @ResponseBody
+    private fun apiUserDetail(@RequestBody @Validated body: UserDetailForm) {
+        val userInfo = WolfMansionUserInfoUtil.getUserInfo()
+            ?: throw WolfMansionBusinessException("ユーザ情報が取得できませんでした")
+        playerService.updatePlayerDetail(userInfo.username, body.twitterUserName, body.introduction)
     }
 
     private fun setIndexModel(form: PlayerCreateForm, model: Model) {

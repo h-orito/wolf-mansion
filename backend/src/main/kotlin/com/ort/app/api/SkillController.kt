@@ -45,6 +45,8 @@ class SkillController(
         }
     }
 
+    // TODO: /api/skills/search
+
     private fun List<Skill>.filterByVillageSkill(villageId: Int): List<Skill> {
         val village = villageService.findVillage(villageId) ?: return this
         // 闇鍋は非対応

@@ -8,18 +8,26 @@ import com.ort.app.api.view.VillageAnchorMessagesContent
 import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
 import com.ort.app.api.view.VillageParticipantsContent
-import com.ort.app.application.service.*
+import com.ort.app.application.service.AbilityService
+import com.ort.app.application.service.CharaService
+import com.ort.app.application.service.CommitService
+import com.ort.app.application.service.MessageService
+import com.ort.app.application.service.PlayerService
+import com.ort.app.application.service.VillageService
+import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.commit.Commits
 import com.ort.app.domain.model.vote.Votes
 import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.server.ResponseStatusException
 import java.time.format.DateTimeFormatter
 import java.util.regex.Pattern
 
@@ -34,19 +42,16 @@ class VillageMessageController(
     private val abilityService: AbilityService,
 ) {
     // 発言取得
-    @GetMapping("/village/getMessageList")
+    @GetMapping("/api/village/{villageId}/messages")
     @ResponseBody
     private fun getDayMessageList(
+        @PathVariable villageId: Int,
         @Validated form: VillageGetMessageListForm,
-        result: BindingResult
     ): VillageMessageListContent {
-        if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village = villageService.findVillage(villageId, excludeGone = false)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. villageId: $villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
         val myselfPlayer = user?.let { playerService.findPlayer(user.username) }
         // 発言取得
         val query = form.toMessageQuery(village)
@@ -77,15 +82,16 @@ class VillageMessageController(
     }
 
     // 最終発言時間取得
-    @GetMapping("/village/getLatestMessageDatetime")
+    @GetMapping("/api/village/{villageId}/latest-message-datetime")
     @ResponseBody
     private fun getLatestMessageDatetime(
+        @PathVariable villageId: Int,
         @Validated form: VillageGetMessageListForm,
         result: BindingResult
     ): VillageLatestMessageDatetimeContent {
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village = villageService.findVillage(villageId, excludeGone = false)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. villageId: $villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val myself = user?.let {
             villageService.findVillageParticipant(village.id, it.username)
@@ -98,19 +104,16 @@ class VillageMessageController(
     }
 
     // アンカー発言取得
-    @GetMapping("/village/getAnchorMessage")
+    @GetMapping("/api/village/{villageId}/anchor-message")
     @ResponseBody
     private fun getAnchorMessage(
+        @PathVariable villageId: Int,
         @Validated form: VillageGetAnchorMessageForm,
-        result: BindingResult
     ): VillageAnchorMessageContent {
-        if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village = villageService.findVillage(villageId, excludeGone = false)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. villageId: $villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
         val player = user?.let { playerService.findPlayer(it.username) }
         // 発言取得
         val message = messageService.findMessage(village, myself, player, form.messageType!!, form.messageNumber!!)
@@ -124,20 +127,16 @@ class VillageMessageController(
     }
 
     // 複数アンカー発言取得
-    @GetMapping("/village/{villageId}/getAnchorMessages")
+    @GetMapping("/api/village/{villageId}/anchor-messages")
     @ResponseBody
     private fun villageMessage(
         @PathVariable villageId: Int,
         @Validated form: VillageMessageForm,
-        result: BindingResult
     ): VillageAnchorMessagesContent {
-        if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
         val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. villageId: $villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
         val player = user?.let { playerService.findPlayer(it.username) }
         // 発言取得
         val anchors = Anchors.of(form.anchors!!)
@@ -178,12 +177,13 @@ class VillageMessageController(
     }
 
     // 参加者一覧取得
-    @GetMapping("/village/{villageId}/getParticipants")
+    @GetMapping("/api/village/{villageId}/participants")
     @ResponseBody
     private fun getParticipants(
         @PathVariable villageId: Int
     ): VillageParticipantsContent {
-        val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
+        val village = villageService.findVillage(villageId)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found. villageId: $villageId")
         if (!village.status.isSettled()) throw WolfMansionBusinessException("invalid village status.")
         val players = playerService.findPlayers(villageId)
         return VillageParticipantsContent(village, players)

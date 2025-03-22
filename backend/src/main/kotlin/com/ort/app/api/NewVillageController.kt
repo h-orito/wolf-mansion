@@ -11,6 +11,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
+import com.ort.app.fw.exception.WolfMansionBadRequestException
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import org.springframework.stereotype.Controller
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -106,6 +109,22 @@ class NewVillageController(
         return "new-village-confirm"
     }
 
+    @PostMapping("/api/new-village/confirm")
+    @ResponseBody
+    private fun apiNewVillageConfirm(
+        @RequestBody @Validated @ModelAttribute("villageForm") villageForm: NewVillageForm,
+    ) {
+        val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            playerService.findPlayer(it.username)
+        } ?: throw WolfMansionBadRequestException("player not found.")
+        val isOriginal = villageForm.shouldOriginalImage!!
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!, isOriginal)
+        if (!isOriginal && charachips.list.size != villageForm.characterSetId!!.size) {
+            throw WolfMansionBadRequestException("charachip not found.")
+        }
+        villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
+    }
+
     // 新規村作成
     @PostMapping("/new-village/create")
     private fun createVillage(
@@ -143,6 +162,33 @@ class NewVillageController(
         }
         return "redirect:/village/${village.id}#bottom"
     }
+
+    @PostMapping("/api/new-village/create")
+    @ResponseBody
+    private fun apiCreateVillage(
+        @RequestBody @Validated @ModelAttribute("villageForm") villageForm: NewVillageForm,
+    ): NewVillageResponse {
+        val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
+            playerService.findPlayer(it.username)
+        } ?: throw WolfMansionBadRequestException("player not found.")
+        val isOriginal = villageForm.shouldOriginalImage!!
+        val charachips = charaService.findCharachips(villageForm.characterSetId!!, isOriginal)
+        if (!isOriginal && charachips.list.size != villageForm.characterSetId!!.size) {
+            throw WolfMansionBadRequestException("charachip not found.")
+        }
+        villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
+        val village = villageCoordinator.registerVillage(
+            villageForm.toVillage(player),
+            villageForm.dummyCharaName!!,
+            villageForm.dummyCharaShortName!!,
+            villageForm.dummyCharaImageFile,
+            villageForm.dummyJoinMessage!!,
+            villageForm.dummyDay1Message
+        )
+        return NewVillageResponse(village.id)
+    }
+
+    data class NewVillageResponse(val villageId: Int)
 
     // ===================================================================================
     //                                                                        Assist Logic

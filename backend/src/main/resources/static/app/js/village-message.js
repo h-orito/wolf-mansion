@@ -5,8 +5,8 @@ $(function () {
     // def
     // ----------------------------------------------
     const villageId = $("[data-village-id]").data('village-id');
-    const GET_MESSAGE_URL = contextPath + 'village/' + villageId + '/getAnchorMessages';
-    const GET_ANCHOR_MESSAGE_URL = contextPath + 'village/getAnchorMessage';
+    const GET_MESSAGE_URL = contextPath + 'api/village/' + villageId + '/anchor-messages';
+    const GET_ANCHOR_MESSAGE_URL = contextPath + 'api/village/' + villageId +'/anchor-message';
     const messageTemplate = Handlebars.compile($("#message-template").html());
     const messagePartialTemplate = Handlebars.compile($("#message-partial-template").html());
     Handlebars.registerPartial('messagePartial', messagePartialTemplate);
