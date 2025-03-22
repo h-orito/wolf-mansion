@@ -16,58 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of PLAYER as TABLE. <br>
  * プレイヤー
- * <pre>
- * [primary-key]
- *     PLAYER_ID
- *
- * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     PLAYER_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     AUTHORITY, PLAYER_DETAIL(AsOne)
- *
- * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, PLAYER_DETAIL
- *
- * [foreign property]
- *     authority, playerDetailAsOne
- *
- * [referrer property]
- *     messageList, villagePlayerList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer playerId = entity.getPlayerId();
- * String playerName = entity.getPlayerName();
- * String playerPassword = entity.getPlayerPassword();
- * String authorityCode = entity.getAuthorityCode();
- * Boolean isRestrictedParticipation = entity.getIsRestrictedParticipation();
- * Boolean shouldCheckAccessInfo = entity.getShouldCheckAccessInfo();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setPlayerId(playerId);
- * entity.setPlayerName(playerName);
- * entity.setPlayerPassword(playerPassword);
- * entity.setAuthorityCode(authorityCode);
- * entity.setIsRestrictedParticipation(isRestrictedParticipation);
- * entity.setShouldCheckAccessInfo(shouldCheckAccessInfo);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsPlayer extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -155,7 +103,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Authority getAuthorityCodeAsAuthority() {
-        return CDef.Authority.codeOf(getAuthorityCode());
+        return CDef.Authority.of(getAuthorityCode()).orElse(null);
     }
 
     /**
@@ -176,7 +124,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsRestrictedParticipationAsFlg() {
-        return CDef.Flg.codeOf(getIsRestrictedParticipation());
+        return CDef.Flg.of(getIsRestrictedParticipation()).orElse(null);
     }
 
     /**

@@ -22,35 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of VILLAGE_PLAYER_DEAD_HISTORY as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID
- *
- * [column]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID, VILLAGE_PLAYER_ID, DAY, IS_DEAD, DEAD_REASON_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     DEAD_REASON, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     deadReason, villagePlayer
- *
- * [referrer property]
- *     
- * </pre>
+ * The behavior of VILLAGE_PLAYER_DEAD_HISTORY as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerDeadHistoryBhv extends AbstractBehaviorWritable<VillagePlayerDeadHistory, VillagePlayerDeadHistoryCB> {
@@ -605,7 +577,7 @@ public abstract class BsVillagePlayerDeadHistoryBhv extends AbstractBehaviorWrit
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">villagePlayerDeadHistoryBhv</span>.<span style="color: #CC4747">queryDelete</span>(villagePlayerDeadHistory, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerDeadHistoryBhv</span>.<span style="color: #CC4747">queryDelete</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
@@ -854,19 +826,22 @@ public abstract class BsVillagePlayerDeadHistoryBhv extends AbstractBehaviorWrit
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @javax.annotation.Resource(name="behaviorCommandInvoker")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @javax.annotation.Resource(name="behaviorSelector")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @javax.annotation.Resource(name="commonColumnAutoSetupper")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }

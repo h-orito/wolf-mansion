@@ -3,7 +3,7 @@ package com.ort.dbflute.exentity;
 import com.ort.dbflute.bsentity.BsAuthority;
 
 /**
- * The entity of authority.
+ * The entity of AUTHORITY.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

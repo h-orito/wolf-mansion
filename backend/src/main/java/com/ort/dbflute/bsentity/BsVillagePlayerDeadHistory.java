@@ -16,56 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_DEAD_HISTORY as TABLE. <br>
  * 村参加者生死履歴
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID
- *
- * [column]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID, VILLAGE_PLAYER_ID, DAY, IS_DEAD, DEAD_REASON_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_DEAD_HISTORY_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     DEAD_REASON, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     deadReason, villagePlayer
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villagePlayerDeadHistoryId = entity.getVillagePlayerDeadHistoryId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * Integer day = entity.getDay();
- * Boolean isDead = entity.getIsDead();
- * String deadReasonCode = entity.getDeadReasonCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillagePlayerDeadHistoryId(villagePlayerDeadHistoryId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setDay(day);
- * entity.setIsDead(isDead);
- * entity.setDeadReasonCode(deadReasonCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -139,7 +89,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsDeadAsFlg() {
-        return CDef.Flg.codeOf(getIsDead());
+        return CDef.Flg.of(getIsDead()).orElse(null);
     }
 
     /**
@@ -160,7 +110,7 @@ public abstract class BsVillagePlayerDeadHistory extends AbstractEntity implemen
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.DeadReason getDeadReasonCodeAsDeadReason() {
-        return CDef.DeadReason.codeOf(getDeadReasonCode());
+        return CDef.DeadReason.of(getDeadReasonCode()).orElse(null);
     }
 
     /**

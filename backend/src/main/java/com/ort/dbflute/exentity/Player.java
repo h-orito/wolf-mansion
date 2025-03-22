@@ -3,7 +3,7 @@ package com.ort.dbflute.exentity;
 import com.ort.dbflute.bsentity.BsPlayer;
 
 /**
- * The entity of player.
+ * The entity of PLAYER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

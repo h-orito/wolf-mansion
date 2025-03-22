@@ -16,56 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of ORIGINAL_CHARA_IMAGE as TABLE. <br>
  * オリジナルキャラクター画像
- * <pre>
- * [primary-key]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [column]
- *     ORIGINAL_CHARA_IMAGE_ID, ORIGINAL_CHARA_ID, FACE_TYPE_NAME, CHARA_IMG_URL, IS_DISPLAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ORIGINAL_CHARA
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     originalChara
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer originalCharaImageId = entity.getOriginalCharaImageId();
- * Integer originalCharaId = entity.getOriginalCharaId();
- * String faceTypeName = entity.getFaceTypeName();
- * String charaImgUrl = entity.getCharaImgUrl();
- * Boolean isDisplay = entity.getIsDisplay();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setOriginalCharaImageId(originalCharaImageId);
- * entity.setOriginalCharaId(originalCharaId);
- * entity.setFaceTypeName(faceTypeName);
- * entity.setCharaImgUrl(charaImgUrl);
- * entity.setIsDisplay(isDisplay);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsOriginalCharaImage extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -139,7 +89,7 @@ public abstract class BsOriginalCharaImage extends AbstractEntity implements Dom
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsDisplayAsFlg() {
-        return CDef.Flg.codeOf(getIsDisplay());
+        return CDef.Flg.of(getIsDisplay()).orElse(null);
     }
 
     /**

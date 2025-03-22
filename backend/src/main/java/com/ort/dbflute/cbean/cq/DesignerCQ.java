@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsDesignerCQ;
 
 /**
- * The condition-query of designer.
+ * The condition-query of DESIGNER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

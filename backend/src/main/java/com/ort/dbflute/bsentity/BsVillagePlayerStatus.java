@@ -16,54 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_STATUS as TABLE. <br>
  * 村参加者ステータス
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_STATUS_ID
- *
- * [column]
- *     VILLAGE_PLAYER_STATUS_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, VILLAGE_PLAYER_STATUS_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_STATUS_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_PLAYER, VILLAGE_PLAYER_STATUS_TYPE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villagePlayerByToVillagePlayerId, villagePlayerByVillagePlayerId, villagePlayerStatusType
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villagePlayerStatusId = entity.getVillagePlayerStatusId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * Integer toVillagePlayerId = entity.getToVillagePlayerId();
- * String villagePlayerStatusCode = entity.getVillagePlayerStatusCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillagePlayerStatusId(villagePlayerStatusId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setToVillagePlayerId(toVillagePlayerId);
- * entity.setVillagePlayerStatusCode(villagePlayerStatusCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerStatus extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -134,7 +86,7 @@ public abstract class BsVillagePlayerStatus extends AbstractEntity implements Do
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.VillagePlayerStatusType getVillagePlayerStatusCodeAsVillagePlayerStatusType() {
-        return CDef.VillagePlayerStatusType.codeOf(getVillagePlayerStatusCode());
+        return CDef.VillagePlayerStatusType.of(getVillagePlayerStatusCode()).orElse(null);
     }
 
     /**

@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsVillageCQ;
 
 /**
- * The condition-query of village.
+ * The condition-query of VILLAGE.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

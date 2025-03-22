@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean;
 import com.ort.dbflute.cbean.bs.BsDesignerCB;
 
 /**
- * The condition-bean of designer.
+ * The condition-bean of DESIGNER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

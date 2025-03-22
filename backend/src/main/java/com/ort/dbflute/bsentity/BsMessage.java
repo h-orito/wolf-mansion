@@ -16,78 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of MESSAGE as TABLE. <br>
  * メッセージ
- * <pre>
- * [primary-key]
- *     MESSAGE_ID
- *
- * [column]
- *     MESSAGE_ID, VILLAGE_ID, VILLAGE_PLAYER_ID, TO_VILLAGE_PLAYER_ID, PLAYER_ID, DAY, MESSAGE_TYPE_CODE, MESSAGE_NUMBER, MESSAGE_CONTENT, MESSAGE_DATETIME, IS_CONVERT_DISABLE, FACE_TYPE_CODE, CHARA_NAME, CHARA_SHORT_NAME, TO_CHARA_NAME, TO_CHARA_SHORT_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     MESSAGE_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     MESSAGE_TYPE, PLAYER, VILLAGE_PLAYER, VILLAGE_DAY
- *
- * [referrer table]
- *     MESSAGE_SENDTO
- *
- * [foreign property]
- *     messageType, player, villagePlayerByToVillagePlayerId, villageDay, villagePlayerByVillagePlayerId
- *
- * [referrer property]
- *     messageSendtoList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer messageId = entity.getMessageId();
- * Integer villageId = entity.getVillageId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * Integer toVillagePlayerId = entity.getToVillagePlayerId();
- * Integer playerId = entity.getPlayerId();
- * Integer day = entity.getDay();
- * String messageTypeCode = entity.getMessageTypeCode();
- * Integer messageNumber = entity.getMessageNumber();
- * String messageContent = entity.getMessageContent();
- * java.time.LocalDateTime messageDatetime = entity.getMessageDatetime();
- * Boolean isConvertDisable = entity.getIsConvertDisable();
- * String faceTypeCode = entity.getFaceTypeCode();
- * String charaName = entity.getCharaName();
- * String charaShortName = entity.getCharaShortName();
- * String toCharaName = entity.getToCharaName();
- * String toCharaShortName = entity.getToCharaShortName();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setMessageId(messageId);
- * entity.setVillageId(villageId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setToVillagePlayerId(toVillagePlayerId);
- * entity.setPlayerId(playerId);
- * entity.setDay(day);
- * entity.setMessageTypeCode(messageTypeCode);
- * entity.setMessageNumber(messageNumber);
- * entity.setMessageContent(messageContent);
- * entity.setMessageDatetime(messageDatetime);
- * entity.setIsConvertDisable(isConvertDisable);
- * entity.setFaceTypeCode(faceTypeCode);
- * entity.setCharaName(charaName);
- * entity.setCharaShortName(charaShortName);
- * entity.setToCharaName(toCharaName);
- * entity.setToCharaShortName(toCharaShortName);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsMessage extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -209,7 +137,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.MessageType getMessageTypeCodeAsMessageType() {
-        return CDef.MessageType.codeOf(getMessageTypeCode());
+        return CDef.MessageType.of(getMessageTypeCode()).orElse(null);
     }
 
     /**
@@ -230,7 +158,7 @@ public abstract class BsMessage extends AbstractEntity implements DomainEntity, 
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsConvertDisableAsFlg() {
-        return CDef.Flg.codeOf(getIsConvertDisable());
+        return CDef.Flg.of(getIsConvertDisable()).orElse(null);
     }
 
     /**

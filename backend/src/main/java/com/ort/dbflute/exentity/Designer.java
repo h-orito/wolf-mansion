@@ -3,7 +3,7 @@ package com.ort.dbflute.exentity;
 import com.ort.dbflute.bsentity.BsDesigner;
 
 /**
- * The entity of designer.
+ * The entity of DESIGNER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

@@ -16,7 +16,7 @@ data class RuleContent(
         val skillList: List<SkillContent>
     ) {
         constructor(camp: Camp) : this(
-            code = camp.code.toLowerCase(),
+            code = camp.code.lowercase(),
             name = camp.name,
             skillList = Skills.all().filterNotSomeone().filterByCamp(camp.toCdef()).list.map { SkillContent(it) }
         )
@@ -37,7 +37,7 @@ data class RuleContent(
         constructor(
             skill: Skill
         ) : this(
-            code = skill.code.toLowerCase(),
+            code = skill.code.lowercase(),
             name = skill.name
         )
     }

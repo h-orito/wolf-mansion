@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsMessageCQ;
 
 /**
- * The condition-query of message.
+ * The condition-query of MESSAGE.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

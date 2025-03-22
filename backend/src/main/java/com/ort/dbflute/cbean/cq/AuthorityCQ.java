@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsAuthorityCQ;
 
 /**
- * The condition-query of authority.
+ * The condition-query of AUTHORITY.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

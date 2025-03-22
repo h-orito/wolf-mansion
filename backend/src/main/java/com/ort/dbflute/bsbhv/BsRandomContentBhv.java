@@ -22,35 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of RANDOM_CONTENT as TABLE. <br>
- * <pre>
- * [primary key]
- *     RANDOM_CONTENT_ID
- *
- * [column]
- *     RANDOM_CONTENT_ID, RANDOM_KEYWORD_ID, RANDOM_MESSAGE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     RANDOM_CONTENT_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     RANDOM_KEYWORD
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     randomKeyword
- *
- * [referrer property]
- *     
- * </pre>
+ * The behavior of RANDOM_CONTENT as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<RandomContent, RandomContentCB> {
@@ -597,7 +569,7 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">randomContentBhv</span>.<span style="color: #CC4747">queryDelete</span>(randomContent, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">randomContentBhv</span>.<span style="color: #CC4747">queryDelete</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
@@ -846,19 +818,22 @@ public abstract class BsRandomContentBhv extends AbstractBehaviorWritable<Random
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @javax.annotation.Resource(name="behaviorCommandInvoker")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @javax.annotation.Resource(name="behaviorSelector")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @javax.annotation.Resource(name="commonColumnAutoSetupper")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }

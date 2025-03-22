@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of VILLAGE_PLAYER_STATUS_TYPE as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_PLAYER_STATUS_TYPE_CODE
- *
- * [column]
- *     VILLAGE_PLAYER_STATUS_TYPE_CODE, VILLAGE_PLAYER_STATUS_TYPE_NAME
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_PLAYER_STATUS
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villagePlayerStatusList
- * </pre>
+ * The referrer loader of VILLAGE_PLAYER_STATUS_TYPE as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfVillagePlayerStatusType {

@@ -13,42 +13,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of ALLOWED_SECRET_SAY as TABLE. <br>
  * 秘話可能な範囲
- * <pre>
- * [primary-key]
- *     ALLOWED_SECRET_SAY_CODE
- *
- * [column]
- *     ALLOWED_SECRET_SAY_CODE, ALLOWED_SECRET_SAY_NAME
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_SETTINGS
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villageSettingsList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
- * String allowedSecretSayName = entity.getAllowedSecretSayName();
- * entity.setAllowedSecretSayCode(allowedSecretSayCode);
- * entity.setAllowedSecretSayName(allowedSecretSayName);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsAllowedSecretSay extends AbstractEntity implements DomainEntity {
@@ -101,7 +65,7 @@ public abstract class BsAllowedSecretSay extends AbstractEntity implements Domai
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.AllowedSecretSay getAllowedSecretSayCodeAsAllowedSecretSay() {
-        return CDef.AllowedSecretSay.codeOf(getAllowedSecretSayCode());
+        return CDef.AllowedSecretSay.of(getAllowedSecretSayCode()).orElse(null);
     }
 
     /**

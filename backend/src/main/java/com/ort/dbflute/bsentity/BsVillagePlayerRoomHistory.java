@@ -15,54 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_ROOM_HISTORY as TABLE. <br>
  * 村参加者部屋移動履歴
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_ROOM_HISTORY_ID
- *
- * [column]
- *     VILLAGE_PLAYER_ROOM_HISTORY_ID, VILLAGE_PLAYER_ID, DAY, ROOM_NUMBER, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_ROOM_HISTORY_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villagePlayer
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villagePlayerRoomHistoryId = entity.getVillagePlayerRoomHistoryId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * Integer day = entity.getDay();
- * Integer roomNumber = entity.getRoomNumber();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillagePlayerRoomHistoryId(villagePlayerRoomHistoryId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setDay(day);
- * entity.setRoomNumber(roomNumber);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerRoomHistory extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

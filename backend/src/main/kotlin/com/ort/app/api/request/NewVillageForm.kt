@@ -17,10 +17,10 @@ import org.hibernate.validator.constraints.Length
 import org.springframework.web.multipart.MultipartFile
 import java.time.LocalDate
 import java.time.LocalDateTime
-import javax.validation.Valid
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 
 data class NewVillageForm(
     /** 村表示名 */

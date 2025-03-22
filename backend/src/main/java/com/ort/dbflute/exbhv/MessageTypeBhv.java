@@ -3,7 +3,7 @@ package com.ort.dbflute.exbhv;
 import com.ort.dbflute.bsbhv.BsMessageTypeBhv;
 
 /**
- * The behavior of message_type.
+ * The behavior of MESSAGE_TYPE.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

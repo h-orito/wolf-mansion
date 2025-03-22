@@ -1,7 +1,7 @@
 package com.ort.app.api.request
 
 import org.hibernate.validator.constraints.Length
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 data class VillageNotificationForm(
     @field:NotNull

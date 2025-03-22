@@ -16,66 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of ABILITY as TABLE. <br>
  * 能力行使
- * <pre>
- * [primary-key]
- *     VILLAGE_ID, DAY, CHARA_ID, ABILITY_TYPE_CODE
- *
- * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, ATTACKER_CHARA_ID, TARGET_CHARA_ID, TARGET_FOOTSTEP, TARGET_SKILL_CODE, TARGET_CAMP_CODE, TARGET_ROOMS, ABILITY_TYPE_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ABILITY_TYPE, VILLAGE_DAY
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     abilityType, villageDay
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer day = entity.getDay();
- * Integer charaId = entity.getCharaId();
- * Integer attackerCharaId = entity.getAttackerCharaId();
- * Integer targetCharaId = entity.getTargetCharaId();
- * String targetFootstep = entity.getTargetFootstep();
- * String targetSkillCode = entity.getTargetSkillCode();
- * String targetCampCode = entity.getTargetCampCode();
- * String targetRooms = entity.getTargetRooms();
- * String abilityTypeCode = entity.getAbilityTypeCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setDay(day);
- * entity.setCharaId(charaId);
- * entity.setAttackerCharaId(attackerCharaId);
- * entity.setTargetCharaId(targetCharaId);
- * entity.setTargetFootstep(targetFootstep);
- * entity.setTargetSkillCode(targetSkillCode);
- * entity.setTargetCampCode(targetCampCode);
- * entity.setTargetRooms(targetRooms);
- * entity.setAbilityTypeCode(abilityTypeCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsAbility extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -167,7 +107,7 @@ public abstract class BsAbility extends AbstractEntity implements DomainEntity, 
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.AbilityType getAbilityTypeCodeAsAbilityType() {
-        return CDef.AbilityType.codeOf(getAbilityTypeCode());
+        return CDef.AbilityType.of(getAbilityTypeCode()).orElse(null);
     }
 
     /**

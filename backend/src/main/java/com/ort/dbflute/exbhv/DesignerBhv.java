@@ -3,7 +3,7 @@ package com.ort.dbflute.exbhv;
 import com.ort.dbflute.bsbhv.BsDesignerBhv;
 
 /**
- * The behavior of designer.
+ * The behavior of DESIGNER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

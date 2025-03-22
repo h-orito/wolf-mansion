@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of NORMAL_SAY_RESTRICTION as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE
- *
- * [column]
- *     VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE, MESSAGE_MAX_NUM, MESSAGE_MAX_LENGTH, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     MESSAGE_TYPE, SKILL, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     messageType, skill, village
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of NORMAL_SAY_RESTRICTION as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfNormalSayRestriction {

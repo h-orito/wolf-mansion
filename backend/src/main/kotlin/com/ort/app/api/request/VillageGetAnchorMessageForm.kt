@@ -1,6 +1,6 @@
 package com.ort.app.api.request
 
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 data class VillageGetAnchorMessageForm(
     /** 村ID */
