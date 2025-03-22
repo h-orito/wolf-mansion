@@ -1,10 +1,9 @@
 package com.ort.app.api.request
 
+import jakarta.validation.Valid
+import jakarta.validation.constraints.NotBlank
 import org.hibernate.validator.constraints.Length
 import org.jetbrains.annotations.NotNull
-import org.springframework.web.multipart.MultipartFile
-import javax.validation.Valid
-import javax.validation.constraints.NotBlank
 
 data class VillageFaceTypeModifyForm(
     @field:Valid
@@ -16,7 +15,7 @@ data class VillageFaceTypeModifyForm(
         var code: String? = null,
 
         @field:NotBlank
-        @field:Length(min=1, max = 5)
+        @field:Length(min = 1, max = 5)
         var name: String? = null,
 
         @field:NotNull

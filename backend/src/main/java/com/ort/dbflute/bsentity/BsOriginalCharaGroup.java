@@ -13,50 +13,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of ORIGINAL_CHARA_GROUP as TABLE. <br>
  * オリジナルキャラクターグループ
- * <pre>
- * [primary-key]
- *     ORIGINAL_CHARA_GROUP_ID
- *
- * [column]
- *     ORIGINAL_CHARA_GROUP_ID, ORIGINAL_CHARA_GROUP_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     ORIGINAL_CHARA_GROUP_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     ORIGINAL_CHARA, VILLAGE_SETTINGS
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     originalCharaList, villageSettingsList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
- * String originalCharaGroupName = entity.getOriginalCharaGroupName();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setOriginalCharaGroupId(originalCharaGroupId);
- * entity.setOriginalCharaGroupName(originalCharaGroupName);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsOriginalCharaGroup extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

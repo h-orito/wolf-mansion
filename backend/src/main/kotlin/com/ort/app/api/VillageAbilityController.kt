@@ -14,6 +14,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import javax.servlet.http.HttpServletRequest
 
 @Controller
 class VillageAbilityController(

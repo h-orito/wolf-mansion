@@ -3,7 +3,7 @@ package com.ort.dbflute.exbhv;
 import com.ort.dbflute.bsbhv.BsVillagePlayerBhv;
 
 /**
- * The behavior of village_player.
+ * The behavior of VILLAGE_PLAYER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

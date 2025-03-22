@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsCharaCQ;
 
 /**
- * The condition-query of chara.
+ * The condition-query of CHARA.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

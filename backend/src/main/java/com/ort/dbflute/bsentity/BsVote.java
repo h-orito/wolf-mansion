@@ -15,54 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VOTE as TABLE. <br>
  * 投票
- * <pre>
- * [primary-key]
- *     VILLAGE_ID, DAY, CHARA_ID
- *
- * [column]
- *     VILLAGE_ID, DAY, CHARA_ID, VOTE_CHARA_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_DAY
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villageDay
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer day = entity.getDay();
- * Integer charaId = entity.getCharaId();
- * Integer voteCharaId = entity.getVoteCharaId();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setDay(day);
- * entity.setCharaId(charaId);
- * entity.setVoteCharaId(voteCharaId);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVote extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

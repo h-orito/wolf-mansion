@@ -2,10 +2,10 @@ package com.ort.app.api.request.setting
 
 import com.ort.app.domain.model.skill.Skills
 import com.ort.dbflute.allcommon.CDef
-import javax.validation.Valid
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 
 data class RandomOrganizationCampForm(
     /** 陣営 */

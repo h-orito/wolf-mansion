@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of RANDOM_CONTENT as TABLE. <br>
- * <pre>
- * [primary key]
- *     RANDOM_CONTENT_ID
- *
- * [column]
- *     RANDOM_CONTENT_ID, RANDOM_KEYWORD_ID, RANDOM_MESSAGE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     RANDOM_CONTENT_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     RANDOM_KEYWORD
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     randomKeyword
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of RANDOM_CONTENT as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfRandomContent {

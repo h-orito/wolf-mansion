@@ -15,52 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of WOLF_ALLOCATION as TABLE. <br>
  * 人狼配分
- * <pre>
- * [primary-key]
- *     VILLAGE_ID
- *
- * [column]
- *     VILLAGE_ID, MIN_NUM, MAX_NUM, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     village
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer minNum = entity.getMinNum();
- * Integer maxNum = entity.getMaxNum();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setMinNum(minNum);
- * entity.setMaxNum(maxNum);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsWolfAllocation extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

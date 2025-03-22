@@ -5,7 +5,7 @@ import org.dbflute.cbean.sqlclause.SqlClause;
 import com.ort.dbflute.cbean.cq.bs.BsPlayerCQ;
 
 /**
- * The condition-query of player.
+ * The condition-query of PLAYER.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

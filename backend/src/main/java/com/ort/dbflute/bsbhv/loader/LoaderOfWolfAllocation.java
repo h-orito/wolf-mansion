@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of WOLF_ALLOCATION as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID
- *
- * [column]
- *     VILLAGE_ID, MIN_NUM, MAX_NUM, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     village
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of WOLF_ALLOCATION as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfWolfAllocation {

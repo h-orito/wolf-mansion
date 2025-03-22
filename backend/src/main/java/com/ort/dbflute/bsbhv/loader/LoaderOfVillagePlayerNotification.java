@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of VILLAGE_PLAYER_NOTIFICATION as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_PLAYER_ID
- *
- * [column]
- *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_DAYCHANGE, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, KEYWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villagePlayer
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of VILLAGE_PLAYER_NOTIFICATION as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfVillagePlayerNotification {

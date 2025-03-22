@@ -5,7 +5,6 @@ import com.ort.app.domain.model.camp.Camps
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.SkillTag
 import com.ort.app.domain.model.skill.Skills
-import java.util.*
 
 data class SkillContent(
     val campList: List<CampContent>,
@@ -31,7 +30,7 @@ data class SkillContent(
         constructor(
             skill: Skill
         ) : this(
-            code = skill.code.toLowerCase(),
+            code = skill.code.lowercase(),
             name = skill.name
         )
     }

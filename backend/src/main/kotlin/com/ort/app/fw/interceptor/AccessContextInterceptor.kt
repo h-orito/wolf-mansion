@@ -1,13 +1,13 @@
 package com.ort.app.fw.interceptor
 
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.dbflute.hook.AccessContext
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
+import org.springframework.web.servlet.HandlerInterceptor
 import java.time.LocalDateTime
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 
-class AccessContextInterceptor : HandlerInterceptorAdapter() {
+class AccessContextInterceptor : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         if (AccessContext.isExistAccessContextOnThread()) {

@@ -15,58 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of ORIGINAL_CHARA as TABLE. <br>
  * オリジナルキャラクター
- * <pre>
- * [primary-key]
- *     ORIGINAL_CHARA_ID
- *
- * [column]
- *     ORIGINAL_CHARA_ID, ORIGINAL_CHARA_NAME, ORIGINAL_CHARA_SHORT_NAME, ORIGINAL_CHARA_GROUP_ID, DISPLAY_WIDTH, DISPLAY_HEIGHT, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     ORIGINAL_CHARA_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ORIGINAL_CHARA_GROUP
- *
- * [referrer table]
- *     ORIGINAL_CHARA_IMAGE
- *
- * [foreign property]
- *     originalCharaGroup
- *
- * [referrer property]
- *     originalCharaImageList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer originalCharaId = entity.getOriginalCharaId();
- * String originalCharaName = entity.getOriginalCharaName();
- * String originalCharaShortName = entity.getOriginalCharaShortName();
- * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
- * Integer displayWidth = entity.getDisplayWidth();
- * Integer displayHeight = entity.getDisplayHeight();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setOriginalCharaId(originalCharaId);
- * entity.setOriginalCharaName(originalCharaName);
- * entity.setOriginalCharaShortName(originalCharaShortName);
- * entity.setOriginalCharaGroupId(originalCharaGroupId);
- * entity.setDisplayWidth(displayWidth);
- * entity.setDisplayHeight(displayHeight);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsOriginalChara extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

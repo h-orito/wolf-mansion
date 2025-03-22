@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of RANDOM_KEYWORD as TABLE. <br>
- * <pre>
- * [primary key]
- *     RANDOM_KEYWORD_ID
- *
- * [column]
- *     RANDOM_KEYWORD_ID, KEYWORD
- *
- * [sequence]
- *     
- *
- * [identity]
- *     RANDOM_KEYWORD_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     RANDOM_CONTENT
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     randomContentList
- * </pre>
+ * The referrer loader of RANDOM_KEYWORD as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfRandomKeyword {

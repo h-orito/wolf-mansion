@@ -3,7 +3,7 @@ package com.ort.dbflute.exentity;
 import com.ort.dbflute.bsentity.BsCharaGroup;
 
 /**
- * The entity of chara_group.
+ * The entity of CHARA_GROUP.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

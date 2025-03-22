@@ -16,62 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE as TABLE. <br>
  * 村
- * <pre>
- * [primary-key]
- *     VILLAGE_ID
- *
- * [column]
- *     VILLAGE_ID, VILLAGE_DISPLAY_NAME, CREATE_PLAYER_NAME, VILLAGE_STATUS_CODE, ROOM_SIZE_WIDTH, ROOM_SIZE_HEIGHT, EPILOGUE_DAY, WIN_CAMP_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_STATUS, CAMP, VILLAGE_SETTINGS(AsOne), WOLF_ALLOCATION(AsOne)
- *
- * [referrer table]
- *     CAMP_ALLOCATION, NORMAL_SAY_RESTRICTION, SKILL_ALLOCATION, SKILL_SAY_RESTRICTION, VILLAGE_CHARA_GROUP, VILLAGE_DAY, VILLAGE_PLAYER, VILLAGE_TAG, VILLAGE_SETTINGS, WOLF_ALLOCATION
- *
- * [foreign property]
- *     villageStatus, camp, villageSettingsAsOne, wolfAllocationAsOne
- *
- * [referrer property]
- *     campAllocationList, normalSayRestrictionList, skillAllocationList, skillSayRestrictionList, villageCharaGroupList, villageDayList, villagePlayerList, villageTagList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * String villageDisplayName = entity.getVillageDisplayName();
- * String createPlayerName = entity.getCreatePlayerName();
- * String villageStatusCode = entity.getVillageStatusCode();
- * Integer roomSizeWidth = entity.getRoomSizeWidth();
- * Integer roomSizeHeight = entity.getRoomSizeHeight();
- * Integer epilogueDay = entity.getEpilogueDay();
- * String winCampCode = entity.getWinCampCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setVillageDisplayName(villageDisplayName);
- * entity.setCreatePlayerName(createPlayerName);
- * entity.setVillageStatusCode(villageStatusCode);
- * entity.setRoomSizeWidth(roomSizeWidth);
- * entity.setRoomSizeHeight(roomSizeHeight);
- * entity.setEpilogueDay(epilogueDay);
- * entity.setWinCampCode(winCampCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillage extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -154,7 +98,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.VillageStatus getVillageStatusCodeAsVillageStatus() {
-        return CDef.VillageStatus.codeOf(getVillageStatusCode());
+        return CDef.VillageStatus.of(getVillageStatusCode()).orElse(null);
     }
 
     /**
@@ -175,7 +119,7 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Camp getWinCampCodeAsCamp() {
-        return CDef.Camp.codeOf(getWinCampCode());
+        return CDef.Camp.of(getWinCampCode()).orElse(null);
     }
 
     /**

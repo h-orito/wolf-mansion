@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean;
 import com.ort.dbflute.cbean.bs.BsMessageCB;
 
 /**
- * The condition-bean of message.
+ * The condition-bean of MESSAGE.
  * <p>
  * You can implement your original methods here.
  * This class remains when re-generating.

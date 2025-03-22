@@ -1,15 +1,19 @@
 package com.ort.app.api.request
 
-import com.ort.app.api.request.setting.*
+import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
+import com.ort.app.api.request.setting.RandomOrganizationCampForm
+import com.ort.app.api.request.setting.RandomOrganizationSkillForm
+import com.ort.app.api.request.setting.RandomOrganizationWolfForm
+import com.ort.app.api.request.setting.SkillSayRestrictForm
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 import org.hibernate.validator.constraints.Length
-import javax.validation.Valid
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
 
 data class VillageSettingForm(
     /** 村表示名 */
