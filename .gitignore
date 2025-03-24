@@ -28,3 +28,4 @@ nbdist/
 *.log
 /log/
 backend/dbflute_wolf_mansiondb/log/*.log
+.kotlin

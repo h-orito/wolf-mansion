@@ -1,7 +1,9 @@
+import { getRequest } from '@/components/api/api'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function HomePage() {
+export default async function HomePage() {
+  const villages = await getRequest('/api/village-list')
   return (
     <div>
       <div className='w-full'>

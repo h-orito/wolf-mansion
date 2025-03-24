@@ -15,6 +15,7 @@ import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.service.FootstepDomainService
 import com.ort.app.domain.service.VoteDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.exbhv.PlayerBhv
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Controller
@@ -67,6 +68,8 @@ class VillageApiController(
     @GetMapping("/api/village-list")
     @ResponseBody
     private fun villageList(): VillageListContent {
+        // TODO: デバッグ
+        println(WolfMansionUserInfoUtil.getUserInfo())
         val villages = villageService.findVillages(
             query = VillageQuery()
         )
