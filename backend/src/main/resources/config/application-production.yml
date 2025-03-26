@@ -11,6 +11,10 @@ spring:
     basename: messages
     cache-seconds: -1
     encoding: UTF-8
+security:
+  corsClientUrls:
+    - https://wolfort.dev/wolf-mansion
+    - https://wolfort.net/wolf-mansion
 server:
   servlet:
     contextPath: /wolf-mansion
