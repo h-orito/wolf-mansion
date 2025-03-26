@@ -1,7 +1,3 @@
-// import { getJsessionId } from '../auth/auth-cookie'
-import { cookies } from 'next/headers'
-import { useCookieStore } from '../cookie/useCookieValue'
-
 const getRequest = async <T, U>(
   path: string,
   params?: T,
@@ -41,20 +37,6 @@ const request = async <T, U>(
   params?: T,
   options?: RequestInit
 ): Promise<U> => {
-  let headers = {}
-  if (typeof window !== 'undefined') {
-    // const jsessionId = useCookieStore('JSESSIONID').getValue()
-    // if (!!jsessionId) {
-    //   headers = {
-    //     cookies: `JSESSIONID=${jsessionId}`
-    //   }
-    // }
-  } else {
-    const cookieStore = await cookies()
-    headers = {
-      cookies: cookieStore.toString()
-    }
-  }
   const bodyJson = body && JSON.stringify(body)
   let url = `${process.env.NEXT_PUBLIC_API_BASE}${path}`
   if (params) {
@@ -68,11 +50,12 @@ const request = async <T, U>(
     const response = await fetch(url, {
       method,
       headers: {
-        'Content-Type': 'application/json',
-        ...headers
+        'Content-Type': 'application/json'
       },
       cache: 'no-cache',
       body: bodyJson,
+      mode: 'cors',
+      credentials: 'include',
       ...options
     })
     if (response.status !== 200) {
@@ -100,6 +83,3 @@ function filterNullProperties(obj: any) {
 }
 
 export { deleteRequest, getRequest, postRequest, putRequest }
-function useCookieValue(arg0: string) {
-  throw new Error('Function not implemented.')
-}
