@@ -1,5 +1,6 @@
 package com.ort.app.fw.security
 
+import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -9,11 +10,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @EnableWebSecurity
+@ConfigurationProperties(prefix = "security")
 class WolfMansionWebSecurityConfig(
     private val userInfoService: UserInfoService
 ) {
+
+    // CORSを許可するドメイン
+    lateinit var corsClientUrls: List<String>
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -50,6 +58,8 @@ class WolfMansionWebSecurityConfig(
                 "/api/*",
                 "/village/*/update",
             )
+        }.cors {
+            it.configurationSource(corsConfigurationSource())
         }.build()
     }
 
@@ -64,5 +74,17 @@ class WolfMansionWebSecurityConfig(
     @Bean
     private fun passwordEncoder(): PasswordEncoder? {
         return BCryptPasswordEncoder()
+    }
+
+    @Bean
+    fun corsConfigurationSource(): CorsConfigurationSource {
+        val config = CorsConfiguration()
+        config.allowedMethods = listOf("OPTIONS", "GET", "POST", "PUT", "DELETE")
+        config.allowedHeaders = listOf("*")
+        config.allowCredentials = true
+        config.allowedOrigins = this.corsClientUrls
+        val corsSource = UrlBasedCorsConfigurationSource()
+        corsSource.registerCorsConfiguration("/**", config)
+        return corsSource
     }
 }
