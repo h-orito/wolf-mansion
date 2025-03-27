@@ -2,7 +2,11 @@ package com.ort.app.api
 
 import com.ort.app.api.request.LoginForm
 import com.ort.app.api.request.VillageRecordListForm
-import com.ort.app.api.view.*
+import com.ort.app.api.view.IndexContent
+import com.ort.app.api.view.RecruitingContent
+import com.ort.app.api.view.SkillListContent
+import com.ort.app.api.view.VillageRecordLatestVidContent
+import com.ort.app.api.view.VillageRecordListContent
 import com.ort.app.application.service.CampService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import java.time.LocalDateTime
 
 @Controller
 class IndexController(
@@ -38,6 +43,12 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
+
+        val now = LocalDateTime.now()
+
+        if (now.isAfter(LocalDateTime.of(2025, 4, 1, 0, 0, 0)) && now.isBefore(LocalDateTime.of(2025, 4, 2, 0, 0, 0))) {
+            return "april"
+        }
 
         return "index"
     }
