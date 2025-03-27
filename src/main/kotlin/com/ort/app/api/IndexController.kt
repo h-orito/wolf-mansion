@@ -45,9 +45,20 @@ class IndexController(
         model.addAttribute("content", content)
 
         val now = LocalDateTime.now()
-
         if (now.isAfter(LocalDateTime.of(2025, 4, 1, 0, 0, 0)) && now.isBefore(LocalDateTime.of(2025, 4, 2, 0, 0, 0))) {
             return "april"
+        } else if (now.isAfter(LocalDateTime.of(2025, 4, 2, 0, 0, 0)) && now.isBefore(
+                LocalDateTime.of(
+                    2025,
+                    4,
+                    3,
+                    0,
+                    0,
+                    0
+                )
+            )
+        ) {
+            return "april2"
         }
 
         return "index"

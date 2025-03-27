@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/top-layout}">
+<head>
+    <!--/* 個別ページのタイトル */-->
+    <title></title>
+    <!--/* 個別ページのjs */-->
+    <script src="../static/app/js/index.js" th:src="@{/app/js/index.js}"></script>
+</head>
+
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <div id="wrapper">
+            <div class="aahub_light"
+                 style="background-color: #eee; color: black; padding: 10px; margin-bottom: 10px; font-size: 12px;">
+                <p style="color: red; font-size: 16px;">エイプリルフール二日目だけど何か質問ある？</p>
+                <div id="res1" style="margin-bottom: 10px;">
+                    <div>1 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:00:02.91 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <p style="padding-left: 20px;">エイプリルフール、二日目────</p>
+                </div>
+                <div id="res2" style="margin-bottom: 10px;">
+                    <div>2 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:00:50.23 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        調子乗りすぎで草
+                    </p>
+                </div>
+                <div id="res3" style="margin-bottom: 10px;">
+                    <div>3 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:01:53.21 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res1" style="color: blue; "><u>&gt;&gt;1</u></a>
+                        一度はやってみたくてつい</p>
+                </div>
+                <div id="res4" style="margin-bottom: 10px;">
+                    <div>4 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:03:00.74 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        がしゃーん<br/>
+                        　　　　　がしゃーん<br/>
+                        <br/>
+                        　　　△ ￥ ▲<br/>
+                        　　( ㊤ 皿 ㊤ )<br/>
+                        　　(　　　　　)<br/>
+                        　／│　 肉　 │＼<br/>
+                        ＜　 ＼＿＿＿／　 ＞<br/>
+                        　　　┃　　┃<br/>
+                        　　　＝　　＝<br/>
+                        3ｹﾞｯﾄﾛﾎﾞだよ<br/>
+                        自動で3ｹﾞｯﾄしてくれる<br/>
+                        すごいやつだよ<br/>
+                    </p>
+                </div>
+                <div id="res5" style="margin-bottom: 10px;">
+                    <div>5 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:05:42.11 ID:L1NKhARe0
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res1" style="color: blue; "><u>&gt;&gt;1</u></a>
+                        いいからいつものリンクを貼れログインできねーだろ
+                    </p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>6 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:05:58.00 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res3" style="color: blue; "><u>&gt;&gt;3</u></a><br/>
+                        【審議中】<br/>
+                        　　　 ∧,,∧　 ∧,,∧<br/>
+                        　∧ (´・ω・) (・ω・｀) ∧∧<br/>
+                        (　´・ω)　Ｕ) ( つと ﾉ(ω・｀ )<br/>
+                        ｜　Ｕ (　　´・) (・｀　　)　と ﾉ<br/>
+                        　ｕ-ｕ （l 　　 ) (　　　ﾉu-ｕ<br/>
+                        　　　　 `ｕ-ｕ'.　`ｕ-u'<br/>
+                        <br/>
+                        【審議終了】<br/>
+                        　　　　　 　　　　　　∧,,∧ 　　　　∧,,∧<br/>
+                        　　　 ∧ ∧　　　　(　　　 ) 　　　(　・ω・)<br/>
+                        　　　(ω・　)　　 　 (　　Ｕ) 　　　 ( つ日ﾉ　　　∧,,∧<br/>
+                        　　　｜　Ｕ　　 　 　 u-ｕ 　　　　　 u-ｕ 　　 　(　uω)<br/>
+                        　　　　ｕ-ｕ　　　　　　　　　　　　　　　　　　　　(∩∩)<br/>
+                        　　　　　　　　∧,,∧　　　　　　∩ ∧_∧　審議結果<br/>
+                        　　　　　　　　(・ω・')　　　　⊂⌒（ ・ω・）　「はいはいわろす」<br/>
+                        　　　　　　　⊂∪∪⊃　　　　　 ｀ヽ_∩∩<br/>
+                    </p>
+                </div>
+                <div id="res7" style="margin-bottom: 10px;">
+                    <div>7 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:08:04.02 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <div style="padding-left: 20px;">
+                        <a href="#res5" style="color: blue;"><u>&gt;&gt;5</u></a><br/>
+                        ごめんて<br/>
+                        <br/>
+                        このサイトは: <a href="javascript:void(0);" th:href="@{/about}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/about</u></a><br/>
+                        足音人狼紹介: <a href="javascript:void(0);" th:href="@{/intro}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/intro</u></a><br/>
+                        更新履歴: <a href="javascript:void(0);" th:href="@{/announce}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/announce</u></a><br/>
+                        ルール: <a href="javascript:void(0);"
+                                   th:href="@{/rule}"
+                                   style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/rule</u></a><br/>
+                        FAQ: <a href="javascript:void(0);"
+                                th:href="@{/faq}"
+                                style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/faq</u></a><br/>
+                        役職一覧: <a href="javascript:void(0);" th:href="@{/skill}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/skill</u></a><br/>
+                        ユーザー一覧: <a href="javascript:void(0);" th:href="@{/user-list}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/user-list</u></a><br/>
+                        キャラチップ一覧: <a href="javascript:void(0);" th:href="@{/chara-group}"
+                                             style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/chara-group</u></a><br/>
+                        <div th:if="${user != null}">
+                            <span th:text="'あといま表示しているお前のIDは「' + ${user.username} + '」'"></span><br/>
+                            <a th:href="@{/user/{username}(username=${user.username})}"
+                               style="color: blue;"><u>マイページ</u></a><br/>
+                            <a th:href="@{/change-password}" style="color: blue;"><u>パスワード変更</u></a><br/>
+                            <a href="javascript:void(0);" style="color: blue;"
+                               data-submit-logout><u>ログアウト</u></a><br/>
+                            <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
+                        </div>
+                        <div th:if="${user == null}">
+                            新規ID登録: <a href="javascript:void(0);" th:href="@{/new-player}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/new-player</u></a><br/>
+                            ログイン: <a href="javascript:void(0);" th:href="@{/login}" style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/login</u></a><br/>
+                        </div>
+                    </div>
+                </div>
+                <div id="res8" style="margin-bottom: 10px;">
+                    <div>8 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:11:20.86 ID:WEreWo1F99
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res7" style="color: blue; "><u>&gt;&gt;7</u></a>
+                        村一覧は？
+                    </p>
+                </div>
+                <div id="res9" style="margin-bottom: 10px;">
+                    <div>9 : <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:13:02.91 ID:NanIM0SiR
+                    </div>
+                    <p style="padding-left: 20px;">
+                        暴走トラックになりたすぎる人生だった<br/>
+                    </p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>10: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:14:56.87 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res9" style="color: blue; "><u>&gt;&gt;9</u></a><br/>
+                        成仏してクレメンス・・・<br/>
+                    </p>
+                </div>
+                <div id="res11" style="margin-bottom: 10px;">
+                    <div>11: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:16:00.12 ID:WEreWo1F99
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res9" style="color: blue; "><u>&gt;&gt;9</u></a>
+                        1回トラックに轢かれないとなれないのきついよな
+                    </p>
+                </div>
+                <div id="res12" style="margin-bottom: 10px;">
+                    <div>12: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:18:02.19 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        　　　　　　 ／ﾌﾌ 　　　　　　 　ム｀ヽ<br/>
+                        　　　　　　/ ノ)　 ∧＿∧　　　　）　ヽ<br/>
+                        　　　　　ﾞ/ ｜　　(´・ω・`）ノ⌒（ゝ._,ノ<br/>
+                        　　　　　/　ﾉ⌒7⌒ヽーく　 ＼　／<br/>
+                        　　　　　丶＿ ノ ｡　　 ノ､　　｡|/<br/>
+                        　　　　　　　 `ヽ `ー-'_人`ーﾉ　　　壁殴り代行では同時にスタッフも募集しています<br/>
+                        　　　　　　　　 丶 ￣ _人'彡ﾉ　　　　筋肉に自信のあるそこのアナタ！一緒にお仕事してみませんか？<br/>
+                        　　　　　　　　　ﾉ　　r'十ヽ/　　　　　壁を殴るだけの簡単なお仕事です！<br/>
+                        　　　　　　　／｀ヽ _/　十∨<br/>
+                    </p>
+                </div>
+                <div id="res13" style="margin-bottom: 10px;">
+                    <div>13: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:23:30.47 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <div style="padding-left: 20px;">
+                        <a href="#res8" style="color: blue;"><u>&gt;&gt;8</u></a><br/>
+                        <th:block th:each="village : ${content.villageList}">
+                            <span th:text="${village.villageNumber} +'. '+ ${village.villageName}"></span>
+                            <span th:each="tag: ${village.tags}" th:text="'('+${tag.name}+')'"></span>
+                            <span th:text="'('+${village.status}+')'"></span>
+                            <span th:text="'('+${village.participateNum}+')'"></span>: <a
+                                th:href="@{/village/{villageId}(villageId=${village.villageId})}"
+                                style="color: blue;"><u><span
+                                th:text="'ttps://wolfort.net/wolf-mansion/village/'+${village.villageId}"></span></u></a>
+                            <br/>
+                        </th:block>
+                        村一覧: <a href="javascript:void(0);" th:href="@{/village-list}"
+                                   style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/village-list</u></a><br/>
+                        <span th:if="${user != null && !content.participate}">
+                        村作成: <a href="javascript:void(0);" th:href="@{/new-village}"
+                                   style="color: blue;"><u>ttps://wolfort.net/wolf-mansion/new-village</u></a><br/>
+                        </span>
+                    </div>
+                </div>
+                <div id="res14" style="margin-bottom: 10px;">
+                    <div>14: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:25:25.08 ID:WEreWo1F99
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res12" style="color: blue; "><u>&gt;&gt;12</u></a><br/>
+                        壁殴り代行の元ネタだけど知らん人のほうが多いだろもう<br/>
+                    </p>
+                </div>
+                <div id="res15" style="margin-bottom: 10px;">
+                    <div>15: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:27:11.33 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        　　　　たまらんだろ？　　　　　　　　　　　たまらん！　<br/>
+                        　　　　　　　　　　 _, ,_　　　　　　　　　　　 ,_　<br/>
+                        　　　　　　　　 (；　゜д゜ )　　　　　　　　　　(｀　　　)　<br/>
+                        　　　　　　　　(　　 ⊃┳O　　　　　　　　⊂(　　　ヽ　<br/>
+                        　　　　　　　　(　⌒) )┃＿　　　　　　　　┃(⌒　) )　　＿　<br/>
+                        　　　／￣￣￣｀Ｊ￣￣ ／＼　　　　／￣￣し'￣￣￣／＼　<br/>
+                        ( ((　￣◎￣○￣◎￣○ ￣　　　　￣◎￣○￣◎￣○￣　) ))　<br/>
+                        　<br/>
+                        　<br/>
+                        　<br/>
+                        　<br/>
+                        　　　　　　たまらんだろ？　　たまらん！　<br/>
+                        　　　　　　　　　　　　 _, ,_　コツン ,_　<br/>
+                        　　　　　　　　　　 (； ｀д´)＼／(｀　　　)　<br/>
+                        　　　　　　　　　　(　　 ⊃┳O ⊂(　　　ヽ　<br/>
+                        　　　　　　　　　　(　⌒) )┃＿ ┃(⌒　) )　　 ＿　<br/>
+                        　　　((　／￣￣￣｀Ｊ￣￣ ／￣￣し'￣￣￣／＼　))　<br/>
+                        　　　　　￣◎￣○￣◎￣○◎￣○￣◎￣○￣　<br/>
+                        　<br/>
+                        　<br/>
+                        　<br/>
+                        たまら──ん！　_, ,_　 _, ,_　　　_, ,_　_, ,_　たまらん――！　<br/>
+                        　　　　　　　　　((Д´≡｀Д))　((д｀≡´д))　<br/>
+                        　　　　　　　　　 ((　　 ⊃┳O⊂(　　　ヽ))　<br/>
+                        　　　　　　　　　((　⌒) ))┃_ ┃((⌒　) ))　 　＿　<br/>
+                        　　　　((／￣￣￣｀Ｊ))￣ ／￣￣((し'￣￣￣／＼))　<br/>
+                        　　　　　￣◎￣○￣◎￣○◎￣○￣◎￣○￣　<br/>
+                    </p>
+                </div>
+                <div id="res16" style="margin-bottom: 10px;">
+                    <div>16: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:29:04.31 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        　　　　 　 ＿＿＿＿<br/>
+                        　　　 ／　　 ＼　　／＼<br/>
+                        　　／ 　し （＞） 　（＜）＼ 頼む、生存しててくれ・・・！<br/>
+                        　　|　∪　 　 （__人__）　 J |　 ＿＿＿＿＿＿＿_<br/>
+                        .　　＼　　u　　 ｀⌒´　　／　| |　　　　　　　　　　|<br/>
+                        　　 ノ　　　　　　　 　 　 ＼　| |　　　　　　　　　　|<br/>
+                        <br/>
+                        　　　　　 　　　＿＿＿_<br/>
+                        　　　　　　　／　　　u　＼<br/>
+                        　　　　 　／　　＼　 　 ─＼　　　　チラッ<br/>
+                        　　　　／ 　し （＞） 　（●） ＼<br/>
+                        　　　　|　∪　 　 （__人__）　 J |　 ＿＿＿＿＿＿＿_<br/>
+                        　 　　 ＼　　u　　 ｀⌒´　 　／　| |　　　　　　　　　　|<br/>
+                        　　　　ノ　　　　　　　　　 　 ＼　| |　　　　　　　　　　|<br/>
+                        　 ／´　　　　　　　 　 　 　 　 　 | |　　　　　　　　　　|<br/>
+                        　|　　　　ｌ　　 　 　 　 　 　 　 　 | |　　　　　　　　　　|<br/>
+                        <br/>
+                        　　　　 　 ＿＿＿＿<br/>
+                        　　 　／::::::─三三─＼<br/>
+                        　　／:::::::: （ ○）三（○）＼ <a href="" th:href="@{/village/578}"
+                                                  style="color: blue"><u>後追い6人・・・！？</u></a><br/>
+                        　　|::::::::::::::::::::（__人__）:::: 　|　 ＿＿＿＿＿＿＿_<br/>
+                        .　　＼::::::::　 　|r┬-| 　 ／　| |　　　　　　　　　　|<br/>
+                        　　 ノ::::::::::::　　`ー'´　　＼　| |　　　　　　　　　　|<br/>
+                    </p>
+                </div>
+                <div id="res17" style="margin-bottom: 10px;">
+                    <div>17: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:31:20.00 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        　 　　　　 　 　 ＿＿＿_ 　　 　　　 ） 『 光の速さでナマ足出したらどうなるの？』っと、<br/>
+                        　　　　　　　 ／⌒　　⌒＼ 　　　　 )　<br/>
+                        　　　　　　／（ ●） 　（●） ＼　　 　)／⌒Y⌒Y⌒Ｙ⌒Y⌒Y⌒Y⌒Y⌒Y⌒Y⌒Y⌒Ｙ⌒Y⌒Y丶<br/>
+                        　　　　 ／ ::::::⌒（__人__）⌒::::: ＼<br/>
+                        　　　　|　　　　　　|r┬-|　　　　　|<br/>
+                        　　　　 ＼ 　 　 　 `ー'´ 　 　 ／<br/>
+                        　　　　　ノ　　　　　　　　　　 　＼<br/>
+                        　　 ／´　　　　　　　　　　　　 　　ヽ 　 　 　 　 　 　 　 　 カ<br/>
+                        　　|　　　　ｌ　　 l||l　从人 l||l 　　　　 l||l 从人 l||l 　 カ 　 　タ<br/>
+                        　　ヽ　　　 -一''''''"~~｀`'ー--､　　　-一'''''''ー-､. 　 　 タ<br/>
+                        　　　ヽ ＿＿＿＿(⌒)(⌒)⌒)　)　　(⌒＿(⌒)⌒)⌒))<br/>
+                        　　　　　　┌┬┬┐┌┬┬┬┐┌┬┬┬┐┌┬┬┬┐<br/>
+                        　　 ,. - ''"|￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣ρ￣`ｌ<br/>
+                        　　 ￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣￣ノ￣￣<br/>
+                        <br/>
+                        <br/>
+                        　　　 ／::::::─三三─＼　　　　　　　　　　　　リアルな話すると多分お前の住んでる街が消し飛ぶ　<br/>
+                        　　／:::::::: （ ○）三（○）＼　　　　　　　　　　光速でナマ足ほどの質量（約10kg）<br/>
+                        　　|::::::::::::::::::::（__人__）:::: 　|　 ＿＿＿＿＿　の物体が動いたら想像を絶する衝撃波が発生する<br/>
+                        　 　＼:::::::::　 　|r┬-| 　,／　.| |　　　　　　　　ましてそれが地表と激突したら地球がヤバイ<br/>
+                        　　　ノ::::::::　　　`ー'´　　＼　| |　　　　　　　　お前のナマ足で地球がヤバイ<br/>
+                    </p>
+                </div>
+                <div id="res18" style="margin-bottom: 10px;">
+                    <div>18: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:33:27.31 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res16" style="color: blue;"><u>&gt;&gt;16</u></a><br/>
+                        おいその話はやめろ
+                    </p>
+                </div>
+                <div id="res19" style="margin-bottom: 10px;">
+                    <div>19: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:36:28.11 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        　　　　∩＿∩　　　　　人人人人人人人人人人人人人人人人人人人人人人人人人人人人人<br/>
+                        　　 ／ ／ ＼＼　　　＜ すごい既視感を感じる。今までにない何か熱い既視感を。　　　　　　 ＞<br/>
+                        　　|　 （ﾟ）=（ﾟ）　|　　 ＜ 風・・・なんだろう吹いてきてる確実に、着実に、俺たちのほうに。.　　 ＞<br/>
+                        　　|　　●_●　 |　　 ＜ 中途半端はやめよう、とにかく最後までやってやろうじゃん。　　　　　 ＞<br/>
+                        　/　　　　　　　　ヽ　 ＜ ネットの画面の向こうには沢山の仲間がいる。決して一人じゃない。 ＞<br/>
+                        　| 〃 ------ ヾ　|　＜ 信じよう。そしてともに戦おう。　　　　　　　　　　　　　　　　　　　　　　　 ＞<br/>
+                        　＼＿＿二＿＿ノ　 ＜ 工作員や邪魔は入るだろうけど、絶対に流されるなよ。　　　　　　　　＞<br/>
+                        　　　　　　　　　　　　　 ＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹＹ<br/>
+                    </p>
+                </div>
+                <div id="res20" style="margin-bottom: 10px;">
+                    <div>20: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 00:42:11.91 ID:<span style="color: red;">OrTKNInS1</span>
+                    </div>
+                    <p style="padding-left: 20px;">
+                        いよいよ明日がエイプリルフール本番ですよ！<br/>
+                        <br/>
+                        むっちゃドキドキしてきた…。<br/>
+                        <br/>
+                        皆さん、今日くらいは冗談は休んで明日に備えますよね？<br/>
+                    </p>
+                </div>
+                <div id="res21" style="margin-bottom: 10px;">
+                    <div>21: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+                        : 2025/04/02(水) 01:04:42.98 ID:BrBNH0uSE
+                    </div>
+                    <p style="padding-left: 20px;">
+                        <a href="#res20" style="color: blue;"><u>&gt;&gt;20</u></a><br/>
+                        .　. .... ..: : :: :: ::: :::::: :::::::::::: ::::::::::::::::::::::::::::::::::::::::::::::<br/>
+                        　　　　　　　 Λ＿Λ . . . .: : : ::: : :: ::::::::: :::::::::::::::::::::::::::::<br/>
+                        　　　　　 　/:彡ミ゛ヽ;）ー､　. . .: : : :::::: :::::::::::::::::::::::::::::::::<br/>
+                        　　　　　 / :::/:: ヽ、ヽ、 ::i . .:: :.: ::: . :::::::::::::::::::::::::::::::::::::::<br/>
+                        　　 　　 / :::/;;: 　 ヽ　ヽ ::ｌ　. :. :. .:: : :: :: :::::::: : ::::::::::::::::::<br/>
+                        ￣￣￣（_,ノ ￣￣￣ヽ､_ノ￣<br/>
+                        <br/>
+                        昨日だよ<br/>
+                        来年こそはがんばってよ<br/>
+                        年度初めからこんなことになるなんて<br/>
+                    </p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <div>1001: <span
+                            style="text-weight: 600; color: green;">以下、名無しにかわりまして暴走トラックがお送ります</span>
+
+                    </div>
+                    <p style="padding-left: 20px;">
+                        この村は１０００を超えました。
+                        もう書けないので、新しい村を立ててくださいです。。。
+                    </p>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+
+    <footer layout:replace="~{layout/footer::footer}"></footer>
+</div>
+</body>
+</html>
