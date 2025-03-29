@@ -1,0 +1,2 @@
+# ファイルが大きすぎて読み込みエラーとなるため
+src/lib/openapi-typescript/wolf-mansion/schema.d.ts
