@@ -8,6 +8,7 @@ import com.ort.app.api.request.UserListForm
 import com.ort.app.api.request.validator.PlayerChangePasswordFormValidator
 import com.ort.app.api.view.PlayerListContent
 import com.ort.app.api.view.PlayerRecordsContent
+import com.ort.app.api.view.player.PlayerView
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -201,6 +202,16 @@ class PlayerController(
         val charas = charaService.findCharasByCharachipId(charaIdList, false)
 
         return PlayerRecordsContent(playerRecords, charas, originalCharas, player.twitterUserName, player.introduction)
+    }
+
+    @GetMapping("/api/myself")
+    @ResponseBody
+    private fun myself(): PlayerView? {
+        return WolfMansionUserInfoUtil.getUserInfo()?.let {
+            playerService.findPlayer(it.username)?.let {
+                PlayerView(it)
+            }
+        }
     }
 
     data class ApiUserRequest(val userName: String = "")
