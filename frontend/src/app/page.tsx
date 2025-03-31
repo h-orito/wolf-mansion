@@ -1,26 +1,37 @@
+import AuthSection from '@/app/(topPage)/AuthSection'
+import CharachipListLink from '@/app/(topPage)/CharachipListLink'
+import UserListLink from '@/app/(topPage)/UserListLink'
+import VillageLinks from '@/app/(topPage)/VillageLinks'
+import VillageList from '@/app/(topPage)/VillageList'
 import { getRequest } from '@/components/api/api'
-import Image from 'next/image'
-import Link from 'next/link'
-import VillageList from './VillageList'
-import { Roboto_Mono } from 'next/font/google'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {
+  VillageSearchRequest,
+  VillageSearchResponse
+} from '@/lib/openapi-typescript/wolf-mansion/types'
 import {
   faBook,
   faBullhorn,
   faCircleInfo,
   faCircleQuestion,
-  faQuestion,
-  faUser,
-  faUserMinus,
-  faWrench
+  faQuestion
 } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Roboto_Mono } from 'next/font/google'
+import Image from 'next/image'
+import Link from 'next/link'
 
 const robotoMono = Roboto_Mono({
   variable: '--font-roboto-mono',
   subsets: ['latin']
 })
+
 export default async function HomePage() {
-  const villages = await getRequest('/api/village-list')
+  const villageSearchResponse = await getRequest<
+    VillageSearchRequest,
+    VillageSearchResponse
+  >('/api/village/search', {
+    statuses: ['IN_PREPARATION', 'IN_PROGRESS', 'EPILOGUE']
+  })
   return (
     <div>
       <div className='relative w-full'>
@@ -111,39 +122,20 @@ export default async function HomePage() {
           </Link>
         </div>
       </div>
-      <div className='mt-8 bg-[#333333]'>
-        <div className='p-8'>
-          <div className='flex justify-center'>登録 / ログイン</div>
-        </div>
-        <div className='grid grid-cols-3'>
-          <Link href='/about'>
-            <div className='flex w-full flex-col gap-2 border border-[#333333] bg-[#0b162a] p-4 text-center text-xs leading-4 text-white hover:border-green-500'>
-              <div className='flex justify-center'>
-                <FontAwesomeIcon icon={faUser} className='h-4 w-4' />
-              </div>
-              <p>マイページ</p>
-              <p>MyPage</p>
-            </div>
-          </Link>
-          <Link href='/about'>
-            <div className='flex w-full flex-col gap-2 border border-[#333333] bg-[#0b162a] p-4 text-center text-xs leading-4 text-white hover:border-green-500'>
-              <div className='flex justify-center'>
-                <FontAwesomeIcon icon={faWrench} className='h-4 w-4' />
-              </div>
-              <p>パスワード変更</p>
-              <p>Change Password</p>
-            </div>
-          </Link>
-          <Link href='/logout'>
-            <div className='flex w-full flex-col gap-2 border border-[#333333] bg-[#0b162a] p-4 text-center text-xs leading-4 text-white hover:border-green-500'>
-              <div className='flex justify-center'>
-                <FontAwesomeIcon icon={faUserMinus} className='h-4 w-4' />
-              </div>
-              <p>ログアウト</p>
-              <p>Logout</p>
-            </div>
-          </Link>
-        </div>
+
+      {/* 認証セクション（クライアントコンポーネント） */}
+      <AuthSection />
+
+      {/* 村一覧 */}
+      <VillageList villages={villageSearchResponse.villageList} />
+
+      {/* 村メニュー */}
+      <VillageLinks />
+
+      {/* ユーザーとキャラチップメニュー（md以上で横並び） */}
+      <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+        <UserListLink />
+        <CharachipListLink />
       </div>
     </div>
   )

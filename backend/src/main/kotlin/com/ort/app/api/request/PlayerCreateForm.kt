@@ -14,7 +14,7 @@ data class PlayerCreateForm(
     /** パスワード  */
     // TODO: DB拡張して72文字までにしたい
     @field:NotNull
-    @field:Length(min = 3, max = 12)
-    @field:Pattern(regexp = "[a-zA-Z0-9]*")
+    @field:Length(min = 3, max = 72)
+    @field:Pattern(regexp = "[\\x20-\\x7E]*")
     val password: String? = null
 )

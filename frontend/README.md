@@ -28,4 +28,4 @@ see https://github.com/nickbaumann98/cline_docs/blob/main/prompting/custom%20ins
 
 - 現在取り組んでいる機能も記録されるので、「作業を再開して」と依頼すれば再開してくれる
 
-- 久々に動かすときも、「メモリバンクをフォローして」と指示すれば、過去の文脈を読み込んだ状態で作業を再開できる
+- 久々に動かすときも、「follow your custom instructions」と指示すれば、過去の文脈を読み込んだ状態で作業を再開できる

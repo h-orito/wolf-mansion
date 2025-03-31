@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@typescript-eslint/parser": "^8.27.0",
     "dayjs": "^1.11.13",
     "eslint-config-prettier": "^10.1.1",
+    "js-cookie": "^3.0.5",
     "next": "15.2.3",
     "prettier": "^3.5.3",
     "react": "^19.0.0",
@@ -26,6 +28,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

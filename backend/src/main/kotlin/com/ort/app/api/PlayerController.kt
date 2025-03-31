@@ -15,7 +15,15 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.Authentication
+import org.springframework.security.core.context.SecurityContext
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler
+import org.springframework.security.web.context.SecurityContextRepository
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -27,16 +35,22 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.ResponseBody
+
 
 @Controller
 class PlayerController(
     private val playerService: PlayerService,
     private val playerCoordinator: PlayerCoordinator,
     private val charaService: CharaService,
-    private val playerChangePasswordFormValidator: PlayerChangePasswordFormValidator
+    private val playerChangePasswordFormValidator: PlayerChangePasswordFormValidator,
+    private val authenticationManager: AuthenticationManager,
+    private val securityContextRepository: SecurityContextRepository
 ) {
+
+    private val logoutHandler = SecurityContextLogoutHandler()
 
     companion object {
         private const val COOKIE_NAME_ID_REGISTER = "id_register"
@@ -63,6 +77,28 @@ class PlayerController(
         model.addAttribute("form", form.copy(password = null)) // パスワードは復元しない
         model.addAttribute("noAd", true)
         return "login"
+    }
+
+    @PostMapping("/api/login")
+    @ResponseBody
+    private fun apiLogin(
+        @RequestBody @Validated body: LoginForm,
+        request: HttpServletRequest,
+        response: HttpServletResponse
+    ): MyselfResponse? {
+        return try {
+            val authToken = UsernamePasswordAuthenticationToken(body.userId, body.password)
+            val authentication = authenticationManager.authenticate(authToken)
+            val context: SecurityContext = SecurityContextHolder.createEmptyContext()
+            context.authentication = authentication
+            SecurityContextHolder.setContext(context)
+            securityContextRepository.saveContext(context, request, response)
+            playerService.findPlayer(body.userId!!)?.let {
+                MyselfResponse(player = PlayerView(it))
+            } ?: MyselfResponse(null)
+        } catch (e: Exception) {
+            MyselfResponse(null)
+        }
     }
 
     // プレイヤー新規登録
@@ -134,7 +170,8 @@ class PlayerController(
         return "redirect:/"
     }
 
-    @PostMapping("/api/change-password")
+    @PutMapping("/api/change-password")
+    @ResponseBody
     private fun apiChangePassword(
         @RequestBody @Validated body: PlayerChangePasswordForm,  //
     ) {
@@ -204,17 +241,19 @@ class PlayerController(
         return PlayerRecordsContent(playerRecords, charas, originalCharas, player.twitterUserName, player.introduction)
     }
 
+    data class ApiUserRequest(val userName: String = "")
+
     @GetMapping("/api/myself")
     @ResponseBody
-    private fun myself(): PlayerView? {
+    private fun myself(): MyselfResponse {
         return WolfMansionUserInfoUtil.getUserInfo()?.let {
             playerService.findPlayer(it.username)?.let {
-                PlayerView(it)
+                MyselfResponse(player = PlayerView(it))
             }
-        }
+        } ?: MyselfResponse(null)
     }
 
-    data class ApiUserRequest(val userName: String = "")
+    data class MyselfResponse(val player: PlayerView?)
 
     @PostMapping("/user-detail")
     private fun userDetail(
@@ -236,6 +275,15 @@ class PlayerController(
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
             ?: throw WolfMansionBusinessException("ユーザ情報が取得できませんでした")
         playerService.updatePlayerDetail(userInfo.username, body.twitterUserName, body.introduction)
+    }
+
+    @PostMapping("/api/logout")
+    @ResponseBody
+    private fun apiLogout(authentication: Authentication, request: HttpServletRequest, response: HttpServletResponse) {
+        logoutHandler.logout(request, response, authentication)
+        val context: SecurityContext = SecurityContextHolder.createEmptyContext()
+        SecurityContextHolder.setContext(context)
+        securityContextRepository.saveContext(context, request, response)
     }
 
     private fun setIndexModel(form: PlayerCreateForm, model: Model) {

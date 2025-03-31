@@ -1,5 +1,7 @@
+import LoginIndicator from '@/components/auth/LoginIndicator'
+import Footer from '@/components/ui/Footer'
 import type { Metadata } from 'next'
-import { Noto_Sans_JP, Roboto_Mono } from 'next/font/google'
+import { Noto_Sans_JP } from 'next/font/google'
 import './globals.css'
 
 const notoSans = Noto_Sans_JP({
@@ -40,8 +42,16 @@ export default function RootLayout({
 }>) {
   return (
     <html>
-      <body className={`${notoSans.variable} flex justify-center px-2`}>
-        <div className='lg:w-[960px] md:w-[720px] w-full'>{children}</div>
+      <body
+        className={`${notoSans.variable} flex min-h-screen flex-col items-center px-2`}
+      >
+        <div className='w-full flex-grow md:w-[720px] lg:w-[960px]'>
+          {children}
+        </div>
+        <div className='w-full'>
+          <Footer />
+        </div>
+        <LoginIndicator />
       </body>
     </html>
   )

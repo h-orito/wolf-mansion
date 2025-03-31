@@ -52,6 +52,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/change-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put: operations["apiChangePassword"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/village/{villageId}/confirm": {
         parameters: {
             query?: never;
@@ -484,6 +500,22 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["apiLogout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/login": {
         parameters: {
             query?: never;
@@ -493,7 +525,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        post: operations["index"];
+        post: operations["apiLogin"];
         delete?: never;
         options?: never;
         head?: never;
@@ -619,7 +651,7 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        get: operations["index_1"];
+        get: operations["index"];
         put?: never;
         post?: never;
         delete?: never;
@@ -820,7 +852,7 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/village-list": {
+    "/api/village/search": {
         parameters: {
             query?: never;
             header?: never;
@@ -984,6 +1016,10 @@ export interface components {
         RandomKeywordForm: {
             keyword: string;
             message: string;
+        };
+        PlayerChangePasswordForm: {
+            password: string;
+            confirmPassword: string;
         };
         VillageSayForm: {
             message: string;
@@ -1253,6 +1289,9 @@ export interface components {
             password: string;
             error?: boolean;
         };
+        MyselfResponse: {
+            player?: components["schemas"]["PlayerView"];
+        };
         PlayerView: {
             /** Format: int32 */
             id: number;
@@ -1495,22 +1534,22 @@ export interface components {
             isDivineResultWolf: boolean;
             isDeadByDivine: boolean;
             isCounterDeadByInvestigate: boolean;
-            isPsychicResultWolf: boolean;
             isOpenSkill: boolean;
-            isViewableWerewolfSay: boolean;
-            isViewableAttackMessage: boolean;
-            isViewableCoronerMessage: boolean;
-            isViewableDivineMessage: boolean;
-            isViewableLoversSay: boolean;
+            isPsychicResultWolf: boolean;
             isSayableSympathizeSay: boolean;
             isViewableTelepathy: boolean;
             isSayableTelepathy: boolean;
+            isViewableWerewolfSay: boolean;
+            isViewableAttackMessage: boolean;
+            isViewableCoronerMessage: boolean;
+            isViewableLoversSay: boolean;
+            isViewableDivineMessage: boolean;
             isViewableFoxMessage: boolean;
             isViewableGuruMessage: boolean;
             isViewableInvestigateMessage: boolean;
-            isViewableLoversMessage: boolean;
             isViewablePsychicMessage: boolean;
             isViewableWiseMessage: boolean;
+            isViewableLoversMessage: boolean;
             isNoCount: boolean;
             isCounterDeadByDivine: boolean;
             isRevivable: boolean;
@@ -1626,8 +1665,8 @@ export interface components {
             isSettled: boolean;
             isProgress: boolean;
             isEpilogue: boolean;
-            isNotFinished: boolean;
             isSettleOrCanceled: boolean;
+            isNotFinished: boolean;
             isFinished: boolean;
         };
         VillageView: {
@@ -1735,6 +1774,13 @@ export interface components {
         VillageAnchorMessageContent: {
             message?: components["schemas"]["VillageMessageContent"];
         };
+        VillageSearchForm: {
+            ids?: number[];
+            statuses?: string[];
+            charachipIds?: number[];
+            skills?: string[];
+            isRandomOrg?: boolean;
+        };
         CharachipContent: {
             /** Format: int32 */
             id: number;
@@ -1742,6 +1788,10 @@ export interface components {
         };
         SkillContent: {
             code: string;
+            name: string;
+        };
+        Tag: {
+            level: string;
             name: string;
         };
         VillageListContent: {
@@ -1756,6 +1806,7 @@ export interface components {
             villageName: string;
             participateNum: string;
             status: string;
+            tags: components["schemas"]["Tag"][];
         };
         ApiUserRequest: {
             userName: string;
@@ -1966,6 +2017,28 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["RandomKeywordForm"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    apiChangePassword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PlayerChangePasswordForm"];
             };
         };
         responses: {
@@ -2604,7 +2677,25 @@ export interface operations {
             };
         };
     };
-    index: {
+    apiLogout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    apiLogin: {
         parameters: {
             query?: never;
             header?: never;
@@ -2623,7 +2714,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PlayerView"];
+                    "*/*": components["schemas"]["MyselfResponse"];
                 };
             };
         };
@@ -2780,7 +2871,7 @@ export interface operations {
             };
         };
     };
-    index_1: {
+    index: {
         parameters: {
             query: {
                 form: components["schemas"]["SkillForm"];
@@ -3081,7 +3172,9 @@ export interface operations {
     };
     villageList: {
         parameters: {
-            query?: never;
+            query: {
+                form: components["schemas"]["VillageSearchForm"];
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -3178,7 +3271,7 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
-                    "*/*": components["schemas"]["PlayerView"];
+                    "*/*": components["schemas"]["MyselfResponse"];
                 };
             };
         };

@@ -13,8 +13,8 @@ data class LoginForm(
 
     /** パスワード  */
     @field:NotNull
-    @field:Length(min = 3, max = 12)
-    @field:Pattern(regexp = "[a-zA-Z0-9]*")
+    @field:Length(min = 3, max = 72)
+    @field:Pattern(regexp = "[\\x20-\\x7E]*")
     val password: String? = null,
 
     /** エラー有無  */
