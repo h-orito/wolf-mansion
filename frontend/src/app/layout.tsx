@@ -2,7 +2,7 @@ import LoginIndicator from '@/components/auth/LoginIndicator'
 import Footer from '@/components/ui/Footer'
 import type { Metadata } from 'next'
 import { Noto_Sans_JP } from 'next/font/google'
-import './globals.css'
+import './globals.scss'
 
 const notoSans = Noto_Sans_JP({
   variable: '--font-noto-sans-jp',
