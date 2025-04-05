@@ -1,0 +1,37 @@
+@use 'tailwindcss';
+
+:root {
+  --background: #222222;
+  --foreground: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: sans-serif;
+}
+
+/* リスト用のスタイル */
+.list-content {
+  @apply list-inside list-disc space-y-2 pl-6 text-sm;
+}
+
+/* 入れ子リスト用のスタイル */
+.list-content-nested {
+  @apply mt-2 list-inside list-disc space-y-2 pl-6;
+}
+
+/* セクション用のスタイル */
+.content-section {
+  @apply mb-8 bg-[#333333] p-6;
+}
+
+/* セクションタイトル用のスタイル */
+.section-title {
+  @apply mb-4 flex items-center gap-2 text-xl font-bold;
+}
+
+/* リンク用のスタイル */
+.link-style {
+  @apply text-green-500 hover:underline;
+}
