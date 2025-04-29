@@ -20,7 +20,7 @@ class WolfMansionLogoutSuccessHandler : LogoutSuccessHandler {
             response.characterEncoding = "UTF-8"
         } else {
             // 通常のログアウト時はリダイレクト
-            response!!.sendRedirect("/wolf-mansion")
+            response!!.sendRedirect("/wolf-mansion/")
         }
     }
 }
