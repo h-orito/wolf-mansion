@@ -20,7 +20,7 @@ class WolfMansionLoginSuccessHandler : AuthenticationSuccessHandler {
         logger.info("login success: $requestUri")
         if (!requestUri.startsWith("/api/")) {
             // 通常のログイン: `/` にリダイレクト
-            response!!.sendRedirect("/wolf-mansion")
+            response!!.sendRedirect("/wolf-mansion/")
         }
     }
 }
