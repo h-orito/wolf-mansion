@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import java.time.LocalDateTime
 
 @Controller
 class IndexController(
@@ -43,25 +42,40 @@ class IndexController(
         val canCreateVillage = player.canCreateVillage()
         val content = IndexContent(villages, canCreateVillage)
         model.addAttribute("content", content)
-
-        val now = LocalDateTime.now()
-        if (now.isAfter(LocalDateTime.of(2025, 4, 1, 0, 0, 0)) && now.isBefore(LocalDateTime.of(2025, 4, 2, 0, 0, 0))) {
-            return "april"
-        } else if (now.isAfter(LocalDateTime.of(2025, 4, 2, 0, 0, 0)) && now.isBefore(
-                LocalDateTime.of(
-                    2025,
-                    4,
-                    3,
-                    0,
-                    0,
-                    0
-                )
-            )
-        ) {
-            return "april2"
-        }
-
         return "index"
+    }
+
+    @GetMapping("/archives/april-20250401")
+    fun april20250401(form: LoginForm, model: Model): String {
+        model.addAttribute("form", form)
+        val villages = villageService.findVillages(
+            query = VillageQuery(statuses = VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
+        )
+        val userInfo = WolfMansionUserInfoUtil.getUserInfo()
+        val player = userInfo?.let {
+            playerService.findPlayer(it.username)
+        }
+        val canCreateVillage = player.canCreateVillage()
+        val content = IndexContent(villages, canCreateVillage)
+        model.addAttribute("content", content)
+
+        return "april20250401"
+    }
+
+    @GetMapping("/archives/april-20250402")
+    fun april20250402(form: LoginForm, model: Model): String {
+        model.addAttribute("form", form)
+        val villages = villageService.findVillages(
+            query = VillageQuery(statuses = VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
+        )
+        val userInfo = WolfMansionUserInfoUtil.getUserInfo()
+        val player = userInfo?.let {
+            playerService.findPlayer(it.username)
+        }
+        val canCreateVillage = player.canCreateVillage()
+        val content = IndexContent(villages, canCreateVillage)
+        model.addAttribute("content", content)
+        return "april20250402"
     }
 
     @GetMapping("/recruiting")
