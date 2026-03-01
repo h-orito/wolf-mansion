@@ -27,3 +27,7 @@ nbdist/
 
 /log/
 dbflute_wolf_mansiondb/log/*
+
+### Claude ###
+.claude/settings.local.json
+.serena
