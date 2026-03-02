@@ -1144,6 +1144,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
     }
 
     /**
+     * Equal(=). As 拷問者 (TORTURER). And OnlyOnceRegistered. <br>
+     * 拷問者
+     */
+    public void setSkillCode_Equal_拷問者() {
+        setSkillCode_Equal_AsSkill(CDef.Skill.拷問者);
+    }
+
+    /**
      * Equal(=). As 翻訳者 (TRANSLATOR). And OnlyOnceRegistered. <br>
      * 翻訳者
      */
@@ -2220,6 +2228,14 @@ public abstract class AbstractBsNormalSayRestrictionCQ extends AbstractCondition
      */
     public void setSkillCode_NotEqual_泥棒猫() {
         setSkillCode_NotEqual_AsSkill(CDef.Skill.泥棒猫);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 拷問者 (TORTURER). And OnlyOnceRegistered. <br>
+     * 拷問者
+     */
+    public void setSkillCode_NotEqual_拷問者() {
+        setSkillCode_NotEqual_AsSkill(CDef.Skill.拷問者);
     }
 
     /**

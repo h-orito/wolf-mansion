@@ -55,6 +55,7 @@ import com.ort.app.domain.service.ability.SeduceDomainService
 import com.ort.app.domain.service.ability.ShoutDomainService
 import com.ort.app.domain.service.ability.StalkingDomainService
 import com.ort.app.domain.service.ability.TelekinesisDomainService
+import com.ort.app.domain.service.ability.TortureDomainService
 import com.ort.app.domain.service.ability.TranslateDomainService
 import com.ort.app.domain.service.ability.TrapDomainService
 import com.ort.app.domain.service.ability.WallPunchDomainService
@@ -116,6 +117,7 @@ class ProgressDomainService(
     private val curseMarkDomainService: CurseMarkDomainService,
     private val counterCurseMarkDomainService: CounterCurseMarkDomainService,
     private val telekinesisDomainService: TelekinesisDomainService,
+    private val tortureDomainService: TortureDomainService,
     private val revolutionDomainService: RevolutionDomainService,
     private val hiyasichukaDomainService: HiyasichukaDomainService,
     private val emotionDomainService: EmotionDomainService,
@@ -210,6 +212,8 @@ class ProgressDomainService(
         daychange = deadDivineDomainService.divine(daychange)
         // 捜査
         daychange = investigateDomainService.investigate(daychange)
+        // 拷問
+        daychange = tortureDomainService.torture(daychange)
         // 霊能
         daychange = psychicDomainService.psychic(daychange)
         // 同棲メッセージ

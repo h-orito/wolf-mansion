@@ -85,6 +85,7 @@ class AbilityDomainService(
     private val hiyasichukaDomainService: HiyasichukaDomainService,
     private val emotionDomainService: EmotionDomainService,
     private val chikuwaDomainService: ChikuwaDomainService,
+    private val tortureDomainService: TortureDomainService,
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService
 ) {
@@ -203,6 +204,7 @@ class AbilityDomainService(
             CDef.AbilityType.誰だ今の -> chikuwaDomainService
             CDef.AbilityType.情緒 -> emotionDomainService
             CDef.AbilityType.ナマ足 -> hotLimitDomainService
+            CDef.AbilityType.拷問 -> tortureDomainService
         }
 
     fun createSetMessage(

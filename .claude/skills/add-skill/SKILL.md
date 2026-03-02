@@ -199,7 +199,42 @@ class XxxDomainService(
 - システムメッセージの例文がある場合は、対応する `message-private-{種別}` クラスの div で囲む
 - 既存の類似役職の記述スタイルに合わせる
 
-### Step 10: ビルド確認
+### Step 10: detail.html の能力処理順を更新
+
+`src/main/resources/templates/rule/detail.html` の `id="process-order"` セクションに、新役職の能力処理を追加します。
+
+`ProgressDomainService.kt` の `changeDay()` での処理順序と一致するよう、適切な位置に挿入してください。
+
+```html
+<li style="padding-left: 5px;"><a href="#{skill_code（小文字）}">{skill_name}</a>の{能力名}</li>
+```
+
+### Step 11: messages_ja.properties に役職説明を追加
+
+`src/main/resources/messages_ja.properties` に新役職の説明を追加します。
+
+```
+skill.{skill_code（小文字）}.description={Unicode エスケープされた説明文}
+```
+
+**記述のポイント**:
+- キーは `skill.{skill_code を小文字にしたもの}.description`（例: `TORTURER` → `skill.torturer.description`）
+- 値は日本語テキストを `\uXXXX` 形式で Unicode エスケープしたもの
+- 説明文には能力の概要、足音の有無、特殊な挙動などを含める
+- `<br>` タグで改行を表現する
+- disp_order 順に挿入する（既存エントリの並び順に合わせる）
+
+### Step 12: announce.html にリリースノートを追記
+
+`src/main/resources/templates/announce.html` の履歴リストの先頭に、新役職追加の記録を追加します。
+
+```html
+<li>YYYY/MM/DD 役職「{skill_name}」を追加</li>
+```
+
+最新の日付で、既存の履歴の先頭（`<ul>` の直後）に挿入してください。
+
+### Step 13: ビルド確認
 
 ```bash
 ./gradlew build -x test
@@ -231,8 +266,11 @@ class XxxDomainService(
 □ ProgressDomainService.kt のコンストラクタに DI 追加
 □ ProgressDomainService.kt の changeDay() に処理を追加
 
-【役職説明】
+【役職説明・リリース】
 □ rule/skill.html に役職説明を追加
+□ rule/detail.html の能力処理順に追加
+□ messages_ja.properties に役職説明を追加
+□ announce.html にリリースノートを追記
 
 【最終確認】
 □ ./gradlew build -x test でコンパイル成功

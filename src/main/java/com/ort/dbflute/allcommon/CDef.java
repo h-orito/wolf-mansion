@@ -886,6 +886,9 @@ public interface CDef extends Classification {
         /** 泥棒猫 */
         泥棒猫("THIEFCAT", "泥棒猫", emptyStrings())
         ,
+        /** 拷問者 */
+        拷問者("TORTURER", "拷問者", emptyStrings())
+        ,
         /** 翻訳者 */
         翻訳者("TRANSLATOR", "翻訳者", emptyStrings())
         ,
@@ -1768,6 +1771,13 @@ public interface CDef extends Classification {
                 subItemMap.put("campCode", "CRIMINAL");
                 subItemMap.put("skill_short_name", "泥");
                 _subItemMapMap.put(泥棒猫.code(), Collections.unmodifiableMap(subItemMap));
+            }
+            {
+                Map<String, Object> subItemMap = new HashMap<String, Object>();
+                subItemMap.put("order", "43");
+                subItemMap.put("campCode", "VILLAGER");
+                subItemMap.put("skill_short_name", "拷");
+                _subItemMapMap.put(拷問者.code(), Collections.unmodifiableMap(subItemMap));
             }
             {
                 Map<String, Object> subItemMap = new HashMap<String, Object>();
@@ -2779,6 +2789,9 @@ public interface CDef extends Classification {
         ,
         /** ストーキング */
         ストーキング("STALKING", "ストーキング", emptyStrings())
+        ,
+        /** 拷問 */
+        拷問("TORTURE", "拷問", emptyStrings())
         ,
         /** 翻訳 */
         翻訳("TRANSLATE", "翻訳", emptyStrings())

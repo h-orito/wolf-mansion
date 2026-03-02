@@ -518,6 +518,14 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     }
 
     /**
+     * Set the value of abilityTypeCode as 拷問 (TORTURE). <br>
+     * 拷問
+     */
+    public void setAbilityTypeCode_拷問() {
+        setAbilityTypeCodeAsAbilityType(CDef.AbilityType.拷問);
+    }
+
+    /**
      * Set the value of abilityTypeCode as 翻訳 (TRANSLATE). <br>
      * 翻訳
      */
@@ -1124,6 +1132,17 @@ public abstract class BsAbilityType extends AbstractEntity implements DomainEnti
     public boolean isAbilityTypeCodeストーキング() {
         CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
         return cdef != null ? cdef.equals(CDef.AbilityType.ストーキング) : false;
+    }
+
+    /**
+     * Is the value of abilityTypeCode 拷問? <br>
+     * 拷問
+     * <p>It's treated as case insensitive and if the code value is null, it returns false.</p>
+     * @return The determination, true or false.
+     */
+    public boolean isAbilityTypeCode拷問() {
+        CDef.AbilityType cdef = getAbilityTypeCodeAsAbilityType();
+        return cdef != null ? cdef.equals(CDef.AbilityType.拷問) : false;
     }
 
     /**

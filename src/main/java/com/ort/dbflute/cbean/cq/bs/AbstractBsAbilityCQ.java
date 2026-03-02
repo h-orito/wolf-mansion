@@ -1720,6 +1720,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
     }
 
     /**
+     * Equal(=). As 拷問 (TORTURE). And OnlyOnceRegistered. <br>
+     * 拷問
+     */
+    public void setAbilityTypeCode_Equal_拷問() {
+        setAbilityTypeCode_Equal_AsAbilityType(CDef.AbilityType.拷問);
+    }
+
+    /**
      * Equal(=). As 翻訳 (TRANSLATE). And OnlyOnceRegistered. <br>
      * 翻訳
      */
@@ -2196,6 +2204,14 @@ public abstract class AbstractBsAbilityCQ extends AbstractConditionQuery {
      */
     public void setAbilityTypeCode_NotEqual_ストーキング() {
         setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.ストーキング);
+    }
+
+    /**
+     * NotEqual(&lt;&gt;). As 拷問 (TORTURE). And OnlyOnceRegistered. <br>
+     * 拷問
+     */
+    public void setAbilityTypeCode_NotEqual_拷問() {
+        setAbilityTypeCode_NotEqual_AsAbilityType(CDef.AbilityType.拷問);
     }
 
     /**
