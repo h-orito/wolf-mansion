@@ -173,7 +173,33 @@ class XxxDomainService(
 
 **処理順序の注意**: 既存の処理フローを確認し、能力の性質に応じた適切な位置に挿入すること。例えば護衛系は占いより前、襲撃系は護衛の後など。
 
-### Step 9: ビルド確認
+### Step 9: skill.html に役職説明を追記
+
+`src/main/resources/templates/rule/skill.html` に新役職の説明を追加します。
+
+該当する陣営の `<ul>` ブロック内に、disp_order の順序に合わせて `<li>` を挿入します。
+
+```html
+<li id="{skill_code（小文字）}">【{skill_short_name}】{skill_name}
+    <ul>
+        <li>能力の説明文。</li>
+        <li>補足事項があれば追加。</li>
+        <li>
+            <div class="message message-private-{メッセージ種別}">
+                システムメッセージの例文
+            </div>
+        </li>
+    </ul>
+</li>
+```
+
+**記述のポイント**:
+- `id` 属性は skill_code を小文字にしたもの（例: `HUNTER` → `hunter`）
+- 能力の詳細、制約条件、他役職との相互作用を記載する
+- システムメッセージの例文がある場合は、対応する `message-private-{種別}` クラスの div で囲む
+- 既存の類似役職の記述スタイルに合わせる
+
+### Step 10: ビルド確認
 
 ```bash
 ./gradlew build -x test
@@ -204,6 +230,9 @@ class XxxDomainService(
 【日付更新処理層】
 □ ProgressDomainService.kt のコンストラクタに DI 追加
 □ ProgressDomainService.kt の changeDay() に処理を追加
+
+【役職説明】
+□ rule/skill.html に役職説明を追加
 
 【最終確認】
 □ ./gradlew build -x test でコンパイル成功
