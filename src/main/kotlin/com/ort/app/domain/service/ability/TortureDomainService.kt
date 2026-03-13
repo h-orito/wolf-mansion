@@ -54,8 +54,13 @@ class TortureDomainService(
         village.participants.filterAlive().filterBySkill(CDef.Skill.拷問者.toModel()).list.forEach {
             val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
-            messages = messages.add(createTortureMessage(village, it, target))
-            messages = messages.add(createTorturedMessage(village, it, target))
+            if (target.skill!!.isOpenSkill()) {
+                messages = messages.add(createTortureFailedMessage(village, it, target))
+                messages = messages.add(createTorturedFailedMessage(village, it, target))
+            } else {
+                messages = messages.add(createTortureMessage(village, it, target))
+                messages = messages.add(createTorturedMessage(village, it, target))
+            }
         }
 
         return daychange.copy(messages = messages)
@@ -84,6 +89,34 @@ class TortureDomainService(
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
+            text = text,
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    private fun createTortureFailedMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant
+    ): Message {
+        val text = "${myself.name()}は、${target.name()}を拷問したが、${target.name()}は拷問に屈しなかった。"
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = myself,
+            text = text,
+            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+        )
+    }
+
+    private fun createTorturedFailedMessage(
+        village: Village,
+        torturer: VillageParticipant,
+        target: VillageParticipant
+    ): Message {
+        val text = "${torturer.name()}があなたを拷問しましたが、あなたは屈しませんでした。"
+        return messageDomainService.createPrivateAbilityMessage(
+            village = village,
+            myself = target,
             text = text,
             messageType = CDef.MessageType.能力行使メッセージ.toModel()
         )
