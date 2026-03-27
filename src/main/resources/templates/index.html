@@ -24,6 +24,13 @@
 						hoge</span>
             </div>
 
+            <!--/* エイプリルフール: ランダム役職説明 */-->
+            <div th:if="${aprilFoolDescription != null}" class="col-sm-12 col-xs-12" style="padding: 10px 15px;">
+                <div class="alert alert-normal" style="margin-bottom: 0;">
+                    <p th:utext="${aprilFoolDescription}"></p>
+                </div>
+            </div>
+
             <div class="col-sm-12 col-xs-12 top-menu">
                 <div class="top-menu-inner h500px" style="display: block; text-align: center;">
                     <div class="row">
