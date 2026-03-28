@@ -17,6 +17,25 @@ services:
       --collation-server=utf8mb4_general_ci
     volumes:
       - wolf-mansion-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  dbflute-init:
+    image: eclipse-temurin:11-jdk
+    container_name: wolf-mansion-dbflute-init
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - .:/work
+    working_dir: /work
+    entrypoint: ["bash", "/work/docker/dbflute-init.sh"]
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: "3306"
 
 volumes:
   wolf-mansion-mysql-data:
