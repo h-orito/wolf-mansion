@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: wolf-mansion-mysql
+    ports:
+      - "4306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: werewolf_mansiondb
+      MYSQL_USER: wmansion
+      MYSQL_PASSWORD: wmans10n
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    volumes:
+      - wolf-mansion-mysql-data:/var/lib/mysql
+
+volumes:
+  wolf-mansion-mysql-data:
