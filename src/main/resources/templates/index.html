@@ -12,6 +12,7 @@
 <div class="container">
     <div layout:fragment="content">
         <div id="wrapper">
+            <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
             <!--/* トップ画像 */-->
             <div class="col-sm-12 col-xs-12 top-image" data-goto="">
                 <img src="" th:src="@{/app/images/top.jpg}" style="width: 100%;"> <span class="font-anima"
@@ -151,7 +152,6 @@
                     </div>
                 </div>
             </div>
-            <form id="logout-form" method="post" action="" th:action="@{/logout}"></form>
 
             <div class="col-sm-12 col-xs-12 top-menu">
                 <div class="top-menu-inner" style="display: block; text-align: center;">
