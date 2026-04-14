@@ -86,14 +86,14 @@ class OmniscienceDomainService(
         myself: VillageParticipant
     ): Message {
         val text = village.participants.filterAlive().list
-            .groupBy { it.skill!! }.entries
-            .sortedBy { it.key.toCdef().order().toInt() }
+            .groupBy { it.skill!!.toCdef() }.entries
+            .sortedBy { it.key.order().toInt() }
             .joinToString(
                 separator = "、",
                 prefix = "${myself.name()}は、この村の全容を明らかにした。\nこの村には、",
                 postfix = "生存しているようだ。"
             ) {
-                "${it.key.name}が${it.value.size}名"
+                "${it.key.toModel().name}が${it.value.size}名"
             }
         return messageDomainService.createPrivateAbilityMessage(
             village,
