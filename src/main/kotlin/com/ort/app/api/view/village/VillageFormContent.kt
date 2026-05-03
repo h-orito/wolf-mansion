@@ -3,6 +3,7 @@ package com.ort.app.api.view.village
 import com.ort.app.api.view.OptionContent
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.CharaImage
+import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
@@ -92,15 +93,27 @@ data class VillageFormContent(
             val shortName: String,
             val url: String,
             val width: Int,
-            val height: Int
+            val height: Int,
+                val canChangeName: Boolean,
         ) {
-            constructor(chara: Chara) : this(
+            constructor(chara: Chara, charachip: Charachip) : this(
                 id = chara.id,
                 name = chara.name,
                 shortName = chara.shortName,
                 url = chara.defaultImage().url,
                 width = chara.size.width,
-                height = chara.size.height
+                height = chara.size.height,
+                canChangeName = charachip.isAvailableChangeName
+            )
+
+            constructor(chara: Chara) : this(
+                    id = chara.id,
+                    name = chara.name,
+                    shortName = chara.shortName,
+                    url = chara.defaultImage().url,
+                    width = chara.size.width,
+                    height = chara.size.height,
+                    canChangeName = false
             )
         }
 

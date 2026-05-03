@@ -1860,6 +1860,11 @@ $(function () {
             } else {
            		selectChara(charas[0].id.toString());
             }
+
+            if (response.some(c => !c.canChangeName)) {
+                $('#charaName').attr('disabled', true);
+                $('#charaShortName').attr('disabled', true)
+            }
         });
     }
 
