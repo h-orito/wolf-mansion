@@ -1862,8 +1862,11 @@ $(function () {
             }
 
             if (response.some(c => !c.canChangeName)) {
-                $('#charaName').attr('disabled', true);
-                $('#charaShortName').attr('disabled', true)
+                $('#charaName').attr('readonly', true);
+                $('#charaShortName').attr('readonly', true);
+            } else {
+                $('#charaName').removeAttr('readonly');
+                $('#charaShortName').removeAttr('readonly');
             }
         });
     }
