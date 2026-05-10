@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: setup
         run: |
-          docker image prune --force
+          docker system prune --force
 
       - name: clone repository
         uses: actions/checkout@v2
