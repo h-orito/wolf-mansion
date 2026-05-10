@@ -40,7 +40,7 @@ logging:
 app:
   debug: false
   original-image:
-    basedir: /var/www/html/wmansion/original
+    basedir: /app/original
     baseurl: /wmansion/original
 
 twitter:
