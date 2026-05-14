@@ -3,7 +3,7 @@ spring:
     url: jdbc:mysql://127.0.0.1:4306/werewolf_mansiondb?character_set_server=utf8mb4
     username: wmansion
     password: wmans10n
-    driverClassName: com.mysql.jdbc.Driver
+    driverClassName: com.mysql.cj.jdbc.Driver
   thymeleaf:
     cache: false
     mode: HTML
@@ -18,6 +18,9 @@ server:
     session:
       timeout: 86400
   port: 8089
+  tomcat:
+    max-part-count: 3000
+    max-parameter-count: 10000
 
 logging:
   level:
@@ -31,13 +34,6 @@ app:
   original-image:
     basedir: /var/www/html/wmansion/original
     baseurl: /wmansion/original
-
-twitter:
-  oauth:
-    consumer-key:
-    consumer-secret:
-    access-token:
-    access-token-secret:
 
 mastodon:
   oauth:

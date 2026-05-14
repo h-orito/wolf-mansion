@@ -2,7 +2,7 @@ package com.ort.app.api.request
 
 import org.hibernate.validator.constraints.Length
 import org.springframework.web.multipart.MultipartFile
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 data class VillageParticipateForm(
     // キャラチップ制の場合のみ

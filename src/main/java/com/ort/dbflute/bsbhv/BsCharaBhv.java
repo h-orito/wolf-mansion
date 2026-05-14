@@ -910,19 +910,19 @@ public abstract class BsCharaBhv extends AbstractBehaviorWritable<Chara, CharaCB
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @javax.annotation.Resource(name="behaviorCommandInvoker")
+    @jakarta.annotation.Resource(name="behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @javax.annotation.Resource(name="behaviorSelector")
+    @jakarta.annotation.Resource(name="behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @javax.annotation.Resource(name="commonColumnAutoSetupper")
+    @jakarta.annotation.Resource(name="commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }

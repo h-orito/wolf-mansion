@@ -1,15 +1,15 @@
 plugins {
     java
-    id("org.springframework.boot") version "2.3.0.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    kotlin("jvm") version "1.5.32"
-    kotlin("plugin.spring") version "1.5.32"
-    id("com.google.cloud.tools.jib") version "2.6.0"
+    id("org.springframework.boot") version "3.5.9"
+    id("io.spring.dependency-management") version "1.1.6"
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
+    id("com.google.cloud.tools.jib") version "3.4.4"
 }
 
 group = "com.ort"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 apply(plugin = "kotlin")
 apply(plugin = "io.spring.dependency-management")
@@ -19,11 +19,7 @@ repositories {
 }
 
 sourceSets {
-    getByName("main").java.srcDirs("src/main/kotlin")
-    getByName("main").java.srcDirs("src/main/java")
     getByName("test").java.srcDirs("src/test")
-    getByName("main").resources.srcDirs("src/main/resources")
-    getByName("test").resources.srcDirs("src/test/resources")
 }
 
 dependencies {
@@ -35,34 +31,25 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa") {
-        exclude("com.zaxxer:HikariCP")
-    }
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     // thymeleaf
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
-    implementation("org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.0.RELEASE")
-    implementation("org.thymeleaf:thymeleaf:3.0.9.RELEASE")
-    implementation("org.thymeleaf:thymeleaf-spring4:3.0.9.RELEASE")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0")
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
+    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0")
     // dbflute, mysql
-    implementation("org.dbflute:dbflute-runtime:1.2.1")
-    implementation("mysql:mysql-connector-java:8.0.25")
+    implementation("org.dbflute:dbflute-runtime:1.3.1")
+    implementation("com.mysql:mysql-connector-j")
     // apache commons
-    implementation("org.apache.commons:commons-lang3:3.6")
-    implementation("org.apache.commons:commons-collections4:4.1")
-    // twitter
-    implementation("org.twitter4j:twitter4j-core:4.0.7")
+    implementation("org.apache.commons:commons-lang3")
+    implementation("org.apache.commons:commons-collections4:4.4")
     // jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.3.72")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-//    testImplementation("com.codeborne:selenide:5.5.0")
 }
 
 tasks.withType<Test> {
@@ -72,19 +59,13 @@ tasks.withType<Test> {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "21"
     }
 }
 
 jib {
     from {
-        image = "arm64v8/openjdk:11"
-        platforms {
-            platform {
-                architecture = "arm64"
-                os = "linux"
-            }
-        }
+        image = "eclipse-temurin:21-jre-jammy"
     }
     to {
         image = "ghcr.io/h-orito/wolf-mansion"

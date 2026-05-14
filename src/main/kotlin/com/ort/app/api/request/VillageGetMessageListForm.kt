@@ -5,7 +5,7 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.message.toModel
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
-import javax.validation.constraints.NotNull
+import jakarta.validation.constraints.NotNull
 
 data class VillageGetMessageListForm(
     /** 村ID */
