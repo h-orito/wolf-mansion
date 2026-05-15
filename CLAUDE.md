@@ -74,7 +74,7 @@ fw/             → フレームワーク基盤（Security, Interceptor, Config,
 
 ### デプロイ
 
-masterへのpushで`deploy-sakura.yml`によりさくらサーバーへ自動デプロイ。
+mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ。
 
 ## Key Conventions
 
