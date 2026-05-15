@@ -65,7 +65,13 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 jib {
     from {
-        image = "eclipse-temurin:21-jre-jammy"
+        image = "eclipse-temurin:21-jre"
+        platforms {
+            platform {
+                architecture = "arm64"
+                os = "linux"
+            }
+        }
     }
     to {
         image = "ghcr.io/h-orito/wolf-mansion"
