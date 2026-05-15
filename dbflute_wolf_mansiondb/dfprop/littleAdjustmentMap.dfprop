@@ -213,5 +213,8 @@ map:{
     #    ; versionNoFieldName = VERSION_NO
     #}
     # - - - - - - - - - -/
+
+    # Jakarta EE 9+ migration: generate @jakarta.annotation.Resource instead of @javax.annotation.Resource
+    ; isMigrateOldJavaxToJakarta = true
 }
 # ----------------/

@@ -1,7 +1,6 @@
 package com.ort
 
 import com.ort.app.fw.config.WolfMansionWebMvcConfigurer
-import com.ort.app.fw.security.WolfMansionWebSecurityConfig
 import com.ort.dbflute.allcommon.DBFluteBeansJavaConfig
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
@@ -12,8 +11,7 @@ import org.springframework.context.annotation.Import
 @SpringBootApplication
 @Import(
     DBFluteBeansJavaConfig::class,
-    WolfMansionWebMvcConfigurer::class,
-    WolfMansionWebSecurityConfig::class
+    WolfMansionWebMvcConfigurer::class
 )
 class WolfMansionApplication : SpringBootServletInitializer() {
     override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder? {

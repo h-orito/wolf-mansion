@@ -6,10 +6,10 @@ import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
 import org.hibernate.validator.constraints.Length
-import javax.validation.Valid
-import javax.validation.constraints.Max
-import javax.validation.constraints.Min
-import javax.validation.constraints.NotNull
+import jakarta.validation.Valid
+import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
+import jakarta.validation.constraints.NotNull
 
 data class VillageSettingForm(
     /** 村表示名 */

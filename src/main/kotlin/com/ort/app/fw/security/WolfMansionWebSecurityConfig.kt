@@ -1,77 +1,73 @@
 package com.ort.app.fw.security
 
 import org.springframework.context.annotation.Bean
-import org.springframework.security.authentication.AuthenticationProvider
+import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
-class WolfMansionWebSecurityConfig(
-    private val userInfoService: UserInfoService
-) : WebSecurityConfigurerAdapter() {
+@Configuration
+@EnableWebSecurity
+class WolfMansionWebSecurityConfig {
 
-    @Throws(Exception::class)
-    override fun configure(http: HttpSecurity) {
-        // remember-meでの認証だけでなくきちんと認証させたいURLは
-        // https://qiita.com/opengl-8080/items/7c34053c74448d39e8f5
-        // を参考にして設定する
-        http.authorizeRequests() // アクセス権限の設定
-            // '/admin/'で始まるURLには、'ADMIN'ロールのみアクセス可
-            .antMatchers("/admin/**")
-            .hasRole("ADMIN") // staticディレクトリにある、'/css/','fonts','/js/'は制限なし
-            // 一時的に全て許可
-            .antMatchers("/app/**", "/lib/**", "/**")
-            .permitAll()
-            .antMatchers("/change-password")
-            .fullyAuthenticated() // 他は制限なし
-            .anyRequest()
-            .authenticated()
-            .and() // ログイン処理の設定
-            .formLogin() // ログイン処理のURL
-            .loginProcessingUrl("/login")
-            .loginPage("/") // ログイン成功時の遷移先URL
-            .defaultSuccessUrl("/") // ログイン失敗時の遷移先URL
-            .failureUrl("/login?error=true") // usernameのパラメタ名
-            .usernameParameter("userId") // passwordのパラメタ名
-            .passwordParameter("password")
-            .permitAll()
-            .and() // ログアウト処理の設定
-            .logout() // ログアウト処理のURL
-            .logoutRequestMatcher(AntPathRequestMatcher("/logout")) // ログアウト成功時の遷移先URL
-            .logoutSuccessUrl("/") // ログアウト時に削除するクッキー名
-            .deleteCookies("JSESSIONID") // ログアウト時のセッション破棄を有効化
-            .invalidateHttpSession(true)
-            .permitAll()
-            .and()
-            .rememberMe()
-            .userDetailsService(userInfoService)
-            .key("X7kmptSvar")
-        http.csrf().ignoringAntMatchers(
-            "/village/*/confirm",
-            "/village/*/say",
-            "/api/login",
-            "/village/*/update"
-        )
+    @Bean
+    fun filterChain(http: HttpSecurity, userInfoService: UserInfoService): SecurityFilterChain {
+        // Spring Security 5 互換: BREACH 対策の XOR を無効化 (multipart フォームとの互換性のため)
+        val csrfTokenHandler = CsrfTokenRequestAttributeHandler()
+        http
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/change-password").fullyAuthenticated()
+                    .anyRequest().permitAll()
+            }
+            .formLogin { form ->
+                form
+                    .loginProcessingUrl("/login")
+                    .loginPage("/")
+                    .defaultSuccessUrl("/")
+                    .failureUrl("/login?error=true")
+                    .usernameParameter("userId")
+                    .passwordParameter("password")
+                    .permitAll()
+            }
+            .logout { logout ->
+                logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/")
+                    .deleteCookies("JSESSIONID")
+                    .invalidateHttpSession(true)
+                    .permitAll()
+            }
+            .rememberMe { rm ->
+                rm
+                    .userDetailsService(userInfoService)
+                    .key("X7kmptSvar")
+            }
+            .csrf { csrf ->
+                csrf.csrfTokenRequestHandler(csrfTokenHandler)
+                csrf.ignoringRequestMatchers(
+                    "/village/*/confirm",
+                    "/village/*/say",
+                    "/api/login",
+                    "/village/*/update"
+                )
+            }
+            .authenticationProvider(authenticationProvider(userInfoService))
+        return http.build()
     }
 
     @Bean
-    private fun passwordEncoder(): PasswordEncoder? {
-        return BCryptPasswordEncoder()
-    }
+    fun passwordEncoder(): PasswordEncoder = BCryptPasswordEncoder()
 
-    @Throws(Exception::class)
-    override fun configure(auth: AuthenticationManagerBuilder) {
-        auth.authenticationProvider(createAuthProvider())
-    }
-
-    private fun createAuthProvider(): AuthenticationProvider? {
-        val authProvider = DaoAuthenticationProvider()
-        authProvider.setUserDetailsService(userInfoService)
-        authProvider.setPasswordEncoder(passwordEncoder())
-        return authProvider
+    @Bean
+    fun authenticationProvider(userInfoService: UserInfoService): DaoAuthenticationProvider {
+        val provider = DaoAuthenticationProvider(userInfoService)
+        provider.setPasswordEncoder(passwordEncoder())
+        return provider
     }
 }
