@@ -22,15 +22,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ### 引き継ぎ issue (`.issues/`) の扱い
 
-step の review で残った should-fix / nits や、後続にまわした改善は `.issues/<n>-<slug>.md`
-(ローカル管理、`.gitignore` 対象) に書き出して引き継ぐ。**次の step に着手する前に必ず `.issues/` を確認** し、
-以下のルールで処理する:
+step の review で残った should-fix / nits や、後続にまわした改善は、**step PR を merge した
+担当者 (Claude Code 自身) が `pr-reviewer` の出力 (`.reviews/PR-<番号>.md`) と未対応項目を読み返し、
+手動で `.issues/<n>-<slug>.md` (ローカル管理、`.gitignore` 対象) に書き出して引き継ぐ**。
+
+**次の step に着手する前に必ず `.issues/` を確認** し、以下のルールで処理する:
 
 - **次 step のスコープに含まれている issue** (例: step 2 で取り組む領域に対する step 1 の宿題)
   → そのまま step 2 PR の中で同時に解消する。issue ファイルは PR merge 後に削除。
 - **次 step のスコープに含まれない issue**
-  → **先に `ship-issue` (`/ship-issue <n>`) で別 PR を切って消化** してから step に進む。
+  → **原則として `ship-issue` (`/ship-issue <n>`) で別 PR を切り、step 着手前に解消する** 。
     base は `feature/monorepo`、レビュー手順は通常の step PR と同じ。
+  → ただし優先度が低い (緊急性なし + リファクタ的) と判断したものは `recommended-when` を
+    後続 step に明示した上で先送り可。`.issues/` に残し続けることで次回の着手前確認で再評価する。
 
 `.issues/README.md` に一覧テーブルを置き、各 issue の本文には `recommended-when` (どの step と一緒に
 潰すのが妥当か) を frontmatter で明示する。
