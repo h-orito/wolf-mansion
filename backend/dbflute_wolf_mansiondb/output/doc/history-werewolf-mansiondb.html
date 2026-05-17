@@ -138,12 +138,18 @@ dl.column-content dd {
 dl.column-content dd span {
 	display: block;
 	float: left;
-	width: 6em;
+	width: 8em; /* diff title space */
 	margin-right: 1.5em;
-	border-right: dotted 2px #333;
+	border-right: dotted 2px #333; /* diff delimiter */
 	font-weight: bold;
 	font-size: 80%;
 	color: #AA7777;
+}
+
+.deprecatedtable {
+	/* more viewable than SchemaHTML because old tables are main here */
+	color: #3F7E5E; /* comment-out color */
+	font-size: 1.0em;
 }
 
 /* -------------------------------------------------
@@ -213,6 +219,20 @@ dl.column-content dd span {
 <p class="sisterlink"><a href="./schema-werewolf-mansiondb.html">to SchemaHTML</a></p>
 </div>
 
+<div class="section diffCode_20260518032108">
+	<h2>
+		<span class="titlediffno">diffNo. 108:</span> <span class="titlediffdatepart">2026/05/18</span> <span class="titledifftimepart">03:21:08</span>
+		<span class="titlediffauthor">by h-orito</span>
+		<span class="titlediffgitbranch">on step-1-jwt-auth</span>
+	</h2>
+	<pre class="diffcomment"></pre>
+	<p class="tablecount">table count: 45&nbsp;-&gt;&nbsp;46</p>
+
+	<h3>Add Table</h3>
+	<ul class="table-content">
+		<li><a href="./schema-werewolf-mansiondb.html#refresh_token">REFRESH_TOKEN</a></li>
+	</ul>
+</div>
 <div class="section diffCode_20241020160754">
 	<h2>
 		<span class="titlediffno">diffNo. 107:</span> <span class="titlediffdatepart">2024/10/20</span> <span class="titledifftimepart">16:07:54</span>
@@ -223,7 +243,7 @@ dl.column-content dd span {
 
 	<h3>Change Table</h3>
 	<div class="table-content">
-		<h4><a href="./schema-werewolf-mansiondb.html#village_settings">VILLAGE_SETTINGS</a></h4>
+		<h4>VILLAGE_SETTINGS</h4>
 		<div class="change-table-content">
 			<h5>Add Column</h5>
 			<ul class="column-content">
@@ -4238,6 +4258,7 @@ dl.column-content dd span {
     };
     /**
      * @author hakiba
+	 * @author shiny
      */
     var HacommentUtil = new function(){
         /**
@@ -4311,7 +4332,11 @@ dl.column-content dd span {
             ]
         };
         this.pickupStore = {
-            '20241020160754' : {
+            '20260518032108' : {
+                'diffDate' : '2026/05/18 03:21:08',
+                'diffComment' : ''
+            }
+            , '20241020160754' : {
                 'diffDate' : '2024/10/20 16:07:54',
                 'diffComment' : ''
             }
@@ -4987,6 +5012,11 @@ dl.column-content dd span {
         createSaveHacommentFunction: function (diffCode, diffMap) {
             var that = this;
             return function () {
+                // prevent modal from opening if user is selecting text (for copy/paste)
+                var selection = window.getSelection();
+                if (selection && selection.toString().length > 0) {
+                    return;
+                }
                 // get modal window element
                 var modalElement = document.getElementById("hacomment-modal");
                 modalElement.style.display = "block";

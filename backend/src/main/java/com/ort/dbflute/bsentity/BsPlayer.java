@@ -16,58 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of PLAYER as TABLE. <br>
  * プレイヤー
- * <pre>
- * [primary-key]
- *     PLAYER_ID
- *
- * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     PLAYER_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     AUTHORITY, PLAYER_DETAIL(AsOne)
- *
- * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, PLAYER_DETAIL
- *
- * [foreign property]
- *     authority, playerDetailAsOne
- *
- * [referrer property]
- *     messageList, villagePlayerList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer playerId = entity.getPlayerId();
- * String playerName = entity.getPlayerName();
- * String playerPassword = entity.getPlayerPassword();
- * String authorityCode = entity.getAuthorityCode();
- * Boolean isRestrictedParticipation = entity.getIsRestrictedParticipation();
- * Boolean shouldCheckAccessInfo = entity.getShouldCheckAccessInfo();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setPlayerId(playerId);
- * entity.setPlayerName(playerName);
- * entity.setPlayerPassword(playerPassword);
- * entity.setAuthorityCode(authorityCode);
- * entity.setIsRestrictedParticipation(isRestrictedParticipation);
- * entity.setShouldCheckAccessInfo(shouldCheckAccessInfo);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsPlayer extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -155,7 +103,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Authority getAuthorityCodeAsAuthority() {
-        return CDef.Authority.codeOf(getAuthorityCode());
+        return CDef.Authority.of(getAuthorityCode()).orElse(null);
     }
 
     /**
@@ -176,7 +124,7 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsRestrictedParticipationAsFlg() {
-        return CDef.Flg.codeOf(getIsRestrictedParticipation());
+        return CDef.Flg.of(getIsRestrictedParticipation()).orElse(null);
     }
 
     /**
@@ -351,6 +299,26 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         _messageList = messageList;
     }
 
+    /** REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'. */
+    protected List<RefreshToken> _refreshTokenList;
+
+    /**
+     * [get] REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
+     * @return The entity list of referrer property 'refreshTokenList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<RefreshToken> getRefreshTokenList() {
+        if (_refreshTokenList == null) { _refreshTokenList = newReferrerList(); }
+        return _refreshTokenList;
+    }
+
+    /**
+     * [set] REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
+     * @param refreshTokenList The entity list of referrer property 'refreshTokenList'. (NullAllowed)
+     */
+    public void setRefreshTokenList(List<RefreshToken> refreshTokenList) {
+        _refreshTokenList = refreshTokenList;
+    }
+
     /** VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'. */
     protected List<VillagePlayer> _villagePlayerList;
 
@@ -406,6 +374,8 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         { sb.append(li).append(xbRDS(_playerDetailAsOne, "playerDetailAsOne")); }
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
+        if (_refreshTokenList != null) { for (RefreshToken et : _refreshTokenList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "refreshTokenList")); } } }
         if (_villagePlayerList != null) { for (VillagePlayer et : _villagePlayerList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "villagePlayerList")); } } }
         return sb.toString();
@@ -443,6 +413,8 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         { sb.append(dm).append("playerDetailAsOne"); }
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
+        if (_refreshTokenList != null && !_refreshTokenList.isEmpty())
+        { sb.append(dm).append("refreshTokenList"); }
         if (_villagePlayerList != null && !_villagePlayerList.isEmpty())
         { sb.append(dm).append("villagePlayerList"); }
         if (sb.length() > dm.length()) {

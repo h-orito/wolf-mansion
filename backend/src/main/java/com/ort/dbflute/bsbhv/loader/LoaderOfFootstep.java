@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of FOOTSTEP as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, DAY, REGISTER_CHARA_ID
- *
- * [column]
- *     VILLAGE_ID, DAY, REGISTER_CHARA_ID, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_DAY
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villageDay
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of FOOTSTEP as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfFootstep {

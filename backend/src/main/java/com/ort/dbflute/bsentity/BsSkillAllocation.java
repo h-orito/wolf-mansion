@@ -16,58 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of SKILL_ALLOCATION as TABLE. <br>
  * 役職配分
- * <pre>
- * [primary-key]
- *     VILLAGE_ID, SKILL_CODE
- *
- * [column]
- *     VILLAGE_ID, SKILL_CODE, MIN_NUM, MAX_NUM, ALLOCATION, REINCARNATION_ALLOCATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     SKILL, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     skill, village
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * String skillCode = entity.getSkillCode();
- * Integer minNum = entity.getMinNum();
- * Integer maxNum = entity.getMaxNum();
- * Integer allocation = entity.getAllocation();
- * Integer reincarnationAllocation = entity.getReincarnationAllocation();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setSkillCode(skillCode);
- * entity.setMinNum(minNum);
- * entity.setMaxNum(maxNum);
- * entity.setAllocation(allocation);
- * entity.setReincarnationAllocation(reincarnationAllocation);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsSkillAllocation extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -145,7 +93,7 @@ public abstract class BsSkillAllocation extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Skill getSkillCodeAsSkill() {
-        return CDef.Skill.codeOf(getSkillCode());
+        return CDef.Skill.of(getSkillCode()).orElse(null);
     }
 
     /**

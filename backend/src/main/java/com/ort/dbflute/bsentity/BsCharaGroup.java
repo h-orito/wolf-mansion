@@ -16,56 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of CHARA_GROUP as TABLE. <br>
  * キャラクターグループ
- * <pre>
- * [primary-key]
- *     CHARA_GROUP_ID
- *
- * [column]
- *     CHARA_GROUP_ID, CHARA_GROUP_NAME, DESIGNER_ID, DESCRIPTION_URL, IS_AVAILABLE_CHANGE_NAME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     CHARA_GROUP_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     DESIGNER
- *
- * [referrer table]
- *     CHARA, VILLAGE_CHARA_GROUP
- *
- * [foreign property]
- *     designer
- *
- * [referrer property]
- *     charaList, villageCharaGroupList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer charaGroupId = entity.getCharaGroupId();
- * String charaGroupName = entity.getCharaGroupName();
- * Integer designerId = entity.getDesignerId();
- * String descriptionUrl = entity.getDescriptionUrl();
- * Boolean isAvailableChangeName = entity.getIsAvailableChangeName();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setCharaGroupId(charaGroupId);
- * entity.setCharaGroupName(charaGroupName);
- * entity.setDesignerId(designerId);
- * entity.setDescriptionUrl(descriptionUrl);
- * entity.setIsAvailableChangeName(isAvailableChangeName);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsCharaGroup extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -139,7 +89,7 @@ public abstract class BsCharaGroup extends AbstractEntity implements DomainEntit
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableChangeNameAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableChangeName());
+        return CDef.Flg.of(getIsAvailableChangeName()).orElse(null);
     }
 
     /**

@@ -15,52 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of MESSAGE_SENDTO as TABLE. <br>
  * メッセージ送信先
- * <pre>
- * [primary-key]
- *     MESSAGE_REPLYTO_ID
- *
- * [column]
- *     MESSAGE_REPLYTO_ID, MESSAGE_ID, VILLAGE_PLAYER_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     MESSAGE_REPLYTO_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     MESSAGE, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     message, villagePlayer
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer messageReplytoId = entity.getMessageReplytoId();
- * Integer messageId = entity.getMessageId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setMessageReplytoId(messageReplytoId);
- * entity.setMessageId(messageId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsMessageSendto extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

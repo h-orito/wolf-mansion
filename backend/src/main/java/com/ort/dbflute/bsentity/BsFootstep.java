@@ -15,56 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of FOOTSTEP as TABLE. <br>
  * 足音
- * <pre>
- * [primary-key]
- *     VILLAGE_ID, DAY, REGISTER_CHARA_ID
- *
- * [column]
- *     VILLAGE_ID, DAY, REGISTER_CHARA_ID, CHARA_ID, FOOTSTEP_ROOM_NUMBERS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_DAY
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villageDay
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer day = entity.getDay();
- * Integer registerCharaId = entity.getRegisterCharaId();
- * Integer charaId = entity.getCharaId();
- * String footstepRoomNumbers = entity.getFootstepRoomNumbers();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setDay(day);
- * entity.setRegisterCharaId(registerCharaId);
- * entity.setCharaId(charaId);
- * entity.setFootstepRoomNumbers(footstepRoomNumbers);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsFootstep extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

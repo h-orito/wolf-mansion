@@ -15,52 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_CHARA_GROUP as TABLE. <br>
  * 村キャラクターグループ
- * <pre>
- * [primary-key]
- *     VILLAGE_CHARA_GROUP_ID
- *
- * [column]
- *     VILLAGE_CHARA_GROUP_ID, VILLAGE_ID, CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_CHARA_GROUP_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     CHARA_GROUP, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     charaGroup, village
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageCharaGroupId = entity.getVillageCharaGroupId();
- * Integer villageId = entity.getVillageId();
- * Integer charaGroupId = entity.getCharaGroupId();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageCharaGroupId(villageCharaGroupId);
- * entity.setVillageId(villageId);
- * entity.setCharaGroupId(charaGroupId);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillageCharaGroup extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

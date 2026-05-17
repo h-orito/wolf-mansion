@@ -22,35 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of VILLAGE_PLAYER_ACCESS_INFO as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_PLAYER_ACCESS_INFO_ID
- *
- * [column]
- *     VILLAGE_PLAYER_ACCESS_INFO_ID, VILLAGE_PLAYER_ID, IP_ADDRESS, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_ACCESS_INFO_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villagePlayer
- *
- * [referrer property]
- *     
- * </pre>
+ * The behavior of VILLAGE_PLAYER_ACCESS_INFO as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWritable<VillagePlayerAccessInfo, VillagePlayerAccessInfoCB> {
@@ -122,7 +94,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
      * </pre>
      * @param cbLambda The callback for condition-bean of VillagePlayerAccessInfo. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -161,7 +133,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
      * Select the entity by the primary-key value.
      * @param villagePlayerAccessInfoId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -191,7 +163,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
      * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -623,7 +595,7 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryDelete</span>(villagePlayerAccessInfo, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">villagePlayerAccessInfoBhv</span>.<span style="color: #CC4747">queryDelete</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
@@ -872,19 +844,22 @@ public abstract class BsVillagePlayerAccessInfoBhv extends AbstractBehaviorWrita
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @jakarta.annotation.Resource(name="behaviorCommandInvoker")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="behaviorSelector")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="commonColumnAutoSetupper")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }

@@ -18,7 +18,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - step PR の merge は **squash merge** (1 step = 1 コミット)
 - step は **シーケンシャル** に 1 つずつ進める (stacked branches 不使用、step N の merge 後に step N+1 着手)
 - `feature/monorepo` には branch protection なし、ただしレビュー手順は遵守
-- 全 step 完了時の `feature/monorepo` → `main` 取り込みは **merge commit (`--no-ff`)** で行う
+- 全 step 完了時の `feature/monorepo` → `main` 取り込みは **merge commit (`--no-ff`)** で行う（PR経由）
 
 ## Project Overview
 
