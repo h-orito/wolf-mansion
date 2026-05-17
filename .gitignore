@@ -3,13 +3,14 @@ target/
 out/
 !.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
+### STS / Eclipse ###
 .apt_generated
 .classpath
 .factorypath
 .project
 .settings
 .springBeans
+backend/bin/
 
 ### IntelliJ IDEA ###
 .idea
@@ -26,7 +27,8 @@ nbdist/
 .nb-gradle/
 
 /log/
-dbflute_wolf_mansiondb/log/*
+backend/log/
+backend/dbflute_wolf_mansiondb/log/*
 
 ### Claude ###
 .claude/settings.local.json

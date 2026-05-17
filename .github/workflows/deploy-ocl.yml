@@ -23,6 +23,7 @@ jobs:
           java-version: '21'
 
       - name: Build image with Jib
+        working-directory: backend
         run: ./gradlew jibDockerBuild
 
       - name: Login to GHCR
