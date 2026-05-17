@@ -20,6 +20,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `feature/monorepo` には branch protection なし、ただしレビュー手順は遵守
 - 全 step 完了時の `feature/monorepo` → `main` 取り込みは **merge commit (`--no-ff`)** で行う（PR経由）
 
+### 引き継ぎ issue (`.issues/`) の扱い
+
+step の review で残った should-fix / nits や、後続にまわした改善は `.issues/<n>-<slug>.md`
+(ローカル管理、`.gitignore` 対象) に書き出して引き継ぐ。**次の step に着手する前に必ず `.issues/` を確認** し、
+以下のルールで処理する:
+
+- **次 step のスコープに含まれている issue** (例: step 2 で取り組む領域に対する step 1 の宿題)
+  → そのまま step 2 PR の中で同時に解消する。issue ファイルは PR merge 後に削除。
+- **次 step のスコープに含まれない issue**
+  → **先に `ship-issue` (`/ship-issue <n>`) で別 PR を切って消化** してから step に進む。
+    base は `feature/monorepo`、レビュー手順は通常の step PR と同じ。
+
+`.issues/README.md` に一覧テーブルを置き、各 issue の本文には `recommended-when` (どの step と一緒に
+潰すのが妥当か) を frontmatter で明示する。
+
 ## Project Overview
 
 人狼ゲーム（Werewolf/Mafia）のWebアプリケーション「wolf-mansion」。Spring Boot + Kotlin（バックエンド）、MySQL + DBFlute（ORM）で構成。フロントエンドはモダン化中（旧 Thymeleaf テンプレートから SPA + REST API 構成へ移行予定）。
