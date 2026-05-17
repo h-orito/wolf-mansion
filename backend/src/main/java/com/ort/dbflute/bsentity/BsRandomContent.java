@@ -14,44 +14,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of RANDOM_CONTENT as TABLE. <br>
  * ランダム変換内容
- * <pre>
- * [primary-key]
- *     RANDOM_CONTENT_ID
- *
- * [column]
- *     RANDOM_CONTENT_ID, RANDOM_KEYWORD_ID, RANDOM_MESSAGE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     RANDOM_CONTENT_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     RANDOM_KEYWORD
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     randomKeyword
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer randomContentId = entity.getRandomContentId();
- * Integer randomKeywordId = entity.getRandomKeywordId();
- * String randomMessage = entity.getRandomMessage();
- * entity.setRandomContentId(randomContentId);
- * entity.setRandomKeywordId(randomKeywordId);
- * entity.setRandomMessage(randomMessage);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsRandomContent extends AbstractEntity implements DomainEntity {

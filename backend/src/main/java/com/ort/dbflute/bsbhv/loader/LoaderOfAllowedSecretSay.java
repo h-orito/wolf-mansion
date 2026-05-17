@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of ALLOWED_SECRET_SAY as TABLE. <br>
- * <pre>
- * [primary key]
- *     ALLOWED_SECRET_SAY_CODE
- *
- * [column]
- *     ALLOWED_SECRET_SAY_CODE, ALLOWED_SECRET_SAY_NAME
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_SETTINGS
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villageSettingsList
- * </pre>
+ * The referrer loader of ALLOWED_SECRET_SAY as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfAllowedSecretSay {

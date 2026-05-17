@@ -16,52 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_TAG as TABLE. <br>
  * 村タグ
- * <pre>
- * [primary-key]
- *     VILLAGE_TAG_ID
- *
- * [column]
- *     VILLAGE_TAG_ID, VILLAGE_ID, VILLAGE_TAG_ITEM_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_TAG_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE, VILLAGE_TAG_ITEM
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     village, villageTagItem
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageTagId = entity.getVillageTagId();
- * Integer villageId = entity.getVillageId();
- * String villageTagItemCode = entity.getVillageTagItemCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageTagId(villageTagId);
- * entity.setVillageId(villageId);
- * entity.setVillageTagItemCode(villageTagItemCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillageTag extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -129,7 +83,7 @@ public abstract class BsVillageTag extends AbstractEntity implements DomainEntit
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.VillageTagItem getVillageTagItemCodeAsVillageTagItem() {
-        return CDef.VillageTagItem.codeOf(getVillageTagItemCode());
+        return CDef.VillageTagItem.of(getVillageTagItemCode()).orElse(null);
     }
 
     /**

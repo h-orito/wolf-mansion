@@ -60,7 +60,6 @@ class VillageCoordinator(
     private val abilityService: AbilityService,
     private val footstepService: FootstepApplicationService,
     private val voteService: VoteApplicationService,
-    private val slackService: NotificationService,
     // domain service
     private val participateDomainService: ParticipateDomainService,
     private val skillRequestDomainService: SkillRequestDomainService,
@@ -145,7 +144,7 @@ class VillageCoordinator(
             .flatMap { it.ipAddresses }.distinct()
             .contains(ipAddress)
         if (isContain) {
-            slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
+            notificationService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
         return myself
     }

@@ -16,94 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_SETTINGS as TABLE. <br>
  * 村設定
- * <pre>
- * [primary-key]
- *     VILLAGE_ID
- *
- * [column]
- *     VILLAGE_ID, DUMMY_CHARA_ID, START_PERSON_MIN_NUM, PERSON_MAX_NUM, START_DATETIME, DAY_CHANGE_INTERVAL_SECONDS, IS_OPEN_VOTE, IS_POSSIBLE_SKILL_REQUEST, IS_AVAILABLE_SPECTATE, IS_AVAILABLE_SAME_WOLF_ATTACK, IS_OPEN_SKILL_IN_GRAVE, IS_VISIBLE_GRAVE_SPECTATE_MESSAGE, IS_AVAILABLE_SUDDONLY_DEATH, IS_AVAILABLE_COMMIT, IS_AVAILABLE_GUARD_SAME_TARGET, JOIN_PASSWORD, ORGANIZE, ALLOWED_SECRET_SAY_CODE, IS_AVAILABLE_ACTION, IS_RANDOM_ORGANIZE, IS_REINCARNATION_SKILL_ALL, IS_CREATOR_PRODUCER, ORIGINAL_CHARA_GROUP_ID, DAY1_DUMMY_MESSAGE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ALLOWED_SECRET_SAY, ORIGINAL_CHARA_GROUP, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     allowedSecretSay, originalCharaGroup, village
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer dummyCharaId = entity.getDummyCharaId();
- * Integer startPersonMinNum = entity.getStartPersonMinNum();
- * Integer personMaxNum = entity.getPersonMaxNum();
- * java.time.LocalDateTime startDatetime = entity.getStartDatetime();
- * Integer dayChangeIntervalSeconds = entity.getDayChangeIntervalSeconds();
- * Boolean isOpenVote = entity.getIsOpenVote();
- * Boolean isPossibleSkillRequest = entity.getIsPossibleSkillRequest();
- * Boolean isAvailableSpectate = entity.getIsAvailableSpectate();
- * Boolean isAvailableSameWolfAttack = entity.getIsAvailableSameWolfAttack();
- * Boolean isOpenSkillInGrave = entity.getIsOpenSkillInGrave();
- * Boolean isVisibleGraveSpectateMessage = entity.getIsVisibleGraveSpectateMessage();
- * Boolean isAvailableSuddonlyDeath = entity.getIsAvailableSuddonlyDeath();
- * Boolean isAvailableCommit = entity.getIsAvailableCommit();
- * Boolean isAvailableGuardSameTarget = entity.getIsAvailableGuardSameTarget();
- * String joinPassword = entity.getJoinPassword();
- * String organize = entity.getOrganize();
- * String allowedSecretSayCode = entity.getAllowedSecretSayCode();
- * Boolean isAvailableAction = entity.getIsAvailableAction();
- * Boolean isRandomOrganize = entity.getIsRandomOrganize();
- * Boolean isReincarnationSkillAll = entity.getIsReincarnationSkillAll();
- * Boolean isCreatorProducer = entity.getIsCreatorProducer();
- * Integer originalCharaGroupId = entity.getOriginalCharaGroupId();
- * String day1DummyMessage = entity.getDay1DummyMessage();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setDummyCharaId(dummyCharaId);
- * entity.setStartPersonMinNum(startPersonMinNum);
- * entity.setPersonMaxNum(personMaxNum);
- * entity.setStartDatetime(startDatetime);
- * entity.setDayChangeIntervalSeconds(dayChangeIntervalSeconds);
- * entity.setIsOpenVote(isOpenVote);
- * entity.setIsPossibleSkillRequest(isPossibleSkillRequest);
- * entity.setIsAvailableSpectate(isAvailableSpectate);
- * entity.setIsAvailableSameWolfAttack(isAvailableSameWolfAttack);
- * entity.setIsOpenSkillInGrave(isOpenSkillInGrave);
- * entity.setIsVisibleGraveSpectateMessage(isVisibleGraveSpectateMessage);
- * entity.setIsAvailableSuddonlyDeath(isAvailableSuddonlyDeath);
- * entity.setIsAvailableCommit(isAvailableCommit);
- * entity.setIsAvailableGuardSameTarget(isAvailableGuardSameTarget);
- * entity.setJoinPassword(joinPassword);
- * entity.setOrganize(organize);
- * entity.setAllowedSecretSayCode(allowedSecretSayCode);
- * entity.setIsAvailableAction(isAvailableAction);
- * entity.setIsRandomOrganize(isRandomOrganize);
- * entity.setIsReincarnationSkillAll(isReincarnationSkillAll);
- * entity.setIsCreatorProducer(isCreatorProducer);
- * entity.setOriginalCharaGroupId(originalCharaGroupId);
- * entity.setDay1DummyMessage(day1DummyMessage);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillageSettings extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -234,7 +146,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsOpenVoteAsFlg() {
-        return CDef.Flg.codeOf(getIsOpenVote());
+        return CDef.Flg.of(getIsOpenVote()).orElse(null);
     }
 
     /**
@@ -255,7 +167,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsPossibleSkillRequestAsFlg() {
-        return CDef.Flg.codeOf(getIsPossibleSkillRequest());
+        return CDef.Flg.of(getIsPossibleSkillRequest()).orElse(null);
     }
 
     /**
@@ -276,7 +188,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableSpectateAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableSpectate());
+        return CDef.Flg.of(getIsAvailableSpectate()).orElse(null);
     }
 
     /**
@@ -297,7 +209,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableSameWolfAttackAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableSameWolfAttack());
+        return CDef.Flg.of(getIsAvailableSameWolfAttack()).orElse(null);
     }
 
     /**
@@ -318,7 +230,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsOpenSkillInGraveAsFlg() {
-        return CDef.Flg.codeOf(getIsOpenSkillInGrave());
+        return CDef.Flg.of(getIsOpenSkillInGrave()).orElse(null);
     }
 
     /**
@@ -339,7 +251,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsVisibleGraveSpectateMessageAsFlg() {
-        return CDef.Flg.codeOf(getIsVisibleGraveSpectateMessage());
+        return CDef.Flg.of(getIsVisibleGraveSpectateMessage()).orElse(null);
     }
 
     /**
@@ -360,7 +272,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableSuddonlyDeathAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableSuddonlyDeath());
+        return CDef.Flg.of(getIsAvailableSuddonlyDeath()).orElse(null);
     }
 
     /**
@@ -381,7 +293,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableCommitAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableCommit());
+        return CDef.Flg.of(getIsAvailableCommit()).orElse(null);
     }
 
     /**
@@ -402,7 +314,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableGuardSameTargetAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableGuardSameTarget());
+        return CDef.Flg.of(getIsAvailableGuardSameTarget()).orElse(null);
     }
 
     /**
@@ -423,7 +335,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.AllowedSecretSay getAllowedSecretSayCodeAsAllowedSecretSay() {
-        return CDef.AllowedSecretSay.codeOf(getAllowedSecretSayCode());
+        return CDef.AllowedSecretSay.of(getAllowedSecretSayCode()).orElse(null);
     }
 
     /**
@@ -444,7 +356,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsAvailableActionAsFlg() {
-        return CDef.Flg.codeOf(getIsAvailableAction());
+        return CDef.Flg.of(getIsAvailableAction()).orElse(null);
     }
 
     /**
@@ -465,7 +377,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsRandomOrganizeAsFlg() {
-        return CDef.Flg.codeOf(getIsRandomOrganize());
+        return CDef.Flg.of(getIsRandomOrganize()).orElse(null);
     }
 
     /**
@@ -486,7 +398,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsReincarnationSkillAllAsFlg() {
-        return CDef.Flg.codeOf(getIsReincarnationSkillAll());
+        return CDef.Flg.of(getIsReincarnationSkillAll()).orElse(null);
     }
 
     /**
@@ -507,7 +419,7 @@ public abstract class BsVillageSettings extends AbstractEntity implements Domain
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Flg getIsCreatorProducerAsFlg() {
-        return CDef.Flg.codeOf(getIsCreatorProducer());
+        return CDef.Flg.of(getIsCreatorProducer()).orElse(null);
     }
 
     /**

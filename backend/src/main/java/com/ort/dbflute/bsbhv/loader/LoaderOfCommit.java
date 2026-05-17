@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of COMMIT as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, DAY, VILLAGE_PLAYER_ID
- *
- * [column]
- *     VILLAGE_ID, DAY, VILLAGE_PLAYER_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_DAY, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villageDay, villagePlayer
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of COMMIT as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfCommit {

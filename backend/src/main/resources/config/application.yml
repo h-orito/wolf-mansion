@@ -14,9 +14,7 @@ spring:
 
 server:
   servlet:
-    contextPath: /wolf-mansion
-    session:
-      timeout: 86400
+    contextPath: /wolf-mansion-api
   port: 8089
   tomcat:
     max-part-count: 3000
@@ -34,14 +32,17 @@ app:
   original-image:
     basedir: /var/www/html/wmansion/original
     baseurl: /wmansion/original
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:3000
+  jwt:
+    secret: ${JWT_SECRET:dev-only-secret-please-override-in-prod-32bytes-min}
+    access-token-ttl-seconds: 900
+    refresh-token-ttl-seconds: 1209600
 
 mastodon:
   oauth:
     host: mstdn.jp
     access-token:
-
-slack:
-  webhook-url:
 
 discord:
   webhook-url:

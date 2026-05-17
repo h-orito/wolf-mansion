@@ -13,42 +13,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_STATUS_TYPE as TABLE. <br>
  * 村参加者ステータス種別
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_STATUS_TYPE_CODE
- *
- * [column]
- *     VILLAGE_PLAYER_STATUS_TYPE_CODE, VILLAGE_PLAYER_STATUS_TYPE_NAME
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_PLAYER_STATUS
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villagePlayerStatusList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * String villagePlayerStatusTypeCode = entity.getVillagePlayerStatusTypeCode();
- * String villagePlayerStatusTypeName = entity.getVillagePlayerStatusTypeName();
- * entity.setVillagePlayerStatusTypeCode(villagePlayerStatusTypeCode);
- * entity.setVillagePlayerStatusTypeName(villagePlayerStatusTypeName);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerStatusType extends AbstractEntity implements DomainEntity {
@@ -101,7 +65,7 @@ public abstract class BsVillagePlayerStatusType extends AbstractEntity implement
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.VillagePlayerStatusType getVillagePlayerStatusTypeCodeAsVillagePlayerStatusType() {
-        return CDef.VillagePlayerStatusType.codeOf(getVillagePlayerStatusTypeCode());
+        return CDef.VillagePlayerStatusType.of(getVillagePlayerStatusTypeCode()).orElse(null);
     }
 
     /**

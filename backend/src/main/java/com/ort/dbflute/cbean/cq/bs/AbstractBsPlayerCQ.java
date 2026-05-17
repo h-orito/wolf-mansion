@@ -178,6 +178,25 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select PLAYER_ID from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsRefreshToken</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     tokenCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of RefreshTokenList for 'exists'. (NotNull)
+     */
+    public void existsRefreshToken(SubQuery<RefreshTokenCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        RefreshTokenCB cb = new RefreshTokenCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepPlayerId_ExistsReferrer_RefreshTokenList(cb.query());
+        registerExistsReferrer(cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "refreshTokenList");
+    }
+    public abstract String keepPlayerId_ExistsReferrer_RefreshTokenList(RefreshTokenCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select PLAYER_ID from village_player where ...)} <br>
      * village_player by PLAYER_ID, named 'villagePlayerAsOne'.
      * <pre>
@@ -216,6 +235,25 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select PLAYER_ID from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsRefreshToken</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     tokenCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of PlayerId_NotExistsReferrer_RefreshTokenList for 'not exists'. (NotNull)
+     */
+    public void notExistsRefreshToken(SubQuery<RefreshTokenCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        RefreshTokenCB cb = new RefreshTokenCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepPlayerId_NotExistsReferrer_RefreshTokenList(cb.query());
+        registerNotExistsReferrer(cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "refreshTokenList");
+    }
+    public abstract String keepPlayerId_NotExistsReferrer_RefreshTokenList(RefreshTokenCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select PLAYER_ID from village_player where ...)} <br>
      * village_player by PLAYER_ID, named 'villagePlayerAsOne'.
      * <pre>
@@ -240,6 +278,14 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "messageList", al, op);
     }
     public abstract String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq);
+
+    public void xsderiveRefreshTokenList(String fn, SubQuery<RefreshTokenCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        RefreshTokenCB cb = new RefreshTokenCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepPlayerId_SpecifyDerivedReferrer_RefreshTokenList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "refreshTokenList", al, op);
+    }
+    public abstract String keepPlayerId_SpecifyDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq);
 
     public void xsderiveVillagePlayerList(String fn, SubQuery<VillagePlayerCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
@@ -275,6 +321,33 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq);
     public abstract String keepPlayerId_QueryDerivedReferrer_MessageListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedRefreshToken()</span>.<span style="color: #CC4747">max</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     tokenCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     tokenCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<RefreshTokenCB> derivedRefreshToken() {
+        return xcreateQDRFunctionRefreshTokenList();
+    }
+    protected HpQDRFunction<RefreshTokenCB> xcreateQDRFunctionRefreshTokenList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveRefreshTokenList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveRefreshTokenList(String fn, SubQuery<RefreshTokenCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        RefreshTokenCB cb = new RefreshTokenCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepPlayerId_QueryDerivedReferrer_RefreshTokenList(cb.query()); String prpp = keepPlayerId_QueryDerivedReferrer_RefreshTokenListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", sqpp, "refreshTokenList", rd, vl, prpp, op);
+    }
+    public abstract String keepPlayerId_QueryDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq);
+    public abstract String keepPlayerId_QueryDerivedReferrer_RefreshTokenListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

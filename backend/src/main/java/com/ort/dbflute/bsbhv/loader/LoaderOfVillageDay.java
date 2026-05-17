@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of VILLAGE_DAY as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, DAY
- *
- * [column]
- *     VILLAGE_ID, DAY, DAYCHANGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE
- *
- * [referrer table]
- *     ABILITY, COMMIT, FOOTSTEP, MESSAGE, VOTE
- *
- * [foreign property]
- *     village
- *
- * [referrer property]
- *     abilityList, commitList, footstepList, messageList, voteList
- * </pre>
+ * The referrer loader of VILLAGE_DAY as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfVillageDay {

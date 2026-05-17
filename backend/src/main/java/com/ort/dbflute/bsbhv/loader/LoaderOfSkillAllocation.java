@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of SKILL_ALLOCATION as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, SKILL_CODE
- *
- * [column]
- *     VILLAGE_ID, SKILL_CODE, MIN_NUM, MAX_NUM, ALLOCATION, REINCARNATION_ALLOCATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     SKILL, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     skill, village
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of SKILL_ALLOCATION as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfSkillAllocation {

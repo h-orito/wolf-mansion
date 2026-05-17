@@ -13,9 +13,7 @@ spring:
     encoding: UTF-8
 server:
   servlet:
-    contextPath: /wolf-mansion
-    session:
-      timeout: 86400
+    contextPath: /wolf-mansion-api
   port: 8081
   tomcat:
     max-part-count: 3000
@@ -44,14 +42,17 @@ app:
   original-image:
     basedir: /var/www/html/wmansion/original
     baseurl: /wmansion/original
+  cors:
+    allowed-origins: ${ALLOWED_ORIGINS}
+  jwt:
+    secret: ${JWT_SECRET}
+    access-token-ttl-seconds: 900
+    refresh-token-ttl-seconds: 1209600
 
 mastodon:
   oauth:
     host: mstdn.jp
     access-token: ${MASTODON_ACCESS_TOKEN}
-
-slack:
-  webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
 
 discord:
   webhook-url: ${WOLF_MANSION_DISCORD_WEBHOOK_URL}

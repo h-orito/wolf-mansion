@@ -22,35 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of PLAYER as TABLE. <br>
- * <pre>
- * [primary key]
- *     PLAYER_ID
- *
- * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     PLAYER_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     AUTHORITY, PLAYER_DETAIL(AsOne)
- *
- * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, PLAYER_DETAIL
- *
- * [foreign property]
- *     authority, playerDetailAsOne
- *
- * [referrer property]
- *     messageList, villagePlayerList
- * </pre>
+ * The behavior of PLAYER as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, PlayerCB> {
@@ -122,7 +94,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * </pre>
      * @param cbLambda The callback for condition-bean of Player. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -161,7 +133,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the entity by the primary-key value.
      * @param playerId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -190,7 +162,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
      * Select the entity by the unique-key value.
      * @param playerName : UQ, NotNull, VARCHAR(12). (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -448,6 +420,70 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
 
     protected NestedReferrerListGateway<Message> doLoadMessage(List<Player> playerList, LoadReferrerOption<MessageCB, Message> option) {
         return helpLoadReferrerInternally(playerList, option, "messageList");
+    }
+
+    /**
+     * Load referrer of refreshTokenList by the set-upper of referrer. <br>
+     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadRefreshToken</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">tokenCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">tokenCB</span>.setupSelect...
+     *     <span style="color: #553000">tokenCB</span>.query().set...
+     *     <span style="color: #553000">tokenCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Player player : <span style="color: #553000">playerList</span>) {
+     *     ... = player.<span style="color: #CC4747">getRefreshTokenList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param playerList The entity list of player. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<RefreshToken> loadRefreshToken(List<Player> playerList, ReferrerConditionSetupper<RefreshTokenCB> refCBLambda) {
+        xassLRArg(playerList, refCBLambda);
+        return doLoadRefreshToken(playerList, new LoadReferrerOption<RefreshTokenCB, RefreshToken>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of refreshTokenList by the set-upper of referrer. <br>
+     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadRefreshToken</span>(<span style="color: #553000">player</span>, <span style="color: #553000">tokenCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">tokenCB</span>.setupSelect...
+     *     <span style="color: #553000">tokenCB</span>.query().set...
+     *     <span style="color: #553000">tokenCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">player</span>.<span style="color: #CC4747">getRefreshTokenList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param player The entity of player. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<RefreshToken> loadRefreshToken(Player player, ReferrerConditionSetupper<RefreshTokenCB> refCBLambda) {
+        xassLRArg(player, refCBLambda);
+        return doLoadRefreshToken(xnewLRLs(player), new LoadReferrerOption<RefreshTokenCB, RefreshToken>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<RefreshToken> doLoadRefreshToken(List<Player> playerList, LoadReferrerOption<RefreshTokenCB, RefreshToken> option) {
+        return helpLoadReferrerInternally(playerList, option, "refreshTokenList");
     }
 
     /**
@@ -766,7 +802,7 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryDelete</span>(player, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">queryDelete</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
@@ -1015,19 +1051,22 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @jakarta.annotation.Resource(name="behaviorCommandInvoker")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="behaviorSelector")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="commonColumnAutoSetupper")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }

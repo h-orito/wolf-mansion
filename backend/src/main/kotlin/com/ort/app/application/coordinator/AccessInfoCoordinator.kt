@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 class AccessInfoCoordinator(
     private val villageService: VillageService,
     private val playerService: PlayerService,
-    private val slackService: NotificationService,
+    private val notificationService: NotificationService,
 ) {
 
     fun registerAccessInfo(
@@ -30,7 +30,7 @@ class AccessInfoCoordinator(
             .list.flatMap { it.ipAddresses }.distinct()
             .contains(ipAddress)
         if (isContain) {
-            slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
+            notificationService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
     }
 }
