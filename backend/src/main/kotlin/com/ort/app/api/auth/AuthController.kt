@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
 import jakarta.validation.constraints.NotBlank
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseCookie
 import org.springframework.http.ResponseEntity
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.Jwt
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -31,11 +33,13 @@ class AuthController(
     private val userInfoService: UserInfoService,
     private val playerService: PlayerService,
     private val passwordEncoder: PasswordEncoder,
+    @Value("\${server.servlet.context-path:}") private val contextPath: String,
+    @Value("\${app.cookie.secure:true}") private val cookieSecure: Boolean,
 ) {
     companion object {
         const val ACCESS_COOKIE = "access_token"
         const val REFRESH_COOKIE = "refresh_token"
-        const val REFRESH_COOKIE_PATH = "/wolf-mansion-api/api/v1/auth"
+        const val AUTH_PATH = "/api/v1/auth"
     }
 
     data class LoginBody(
@@ -48,6 +52,7 @@ class AuthController(
     }
 
     @PostMapping("/login")
+    @Transactional
     fun login(@Valid @RequestBody body: LoginBody, response: HttpServletResponse): ResponseEntity<MeResponse> {
         val userInfo = try {
             userInfoService.loadUserByUsername(body.userId)
@@ -64,23 +69,25 @@ class AuthController(
     }
 
     @PostMapping("/refresh")
+    @Transactional
     fun refresh(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<MeResponse> {
         val rawRefresh = readCookie(request, REFRESH_COOKIE)
-            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+            ?: throw BadCredentialsException("missing refresh token")
         val tokenHash = jwtTokenService.hashRefreshToken(rawRefresh)
         val stored = refreshTokenRepository.findByTokenHash(tokenHash)
-            ?: return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+            ?: throw BadCredentialsException("invalid refresh token")
         if (!stored.isValid(LocalDateTime.now())) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()
+            throw BadCredentialsException("expired or revoked refresh token")
         }
         val player = playerService.findPlayer(stored.playerId)
-        // rotation: revoke old + issue new
+        // rotation: revoke old + issue new (same transaction)
         refreshTokenRepository.revoke(stored.id)
         issueCookies(response, player.name, player.authority.toCdef(), player.id)
         return ResponseEntity.ok(MeResponse(MeResponse.UserPayload(player.name, player.authority.toCdef().code())))
     }
 
     @PostMapping("/logout")
+    @Transactional
     fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Void> {
         readCookie(request, REFRESH_COOKIE)?.let { raw ->
             val tokenHash = jwtTokenService.hashRefreshToken(raw)
@@ -123,7 +130,7 @@ class AuthController(
     private fun buildAccessCookie(value: String, maxAgeSeconds: Long = jwtTokenService.accessTokenTtlSeconds()): ResponseCookie =
         ResponseCookie.from(ACCESS_COOKIE, value)
             .httpOnly(true)
-            .secure(true)
+            .secure(cookieSecure)
             .sameSite("Lax")
             .path("/")
             .maxAge(maxAgeSeconds)
@@ -132,9 +139,9 @@ class AuthController(
     private fun buildRefreshCookie(value: String, maxAgeSeconds: Long = jwtTokenService.refreshTokenTtlSeconds()): ResponseCookie =
         ResponseCookie.from(REFRESH_COOKIE, value)
             .httpOnly(true)
-            .secure(true)
+            .secure(cookieSecure)
             .sameSite("Lax")
-            .path(REFRESH_COOKIE_PATH)
+            .path("$contextPath$AUTH_PATH")
             .maxAge(maxAgeSeconds)
             .build()
 

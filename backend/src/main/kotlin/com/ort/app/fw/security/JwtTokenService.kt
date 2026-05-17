@@ -3,10 +3,7 @@ package com.ort.app.fw.security
 import com.nimbusds.jose.JOSEException
 import com.nimbusds.jose.JWSAlgorithm
 import com.nimbusds.jose.JWSHeader
-import com.nimbusds.jose.JWSVerifier
 import com.nimbusds.jose.crypto.MACSigner
-import com.nimbusds.jose.crypto.MACVerifier
-import com.nimbusds.jose.jwk.source.ImmutableSecret
 import com.nimbusds.jwt.JWTClaimsSet
 import com.nimbusds.jwt.SignedJWT
 import com.ort.dbflute.allcommon.CDef
@@ -39,7 +36,6 @@ class JwtTokenService(
     }
 
     private val signer: MACSigner by lazy { MACSigner(secretKey) }
-    private val verifier: JWSVerifier by lazy { MACVerifier(secretKey) }
 
     fun issueAccessToken(playerName: String, authority: CDef.Authority): String {
         val now = Instant.now()
@@ -83,8 +79,4 @@ class JwtTokenService(
         }
         return jwt.serialize()
     }
-
-    // unused but kept for future use (decoder bean is what spring uses)
-    @Suppress("unused")
-    private fun secretSource() = ImmutableSecret<com.nimbusds.jose.proc.SecurityContext>(secretKey)
 }

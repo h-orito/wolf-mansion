@@ -44,6 +44,8 @@ app:
     baseurl: /wmansion/original
   cors:
     allowed-origins: ${ALLOWED_ORIGINS}
+  cookie:
+    secure: true
   jwt:
     secret: ${JWT_SECRET}
     access-token-ttl-seconds: 900

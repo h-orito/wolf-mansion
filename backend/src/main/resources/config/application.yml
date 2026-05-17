@@ -34,6 +34,8 @@ app:
     baseurl: /wmansion/original
   cors:
     allowed-origins: http://localhost:5173,http://localhost:3000
+  cookie:
+    secure: false  # local 開発は http で動くため false。本番は true (各 profile で上書き)
   jwt:
     secret: ${JWT_SECRET:dev-only-secret-please-override-in-prod-32bytes-min}
     access-token-ttl-seconds: 900

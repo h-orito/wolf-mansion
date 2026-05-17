@@ -16,7 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
@@ -82,9 +81,9 @@ class WolfMansionWebSecurityConfig {
     private fun jwtAuthenticationConverter(): JwtAuthenticationConverter {
         val converter = JwtAuthenticationConverter()
         converter.setJwtGrantedAuthoritiesConverter { jwt ->
+            // authority claim → ROLE_*。デフォルトの scope ベース権限付与は使用しない。
             val authorityCode = jwt.getClaimAsString(JwtTokenService.CLAIM_AUTHORITY)
             val cdef = authorityCode?.let { CDef.Authority.codeOf(it) } ?: CDef.Authority.プレイヤー
-            // map "管理者" → ROLE_ADMIN, "プレイヤー" → ROLE_USER for hasRole() compatibility
             val role = when (cdef) {
                 CDef.Authority.管理者 -> "ROLE_ADMIN"
                 else -> "ROLE_USER"
@@ -92,9 +91,6 @@ class WolfMansionWebSecurityConfig {
             listOf(SimpleGrantedAuthority(role))
         }
         converter.setPrincipalClaimName("sub")
-        // suppress default scope authorities
-        val empty = JwtGrantedAuthoritiesConverter()
-        empty.setAuthoritiesClaimName("__none__")
         return converter
     }
 }
