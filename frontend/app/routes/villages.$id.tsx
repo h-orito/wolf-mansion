@@ -19,6 +19,7 @@ import {
   useVillageMessagesQuery,
   useVillageQuery,
 } from "~/features/village/detail/hooks";
+import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { ssrFetch } from "~/lib/api/client";
 
 export function meta({ data }: Route.MetaArgs) {
@@ -63,6 +64,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         <VillageHeader village={village} />
 
         {myself && <MyselfPanel myself={myself} />}
+
+        <ParticipateActions village={village} myself={myself} />
 
         <ParticipantsPanel participants={village.participants.list} />
 
