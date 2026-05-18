@@ -87,4 +87,33 @@ class FootstepRevealDomainServiceTest {
         val footstep = Footstep(day = 1, charaId = other.charaId, roomNumbers = "08,09")
         assertTrue(service.shouldRevealOwner(village, myself = viewer, footstep = footstep))
     }
+
+    @Test
+    fun `進行中、恋絆で結ばれていない参加者の足音は隠蔽される (耳年増は per-pair 対象外)`() {
+        // どの参加者にも loverIdList を仕込んでいないので、恋人扱いの組は無い。
+        val village = createDay1Village()
+        val viewer = village.participants.list.first { it.skill?.toCdef() == CDef.Skill.村人 }
+        val other = village.participants.list.first { it.skill?.toCdef() == CDef.Skill.妖狐 }
+        val footstep = Footstep(day = 1, charaId = other.charaId, roomNumbers = "10,11")
+        assertFalse(service.shouldRevealOwner(village, myself = viewer, footstep = footstep))
+    }
+
+    @Test
+    fun `進行中、registerCharaId と charaId が異なる偽装足音でも、登録者基準で開示判定される`() {
+        val village = createDay1Village()
+        val wolves = village.participants.list.filter { it.skill?.toCdef() == CDef.Skill.人狼 }
+        val registerWolf = wolves[0]
+        val villager = village.participants.list.first { it.skill?.toCdef() == CDef.Skill.村人 }
+        // 人狼が村人として偽装した足音
+        val disguised = Footstep(
+            day = 1,
+            registerCharaId = registerWolf.charaId,
+            charaId = villager.charaId,
+            roomNumbers = "12,13",
+        )
+        // 別の人狼 viewer は登録者 (人狼陣営) を見られる
+        assertTrue(service.shouldRevealOwner(village, myself = wolves[1], footstep = disguised))
+        // 村人 viewer は隠蔽 (登録者基準で別陣営)
+        assertFalse(service.shouldRevealOwner(village, myself = villager, footstep = disguised))
+    }
 }

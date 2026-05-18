@@ -19,7 +19,7 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.SpoilerDomainService
 import com.ort.app.domain.service.footstep.FootstepRevealDomainService
-import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -93,13 +93,17 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/footsteps")
     @Operation(
         summary = "足音一覧取得",
-        description = "進行中は他人の足音について registerChara / chara を隠す。エピローグ / 終了では全公開、募集中は空リスト。",
+        description = "進行中は他人の足音について registerChara / chara を隠す。エピローグ / 終了では全公開、募集中 / 廃村は空リスト。",
     )
     fun footsteps(
         @PathVariable villageId: Int,
     ): VillageFootstepsView {
         val ctx = loadContext(villageId)
-        if (ctx.village.status.isPrologue()) return VillageFootstepsView(list = emptyList())
+        // 進行 (進行中) と決着 (エピローグ / 終了) 以外は足音そのものが存在し得ないので空で返す。
+        // 廃村はプロローグ中にキャンセルされた村なので登録足音なし。
+        if (!ctx.village.status.isProgress() && !ctx.village.status.isSettled()) {
+            return VillageFootstepsView(list = emptyList())
+        }
         val footsteps = footstepService.findFootsteps(villageId)
         val charaById: Map<Int, Chara> = ctx.charas.associateBy { it.id }
         val views = footsteps.list
@@ -136,7 +140,7 @@ class VillageDetailRestController(
 
     private fun loadContext(villageId: Int): VillageDetailContext {
         val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val player = user?.let { playerService.findPlayer(it.username) }
         val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }

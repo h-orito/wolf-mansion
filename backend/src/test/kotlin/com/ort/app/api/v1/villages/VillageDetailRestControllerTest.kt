@@ -88,17 +88,12 @@ class VillageDetailRestControllerTest {
     }
 
     @Test
-    fun `GET _api_v1_villages_id 村が存在しなければ業務例外`() {
+    fun `GET _api_v1_villages_id 村が存在しなければ 404`() {
         whenever(villageService.findVillage(eq(999), any())).thenReturn(null)
 
-        // ExceptionControllerAdvice は Thymeleaf 時代の遺物で未配線のため、
-        // 現状は WolfMansionBusinessException がそのまま伝搬する。
-        // API 化フェーズ完了後に共通エラーハンドラを追加する想定 (Step 9 以降)。
-        runCatching {
-            mockMvc.perform(get("/api/v1/villages/999"))
-        }.exceptionOrNull().let {
-            require(it != null) { "expected an exception to be thrown for unknown village id" }
-        }
+        mockMvc.perform(get("/api/v1/villages/999"))
+            .andExpect(status().isNotFound)
+            .andExpect(jsonPath("$.message").exists())
     }
 
     // ---------- GET /{id}/footsteps ----------
@@ -130,8 +125,10 @@ class VillageDetailRestControllerTest {
             .andExpect(jsonPath("$.list.length()").value(1))
             .andExpect(jsonPath("$.list[0].day").value(1))
             .andExpect(jsonPath("$.list[0].roomNumbers").value("01,02,03"))
-            .andExpect(jsonPath("$.list[0].registerChara").doesNotExist())
-            .andExpect(jsonPath("$.list[0].chara").doesNotExist())
+            // Jackson のデフォルトは null フィールドもシリアライズするため、
+            // `doesNotExist()` ではなく明示的に null 値を検証する。
+            .andExpect(jsonPath("$.list[0].registerChara").value(null as String?))
+            .andExpect(jsonPath("$.list[0].chara").value(null as String?))
     }
 
     @Test

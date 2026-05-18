@@ -30,14 +30,15 @@ export async function loader({ request, params }: Route.LoaderArgs) {
     throw new Response("invalid village id", { status: 400 });
   }
   const api = ssrFetch(request);
-  // 4 つは独立 fetch なので並列化。村本体が取れなかった場合は 404 を投げる。
-  const [village, messages, footsteps, myself] = await Promise.all([
-    fetchVillage(villageId, api).catch(() => null),
+  // 村の存在確認を先行させる。村が無い場合に messages / footsteps / myself へ
+  // 無駄な API コール (backend で同じく 404 になる) が走るのを避けるため。
+  const village = await fetchVillage(villageId, api).catch(() => null);
+  if (!village) throw new Response("village not found", { status: 404 });
+  const [messages, footsteps, myself] = await Promise.all([
     fetchVillageMessages(villageId, undefined, api).catch(() => null),
     fetchVillageFootsteps(villageId, api).catch(() => null),
     fetchMyself(villageId, api).catch(() => null),
   ]);
-  if (!village) throw new Response("village not found", { status: 404 });
   return { villageId, village, messages, footsteps, myself };
 }
 
