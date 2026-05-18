@@ -63,10 +63,11 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </div>
 
         <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-          <h2 className="text-lg font-semibold mb-2">進行中の村</h2>
+          <h2 className="text-lg font-semibold mb-2">開催中の村</h2>
+          <p className="text-xs text-slate-400 mb-2">募集中 / 進行中 / エピローグ</p>
           <VillageList
             villages={villages}
-            emptyMessage="現在、進行中の村はありません"
+            emptyMessage="現在、開催中の村はありません"
           />
         </section>
       </section>
