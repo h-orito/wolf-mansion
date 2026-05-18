@@ -1,0 +1,10 @@
+.DS_Store
+.env
+/node_modules/
+
+# React Router
+/.react-router/
+/build/
+
+# OpenAPI 自動生成 (pnpm gen:api で再生成)
+/app/lib/api/generated.ts
