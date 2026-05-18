@@ -223,10 +223,15 @@ function AbilityForm({
     mutation.mutate({});
   }
 
-  // 対象選択が必須 (徘徊系・捜査系を除く) の能力で未選択なら submit させない
+  // 対象選択が必須 (徘徊系・捜査系を除く) の能力で未選択なら submit させない。
+  // 襲撃希望は attacker 連動で attack-targets を fetch するため、ロード中も無効化する
+  // (空配列で targetRequired=false になり submittable が活性化してしまうのを防ぐ)。
   const targetRequired = !isInvestigate && targetCharaIds.length > 0;
+  const attackTargetsLoading = isAttacker && attackTargetsQuery.isLoading;
   const submittable =
-    !mutation.isPending && (!targetRequired || targetCharaId != null);
+    !mutation.isPending &&
+    !attackTargetsLoading &&
+    (!targetRequired || targetCharaId != null);
   const hasCurrent =
     ability.attackerCharaId != null ||
     ability.targetCharaId != null ||
@@ -500,6 +505,11 @@ function CommitSection({
 
 // ---------- 部品 / utils ----------
 
+/**
+ * 子要素を `<label>` で包んでフォームコントロールと関連付ける。
+ * 単一の input/select を渡す前提なので、`<label>` の中に置けば htmlFor は不要
+ * (スクリーンリーダーは内包要素を自動で関連付ける)。
+ */
 function Row({
   label,
   suffix,
@@ -510,11 +520,11 @@ function Row({
   children: React.ReactNode;
 }) {
   return (
-    <div className="space-y-1">
-      <label className="text-xs text-slate-400">{label}</label>
+    <label className="block space-y-1">
+      <span className="text-xs text-slate-400">{label}</span>
       {children}
-      {suffix && <p className="text-xs text-slate-500">{suffix}</p>}
-    </div>
+      {suffix && <span className="block text-xs text-slate-500">{suffix}</span>}
+    </label>
   );
 }
 
