@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { redirect, useNavigate, useSearchParams } from "react-router";
 import type { Route } from "./+types/login";
-import { InvalidCredentialsError } from "~/features/auth/api";
+import { InvalidCredentialsError, type MeResponse } from "~/features/auth/api";
 import { useLoginMutation } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
 import { sanitizeRedirect } from "~/lib/redirect";
@@ -15,7 +15,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const api = ssrFetch(request);
   const res = await api("/api/v1/auth/me");
   if (res.ok) {
-    const data = (await res.json()) as { user: { userId: string } | null };
+    const data = (await res.json()) as MeResponse;
     if (data.user) {
       const to = sanitizeRedirect(new URL(request.url).searchParams.get("redirect"));
       throw redirect(to);
