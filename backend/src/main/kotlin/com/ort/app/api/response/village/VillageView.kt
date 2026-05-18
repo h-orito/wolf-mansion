@@ -40,8 +40,10 @@ data class VillageView(
     @field:Schema(description = "閲覧者が参加 (見学含む) しているか")
     val isParticipating: Boolean,
     @field:Schema(
-        description = "プロローグで希望役職に指定できる役職一覧。" +
-                "isSkillRequestAvailable=false の村では空リスト。"
+        description = "希望役職に指定できる役職一覧。" +
+                "isSkillRequestAvailable=false (希望役職指定不可) の村では空リスト、" +
+                "それ以外なら村ステータスによらず常に同じ非空のリストを返す。" +
+                "実際の希望変更操作はプロローグ中のみ受け付けられる点に注意。"
     )
     val requestableSkills: List<SkillView>,
 ) {

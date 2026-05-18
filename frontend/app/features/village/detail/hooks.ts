@@ -1,4 +1,11 @@
-import { useMutation, useQuery, useQueryClient, type UseMutationResult, type UseQueryResult } from "@tanstack/react-query";
+import {
+  useMutation,
+  useQueries,
+  useQuery,
+  useQueryClient,
+  type UseMutationResult,
+  type UseQueryResult,
+} from "@tanstack/react-query";
 import {
   deleteLeave,
   fetchMyself,
@@ -101,20 +108,33 @@ function invalidateVillage(queryClient: ReturnType<typeof useQueryClient>, villa
 }
 
 /**
- * GET /api/v1/villages/{id}/participate/selectable-charas
+ * GET /api/v1/villages/{id}/participate/selectable-charas を charachipId ごとに並列発行し、
+ * 全チップのキャラを結合した一覧を返す。複数キャラチップ村に対応するため。
  *
- * 村のキャラチップ ID ごとに 1 クエリ。プロローグ + 未参加時のみ有効化する想定。
+ * - 空配列 → クエリ自体を発行せず `{ data: [], isLoading: false, isError: false }`
+ * - すべてのクエリが完了したら `isLoading=false`、いずれか失敗していれば `isError=true`
+ *
+ * Hooks のルールに従い、useQueries は常に同じ引数構造で呼び出す (charachipIds が
+ * 空のときは queries=[] のまま useQueries を呼ぶ)。
  */
 export function useSelectableCharasQuery(
   villageId: number,
-  charachipId: number | null,
-): UseQueryResult<CharaView[]> {
-  return useQuery<CharaView[]>({
-    queryKey: ["village", villageId, "selectable-charas", charachipId],
-    queryFn: () => fetchSelectableCharas(villageId, charachipId!),
-    enabled: charachipId != null,
-    staleTime: 60_000,
+  charachipIds: number[],
+): { data: CharaView[]; isLoading: boolean; isError: boolean; error?: Error } {
+  const results = useQueries({
+    queries: charachipIds.map((charachipId) => ({
+      queryKey: ["village", villageId, "selectable-charas", charachipId] as const,
+      queryFn: () => fetchSelectableCharas(villageId, charachipId),
+      staleTime: 60_000,
+    })),
   });
+  const isLoading = results.some((r) => r.isLoading);
+  const errorResult = results.find((r) => r.isError);
+  const isError = errorResult != null;
+  const data: CharaView[] = isLoading || isError
+    ? []
+    : results.flatMap((r) => r.data ?? []);
+  return { data, isLoading, isError, error: errorResult?.error ?? undefined };
 }
 
 export function useParticipateMutation(

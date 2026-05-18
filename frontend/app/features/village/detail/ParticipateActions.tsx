@@ -44,10 +44,10 @@ function ParticipateForm({ village }: { village: VillageView }) {
   const { settings, requestableSkills } = village;
 
   // hooks のルール上、early return より前にすべての hook を呼び出す必要がある。
-  // オリジナルキャラチップ村では下で fetch 結果を使わないため、enabled=false 相当として
-  // charachipId に null を渡す (useSelectableCharasQuery 側で disabled になる)。
-  const charachipId = settings.isOriginalCharachip ? null : settings.charachipIds[0] ?? null;
-  const charasQuery = useSelectableCharasQuery(village.id, charachipId);
+  // オリジナルキャラチップ村ではキャラ一覧 fetch を発行しない (空配列)。
+  // 通常村は複数キャラチップを持つことがあるので、全 ID に対して並列クエリして結合する。
+  const charachipIds = settings.isOriginalCharachip ? [] : settings.charachipIds;
+  const charasQuery = useSelectableCharasQuery(village.id, charachipIds);
 
   const mutation = useParticipateMutation(village.id);
 
@@ -97,13 +97,16 @@ function ParticipateForm({ village }: { village: VillageView }) {
     });
   }
 
-  const charas = charasQuery.data ?? [];
+  const charas = charasQuery.data;
   const isLoadingCharas = charasQuery.isLoading;
+  // backend の MessageContent.assertMessageRestrict はプロローグでは early return するため、
+  // 入村メッセージの長さ上限を frontend で吸収する (旧 Thymeleaf も同様に 400 文字制限)。
   const submittable =
     charaId != null &&
     charaName.trim().length > 0 &&
     charaShortName.trim().length === 1 &&
     joinMessage.trim().length > 0 &&
+    joinMessage.length <= MESSAGE_MAX_LENGTH &&
     !mutation.isPending;
 
   return (
@@ -164,14 +167,20 @@ function ParticipateForm({ village }: { village: VillageView }) {
         )}
 
         <Field label="入村メッセージ">
-          <textarea
-            value={joinMessage}
-            onChange={(e) => setJoinMessage(e.target.value)}
-            rows={3}
-            className={inputClass}
-            placeholder="挨拶など (発言扱い)"
-            disabled={mutation.isPending}
-          />
+          <div className="space-y-1">
+            <textarea
+              value={joinMessage}
+              onChange={(e) => setJoinMessage(e.target.value)}
+              rows={3}
+              maxLength={MESSAGE_MAX_LENGTH}
+              className={inputClass}
+              placeholder={`挨拶など (発言扱い、${MESSAGE_MAX_LENGTH} 文字以内)`}
+              disabled={mutation.isPending}
+            />
+            <p className="text-xs text-slate-500 text-right">
+              {joinMessage.length} / {MESSAGE_MAX_LENGTH}
+            </p>
+          </div>
         </Field>
 
         {settings.joinPasswordRequired && (
@@ -259,10 +268,14 @@ function ParticipatingActions({
   village: VillageView;
   myself: MyselfView;
 }) {
+  // isSpectateAvailable=false でも、既に見学者になっているプレイヤーには「参加者に戻る」
+  // の動線を残す (将来の設定変更パスで「見学不可だが見学者が存在する」状態が生まれた
+  // 場合の保険)。
+  const showSwitch = village.settings.isSpectateAvailable || myself.isSpectator;
   return (
     <Panel title="参加状態の操作">
       <div className="space-y-3">
-        {village.settings.isSpectateAvailable && <SwitchParticipateButton villageId={village.id} isSpectator={myself.isSpectator} />}
+        {showSwitch && <SwitchParticipateButton villageId={village.id} isSpectator={myself.isSpectator} />}
         {village.settings.isSkillRequestAvailable && !myself.isSpectator && (
           <ChangeRequestSkillForm village={village} myself={myself} />
         )}
@@ -310,7 +323,8 @@ function ChangeRequestSkillForm({
   myself: MyselfView;
 }) {
   const mutation = useChangeRequestSkillMutation(village.id);
-  // 既存希望は myself に乗っていない (skill は確定後のもの) ので空からスタート
+  // 既存希望は myself に乗っていない (skill は確定後のもの) ので空からスタート。
+  // 空文字 ("(おまかせ)") は送信時に OMAKASE_CODE にマップする (backend は NotBlank)。
   const [requestedSkill, setRequestedSkill] = useState<string>("");
   const [secondRequestedSkill, setSecondRequestedSkill] = useState<string>("");
 
@@ -319,11 +333,13 @@ function ChangeRequestSkillForm({
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!requestedSkill || !secondRequestedSkill) return;
-    mutation.mutate({ requestedSkill, secondRequestedSkill });
+    mutation.mutate({
+      requestedSkill: requestedSkill || OMAKASE_CODE,
+      secondRequestedSkill: secondRequestedSkill || OMAKASE_CODE,
+    });
   }
 
-  const submittable = requestedSkill && secondRequestedSkill && !mutation.isPending;
+  const submittable = !mutation.isPending;
 
   return (
     <form onSubmit={submit} className="space-y-2 border-t border-slate-700/60 pt-3">
@@ -428,6 +444,18 @@ function SkillSelect({
     </select>
   );
 }
+
+/** 発言系の上限 (旧 Thymeleaf 通常発言フォームと同じ 400 文字)。 */
+const MESSAGE_MAX_LENGTH = 400;
+
+/**
+ * 「おまかせ」役職 (CDef.Skill.おまかせ) のコード。
+ * 入村フォームでは未指定 (undefined) を送れば backend 側で `Skill(おまかせ)` に解決される
+ * (`VillageParticipateRestController.resolveSkill`) が、希望役職変更 endpoint の
+ * `VillageChangeRequestSkillBody` は `@NotBlank` のため、UI で「おまかせ」を選んだ場合は
+ * 明示的にこのコードに変換して送る。
+ */
+const OMAKASE_CODE = "LEFTOVER";
 
 const inputClass =
   "w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50";

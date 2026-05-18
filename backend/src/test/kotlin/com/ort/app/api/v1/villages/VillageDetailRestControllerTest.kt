@@ -32,6 +32,7 @@ import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfig
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.hamcrest.Matchers.greaterThan
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -87,10 +88,10 @@ class VillageDetailRestControllerTest {
             .andExpect(jsonPath("$.isCreator").value(false))
             // 入村系 UI が必要とする補助情報
             .andExpect(jsonPath("$.settings.charachipIds").isArray)
-            .andExpect(jsonPath("$.settings.isSkillRequestAvailable").isBoolean)
+            .andExpect(jsonPath("$.settings.isSkillRequestAvailable").value(true))
             .andExpect(jsonPath("$.settings.isSpectateAvailable").isBoolean)
-            // 希望役職指定可な村は requestableSkills が空でない
-            .andExpect(jsonPath("$.requestableSkills").isArray)
+            // 希望役職指定可 (isPossibleSkillRequest=true) なテスト fixture では非空
+            .andExpect(jsonPath("$.requestableSkills.length()").value(greaterThan(0)))
     }
 
     @Test
