@@ -1,6 +1,7 @@
 package com.ort.app.api.response.myself
 
 import com.ort.app.api.response.skill.SkillView
+import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -30,8 +31,14 @@ data class MyselfView(
     val skill: SkillView?,
     @field:Schema(description = "陣営コード")
     val campCode: String?,
+    @field:Schema(description = "コミット状態")
+    val commit: MyselfCommitView,
+    @field:Schema(description = "投票状態")
+    val vote: MyselfVoteView,
+    @field:Schema(description = "能力状態")
+    val ability: MyselfAbilityView,
 ) {
-    constructor(myself: VillageParticipant) : this(
+    constructor(myself: VillageParticipant, situation: ParticipantSituation) : this(
         id = myself.id,
         charaId = myself.charaId,
         name = myself.name(),
@@ -41,5 +48,8 @@ data class MyselfView(
         isWin = myself.isWin,
         skill = myself.skill?.let { SkillView(it) },
         campCode = myself.camp?.code,
+        commit = MyselfCommitView(situation.commit),
+        vote = MyselfVoteView(situation.vote),
+        ability = MyselfAbilityView(situation.ability),
     )
 }

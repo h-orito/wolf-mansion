@@ -22,6 +22,12 @@ export type VillageFootstepsView = components["schemas"]["VillageFootstepsView"]
 export type MessageView = components["schemas"]["MessageView"];
 export type MessagesView = components["schemas"]["MessagesView"];
 export type MyselfView = components["schemas"]["MyselfView"];
+export type MyselfAbilityView = components["schemas"]["MyselfAbilityView"];
+export type MyselfVoteView = components["schemas"]["MyselfVoteView"];
+export type MyselfCommitView = components["schemas"]["MyselfCommitView"];
+export type VillageAbilityBody = components["schemas"]["VillageAbilityBody"];
+export type VillageVoteBody = components["schemas"]["VillageVoteBody"];
+export type VillageCommitBody = components["schemas"]["VillageCommitBody"];
 
 // ---------- fetchers ----------
 
@@ -198,4 +204,93 @@ export async function deleteLeave(
   if (!res.ok) {
     throw new Error(`leave failed: ${res.status} ${await readErrorMessage(res)}`);
   }
+}
+
+// ---------- ability / vote / commit ----------
+
+/** POST /api/v1/villages/{id}/abilities */
+export async function postAbility(
+  villageId: number,
+  body: VillageAbilityBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/abilities`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`ability failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/villages/{id}/votes */
+export async function postVote(
+  villageId: number,
+  body: VillageVoteBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/votes`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`vote failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** PUT /api/v1/villages/{id}/commit */
+export async function putCommit(
+  villageId: number,
+  body: VillageCommitBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/commit`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`commit failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/**
+ * GET /api/v1/villages/{id}/abilities/attack-targets?charaId=...
+ *
+ * 指定キャラが今日襲撃できる対象の charaId 一覧。
+ */
+export async function fetchAttackTargets(
+  villageId: number,
+  charaId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<number[]> {
+  const res = await fetcher(
+    `/api/v1/villages/${villageId}/abilities/attack-targets?charaId=${charaId}`,
+  );
+  if (!res.ok) {
+    throw new Error(`attack-targets failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+  return res.json();
+}
+
+/**
+ * GET /api/v1/villages/{id}/abilities/footstep-candidates?charaId=...&targetCharaId=...
+ *
+ * 指定キャラが指定対象に対して残せる足音 (カンマ区切り部屋番号 / 'なし') の候補リスト。
+ */
+export async function fetchFootstepCandidates(
+  villageId: number,
+  params: { charaId?: number; targetCharaId?: number },
+  fetcher: ApiFetch = browserFetch,
+): Promise<string[]> {
+  const qs = new URLSearchParams();
+  if (params.charaId != null) qs.set("charaId", String(params.charaId));
+  if (params.targetCharaId != null) qs.set("targetCharaId", String(params.targetCharaId));
+  const suffix = qs.toString() ? `?${qs.toString()}` : "";
+  const res = await fetcher(
+    `/api/v1/villages/${villageId}/abilities/footstep-candidates${suffix}`,
+  );
+  if (!res.ok) {
+    throw new Error(`footstep-candidates failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+  return res.json();
 }

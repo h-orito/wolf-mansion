@@ -7,12 +7,16 @@ import com.ort.app.api.response.village.VillageFootstepsView
 import com.ort.app.api.response.village.VillageParticipantView
 import com.ort.app.api.response.village.VillageParticipantsView
 import com.ort.app.api.response.village.VillageView
+import com.ort.app.application.coordinator.VillageCoordinator
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
+import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageQuery
 import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
@@ -40,6 +44,9 @@ class VillageDetailRestController(
     private val playerService: PlayerService,
     private val messageService: MessageService,
     private val footstepService: FootstepApplicationService,
+    private val abilityService: AbilityService,
+    private val voteService: VoteApplicationService,
+    private val villageCoordinator: VillageCoordinator,
     private val spoilerDomainService: SpoilerDomainService,
     private val footstepRevealDomainService: FootstepRevealDomainService,
 ) {
@@ -105,7 +112,7 @@ class VillageDetailRestController(
             return VillageFootstepsView(list = emptyList())
         }
         val footsteps = footstepService.findFootsteps(villageId)
-        val charaById: Map<Int, Chara> = ctx.charas.associateBy { it.id }
+        val charaById: Map<Int, Chara> = ctx.charachips.charas().list.associateBy { it.id }
         val views = footsteps.list
             .sortedWith(compareBy({ it.day }, { it.roomNumbers }))
             .mapNotNull { footstep ->
@@ -128,14 +135,25 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/myself")
     @Operation(
         summary = "自分視点の参加者情報",
-        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 200 + null。",
+        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 200 + null。" +
+                "当日の能力 / 投票 / コミット状態と役職別の入力仕様を含む。",
     )
     fun myself(
         @PathVariable villageId: Int,
     ): ResponseEntity<MyselfView?> {
         val ctx = loadContext(villageId)
         val myself = ctx.myself ?: return ResponseEntity.ok(null)
-        return ResponseEntity.ok(MyselfView(myself))
+        val situation = villageCoordinator.findParticipantSituation(
+            village = ctx.village,
+            username = ctx.user?.username,
+            myself = myself,
+            votes = voteService.findVotes(ctx.village.id),
+            abilities = abilityService.findAbilities(ctx.village.id),
+            footsteps = footstepService.findFootsteps(ctx.village.id),
+            charachips = ctx.charachips,
+            day = ctx.village.latestDay(),
+        )
+        return ResponseEntity.ok(MyselfView(myself, situation))
     }
 
     private fun loadContext(villageId: Int): VillageDetailContext {
@@ -144,15 +162,15 @@ class VillageDetailRestController(
         val user = WolfMansionUserInfoUtil.getUserInfo()
         val player = user?.let { playerService.findPlayer(it.username) }
         val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
-        val charas = village.setting.chara.let {
-            charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas().list
+        val charachips = village.setting.chara.let {
+            charaService.findCharachips(it.charachipIds, it.isOriginalCharachip)
         }
         val players = playerService.findPlayers(village.id)
-        return VillageDetailContext(village, user, player, myself, charas, players)
+        return VillageDetailContext(village, user, player, myself, charachips, players)
     }
 
     private fun buildParticipants(ctx: VillageDetailContext): VillageParticipantsView {
-        val charaById = ctx.charas.associateBy { it.id }
+        val charaById = ctx.charachips.charas().list.associateBy { it.id }
         val playerById = ctx.players.list.associateBy { it.id }
         val isSpoilerOpen = spoilerDomainService.isViewableSpoilerContent(ctx.village, ctx.myself)
         val sorted = ctx.village.allParticipants().sortedByRoomNumber().list
@@ -213,7 +231,7 @@ class VillageDetailRestController(
         val user: com.ort.app.fw.security.UserInfo?,
         val player: Player?,
         val myself: VillageParticipant?,
-        val charas: List<Chara>,
+        val charachips: Charachips,
         val players: com.ort.app.domain.model.player.Players,
     )
 }
