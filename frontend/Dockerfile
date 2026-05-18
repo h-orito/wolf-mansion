@@ -1,22 +1,29 @@
-FROM node:20-alpine AS development-dependencies-env
-COPY . /app
+# syntax=docker/dockerfile:1.7
+#
+# wolf-mansion frontend image
+# - bookworm-slim ベース (alpine の musl 起因問題を避ける)
+# - linux/arm64 を明示 (OCL k8s ノードが arm64)
+# - pnpm を corepack で固定バージョン、post-install スクリプト抑止
+# - 非 root ユーザで実行
+#
+FROM --platform=linux/arm64 node:22-bookworm-slim AS build
 WORKDIR /app
-RUN npm ci
+ENV CI=true PNPM_HOME=/pnpm PATH=/pnpm:$PATH
+COPY package.json pnpm-lock.yaml .npmrc ./
+RUN corepack enable && \
+    pnpm install --frozen-lockfile --ignore-scripts
+COPY . .
+RUN pnpm build
 
-FROM node:20-alpine AS production-dependencies-env
-COPY ./package.json package-lock.json /app/
+FROM --platform=linux/arm64 node:22-bookworm-slim
 WORKDIR /app
-RUN npm ci --omit=dev
-
-FROM node:20-alpine AS build-env
-COPY . /app/
-COPY --from=development-dependencies-env /app/node_modules /app/node_modules
-WORKDIR /app
-RUN npm run build
-
-FROM node:20-alpine
-COPY ./package.json package-lock.json /app/
-COPY --from=production-dependencies-env /app/node_modules /app/node_modules
-COPY --from=build-env /app/build /app/build
-WORKDIR /app
-CMD ["npm", "run", "start"]
+ENV NODE_ENV=production PORT=3000
+# 非 root ユーザで実行
+RUN groupadd -r app && useradd -r -g app -d /app -s /sbin/nologin app
+COPY --from=build --chown=app:app /app/build ./build
+COPY --from=build --chown=app:app /app/node_modules ./node_modules
+COPY --from=build --chown=app:app /app/package.json ./
+USER app
+EXPOSE 3000
+# react-router-serve を直接呼び出し (pnpm 経由を避けて軽量化)
+CMD ["node_modules/.bin/react-router-serve", "./build/server/index.js"]

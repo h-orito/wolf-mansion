@@ -21,8 +21,8 @@
 corepack enable
 corepack prepare pnpm@10.33.0 --activate
 
-# 依存インストール (post-install スクリプトはデフォルト無効)
-pnpm install --frozen-lockfile
+# 依存インストール (.npmrc の ignore-scripts=true を明示的に追加して安全側に倒す)
+pnpm install --frozen-lockfile --ignore-scripts
 ```
 
 ## 開発
