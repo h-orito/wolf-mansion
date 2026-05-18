@@ -1,0 +1,39 @@
+{
+  "name": "frontend",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "react-router dev",
+    "start": "react-router-serve ./build/server/index.js",
+    "typecheck": "react-router typegen && tsc",
+    "gen:api": "openapi-typescript http://localhost:8089/wolf-mansion-api/v3/api-docs -o app/lib/api/generated.ts"
+  },
+  "dependencies": {
+    "@react-router/node": "7.15.1",
+    "@react-router/serve": "7.15.1",
+    "@tanstack/react-query": "^5.95.0",
+    "isbot": "^5.1.36",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "react-router": "7.15.1",
+    "zustand": "^5.0.10"
+  },
+  "devDependencies": {
+    "@react-router/dev": "7.15.1",
+    "@tailwindcss/vite": "^4.2.2",
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "openapi-typescript": "^7.10.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
+  }
+}
