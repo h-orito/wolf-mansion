@@ -85,6 +85,12 @@ class VillageDetailRestControllerTest {
             .andExpect(jsonPath("$.statusCode").value(CDef.VillageStatus.募集中.code()))
             .andExpect(jsonPath("$.isParticipating").value(false))
             .andExpect(jsonPath("$.isCreator").value(false))
+            // 入村系 UI が必要とする補助情報
+            .andExpect(jsonPath("$.settings.charachipIds").isArray)
+            .andExpect(jsonPath("$.settings.isSkillRequestAvailable").isBoolean)
+            .andExpect(jsonPath("$.settings.isSpectateAvailable").isBoolean)
+            // 希望役職指定可な村は requestableSkills が空でない
+            .andExpect(jsonPath("$.requestableSkills").isArray)
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.ort.app.api.response.village
 
+import com.ort.app.api.response.skill.SkillView
 import com.ort.app.domain.model.village.Village
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
@@ -38,6 +39,11 @@ data class VillageView(
     val isCreator: Boolean,
     @field:Schema(description = "閲覧者が参加 (見学含む) しているか")
     val isParticipating: Boolean,
+    @field:Schema(
+        description = "プロローグで希望役職に指定できる役職一覧。" +
+                "isSkillRequestAvailable=false の村では空リスト。"
+    )
+    val requestableSkills: List<SkillView>,
 ) {
     constructor(
         village: Village,
@@ -61,5 +67,8 @@ data class VillageView(
         participants = participants,
         isCreator = isCreator,
         isParticipating = isParticipating,
+        requestableSkills = if (village.setting.rule.isPossibleSkillRequest) {
+            village.allRequestableSkillList().map { SkillView(it) }
+        } else emptyList(),
     )
 }

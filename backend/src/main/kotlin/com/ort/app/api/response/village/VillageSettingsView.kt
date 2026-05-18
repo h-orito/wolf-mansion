@@ -18,6 +18,12 @@ data class VillageSettingsView(
     val joinPasswordRequired: Boolean,
     @field:Schema(description = "オリジナルキャラチップの村か")
     val isOriginalCharachip: Boolean,
+    @field:Schema(description = "村が参照しているキャラチップ ID 一覧 (selectableCharas エンドポイント呼出に使用)")
+    val charachipIds: List<Int>,
+    @field:Schema(description = "希望役職指定が可能な村か")
+    val isSkillRequestAvailable: Boolean,
+    @field:Schema(description = "見学参加が可能な村か")
+    val isSpectateAvailable: Boolean,
 ) {
     constructor(village: Village) : this(
         personMin = village.setting.personMin,
@@ -26,5 +32,8 @@ data class VillageSettingsView(
         dayChangeIntervalSeconds = village.setting.dayChangeIntervalSeconds,
         joinPasswordRequired = !village.setting.joinPassword.isNullOrEmpty(),
         isOriginalCharachip = village.setting.chara.isOriginalCharachip,
+        charachipIds = village.setting.chara.charachipIds,
+        isSkillRequestAvailable = village.setting.rule.isPossibleSkillRequest,
+        isSpectateAvailable = village.setting.rule.isAvailableSpectate,
     )
 }

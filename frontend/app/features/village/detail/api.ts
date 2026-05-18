@@ -8,6 +8,8 @@ import { browserFetch, type ApiFetch } from "~/lib/api/client";
 
 export type CharaView = components["schemas"]["CharaView"];
 export type SkillView = components["schemas"]["SkillView"];
+export type VillageParticipateBody = components["schemas"]["VillageParticipateBody"];
+export type VillageChangeRequestSkillBody = components["schemas"]["VillageChangeRequestSkillBody"];
 export type VillageView = components["schemas"]["VillageView"];
 export type VillageSettingsView = components["schemas"]["VillageSettingsView"];
 export type VillageDayView = components["schemas"]["VillageDayView"];
@@ -105,4 +107,95 @@ export async function fetchMyself(
   const text = await res.text();
   if (!text || text === "null") return null;
   return JSON.parse(text) as MyselfView;
+}
+
+/**
+ * GET /api/v1/villages/{id}/participate/selectable-charas?charachipId=...
+ *
+ * 当該村で参加に選べるキャラを返す。複数キャラチップ村の場合は呼び出し側でキャラチップごとに
+ * 並列呼出して結合する想定。失敗時は例外を投げる。
+ */
+export async function fetchSelectableCharas(
+  villageId: number,
+  charachipId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<CharaView[]> {
+  const res = await fetcher(
+    `/api/v1/villages/${villageId}/participate/selectable-charas?charachipId=${charachipId}`,
+  );
+  if (!res.ok) throw new Error(`selectable charas fetch failed: ${res.status}`);
+  return res.json();
+}
+
+// ---------- participate mutations ----------
+
+async function readErrorMessage(res: Response): Promise<string> {
+  const errBody = await res.text();
+  try {
+    const parsed = JSON.parse(errBody) as { message?: string };
+    if (parsed.message) return parsed.message;
+  } catch {
+    // not JSON
+  }
+  return errBody;
+}
+
+/** POST /api/v1/villages/{id}/participate */
+export async function postParticipate(
+  villageId: number,
+  body: VillageParticipateBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/participate`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`participate failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/**
+ * POST /api/v1/villages/{id}/participate/switch
+ *
+ * プロローグ中の参加 ↔ 見学切替。body 不要。
+ */
+export async function postSwitchParticipate(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/participate/switch`, {
+    method: "POST",
+  });
+  if (!res.ok) {
+    throw new Error(`switch participate failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** PUT /api/v1/villages/{id}/participate/skill */
+export async function putChangeRequestSkill(
+  villageId: number,
+  body: VillageChangeRequestSkillBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/participate/skill`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`change request skill failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** DELETE /api/v1/villages/{id}/participate */
+export async function deleteLeave(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/participate`, {
+    method: "DELETE",
+  });
+  if (!res.ok) {
+    throw new Error(`leave failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
 }
