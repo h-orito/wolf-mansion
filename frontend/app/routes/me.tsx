@@ -1,22 +1,34 @@
-import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useNavigate, useRouteLoaderData } from "react-router";
 import type { Route } from "./+types/me";
-import { useLogoutMutation, useMeQuery } from "~/features/auth/hooks";
+import { useLogoutMutation } from "~/features/auth/hooks";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "マイページ - wolf-mansion" }];
 }
 
+// _auth.tsx の loader から user データを直接取得 (追加 fetch なし)
+type AuthLoaderData = { user: { userId: string; authority: string } };
+
 export default function MePage() {
   const navigate = useNavigate();
-  const me = useMeQuery();
+  const authData = useRouteLoaderData("routes/_auth") as AuthLoaderData;
   const logoutMutation = useLogoutMutation();
+  const [logoutError, setLogoutError] = useState<string | null>(null);
 
   async function onLogout() {
-    await logoutMutation.mutateAsync();
-    navigate("/login", { replace: true });
+    setLogoutError(null);
+    try {
+      await logoutMutation.mutateAsync();
+      navigate("/login", { replace: true });
+    } catch {
+      setLogoutError(
+        "ログアウトに失敗しました。通信状況を確認の上、再度お試しください。"
+      );
+    }
   }
 
-  const user = me.data?.user;
+  const user = authData.user;
 
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-12">
@@ -24,10 +36,15 @@ export default function MePage() {
         <h1 className="text-3xl font-bold">マイページ</h1>
         <div className="rounded-lg bg-slate-800/60 p-6 border border-slate-700 space-y-2">
           <p className="text-sm text-slate-400">プレイヤー名</p>
-          <p className="text-xl font-mono">{user?.userId ?? "..."}</p>
+          <p className="text-xl font-mono">{user.userId}</p>
           <p className="text-sm text-slate-400 mt-4">権限</p>
-          <p className="text-base">{user?.authority ?? "..."}</p>
+          <p className="text-base">{user.authority}</p>
         </div>
+        {logoutError && (
+          <p role="alert" className="text-sm text-red-400">
+            {logoutError}
+          </p>
+        )}
         <button
           type="button"
           onClick={onLogout}

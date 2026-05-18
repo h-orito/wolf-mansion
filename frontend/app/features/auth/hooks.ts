@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { fetchMe, login, logout, type LoginBody, type MeResponse } from "./api";
+// MeResponse は useMeQuery の型推論で使用
 
 export const ME_QUERY_KEY = ["auth", "me"] as const;
 
@@ -23,14 +24,13 @@ export function useLoginMutation() {
   });
 }
 
-/** POST /api/v1/auth/logout → me cache をクリア */
+/** POST /api/v1/auth/logout → me cache を破棄 (次回参照時に refetch される) */
 export function useLogoutMutation() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: () => logout(),
     onSuccess: () => {
-      qc.setQueryData<MeResponse>(ME_QUERY_KEY, { user: undefined });
-      qc.invalidateQueries({ queryKey: ME_QUERY_KEY });
+      qc.removeQueries({ queryKey: ME_QUERY_KEY });
     },
   });
 }

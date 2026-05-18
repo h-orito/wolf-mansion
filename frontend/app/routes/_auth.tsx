@@ -1,5 +1,6 @@
 import { Outlet, redirect } from "react-router";
 import type { Route } from "./+types/_auth";
+import type { MeResponse } from "~/features/auth/api";
 import { ssrFetch } from "~/lib/api/client";
 import { stripBasename } from "~/lib/basename";
 
@@ -12,7 +13,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   const res = await api("/api/v1/auth/me");
   if (!res.ok) throw redirectToLogin(request);
 
-  const data = (await res.json()) as { user: { userId: string; authority: string } | null };
+  const data = (await res.json()) as MeResponse;
   if (!data.user) throw redirectToLogin(request);
 
   return { user: data.user };

@@ -26,9 +26,12 @@ function mergeHeaders(init: RequestInit | undefined): Record<string, string> {
 export const browserFetch: ApiFetch = async (path, init) => {
   const first = await rawBrowserFetch(path, init);
   if (first.status !== 401) return first;
-  // 401 → refresh を試行
+  // 401 → refresh を 1 回だけ試行
+  // /auth/refresh と /auth/login 自身は除外 (再帰防止)。
+  // /auth/me は対象に含めてよい — refresh 後の me 再試行も結果が 401 のままなら
+  // この関数は素直に 401 を返し、呼び出し元 (useMeQuery 等) が error として扱う。
+  // rawBrowserFetch は無条件で 1 回しか追加 fetch しないので無限ループにはならない。
   if (path.startsWith("/api/v1/auth/refresh") || path.startsWith("/api/v1/auth/login")) {
-    // refresh / login 自身が 401 ならリトライしない
     return first;
   }
   const refreshed = await rawBrowserFetch("/api/v1/auth/refresh", { method: "POST" });

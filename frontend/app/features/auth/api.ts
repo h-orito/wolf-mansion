@@ -25,7 +25,8 @@ export async function login(body: LoginBody): Promise<MeResponse> {
 
 export async function logout(): Promise<void> {
   const res = await browserFetch("/api/v1/auth/logout", { method: "POST" });
-  if (!res.ok && res.status !== 204) throw new Error(`logout failed: ${res.status}`);
+  // backend は 204 No Content を返すが、res.ok は 200-299 を真とするので OK 判定で十分
+  if (!res.ok) throw new Error(`logout failed: ${res.status}`);
 }
 
 export class InvalidCredentialsError extends Error {

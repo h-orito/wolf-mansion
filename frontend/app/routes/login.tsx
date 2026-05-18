@@ -2,8 +2,9 @@ import { useState, type FormEvent } from "react";
 import { redirect, useNavigate, useSearchParams } from "react-router";
 import type { Route } from "./+types/login";
 import { InvalidCredentialsError } from "~/features/auth/api";
-import { useLoginMutation, useMeQuery } from "~/features/auth/hooks";
+import { useLoginMutation } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
+import { sanitizeRedirect } from "~/lib/redirect";
 
 export function meta(_: Route.MetaArgs) {
   return [{ title: "ログイン - wolf-mansion" }];
@@ -23,21 +24,9 @@ export async function loader({ request }: Route.LoaderArgs) {
   return null;
 }
 
-/**
- * `?redirect=...` を相対 in-app パスに正規化する (open redirect 防止)。
- * `/` で始まらない or `//` で始まる (protocol-relative) は弾く。
- */
-function sanitizeRedirect(raw: string | null): string {
-  if (!raw) return "/";
-  if (!raw.startsWith("/")) return "/";
-  if (raw.startsWith("//")) return "/";
-  return raw;
-}
-
 export default function LoginPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const me = useMeQuery();
   const loginMutation = useLoginMutation();
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
@@ -49,7 +38,8 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await loginMutation.mutateAsync({ userId, password });
-      await me.refetch();
+      // useLoginMutation の onSuccess で me cache を setQueryData 済みなので
+      // ここで refetch は不要。即座に画面遷移する。
       navigate(redirectTo, { replace: true });
     } catch {
       // mutation error は下で error として表示する
