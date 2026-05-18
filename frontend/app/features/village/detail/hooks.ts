@@ -8,23 +8,31 @@ import {
 } from "@tanstack/react-query";
 import {
   deleteLeave,
+  fetchAttackTargets,
+  fetchFootstepCandidates,
   fetchMyself,
   fetchSelectableCharas,
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
+  postAbility,
   postParticipate,
   postSay,
   postSwitchParticipate,
+  postVote,
   putChangeRequestSkill,
+  putCommit,
   type CharaView,
   type MessagesView,
   type MyselfView,
   type SayInput,
+  type VillageAbilityBody,
   type VillageChangeRequestSkillBody,
+  type VillageCommitBody,
   type VillageFootstepsView,
   type VillageParticipateBody,
   type VillageView,
+  type VillageVoteBody,
 } from "./api";
 
 /** 30s polling — plan.md「TanStack Query `refetchInterval: 30000`」に合わせる */
@@ -172,5 +180,93 @@ export function useLeaveMutation(villageId: number): UseMutationResult<void, Err
   return useMutation<void, Error, void>({
     mutationFn: () => deleteLeave(villageId),
     onSuccess: () => invalidateVillage(queryClient, villageId),
+  });
+}
+
+// ---------- ability / vote / commit ----------
+
+/**
+ * 能力 / 投票 / commit を更新したら、myself (当日の選択状態) と messages
+ * (能力セットの非公開メッセージ反映) をどちらも refetch する。
+ */
+function invalidateActionState(
+  queryClient: ReturnType<typeof useQueryClient>,
+  villageId: number,
+) {
+  queryClient.invalidateQueries({ queryKey: ["village", villageId, "myself"] });
+  queryClient.invalidateQueries({ queryKey: ["village", villageId, "messages"] });
+}
+
+export function useAbilityMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageAbilityBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageAbilityBody>({
+    mutationFn: (body) => postAbility(villageId, body),
+    onSuccess: () => invalidateActionState(queryClient, villageId),
+  });
+}
+
+export function useVoteMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageVoteBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageVoteBody>({
+    mutationFn: (body) => postVote(villageId, body),
+    onSuccess: () => invalidateActionState(queryClient, villageId),
+  });
+}
+
+export function useCommitMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageCommitBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageCommitBody>({
+    mutationFn: (body) => putCommit(villageId, body),
+    onSuccess: () => invalidateActionState(queryClient, villageId),
+  });
+}
+
+/**
+ * 襲撃者を選択するたびに、その襲撃者で襲撃可能な対象の charaId を fetch する。
+ * `charaId` が null のときはクエリを発行せず空配列扱い。
+ */
+export function useAttackTargetsQuery(
+  villageId: number,
+  charaId: number | null,
+): UseQueryResult<number[]> {
+  return useQuery<number[]>({
+    queryKey: ["village", villageId, "attack-targets", charaId],
+    queryFn: () => fetchAttackTargets(villageId, charaId as number),
+    enabled: charaId != null,
+    staleTime: 30_000,
+  });
+}
+
+/**
+ * 能力主体 / 対象が変わるたびに足音候補を fetch する。
+ * 「対象なし」しか選べない (例えば徘徊で target null のとき) ケースでも
+ * backend が ['なし'] を返してくれる前提で常時 fetch。
+ */
+export function useFootstepCandidatesQuery(
+  villageId: number,
+  params: { charaId?: number | null; targetCharaId?: number | null },
+  enabled: boolean,
+): UseQueryResult<string[]> {
+  return useQuery<string[]>({
+    queryKey: [
+      "village",
+      villageId,
+      "footstep-candidates",
+      params.charaId ?? null,
+      params.targetCharaId ?? null,
+    ],
+    queryFn: () =>
+      fetchFootstepCandidates(villageId, {
+        charaId: params.charaId ?? undefined,
+        targetCharaId: params.targetCharaId ?? undefined,
+      }),
+    enabled,
+    staleTime: 30_000,
   });
 }

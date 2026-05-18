@@ -19,6 +19,7 @@ import {
   useVillageMessagesQuery,
   useVillageQuery,
 } from "~/features/village/detail/hooks";
+import { ActionPanel } from "~/features/village/detail/ActionPanel";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { ssrFetch } from "~/lib/api/client";
 
@@ -66,6 +67,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         {myself && <MyselfPanel myself={myself} />}
 
         <ParticipateActions village={village} myself={myself} />
+
+        {myself && <ActionPanel village={village} myself={myself} />}
 
         <ParticipantsPanel participants={village.participants.list} />
 

@@ -7,11 +7,14 @@ import com.ort.app.api.response.village.VillageFootstepsView
 import com.ort.app.api.response.village.VillageParticipantView
 import com.ort.app.api.response.village.VillageParticipantsView
 import com.ort.app.api.response.village.VillageView
+import com.ort.app.application.coordinator.VillageCoordinator
+import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.FootstepApplicationService
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
+import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.message.MessageQuery
 import com.ort.app.domain.model.player.Player
@@ -40,6 +43,9 @@ class VillageDetailRestController(
     private val playerService: PlayerService,
     private val messageService: MessageService,
     private val footstepService: FootstepApplicationService,
+    private val abilityService: AbilityService,
+    private val voteService: VoteApplicationService,
+    private val villageCoordinator: VillageCoordinator,
     private val spoilerDomainService: SpoilerDomainService,
     private val footstepRevealDomainService: FootstepRevealDomainService,
 ) {
@@ -128,14 +134,28 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/myself")
     @Operation(
         summary = "自分視点の参加者情報",
-        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 200 + null。",
+        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 200 + null。" +
+                "当日の能力 / 投票 / コミット状態と役職別の入力仕様を含む。",
     )
     fun myself(
         @PathVariable villageId: Int,
     ): ResponseEntity<MyselfView?> {
         val ctx = loadContext(villageId)
         val myself = ctx.myself ?: return ResponseEntity.ok(null)
-        return ResponseEntity.ok(MyselfView(myself))
+        val charachips = ctx.village.setting.chara.let {
+            charaService.findCharachips(it.charachipIds, it.isOriginalCharachip)
+        }
+        val situation = villageCoordinator.findParticipantSituation(
+            village = ctx.village,
+            username = ctx.user?.username,
+            myself = myself,
+            votes = voteService.findVotes(ctx.village.id),
+            abilities = abilityService.findAbilities(ctx.village.id),
+            footsteps = footstepService.findFootsteps(ctx.village.id),
+            charachips = charachips,
+            day = ctx.village.latestDay(),
+        )
+        return ResponseEntity.ok(MyselfView(myself, situation))
     }
 
     private fun loadContext(villageId: Int): VillageDetailContext {
