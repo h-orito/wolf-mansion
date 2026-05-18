@@ -6,5 +6,8 @@
 /.react-router/
 /build/
 
+# Vite cache (依存事前バンドル、ローカル生成物)
+/.vite/
+
 # OpenAPI 自動生成 (pnpm gen:api で再生成)
 /app/lib/api/generated.ts
