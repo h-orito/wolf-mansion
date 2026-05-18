@@ -8,6 +8,8 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "gen:api": "openapi-typescript http://localhost:8089/wolf-mansion-api/v3/api-docs -o app/lib/api/generated.ts"
   },
   "dependencies": {
@@ -29,7 +31,8 @@
     "openapi-typescript": "^7.10.0",
     "tailwindcss": "^4.2.2",
     "typescript": "^5.9.3",
-    "vite": "^8.0.3"
+    "vite": "^8.0.3",
+    "vitest": "^4.1.6"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
