@@ -142,6 +142,9 @@ class VillageSayRestController(
     /**
      * アクション発言の本文を組み立てつつ、合計文字数 (1-400) を検証する。
      * 旧 `ActionFormValidator` の `myself + target + message` 合計長チェックに対応。
+     *
+     * NOTE: 旧実装は `message` のみを `trim()` していたが、新実装は結合後全体に `trim()`
+     * をかける。`myself` 末尾スペース等も除去される差はあるが UX 上問題視されない軽微な差。
      */
     private fun buildAndValidateActionText(body: VillageActionBody): String {
         val text = "${body.myself}${body.target ?: ""}${body.message}".trim()

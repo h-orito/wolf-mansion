@@ -22,7 +22,6 @@ import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -52,9 +51,6 @@ class VillageParticipateRestControllerTest {
             .apply<org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder>(springSecurity())
             .build()
     }
-
-    /** Jwt principal を立てて WolfMansionUserInfoUtil.getUserInfo() から UserInfo が返るようにする post-processor */
-    private fun authed() = jwt().jwt { it.subject("tester") }
 
     private fun aPlayer(): Player = Player(
         id = 100,

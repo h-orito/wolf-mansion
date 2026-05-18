@@ -15,7 +15,6 @@ import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -45,7 +44,6 @@ class VillageAbilityRestControllerTest {
             .build()
     }
 
-    private fun authed() = jwt().jwt { it.subject("tester") }
 
     @Test
     fun `POST abilities 認証あり 204 で coordinator_setAbility が呼ばれる`() {
