@@ -6,21 +6,18 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import org.springframework.stereotype.Service
 
 /**
- * 足音 DTO 構築時の "出した人" 開示判定。
+ * 村状況欄の足音 DTO 構築時の "出した人" 開示判定。
  *
- * - 終了 / エピローグ: 全員に対し全公開
- * - 募集中 / 廃村: そもそも未登録 (呼び出し側で空リストを返す前提なので念のため false)
- * - 進行中: 自分の足音は常に開示、同じ "say チャンネル" を共有する陣営なら開示、それ以外は隠す
+ * 既存の `FootstepDomainService.convertToSituation` の挙動と一致させる:
+ *  - エピローグ / 終了: 全員に対し全公開
+ *  - 進行中、墓下開示村 (`isOpenSkillInGrave`) で自分が dead / 見学: その閲覧者にだけ全公開
+ *  - それ以外 (進行中の alive 参加者、人狼を含む / 未参加閲覧者 / 募集中 / 廃村):
+ *    匿名表示 (registerChara / chara を null、`roomNumbers` のみ公開)
  *
- * "team共有" のルールは既存 Say の `isViewable*` セマンティクスに合わせる:
- *  - 人狼の囁き: `isViewableWerewolfSay()` 同士
- *  - 共鳴: `isViewableSympathizeSay()` 同士
- *  - 念話 (狐): `isViewableTelepathy()` 同士 — fox-possessioned も同じチャンネルに含むのは Say と同じ
- *  - 恋人: **per-pair** で判定する (`loverIdList` overlap)。Say では複数恋人グループが全部見える既存挙動だが、
- *         足音は推理ゲーム上ペア境界を尊重した方が公平なので per-pair に絞っている。
- *
- * NOTE: `playerId == 1` の admin 参加者は `isViewableWerewolfSay` 等が常に true になるため、
- *       admin がプレイヤー参加した村では全チームの足音が見えてしまう。これは既存 Say と同じ挙動。
+ * NOTE: 「自分が登録した足音を自分には見せる」「team共有」は **行わない**。
+ * 既存挙動が全員匿名扱いであり、夢遊病者など本人にもどこを通ったか不明な役職がある
+ * ため、村状況欄では一律で隠す。能力フォーム / 行使履歴で自分の登録足音を見たい場合は
+ * 別 endpoint (Step 7 の ability 系) で扱う想定。
  */
 @Service
 class FootstepRevealDomainService {
@@ -28,33 +25,15 @@ class FootstepRevealDomainService {
     fun shouldRevealOwner(
         village: Village,
         myself: VillageParticipant?,
-        footstep: Footstep,
+        @Suppress("UNUSED_PARAMETER") footstep: Footstep,
     ): Boolean {
+        // 1) settled (エピローグ / 終了) なら全員に対し全公開
         if (village.status.isSettled()) return true
-        if (!village.status.isProgress()) return false
-        // 進行中
-        myself ?: return false
-        if (myself.charaId == footstep.registerCharaId) return true
-        val owner = village.allParticipants().list
-            .firstOrNull { it.charaId == footstep.registerCharaId }
-            ?: return false
-        return isSameTeam(myself, owner)
-    }
-
-    private fun isSameTeam(viewer: VillageParticipant, owner: VillageParticipant): Boolean {
-        if (viewer.isViewableWerewolfSay() && owner.isViewableWerewolfSay()) return true
-        if (viewer.isViewableSympathizeSay() && owner.isViewableSympathizeSay()) return true
-        if (viewer.isViewableTelepathy() && owner.isViewableTelepathy()) return true
-        if (isSameLoverPair(viewer, owner)) return true
+        // 2) 進行中でも、墓下開示村で自分が dead / 見学なら全公開
+        //    (既存 SpoilerDomainService.isViewableSpoilerContent の "myself 側" と整合)
+        val isOpenSkillInGrave = village.setting.rule.isOpenSkillInGrave
+        if (myself?.isViewableSpoilerContent(isOpenSkillInGrave) == true) return true
+        // 3) それ以外は匿名 (自分の足音であっても、人狼であっても同じ)
         return false
-    }
-
-    /**
-     * 恋絆 (loverIdList) で直接結ばれているか。耳年増 (`isViewableLoversSay` skill check) は
-     * 恋人ではないため per-pair の対象外で、足音は隠したままにする。
-     */
-    private fun isSameLoverPair(viewer: VillageParticipant, owner: VillageParticipant): Boolean {
-        return viewer.status.loverIdList.contains(owner.id) ||
-                owner.status.loverIdList.contains(viewer.id)
     }
 }
