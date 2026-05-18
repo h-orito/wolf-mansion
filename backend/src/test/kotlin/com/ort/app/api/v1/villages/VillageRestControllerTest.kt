@@ -3,7 +3,6 @@ package com.ort.app.api.v1.villages
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.createPrologueVillage
-import com.ort.app.domain.model.village.toModel
 import com.ort.dbflute.allcommon.CDef
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -118,9 +117,28 @@ class VillageRestControllerTest {
             .andExpect(jsonPath("$.list[0].number").value("12345"))
     }
 
-    @Suppress("unused")
-    private fun referenceTypes() {
-        // unused import 抑止用
-        @Suppress("UNUSED_VARIABLE") val ignored = CDef.VillageStatus.募集中.toModel()
+    @Test
+    fun `募集中の村は statusCode に CDef code (英字) + statusName に alias (日本語) が出る`() {
+        val v = createPrologueVillage().copy(id = 1)
+        whenever(villageService.findVillages(any())).thenReturn(Villages(list = listOf(v)))
+
+        mockMvc.perform(get("/api/v1/villages"))
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.list[0].statusCode").value(CDef.VillageStatus.募集中.code()))
+            .andExpect(jsonPath("$.list[0].statusName").value(CDef.VillageStatus.募集中.alias()))
+    }
+
+    @Test
+    fun `複数村は id 降順 (新着順) で返る`() {
+        val v1 = createPrologueVillage().copy(id = 1)
+        val v3 = createPrologueVillage().copy(id = 3)
+        val v2 = createPrologueVillage().copy(id = 2)
+        // DataSource は ASC で返すが view 層で降順整列される想定
+        whenever(villageService.findVillages(any())).thenReturn(Villages(list = listOf(v1, v2, v3)))
+
+        mockMvc.perform(get("/api/v1/villages"))
+            .andExpect(jsonPath("$.list[0].id").value(3))
+            .andExpect(jsonPath("$.list[1].id").value(2))
+            .andExpect(jsonPath("$.list[2].id").value(1))
     }
 }

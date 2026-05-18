@@ -9,6 +9,8 @@ function villagesQueryKey(statuses: VillageStatusCode[] | undefined) {
 /**
  * GET /api/v1/villages を TanStack Query で取得。
  * - SSR で取得したデータを `initialData` として渡すと、初回マウント時の追加 fetch を避けられる。
+ *   `initialDataUpdatedAt` を指定しないと v5 では epoch (1970) 起点で stale 判定されて
+ *   必ず refetch が走り、hydration mismatch のリスクがあるので Date.now() を渡す。
  */
 export function useVillagesQuery(
   params: { statuses?: VillageStatusCode[] } = {},
@@ -18,6 +20,7 @@ export function useVillagesQuery(
     queryKey: villagesQueryKey(params.statuses),
     queryFn: () => fetchVillages(params),
     initialData,
+    initialDataUpdatedAt: initialData ? Date.now() : undefined,
     staleTime: 30 * 1000,
   });
 }

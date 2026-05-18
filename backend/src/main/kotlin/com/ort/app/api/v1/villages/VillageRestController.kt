@@ -37,6 +37,9 @@ class VillageRestController(
         return VillagesView(villages)
     }
 
+    // NOTE: frontend (routes/villages._index.tsx の `parseStatuses`) と意味的に対応する。
+    // CDef.VillageStatus の値 (募集中/進行中/エピローグ/終了/廃村) が増減したら
+    // frontend 側 ALL_STATUSES と VillageStatusCode 型も同期更新が必要。
     private fun parseStatuses(raw: String?): List<VillageStatus> {
         if (raw.isNullOrBlank()) return emptyList()
         val all = CDef.VillageStatus.listAll()

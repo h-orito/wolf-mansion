@@ -5,6 +5,8 @@ import { useVillagesQuery } from "~/features/village/hooks";
 import { VillageList } from "~/features/village/VillageList";
 import { ssrFetch } from "~/lib/api/client";
 
+// NOTE: backend (VillageRestController#parseStatuses) と意味的に対応する。
+// CDef.VillageStatus の値が増減したら backend 側も同期更新が必要。
 const ALL_STATUSES: VillageStatusCode[] = ["募集中", "進行中", "エピローグ", "終了", "廃村"];
 
 export function meta(_: Route.MetaArgs) {
