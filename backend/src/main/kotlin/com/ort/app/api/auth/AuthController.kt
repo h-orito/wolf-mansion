@@ -5,6 +5,9 @@ import com.ort.app.domain.model.auth.RefreshTokenRepository
 import com.ort.app.fw.security.JwtTokenService
 import com.ort.app.fw.security.UserInfoService
 import com.ort.dbflute.allcommon.CDef
+import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import jakarta.validation.Valid
@@ -27,6 +30,7 @@ import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "auth", description = "認証 (JWT Cookie)")
 class AuthController(
     private val jwtTokenService: JwtTokenService,
     private val refreshTokenRepository: RefreshTokenRepository,
@@ -42,17 +46,28 @@ class AuthController(
         const val AUTH_PATH = "/api/v1/auth"
     }
 
+    @Schema(description = "ログインリクエスト")
     data class LoginBody(
-        @field:NotBlank val userId: String = "",
-        @field:NotBlank val password: String = "",
+        @field:NotBlank
+        @field:Schema(description = "プレイヤー名", example = "alice")
+        val userId: String = "",
+        @field:NotBlank
+        @field:Schema(description = "パスワード", example = "********")
+        val password: String = "",
     )
 
+    @Schema(description = "現在ユーザ情報。未認証時は user=null")
     data class MeResponse(val user: UserPayload?) {
-        data class UserPayload(val userId: String, val authority: String)
+        @Schema(description = "ユーザペイロード")
+        data class UserPayload(
+            @field:Schema(description = "プレイヤー名") val userId: String,
+            @field:Schema(description = "権限コード", example = "プレイヤー") val authority: String,
+        )
     }
 
     @PostMapping("/login")
     @Transactional
+    @Operation(summary = "ログイン", description = "プレイヤー名とパスワードで認証し、access_token / refresh_token Cookie を発行する")
     fun login(@Valid @RequestBody body: LoginBody, response: HttpServletResponse): ResponseEntity<MeResponse> {
         val userInfo = try {
             userInfoService.loadUserByUsername(body.userId)
@@ -70,6 +85,7 @@ class AuthController(
 
     @PostMapping("/refresh")
     @Transactional
+    @Operation(summary = "トークン更新", description = "refresh_token Cookie を rotation し新しい access_token / refresh_token を発行する")
     fun refresh(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<MeResponse> {
         val rawRefresh = readCookie(request, REFRESH_COOKIE)
             ?: throw BadCredentialsException("missing refresh token")
@@ -88,6 +104,7 @@ class AuthController(
 
     @PostMapping("/logout")
     @Transactional
+    @Operation(summary = "ログアウト", description = "refresh_token を revoke し Cookie をクリアする")
     fun logout(request: HttpServletRequest, response: HttpServletResponse): ResponseEntity<Void> {
         readCookie(request, REFRESH_COOKIE)?.let { raw ->
             val tokenHash = jwtTokenService.hashRefreshToken(raw)
@@ -100,6 +117,7 @@ class AuthController(
     }
 
     @GetMapping("/me")
+    @Operation(summary = "現在ユーザ取得", description = "access_token Cookie から認証情報を返す。未認証は 200 + user=null")
     fun me(): ResponseEntity<MeResponse> {
         val auth = SecurityContextHolder.getContext().authentication
         val principal = auth?.principal
