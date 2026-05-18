@@ -22,7 +22,6 @@ import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
@@ -53,34 +52,35 @@ class VillageSayRestControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "tester")
-    fun `POST messages 認証あり 200 で MessageCoordinator_say が呼ばれる`() {
+    fun `POST messages 認証あり 201 で MessageCoordinator_say が呼ばれる`() {
         val village = createDay1Village().copy(id = 7)
+        val myself = village.participants.list.first()
         whenever(villageService.findVillage(eq(7), any())).thenReturn(village)
-        whenever(villageService.findVillageParticipant(eq(7), any<String>(), any())).thenReturn(null)
+        whenever(villageService.findVillageParticipant(eq(7), eq("tester"), any())).thenReturn(myself)
+
         val body = mapOf(
             "message" to "こんにちは",
             "messageType" to CDef.MessageType.通常発言.code(),
         )
-
         mockMvc.perform(
             post("/api/v1/villages/7/messages")
+                .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
         ).andExpect(status().isCreated)
 
         verify(messageCoordinator).say(
-            eq(village), anyOrNull(), eq("こんにちは"), eq(CDef.MessageType.通常発言.code()),
+            eq(village), eq(myself), eq("こんにちは"), eq(CDef.MessageType.通常発言.code()),
             anyOrNull(), anyOrNull(), anyOrNull(), any(),
         )
     }
 
     @Test
-    @WithMockUser(username = "tester")
     fun `POST messages_preview MessagePreviewView を返す`() {
         val village = createDay1Village().copy(id = 8)
+        val myself = village.participants.list.first()
         whenever(villageService.findVillage(eq(8), any())).thenReturn(village)
-        whenever(villageService.findVillageParticipant(eq(8), any<String>(), any())).thenReturn(null)
+        whenever(villageService.findVillageParticipant(eq(8), eq("tester"), any())).thenReturn(myself)
         whenever(messageCoordinator.confirmToSay(any(), anyOrNull(), any(), any(), anyOrNull(), anyOrNull(), anyOrNull()))
             .thenReturn(
                 Message(
@@ -107,6 +107,7 @@ class VillageSayRestControllerTest {
         )
         mockMvc.perform(
             post("/api/v1/villages/8/messages/preview")
+                .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
         )
@@ -123,17 +124,37 @@ class VillageSayRestControllerTest {
         )
         mockMvc.perform(
             post("/api/v1/villages/9/messages")
+                .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
         ).andExpect(status().isBadRequest)
     }
 
     @Test
-    @WithMockUser(username = "tester")
+    fun `POST messages 未知の messageType は 400 (旧実装は 500)`() {
+        val village = createDay1Village().copy(id = 11)
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(11), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(11), eq("tester"), any())).thenReturn(myself)
+        val body = mapOf(
+            "message" to "hi",
+            "messageType" to "NO_SUCH_TYPE",
+        )
+        mockMvc.perform(
+            post("/api/v1/villages/11/messages")
+                .with(authed())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(body))
+        ).andExpect(status().isBadRequest)
+    }
+
+    @Test
     fun `POST actions は myself + target + message を結合して say を呼ぶ`() {
         val village = createDay1Village().copy(id = 10)
+        val myself = village.participants.list.first()
         whenever(villageService.findVillage(eq(10), any())).thenReturn(village)
-        whenever(villageService.findVillageParticipant(eq(10), any<String>(), any())).thenReturn(null)
+        whenever(villageService.findVillageParticipant(eq(10), eq("tester"), any())).thenReturn(myself)
+
         val body = mapOf(
             "myself" to "*",
             "target" to "→誰か",
@@ -141,13 +162,34 @@ class VillageSayRestControllerTest {
         )
         mockMvc.perform(
             post("/api/v1/villages/10/actions")
+                .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
         ).andExpect(status().isCreated)
 
         verify(messageCoordinator).say(
-            eq(village), anyOrNull(), eq("*→誰かが手を振った"), eq(CDef.MessageType.アクション.code()),
+            eq(village), eq(myself), eq("*→誰かが手を振った"), eq(CDef.MessageType.アクション.code()),
             anyOrNull(), anyOrNull(), anyOrNull(), any(),
         )
+    }
+
+    @Test
+    fun `POST actions 結合 400 文字を超えるなら 400 (合計文字数バリデーション)`() {
+        val village = createDay1Village().copy(id = 12)
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(12), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(12), eq("tester"), any())).thenReturn(myself)
+
+        val body = mapOf(
+            "myself" to "x".repeat(200),
+            "target" to "y".repeat(100),
+            "message" to "z".repeat(200), // 合計 500 文字
+        )
+        mockMvc.perform(
+            post("/api/v1/villages/12/actions")
+                .with(authed())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(body))
+        ).andExpect(status().isBadRequest)
     }
 }

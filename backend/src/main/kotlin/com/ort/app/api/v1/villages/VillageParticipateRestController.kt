@@ -5,16 +5,12 @@ import com.ort.app.api.request.village.VillageParticipateBody
 import com.ort.app.api.response.chara.CharaView
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
-import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.exception.WolfMansionNotImplementedException
 import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
 import com.ort.app.fw.interceptor.getIpAddress
-import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
@@ -38,14 +34,16 @@ import org.springframework.web.bind.annotation.RestController
  *
  * 既存 `VillageParticipateController` (Thymeleaf) の置き換え。
  * オリジナルキャラチップ村 (`isOriginalCharachip = true`) でのファイルアップロード入村は
- * 別途 multipart endpoint として将来追加する想定で、本 controller では未対応。
+ * 別途 multipart endpoint として将来追加する想定で、本 controller では 501 (Not Implemented)。
+ *
+ * `/participate/switch` は state-changing action だが、リクエスト body を持たない単純トグルで
+ * あり PUT/PATCH より POST が自然と判断して POST のまま採用している。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
 @Tag(name = "villages", description = "村")
 class VillageParticipateRestController(
-    private val villageService: VillageService,
-    private val playerService: PlayerService,
+    private val villageContextLoader: VillageContextLoader,
     private val charaService: CharaService,
     private val villageCoordinator: VillageCoordinator,
     private val httpServletRequest: HttpServletRequest,
@@ -54,14 +52,14 @@ class VillageParticipateRestController(
     @PostMapping("/{villageId}/participate/preview")
     @Operation(
         summary = "入村プレビュー (assertParticipate)",
-        description = "入村が可能か確認する。問題なければ 204 を返し、不正なら 400 (例外メッセージは ErrorResponse)。",
+        description = "入村が可能か確認する。問題なければ 204、不正なら 400 (例外メッセージは ErrorResponse)。",
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun previewParticipate(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageParticipateBody,
     ) {
-        val (village, player) = loadVillageAndPlayer(villageId)
+        val (village, player) = villageContextLoader.loadVillageAndPlayer(villageId)
         rejectOriginalCharachipFlow(village)
         villageCoordinator.assertParticipate(
             village,
@@ -82,7 +80,7 @@ class VillageParticipateRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageParticipateBody,
     ) {
-        val (village, player) = loadVillageAndPlayer(villageId)
+        val (village, player) = villageContextLoader.loadVillageAndPlayer(villageId)
         rejectOriginalCharachipFlow(village)
         val first = resolveSkill(body.requestedSkill)
         val second = resolveSkill(body.secondRequestedSkill)
@@ -109,7 +107,7 @@ class VillageParticipateRestController(
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun switchParticipate(@PathVariable villageId: Int) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.switchParticipate(village, myself)
     }
 
@@ -120,11 +118,9 @@ class VillageParticipateRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageChangeRequestSkillBody,
     ) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
-        val first = CDef.Skill.codeOf(body.requestedSkill)?.let { Skill(it) }
-            ?: throw WolfMansionBusinessException("skill not found. code=${body.requestedSkill}")
-        val second = CDef.Skill.codeOf(body.secondRequestedSkill)?.let { Skill(it) }
-            ?: throw WolfMansionBusinessException("skill not found. code=${body.secondRequestedSkill}")
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
+        val first = resolveSkill(body.requestedSkill)
+        val second = resolveSkill(body.secondRequestedSkill)
         villageCoordinator.changeRequestSkill(village, myself, first, second)
     }
 
@@ -132,7 +128,7 @@ class VillageParticipateRestController(
     @Operation(summary = "退村")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun leave(@PathVariable villageId: Int) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.leave(village, myself)
     }
 
@@ -151,32 +147,12 @@ class VillageParticipateRestController(
         return villageCoordinator.findSelectableCharaList(villageId, charachip.id).map { CharaView(it) }
     }
 
-    // ---------- helper ----------
-
-    private fun loadVillageAndPlayer(villageId: Int): Pair<Village, Player> {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
-        val user = WolfMansionUserInfoUtil.getUserInfo()
-            ?: throw WolfMansionBusinessException("ログインが必要です")
-        val player = playerService.findPlayer(user.username)
-            ?: throw WolfMansionBusinessException("player not found.")
-        return village to player
-    }
-
-    private fun loadVillageAndRequireMyself(villageId: Int): Pair<Village, VillageParticipant> {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
-        val user = WolfMansionUserInfoUtil.getUserInfo()
-            ?: throw WolfMansionBusinessException("ログインが必要です")
-        val myself = villageService.findVillageParticipant(village.id, user.username)
-            ?: throw WolfMansionBusinessException("この村に参加していません")
-        return village to myself
-    }
-
     private fun rejectOriginalCharachipFlow(village: Village) {
         if (village.setting.chara.isOriginalCharachip) {
-            // multipart 画像アップロードを伴う original charachip 入村は別 endpoint で扱う予定 (issue 化候補)
-            throw WolfMansionBusinessException("オリジナルキャラチップ村への入村は現状この API では未対応です")
+            // multipart 画像アップロードを伴う original charachip 入村は別 endpoint で扱う予定。
+            throw WolfMansionNotImplementedException(
+                "オリジナルキャラチップ村への入村は現状この API では未対応です。",
+            )
         }
     }
 

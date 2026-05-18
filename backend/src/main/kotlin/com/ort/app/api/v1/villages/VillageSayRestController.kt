@@ -5,12 +5,8 @@ import com.ort.app.api.request.village.VillageSayBody
 import com.ort.app.api.response.message.MessagePreviewView
 import com.ort.app.application.coordinator.MessageCoordinator
 import com.ort.app.application.service.RandomKeywordService
-import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getIpAddress
-import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -34,12 +30,16 @@ import org.springframework.web.bind.annotation.RestController
  * - POST /api/v1/villages/{id}/messages: 発言送信
  * - POST /api/v1/villages/{id}/actions/preview: アクション発言プレビュー
  * - POST /api/v1/villages/{id}/actions: アクション発言送信
+ *
+ * Say 系は未参加閲覧者からも preview だけ呼べる仕様 (確認画面で「発言できません」を返す既存
+ * UX を維持) なので `loadVillageAndOptionalMyself` を使う。`say` の認可は
+ * `MessageCoordinator.say` が `myself null` を業務例外として弾く既存実装に委ねる。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
 @Tag(name = "villages", description = "村")
 class VillageSayRestController(
-    private val villageService: VillageService,
+    private val villageContextLoader: VillageContextLoader,
     private val messageCoordinator: MessageCoordinator,
     private val randomKeywordService: RandomKeywordService,
     private val httpServletRequest: HttpServletRequest,
@@ -54,12 +54,13 @@ class VillageSayRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageSayBody,
     ): MessagePreviewView {
-        val (village, myself) = loadVillageAndMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndOptionalMyself(villageId)
+        val messageType = requireValidMessageType(body.messageType)
         val message = messageCoordinator.confirmToSay(
             village,
             myself,
             body.message,
-            body.messageType,
+            messageType,
             body.faceType,
             body.convertDisable,
             body.secretSayTargetCharaId,
@@ -77,12 +78,13 @@ class VillageSayRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageSayBody,
     ) {
-        val (village, myself) = loadVillageAndMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndOptionalMyself(villageId)
+        val messageType = requireValidMessageType(body.messageType)
         messageCoordinator.say(
             village,
             myself,
             body.message,
-            body.messageType,
+            messageType,
             body.faceType,
             body.convertDisable,
             body.secretSayTargetCharaId,
@@ -99,11 +101,12 @@ class VillageSayRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageActionBody,
     ): MessagePreviewView {
-        val (village, myself) = loadVillageAndMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndOptionalMyself(villageId)
+        val text = buildAndValidateActionText(body)
         val message = messageCoordinator.confirmToSay(
             village,
             myself,
-            buildActionText(body),
+            text,
             CDef.MessageType.アクション.code(),
             null,
             body.convertDisable,
@@ -122,11 +125,12 @@ class VillageSayRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageActionBody,
     ) {
-        val (village, myself) = loadVillageAndMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndOptionalMyself(villageId)
+        val text = buildAndValidateActionText(body)
         messageCoordinator.say(
             village,
             myself,
-            buildActionText(body),
+            text,
             CDef.MessageType.アクション.code(),
             null,
             body.convertDisable,
@@ -135,14 +139,26 @@ class VillageSayRestController(
         )
     }
 
-    private fun buildActionText(body: VillageActionBody): String =
-        "${body.myself}${body.target ?: ""}${body.message}"
+    /**
+     * アクション発言の本文を組み立てつつ、合計文字数 (1-400) を検証する。
+     * 旧 `ActionFormValidator` の `myself + target + message` 合計長チェックに対応。
+     */
+    private fun buildAndValidateActionText(body: VillageActionBody): String {
+        val text = "${body.myself}${body.target ?: ""}${body.message}".trim()
+        if (text.length !in 1..400) {
+            throw WolfMansionBusinessException("アクション本文は合計 1〜400 文字以内で入力してください")
+        }
+        return text
+    }
 
-    private fun loadVillageAndMyself(villageId: Int): Pair<Village, VillageParticipant?> {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
-        val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
-        return village to myself
+    /**
+     * `messageType` が CDef.MessageType に存在することを保証する。
+     * 不正値で MessageContent.invoke の `checkNotNull` が `IllegalStateException`
+     * → 500 になっていたのを 400 (業務例外) に倒す。
+     */
+    private fun requireValidMessageType(code: String): String {
+        CDef.MessageType.codeOf(code)
+            ?: throw WolfMansionBusinessException("invalid messageType: $code")
+        return code
     }
 }

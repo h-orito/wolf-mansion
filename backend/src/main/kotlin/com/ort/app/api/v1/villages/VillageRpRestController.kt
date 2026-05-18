@@ -6,17 +6,11 @@ import com.ort.app.api.request.village.VillageMemoBody
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.fw.exception.WolfMansionBusinessException
-import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
-import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -33,11 +27,19 @@ import org.springframework.web.bind.annotation.RestController
  * - PUT /api/v1/villages/{id}/rp/face-types: 表情差分の表示名 / 表示有無を編集 (オリジナルキャラチップ村)
  *
  * 表情差分の "追加" (画像アップロード) は multipart 必須なので別 endpoint として将来追加する想定。
+ *
+ * 旧 Thymeleaf 実装は POST だが、REST 的に状態更新は PUT が自然なので統一した。
+ *
+ * NOTE: face-types は現在 `loadVillageAndRequireMyself` で「参加者である」までしかチェックして
+ *       いない。code (= original_chara_image_id) が自分のキャラの画像かどうかの認可チェックは
+ *       旧 Thymeleaf でも実施していない既存挙動。引き続き脆弱性として残るが、JSON API 公開で
+ *       攻撃面が広がるため別 issue で追跡する想定 (`.issues/` 参照)。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
 @Tag(name = "villages", description = "村")
 class VillageRpRestController(
+    private val villageContextLoader: VillageContextLoader,
     private val villageService: VillageService,
     private val charaService: CharaService,
     private val villageCoordinator: VillageCoordinator,
@@ -50,7 +52,7 @@ class VillageRpRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageChangeNameBody,
     ) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.changeName(village, myself, body.name, body.shortName)
     }
 
@@ -61,7 +63,7 @@ class VillageRpRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageMemoBody,
     ) {
-        val (_, myself) = loadVillageAndRequireMyself(villageId)
+        val (_, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageService.changeMemo(myself, body.memo)
     }
 
@@ -75,21 +77,7 @@ class VillageRpRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageFaceTypeModifyBody,
     ) {
-        loadVillageAndRequireMyself(villageId)  // 参加していなければ拒否
+        villageContextLoader.loadVillageAndRequireMyself(villageId)  // 参加していなければ拒否
         body.faceTypeList.forEach { charaService.updateOriginalCharaImage(it.code, it.name, it.display) }
-    }
-
-    // 注意: PUT のみ提供する点について。
-    // 旧 Thymeleaf は POST のみだったが、REST 的に状態更新は PUT が自然なので統一した。
-    // POST 互換が必要になった場合は別 issue で追加検討。
-
-    private fun loadVillageAndRequireMyself(villageId: Int): Pair<Village, VillageParticipant> {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
-        val user = WolfMansionUserInfoUtil.getUserInfo()
-            ?: throw WolfMansionBusinessException("ログインが必要です")
-        val myself = villageService.findVillageParticipant(village.id, user.username)
-            ?: throw WolfMansionBusinessException("この村に参加していません")
-        return village to myself
     }
 }

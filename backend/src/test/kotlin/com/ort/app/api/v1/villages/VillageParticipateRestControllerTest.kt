@@ -115,7 +115,7 @@ class VillageParticipateRestControllerTest {
     }
 
     @Test
-    fun `POST participate オリジナルキャラチップ村は 400`() {
+    fun `POST participate オリジナルキャラチップ村は 501 Not Implemented`() {
         val original = createPrologueVillage().let { v ->
             v.copy(
                 id = 3,
@@ -135,7 +135,7 @@ class VillageParticipateRestControllerTest {
                 .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
-        ).andExpect(status().isBadRequest)
+        ).andExpect(status().isNotImplemented)
     }
 
     @Test

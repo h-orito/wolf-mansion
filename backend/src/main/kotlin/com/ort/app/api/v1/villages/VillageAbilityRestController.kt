@@ -4,12 +4,6 @@ import com.ort.app.api.request.village.VillageAbilityBody
 import com.ort.app.api.request.village.VillageCommitBody
 import com.ort.app.api.request.village.VillageVoteBody
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.fw.exception.WolfMansionBusinessException
-import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
-import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -40,7 +34,7 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api/v1/villages")
 @Tag(name = "villages", description = "村")
 class VillageAbilityRestController(
-    private val villageService: VillageService,
+    private val villageContextLoader: VillageContextLoader,
     private val villageCoordinator: VillageCoordinator,
 ) {
 
@@ -54,7 +48,7 @@ class VillageAbilityRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageAbilityBody,
     ) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.setAbility(village, myself, body.attackerCharaId, body.targetCharaId, body.footstep)
     }
 
@@ -65,7 +59,7 @@ class VillageAbilityRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageVoteBody,
     ) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.setVote(village, myself, body.targetCharaId)
     }
 
@@ -76,7 +70,7 @@ class VillageAbilityRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageCommitBody,
     ) {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         villageCoordinator.setCommit(village, myself, body.commit)
     }
 
@@ -90,7 +84,7 @@ class VillageAbilityRestController(
         @Parameter(description = "襲撃者のキャラ ID", required = true)
         @RequestParam charaId: Int,
     ): List<Int> {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         return villageCoordinator.getAttackableTargets(village, myself, charaId).list.map { it.charaId }
     }
 
@@ -106,17 +100,7 @@ class VillageAbilityRestController(
         @Parameter(description = "能力対象のキャラ ID (null なら 'なし' のみ)")
         @RequestParam(required = false) targetCharaId: Int?,
     ): List<String> {
-        val (village, myself) = loadVillageAndRequireMyself(villageId)
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
         return villageCoordinator.getSelectableFootstepList(village, myself, charaId, targetCharaId)
-    }
-
-    private fun loadVillageAndRequireMyself(villageId: Int): Pair<Village, VillageParticipant> {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
-        val user = WolfMansionUserInfoUtil.getUserInfo()
-            ?: throw WolfMansionBusinessException("ログインが必要です")
-        val myself = villageService.findVillageParticipant(village.id, user.username)
-            ?: throw WolfMansionBusinessException("この村に参加していません")
-        return village to myself
     }
 }
