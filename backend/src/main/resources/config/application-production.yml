@@ -37,6 +37,12 @@ logging:
     org.seasar.dbflute: ERROR
   file.name: /app/logs/wolf-mansion.log
 
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
 app:
   debug: false
   original-image:

@@ -12,5 +12,6 @@ interface RefreshTokenRepository {
 
     fun revokeAllByPlayerId(playerId: Int)
 
-    fun deleteExpired(now: LocalDateTime)
+    /** 有効期限切れ または revoked 済みのトークンをまとめて削除 (定期クリーンアップ用)。 */
+    fun deleteExpiredOrRevoked(now: LocalDateTime)
 }

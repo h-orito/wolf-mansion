@@ -16,8 +16,20 @@ class RestApiExceptionHandler {
 
     private val logger = LoggerFactory.getLogger(RestApiExceptionHandler::class.java)
 
-    data class ErrorResponse(val message: String, val errors: List<FieldError> = emptyList()) {
-        data class FieldError(val field: String, val message: String)
+    @io.swagger.v3.oas.annotations.media.Schema(description = "APIエラーレスポンス")
+    data class ErrorResponse(
+        @field:io.swagger.v3.oas.annotations.media.Schema(description = "エラーメッセージ")
+        val message: String,
+        @field:io.swagger.v3.oas.annotations.media.Schema(description = "バリデーションエラー詳細")
+        val errors: List<FieldError> = emptyList(),
+    ) {
+        @io.swagger.v3.oas.annotations.media.Schema(description = "フィールド単位のバリデーションエラー")
+        data class FieldError(
+            @field:io.swagger.v3.oas.annotations.media.Schema(description = "フィールド名")
+            val field: String,
+            @field:io.swagger.v3.oas.annotations.media.Schema(description = "エラーメッセージ")
+            val message: String,
+        )
     }
 
     @ExceptionHandler(BadCredentialsException::class, AuthenticationException::class)

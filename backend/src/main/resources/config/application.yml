@@ -27,6 +27,14 @@ logging:
     org.seasar.dbflute: ERROR
   file.name: /var/log/werewolf-mansion/tomcat.log
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+
 app:
   debug: true
   original-image:

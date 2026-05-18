@@ -42,9 +42,12 @@ class RefreshTokenDataSource(
         }
     }
 
-    override fun deleteExpired(now: LocalDateTime) {
-        refreshTokenBhv.queryDelete {
-            it.query().setExpiresAt_LessThan(now)
+    override fun deleteExpiredOrRevoked(now: LocalDateTime) {
+        refreshTokenBhv.queryDelete { cb ->
+            cb.orScopeQuery { orCb ->
+                orCb.query().setExpiresAt_LessThan(now)
+                orCb.query().setRevoked_Equal(true)
+            }
         }
     }
 

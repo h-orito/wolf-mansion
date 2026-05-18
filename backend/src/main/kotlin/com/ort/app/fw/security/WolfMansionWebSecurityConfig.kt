@@ -1,7 +1,6 @@
 package com.ort.app.fw.security
 
 import com.ort.dbflute.allcommon.CDef
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -17,21 +16,16 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.oauth2.jwt.JwtDecoder
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
 class WolfMansionWebSecurityConfig {
 
-    @Value("\${app.cors.allowed-origins:}")
-    private lateinit var allowedOrigins: String
-
     @Bean
     fun filterChain(
         http: HttpSecurity,
-        jwtTokenService: JwtTokenService,
+        jwtDecoder: JwtDecoder,
         corsConfigurationSource: CorsConfigurationSource,
     ): SecurityFilterChain {
         http
@@ -49,7 +43,7 @@ class WolfMansionWebSecurityConfig {
             .oauth2ResourceServer { oauth ->
                 oauth.bearerTokenResolver(CookieBearerTokenResolver())
                 oauth.jwt { jwt ->
-                    jwt.decoder(jwtTokenService.jwtDecoder())
+                    jwt.decoder(jwtDecoder)
                     jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
                 }
             }
@@ -64,18 +58,6 @@ class WolfMansionWebSecurityConfig {
         val provider = DaoAuthenticationProvider(userInfoService)
         provider.setPasswordEncoder(passwordEncoder())
         return ProviderManager(provider)
-    }
-
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val config = CorsConfiguration()
-        config.allowedOrigins = allowedOrigins.split(",").map { it.trim() }.filter { it.isNotEmpty() }
-        config.allowedMethods = listOf("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-        config.allowedHeaders = listOf("Content-Type", "Authorization", "X-XSRF-TOKEN")
-        config.allowCredentials = true
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", config)
-        return source
     }
 
     private fun jwtAuthenticationConverter(): JwtAuthenticationConverter {
