@@ -22,7 +22,7 @@ class RefreshTokenCleanupJob(
     fun cleanup() {
         val now = LocalDateTime.now()
         logger.info("RefreshToken cleanup started at {}", now)
-        refreshTokenRepository.deleteExpired(now)
+        refreshTokenRepository.deleteExpiredOrRevoked(now)
         logger.info("RefreshToken cleanup finished")
     }
 }
