@@ -94,6 +94,19 @@ class FootstepRevealDomainServiceTest {
     }
 
     @Test
+    fun `進行中、墓下開示村で見学者の viewer にも全公開`() {
+        val baseVillage = createDay1Village()
+        val openVillage = baseVillage.copy(
+            setting = baseVillage.setting.copy(rule = baseVillage.setting.rule.copy(isOpenSkillInGrave = true))
+        )
+        val villager = openVillage.participants.list.first { it.skill?.toCdef() == CDef.Skill.村人 }
+        val spectatorViewer = villager.copy(isSpectator = true)
+        val wolf = openVillage.participants.list.first { it.skill?.toCdef() == CDef.Skill.人狼 }
+        val footstep = Footstep(day = 1, charaId = wolf.charaId, roomNumbers = "10,11")
+        assertTrue(service.shouldRevealOwner(openVillage, myself = spectatorViewer, footstep = footstep))
+    }
+
+    @Test
     fun `進行中、isOpenSkillInGrave=false の村では dead viewer でも匿名 (既存挙動)`() {
         // createDay1Village の rule は isOpenSkillInGrave=false がデフォルト
         val village = createDay1Village()

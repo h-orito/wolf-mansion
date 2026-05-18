@@ -93,7 +93,7 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/footsteps")
     @Operation(
         summary = "足音一覧取得",
-        description = "進行中は他人の足音について registerChara / chara を隠す。エピローグ / 終了では全公開、募集中 / 廃村は空リスト。",
+        description = "進行中は registerChara / chara を隠し roomNumbers のみ公開 (墓下開示村で dead / 見学の viewer には例外的に全公開)。エピローグ / 終了では全公開、募集中 / 廃村は空リスト。",
     )
     fun footsteps(
         @PathVariable villageId: Int,

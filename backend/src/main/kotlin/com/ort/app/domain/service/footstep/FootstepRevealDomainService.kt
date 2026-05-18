@@ -25,6 +25,8 @@ class FootstepRevealDomainService {
     fun shouldRevealOwner(
         village: Village,
         myself: VillageParticipant?,
+        // 現状は per-footstep の判定要素は無いが、将来「特定の役職が他人の足音を見られる」等の
+        // 拡張時に footstep 単位の情報 (登録者など) を参照できるようにシグネチャを保持する。
         @Suppress("UNUSED_PARAMETER") footstep: Footstep,
     ): Boolean {
         // 1) settled (エピローグ / 終了) なら全員に対し全公開
