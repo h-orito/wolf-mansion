@@ -89,5 +89,5 @@ frontend/
   package.json
   vite.config.ts
   react-router.config.ts    basename: "/wolf-mansion", ssr: true
-  Dockerfile                Step 11 で arm64 / bookworm-slim に書き換え予定
+  Dockerfile                arm64 / bookworm-slim / pnpm / 非 root 構成
 ```
