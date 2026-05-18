@@ -175,21 +175,20 @@ function AbilityForm({
     if (targetingAndFootstep && footstepCandidates.length > 0 && !footstep) {
       setFootstep(footstepCandidates[0]);
     }
-  }, [footstepCandidates.join(","), targetingAndFootstep]);
+  }, [footstepCandidates, targetingAndFootstep, footstep]);
 
-  // 襲撃希望の対象は別 GET から得た候補に絞る
-  const aliveCharaIds = useMemo(
-    () =>
-      village.participants.list
-        .filter((p) => !p.isSpectator && !p.isDead && !p.isGone)
-        .map((p) => p.chara.id),
-    [village.participants.list],
-  );
+  // 襲撃希望時は別 GET から得た候補に絞る
   const targetCharaIds = isAttacker ? attackTargetIds : ability.targetCharaIds;
 
+  // 参加者数は通常数十名だが、能力フォームは render が多い (mutation pending 等で更新)
+  // のでキャラ名マップは memo 化しておく。
+  const charaNames = useMemo(
+    () => buildCharaNameMap(village.participants.list),
+    [village.participants.list],
+  );
   function nameOf(charaId: number | null): string {
     if (charaId == null) return "";
-    return charaNameMap(village.participants.list)[charaId] ?? `#${charaId}`;
+    return charaNames[charaId] ?? `#${charaId}`;
   }
 
   function submit(e: React.FormEvent) {
@@ -224,7 +223,10 @@ function AbilityForm({
     mutation.mutate({});
   }
 
-  const submittable = !mutation.isPending;
+  // 対象選択が必須 (徘徊系・捜査系を除く) の能力で未選択なら submit させない
+  const targetRequired = !isInvestigate && targetCharaIds.length > 0;
+  const submittable =
+    !mutation.isPending && (!targetRequired || targetCharaId != null);
   const hasCurrent =
     ability.attackerCharaId != null ||
     ability.targetCharaId != null ||
@@ -357,9 +359,6 @@ function AbilityForm({
           <span className="text-xs text-rose-300">{mutation.error.message}</span>
         )}
       </div>
-
-      {/* useMemo の警告抑制のために aliveCharaIds を参照しておく (将来のフィルタ用にメモ化を残す) */}
-      <span hidden aria-hidden="true">{aliveCharaIds.length}</span>
     </form>
   );
 }
@@ -409,7 +408,7 @@ function VoteForm({
     setTargetCharaId(vote.targetCharaId ?? null);
   }, [vote.targetCharaId]);
 
-  const names = charaNameMap(participants);
+  const names = useMemo(() => buildCharaNameMap(participants), [participants]);
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -519,7 +518,7 @@ function Row({
   );
 }
 
-function charaNameMap(participants: VillageParticipantView[]): Record<number, string> {
+function buildCharaNameMap(participants: VillageParticipantView[]): Record<number, string> {
   const map: Record<number, string> = {};
   for (const p of participants) {
     map[p.chara.id] = p.name;
