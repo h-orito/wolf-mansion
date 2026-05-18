@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import type { Route } from "./+types/home";
 
 export function meta(_: Route.MetaArgs) {
@@ -19,9 +20,20 @@ export default function Home() {
       />
       <h1 className="mt-8 text-4xl font-bold tracking-wide">wolf-mansion</h1>
       <p className="mt-4 text-slate-300">人狼ゲーム (移行作業中)</p>
-      <p className="mt-8 text-sm text-slate-400">
-        フロントエンドの初期セットアップが完了しました。今後のステップで画面を実装していきます。
-      </p>
+      <div className="mt-8 flex gap-4">
+        <Link
+          to="/login"
+          className="rounded-md bg-indigo-500 hover:bg-indigo-400 px-5 py-2 font-semibold transition"
+        >
+          ログイン
+        </Link>
+        <Link
+          to="/me"
+          className="rounded-md border border-slate-600 hover:border-slate-400 px-5 py-2 font-semibold transition"
+        >
+          マイページ
+        </Link>
+      </div>
     </main>
   );
 }
