@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/villages.$id";
 import {
@@ -13,6 +14,7 @@ import {
 } from "~/features/village/detail/api";
 import {
   useMyselfQuery,
+  useSayMutation,
   useVillageFootstepsQuery,
   useVillageMessagesQuery,
   useVillageQuery,
@@ -66,9 +68,60 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
 
         <MessagesPanel messages={messages} latestDay={village.time.latestDay} />
 
+        {myself && !myself.isSpectator && !myself.isDead && (
+          <SayForm villageId={villageId} />
+        )}
+
         <FootstepsPanel footsteps={footsteps} />
       </section>
     </main>
+  );
+}
+
+function SayForm({ villageId }: { villageId: number }) {
+  const [text, setText] = useState("");
+  const sayMutation = useSayMutation(villageId);
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    sayMutation.mutate(
+      { message: trimmed },
+      {
+        onSuccess: () => setText(""),
+      },
+    );
+  }
+
+  return (
+    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
+      <h2 className="text-sm text-slate-400 mb-2">発言</h2>
+      <form onSubmit={submit} className="space-y-2">
+        <textarea
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          rows={3}
+          maxLength={400}
+          placeholder="発言を入力 (400 文字以内)"
+          className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+          disabled={sayMutation.isPending}
+        />
+        <div className="flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={sayMutation.isPending || text.trim().length === 0}
+            className="rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium"
+          >
+            {sayMutation.isPending ? "送信中..." : "発言する"}
+          </button>
+          <span className="text-xs text-slate-500">{text.length} / 400</span>
+          {sayMutation.isError && (
+            <span className="text-xs text-rose-300">{sayMutation.error.message}</span>
+          )}
+        </div>
+      </form>
+    </section>
   );
 }
 

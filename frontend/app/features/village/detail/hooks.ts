@@ -1,11 +1,13 @@
-import { useQuery, type UseQueryResult } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient, type UseMutationResult, type UseQueryResult } from "@tanstack/react-query";
 import {
   fetchMyself,
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
+  postSay,
   type MessagesView,
   type MyselfView,
+  type SayInput,
   type VillageFootstepsView,
   type VillageView,
 } from "./api";
@@ -68,5 +70,19 @@ export function useMyselfQuery(
     initialDataUpdatedAt: initialData !== undefined ? Date.now() : undefined,
     refetchInterval: POLL_INTERVAL_MS,
     staleTime: POLL_INTERVAL_MS,
+  });
+}
+
+/**
+ * POST /api/v1/villages/{id}/messages を mutation で叩く。
+ * 成功時は messages query を invalidate して最新一覧を再取得させる。
+ */
+export function useSayMutation(villageId: number): UseMutationResult<void, Error, SayInput> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, SayInput>({
+    mutationFn: (input) => postSay(villageId, input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["village", villageId, "messages"] });
+    },
   });
 }

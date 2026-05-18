@@ -53,4 +53,10 @@ class RestApiExceptionHandler {
     @ExceptionHandler(WolfMansionRecordNotFoundException::class)
     fun handleNotFound(e: WolfMansionRecordNotFoundException): ResponseEntity<ErrorResponse> =
         ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(e.message ?: "Not Found"))
+
+    @ExceptionHandler(WolfMansionBusinessException::class)
+    fun handleBusiness(e: WolfMansionBusinessException): ResponseEntity<ErrorResponse> {
+        logger.info("Business rule violation: {}", e.message)
+        return ResponseEntity.badRequest().body(ErrorResponse(e.message ?: "Bad request"))
+    }
 }
