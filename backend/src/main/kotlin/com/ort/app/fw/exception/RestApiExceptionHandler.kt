@@ -9,9 +9,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
-// REST API (com.ort.app.api 配下) 用の例外ハンドラ。
-// 既存の Thymeleaf 用 `ExceptionControllerAdvice` とは別。
-@RestControllerAdvice(basePackages = ["com.ort.app.api"])
+// REST API 用の例外ハンドラ。
+// `com.ort.app.api` 直下にはまだ Thymeleaf 時代の `@Controller` が並んでおり、そこに
+// `WolfMansionBusinessException → 400 JSON` を適用するとブラウザ向け遷移が JSON エラーに
+// 化けてしまう。Step 9 で Thymeleaf を削除するまでは REST 専用パッケージに限定する。
+@RestControllerAdvice(basePackages = ["com.ort.app.api.v1", "com.ort.app.api.auth"])
 class RestApiExceptionHandler {
 
     private val logger = LoggerFactory.getLogger(RestApiExceptionHandler::class.java)
@@ -53,4 +55,14 @@ class RestApiExceptionHandler {
     @ExceptionHandler(WolfMansionRecordNotFoundException::class)
     fun handleNotFound(e: WolfMansionRecordNotFoundException): ResponseEntity<ErrorResponse> =
         ResponseEntity.status(HttpStatus.NOT_FOUND).body(ErrorResponse(e.message ?: "Not Found"))
+
+    @ExceptionHandler(WolfMansionBusinessException::class)
+    fun handleBusiness(e: WolfMansionBusinessException): ResponseEntity<ErrorResponse> {
+        logger.info("Business rule violation: {}", e.message)
+        return ResponseEntity.badRequest().body(ErrorResponse(e.message ?: "Bad request"))
+    }
+
+    @ExceptionHandler(WolfMansionNotImplementedException::class)
+    fun handleNotImplemented(e: WolfMansionNotImplementedException): ResponseEntity<ErrorResponse> =
+        ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body(ErrorResponse(e.message ?: "Not Implemented"))
 }
