@@ -8,6 +8,7 @@ import {
 } from "@tanstack/react-query";
 import {
   deleteLeave,
+  fetchAdminPlayers,
   fetchAttackTargets,
   fetchFaceTypes,
   fetchFootstepCandidates,
@@ -17,8 +18,16 @@ import {
   fetchVillageFootsteps,
   fetchVillageMessages,
   postAbility,
+  postAdminForceAccess,
+  postAdminForceLeave,
+  postAdminForceVote,
+  postCancelVillage,
+  postCreatorSay,
+  postExtendEpilogue,
+  postKick,
   postParticipate,
   postSay,
+  postShortenEpilogue,
   postSwitchParticipate,
   postVote,
   putChangeName,
@@ -32,11 +41,15 @@ import {
   type MyselfView,
   type SayInput,
   type VillageAbilityBody,
+  type VillageAdminLeaveBody,
+  type VillageAdminPlayerView,
   type VillageChangeNameBody,
   type VillageChangeRequestSkillBody,
   type VillageCommitBody,
+  type VillageCreatorSayBody,
   type VillageFaceTypeModifyBody,
   type VillageFootstepsView,
+  type VillageKickBody,
   type VillageMemoBody,
   type VillageParticipateBody,
   type VillageView,
@@ -342,5 +355,114 @@ export function useFootstepCandidatesQuery(
       }),
     enabled,
     staleTime: 30_000,
+  });
+}
+
+// ---------- Creator / Admin operations (Step 8e) ----------
+
+/**
+ * Creator/Admin 系の mutation 成功時は村の状態が大きく変わる可能性があるので
+ * 村ヘッダ / 参加者 / 発言 / myself を一括で refetch する。
+ */
+function invalidateAll(
+  queryClient: ReturnType<typeof useQueryClient>,
+  villageId: number,
+) {
+  queryClient.invalidateQueries({ queryKey: ["village", villageId] });
+}
+
+export function useCreatorSayMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageCreatorSayBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageCreatorSayBody>({
+    mutationFn: (body) => postCreatorSay(villageId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["village", villageId, "messages"] });
+    },
+  });
+}
+
+export function useKickMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageKickBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageKickBody>({
+    mutationFn: (body) => postKick(villageId, body),
+    onSuccess: () => invalidateAll(queryClient, villageId),
+  });
+}
+
+export function useCancelVillageMutation(
+  villageId: number,
+): UseMutationResult<void, Error, void> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, void>({
+    mutationFn: () => postCancelVillage(villageId),
+    onSuccess: () => invalidateAll(queryClient, villageId),
+  });
+}
+
+export function useExtendEpilogueMutation(
+  villageId: number,
+): UseMutationResult<void, Error, void> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, void>({
+    mutationFn: () => postExtendEpilogue(villageId),
+    onSuccess: () => invalidateAll(queryClient, villageId),
+  });
+}
+
+export function useShortenEpilogueMutation(
+  villageId: number,
+): UseMutationResult<void, Error, void> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, void>({
+    mutationFn: () => postShortenEpilogue(villageId),
+    onSuccess: () => invalidateAll(queryClient, villageId),
+  });
+}
+
+/**
+ * GET /api/v1/admin/villages/{id}/players — 管理者向けキャラ↔中の人一覧。
+ * `enabled=false` のときはクエリを発行しない (= 管理者でないユーザでも safe)。
+ */
+export function useAdminPlayersQuery(
+  villageId: number,
+  enabled: boolean,
+): UseQueryResult<VillageAdminPlayerView[]> {
+  return useQuery<VillageAdminPlayerView[]>({
+    queryKey: ["village", villageId, "admin", "players"],
+    queryFn: () => fetchAdminPlayers(villageId),
+    enabled,
+    staleTime: 30_000,
+  });
+}
+
+export function useAdminForceAccessMutation(
+  villageId: number,
+): UseMutationResult<void, Error, void> {
+  return useMutation<void, Error, void>({
+    mutationFn: () => postAdminForceAccess(villageId),
+  });
+}
+
+export function useAdminForceVoteMutation(
+  villageId: number,
+): UseMutationResult<void, Error, void> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, void>({
+    mutationFn: () => postAdminForceVote(villageId),
+    onSuccess: () => invalidateActionState(queryClient, villageId),
+  });
+}
+
+export function useAdminForceLeaveMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageAdminLeaveBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageAdminLeaveBody>({
+    mutationFn: (body) => postAdminForceLeave(villageId, body),
+    onSuccess: () => invalidateAll(queryClient, villageId),
   });
 }
