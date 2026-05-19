@@ -7,6 +7,7 @@ import com.ort.app.api.response.village.VillageFootstepsView
 import com.ort.app.api.response.village.VillageParticipantView
 import com.ort.app.api.response.village.VillageParticipantsView
 import com.ort.app.api.response.village.VillageView
+import com.ort.app.application.coordinator.CreatorCoordinator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
@@ -47,6 +48,7 @@ class VillageDetailRestController(
     private val abilityService: AbilityService,
     private val voteService: VoteApplicationService,
     private val villageCoordinator: VillageCoordinator,
+    private val creatorCoordinator: CreatorCoordinator,
     private val spoilerDomainService: SpoilerDomainService,
     private val footstepRevealDomainService: FootstepRevealDomainService,
 ) {
@@ -61,10 +63,15 @@ class VillageDetailRestController(
     ): VillageView {
         val ctx = loadContext(villageId)
         val participants = buildParticipants(ctx)
+        // 旧 Thymeleaf 系 (`CreatorController`) と新 REST creator endpoints の認可判定
+        // (`VillageContextLoader.loadVillageAndRequireCreator`) はどちらも
+        // `CreatorCoordinator.isCreator` を使う = Player ID=1 (管理者) は全村 creator 扱い。
+        // 表示用 `isCreator` を同じ判定で揃え、UI と API 認可の見え方を一致させる。
+        val isCreator = ctx.user?.let { creatorCoordinator.isCreator(it.username, ctx.village.id) } ?: false
         return VillageView(
             village = ctx.village,
             participants = participants,
-            isCreator = ctx.player?.let { ctx.village.isCreator(it) } ?: false,
+            isCreator = isCreator,
             isParticipating = ctx.myself != null,
         )
     }

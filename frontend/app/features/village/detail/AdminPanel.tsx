@@ -155,7 +155,10 @@ function PlayersListSection({ villageId }: { villageId: number }) {
                 <li className="text-xs text-slate-400">参加者がいません</li>
               ) : (
                 query.data.map((row, i) => (
-                  <li key={i} className="flex items-center justify-between gap-3">
+                  <li
+                    key={`${row.charaName}-${row.playerName}-${i}`}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <span className="truncate">{row.charaName}</span>
                     <span className="text-xs text-slate-400 truncate">{row.playerName}</span>
                   </li>

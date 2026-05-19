@@ -3,6 +3,7 @@ package com.ort.app.api.v1.villages
 import com.ort.app.api.request.village.VillageCreatorSayBody
 import com.ort.app.api.request.village.VillageKickBody
 import com.ort.app.application.coordinator.CreatorCoordinator
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
@@ -63,7 +64,15 @@ class VillageCreatorRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageKickBody,
     ) {
-        villageContextLoader.loadVillageAndRequireCreator(villageId)
+        val village = villageContextLoader.loadVillageAndRequireCreator(villageId)
+        // CreatorCoordinator.kick は VillageParticipants.chara() (= list.first { ... }) で
+        // 取り出すため、存在しない charaId が来ると NoSuchElementException (= 500) になる。
+        // 事前に参加者に含まれるかを確認して 400 に倒す。
+        val targetExists = village.allParticipants(excludeDummy = true).list
+            .any { it.charaId == body.charaId }
+        if (!targetExists) {
+            throw WolfMansionBusinessException("対象の参加者が見つかりません")
+        }
         creatorCoordinator.kick(villageId, body.charaId)
     }
 

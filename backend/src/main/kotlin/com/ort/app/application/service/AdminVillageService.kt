@@ -9,6 +9,7 @@ import com.ort.dbflute.exbhv.VoteBhv
 import com.ort.dbflute.exentity.VillagePlayer
 import com.ort.dbflute.exentity.Vote
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 
 /**
@@ -35,7 +36,11 @@ class AdminVillageService(
         }
     }
 
-    /** 当日の生存中・現存参加者のうち、まだ投票していない者を全員「自分に投票」させる。 */
+    /**
+     * 当日の生存中・現存参加者のうち、まだ投票していない者を全員「自分に投票」させる。
+     * insert ループ中の例外で部分投票が残らないよう、全体を 1 トランザクションでくくる。
+     */
+    @Transactional
     fun voteForSelfAll(villageId: Int) {
         val latestDay = villageDayBhv.selectEntity { cb: VillageDayCB ->
             cb.query().setVillageId_Equal(villageId)
@@ -62,7 +67,10 @@ class AdminVillageService(
         }
     }
 
-    /** 村の全参加者の「キャラ名 / 中の人名」を返す (gone 含まない)。 */
+    /**
+     * 村の全参加者の「キャラ名 (VILLAGE_PLAYER.CHARA_NAME カラム値、部屋番号の略称は含まない)」と
+     * 「中の人プレイヤー名」を返す (gone 含まない)。
+     */
     fun listVillageCharaPlayers(villageId: Int): List<CharaPlayerPair> {
         return villagePlayerBhv.selectList { cb: VillagePlayerCB ->
             cb.setupSelect_Player()
