@@ -58,7 +58,8 @@ class CharaService(
         faceTypeName: String,
         isDisplay: Boolean
     ) {
-        val charaImageId = faceTypeCode.toInt()
+        val charaImageId = faceTypeCode.toIntOrNull()
+            ?: throw WolfMansionBusinessException("表情コードが不正です")
         val ownerId = charaRepository.findOriginalCharaIdByCharaImageId(charaImageId)
             ?: throw WolfMansionBusinessException("表情差分が見つかりません")
         if (ownerId != ownerCharaId) {

@@ -50,6 +50,23 @@ class CharaServiceTest {
     }
 
     @Test
+    fun `updateOriginalCharaImage 数値でない faceTypeCode で例外 (400 相当)`() {
+        val charaRepository = mock<CharaRepository>()
+        val service = CharaService(charaRepository)
+
+        assertThatThrownBy {
+            service.updateOriginalCharaImage(
+                ownerCharaId = 42,
+                faceTypeCode = "abc",
+                faceTypeName = "笑顔",
+                isDisplay = true,
+            )
+        }.isInstanceOf(WolfMansionBusinessException::class.java)
+            .extracting { (it as WolfMansionBusinessException).message }
+            .satisfies({ assertThat(it as String).contains("不正") })
+    }
+
+    @Test
     fun `updateOriginalCharaImage 存在しない faceTypeCode で例外`() {
         val charaRepository = mock<CharaRepository>()
         whenever(charaRepository.findOriginalCharaIdByCharaImageId(eq(999))).thenReturn(null)

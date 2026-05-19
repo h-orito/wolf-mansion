@@ -74,7 +74,8 @@ class VillageRpRestController(
     @Operation(
         summary = "表情差分一覧取得 (オリジナルキャラチップ)",
         description = "自分のキャラに紐づく表情差分一覧 (code / name / 画像 URL / display) を返す。" +
-                "オリジナルキャラチップ村以外は空配列を返す。",
+                "オリジナルキャラチップ村以外は空配列。" +
+                "アクセス要件は『この村に参加している (=参加者または見学者)』。未参加ユーザは 400。",
     )
     fun listFaceTypes(
         @PathVariable villageId: Int,

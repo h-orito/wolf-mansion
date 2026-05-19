@@ -27,10 +27,10 @@ export function RpActions({
   const { rp } = myself;
   const showChangeName = rp.isAvailableChangeName;
   const showMemo = rp.isAvailableMemo;
-  // canEditFaceType は backend 側で「オリジナルキャラチップ村 + 募集中相当」のときに true。
-  // 但しオリジナルキャラチップ村でない通常村でも、過去に追加したオリジナル差分はない (チップ
-  // 全体が差分 1 つのみ) ので、ここでは canEditFaceType に従う。
-  const showFaceType = rp.canEditFaceType;
+  // canAddFaceType は backend 側で「オリジナルキャラチップ村 + 募集中相当」のときに true。
+  // ここでは編集 UI (PUT 系) の表示判定にも使う (backend の編集 PUT は所有者検証のみで
+  // 通すため UI 表示が唯一のガード)。
+  const showFaceType = rp.canAddFaceType;
 
   if (!showChangeName && !showMemo && !showFaceType) return null;
 
@@ -173,6 +173,10 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
   const mutation = useFaceTypesMutation(villageId);
 
   // ローカル編集状態。backend からの最新が入ってきたら再初期化する。
+  // face-types クエリは polling なし (staleTime=60s) なので、編集中に意図しない reset が
+  // 起きるのは mutation 成功後の invalidate or window focus refetch のみ。前者は送信済み
+  // 状態なので reset で問題なく、後者も「他端末で先に編集した結果に揃える」挙動として
+  // 受け入れる。
   const [items, setItems] = useState<MyselfFaceTypeView[]>([]);
   useEffect(() => {
     if (query.data) setItems(query.data.list);

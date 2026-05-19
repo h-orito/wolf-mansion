@@ -239,11 +239,15 @@ export function useCommitMutation(
 
 /**
  * RP 系操作後は myself (キャラ名 / メモ / RP 可否) と、表示名が映る箇所 (村ヘッダ /
- * 参加者一覧 / 発言) を更新するため村全体と発言を invalidate する。
+ * 参加者一覧 / 発言) を更新する。
+ *
+ * `invalidateQueries({ queryKey: ["village", villageId] })` は prefix match なので
+ * `["village", villageId]` 本体に加えて `["village", villageId, "myself"]` /
+ * `["village", villageId, "messages"]` / `["village", villageId, "footsteps"]` 等
+ * 全ての配下クエリを invalidate する (= キャラ名変更時に myself も refetch される)。
  */
 function invalidateRp(queryClient: ReturnType<typeof useQueryClient>, villageId: number) {
   queryClient.invalidateQueries({ queryKey: ["village", villageId] });
-  queryClient.invalidateQueries({ queryKey: ["village", villageId, "messages"] });
 }
 
 export function useChangeNameMutation(
