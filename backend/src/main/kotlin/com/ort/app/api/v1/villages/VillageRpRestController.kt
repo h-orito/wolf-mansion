@@ -3,13 +3,17 @@ package com.ort.app.api.v1.villages
 import com.ort.app.api.request.village.VillageChangeNameBody
 import com.ort.app.api.request.village.VillageFaceTypeModifyBody
 import com.ort.app.api.request.village.VillageMemoBody
+import com.ort.app.api.response.myself.MyselfFaceTypeView
+import com.ort.app.api.response.myself.MyselfFaceTypesView
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,10 +34,9 @@ import org.springframework.web.bind.annotation.RestController
  *
  * 旧 Thymeleaf 実装は POST だが、REST 的に状態更新は PUT が自然なので統一した。
  *
- * NOTE: face-types は現在 `loadVillageAndRequireMyself` で「参加者である」までしかチェックして
- *       いない。code (= original_chara_image_id) が自分のキャラの画像かどうかの認可チェックは
- *       旧 Thymeleaf でも実施していない既存挙動。引き続き脆弱性として残るが、JSON API 公開で
- *       攻撃面が広がるため別 issue で追跡する想定 (`.issues/` 参照)。
+ * face-types の認可: `myself.charaId` を `CharaService` に渡し、サービス層で `original_chara_image_id`
+ * の所有者が自キャラと一致するかを検証する。旧 Thymeleaf 実装も同じ穴を持っていたため `VillageRpController`
+ * 側も同時に修正済み。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
@@ -67,17 +70,45 @@ class VillageRpRestController(
         villageService.changeMemo(myself, body.memo)
     }
 
+    @GetMapping("/{villageId}/rp/face-types")
+    @Operation(
+        summary = "表情差分一覧取得 (オリジナルキャラチップ)",
+        description = "自分のキャラに紐づく表情差分一覧 (code / name / 画像 URL / display) を返す。" +
+                "オリジナルキャラチップ村以外は空配列を返す。",
+    )
+    fun listFaceTypes(
+        @PathVariable villageId: Int,
+    ): MyselfFaceTypesView {
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
+        if (!village.setting.chara.isOriginalCharachip) {
+            return MyselfFaceTypesView(list = emptyList())
+        }
+        val chara = charaService.findChara(myself.charaId, isOriginal = true)
+            ?: throw WolfMansionBusinessException("自分のキャラが見つかりません")
+        val list = chara.images.list.map {
+            MyselfFaceTypeView(
+                code = it.faceType.code,
+                name = it.faceType.name,
+                url = it.url,
+                isDisplay = it.isDisplay,
+            )
+        }
+        return MyselfFaceTypesView(list = list)
+    }
+
     @PutMapping("/{villageId}/rp/face-types")
     @Operation(
         summary = "表情差分編集 (オリジナルキャラチップ)",
-        description = "既存の表情差分の name / display を一括更新する。画像追加は別 endpoint (multipart)。",
+        description = "既存の表情差分の name / display を一括更新する。画像追加は別 endpoint (multipart、未実装)。",
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun modifyFaceTypes(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageFaceTypeModifyBody,
     ) {
-        villageContextLoader.loadVillageAndRequireMyself(villageId)  // 参加していなければ拒否
-        body.faceTypeList.forEach { charaService.updateOriginalCharaImage(it.code, it.name, it.display) }
+        val (_, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
+        body.faceTypeList.forEach {
+            charaService.updateOriginalCharaImage(myself.charaId, it.code, it.name, it.display)
+        }
     }
 }

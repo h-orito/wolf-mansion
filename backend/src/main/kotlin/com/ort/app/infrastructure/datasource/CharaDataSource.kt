@@ -118,6 +118,13 @@ class CharaDataSource(
         updateOriginalCharaImageName(charaImageId, faceTypeName, isDisplay)
     }
 
+    override fun findOriginalCharaIdByCharaImageId(charaImageId: Int): Int? {
+        val opt = originalCharaImageBhv.selectEntity {
+            it.query().setOriginalCharaImageId_Equal(charaImageId)
+        }
+        return if (opt.isPresent) opt.get().originalCharaId else null
+    }
+
     private fun selectOriginalCharaGroups(ids: List<Int>): ListResultBean<OriginalCharaGroup> {
         val groupList = originalCharaGroupBhv.selectList {
             it.query().setOriginalCharaGroupId_InScope(ids)

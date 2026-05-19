@@ -38,4 +38,7 @@ interface CharaRepository {
         faceTypeName: String,
         isDisplay: Boolean
     )
+
+    /** 指定された original_chara_image が属する original_chara_id を返す。存在しなければ null。 */
+    fun findOriginalCharaIdByCharaImageId(charaImageId: Int): Int?
 }

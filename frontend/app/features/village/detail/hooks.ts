@@ -9,6 +9,7 @@ import {
 import {
   deleteLeave,
   fetchAttackTargets,
+  fetchFaceTypes,
   fetchFootstepCandidates,
   fetchMyself,
   fetchSelectableCharas,
@@ -20,16 +21,23 @@ import {
   postSay,
   postSwitchParticipate,
   postVote,
+  putChangeName,
   putChangeRequestSkill,
   putCommit,
+  putFaceTypes,
+  putMemo,
   type CharaView,
   type MessagesView,
+  type MyselfFaceTypesView,
   type MyselfView,
   type SayInput,
   type VillageAbilityBody,
+  type VillageChangeNameBody,
   type VillageChangeRequestSkillBody,
   type VillageCommitBody,
+  type VillageFaceTypeModifyBody,
   type VillageFootstepsView,
+  type VillageMemoBody,
   type VillageParticipateBody,
   type VillageView,
   type VillageVoteBody,
@@ -224,6 +232,68 @@ export function useCommitMutation(
   return useMutation<void, Error, VillageCommitBody>({
     mutationFn: (body) => putCommit(villageId, body),
     onSuccess: () => invalidateActionState(queryClient, villageId),
+  });
+}
+
+// ---------- RP (キャラ名 / メモ / 表情差分) ----------
+
+/**
+ * RP 系操作後は myself (キャラ名 / メモ / RP 可否) と、表示名が映る箇所 (村ヘッダ /
+ * 参加者一覧 / 発言) を更新するため村全体と発言を invalidate する。
+ */
+function invalidateRp(queryClient: ReturnType<typeof useQueryClient>, villageId: number) {
+  queryClient.invalidateQueries({ queryKey: ["village", villageId] });
+  queryClient.invalidateQueries({ queryKey: ["village", villageId, "messages"] });
+}
+
+export function useChangeNameMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageChangeNameBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageChangeNameBody>({
+    mutationFn: (body) => putChangeName(villageId, body),
+    onSuccess: () => invalidateRp(queryClient, villageId),
+  });
+}
+
+export function useMemoMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageMemoBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageMemoBody>({
+    mutationFn: (body) => putMemo(villageId, body),
+    onSuccess: () => {
+      // memo は myself にしか乗っていない (村全体には出していない) ので myself のみ refetch
+      queryClient.invalidateQueries({ queryKey: ["village", villageId, "myself"] });
+    },
+  });
+}
+
+/**
+ * GET /api/v1/villages/{id}/rp/face-types: 表情差分の編集元データ。
+ * `enabled=false` でクエリを抑止 (オリジナルキャラチップ村でないときは fetch しない)。
+ */
+export function useFaceTypesQuery(
+  villageId: number,
+  enabled: boolean,
+): UseQueryResult<MyselfFaceTypesView> {
+  return useQuery<MyselfFaceTypesView>({
+    queryKey: ["village", villageId, "face-types"],
+    queryFn: () => fetchFaceTypes(villageId),
+    enabled,
+    staleTime: 60_000,
+  });
+}
+
+export function useFaceTypesMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageFaceTypeModifyBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageFaceTypeModifyBody>({
+    mutationFn: (body) => putFaceTypes(villageId, body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["village", villageId, "face-types"] });
+    },
   });
 }
 

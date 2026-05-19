@@ -19,6 +19,12 @@ data class MyselfView(
     val charaId: Int,
     @field:Schema(description = "表示名 ([部屋番号略称] 名前)")
     val name: String,
+    @field:Schema(description = "キャラ名 (略称を含まない、RP 編集対象)")
+    val charaName: String,
+    @field:Schema(description = "1 文字略称")
+    val charaShortName: String,
+    @field:Schema(description = "簡易メモ (未設定なら null)")
+    val memo: String?,
     @field:Schema(description = "部屋番号 (未割当なら null)")
     val roomNumber: Int?,
     @field:Schema(description = "見学者か")
@@ -37,11 +43,16 @@ data class MyselfView(
     val vote: MyselfVoteView,
     @field:Schema(description = "能力状態")
     val ability: MyselfAbilityView,
+    @field:Schema(description = "RP 状態 (キャラ名 / メモ / 表情差分の編集可否)")
+    val rp: MyselfRpView,
 ) {
     constructor(myself: VillageParticipant, situation: ParticipantSituation) : this(
         id = myself.id,
         charaId = myself.charaId,
         name = myself.name(),
+        charaName = myself.charaName.name,
+        charaShortName = myself.charaName.shortName,
+        memo = myself.memo,
         roomNumber = myself.room?.number,
         isSpectator = myself.isSpectator,
         isDead = myself.dead.isDead,
@@ -51,5 +62,6 @@ data class MyselfView(
         commit = MyselfCommitView(situation.commit),
         vote = MyselfVoteView(situation.vote),
         ability = MyselfAbilityView(situation.ability),
+        rp = MyselfRpView(situation.rp),
     )
 }

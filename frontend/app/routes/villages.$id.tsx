@@ -21,6 +21,7 @@ import {
 } from "~/features/village/detail/hooks";
 import { ActionPanel } from "~/features/village/detail/ActionPanel";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
+import { RpActions } from "~/features/village/detail/RpActions";
 import { ssrFetch } from "~/lib/api/client";
 
 export function meta({ data }: Route.MetaArgs) {
@@ -67,6 +68,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         {myself && <MyselfPanel myself={myself} />}
 
         <ParticipateActions village={village} myself={myself} />
+
+        {myself && <RpActions village={village} myself={myself} />}
 
         {myself && <ActionPanel village={village} myself={myself} />}
 
