@@ -29,8 +29,7 @@ import org.springframework.web.bind.annotation.RestController
  * - POST /api/v1/villages/{id}/extend-epilogue: エピローグを 1 日延長
  * - POST /api/v1/villages/{id}/shorten-epilogue: エピローグを 1 日短縮
  *
- * NOTE: 設定変更 (`/settings` の旧 GET/POST) は項目数が膨大なため Step 8e から分離し
- * 別 step (8f) でまとめて REST 化する。
+ * 設定変更 (`/settings`) は項目数が多いため `VillageSettingsRestController` (Step 8f) に分離。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
@@ -50,8 +49,8 @@ class VillageCreatorRestController(
         @PathVariable villageId: Int,
         @Valid @RequestBody body: VillageCreatorSayBody,
     ) {
-        villageContextLoader.loadVillageAndRequireCreator(villageId)
-        creatorCoordinator.say(villageId, body.message, body.convertDisable ?: false)
+        val village = villageContextLoader.loadVillageAndRequireCreator(villageId)
+        creatorCoordinator.say(village, body.message, body.convertDisable ?: false)
     }
 
     @PostMapping("/{villageId}/kick")
@@ -73,7 +72,7 @@ class VillageCreatorRestController(
         if (!targetExists) {
             throw WolfMansionBusinessException("対象の参加者が見つかりません")
         }
-        creatorCoordinator.kick(villageId, body.charaId)
+        creatorCoordinator.kick(village, body.charaId)
     }
 
     @PostMapping("/{villageId}/cancel")
@@ -83,8 +82,8 @@ class VillageCreatorRestController(
         description = "プロローグ中のみ村を廃村にする。",
     )
     fun cancel(@PathVariable villageId: Int) {
-        villageContextLoader.loadVillageAndRequireCreator(villageId)
-        creatorCoordinator.cancel(villageId)
+        val village = villageContextLoader.loadVillageAndRequireCreator(villageId)
+        creatorCoordinator.cancel(village)
     }
 
     @PostMapping("/{villageId}/extend-epilogue")
@@ -94,8 +93,8 @@ class VillageCreatorRestController(
         description = "エピローグの最終日を 1 日後ろにずらす。",
     )
     fun extendEpilogue(@PathVariable villageId: Int) {
-        villageContextLoader.loadVillageAndRequireCreator(villageId)
-        creatorCoordinator.extendEpilogue(villageId)
+        val village = villageContextLoader.loadVillageAndRequireCreator(villageId)
+        creatorCoordinator.extendEpilogue(village)
     }
 
     @PostMapping("/{villageId}/shorten-epilogue")
@@ -105,7 +104,7 @@ class VillageCreatorRestController(
         description = "エピローグの最終日を 1 日前にずらす (残り 1 日超の場合のみ)。",
     )
     fun shortenEpilogue(@PathVariable villageId: Int) {
-        villageContextLoader.loadVillageAndRequireCreator(villageId)
-        creatorCoordinator.shortenEpilogue(villageId)
+        val village = villageContextLoader.loadVillageAndRequireCreator(villageId)
+        creatorCoordinator.shortenEpilogue(village)
     }
 }
