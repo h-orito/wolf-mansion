@@ -35,3 +35,4 @@ backend/dbflute_wolf_mansiondb/log/*
 .serena
 .reviews/
 .issues/
+.playwright-mcp/
