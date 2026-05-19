@@ -60,7 +60,12 @@ export function SettingsForm({
       <BasicSection body={body} setBody={setBody} />
       <TagSection body={body} setBody={setBody} options={initial.options} />
       <RulesSection body={body} setBody={setBody} options={initial.options} />
-      <JoinPasswordSection body={body} setBody={setBody} passwordRequired={initial.isOriginalCharachip} />
+      <JoinPasswordSection
+        body={body}
+        setBody={setBody}
+        passwordRequired={initial.isOriginalCharachip}
+        passwordAlreadySet={initial.current.joinPasswordSet}
+      />
       <DummyMessageSection body={body} setBody={setBody} />
       <OrganizationSection body={body} setBody={setBody} optionsByCamp={optionsByCamp} />
       <RestrictionsSection
@@ -232,12 +237,19 @@ function JoinPasswordSection({
   body,
   setBody,
   passwordRequired,
-}: SectionProps & { passwordRequired: boolean }) {
+  passwordAlreadySet,
+}: SectionProps & { passwordRequired: boolean; passwordAlreadySet: boolean }) {
+  // backend は現パスワード値を返さない (ネットワーク経由の漏洩を避ける)。
+  // 既設定がある場合、空欄のまま保存するとクリア扱い (= 入村パスワード無し) になる旨を案内する。
+  const note = passwordAlreadySet
+    ? "現在: 設定済み (空欄で保存するとクリア)。変更しない場合は同じ値を再入力してください。"
+    : "現在: 未設定。";
   return (
     <Section title="入村パスワード">
       <Field label={`パスワード (3〜12文字${passwordRequired ? " / オリジナル画像村は必須" : ""})`}>
         <input
-          type="text"
+          type="password"
+          autoComplete="new-password"
           value={body.joinPassword ?? ""}
           onChange={(e) => setBody((s) => ({ ...s, joinPassword: e.target.value || null }))}
           className={inputClass}
@@ -246,6 +258,7 @@ function JoinPasswordSection({
           required={passwordRequired}
         />
       </Field>
+      <p className="text-xs text-slate-500">{note}</p>
     </Section>
   );
 }
@@ -579,7 +592,8 @@ function toInitialBody(current: VillageSettingsFormView["current"]): VillageSett
       maxNum: current.wolfAllocation.maxNum ?? null,
     },
     dummyDay1Message: current.dummyDay1Message ?? null,
-    joinPassword: current.joinPassword ?? null,
+    // 初期値は常に空欄 (backend は現パスワードを返さない)。空欄で保存するとクリア扱い。
+    joinPassword: null,
     sayRestrictList: current.sayRestrictList.map((r) => ({
       skillCode: r.skillCode,
       restrict: r.restrict,

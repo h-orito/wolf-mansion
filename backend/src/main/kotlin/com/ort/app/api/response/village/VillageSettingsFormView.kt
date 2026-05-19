@@ -67,7 +67,9 @@ data class VillageSettingsFormView(
         val campAllocationList: List<CampAllocation>,
         val wolfAllocation: WolfAllocation,
         val dummyDay1Message: String?,
-        val joinPassword: String?,
+        @field:Schema(description = "入村パスワードが設定済みか。値そのものはレスポンスに含めない (creator のみ" +
+                "とはいえ JSON 経路に平文を載せないため)。クリア / 変更は PUT body の joinPassword で行う。")
+        val joinPasswordSet: Boolean,
         val sayRestrictList: List<SkillSayRestrict>,
         val skillSayRestrictList: List<MessageTypeSayRestrict>,
         val rpSayRestrictList: List<MessageTypeSayRestrict>,
@@ -108,7 +110,7 @@ data class VillageSettingsFormView(
                 ?.let { WolfAllocation(minNum = it.min, maxNum = it.max) }
                 ?: WolfAllocation(minNum = 1, maxNum = null),
             dummyDay1Message = village.setting.chara.dummyDay1Message,
-            joinPassword = village.setting.joinPassword,
+            joinPasswordSet = !village.setting.joinPassword.isNullOrBlank(),
             sayRestrictList = mapSayRestrictList(village),
             skillSayRestrictList = mapSkillRestrictList(
                 village,
@@ -222,9 +224,12 @@ data class VillageSettingsFormView(
                 CDef.Camp.狐陣営,
                 CDef.Camp.恋人陣営,
                 CDef.Camp.愉快犯陣営,
-            ).map { cdefCamp ->
+            ).mapNotNull { cdefCamp ->
+                // 旧データ等で当該陣営の randomOrganization 配分が欠落している場合は
+                // 該当陣営を結果から落とす (実害がない範囲で 500 を回避)。
                 val campAllocation = village.setting.organize.randomOrganization.campAllocation
-                    .first { it.camp.code == cdefCamp.code() }
+                    .firstOrNull { it.camp.code == cdefCamp.code() }
+                    ?: return@mapNotNull null
                 val skillByCamp = Skills.all().filterNotSomeone().filterByCamp(cdefCamp).list
                 CampAllocation(
                     campCode = campAllocation.camp.code,

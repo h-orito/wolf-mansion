@@ -32,13 +32,15 @@ data class VillageSettingsUpdateBody(
     @field:Size(min = 5, max = 40)
     val villageName: String?,
 
-    @field:Schema(description = "最少開始人数 (8以上)")
+    @field:Schema(description = "最少開始人数 (8〜999)")
     @field:NotNull
     @field:Min(8)
+    @field:Max(999)
     val startPersonMinNum: Int?,
 
-    @field:Schema(description = "定員 (999以下)")
+    @field:Schema(description = "定員 (8〜999)")
     @field:NotNull
+    @field:Min(8)
     @field:Max(999)
     val personMaxNum: Int?,
 
