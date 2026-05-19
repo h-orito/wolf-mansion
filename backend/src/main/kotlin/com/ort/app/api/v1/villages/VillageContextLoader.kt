@@ -1,5 +1,6 @@
 package com.ort.app.api.v1.villages
 
+import com.ort.app.application.coordinator.CreatorCoordinator
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.player.Player
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Component
 class VillageContextLoader(
     private val villageService: VillageService,
     private val playerService: PlayerService,
+    private val creatorCoordinator: CreatorCoordinator,
 ) {
 
     /** 村だけをロードする (匿名 OK)。村が見つからなければ 404。 */
@@ -56,5 +58,20 @@ class VillageContextLoader(
         val user = WolfMansionUserInfoUtil.getUserInfo() ?: return village to null
         val myself = villageService.findVillageParticipant(village.id, user.username)
         return village to myself
+    }
+
+    /**
+     * 村をロードし、現在ユーザがその村の村建てであることを確認する。
+     * 旧 `CreatorCoordinator.isCreator` の判定 (Player ID=1 は全村 creator 扱い) に従う。
+     * 未認証 / creator でない場合は 400。
+     */
+    fun loadVillageAndRequireCreator(villageId: Int): Village {
+        val village = loadVillage(villageId)
+        val user = WolfMansionUserInfoUtil.getUserInfo()
+            ?: throw WolfMansionBusinessException("ログインが必要です")
+        if (!creatorCoordinator.isCreator(user.username, villageId)) {
+            throw WolfMansionBusinessException("この村の村建てではありません")
+        }
+        return village
     }
 }

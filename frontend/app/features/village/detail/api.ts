@@ -34,6 +34,10 @@ export type VillageFaceTypeModifyBody = components["schemas"]["VillageFaceTypeMo
 export type MyselfRpView = components["schemas"]["MyselfRpView"];
 export type MyselfFaceTypeView = components["schemas"]["MyselfFaceTypeView"];
 export type MyselfFaceTypesView = components["schemas"]["MyselfFaceTypesView"];
+export type VillageCreatorSayBody = components["schemas"]["VillageCreatorSayBody"];
+export type VillageKickBody = components["schemas"]["VillageKickBody"];
+export type VillageAdminLeaveBody = components["schemas"]["VillageAdminLeaveBody"];
+export type VillageAdminPlayerView = components["schemas"]["VillageAdminPlayerView"];
 
 // ---------- fetchers ----------
 
@@ -345,6 +349,120 @@ export async function putFaceTypes(
   });
   if (!res.ok) {
     throw new Error(`face-types update failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+// ---------- creator / admin 操作 (Step 8e) ----------
+
+/** POST /api/v1/villages/{id}/creator-say — 村建て発言。201 成功時 空 body。 */
+export async function postCreatorSay(
+  villageId: number,
+  body: VillageCreatorSayBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/creator-say`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`creator-say failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/villages/{id}/kick — 村建てによる強制退村。 */
+export async function postKick(
+  villageId: number,
+  body: VillageKickBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/kick`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`kick failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/villages/{id}/cancel — 廃村。 */
+export async function postCancelVillage(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/cancel`, { method: "POST" });
+  if (!res.ok) {
+    throw new Error(`cancel failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/villages/{id}/extend-epilogue — エピローグ 1 日延長。 */
+export async function postExtendEpilogue(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/extend-epilogue`, { method: "POST" });
+  if (!res.ok) {
+    throw new Error(`extend-epilogue failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/villages/{id}/shorten-epilogue — エピローグ 1 日短縮。 */
+export async function postShortenEpilogue(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/shorten-epilogue`, { method: "POST" });
+  if (!res.ok) {
+    throw new Error(`shorten-epilogue failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** GET /api/v1/admin/villages/{id}/players — 管理者向けキャラ↔中の人一覧。 */
+export async function fetchAdminPlayers(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<VillageAdminPlayerView[]> {
+  const res = await fetcher(`/api/v1/admin/villages/${villageId}/players`);
+  if (!res.ok) {
+    throw new Error(`admin players failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+  return res.json();
+}
+
+/** POST /api/v1/admin/villages/{id}/access — 全員アクセス。 */
+export async function postAdminForceAccess(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/admin/villages/${villageId}/access`, { method: "POST" });
+  if (!res.ok) {
+    throw new Error(`admin access failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/admin/villages/{id}/vote — 全員自分投票。 */
+export async function postAdminForceVote(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/admin/villages/${villageId}/vote`, { method: "POST" });
+  if (!res.ok) {
+    throw new Error(`admin vote failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/** POST /api/v1/admin/villages/{id}/leave — 管理者強制退村。 */
+export async function postAdminForceLeave(
+  villageId: number,
+  body: VillageAdminLeaveBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/admin/villages/${villageId}/leave`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`admin leave failed: ${res.status} ${await readErrorMessage(res)}`);
   }
 }
 

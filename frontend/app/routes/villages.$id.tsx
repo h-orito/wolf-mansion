@@ -20,8 +20,11 @@ import {
   useVillageQuery,
 } from "~/features/village/detail/hooks";
 import { ActionPanel } from "~/features/village/detail/ActionPanel";
+import { AdminPanel } from "~/features/village/detail/AdminPanel";
+import { CreatorPanel } from "~/features/village/detail/CreatorPanel";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { RpActions } from "~/features/village/detail/RpActions";
+import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
 
 export function meta({ data }: Route.MetaArgs) {
@@ -54,11 +57,18 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const messagesQuery = useVillageMessagesQuery(villageId, undefined, initialMessages ?? undefined);
   const footstepsQuery = useVillageFootstepsQuery(villageId, initialFootsteps ?? undefined);
   const myselfQuery = useMyselfQuery(villageId, initialMyself);
+  // 認証情報を取得して管理者 (CDef.Authority.管理者) 判定に使う。
+  // SSR / 未ログイン時は失敗するが、`error` を握りつぶし `isAdmin=false` 扱いで進める。
+  const meQuery = useMeQuery();
+  const authority = meQuery.data?.user?.authority;
+  const isAdmin = authority === "管理者";
 
   const village = villageQuery.data ?? initialVillage;
   const messages = messagesQuery.data ?? initialMessages ?? null;
   const footsteps = footstepsQuery.data ?? initialFootsteps ?? null;
   const myself = myselfQuery.data ?? initialMyself ?? null;
+  // creator パネルの表示判定: 村建て本人または管理者 (旧仕様: 管理者 = 全村 creator 扱い)。
+  const canSeeCreatorPanel = village.isCreator || isAdmin;
 
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100">
@@ -72,6 +82,10 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         {myself && <RpActions village={village} myself={myself} />}
 
         {myself && <ActionPanel village={village} myself={myself} />}
+
+        {canSeeCreatorPanel && <CreatorPanel village={village} />}
+
+        {isAdmin && <AdminPanel village={village} />}
 
         <ParticipantsPanel participants={village.participants.list} />
 
