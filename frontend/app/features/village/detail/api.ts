@@ -28,6 +28,12 @@ export type MyselfCommitView = components["schemas"]["MyselfCommitView"];
 export type VillageAbilityBody = components["schemas"]["VillageAbilityBody"];
 export type VillageVoteBody = components["schemas"]["VillageVoteBody"];
 export type VillageCommitBody = components["schemas"]["VillageCommitBody"];
+export type VillageChangeNameBody = components["schemas"]["VillageChangeNameBody"];
+export type VillageMemoBody = components["schemas"]["VillageMemoBody"];
+export type VillageFaceTypeModifyBody = components["schemas"]["VillageFaceTypeModifyBody"];
+export type MyselfRpView = components["schemas"]["MyselfRpView"];
+export type MyselfFaceTypeView = components["schemas"]["MyselfFaceTypeView"];
+export type MyselfFaceTypesView = components["schemas"]["MyselfFaceTypesView"];
 
 // ---------- fetchers ----------
 
@@ -270,6 +276,76 @@ export async function fetchAttackTargets(
     throw new Error(`attack-targets failed: ${res.status} ${await readErrorMessage(res)}`);
   }
   return res.json();
+}
+
+// ---------- RP (キャラ名 / メモ / 表情差分) ----------
+
+/**
+ * PUT /api/v1/villages/{id}/rp/name — キャラ名 + 略称変更。成功時 204。
+ */
+export async function putChangeName(
+  villageId: number,
+  body: VillageChangeNameBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/rp/name`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`change name failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/**
+ * PUT /api/v1/villages/{id}/rp/memo — 簡易メモ変更。成功時 204。
+ *
+ * 空文字を送るとメモをクリア (backend は @Size(max=20) のみ、NotBlank ではない)。
+ */
+export async function putMemo(
+  villageId: number,
+  body: VillageMemoBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/rp/memo`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`memo failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/**
+ * GET /api/v1/villages/{id}/rp/face-types — 自キャラに紐づく表情差分一覧。
+ * オリジナルキャラチップ村以外は空配列。
+ */
+export async function fetchFaceTypes(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<MyselfFaceTypesView> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/rp/face-types`);
+  if (!res.ok) {
+    throw new Error(`face-types fetch failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+  return res.json();
+}
+
+/**
+ * PUT /api/v1/villages/{id}/rp/face-types — 表情差分の name / display を一括更新。成功時 204。
+ */
+export async function putFaceTypes(
+  villageId: number,
+  body: VillageFaceTypeModifyBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/rp/face-types`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`face-types update failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
 }
 
 /**

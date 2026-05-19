@@ -120,7 +120,7 @@ class VillageRpController(
         } ?: throw WolfMansionBusinessException("ログインしてください")
         try {
             faceTypeModifyForm.faceTypeList!!.forEach {
-                charaService.updateOriginalCharaImage(it.code!!, it.name!!, it.display!!)
+                charaService.updateOriginalCharaImage(myself.charaId, it.code!!, it.name!!, it.display!!)
             }
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("faceTypeModifyErrorMessage", e.message)

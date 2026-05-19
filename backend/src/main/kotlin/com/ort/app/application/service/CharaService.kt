@@ -5,6 +5,7 @@ import com.ort.app.domain.model.chara.CharaRepository
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.chara.Charas
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
 
@@ -47,11 +48,23 @@ class CharaService(
         charaRepository.registerOriginalCharaImage(charachipId, charaId, faceTypeName, charaImageFile)
     }
 
+    /**
+     * 自分の original_chara に属する表情差分のみを更新する。
+     * `ownerCharaId` の所有レコードでなければ [WolfMansionBusinessException] を投げて拒否する。
+     */
     fun updateOriginalCharaImage(
+        ownerCharaId: Int,
         faceTypeCode: String,
         faceTypeName: String,
         isDisplay: Boolean
     ) {
-        charaRepository.updateOriginalCharaImage(faceTypeCode.toInt(), faceTypeName, isDisplay)
+        val charaImageId = faceTypeCode.toIntOrNull()
+            ?: throw WolfMansionBusinessException("表情コードが不正です")
+        val ownerId = charaRepository.findOriginalCharaIdByCharaImageId(charaImageId)
+            ?: throw WolfMansionBusinessException("表情差分が見つかりません")
+        if (ownerId != ownerCharaId) {
+            throw WolfMansionBusinessException("他のキャラの表情差分は編集できません")
+        }
+        charaRepository.updateOriginalCharaImage(charaImageId, faceTypeName, isDisplay)
     }
 }

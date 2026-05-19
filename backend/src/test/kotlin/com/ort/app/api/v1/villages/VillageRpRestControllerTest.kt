@@ -4,6 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
+import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.CharaImage
+import com.ort.app.domain.model.chara.CharaImages
+import com.ort.app.domain.model.chara.CharaSize
+import com.ort.app.domain.model.chara.FaceType
 import com.ort.app.domain.model.village.createDay1Village
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -17,7 +22,9 @@ import org.springframework.http.MediaType
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
@@ -97,8 +104,8 @@ class VillageRpRestControllerTest {
                 .content(mapper.writeValueAsString(body))
         ).andExpect(status().isNoContent)
 
-        verify(charaService).updateOriginalCharaImage(eq("F01"), eq("笑顔"), eq(true))
-        verify(charaService).updateOriginalCharaImage(eq("F02"), eq("怒"), eq(false))
+        verify(charaService).updateOriginalCharaImage(eq(myself.charaId), eq("F01"), eq("笑顔"), eq(true))
+        verify(charaService).updateOriginalCharaImage(eq(myself.charaId), eq("F02"), eq("怒"), eq(false))
     }
 
     @Test
@@ -115,6 +122,70 @@ class VillageRpRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
         ).andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun `GET rp_face-types 通常村は空 list を返す`() {
+        val village = createDay1Village().copy(id = 10)
+        // createDay1Village は isOriginalCharachip=false なので通常村
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(10), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(10), eq("tester"), any())).thenReturn(myself)
+
+        mockMvc.perform(
+            get("/api/v1/villages/10/rp/face-types").with(authed())
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.list.length()").value(0))
+    }
+
+    @Test
+    fun `GET rp_face-types オリジナルキャラチップ村は自キャラの表情を返す`() {
+        val baseVillage = createDay1Village().copy(id = 11)
+        // setting を書き換えてオリジナルキャラチップ村に
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(11), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(11), eq("tester"), any())).thenReturn(myself)
+        whenever(charaService.findChara(eq(myself.charaId), eq(true))).thenReturn(
+            Chara(
+                id = myself.charaId,
+                name = "テス太郎",
+                shortName = "テ",
+                defaultJoinMessage = null,
+                defaultFirstdayMessage = null,
+                size = CharaSize(width = 60, height = 60),
+                images = CharaImages(
+                    list = listOf(
+                        CharaImage(
+                            faceType = FaceType(code = "100", name = "通常"),
+                            url = "https://example.test/100.png",
+                            isDisplay = true,
+                        ),
+                        CharaImage(
+                            faceType = FaceType(code = "101", name = "笑顔"),
+                            url = "https://example.test/101.png",
+                            isDisplay = false,
+                        ),
+                    )
+                ),
+            )
+        )
+
+        mockMvc.perform(
+            get("/api/v1/villages/11/rp/face-types").with(authed())
+        )
+            .andExpect(status().isOk)
+            .andExpect(jsonPath("$.list.length()").value(2))
+            .andExpect(jsonPath("$.list[0].code").value("100"))
+            .andExpect(jsonPath("$.list[0].name").value("通常"))
+            .andExpect(jsonPath("$.list[0].isDisplay").value(true))
+            .andExpect(jsonPath("$.list[1].code").value("101"))
+            .andExpect(jsonPath("$.list[1].isDisplay").value(false))
     }
 
     @Test
