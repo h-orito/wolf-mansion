@@ -8,14 +8,17 @@ import io.swagger.v3.oas.annotations.media.Schema
  *
  * `/api/v1/players/me` で返す軽量プロフィール。村作成 / 参加可否などの導線判定に必要な
  * フラグも含む。戦績や参加履歴は `PlayerDetailView` (`/api/v1/players/{userName}`) を参照。
+ *
+ * NOTE: 旧 `com.ort.app.api.view.player.PlayerView` (Step 9 で削除予定の legacy) と
+ * OpenAPI スキーマ名が衝突するため `MePlayerView` で別名にしている。
  */
 @Schema(description = "プレイヤー (自分視点)")
-data class PlayerView(
+data class MePlayerView(
     @field:Schema(description = "プレイヤー名")
     val name: String,
-    @field:Schema(description = "Twitter ユーザ名 (未設定なら null)")
+    @field:Schema(description = "Twitter ユーザ名 (未設定なら null)", nullable = true)
     val twitterUserName: String?,
-    @field:Schema(description = "自己紹介 (未設定なら null)")
+    @field:Schema(description = "自己紹介 (未設定なら null)", nullable = true)
     val introduction: String?,
     @field:Schema(description = "権限コード", example = "プレイヤー")
     val authorityCode: String,

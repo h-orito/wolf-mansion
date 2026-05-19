@@ -2,8 +2,8 @@ package com.ort.app.api.v1.players
 
 import com.ort.app.api.request.player.PlayerPasswordBody
 import com.ort.app.api.request.player.PlayerProfileBody
+import com.ort.app.api.response.player.MePlayerView
 import com.ort.app.api.response.player.PlayerDetailView
-import com.ort.app.api.response.player.PlayerView
 import com.ort.app.api.response.player.PlayersView
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
@@ -40,7 +40,12 @@ import org.springframework.web.bind.annotation.RestController
  * (HTTP 400)。旧 Thymeleaf 系の他 controller と同じ規約に揃えている。
  *
  * パスワード変更は現パスワード再入力を要求しない (旧実装に合わせる)。JWT cookie で
- * 既に認証されているユーザのみが叩ける前提。
+ * 既に認証されているユーザのみが叩ける前提。トレードオフ:
+ * - 強み: ユーザビリティ重視、旧 Thymeleaf 実装からの行動互換
+ * - 弱み: XSS で cookie を奪われた攻撃者がパスワードを書き換えてセッション奪取を持続できる
+ *         (それでも HttpOnly cookie の前提があるので XSS が必要なため敷居は高い)
+ * Step 12 / 13 で旧画面復元 → デザインモダナイズの過程でセキュリティ強化 (現パスワード要求 +
+ * パスワード長制限緩和) を一括検討する見込み。
  */
 @RestController
 @RequestMapping("/api/v1/players")
@@ -69,9 +74,9 @@ class PlayerRestController(
         summary = "自プロフィール取得",
         description = "ログイン中のプレイヤーの基本情報を返す。未ログインなら 400。",
     )
-    fun me(): PlayerView {
+    fun me(): MePlayerView {
         val player = currentPlayer()
-        return PlayerView(player)
+        return MePlayerView(player)
     }
 
     @PutMapping("/me/profile")

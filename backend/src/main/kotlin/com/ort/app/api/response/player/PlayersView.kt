@@ -40,21 +40,15 @@ data class PlayersView(
     )
 
     companion object {
+        // 現在ページの ±2 を表示し、端では 5 件埋め (1〜5 / N-4〜N)。総ページ 0 件なら空。
         private fun buildPageNumList(players: Players): List<Int> {
             val allPageCount = players.allPageCount
             if (allPageCount <= 0) return emptyList()
-            val currentPageNumber = players.currentPageNum
-            var startPage = currentPageNumber - 2
-            var endPage = currentPageNumber + 2
-            if (startPage < 1) {
-                startPage = 1
-                endPage = 5
-            }
-            if (endPage > allPageCount) {
-                endPage = allPageCount
-                startPage = allPageCount - 4
-                if (startPage < 1) startPage = 1
-            }
+            val current = players.currentPageNum
+            val rawStart = maxOf(1, current - 2)
+            val rawEnd = rawStart + 4
+            val endPage = minOf(rawEnd, allPageCount)
+            val startPage = maxOf(1, endPage - 4)
             return (startPage..endPage).toList()
         }
     }

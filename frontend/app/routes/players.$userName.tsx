@@ -30,6 +30,24 @@ export default function PlayerDetailPage({ loaderData }: Route.ComponentProps) {
   const detailQuery = usePlayerDetailQuery(userName, loaderData.detail ?? undefined);
   const detail = detailQuery.data ?? loaderData.detail;
 
+  // SSR で 5xx を握り潰した場合でも、CSR の再 fetch がさらに失敗したら
+  // 永久スピナーにならないようエラー表示に倒す。
+  if (!detail && detailQuery.isError) {
+    return (
+      <main className="min-h-screen bg-slate-900 text-slate-100">
+        <section className="max-w-3xl mx-auto px-6 py-10 space-y-3">
+          <h1 className="text-2xl font-bold">読み込みに失敗しました</h1>
+          <p className="text-sm text-slate-400">
+            プレイヤー情報を取得できませんでした。時間をおいて再度お試しください。
+          </p>
+          <Link to="/players" className="text-sm text-indigo-300 hover:text-indigo-200 underline">
+            ← プレイヤー一覧へ
+          </Link>
+        </section>
+      </main>
+    );
+  }
+
   if (!detail) {
     return (
       <main className="min-h-screen bg-slate-900 text-slate-100">

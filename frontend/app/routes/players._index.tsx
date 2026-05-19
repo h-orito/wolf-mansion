@@ -1,4 +1,4 @@
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import type { Route } from "./+types/players._index";
 import { fetchPlayers, type PlayersView } from "~/features/player/api";
 import { usePlayersQuery } from "~/features/player/hooks";
@@ -37,7 +37,6 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export default function PlayersIndex({ loaderData }: Route.ComponentProps) {
   const [params, setParams] = useSearchParams();
-  const navigate = useNavigate();
   const pageNum = parsePageNum(params.get("page"));
   const playersQuery = usePlayersQuery(pageNum, loaderData.players);
 
@@ -66,13 +65,12 @@ export default function PlayersIndex({ loaderData }: Route.ComponentProps) {
           <ul className="divide-y divide-slate-700 rounded-xl bg-slate-800/40 border border-slate-700">
             {view.list.map((p) => (
               <li key={p.name} className="px-4 py-3 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => navigate(`/players/${encodeURIComponent(p.name)}`)}
+                <Link
+                  to={`/players/${encodeURIComponent(p.name)}`}
                   className="text-left text-base hover:text-indigo-300 transition"
                 >
                   {p.name}
-                </button>
+                </Link>
               </li>
             ))}
           </ul>

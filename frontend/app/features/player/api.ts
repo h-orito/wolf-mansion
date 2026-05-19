@@ -6,20 +6,24 @@
 import type { components } from "~/lib/api/generated";
 import { browserFetch, type ApiFetch } from "~/lib/api/client";
 
-export type PlayersView = components["schemas"]["PlayersView"];
-export type PlayerSummaryView = components["schemas"]["PlayerSummaryView"];
-export type PlayerView = components["schemas"]["PlayerView"];
-export type PlayerDetailView = components["schemas"]["PlayerDetailView"];
-
-// NOTE: backend の Kotlin `String?` は SpringDoc 経由で `string` (optional) として出てきて
-// しまい、`null` をリテラル値として受け付ける型情報が落ちる。null 渡し (= 値クリア) を
-// 明示できるよう、generated 型をベースに値側を `| null` に広げて使う。
-// 既存値クリアは `null`、フィールド省略 (undefined) は backend 側で同じく `null` 扱い。
-type Generated = components["schemas"];
-export type PlayerProfileBody = {
-  [K in keyof Generated["PlayerProfileBody"]]: Generated["PlayerProfileBody"][K] | null;
+// NOTE: backend の Kotlin `String?` には `@field:Schema(nullable = true)` も付けているが、
+// SpringDoc + OpenAPI 3.1 では `nullable: true` ではなく `type: ["string", "null"]` 形式に
+// 変換されるべきところを変換せず、`required: false` (= TypeScript の optional) のみが反映される。
+// 結果として generated 型は `twitterUserName?: string` となり、`null` をリテラル値として
+// 受け取る情報が落ちる。フロント側で null を許容するため optional フィールドを `| null` に
+// 広げたエイリアス型を露出する。既存値クリアは `null`、フィールド省略 (undefined) は
+// backend で同じく `null` 扱い。
+type Schemas = components["schemas"];
+type WidenOptionalsToNull<T> = {
+  [K in keyof T]: undefined extends T[K] ? T[K] | null : T[K];
 };
-export type PlayerPasswordBody = Generated["PlayerPasswordBody"];
+
+export type PlayersView = Schemas["PlayersView"];
+export type PlayerSummaryView = Schemas["PlayerSummaryView"];
+export type PlayerView = WidenOptionalsToNull<Schemas["MePlayerView"]>;
+export type PlayerDetailView = WidenOptionalsToNull<Schemas["PlayerDetailView"]>;
+export type PlayerProfileBody = WidenOptionalsToNull<Schemas["PlayerProfileBody"]>;
+export type PlayerPasswordBody = Schemas["PlayerPasswordBody"];
 
 async function readErrorMessage(res: Response): Promise<string> {
   const errBody = await res.text();

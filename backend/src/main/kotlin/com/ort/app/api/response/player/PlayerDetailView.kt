@@ -20,9 +20,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 data class PlayerDetailView(
     @field:Schema(description = "プレイヤー名")
     val name: String,
-    @field:Schema(description = "Twitter ユーザ名 (未設定なら null)")
+    @field:Schema(description = "Twitter ユーザ名 (未設定なら null)", nullable = true)
     val twitterUserName: String?,
-    @field:Schema(description = "自己紹介 (未設定なら null)")
+    @field:Schema(description = "自己紹介 (未設定なら null)", nullable = true)
     val introduction: String?,
     @field:Schema(description = "閲覧者自身のページか")
     val isSelf: Boolean,
@@ -130,14 +130,16 @@ data class PlayerDetailView(
             charas: Charas,
             originalCharas: Charas,
         ): ParticipateVillageView {
+            // 古い村ではキャラ画像 / サイズ情報が削除されている可能性があるため null 許容にし、
+            // 不一致時は表示用フォールバック ("不明" + 空 URL + 0px) を返してリスト全体の 500 を防ぐ。
             val chara = lookupChara(pv, charas, originalCharas)
             return ParticipateVillageView(
                 villageId = pv.village.id,
                 villageName = pv.village.name,
                 characterName = pv.participant.charaName.name,
-                characterImgUrl = chara.defaultImage().url,
-                characterImgWidth = chara.size.width,
-                characterImgHeight = chara.size.height,
+                characterImgUrl = chara?.defaultImage()?.url.orEmpty(),
+                characterImgWidth = chara?.size?.width ?: 0,
+                characterImgHeight = chara?.size?.height ?: 0,
                 skillName = pv.participant.skill?.name.orEmpty(),
                 liveStatus = liveStatusOf(pv.participant).orEmpty(),
                 campName = pv.participant.camp?.name.orEmpty(),
@@ -145,20 +147,18 @@ data class PlayerDetailView(
             )
         }
 
-        private fun lookupChara(pv: ParticipateVillage, charas: Charas, originalCharas: Charas): Chara {
+        private fun lookupChara(pv: ParticipateVillage, charas: Charas, originalCharas: Charas): Chara? {
             val charaId = pv.participant.charaId
-            return if (pv.village.setting.chara.isOriginalCharachip) {
-                originalCharas.chara(charaId)
-            } else {
-                charas.chara(charaId)
-            }
+            val pool = if (pv.village.setting.chara.isOriginalCharachip) originalCharas else charas
+            return pool.list.firstOrNull { it.id == charaId }
         }
 
         private fun liveStatusOf(participant: VillageParticipant): String? {
             if (participant.isSpectator) return null
             if (!participant.dead.isDead) return "生存"
-            val deadDay = participant.dead.deadDay!!
-            val reason = participant.dead.reason!!.name
+            // isDead=true なら deadDay / reason は必ず set される (ドメイン制約) が、データ不整合への防御。
+            val deadDay = participant.dead.deadDay ?: return "不明"
+            val reason = participant.dead.reason?.name ?: return "${deadDay}d 不明"
             return if (reason.endsWith("死")) "${deadDay}d $reason"
             else "${deadDay}d ${reason}死"
         }
