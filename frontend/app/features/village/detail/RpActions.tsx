@@ -168,7 +168,7 @@ function MemoForm({ villageId, myself }: { villageId: number; myself: MyselfView
 // ---------- 表情差分 ----------
 
 function FaceTypesForm({ villageId }: { villageId: number }) {
-  // RpActions が canEditFaceType=true のときだけマウントするので、ここでは常に enabled.
+  // RpActions が canAddFaceType=true のときだけマウントするので、ここでは常に enabled.
   const query = useFaceTypesQuery(villageId, true);
   const mutation = useFaceTypesMutation(villageId);
 
