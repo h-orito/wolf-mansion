@@ -549,6 +549,26 @@ WebSocket/SSE 未導入なので、リアルタイム性の e2e は polling 待�
     - `.k8s/` 配下に manifest 配置
     - 画像の外部移管 (ユーザ側で実施) 完了確認
 
+### Step 11 以降 (cutover 後の追加フェーズ、2026-05-19 合意)
+
+monorepo 化 / 機能網羅 / cutover が一通り終わった後に、ユーザ体験の品質を引き上げる
+ためのフェーズを別途設ける。Step 8 系では「機能カバレッジ優先」で、デザインは Tailwind
+素の slate 系を簡素に当てているだけなので、ここで巻き取る。順序は以下:
+
+12. **既存画面のフィーチャー / 視覚的復元**
+    - 旧 Thymeleaf 画面 (削除済) と現 React Router 画面の機能差分を一覧化
+    - 旧画面で当たり前に出ていた情報 (投票結果、墓下、密談、暗号、コミット可否、陣営
+      メンバー一覧、表情差分付き発言フォーム、足音履歴の見せ方など) を React 側に揃える
+    - レイアウト・色味・情報密度も旧画面のメンタルモデルにある程度寄せる (記憶想起しやすさ優先)
+    - スコープが大きいので機能ブロック単位 (村画面 / プレイヤー / admin / creator) で
+      複数 PR に分割
+13. **デザインモダナイズ**
+    - `frontend-design` skill (`Skill(frontend-design ...)`) を使い、12 で揃えた情報構造の
+      上にモダンな visual language を被せる
+    - 共通コンポーネント (`frontend/app/components/ui/`) を整理し、トークン (色 / 余白 / 字游)
+      を集約
+    - Step 13 はビジュアル中心なので機能テストへの影響を最小化する
+
 ## Critical Files
 
 - `/Users/h-orito/ort/wolf/workspace/wolf-mansion/backend/src/main/kotlin/com/ort/app/fw/security/WolfMansionWebSecurityConfig.kt` — security config 全面書き換え (JWT resource server, CORS)

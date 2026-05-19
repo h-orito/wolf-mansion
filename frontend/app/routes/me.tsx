@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useRouteLoaderData } from "react-router";
+import { Link, useNavigate, useRouteLoaderData } from "react-router";
 import type { Route } from "./+types/me";
 import { useLogoutMutation } from "~/features/auth/hooks";
 
@@ -16,6 +16,8 @@ export default function MePage() {
   const logoutMutation = useLogoutMutation();
   const [logoutError, setLogoutError] = useState<string | null>(null);
 
+  const user = authData.user;
+
   async function onLogout() {
     setLogoutError(null);
     try {
@@ -28,8 +30,6 @@ export default function MePage() {
     }
   }
 
-  const user = authData.user;
-
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100 px-6 py-12">
       <div className="max-w-2xl mx-auto space-y-6">
@@ -39,6 +39,14 @@ export default function MePage() {
           <p className="text-xl font-mono">{user.userId}</p>
           <p className="text-sm text-slate-400 mt-4">権限</p>
           <p className="text-base">{user.authority}</p>
+          <div className="pt-2">
+            <Link
+              to={`/players/${encodeURIComponent(user.userId)}`}
+              className="text-sm text-indigo-300 hover:text-indigo-200 underline"
+            >
+              プロフィール / 戦績 / パスワード変更 →
+            </Link>
+          </div>
         </div>
         {logoutError && (
           <p role="alert" className="text-sm text-red-400">
