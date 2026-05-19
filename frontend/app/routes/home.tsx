@@ -55,6 +55,12 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             全村一覧
           </Link>
           <Link
+            to="/players"
+            className="rounded-md border border-slate-600 hover:border-slate-400 px-5 py-2 font-semibold transition"
+          >
+            プレイヤー一覧
+          </Link>
+          <Link
             to="/login"
             className="rounded-md border border-slate-600 hover:border-slate-400 px-5 py-2 font-semibold transition"
           >
