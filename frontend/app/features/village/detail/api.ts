@@ -128,10 +128,9 @@ export async function fetchMyself(
 ): Promise<MyselfView | null> {
   const res = await fetcher(`/api/v1/villages/${villageId}/myself`);
   if (!res.ok) throw new Error(`myself fetch failed: ${res.status}`);
-  // backend は未参加時に 200 + body=null を返す
-  const text = await res.text();
-  if (!text || text === "null") return null;
-  return JSON.parse(text) as MyselfView;
+  // backend contract: 参加者なし = 204、参加者あり = 200 + body。他の 2xx は返さない。
+  if (res.status === 204) return null;
+  return (await res.json()) as MyselfView;
 }
 
 /**

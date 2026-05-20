@@ -142,14 +142,14 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/myself")
     @Operation(
         summary = "自分視点の参加者情報",
-        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 200 + null。" +
+        description = "ログイン中ユーザがこの村に参加していれば 200 + body、未参加なら 204 No Content。" +
                 "当日の能力 / 投票 / コミット状態と役職別の入力仕様を含む。",
     )
     fun myself(
         @PathVariable villageId: Int,
-    ): ResponseEntity<MyselfView?> {
+    ): ResponseEntity<MyselfView> {
         val ctx = loadContext(villageId)
-        val myself = ctx.myself ?: return ResponseEntity.ok(null)
+        val myself = ctx.myself ?: return ResponseEntity.noContent().build()
         val situation = villageCoordinator.findParticipantSituation(
             village = ctx.village,
             username = ctx.user?.username,

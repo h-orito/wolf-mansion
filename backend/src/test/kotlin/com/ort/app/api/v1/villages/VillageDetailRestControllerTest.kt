@@ -33,6 +33,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 import org.hamcrest.Matchers.greaterThan
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
@@ -157,6 +158,20 @@ class VillageDetailRestControllerTest {
             .andExpect(jsonPath("$.list[0].roomNumbers").value("04,05"))
             .andExpect(jsonPath("$.list[0].registerChara.id").value(ownerCharaId))
             .andExpect(jsonPath("$.list[0].chara.id").value(ownerCharaId))
+    }
+
+    // ---------- GET /{id}/myself ----------
+
+    @Test
+    fun `GET _api_v1_villages_id_myself 未認証なら 204 No Content`() {
+        val village = createPrologueVillage().copy(id = 4)
+        whenever(villageService.findVillage(eq(4), any())).thenReturn(village)
+        whenever(charaService.findCharachips(any(), any())).thenReturn(buildCharachips(village))
+
+        mockMvc.perform(get("/api/v1/villages/4/myself"))
+            .andExpect(status().isNoContent)
+            // 204 は空 body を期待する (ByteArray 比較で厳密に検証)
+            .andExpect(content().bytes(ByteArray(0)))
     }
 
     // ---------- ヘルパー ----------

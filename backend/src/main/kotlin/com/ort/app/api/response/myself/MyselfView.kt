@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  * 自分視点の参加者情報 (隠蔽なし)。
  *
  * 自分の情報は隠蔽不要なので、村全体ビュー (VillageView) とは別 endpoint で返す。
- * 未参加 (user は居るが参加していない / 未ログイン) の場合はそもそも 200 で `null` を返す想定。
+ * 未参加 (user は居るが参加していない / 未ログイン) の場合は 204 No Content を返す想定。
  */
 @Schema(description = "自分視点の参加者情報 (隠蔽なし)")
 data class MyselfView(
