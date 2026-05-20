@@ -16,5 +16,6 @@ export default [
   // 認証必須エリア
   layout("routes/_auth.tsx", [
     route("me", "routes/me.tsx"),
+    route("new-village", "routes/new-village.tsx"),
   ]),
 ] satisfies RouteConfig;
