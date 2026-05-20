@@ -51,6 +51,11 @@ class VillageRpRestController(
     private val villageCoordinator: VillageCoordinator,
 ) {
 
+    private companion object {
+        /** 許可する画像拡張子フォーマット (`.<英数字 1〜8 文字>`)。パストラバーサル防御。 */
+        val IMAGE_EXT_PATTERN: Regex = Regex("\\.[A-Za-z0-9]{1,8}")
+    }
+
     @PutMapping("/{villageId}/rp/name")
     @Operation(summary = "キャラ名変更")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -157,10 +162,12 @@ class VillageRpRestController(
         // StringIndexOutOfBoundsException で 500 になる (旧 Thymeleaf endpoint も同じ穴を持つ
         // が、本 endpoint 追加で曝露が広がるため境界側で先回り検証する)。
         // `lastIndexOf('.') >= 1` で `.hidden` のようなドット始まりファイル
-        // (ext がファイル名全体になってしまう) を弾く。
+        // (ext がファイル名全体になってしまう) を弾く。さらに ext は
+        // `.<英数字 1〜8>` のみ許可 (`x.sh/../../etc/passwd` 等のパストラバーサル防御)。
         val filename = image.originalFilename
-        if (filename == null || filename.lastIndexOf('.') < 1) {
-            throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
+        val dotIndex = filename?.lastIndexOf('.') ?: -1
+        if (filename == null || dotIndex < 1 || !filename.substring(dotIndex).matches(IMAGE_EXT_PATTERN)) {
+            throw WolfMansionBusinessException("画像ファイル名の拡張子が不正です")
         }
         charaService.registerOriginalCharaImage(
             village.setting.chara.charachipIds.first(),

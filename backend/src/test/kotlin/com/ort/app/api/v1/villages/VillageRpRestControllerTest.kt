@@ -393,6 +393,41 @@ class VillageRpRestControllerTest {
     }
 
     @Test
+    fun `POST rp_face-types 画像ファイル名にパス区切りを含むと 400 (パストラバーサル防御)`() {
+        // `x.sh/../../../../etc/passwd` のように `.` の後ろにパス区切りが続くケースは
+        // `lastIndexOf('.') >= 1` の単純チェックを通過してしまう。境界 (REST controller)
+        // で `IMAGE_EXT_PATTERN` (`.<英数字 1〜8>`) と一致しないファイル名を弾く。
+        val baseVillage = createDay1Village().copy(id = 28)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(28), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(28), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile(
+            "image",
+            "x.sh/../../../../etc/passwd",
+            MediaType.IMAGE_PNG_VALUE,
+            ByteArray(1024),
+        )
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/28/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
     fun `POST rp_face-types 未認証なら 400`() {
         val village = createDay1Village().copy(id = 26)
         whenever(villageService.findVillage(eq(26), any())).thenReturn(village)

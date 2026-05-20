@@ -35,6 +35,11 @@ class CharaDataSource(
     @Value("\${app.original-image.baseurl}")
     private lateinit var baseurl: String
 
+    private companion object {
+        /** 許可する画像拡張子フォーマット (`.<英数字 1〜8 文字>`)。パストラバーサル防御。 */
+        val EXT_PATTERN: Regex = Regex("\\.[A-Za-z0-9]{1,8}")
+    }
+
     // 表情は通常のみ
     override fun findCharachips(): Charachips {
         val groupList = charaGroupBhv.selectList {
@@ -344,6 +349,11 @@ class CharaDataSource(
             throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
         }
         val ext = originalName.substring(dotIndex)
+        // ext は最終的に File パスに連結されるので、パス区切り (`/` `\`) や `..` を含むと
+        // 上位ディレクトリ書き込みのパストラバーサルが成立する。`.<英数字>` のみ許可。
+        if (!ext.matches(EXT_PATTERN)) {
+            throw WolfMansionBusinessException("画像ファイルの拡張子が不正です")
+        }
         val filename = "${charaId}_${charaImageId}$ext"
         uploadFile(dir, charaImage, filename)
         return "$baseurl/$charachipId/$filename"
