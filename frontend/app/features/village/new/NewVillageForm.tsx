@@ -26,23 +26,29 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
   // 選択中キャラチップに含まれるキャラ一覧 (ダミーキャラ選択肢)
   const characterSetId = body.characterSetId ?? [];
   const [charaListByChip, setCharaListByChip] = useState<Map<number, CharachipDetailView>>(new Map());
-  // 既に取得済の charachip id を覚えておく (再 fetch 防止 + 取得中フラグなしで簡素化)
+  // in-flight な charachip id (再 fetch 抑止用)。fetch 完了 / 失敗のどちらでも
+  // 必ず delete して、unmount → 再 mount でも取得し直せるようにする。
   const fetchingRef = useRef<Set<number>>(new Set());
   useEffect(() => {
     let cancelled = false;
     characterSetId.forEach((id) => {
       if (charaListByChip.has(id) || fetchingRef.current.has(id)) return;
       fetchingRef.current.add(id);
-      fetchCharachipDetail(id).then((detail) => {
-        if (cancelled) return;
-        setCharaListByChip((prev) => {
-          const next = new Map(prev);
-          next.set(id, detail);
-          return next;
+      fetchCharachipDetail(id)
+        .then((detail) => {
+          if (cancelled) return;
+          setCharaListByChip((prev) => {
+            const next = new Map(prev);
+            next.set(id, detail);
+            return next;
+          });
+        })
+        .catch(() => {
+          // 取得失敗時は黙って何もしない (UI 上は「キャラ選択肢なし」)
+        })
+        .finally(() => {
+          fetchingRef.current.delete(id);
         });
-      }).catch(() => {
-        // 取得失敗時は黙って何もしない (UI 上は「キャラ選択肢なし」)
-      });
     });
     return () => {
       cancelled = true;
@@ -94,6 +100,7 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
           setBody={setBody}
           options={initial.options}
           allCharas={allCharas}
+          charaListByChip={charaListByChip}
         />
         <DummyCharaSection body={body} setBody={setBody} />
         <TagSection body={body} setBody={setBody} options={initial.options} />
@@ -204,9 +211,11 @@ function CharaSection({
   setBody,
   options,
   allCharas,
+  charaListByChip,
 }: SectionProps & {
   options: NewVillageFormView["options"];
   allCharas: CharachipDetailView["charas"];
+  charaListByChip: Map<number, CharachipDetailView>;
 }) {
   const characterSetId = body.characterSetId ?? [];
 
@@ -216,8 +225,12 @@ function CharaSection({
       if (checked) ids.add(chipId);
       else ids.delete(chipId);
       const nextIds = Array.from(ids).sort((a, b) => a - b);
-      // 選択解除した chip にダミーキャラが含まれていた場合は dummyCharaId を null に
-      const dummyStillValid = s.dummyCharaId != null && nextIds.length > 0;
+      // 残ったキャラチップ群に dummyCharaId が含まれていなければ null にリセットする。
+      // (一旦選んだダミーキャラのチップを外すケース)
+      const remainingCharaIds = new Set(
+        nextIds.flatMap((id) => charaListByChip.get(id)?.charas.map((c) => c.id) ?? []),
+      );
+      const dummyStillValid = s.dummyCharaId != null && remainingCharaIds.has(s.dummyCharaId);
       return { ...s, characterSetId: nextIds, dummyCharaId: dummyStillValid ? s.dummyCharaId : null };
     });
   }

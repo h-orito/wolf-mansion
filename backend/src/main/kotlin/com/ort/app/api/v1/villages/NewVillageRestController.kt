@@ -5,7 +5,6 @@ import com.ort.app.api.response.village.NewVillageFormView
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
-import com.ort.app.domain.model.player.canCreateVillage
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.exception.WolfMansionNotImplementedException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
@@ -55,11 +54,13 @@ class NewVillageRestController(
     fun formDefaults(): NewVillageFormView {
         val userName = WolfMansionUserInfoUtil.getUserInfo()?.username
             ?: throw WolfMansionBusinessException("ログインが必要です")
+        // JWT は持っているが player レコードが見つからない (= 退会済み等) は本来起きないが、
+        // 起きた場合は canCreate=false で誤魔化さず 400 で原因を明示する。
         val player = playerService.findPlayer(userName)
-        val canCreate = player.canCreateVillage()
+            ?: throw WolfMansionBusinessException("プレイヤー情報が見つかりません")
         val charachips = charaService.findCharachips()
         return NewVillageFormView(
-            canCreate = canCreate,
+            canCreate = player.isAvailableCreateVillage(),
             userName = userName,
             defaults = NewVillageFormView.NewVillageDefaults.create(),
             options = NewVillageFormView.NewVillageOptions(charachips),
@@ -82,7 +83,7 @@ class NewVillageRestController(
             ?: throw WolfMansionBusinessException("ログインが必要です")
         val player = playerService.findPlayer(userName)
             ?: throw WolfMansionBusinessException("プレイヤー情報が見つかりません")
-        if (!player.canCreateVillage()) {
+        if (!player.isAvailableCreateVillage()) {
             throw WolfMansionBusinessException("村建てした村の決着がつくまでは村を建てられません。")
         }
         // オリジナル画像登録は multipart が必要。本 endpoint では受け付けない。
@@ -100,6 +101,12 @@ class NewVillageRestController(
         val charachips = charaService.findCharachips(characterSetId, false)
         if (charachips.list.size != characterSetId.size) {
             throw WolfMansionBusinessException("指定したキャラチップが見つかりません")
+        }
+        // dummyCharaId が選択したキャラチップ群のいずれかに属していることを検証
+        // (任意の charaId で別チップのキャラをダミーにできないようにする)
+        val dummyInScope = charachips.list.any { chip -> chip.charas.list.any { it.id == dummyCharaId } }
+        if (!dummyInScope) {
+            throw WolfMansionBusinessException("ダミーキャラは選択したキャラチップから選んでください")
         }
         villageCoordinator.assertCreateVillage(player, body.personMaxNum!!, charachips, isOriginal = false)
         val paramVillage = applier.toVillage(body, player)
