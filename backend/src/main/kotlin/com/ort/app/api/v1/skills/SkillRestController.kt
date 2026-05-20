@@ -75,10 +75,13 @@ class SkillRestController(
                 }
             }
             else -> {
+                // `fixedOrganization` の 1 文字が役職 shortName に一致しない場合
+                // (設定不備 / 旧データ等) は該当役職をスキップして絞り込みを継続。
+                // 行自体が見つからない (参加人数に合う構成が無い) ときも絞り込みせず全件返す。
                 val organizationSkillCodes = village.setting.organize.fixedOrganization
                     .replace("\r\n", "\n").split("\n")
                     .firstOrNull { it.length == village.participants.count }
-                    ?.map { Skill.byShortName(it.toString())!!.code }
+                    ?.mapNotNull { Skill.byShortName(it.toString())?.code }
                     ?.distinct()
                     ?: return skills
                 skills.filter { organizationSkillCodes.contains(it.code) }

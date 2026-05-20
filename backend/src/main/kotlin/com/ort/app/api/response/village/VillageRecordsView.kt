@@ -68,7 +68,10 @@ data class VillageRecordsView(
             @field:Schema(description = "勝敗判定陣営名") val campName: String?,
         ) {
             constructor(participant: VillageParticipant, players: Players) : this(
-                userName = players.list.first { it.id == participant.playerId }.name,
+                // `playerService.findPlayers(villageIdList)` は isGone=false の村プレイヤーのみ取得するため、
+                // 途中退村プレイヤー (= isGone=true) は players に含まれない可能性がある。
+                // 該当プレイヤーが見つからない場合は表示用フォールバック "(退会)" を返す。
+                userName = players.list.firstOrNull { it.id == participant.playerId }?.name ?: "(退会)",
                 characterName = participant.charaName.name,
                 skillName = participant.skillWhen(1)?.name,
                 isSpectator = participant.isSpectator,
@@ -81,9 +84,13 @@ data class VillageRecordsView(
 
             companion object {
                 private fun extractDeadReason(dead: Dead): String? {
-                    if (!dead.isDead) return null
-                    val reason = dead.reason!!.name
-                    return if (reason.endsWith("死")) reason else "${reason}死"
+                    // `dead.isDead == true` のとき `dead.reason` が常に非 null であることは
+                    // ドメインモデル上の不変だが、コンパイラはスマートキャストできないので
+                    // `?.let` で明示的に扱う。
+                    return dead.reason?.let {
+                        val name = it.name
+                        if (name.endsWith("死")) name else "${name}死"
+                    }
                 }
             }
         }
@@ -92,7 +99,9 @@ data class VillageRecordsView(
             private fun convertOrganization(village: Village): String = when {
                 village.status.isCanceled() -> "廃村"
                 village.setting.rule.isRandomOrganization -> village.participants.list
-                    .map { it.skill!! }
+                    // 廃村でないと skill は基本非 null だが、データ不整合時の NPE を避けるため
+                    // `mapNotNull` で safe にフィルタする (廃村は↑で別分岐)
+                    .mapNotNull { it.skill }
                     .sortedBy { it.toCdef().order().toInt() }
                     .joinToString(separator = "") { it.shortName }
                 else -> village.setting.organize.fixedOrganization
@@ -101,6 +110,13 @@ data class VillageRecordsView(
                     ?: ""
             }
 
+            /**
+             * エピローグ突入日時 = `(epilogueDay - 1)` の `dayChangeDatetime` (=その日の終了時刻
+             * = 次の日 = エピローグ初日の開始時刻)。
+             * 例えば epilogueDay=4 (4日目がエピローグ) なら day=3 の dayChangeDatetime。
+             * epilogueDay=1 (= 1日目がエピローグ、極端なケース) なら day=0 (プロローグ) の
+             * dayChangeDatetime が返り、これはプロローグ終了 = day 1 開始時刻なので意味的に正しい。
+             */
             private fun convertEpilogueDatetime(village: Village): LocalDateTime? {
                 val epilogueDay = village.epilogueDay ?: return null
                 return village.days.list.firstOrNull { it.day == epilogueDay - 1 }?.dayChangeDatetime
