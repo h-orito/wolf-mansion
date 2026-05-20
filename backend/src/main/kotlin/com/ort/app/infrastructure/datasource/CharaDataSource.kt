@@ -2,6 +2,7 @@ package com.ort.app.infrastructure.datasource
 
 import com.ort.app.domain.model.chara.*
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.bsbhv.loader.LoaderOfChara
 import com.ort.dbflute.cbean.CharaImageCB
 import com.ort.dbflute.exbhv.*
@@ -331,7 +332,15 @@ class CharaDataSource(
         val dir = File("$basedir/$charachipId")
         dir.mkdir()
         // 画像
-        val ext = charaImage.originalFilename.let { it!!.substring(it.lastIndexOf('.')) }
+        // originalFilename が null か `.` を含まないと NPE / StringIndexOutOfBoundsException が
+        // 発生して 500 になっていた。境界 (REST / Thymeleaf controller) でも 400 で弾くようにしているが、
+        // 直接呼び出される経路が増えても安全なように本層でも防御する。
+        val originalName = charaImage.originalFilename
+        val dotIndex = originalName?.lastIndexOf('.') ?: -1
+        if (originalName == null || dotIndex < 0) {
+            throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
+        }
+        val ext = originalName.substring(dotIndex)
         val filename = "${charaId}_${charaImageId}$ext"
         uploadFile(dir, charaImage, filename)
         return "$baseurl/$charachipId/$filename"
