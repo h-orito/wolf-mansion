@@ -152,6 +152,14 @@ class VillageRpRestController(
         if (image.size <= 0L || image.size > 100_000L) {
             throw WolfMansionBusinessException("画像サイズは1〜100KBで指定してください")
         }
+        // `CharaDataSource.uploadCharaImage` は `originalFilename.lastIndexOf('.')` で
+        // 拡張子を取り出すため、originalFilename が null か `.` を含まないと NPE /
+        // StringIndexOutOfBoundsException で 500 になる (旧 Thymeleaf endpoint も同じ穴を持つ
+        // が、本 endpoint 追加で曝露が広がるため境界側で先回り検証する)。
+        val filename = image.originalFilename
+        if (filename == null || !filename.contains('.')) {
+            throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
+        }
         charaService.registerOriginalCharaImage(
             village.setting.chara.charachipIds.first(),
             myself.charaId,

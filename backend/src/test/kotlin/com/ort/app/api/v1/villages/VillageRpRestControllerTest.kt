@@ -363,6 +363,35 @@ class VillageRpRestControllerTest {
     }
 
     @Test
+    fun `POST rp_face-types 画像ファイル名に拡張子がないと 400`() {
+        val baseVillage = createDay1Village().copy(id = 27)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(27), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(27), eq("tester"), any())).thenReturn(myself)
+
+        // originalFilename が拡張子を含まないケース (uploadCharaImage 内の lastIndexOf('.')
+        // が -1 になり StringIndexOutOfBoundsException で 500 になる脆弱性を境界で防ぐ)
+        val image = MockMultipartFile("image", "noext", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/27/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
     fun `POST rp_face-types 未認証なら 400`() {
         val village = createDay1Village().copy(id = 26)
         whenever(villageService.findVillage(eq(26), any())).thenReturn(village)
