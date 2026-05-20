@@ -38,6 +38,15 @@ export type VillageCreatorSayBody = components["schemas"]["VillageCreatorSayBody
 export type VillageKickBody = components["schemas"]["VillageKickBody"];
 export type VillageAdminLeaveBody = components["schemas"]["VillageAdminLeaveBody"];
 export type VillageAdminPlayerView = components["schemas"]["VillageAdminPlayerView"];
+// SpringDoc + OpenAPI 3.1 で nullable フィールドが optional (`T | undefined`) に
+// 落ちる件 (`PlayerView` でも同じ対応) に合わせ、null も書き込めるよう深く広げる。
+// backend は undefined と null を同等に扱うので送信側でどちらでも OK。
+type WidenOptionalsDeep<T> =
+  T extends Array<infer U> ? Array<WidenOptionalsDeep<U>> :
+  T extends object ? { [K in keyof T]: undefined extends T[K] ? WidenOptionalsDeep<T[K]> | null : WidenOptionalsDeep<T[K]> } :
+  T;
+export type VillageSettingsFormView = WidenOptionalsDeep<components["schemas"]["VillageSettingsFormView"]>;
+export type VillageSettingsUpdateBody = WidenOptionalsDeep<components["schemas"]["VillageSettingsUpdateBody"]>;
 
 // ---------- fetchers ----------
 
@@ -463,6 +472,41 @@ export async function postAdminForceLeave(
   });
   if (!res.ok) {
     throw new Error(`admin leave failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+// ---------- village settings (creator, Step 8f) ----------
+
+/**
+ * GET /api/v1/villages/{id}/settings/form — 設定編集 UI 用 (現在値 + 候補値) を返す。
+ * 未認証 / 非 creator は 400。
+ */
+export async function fetchSettingsForm(
+  villageId: number,
+  fetcher: ApiFetch = browserFetch,
+): Promise<VillageSettingsFormView> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/settings/form`);
+  if (!res.ok) {
+    throw new Error(`settings form fetch failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+  return res.json();
+}
+
+/**
+ * PUT /api/v1/villages/{id}/settings — 設定を更新する。成功時 204。
+ * cross-field バリデーション失敗時は 400 + ErrorResponse.message。
+ */
+export async function putSettings(
+  villageId: number,
+  body: VillageSettingsUpdateBody,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const res = await fetcher(`/api/v1/villages/${villageId}/settings`, {
+    method: "PUT",
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`settings update failed: ${res.status} ${await readErrorMessage(res)}`);
   }
 }
 

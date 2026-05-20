@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import {
   useCancelVillageMutation,
   useCreatorSayMutation,
@@ -32,6 +33,7 @@ export function CreatorPanel({ village }: { village: VillageView }) {
 
       {isPrologue && (
         <>
+          <SettingsLink villageId={village.id} />
           <KickForm village={village} />
           <CancelButton villageId={village.id} />
         </>
@@ -95,6 +97,17 @@ function CreatorSayForm({ villageId }: { villageId: number }) {
         <p className="text-xs text-rose-300">{mutation.error.message}</p>
       )}
     </form>
+  );
+}
+
+function SettingsLink({ villageId }: { villageId: number }) {
+  return (
+    <div className="border-t border-amber-700/30 pt-3 flex items-center gap-3 flex-wrap">
+      <p className="text-xs text-amber-200/80">村設定変更 (プロローグ中のみ)</p>
+      <Link to={`/villages/${villageId}/settings`} className={secondaryButtonClass}>
+        設定を編集
+      </Link>
+    </div>
   );
 }
 

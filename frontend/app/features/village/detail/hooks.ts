@@ -14,6 +14,7 @@ import {
   fetchFootstepCandidates,
   fetchMyself,
   fetchSelectableCharas,
+  fetchSettingsForm,
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
@@ -35,6 +36,7 @@ import {
   putCommit,
   putFaceTypes,
   putMemo,
+  putSettings,
   type CharaView,
   type MessagesView,
   type MyselfFaceTypesView,
@@ -52,6 +54,8 @@ import {
   type VillageKickBody,
   type VillageMemoBody,
   type VillageParticipateBody,
+  type VillageSettingsFormView,
+  type VillageSettingsUpdateBody,
   type VillageView,
   type VillageVoteBody,
 } from "./api";
@@ -464,5 +468,39 @@ export function useAdminForceLeaveMutation(
   return useMutation<void, Error, VillageAdminLeaveBody>({
     mutationFn: (body) => postAdminForceLeave(villageId, body),
     onSuccess: () => invalidateAll(queryClient, villageId),
+  });
+}
+
+// ---------- Settings (Step 8f) ----------
+
+/**
+ * GET /api/v1/villages/{id}/settings/form — 設定編集 UI 用 (creator 専用)。
+ * `enabled=false` のときはクエリを発行しない (= creator でないユーザでも safe)。
+ *
+ * staleTime を長め (60秒) にしているのは編集中の form 値を polling で上書きしないため。
+ * mutation 成功時に invalidate して取り直す。
+ */
+export function useSettingsFormQuery(
+  villageId: number,
+  enabled: boolean,
+): UseQueryResult<VillageSettingsFormView> {
+  return useQuery<VillageSettingsFormView>({
+    queryKey: ["village", villageId, "settings", "form"],
+    queryFn: () => fetchSettingsForm(villageId),
+    enabled,
+    staleTime: 60_000,
+  });
+}
+
+export function useUpdateSettingsMutation(
+  villageId: number,
+): UseMutationResult<void, Error, VillageSettingsUpdateBody> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, VillageSettingsUpdateBody>({
+    mutationFn: (body) => putSettings(villageId, body),
+    onSuccess: () => {
+      // 村ヘッダ / settings form 両方を invalidate (村名や定員等 VillageView にも出ているため)
+      queryClient.invalidateQueries({ queryKey: ["village", villageId] });
+    },
   });
 }
