@@ -360,6 +360,29 @@ export async function putFaceTypes(
   }
 }
 
+/**
+ * POST /api/v1/villages/{id}/rp/face-types — 表情差分を 1 件追加 (multipart)。成功時 201。
+ *
+ * 旧 Thymeleaf の `/village/{id}/add-face-type` 相当。オリジナルキャラチップ村でのみ。
+ * `image` は 1〜100KB、`faceTypeName` は 1〜5 文字 (backend で再検証)。
+ */
+export async function postFaceType(
+  villageId: number,
+  input: { faceTypeName: string; image: File },
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const form = new FormData();
+  form.append("faceTypeName", input.faceTypeName);
+  form.append("image", input.image);
+  const res = await fetcher(`/api/v1/villages/${villageId}/rp/face-types`, {
+    method: "POST",
+    body: form,
+  });
+  if (!res.ok) {
+    throw new Error(`face-type add failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
 // ---------- creator / admin 操作 (Step 8e) ----------
 
 /** POST /api/v1/villages/{id}/creator-say — 村建て発言。201 成功時 空 body。 */

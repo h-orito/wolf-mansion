@@ -13,13 +13,17 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 /**
  * RP (キャラ名 / メモ / 表情差分) 系の REST API。
@@ -29,8 +33,7 @@ import org.springframework.web.bind.annotation.RestController
  * - PUT /api/v1/villages/{id}/rp/name: キャラ名 + 略称変更
  * - PUT /api/v1/villages/{id}/rp/memo: 簡易メモ変更
  * - PUT /api/v1/villages/{id}/rp/face-types: 表情差分の表示名 / 表示有無を編集 (オリジナルキャラチップ村)
- *
- * 表情差分の "追加" (画像アップロード) は multipart 必須なので別 endpoint として将来追加する想定。
+ * - POST /api/v1/villages/{id}/rp/face-types: 表情差分の追加 (multipart、オリジナルキャラチップ村)
  *
  * 旧 Thymeleaf 実装は POST だが、REST 的に状態更新は PUT が自然なので統一した。
  *
@@ -100,7 +103,7 @@ class VillageRpRestController(
     @PutMapping("/{villageId}/rp/face-types")
     @Operation(
         summary = "表情差分編集 (オリジナルキャラチップ)",
-        description = "既存の表情差分の name / display を一括更新する。画像追加は別 endpoint (multipart、未実装)。",
+        description = "既存の表情差分の name / display を一括更新する。画像追加は POST /rp/face-types。",
     )
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun modifyFaceTypes(
@@ -111,5 +114,46 @@ class VillageRpRestController(
         body.faceTypeList.forEach {
             charaService.updateOriginalCharaImage(myself.charaId, it.code, it.name, it.display)
         }
+    }
+
+    @PostMapping("/{villageId}/rp/face-types", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @Operation(
+        summary = "表情差分追加 (オリジナルキャラチップ)",
+        description = "自キャラ (オリジナル) に表情差分を 1 件追加する。201 を返し body は空。" +
+                "オリジナルキャラチップ村以外は 400。" +
+                "認可は `myself.rp.canAddFaceType` (= `village.canAddImage`) と同条件で backend でも確認する。" +
+                "画像は 60x60px で表示されるため 60 の倍数解像度を推奨、サイズは 1〜100KB。表情差分名は 1〜5 文字。",
+    )
+    @ResponseStatus(HttpStatus.CREATED)
+    fun addFaceType(
+        @PathVariable villageId: Int,
+        @RequestPart("faceTypeName") faceTypeName: String,
+        @RequestPart("image") image: MultipartFile,
+    ) {
+        val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
+        if (!village.setting.chara.isOriginalCharachip) {
+            throw WolfMansionBusinessException("オリジナルキャラチップ村ではありません")
+        }
+        // canAddFaceType と同条件 (= village.canAddImage(latestDay) && myself.canAddImage())
+        if (!village.canAddImage(village.latestDay())) {
+            throw WolfMansionBusinessException("現在は表情差分を追加できません")
+        }
+        if (!myself.canAddImage()) {
+            throw WolfMansionBusinessException("表情差分を追加できません")
+        }
+        val trimmedName = faceTypeName.trim()
+        if (trimmedName.isEmpty() || trimmedName.length > 5) {
+            throw WolfMansionBusinessException("表情差分名は1〜5文字で入力してください")
+        }
+        // 旧 `VillageFaceTypeFormValidator.validateChara` と同条件 (1〜100,000 byte)
+        if (image.size <= 0L || image.size > 100_000L) {
+            throw WolfMansionBusinessException("画像サイズは1〜100KBで指定してください")
+        }
+        charaService.registerOriginalCharaImage(
+            village.setting.chara.charachipIds.first(),
+            myself.charaId,
+            trimmedName,
+            image,
+        )
     }
 }
