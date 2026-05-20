@@ -170,8 +170,8 @@ class VillageDetailRestControllerTest {
 
         mockMvc.perform(get("/api/v1/villages/4/myself"))
             .andExpect(status().isNoContent)
-            // 204 は body を持たない
-            .andExpect(content().string(""))
+            // 204 は空 body を期待する (ByteArray 比較で厳密に検証)
+            .andExpect(content().bytes(ByteArray(0)))
     }
 
     // ---------- ヘルパー ----------
