@@ -148,7 +148,10 @@ class VillageRpRestControllerTest {
         // setting を書き換えてオリジナルキャラチップ村に
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()
@@ -256,7 +259,10 @@ class VillageRpRestControllerTest {
         val baseVillage = createDay1Village().copy(id = 22)
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()
@@ -280,7 +286,10 @@ class VillageRpRestControllerTest {
         val baseVillage = createDay1Village().copy(id = 23)
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()
@@ -304,7 +313,10 @@ class VillageRpRestControllerTest {
         val baseVillage = createDay1Village().copy(id = 24)
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()
@@ -328,7 +340,10 @@ class VillageRpRestControllerTest {
         val baseVillage = createDay1Village().copy(id = 25)
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()

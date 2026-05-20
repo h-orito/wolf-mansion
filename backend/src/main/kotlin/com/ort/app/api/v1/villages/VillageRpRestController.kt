@@ -131,15 +131,18 @@ class VillageRpRestController(
         @RequestPart("image") image: MultipartFile,
     ) {
         val (village, myself) = villageContextLoader.loadVillageAndRequireMyself(villageId)
+        // オリジナルキャラチップ村のみが対象であることをユーザにわかりやすく示すため、
+        // canAddImage の判定よりも先にこちらを分離して個別エラーメッセージを返す。
         if (!village.setting.chara.isOriginalCharachip) {
             throw WolfMansionBusinessException("オリジナルキャラチップ村ではありません")
         }
-        // canAddFaceType と同条件 (= village.canAddImage(latestDay) && myself.canAddImage())
+        // `village.canAddImage(day)` は内部で `isOriginalCharachip && status.isNotFinished() && isLatestDay(day)` を
+        // 確認している (isOriginalCharachip 部分は上で先に弾いた)。
+        // 旧 `RpDomainService.canAddImage` には `myself.canAddImage()` も AND されているが、
+        // 現状 `VillageParticipant.canAddImage()` は常に true を返す stub なので backend ガードとしては
+        // 無効。将来このフラグが意味を持つようになった場合は再導入する。
         if (!village.canAddImage(village.latestDay())) {
             throw WolfMansionBusinessException("現在は表情差分を追加できません")
-        }
-        if (!myself.canAddImage()) {
-            throw WolfMansionBusinessException("表情差分を追加できません")
         }
         val trimmedName = faceTypeName.trim()
         if (trimmedName.isEmpty() || trimmedName.length > 5) {

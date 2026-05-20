@@ -321,10 +321,11 @@ export function useFaceTypesMutation(
 
 /**
  * POST /api/v1/villages/{id}/rp/face-types: 表情差分追加 (画像アップロード)。
- * 成功時は face-types を invalidate して新差分を取得し直す。
- * 発言フォームの表情差分セレクタは VillageView.myself ではなく face-types クエリを参照していないが、
- * 旧画面のフロー (= 追加直後はすぐに発言できる) を維持したい場合は myself も invalidate して
- * 良い。ここでは編集パネル内のみの即時反映に絞る。
+ *
+ * 成功時は face-types (編集パネル) と村まわり全般 (myself / 発言フォームの表情差分セレクタ) を
+ * 両方 invalidate する。`["village", villageId]` の prefix invalidate で配下 (myself / messages /
+ * face-types / etc.) が全て再 fetch される — 旧画面のフローと同じく追加直後に発言フォームから
+ * 新差分を選べる状態にしたい。
  */
 export function useAddFaceTypeMutation(
   villageId: number,
@@ -333,7 +334,7 @@ export function useAddFaceTypeMutation(
   return useMutation<void, Error, { faceTypeName: string; image: File }>({
     mutationFn: (input) => postFaceType(villageId, input),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["village", villageId, "face-types"] });
+      queryClient.invalidateQueries({ queryKey: ["village", villageId] });
     },
   });
 }
