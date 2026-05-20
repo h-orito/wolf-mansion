@@ -378,7 +378,8 @@ class VillageRpRestControllerTest {
         whenever(villageService.findVillageParticipant(eq(27), eq("tester"), any())).thenReturn(myself)
 
         // originalFilename が拡張子を含まないケース (uploadCharaImage 内の lastIndexOf('.')
-        // が -1 になり StringIndexOutOfBoundsException で 500 になる脆弱性を境界で防ぐ)
+        // が -1 になり StringIndexOutOfBoundsException で 500 になる脆弱性を境界で防ぐ)。
+        // `.hidden` のようにドット始まりのファイル名も同様に弾かれる (lastIndexOf >= 1 が必要)。
         val image = MockMultipartFile("image", "noext", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
         val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
         mockMvc.perform(

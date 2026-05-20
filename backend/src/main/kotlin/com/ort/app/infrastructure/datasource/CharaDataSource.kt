@@ -336,8 +336,11 @@ class CharaDataSource(
         // 発生して 500 になっていた。境界 (REST / Thymeleaf controller) でも 400 で弾くようにしているが、
         // 直接呼び出される経路が増えても安全なように本層でも防御する。
         val originalName = charaImage.originalFilename
+        // `dotIndex >= 1` で「`.` の前にファイル名本体がある」ことを担保する。
+        // `.hidden` のようなドット始まりファイルは拡張子ではなくファイル名全体が ext として
+        // 扱われてしまうため弾く。
         val dotIndex = originalName?.lastIndexOf('.') ?: -1
-        if (originalName == null || dotIndex < 0) {
+        if (originalName == null || dotIndex < 1) {
             throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
         }
         val ext = originalName.substring(dotIndex)
