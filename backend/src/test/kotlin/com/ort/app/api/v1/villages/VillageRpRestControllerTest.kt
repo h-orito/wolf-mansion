@@ -254,6 +254,10 @@ class VillageRpRestControllerTest {
         verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
     }
 
+    // 以下 id=22〜25 はバリデーション (画像サイズ / 表情差分名) で 400 になることを確認するケース。
+    // 村は `isOriginalCharachip=true` + `charachipIds=listOf(42)` で揃えてあるが、
+    // バリデーションが先に弾くため registerOriginalCharaImage は呼ばれない。
+
     @Test
     fun `POST rp_face-types 画像 0 byte は 400`() {
         val baseVillage = createDay1Village().copy(id = 22)

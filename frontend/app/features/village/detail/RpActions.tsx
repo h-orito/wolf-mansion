@@ -346,7 +346,11 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
         </Field>
       </div>
       {image != null && !imageValid && (
-        <p className="text-xs text-rose-300">画像サイズは 1〜100KB で指定してください</p>
+        <p className="text-xs text-rose-300">
+          {image.size === 0
+            ? "選択された画像が空です"
+            : "画像サイズは 100KB 以下にしてください"}
+        </p>
       )}
       <div className="flex items-center gap-3">
         <button
