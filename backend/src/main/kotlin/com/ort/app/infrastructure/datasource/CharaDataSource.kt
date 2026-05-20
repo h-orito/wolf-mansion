@@ -36,8 +36,8 @@ class CharaDataSource(
     private lateinit var baseurl: String
 
     private companion object {
-        /** 許可する画像拡張子フォーマット (`.<英数字 1〜8 文字>`)。パストラバーサル防御。 */
-        val EXT_PATTERN: Regex = Regex("\\.[A-Za-z0-9]{1,8}")
+        /** 許可する画像拡張子 (小文字比較)。パストラバーサル防御 + 想定外フォーマットの拒否。 */
+        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
     }
 
     // 表情は通常のみ
@@ -350,9 +350,12 @@ class CharaDataSource(
         }
         val ext = originalName.substring(dotIndex)
         // ext は最終的に File パスに連結されるので、パス区切り (`/` `\`) や `..` を含むと
-        // 上位ディレクトリ書き込みのパストラバーサルが成立する。`.<英数字>` のみ許可。
-        if (!ext.matches(EXT_PATTERN)) {
-            throw WolfMansionBusinessException("画像ファイルの拡張子が不正です")
+        // 上位ディレクトリ書き込みのパストラバーサルが成立する。
+        // 想定外フォーマットも含めて拒否するため、許可済み画像拡張子のホワイトリストで照合する。
+        if (ext.lowercase() !in ALLOWED_IMAGE_EXTS) {
+            throw WolfMansionBusinessException(
+                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
+            )
         }
         val filename = "${charaId}_${charaImageId}$ext"
         uploadFile(dir, charaImage, filename)

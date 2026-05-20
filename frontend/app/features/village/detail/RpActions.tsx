@@ -278,6 +278,9 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
 /** 旧 Thymeleaf の `add-face-type` 相当。クライアント側で 1〜100KB / 1〜5 文字を先回り検証する。 */
 const FACE_TYPE_IMAGE_MAX_BYTES = 100_000;
 const FACE_TYPE_NAME_MAX_LENGTH = 5;
+/** backend `ALLOWED_IMAGE_EXTS` と揃える (ホワイトリスト)。 */
+const FACE_TYPE_IMAGE_ACCEPT = ".png,.jpg,.jpeg,.gif,.webp";
+const FACE_TYPE_IMAGE_EXT_PATTERN = /\.(png|jpg|jpeg|gif|webp)$/i;
 
 function AddFaceTypeForm({ villageId }: { villageId: number }) {
   const mutation = useAddFaceTypeMutation(villageId);
@@ -290,8 +293,10 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
   const trimmedName = name.trim();
   const nameValid =
     trimmedName.length >= 1 && trimmedName.length <= FACE_TYPE_NAME_MAX_LENGTH;
-  const imageValid =
+  const imageExtValid = image != null && FACE_TYPE_IMAGE_EXT_PATTERN.test(image.name);
+  const imageSizeValid =
     image != null && image.size > 0 && image.size <= FACE_TYPE_IMAGE_MAX_BYTES;
+  const imageValid = image != null && imageExtValid && imageSizeValid;
   const submittable = !mutation.isPending && nameValid && imageValid;
 
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -321,6 +326,7 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
         <li>表情差分名は 1〜5 文字。</li>
         <li>画像は 60x60px で表示されるため 60 の倍数解像度推奨。</li>
         <li>100KB を超える画像はアップロードできません。</li>
+        <li>対応形式: png / jpg / jpeg / gif / webp。</li>
       </ul>
       <div className="grid grid-cols-[1fr_auto] gap-2 items-end">
         <Field label="表情差分名 (1-5 文字)">
@@ -338,7 +344,7 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept={FACE_TYPE_IMAGE_ACCEPT}
             onChange={onFileChange}
             disabled={mutation.isPending}
             className="text-xs text-slate-200 file:mr-2 file:rounded file:border-0 file:bg-slate-700 file:px-2 file:py-1 file:text-slate-100 hover:file:bg-slate-600 disabled:opacity-50"
@@ -347,9 +353,11 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
       </div>
       {image != null && !imageValid && (
         <p className="text-xs text-rose-300">
-          {image.size === 0
-            ? "選択された画像が空です"
-            : "画像サイズは 100KB 以下にしてください"}
+          {!imageExtValid
+            ? "対応形式は png / jpg / jpeg / gif / webp のみです"
+            : image.size === 0
+              ? "選択された画像が空です"
+              : "画像サイズは 100KB 以下にしてください"}
         </p>
       )}
       <div className="flex items-center gap-3">

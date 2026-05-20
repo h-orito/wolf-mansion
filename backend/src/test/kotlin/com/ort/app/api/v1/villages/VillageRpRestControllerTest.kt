@@ -367,6 +367,62 @@ class VillageRpRestControllerTest {
     }
 
     @Test
+    fun `POST rp_face-types 許可外拡張子 (svg) は 400`() {
+        // ホワイトリスト (png / jpg / jpeg / gif / webp) 以外は拒否される。
+        val baseVillage = createDay1Village().copy(id = 29)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(29), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(29), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "evil.svg", "image/svg+xml", ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/29/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 大文字拡張子 (JPG) は 201 (ホワイトリストは小文字比較)`() {
+        // `.JPG` などの大文字拡張子も小文字比較によって許可される。
+        val baseVillage = createDay1Village().copy(id = 30)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(30), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(30), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "smile.JPG", MediaType.IMAGE_JPEG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/30/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isCreated)
+
+        verify(charaService).registerOriginalCharaImage(eq(42), eq(myself.charaId), eq("笑"), any())
+    }
+
+    @Test
     fun `POST rp_face-types 画像ファイル名に拡張子がないと 400`() {
         val baseVillage = createDay1Village().copy(id = 27)
         val village = baseVillage.copy(
@@ -400,7 +456,7 @@ class VillageRpRestControllerTest {
     fun `POST rp_face-types 画像ファイル名にパス区切りを含むと 400 (パストラバーサル防御)`() {
         // `x.sh/../../../../etc/passwd` のように `.` の後ろにパス区切りが続くケースは
         // `lastIndexOf('.') >= 1` の単純チェックを通過してしまう。境界 (REST controller)
-        // で `IMAGE_EXT_PATTERN` (`.<英数字 1〜8>`) と一致しないファイル名を弾く。
+        // でホワイトリスト (`ALLOWED_IMAGE_EXTS`) に含まれないファイル名を弾く。
         val baseVillage = createDay1Village().copy(id = 28)
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(

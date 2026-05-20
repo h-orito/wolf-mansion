@@ -52,8 +52,8 @@ class VillageRpRestController(
 ) {
 
     private companion object {
-        /** 許可する画像拡張子フォーマット (`.<英数字 1〜8 文字>`)。パストラバーサル防御。 */
-        val IMAGE_EXT_PATTERN: Regex = Regex("\\.[A-Za-z0-9]{1,8}")
+        /** 許可する画像拡張子 (小文字比較)。パストラバーサル防御 + 想定外フォーマットの拒否。 */
+        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
     }
 
     @PutMapping("/{villageId}/rp/name")
@@ -163,11 +163,15 @@ class VillageRpRestController(
         // が、本 endpoint 追加で曝露が広がるため境界側で先回り検証する)。
         // `lastIndexOf('.') >= 1` で `.hidden` のようなドット始まりファイル
         // (ext がファイル名全体になってしまう) を弾く。さらに ext は
-        // `.<英数字 1〜8>` のみ許可 (`x.sh/../../etc/passwd` 等のパストラバーサル防御)。
+        // 許可済み画像拡張子 (png / jpg / jpeg / gif / webp) のホワイトリストでのみ許可。
+        // (`x.sh/../../etc/passwd` 等のパストラバーサル + 想定外フォーマットの拒否)
         val filename = image.originalFilename
         val dotIndex = filename?.lastIndexOf('.') ?: -1
-        if (filename == null || dotIndex < 1 || !filename.substring(dotIndex).matches(IMAGE_EXT_PATTERN)) {
-            throw WolfMansionBusinessException("画像ファイル名の拡張子が不正です")
+        if (filename == null || dotIndex < 1 ||
+            filename.substring(dotIndex).lowercase() !in ALLOWED_IMAGE_EXTS) {
+            throw WolfMansionBusinessException(
+                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
+            )
         }
         charaService.registerOriginalCharaImage(
             village.setting.chara.charachipIds.first(),
