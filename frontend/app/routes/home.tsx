@@ -47,7 +47,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           <p className="text-slate-300">人狼ゲーム</p>
         </header>
 
-        <div className="flex gap-3 justify-center">
+        <div className="flex gap-3 justify-center flex-wrap">
           <Link
             to="/villages"
             className="rounded-md bg-indigo-500 hover:bg-indigo-400 px-5 py-2 font-semibold transition"
@@ -65,6 +65,19 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             className="rounded-md border border-slate-600 hover:border-slate-400 px-5 py-2 font-semibold transition"
           >
             ログイン
+          </Link>
+        </div>
+        <div className="flex gap-3 justify-center flex-wrap text-sm">
+          <Link to="/charachips" className="text-slate-300 hover:text-indigo-300 underline-offset-4 hover:underline">
+            キャラチップ一覧
+          </Link>
+          <span className="text-slate-600">/</span>
+          <Link to="/skills" className="text-slate-300 hover:text-indigo-300 underline-offset-4 hover:underline">
+            役職一覧
+          </Link>
+          <span className="text-slate-600">/</span>
+          <Link to="/village-records" className="text-slate-300 hover:text-indigo-300 underline-offset-4 hover:underline">
+            終了村一覧
           </Link>
         </div>
 

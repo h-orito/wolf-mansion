@@ -9,6 +9,10 @@ export default [
   route("players", "routes/players._index.tsx"),
   // NOTE: 認証不要。`isSelf=true` のときだけ編集 UI が出る (backend が viewer JWT を読んで判定)。
   route("players/:userName", "routes/players.$userName.tsx"),
+  route("charachips", "routes/charachips._index.tsx"),
+  route("charachips/:id", "routes/charachips.$id.tsx"),
+  route("skills", "routes/skills.tsx"),
+  route("village-records", "routes/village-records.tsx"),
   // 認証必須エリア
   layout("routes/_auth.tsx", [
     route("me", "routes/me.tsx"),
