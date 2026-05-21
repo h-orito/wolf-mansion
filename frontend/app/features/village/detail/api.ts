@@ -164,7 +164,7 @@ async function readErrorMessage(res: Response): Promise<string> {
   return errBody;
 }
 
-/** POST /api/v1/villages/{id}/participate */
+/** POST /api/v1/villages/{id}/participate (非オリジナル、JSON) */
 export async function postParticipate(
   villageId: number,
   body: VillageParticipateBody,
@@ -176,6 +176,33 @@ export async function postParticipate(
   });
   if (!res.ok) {
     throw new Error(`participate failed: ${res.status} ${await readErrorMessage(res)}`);
+  }
+}
+
+/**
+ * POST /api/v1/villages/{id}/participate (オリジナルキャラチップ、multipart)。
+ *
+ * `body` (JSON Content-Type 明示) + `charaImage` (画像) の 2 パート構成。
+ * 非オリジナル村にこれを呼ぶと backend が 400 を返す。
+ */
+export async function postParticipateOriginal(
+  villageId: number,
+  body: VillageParticipateBody,
+  charaImage: File,
+  fetcher: ApiFetch = browserFetch,
+): Promise<void> {
+  const form = new FormData();
+  form.append(
+    "body",
+    new Blob([JSON.stringify(body)], { type: "application/json" }),
+  );
+  form.append("charaImage", charaImage);
+  const res = await fetcher(`/api/v1/villages/${villageId}/participate`, {
+    method: "POST",
+    body: form,
+  });
+  if (!res.ok) {
+    throw new Error(`participate (original) failed: ${res.status} ${await readErrorMessage(res)}`);
   }
 }
 

@@ -7,6 +7,7 @@ import {
 import {
   fetchNewVillageDefaults,
   postNewVillage,
+  postNewVillageOriginal,
   type CreatedVillageView,
   type NewVillageCreateBody,
   type NewVillageFormView,
@@ -32,12 +33,25 @@ export function useNewVillageDefaultsQuery(
   });
 }
 
+/**
+ * 非オリジナル / オリジナルキャラチップ村両対応の作成 mutation。
+ *
+ * `dummyCharaImage` が渡されたら multipart endpoint、そうでなければ JSON endpoint。
+ * 呼び出し側で `body.shouldOriginalImage` と画像の有無を整合させる。
+ */
 export function useCreateVillageMutation(): UseMutationResult<
   CreatedVillageView,
   Error,
-  NewVillageCreateBody
+  { body: NewVillageCreateBody; dummyCharaImage?: File }
 > {
-  return useMutation<CreatedVillageView, Error, NewVillageCreateBody>({
-    mutationFn: (body) => postNewVillage(body),
+  return useMutation<
+    CreatedVillageView,
+    Error,
+    { body: NewVillageCreateBody; dummyCharaImage?: File }
+  >({
+    mutationFn: ({ body, dummyCharaImage }) =>
+      dummyCharaImage
+        ? postNewVillageOriginal(body, dummyCharaImage)
+        : postNewVillage(body),
   });
 }

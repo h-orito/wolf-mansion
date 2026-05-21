@@ -12,14 +12,17 @@ import { fetchCharachipDetail, type CharachipDetailView } from "~/features/meta/
  * を追加。
  *
  * 確認画面は SPA 内 `<dialog>` ベース (旧 `/new-village/confirm` は不要)。
- * オリジナルキャラチップ村 (`shouldOriginalImage=true`) は backend が 501 を返すので
- * UI でも初期 false / 切り替え不可。後続 step で multipart 対応する予定。
+ *
+ * オリジナルキャラチップ村 (`shouldOriginalImage=true`):
+ * - チップ / ダミーキャラ選択 UI を隠し、ダミーキャラ画像ファイル入力を出す
+ * - 送信時 multipart endpoint (`postNewVillageOriginal`) に切り替え
  *
  * cross-field バリデーションは backend に任せ、フロントでは Required と type のみ最低限。
  */
 export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
   const navigate = useNavigate();
   const [body, setBody] = useState<NewVillageCreateBody>(() => toInitialBody(initial.defaults));
+  const [dummyCharaImage, setDummyCharaImage] = useState<File | null>(null);
   const mutation = useCreateVillageMutation();
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -83,12 +86,20 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
   }
 
   function submit() {
-    mutation.mutate(body, {
-      onSuccess: (res) => {
-        setConfirmOpen(false);
-        navigate(`/villages/${res.id}`);
+    // オリジナル村: shouldOriginalImage=true かつ画像必須
+    if (body.shouldOriginalImage && !dummyCharaImage) return;
+    mutation.mutate(
+      {
+        body,
+        dummyCharaImage: body.shouldOriginalImage ? dummyCharaImage ?? undefined : undefined,
       },
-    });
+      {
+        onSuccess: (res) => {
+          setConfirmOpen(false);
+          navigate(`/villages/${res.id}`);
+        },
+      },
+    );
   }
 
   return (
@@ -101,6 +112,8 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
           options={initial.options}
           allCharas={allCharas}
           charaListByChip={charaListByChip}
+          dummyCharaImage={dummyCharaImage}
+          setDummyCharaImage={setDummyCharaImage}
         />
         <DummyCharaSection body={body} setBody={setBody} />
         <TagSection body={body} setBody={setBody} options={initial.options} />
@@ -135,6 +148,7 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
         <ConfirmDialog
           body={body}
           allCharas={allCharas}
+          dummyCharaImage={dummyCharaImage}
           onCancel={() => setConfirmOpen(false)}
           onSubmit={submit}
           isPending={mutation.isPending}
@@ -212,12 +226,17 @@ function CharaSection({
   options,
   allCharas,
   charaListByChip,
+  dummyCharaImage,
+  setDummyCharaImage,
 }: SectionProps & {
   options: NewVillageFormView["options"];
   allCharas: CharachipDetailView["charas"];
   charaListByChip: Map<number, CharachipDetailView>;
+  dummyCharaImage: File | null;
+  setDummyCharaImage: (file: File | null) => void;
 }) {
   const characterSetId = body.characterSetId ?? [];
+  const isOriginal = !!body.shouldOriginalImage;
 
   function toggleChip(chipId: number, checked: boolean) {
     setBody((s) => {
@@ -235,43 +254,99 @@ function CharaSection({
     });
   }
 
+  function toggleOriginal(checked: boolean) {
+    // オリジナル ⇄ 公式切替時は反対側の入力をリセット (相互に意味を持たないため)。
+    // 古い `dummyCharaImage` ファイルが残ったまま再切替で混入しないよう、どちらの方向でもリセット。
+    setBody((s) => ({
+      ...s,
+      shouldOriginalImage: checked,
+      characterSetId: checked ? [] : s.characterSetId,
+      dummyCharaId: checked ? null : s.dummyCharaId,
+    }));
+    setDummyCharaImage(null);
+  }
+
   return (
     <Section title="キャラクター設定">
-      <Field label="キャラチップ (複数選択可)">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-          {options.charachips.map((c) => {
-            const checked = characterSetId.includes(c.id);
-            return (
-              <label key={c.id} className="flex items-center gap-2 text-sm border border-slate-700 rounded px-2 py-1.5">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={(e) => toggleChip(c.id, e.target.checked)}
-                />
-                <img src={c.dummyImageUrl} width={c.dummyImageWidth} height={c.dummyImageHeight} alt={c.name} className="bg-slate-900/60 rounded" />
-                <div className="flex-1 min-w-0">
-                  <span className="block truncate">{c.name}</span>
-                  <span className="block text-xs text-slate-400 truncate">{c.designerName} / {c.charaCount}キャラ</span>
-                </div>
-              </label>
-            );
-          })}
+      <Field label="画像形式">
+        <div className="flex flex-col gap-1 text-sm">
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="shouldOriginalImage"
+              checked={!isOriginal}
+              onChange={() => toggleOriginal(false)}
+            />
+            <span>公式キャラチップを使用</span>
+          </label>
+          <label className="flex items-center gap-2">
+            <input
+              type="radio"
+              name="shouldOriginalImage"
+              checked={isOriginal}
+              onChange={() => toggleOriginal(true)}
+            />
+            <span>オリジナル画像を使用 (ダミーキャラ画像のアップロードが必要)</span>
+          </label>
         </div>
       </Field>
 
-      <Field label="ダミーキャラ (選択キャラチップ内から)">
-        <select
-          value={body.dummyCharaId ?? ""}
-          onChange={(e) => setBody((s) => ({ ...s, dummyCharaId: e.target.value ? Number(e.target.value) : null }))}
-          className={inputClass}
-          required
-        >
-          <option value="">選択してください</option>
-          {allCharas.map((c) => (
-            <option key={c.id} value={c.id}>{c.name} [{c.shortName}]</option>
-          ))}
-        </select>
-      </Field>
+      {!isOriginal && (
+        <>
+          <Field label="キャラチップ (複数選択可)">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+              {options.charachips.map((c) => {
+                const checked = characterSetId.includes(c.id);
+                return (
+                  <label key={c.id} className="flex items-center gap-2 text-sm border border-slate-700 rounded px-2 py-1.5">
+                    <input
+                      type="checkbox"
+                      checked={checked}
+                      onChange={(e) => toggleChip(c.id, e.target.checked)}
+                    />
+                    <img src={c.dummyImageUrl} width={c.dummyImageWidth} height={c.dummyImageHeight} alt={c.name} className="bg-slate-900/60 rounded" />
+                    <div className="flex-1 min-w-0">
+                      <span className="block truncate">{c.name}</span>
+                      <span className="block text-xs text-slate-400 truncate">{c.designerName} / {c.charaCount}キャラ</span>
+                    </div>
+                  </label>
+                );
+              })}
+            </div>
+          </Field>
+
+          <Field label="ダミーキャラ (選択キャラチップ内から)">
+            <select
+              value={body.dummyCharaId ?? ""}
+              onChange={(e) => setBody((s) => ({ ...s, dummyCharaId: e.target.value ? Number(e.target.value) : null }))}
+              className={inputClass}
+              required
+            >
+              <option value="">選択してください</option>
+              {allCharas.map((c) => (
+                <option key={c.id} value={c.id}>{c.name} [{c.shortName}]</option>
+              ))}
+            </select>
+          </Field>
+        </>
+      )}
+
+      {isOriginal && (
+        <Field label="ダミーキャラ画像 (最大 100,000 byte、png/jpg/jpeg/gif/webp)">
+          <input
+            type="file"
+            accept=".png,.jpg,.jpeg,.gif,.webp,image/png,image/jpeg,image/gif,image/webp"
+            onChange={(e) => setDummyCharaImage(e.target.files?.[0] ?? null)}
+            className={inputClass}
+            required
+          />
+          {dummyCharaImage && (
+            <p className="text-xs text-slate-400 mt-1">
+              {dummyCharaImage.name} ({Math.round(dummyCharaImage.size / 1024)} KB)
+            </p>
+          )}
+        </Field>
+      )}
     </Section>
   );
 }
@@ -679,6 +754,7 @@ function RestrictRow({
 function ConfirmDialog({
   body,
   allCharas,
+  dummyCharaImage,
   onCancel,
   onSubmit,
   isPending,
@@ -686,6 +762,7 @@ function ConfirmDialog({
 }: {
   body: NewVillageCreateBody;
   allCharas: CharachipDetailView["charas"];
+  dummyCharaImage: File | null;
   onCancel: () => void;
   onSubmit: () => void;
   isPending: boolean;
@@ -693,6 +770,7 @@ function ConfirmDialog({
 }) {
   const dummyChara = allCharas.find((c) => c.id === body.dummyCharaId);
   const startStr = `${body.startYear}/${pad2(body.startMonth ?? 0)}/${pad2(body.startDay ?? 0)} ${pad2(body.startHour ?? 0)}:${pad2(body.startMinute ?? 0)}`;
+  const isOriginal = !!body.shouldOriginalImage;
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
       <div className="max-w-md w-full bg-slate-900 border border-slate-700 rounded-xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
@@ -703,7 +781,13 @@ function ConfirmDialog({
           <Row k="開始日時" v={startStr} />
           <Row k="更新間隔" v={`${body.dayChangeIntervalHours}h ${body.dayChangeIntervalMinutes}m ${body.dayChangeIntervalSeconds}s`} />
           <Row k="編成" v={body.randomOrganization ? "闇鍋編成" : "固定編成"} />
-          <Row k="ダミーキャラ" v={dummyChara ? `${dummyChara.name} (${dummyChara.shortName})` : `${body.dummyCharaName} (${body.dummyCharaShortName})`} />
+          <Row k="画像" v={isOriginal ? "オリジナル画像" : "公式キャラチップ"} />
+          {!isOriginal && (
+            <Row k="ダミーキャラ" v={dummyChara ? `${dummyChara.name} (${dummyChara.shortName})` : `${body.dummyCharaName} (${body.dummyCharaShortName})`} />
+          )}
+          {isOriginal && dummyCharaImage && (
+            <Row k="ダミー画像" v={`${dummyCharaImage.name} (${Math.round(dummyCharaImage.size / 1024)} KB)`} />
+          )}
           <Row k="表示名" v={body.dummyCharaName ?? ""} />
         </dl>
         <p className="text-xs text-slate-400">

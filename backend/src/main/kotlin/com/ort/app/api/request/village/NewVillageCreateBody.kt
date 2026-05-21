@@ -14,7 +14,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 
 /**
- * 新規村作成 (POST /api/v1/villages) リクエスト body (JSON)。
+ * 新規村作成 (POST /api/v1/villages) リクエスト body。
  *
  * 旧 `NewVillageForm` (Thymeleaf form) の JSON 受信用スリム版。
  * 設定変更 (`VillageSettingsUpdateBody`) と多くのフィールドが共通だが、新規村作成固有の
@@ -22,9 +22,10 @@ import jakarta.validation.constraints.Size
  * `VillageSettingsUpdateBody` の nested DTO (CampAllocationBody / SkillAllocationBody /
  * WolfAllocationBody / SkillSayRestrictBody / MessageTypeSayRestrictBody) を再利用する。
  *
- * オリジナルキャラチップ村 (`shouldOriginalImage=true`) は multipart 画像アップロードが
- * 必要なため、本 JSON endpoint では非対応 (= controller 層で 501 を返す)。
- * 入村フロー (Step 8a) でも同じ理由で original charachip は 501 にしている。
+ * `shouldOriginalImage=true` (オリジナルキャラチップ村) の場合は multipart endpoint
+ * (`POST /api/v1/villages`, `consumes=multipart/form-data`) で `body` part として送られ、
+ * 同時に `dummyCharaImage` (画像 file part) を要求する。JSON endpoint に
+ * `shouldOriginalImage=true` を送ると 400 (multipart endpoint へ案内)。
  */
 @Schema(description = "新規村作成リクエスト body (creator)")
 data class NewVillageCreateBody(
@@ -113,7 +114,7 @@ data class NewVillageCreateBody(
     @field:Schema(description = "秘話可能範囲 (CDef.AllowedSecretSay code)")
     @field:NotNull val allowedSecretSayCode: String?,
 
-    @field:Schema(description = "オリジナル画像を使用するか。true は現状未対応 (501)。")
+    @field:Schema(description = "オリジナル画像を使用するか。true の場合は multipart endpoint (`dummyCharaImage` part 必須) を使用する。")
     @field:NotNull val shouldOriginalImage: Boolean?,
 
     @field:Schema(description = "公式キャラチップ ID 一覧 (shouldOriginalImage=false のとき必須)")
