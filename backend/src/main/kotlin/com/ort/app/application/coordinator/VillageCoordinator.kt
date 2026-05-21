@@ -17,6 +17,7 @@ import com.ort.app.domain.model.commit.Commit
 import com.ort.app.domain.model.footstep.Footsteps
 import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.player.Player
+import com.ort.app.domain.model.situation.MyselfActionSituation
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.VillageSituation
 import com.ort.app.domain.model.situation.village.VillageParticipantLiveSituation
@@ -406,6 +407,41 @@ class VillageCoordinator(
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
             admin = adminDomainService.convertToSituation(village, myself),
             creator = creatorDomainService.convertToSituation(village, player)
+        )
+    }
+
+    /**
+     * REST `/myself` 専用の軽量版。commit / vote / ability / rp の 4 サブ situation だけを構築し、
+     * `findParticipantSituation` が必要としていた以下の重い処理を行わない:
+     * - `playerService.findPlayer(username)` (myself 用)
+     * - `messageService.findParticipantDayMessageCount(...)` (say 用の発言数集計)
+     * - `playerService.findPlayer(creator)` (say の creatorPlayerId 用)
+     * - participate / skillRequest / say / admin / creator の各 sub-situation 構築
+     *
+     * 旧 Thymeleaf 系 (`VillageControllerHelper`) は引き続き `findParticipantSituation` を使う。
+     */
+    fun findMyselfActionSituation(
+        village: Village,
+        myself: VillageParticipant,
+        votes: Votes,
+        abilities: Abilities,
+        footsteps: Footsteps,
+        charachips: Charachips,
+        day: Int,
+    ): MyselfActionSituation {
+        val commits = commitService.findCommits(village.id)
+        return MyselfActionSituation(
+            commit = commitDomainService.convertToSituation(village, myself, commits),
+            vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
+            ability = abilityDomainService.convertToParticipantSituation(
+                village,
+                myself,
+                abilities,
+                votes,
+                footsteps,
+                day
+            ),
+            rp = rpDomainService.convertToSituation(village, myself, charachips, day),
         )
     }
 

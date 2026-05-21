@@ -150,9 +150,8 @@ class VillageDetailRestController(
     ): ResponseEntity<MyselfView> {
         val ctx = loadContext(villageId)
         val myself = ctx.myself ?: return ResponseEntity.noContent().build()
-        val situation = villageCoordinator.findParticipantSituation(
+        val situation = villageCoordinator.findMyselfActionSituation(
             village = ctx.village,
-            username = ctx.user?.username,
             myself = myself,
             votes = voteService.findVotes(ctx.village.id),
             abilities = abilityService.findAbilities(ctx.village.id),
