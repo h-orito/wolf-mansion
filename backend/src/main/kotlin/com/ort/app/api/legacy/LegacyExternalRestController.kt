@@ -7,6 +7,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.SkillTag
 import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import com.ort.dbflute.allcommon.CDef
@@ -99,7 +100,7 @@ class LegacyExternalRestController(
         // 村IDが指定されている場合はその村の役職で絞る
         if (villageId != null) {
             villageService.findVillage(villageId)?.let { village ->
-                tagSkills = tagSkills.filterByVillageSkill(village.id)
+                tagSkills = tagSkills.filterByVillageSkill(village)
             }
         }
         return if (name.isNullOrBlank()) {
@@ -109,8 +110,7 @@ class LegacyExternalRestController(
         }
     }
 
-    private fun List<Skill>.filterByVillageSkill(villageId: Int): List<Skill> {
-        val village = villageService.findVillage(villageId) ?: return this
+    private fun List<Skill>.filterByVillageSkill(village: Village): List<Skill> {
         // 闇鍋は非対応
         if (village.setting.rule.isRandomOrganization) return this
         return when {
