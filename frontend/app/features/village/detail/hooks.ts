@@ -25,6 +25,7 @@ import {
   postCancelVillage,
   postCreatorSay,
   postExtendEpilogue,
+  postFaceType,
   postKick,
   postParticipate,
   postSay,
@@ -314,6 +315,26 @@ export function useFaceTypesMutation(
     mutationFn: (body) => putFaceTypes(villageId, body),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["village", villageId, "face-types"] });
+    },
+  });
+}
+
+/**
+ * POST /api/v1/villages/{id}/rp/face-types: 表情差分追加 (画像アップロード)。
+ *
+ * 成功時は face-types (編集パネル) と村まわり全般 (myself / 発言フォームの表情差分セレクタ) を
+ * 両方 invalidate する。`["village", villageId]` の prefix invalidate で配下 (myself / messages /
+ * face-types / etc.) が全て再 fetch される — 旧画面のフローと同じく追加直後に発言フォームから
+ * 新差分を選べる状態にしたい。
+ */
+export function useAddFaceTypeMutation(
+  villageId: number,
+): UseMutationResult<void, Error, { faceTypeName: string; image: File }> {
+  const queryClient = useQueryClient();
+  return useMutation<void, Error, { faceTypeName: string; image: File }>({
+    mutationFn: (input) => postFaceType(villageId, input),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["village", villageId] });
     },
   });
 }

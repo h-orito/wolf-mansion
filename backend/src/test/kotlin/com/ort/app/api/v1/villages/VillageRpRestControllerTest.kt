@@ -14,15 +14,18 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
+import org.mockito.kotlin.never
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.mock.web.MockMultipartFile
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity
 import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -145,7 +148,10 @@ class VillageRpRestControllerTest {
         // setting を書き換えてオリジナルキャラチップ村に
         val village = baseVillage.copy(
             setting = baseVillage.setting.copy(
-                chara = baseVillage.setting.chara.copy(isOriginalCharachip = true)
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
             )
         )
         val myself = village.participants.list.first()
@@ -197,6 +203,301 @@ class VillageRpRestControllerTest {
             put("/api/v1/villages/5/rp/name")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
+        ).andExpect(status().isBadRequest)
+    }
+
+    // ---------- POST /rp/face-types (multipart 画像追加) ----------
+
+    @Test
+    fun `POST rp_face-types オリジナルキャラチップ村で 201, registerOriginalCharaImage が呼ばれる`() {
+        val baseVillage = createDay1Village().copy(id = 20)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(20), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(20), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "smile.png", MediaType.IMAGE_PNG_VALUE, ByteArray(1024) { 1 })
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑顔".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/20/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isCreated)
+
+        verify(charaService).registerOriginalCharaImage(eq(42), eq(myself.charaId), eq("笑顔"), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 通常村 (非オリジナルキャラチップ) は 400`() {
+        val village = createDay1Village().copy(id = 21) // isOriginalCharachip=false
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(21), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(21), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "x.png", MediaType.IMAGE_PNG_VALUE, ByteArray(10))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "あ".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/21/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    // 以下 id=22〜25 はバリデーション (画像サイズ / 表情差分名) で 400 になることを確認するケース。
+    // 村は `isOriginalCharachip=true` + `charachipIds=listOf(42)` で揃えてあるが、
+    // バリデーションが先に弾くため registerOriginalCharaImage は呼ばれない。
+
+    @Test
+    fun `POST rp_face-types 画像 0 byte は 400`() {
+        val baseVillage = createDay1Village().copy(id = 22)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(22), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(22), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "empty.png", MediaType.IMAGE_PNG_VALUE, ByteArray(0))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/22/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 画像 100KB 超は 400`() {
+        val baseVillage = createDay1Village().copy(id = 23)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(23), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(23), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "big.png", MediaType.IMAGE_PNG_VALUE, ByteArray(100_001))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/23/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 表情差分名が空は 400`() {
+        val baseVillage = createDay1Village().copy(id = 24)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(24), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(24), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "ok.png", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "  ".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/24/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 表情差分名が 6 文字以上は 400`() {
+        val baseVillage = createDay1Village().copy(id = 25)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(25), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(25), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "ok.png", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "あいうえおか".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/25/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 許可外拡張子 (svg) は 400`() {
+        // ホワイトリスト (png / jpg / jpeg / gif / webp) 以外は拒否される。
+        val baseVillage = createDay1Village().copy(id = 29)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(29), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(29), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "evil.svg", "image/svg+xml", ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/29/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 大文字拡張子 (JPG) は 201 (ホワイトリストは小文字比較)`() {
+        // `.JPG` などの大文字拡張子も小文字比較によって許可される。
+        val baseVillage = createDay1Village().copy(id = 30)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(30), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(30), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile("image", "smile.JPG", MediaType.IMAGE_JPEG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/30/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isCreated)
+
+        verify(charaService).registerOriginalCharaImage(eq(42), eq(myself.charaId), eq("笑"), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 画像ファイル名に拡張子がないと 400`() {
+        val baseVillage = createDay1Village().copy(id = 27)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(27), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(27), eq("tester"), any())).thenReturn(myself)
+
+        // originalFilename が拡張子を含まないケース (uploadCharaImage 内の lastIndexOf('.')
+        // が -1 になり StringIndexOutOfBoundsException で 500 になる脆弱性を境界で防ぐ)。
+        // `.hidden` のようにドット始まりのファイル名も同様に弾かれる (lastIndexOf >= 1 が必要)。
+        val image = MockMultipartFile("image", "noext", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/27/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 画像ファイル名にパス区切りを含むと 400 (パストラバーサル防御)`() {
+        // `x.sh/../../../../etc/passwd` のように `.` の後ろにパス区切りが続くケースは
+        // `lastIndexOf('.') >= 1` の単純チェックを通過してしまう。境界 (REST controller)
+        // でホワイトリスト (`ALLOWED_IMAGE_EXTS`) に含まれないファイル名を弾く。
+        val baseVillage = createDay1Village().copy(id = 28)
+        val village = baseVillage.copy(
+            setting = baseVillage.setting.copy(
+                chara = baseVillage.setting.chara.copy(
+                    isOriginalCharachip = true,
+                    charachipIds = listOf(42),
+                )
+            )
+        )
+        val myself = village.participants.list.first()
+        whenever(villageService.findVillage(eq(28), any())).thenReturn(village)
+        whenever(villageService.findVillageParticipant(eq(28), eq("tester"), any())).thenReturn(myself)
+
+        val image = MockMultipartFile(
+            "image",
+            "x.sh/../../../../etc/passwd",
+            MediaType.IMAGE_PNG_VALUE,
+            ByteArray(1024),
+        )
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/28/rp/face-types")
+                .file(image)
+                .file(name)
+                .with(authed())
+        ).andExpect(status().isBadRequest)
+
+        verify(charaService, never()).registerOriginalCharaImage(any(), any(), any(), any())
+    }
+
+    @Test
+    fun `POST rp_face-types 未認証なら 400`() {
+        val village = createDay1Village().copy(id = 26)
+        whenever(villageService.findVillage(eq(26), any())).thenReturn(village)
+
+        val image = MockMultipartFile("image", "x.png", MediaType.IMAGE_PNG_VALUE, ByteArray(1024))
+        val name = MockMultipartFile("faceTypeName", "", MediaType.TEXT_PLAIN_VALUE, "笑".toByteArray())
+        mockMvc.perform(
+            multipart("/api/v1/villages/26/rp/face-types")
+                .file(image)
+                .file(name)
         ).andExpect(status().isBadRequest)
     }
 }

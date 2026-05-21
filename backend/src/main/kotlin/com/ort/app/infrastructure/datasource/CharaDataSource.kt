@@ -2,6 +2,7 @@ package com.ort.app.infrastructure.datasource
 
 import com.ort.app.domain.model.chara.*
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.bsbhv.loader.LoaderOfChara
 import com.ort.dbflute.cbean.CharaImageCB
 import com.ort.dbflute.exbhv.*
@@ -33,6 +34,11 @@ class CharaDataSource(
 
     @Value("\${app.original-image.baseurl}")
     private lateinit var baseurl: String
+
+    private companion object {
+        /** 許可する画像拡張子 (小文字比較)。パストラバーサル防御 + 想定外フォーマットの拒否。 */
+        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
+    }
 
     // 表情は通常のみ
     override fun findCharachips(): Charachips {
@@ -331,7 +337,26 @@ class CharaDataSource(
         val dir = File("$basedir/$charachipId")
         dir.mkdir()
         // 画像
-        val ext = charaImage.originalFilename.let { it!!.substring(it.lastIndexOf('.')) }
+        // originalFilename が null か `.` を含まないと NPE / StringIndexOutOfBoundsException が
+        // 発生して 500 になっていた。境界 (REST / Thymeleaf controller) でも 400 で弾くようにしているが、
+        // 直接呼び出される経路が増えても安全なように本層でも防御する。
+        val originalName = charaImage.originalFilename
+        // `dotIndex >= 1` で「`.` の前にファイル名本体がある」ことを担保する。
+        // `.hidden` のようなドット始まりファイルは拡張子ではなくファイル名全体が ext として
+        // 扱われてしまうため弾く。
+        val dotIndex = originalName?.lastIndexOf('.') ?: -1
+        if (originalName == null || dotIndex < 1) {
+            throw WolfMansionBusinessException("画像ファイル名に拡張子が含まれていません")
+        }
+        val ext = originalName.substring(dotIndex)
+        // ext は最終的に File パスに連結されるので、パス区切り (`/` `\`) や `..` を含むと
+        // 上位ディレクトリ書き込みのパストラバーサルが成立する。
+        // 想定外フォーマットも含めて拒否するため、許可済み画像拡張子のホワイトリストで照合する。
+        if (ext.lowercase() !in ALLOWED_IMAGE_EXTS) {
+            throw WolfMansionBusinessException(
+                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
+            )
+        }
         val filename = "${charaId}_${charaImageId}$ext"
         uploadFile(dir, charaImage, filename)
         return "$baseurl/$charachipId/$filename"

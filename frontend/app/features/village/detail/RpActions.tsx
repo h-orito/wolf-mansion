@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { MyselfFaceTypeView, MyselfView, VillageView } from "./api";
 import {
+  useAddFaceTypeMutation,
   useChangeNameMutation,
   useFaceTypesMutation,
   useFaceTypesQuery,
@@ -13,7 +14,7 @@ import {
  * - キャラ名変更: 募集中 + キャラチップが変更を許可 + 自分がまだ変更可能ステータス、のとき。
  * - 簡易メモ: 募集中 + 自分がまだ変更可能ステータス、のとき。
  * - 表情差分: オリジナルキャラチップ村のときのみ。
- *   別 endpoint `/rp/face-types` で取得した自キャラ分のみを編集する。multipart の画像追加は未実装。
+ *   `/rp/face-types` GET で取得した自キャラ分のみを編集 (PUT) し、画像追加 (POST multipart) も同パネルから行える。
  *
  * 編集可能項目が 1 つも無い場合は何も描画しない。
  */
@@ -206,54 +207,158 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
     items.every((it) => it.name.trim().length >= 1 && it.name.trim().length <= 5);
 
   return (
-    <form onSubmit={submit} className="space-y-3 border-t border-slate-700/60 pt-3">
-      <p className="text-xs text-slate-400">
-        表情差分編集 (画像追加は未対応、編集のみ)
-      </p>
-      {query.isLoading && <p className="text-slate-400 text-sm">読み込み中...</p>}
-      {query.isError && (
-        <p className="text-rose-300 text-sm">表情差分の取得に失敗しました</p>
-      )}
-      {query.data && items.length === 0 && (
-        <p className="text-slate-400 text-sm">編集可能な表情差分がありません</p>
-      )}
-      {items.length > 0 && (
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {items.map((it, idx) => (
-            <li
-              key={it.code}
-              className="flex gap-3 items-start rounded border border-slate-700 p-2 bg-slate-900/40"
-            >
-              <img
-                src={it.url}
-                alt={it.name}
-                width={60}
-                height={60}
-                className="rounded shrink-0"
-              />
-              <div className="flex-1 space-y-1">
-                <input
-                  type="text"
-                  value={it.name}
-                  onChange={(e) => update(idx, { name: e.target.value })}
-                  maxLength={5}
-                  className={inputClass}
-                  placeholder="表情名 (1-5 文字)"
-                  disabled={mutation.isPending}
+    <div className="space-y-4 border-t border-slate-700/60 pt-3">
+      <form onSubmit={submit} className="space-y-3">
+        <p className="text-xs text-slate-400">表情差分編集</p>
+        {query.isLoading && <p className="text-slate-400 text-sm">読み込み中...</p>}
+        {query.isError && (
+          <p className="text-rose-300 text-sm">表情差分の取得に失敗しました</p>
+        )}
+        {query.data && items.length === 0 && (
+          <p className="text-slate-400 text-sm">編集可能な表情差分がありません</p>
+        )}
+        {items.length > 0 && (
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {items.map((it, idx) => (
+              <li
+                key={it.code}
+                className="flex gap-3 items-start rounded border border-slate-700 p-2 bg-slate-900/40"
+              >
+                <img
+                  src={it.url}
+                  alt={it.name}
+                  width={60}
+                  height={60}
+                  className="rounded shrink-0"
                 />
-                <label className="flex items-center gap-1 text-xs text-slate-300">
+                <div className="flex-1 space-y-1">
                   <input
-                    type="checkbox"
-                    checked={it.isDisplay}
-                    onChange={(e) => update(idx, { isDisplay: e.target.checked })}
+                    type="text"
+                    value={it.name}
+                    onChange={(e) => update(idx, { name: e.target.value })}
+                    maxLength={5}
+                    className={inputClass}
+                    placeholder="表情名 (1-5 文字)"
                     disabled={mutation.isPending}
                   />
-                  発言フォームに表示する
-                </label>
-              </div>
-            </li>
-          ))}
-        </ul>
+                  <label className="flex items-center gap-1 text-xs text-slate-300">
+                    <input
+                      type="checkbox"
+                      checked={it.isDisplay}
+                      onChange={(e) => update(idx, { isDisplay: e.target.checked })}
+                      disabled={mutation.isPending}
+                    />
+                    発言フォームに表示する
+                  </label>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+        <div className="flex items-center gap-3">
+          <button
+            type="submit"
+            disabled={!submittable}
+            className={primaryButtonClass}
+          >
+            {mutation.isPending ? "送信中..." : "表情差分を更新"}
+          </button>
+          {mutation.isError && (
+            <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          )}
+        </div>
+      </form>
+      <AddFaceTypeForm villageId={villageId} />
+    </div>
+  );
+}
+
+// ---------- 表情差分の追加 (画像アップロード) ----------
+
+/** 旧 Thymeleaf の `add-face-type` 相当。クライアント側で 1〜100KB / 1〜5 文字を先回り検証する。 */
+const FACE_TYPE_IMAGE_MAX_BYTES = 100_000;
+const FACE_TYPE_NAME_MAX_LENGTH = 5;
+/** backend `ALLOWED_IMAGE_EXTS` と揃える (ホワイトリスト)。 */
+const FACE_TYPE_IMAGE_ACCEPT = ".png,.jpg,.jpeg,.gif,.webp";
+const FACE_TYPE_IMAGE_EXT_PATTERN = /\.(png|jpg|jpeg|gif|webp)$/i;
+
+function AddFaceTypeForm({ villageId }: { villageId: number }) {
+  const mutation = useAddFaceTypeMutation(villageId);
+  const [name, setName] = useState("");
+  const [image, setImage] = useState<File | null>(null);
+  // 送信成功時に <input type="file"> を空に戻すための ref。
+  // (controlled な file input は React で扱えないので key/ref で reset する)
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const trimmedName = name.trim();
+  const nameValid =
+    trimmedName.length >= 1 && trimmedName.length <= FACE_TYPE_NAME_MAX_LENGTH;
+  const imageExtValid = image != null && FACE_TYPE_IMAGE_EXT_PATTERN.test(image.name);
+  const imageSizeValid =
+    image != null && image.size > 0 && image.size <= FACE_TYPE_IMAGE_MAX_BYTES;
+  const imageValid = image != null && imageExtValid && imageSizeValid;
+  const submittable = !mutation.isPending && nameValid && imageValid;
+
+  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0] ?? null;
+    setImage(file);
+  }
+
+  function submit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!submittable || image == null) return;
+    mutation.mutate(
+      { faceTypeName: trimmedName, image },
+      {
+        onSuccess: () => {
+          setName("");
+          setImage(null);
+          if (fileInputRef.current) fileInputRef.current.value = "";
+        },
+      },
+    );
+  }
+
+  return (
+    <form onSubmit={submit} className="space-y-2 border-t border-slate-700/40 pt-3">
+      <p className="text-xs text-slate-400">表情差分追加</p>
+      <ul className="text-xs text-slate-500 list-disc pl-4 space-y-0.5">
+        <li>表情差分名は 1〜5 文字。</li>
+        <li>画像は 60x60px で表示されるため 60 の倍数解像度推奨。</li>
+        <li>100KB を超える画像はアップロードできません。</li>
+        <li>対応形式: png / jpg / jpeg / gif / webp。</li>
+      </ul>
+      <div className="grid grid-cols-[1fr_auto] gap-2 items-end">
+        <Field label="表情差分名 (1-5 文字)">
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            maxLength={FACE_TYPE_NAME_MAX_LENGTH}
+            className={inputClass}
+            placeholder="例: 笑顔"
+            disabled={mutation.isPending}
+          />
+        </Field>
+        <Field label="画像">
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={FACE_TYPE_IMAGE_ACCEPT}
+            onChange={onFileChange}
+            disabled={mutation.isPending}
+            className="text-xs text-slate-200 file:mr-2 file:rounded file:border-0 file:bg-slate-700 file:px-2 file:py-1 file:text-slate-100 hover:file:bg-slate-600 disabled:opacity-50"
+          />
+        </Field>
+      </div>
+      {image != null && !imageValid && (
+        <p className="text-xs text-rose-300">
+          {!imageExtValid
+            ? "対応形式は png / jpg / jpeg / gif / webp のみです"
+            : image.size === 0
+              ? "選択された画像が空です"
+              : "画像サイズは 100KB 以下にしてください"}
+        </p>
       )}
       <div className="flex items-center gap-3">
         <button
@@ -261,7 +366,7 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
           disabled={!submittable}
           className={primaryButtonClass}
         >
-          {mutation.isPending ? "送信中..." : "表情差分を更新"}
+          {mutation.isPending ? "送信中..." : "表情差分を追加"}
         </button>
         {mutation.isError && (
           <span className="text-xs text-rose-300">{mutation.error.message}</span>

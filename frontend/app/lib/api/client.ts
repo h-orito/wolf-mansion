@@ -11,7 +11,15 @@ export type ApiFetch = (path: string, init?: RequestInit) => Promise<Response>;
 /** ヘッダのマージ + Body 付きリクエストにのみ Content-Type を付与する共通処理 */
 function mergeHeaders(init: RequestInit | undefined): Record<string, string> {
   const headers: Record<string, string> = { ...(init?.headers as Record<string, string> | undefined ?? {}) };
-  if (init?.body != null && headers["Content-Type"] == null && headers["content-type"] == null) {
+  // FormData の場合は boundary 付き multipart/form-data を fetch 側に自動付与させるため
+  // Content-Type を手動でセットしない。
+  const isFormData = typeof FormData !== "undefined" && init?.body instanceof FormData;
+  if (
+    init?.body != null &&
+    !isFormData &&
+    headers["Content-Type"] == null &&
+    headers["content-type"] == null
+  ) {
     headers["Content-Type"] = "application/json";
   }
   return headers;
