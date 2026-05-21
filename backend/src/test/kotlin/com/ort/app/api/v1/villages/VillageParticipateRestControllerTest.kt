@@ -111,7 +111,7 @@ class VillageParticipateRestControllerTest {
     }
 
     @Test
-    fun `POST participate オリジナルキャラチップ村は 501 Not Implemented`() {
+    fun `POST participate オリジナルキャラチップ村に JSON 版を叩くと 400`() {
         val original = createPrologueVillage().let { v ->
             v.copy(
                 id = 3,
@@ -126,12 +126,14 @@ class VillageParticipateRestControllerTest {
             "charaShortName" to "太",
             "joinMessage" to "よろしく",
         )
+        // 旧仕様では 501 を返していたが、Step 8i で multipart 版 endpoint を追加したため
+        // 「JSON 版に対しオリジナル村」のケースは 400 (multipart endpoint を使えという案内) に変更
         mockMvc.perform(
             post("/api/v1/villages/3/participate")
                 .with(authed())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(body))
-        ).andExpect(status().isNotImplemented)
+        ).andExpect(status().isBadRequest)
     }
 
     @Test

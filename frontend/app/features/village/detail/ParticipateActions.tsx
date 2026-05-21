@@ -18,8 +18,8 @@ import type {
  * - 未参加 (myself=null): 入村フォーム (キャラ選択 / 希望役職 / メッセージ / 入村パスワード / 見学トグル)
  * - 参加中: 「参加/見学切替」「希望役職変更」「退村」アクション
  *
- * オリジナルキャラチップ村 (`isOriginalCharachip=true`) は multipart 入村 endpoint 未実装のため、
- * 入村 UI は出さず案内テキストのみ表示する。
+ * オリジナルキャラチップ村 (`isOriginalCharachip=true`) では、公式キャラ一覧の代わりに
+ * キャラ名 (必須) + キャラ画像アップロードを受け付け、`postParticipateOriginal` (multipart) を叩く。
  */
 export function ParticipateActions({
   village,
@@ -42,11 +42,11 @@ export function ParticipateActions({
 
 function ParticipateForm({ village }: { village: VillageView }) {
   const { settings, requestableSkills } = village;
+  const isOriginal = settings.isOriginalCharachip;
 
-  // hooks のルール上、early return より前にすべての hook を呼び出す必要がある。
-  // オリジナルキャラチップ村ではキャラ一覧 fetch を発行しない (空配列)。
+  // オリジナル村ではキャラ一覧 fetch を発行しない (空配列)。
   // 通常村は複数キャラチップを持つことがあるので、全 ID に対して並列クエリして結合する。
-  const charachipIds = settings.isOriginalCharachip ? [] : settings.charachipIds;
+  const charachipIds = isOriginal ? [] : settings.charachipIds;
   const charasQuery = useSelectableCharasQuery(village.id, charachipIds);
 
   const mutation = useParticipateMutation(village.id);
@@ -54,21 +54,12 @@ function ParticipateForm({ village }: { village: VillageView }) {
   const [charaId, setCharaId] = useState<number | null>(null);
   const [charaName, setCharaName] = useState("");
   const [charaShortName, setCharaShortName] = useState("");
+  const [charaImage, setCharaImage] = useState<File | null>(null);
   const [joinMessage, setJoinMessage] = useState("");
   const [joinPassword, setJoinPassword] = useState("");
   const [spectator, setSpectator] = useState(false);
   const [requestedSkill, setRequestedSkill] = useState<string>("");
   const [secondRequestedSkill, setSecondRequestedSkill] = useState<string>("");
-
-  if (settings.isOriginalCharachip) {
-    return (
-      <Panel title="入村">
-        <p className="text-slate-400 text-sm">
-          オリジナルキャラチップ村への入村は現在この画面では未対応です (旧画面 / API 拡張 予定)。
-        </p>
-      </Panel>
-    );
-  }
 
   function onSelectChara(id: number) {
     setCharaId(id);
@@ -81,10 +72,17 @@ function ParticipateForm({ village }: { village: VillageView }) {
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (charaId == null) return;
     if (!charaName.trim() || !charaShortName.trim() || !joinMessage.trim()) return;
-    mutation.mutate({
-      charaId,
+    if (isOriginal) {
+      // オリジナル村は charaId 不要、画像必須
+      if (!charaImage) return;
+    } else {
+      // 公式キャラチップ村は charaId 必須
+      if (charaId == null) return;
+    }
+    const body = {
+      // オリジナル村では charaId 未送信 (multipart endpoint で動的に chara を作る)
+      charaId: isOriginal ? undefined : (charaId ?? undefined),
       charaName: charaName.trim(),
       charaShortName: charaShortName.trim(),
       joinMessage: joinMessage.trim(),
@@ -94,6 +92,10 @@ function ParticipateForm({ village }: { village: VillageView }) {
         settings.isSkillRequestAvailable && secondRequestedSkill ? secondRequestedSkill : undefined,
       joinPassword: settings.joinPasswordRequired ? joinPassword : undefined,
       spectator,
+    };
+    mutation.mutate({
+      body,
+      charaImage: isOriginal && charaImage ? charaImage : undefined,
     });
   }
 
@@ -102,7 +104,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
   // backend の MessageContent.assertMessageRestrict はプロローグでは early return するため、
   // 入村メッセージの長さ上限を frontend で吸収する (旧 Thymeleaf も同様に 400 文字制限)。
   const submittable =
-    charaId != null &&
+    (isOriginal ? charaImage != null : charaId != null) &&
     charaName.trim().length > 0 &&
     charaShortName.trim().length === 1 &&
     joinMessage.trim().length > 0 &&
@@ -112,15 +114,34 @@ function ParticipateForm({ village }: { village: VillageView }) {
   return (
     <Panel title="入村">
       <form onSubmit={submit} className="space-y-3">
-        <Field label="キャラ">
-          {isLoadingCharas ? (
-            <p className="text-slate-400 text-sm">読み込み中...</p>
-          ) : charas.length === 0 ? (
-            <p className="text-slate-400 text-sm">選択可能なキャラがいません</p>
-          ) : (
-            <CharaGrid charas={charas} selectedId={charaId} onSelect={onSelectChara} />
-          )}
-        </Field>
+        {!isOriginal && (
+          <Field label="キャラ">
+            {isLoadingCharas ? (
+              <p className="text-slate-400 text-sm">読み込み中...</p>
+            ) : charas.length === 0 ? (
+              <p className="text-slate-400 text-sm">選択可能なキャラがいません</p>
+            ) : (
+              <CharaGrid charas={charas} selectedId={charaId} onSelect={onSelectChara} />
+            )}
+          </Field>
+        )}
+
+        {isOriginal && (
+          <Field label="キャラ画像 (1〜100KB、png/jpg/jpeg/gif/webp)">
+            <input
+              type="file"
+              accept=".png,.jpg,.jpeg,.gif,.webp,image/png,image/jpeg,image/gif,image/webp"
+              onChange={(e) => setCharaImage(e.target.files?.[0] ?? null)}
+              className={inputClass}
+              disabled={mutation.isPending}
+            />
+            {charaImage && (
+              <p className="text-xs text-slate-400 mt-1">
+                {charaImage.name} ({Math.round(charaImage.size / 1024)} KB)
+              </p>
+            )}
+          </Field>
+        )}
 
         <Field label="表示名">
           <input

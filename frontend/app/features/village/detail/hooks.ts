@@ -28,6 +28,7 @@ import {
   postFaceType,
   postKick,
   postParticipate,
+  postParticipateOriginal,
   postSay,
   postShortenEpilogue,
   postSwitchParticipate,
@@ -171,12 +172,29 @@ export function useSelectableCharasQuery(
   return { data, isLoading, isError, error: errorResult?.error ?? undefined };
 }
 
+/**
+ * 入村 mutation。非オリジナル / オリジナルキャラチップ村両対応。
+ *
+ * `charaImage` が渡されたら multipart endpoint、そうでなければ JSON endpoint。
+ * 呼び出し側で村の `isOriginalCharachip` と image の有無を整合させる。
+ */
 export function useParticipateMutation(
   villageId: number,
-): UseMutationResult<void, Error, VillageParticipateBody> {
+): UseMutationResult<
+  void,
+  Error,
+  { body: VillageParticipateBody; charaImage?: File }
+> {
   const queryClient = useQueryClient();
-  return useMutation<void, Error, VillageParticipateBody>({
-    mutationFn: (body) => postParticipate(villageId, body),
+  return useMutation<
+    void,
+    Error,
+    { body: VillageParticipateBody; charaImage?: File }
+  >({
+    mutationFn: ({ body, charaImage }) =>
+      charaImage
+        ? postParticipateOriginal(villageId, body, charaImage)
+        : postParticipate(villageId, body),
     onSuccess: () => invalidateVillage(queryClient, villageId),
   });
 }

@@ -8,15 +8,15 @@ import jakarta.validation.constraints.Size
 /**
  * 入村リクエスト。
  *
- * 現状はキャラチップ制の村のみサポート。オリジナルキャラチップ
- * (`village.setting.chara.isOriginalCharachip == true`) で `charaImageFile` を伴う
- * 入村フローは別 endpoint (multipart) として将来追加する想定で、本 DTO では未対応。
+ * 非オリジナル村 (公式キャラチップ) は JSON endpoint `POST /participate` で `charaId` 必須。
+ * オリジナルキャラチップ村は multipart endpoint `POST /participate` (`consumes=multipart/form-data`)
+ * で `body` (この DTO の JSON) と `charaImage` (画像) を送る。multipart 経路では `charaId=null` で
+ * 構わない (chara は backend で動的に作成される)。
  */
 @Schema(description = "入村リクエスト")
 data class VillageParticipateBody(
-    @field:NotNull
-    @field:Schema(description = "選択するキャラ ID")
-    val charaId: Int,
+    @field:Schema(description = "選択するキャラ ID (非オリジナル村で必須、オリジナル村では null)")
+    val charaId: Int? = null,
     @field:NotNull
     @field:NotBlank
     @field:Size(min = 1, max = 40)
