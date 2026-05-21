@@ -4,9 +4,6 @@ spring:
     username: ${WOLF_MANSION_DB_USERNAME}
     password: ${WOLF_MANSION_DB_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
-  thymeleaf:
-    cache: false
-    mode: HTML
   messages:
     basename: messages
     cache-seconds: -1

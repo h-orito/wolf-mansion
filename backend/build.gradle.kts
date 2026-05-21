@@ -33,13 +33,9 @@ dependencies {
     implementation("com.nimbusds:nimbus-jose-jwt:9.40")
     // OpenAPI / Swagger UI
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.13")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    // thymeleaf
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0")
     // dbflute, mysql
     implementation("org.dbflute:dbflute-runtime:1.3.1")
     implementation("com.mysql:mysql-connector-j")

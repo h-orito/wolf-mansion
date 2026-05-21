@@ -1,4 +1,4 @@
-package com.ort.app.api.view
+package com.ort.app.api.legacy
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.ort.app.domain.model.player.Players
