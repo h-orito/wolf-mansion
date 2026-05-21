@@ -1,4 +1,4 @@
-package com.ort.app.api.view
+package com.ort.app.api.legacy
 
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.village.Village

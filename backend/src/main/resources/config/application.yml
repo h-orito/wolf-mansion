@@ -4,9 +4,6 @@ spring:
     username: wmansion
     password: wmans10n
     driverClassName: com.mysql.cj.jdbc.Driver
-  thymeleaf:
-    cache: false
-    mode: HTML
   messages:
     basename: messages
     cache-seconds: -1
