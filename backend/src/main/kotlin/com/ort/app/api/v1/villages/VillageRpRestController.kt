@@ -5,6 +5,7 @@ import com.ort.app.api.request.village.VillageFaceTypeModifyBody
 import com.ort.app.api.request.village.VillageMemoBody
 import com.ort.app.api.response.myself.MyselfFaceTypeView
 import com.ort.app.api.response.myself.MyselfFaceTypesView
+import com.ort.app.api.v1.support.ImageUploadValidator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.VillageService
@@ -50,11 +51,6 @@ class VillageRpRestController(
     private val charaService: CharaService,
     private val villageCoordinator: VillageCoordinator,
 ) {
-
-    private companion object {
-        /** 許可する画像拡張子 (小文字比較)。パストラバーサル防御 + 想定外フォーマットの拒否。 */
-        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
-    }
 
     @PutMapping("/{villageId}/rp/name")
     @Operation(summary = "キャラ名変更")
@@ -153,26 +149,10 @@ class VillageRpRestController(
         if (trimmedName.isEmpty() || trimmedName.length > 5) {
             throw WolfMansionBusinessException("表情差分名は1〜5文字で入力してください")
         }
-        // 旧 `VillageFaceTypeFormValidator.validateChara` と同条件 (1〜100,000 byte)
-        if (image.size <= 0L || image.size > 100_000L) {
-            throw WolfMansionBusinessException("画像サイズは1〜100KBで指定してください")
-        }
-        // `CharaDataSource.uploadCharaImage` は `originalFilename.lastIndexOf('.')` で
-        // 拡張子を取り出すため、originalFilename が null か `.` を含まないと NPE /
-        // StringIndexOutOfBoundsException で 500 になる (旧 Thymeleaf endpoint も同じ穴を持つ
-        // が、本 endpoint 追加で曝露が広がるため境界側で先回り検証する)。
-        // `lastIndexOf('.') >= 1` で `.hidden` のようなドット始まりファイル
-        // (ext がファイル名全体になってしまう) を弾く。さらに ext は
-        // 許可済み画像拡張子 (png / jpg / jpeg / gif / webp) のホワイトリストでのみ許可。
-        // (`x.sh/../../etc/passwd` 等のパストラバーサル + 想定外フォーマットの拒否)
-        val filename = image.originalFilename
-        val dotIndex = filename?.lastIndexOf('.') ?: -1
-        if (filename == null || dotIndex < 1 ||
-            filename.substring(dotIndex).lowercase() !in ALLOWED_IMAGE_EXTS) {
-            throw WolfMansionBusinessException(
-                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
-            )
-        }
+        // サイズ / 拡張子は他のアップロード endpoint と共通の ImageUploadValidator で検証する。
+        // `CharaDataSource.uploadCharaImage` 側でも拡張子を切り出すが、境界 (controller) で
+        // 先回り検証してエラーメッセージを統一する。
+        ImageUploadValidator.validate(image)
         charaService.registerOriginalCharaImage(
             village.setting.chara.charachipIds.first(),
             myself.charaId,

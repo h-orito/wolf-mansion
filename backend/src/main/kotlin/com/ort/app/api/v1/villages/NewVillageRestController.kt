@@ -2,6 +2,7 @@ package com.ort.app.api.v1.villages
 
 import com.ort.app.api.request.village.NewVillageCreateBody
 import com.ort.app.api.response.village.NewVillageFormView
+import com.ort.app.api.v1.support.ImageUploadValidator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -113,7 +114,7 @@ class NewVillageRestController(
                 "shouldOriginalImage=true を指定してください (非オリジナル村は JSON endpoint を使用)。",
             )
         }
-        validateDummyCharaImage(dummyCharaImage)
+        ImageUploadValidator.validate(dummyCharaImage)
         villageCoordinator.assertCreateVillage(
             player, body.personMaxNum!!, charachips = emptyCharachips(), isOriginal = true,
         )
@@ -167,32 +168,7 @@ class NewVillageRestController(
         return player
     }
 
-    /**
-     * オリジナルキャラチップ村のダミーキャラ画像を検証する。
-     * 旧 `NewVillageFormValidator.validateDummyChara` のサイズ制限 (1〜100KB) を踏襲。
-     * 拡張子は `VillageRpRestController.addFaceType` と同じホワイトリストで弾く
-     * (パストラバーサル + 想定外フォーマット防御)。
-     */
-    private fun validateDummyCharaImage(image: MultipartFile) {
-        if (image.size <= 0L || image.size > 100_000L) {
-            throw WolfMansionBusinessException("画像サイズは1〜100KBで指定してください")
-        }
-        val filename = image.originalFilename
-        val dotIndex = filename?.lastIndexOf('.') ?: -1
-        if (filename == null || dotIndex < 1 ||
-            filename.substring(dotIndex).lowercase() !in ALLOWED_IMAGE_EXTS
-        ) {
-            throw WolfMansionBusinessException(
-                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
-            )
-        }
-    }
-
     private fun emptyCharachips(): Charachips = Charachips(list = emptyList())
-
-    private companion object {
-        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
-    }
 
     @Schema(description = "作成された村の識別子")
     data class CreatedVillageView(

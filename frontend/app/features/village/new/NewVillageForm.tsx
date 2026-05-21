@@ -255,14 +255,15 @@ function CharaSection({
   }
 
   function toggleOriginal(checked: boolean) {
-    // オリジナル切替時はキャラチップ / ダミーキャラ選択をリセット (相互に意味を持たないため)
+    // オリジナル ⇄ 公式切替時は反対側の入力をリセット (相互に意味を持たないため)。
+    // 古い `dummyCharaImage` ファイルが残ったまま再切替で混入しないよう、どちらの方向でもリセット。
     setBody((s) => ({
       ...s,
       shouldOriginalImage: checked,
       characterSetId: checked ? [] : s.characterSetId,
       dummyCharaId: checked ? null : s.dummyCharaId,
     }));
-    if (!checked) setDummyCharaImage(null);
+    setDummyCharaImage(null);
   }
 
   return (
@@ -331,7 +332,7 @@ function CharaSection({
       )}
 
       {isOriginal && (
-        <Field label="ダミーキャラ画像 (1〜100KB、png/jpg/jpeg/gif/webp)">
+        <Field label="ダミーキャラ画像 (最大 100,000 byte、png/jpg/jpeg/gif/webp)">
           <input
             type="file"
             accept=".png,.jpg,.jpeg,.gif,.webp,image/png,image/jpeg,image/gif,image/webp"

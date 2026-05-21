@@ -127,7 +127,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
         )}
 
         {isOriginal && (
-          <Field label="キャラ画像 (1〜100KB、png/jpg/jpeg/gif/webp)">
+          <Field label="キャラ画像 (最大 100,000 byte、png/jpg/jpeg/gif/webp)">
             <input
               type="file"
               accept=".png,.jpg,.jpeg,.gif,.webp,image/png,image/jpeg,image/gif,image/webp"

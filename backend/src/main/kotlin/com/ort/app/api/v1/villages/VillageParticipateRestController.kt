@@ -3,6 +3,7 @@ package com.ort.app.api.v1.villages
 import com.ort.app.api.request.village.VillageChangeRequestSkillBody
 import com.ort.app.api.request.village.VillageParticipateBody
 import com.ort.app.api.response.chara.CharaView
+import com.ort.app.api.v1.support.ImageUploadValidator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.domain.model.skill.Skill
@@ -134,7 +135,7 @@ class VillageParticipateRestController(
                 "オリジナルキャラチップ村ではないため multipart endpoint は使用できません。",
             )
         }
-        validateCharaImage(charaImage)
+        ImageUploadValidator.validate(charaImage)
         val first = resolveSkill(body.requestedSkill)
         val second = resolveSkill(body.secondRequestedSkill)
         villageCoordinator.participate(
@@ -200,34 +201,9 @@ class VillageParticipateRestController(
         return villageCoordinator.findSelectableCharaList(villageId, charachip.id).map { CharaView(it) }
     }
 
-    /**
-     * オリジナルキャラチップ村入村時のキャラ画像を検証する。
-     * 旧 `VillageParticipateFormValidator.validateChara` のサイズ制限 (1〜100KB) を踏襲。
-     * 拡張子は `NewVillageRestController.validateDummyCharaImage` / `VillageRpRestController.addFaceType` と
-     * 同じホワイトリストで弾く。
-     */
-    private fun validateCharaImage(image: MultipartFile) {
-        if (image.size <= 0L || image.size > 100_000L) {
-            throw WolfMansionBusinessException("画像サイズは1〜100KBで指定してください")
-        }
-        val filename = image.originalFilename
-        val dotIndex = filename?.lastIndexOf('.') ?: -1
-        if (filename == null || dotIndex < 1 ||
-            filename.substring(dotIndex).lowercase() !in ALLOWED_IMAGE_EXTS
-        ) {
-            throw WolfMansionBusinessException(
-                "画像ファイルの拡張子は ${ALLOWED_IMAGE_EXTS.joinToString(" / ")} のみ対応しています"
-            )
-        }
-    }
-
     private fun resolveSkill(code: String?): Skill {
         if (code.isNullOrBlank()) return Skill(CDef.Skill.おまかせ)
         return CDef.Skill.codeOf(code)?.let { Skill(it) }
             ?: throw WolfMansionBusinessException("skill not found. code=$code")
-    }
-
-    private companion object {
-        val ALLOWED_IMAGE_EXTS: Set<String> = setOf(".png", ".jpg", ".jpeg", ".gif", ".webp")
     }
 }
