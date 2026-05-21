@@ -19,7 +19,7 @@ import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageQuery
-import com.ort.app.domain.model.player.Player
+import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.SpoilerDomainService
@@ -62,7 +62,8 @@ class VillageDetailRestController(
         @PathVariable villageId: Int,
     ): VillageView {
         val ctx = loadContext(villageId)
-        val participants = buildParticipants(ctx)
+        val players = playerService.findPlayers(ctx.village.id)
+        val participants = buildParticipants(ctx, players)
         // 旧 Thymeleaf 系 (`CreatorController`) と新 REST creator endpoints の認可判定
         // (`VillageContextLoader.loadVillageAndRequireCreator`) はどちらも
         // `CreatorCoordinator.isCreator` を使う = Player ID=1 (管理者) は全村 creator 扱い。
@@ -100,7 +101,8 @@ class VillageDetailRestController(
             isPaging = false,
             isDispLatest = true,
         )
-        val messages = messageService.findMeesages(ctx.village, ctx.myself, ctx.player, query)
+        val viewerPlayer = ctx.user?.let { playerService.findPlayer(it.username) }
+        val messages = messageService.findMeesages(ctx.village, ctx.myself, viewerPlayer, query)
         return MessagesView(messages)
     }
 
@@ -150,9 +152,8 @@ class VillageDetailRestController(
     ): ResponseEntity<MyselfView> {
         val ctx = loadContext(villageId)
         val myself = ctx.myself ?: return ResponseEntity.noContent().build()
-        val situation = villageCoordinator.findParticipantSituation(
+        val situation = villageCoordinator.findMyselfActionSituation(
             village = ctx.village,
-            username = ctx.user?.username,
             myself = myself,
             votes = voteService.findVotes(ctx.village.id),
             abilities = abilityService.findAbilities(ctx.village.id),
@@ -163,22 +164,29 @@ class VillageDetailRestController(
         return ResponseEntity.ok(MyselfView(myself, situation))
     }
 
+    /**
+     * 4 endpoint で共通して必要な最小コンテキストだけを構築する。
+     * 全 endpoint で必須でない以下は呼び出し側で必要なときだけ fetch する:
+     * - `playerService.findPlayer(username)` (viewer の Player、`messages` のみ)
+     * - `playerService.findPlayers(villageId)` (村の全プレイヤー、`get`/`buildParticipants` のみ)
+     */
     private fun loadContext(villageId: Int): VillageDetailContext {
         val village = villageService.findVillage(villageId, excludeGone = false)
             ?: throw WolfMansionRecordNotFoundException("village not found. id=$villageId")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val player = user?.let { playerService.findPlayer(it.username) }
         val myself = user?.let { villageService.findVillageParticipant(village.id, it.username) }
         val charachips = village.setting.chara.let {
             charaService.findCharachips(it.charachipIds, it.isOriginalCharachip)
         }
-        val players = playerService.findPlayers(village.id)
-        return VillageDetailContext(village, user, player, myself, charachips, players)
+        return VillageDetailContext(village, user, myself, charachips)
     }
 
-    private fun buildParticipants(ctx: VillageDetailContext): VillageParticipantsView {
+    private fun buildParticipants(
+        ctx: VillageDetailContext,
+        players: Players,
+    ): VillageParticipantsView {
         val charaById = ctx.charachips.charas().list.associateBy { it.id }
-        val playerById = ctx.players.list.associateBy { it.id }
+        val playerById = players.list.associateBy { it.id }
         val isSpoilerOpen = spoilerDomainService.isViewableSpoilerContent(ctx.village, ctx.myself)
         val sorted = ctx.village.allParticipants().sortedByRoomNumber().list
         val views = sorted.mapNotNull { participant ->
@@ -236,9 +244,7 @@ class VillageDetailRestController(
     private data class VillageDetailContext(
         val village: Village,
         val user: com.ort.app.fw.security.UserInfo?,
-        val player: Player?,
         val myself: VillageParticipant?,
         val charachips: Charachips,
-        val players: com.ort.app.domain.model.player.Players,
     )
 }

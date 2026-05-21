@@ -1,7 +1,12 @@
 package com.ort.app.api.response.myself
 
 import com.ort.app.api.response.skill.SkillView
+import com.ort.app.domain.model.situation.MyselfActionSituation
 import com.ort.app.domain.model.situation.ParticipantSituation
+import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
+import com.ort.app.domain.model.situation.participant.ParticipantCommitSituation
+import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
+import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -47,6 +52,28 @@ data class MyselfView(
     val rp: MyselfRpView,
 ) {
     constructor(myself: VillageParticipant, situation: ParticipantSituation) : this(
+        myself = myself,
+        commitSituation = situation.commit,
+        voteSituation = situation.vote,
+        abilitySituation = situation.ability,
+        rpSituation = situation.rp,
+    )
+
+    constructor(myself: VillageParticipant, situation: MyselfActionSituation) : this(
+        myself = myself,
+        commitSituation = situation.commit,
+        voteSituation = situation.vote,
+        abilitySituation = situation.ability,
+        rpSituation = situation.rp,
+    )
+
+    private constructor(
+        myself: VillageParticipant,
+        commitSituation: ParticipantCommitSituation,
+        voteSituation: ParticipantVoteSituation,
+        abilitySituation: ParticipantAbilitySituation,
+        rpSituation: ParticipantRpSituation,
+    ) : this(
         id = myself.id,
         charaId = myself.charaId,
         name = myself.name(),
@@ -59,9 +86,9 @@ data class MyselfView(
         isWin = myself.isWin,
         skill = myself.skill?.let { SkillView(it) },
         campCode = myself.camp?.code,
-        commit = MyselfCommitView(situation.commit),
-        vote = MyselfVoteView(situation.vote),
-        ability = MyselfAbilityView(situation.ability),
-        rp = MyselfRpView(situation.rp),
+        commit = MyselfCommitView(commitSituation),
+        vote = MyselfVoteView(voteSituation),
+        ability = MyselfAbilityView(abilitySituation),
+        rp = MyselfRpView(rpSituation),
     )
 }
