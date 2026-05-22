@@ -28,6 +28,7 @@ pnpm exec playwright install chromium
 ## 実行
 
 ```bash
+cd e2e
 pnpm test          # ヘッドレス実行
 pnpm test:ui       # UI モード
 pnpm report        # 直近の HTML レポートを開く

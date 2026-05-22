@@ -10,5 +10,5 @@ test("トップから全村一覧へ遷移できる", async ({ page }) => {
 
   await page.getByRole("link", { name: "全村一覧" }).click();
 
-  await expect(page).toHaveURL(new RegExp(`${APP}/villages`));
+  await expect(page).toHaveURL(new RegExp(`${APP}/villages($|[?#])`));
 });
