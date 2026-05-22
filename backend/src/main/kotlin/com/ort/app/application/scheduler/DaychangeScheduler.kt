@@ -2,7 +2,6 @@ package com.ort.app.application.scheduler
 
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.domain.model.village.VillageStatus
 import org.slf4j.LoggerFactory
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
@@ -31,9 +30,9 @@ class DaychangeScheduler(
 
     @Scheduled(fixedDelayString = "\${app.daychange.interval-ms:60000}")
     fun changeDay() {
-        val villageIds = villageService.findVillages(
-            VillageQuery(statuses = VillageStatus.notFinishedStatusList.map { VillageStatus(it) })
-        ).list.map { it.id }
+        val villageIds = villageService.findVillageIds(
+            VillageStatus.notFinishedStatusList.map { VillageStatus(it) }
+        )
         // 1 村の日付更新失敗 (例外) が他村を巻き込まないよう、村ごとに隔離する。
         // changeDayIfNeeded 自体が @Transactional なのでロールバック境界も村単位。
         for (villageId in villageIds) {

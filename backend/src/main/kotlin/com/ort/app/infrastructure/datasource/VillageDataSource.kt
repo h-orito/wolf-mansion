@@ -37,6 +37,14 @@ class VillageDataSource(
         }.orElse(0)
     }
 
+    override fun findVillageIds(statusList: List<VillageStatus>): List<Int> {
+        return villageBhv.selectList { cb: VillageCB ->
+            cb.specify().columnVillageId()
+            cb.query().setVillageStatusCode_InScope_AsVillageStatus(statusList.map { it.toCdef() })
+            cb.query().addOrderBy_VillageId_Asc()
+        }.map { it.villageId }
+    }
+
     override fun findVillages(
         query: VillageQuery
     ): Villages {

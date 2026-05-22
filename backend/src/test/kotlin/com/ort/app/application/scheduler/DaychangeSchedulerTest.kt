@@ -2,7 +2,6 @@ package com.ort.app.application.scheduler
 
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.Villages
 import com.ort.app.domain.model.village.createPrologueVillage
 import com.ort.dbflute.allcommon.CDef
 import org.junit.jupiter.api.Test
@@ -20,7 +19,7 @@ class DaychangeSchedulerTest {
         val v1 = createPrologueVillage().copy(id = 1)
         val v2 = createPrologueVillage().copy(id = 2)
         val villageService = mock<VillageService> {
-            on { findVillages(any()) } doReturn Villages(listOf(v1, v2))
+            on { findVillageIds(any()) } doReturn listOf(1, 2)
             on { findVillage(1, false) } doReturn v1
             on { findVillage(2, false) } doReturn v2
         }
@@ -35,13 +34,13 @@ class DaychangeSchedulerTest {
     @Test
     fun `未終了ステータスのみを対象に村を取得する`() {
         val villageService = mock<VillageService> {
-            on { findVillages(any()) } doReturn Villages(emptyList())
+            on { findVillageIds(any()) } doReturn emptyList()
         }
 
         DaychangeScheduler(villageService, mock()).changeDay()
 
-        verify(villageService).findVillages(check { query ->
-            val statuses = query.statuses.map { it.toCdef() }.toSet()
+        verify(villageService).findVillageIds(check { statusList ->
+            val statuses = statusList.map { it.toCdef() }.toSet()
             require(
                 statuses == setOf(
                     CDef.VillageStatus.募集中,
@@ -59,7 +58,7 @@ class DaychangeSchedulerTest {
         val v1 = createPrologueVillage().copy(id = 1)
         val v2 = createPrologueVillage().copy(id = 2)
         val villageService = mock<VillageService> {
-            on { findVillages(any()) } doReturn Villages(listOf(v1, v2))
+            on { findVillageIds(any()) } doReturn listOf(1, 2)
             on { findVillage(1, false) } doReturn v1
             on { findVillage(2, false) } doReturn v2
         }

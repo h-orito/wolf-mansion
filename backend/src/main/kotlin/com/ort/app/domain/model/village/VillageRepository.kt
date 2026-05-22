@@ -14,6 +14,11 @@ interface VillageRepository {
         statusList: List<VillageStatus>
     ): Int
 
+    /** 指定ステータスの村 ID のみを取得する (フル hydration を避けた軽量クエリ)。 */
+    fun findVillageIds(
+        statusList: List<VillageStatus>
+    ): List<Int>
+
     fun findVillages(
         query: VillageQuery
     ): Villages
