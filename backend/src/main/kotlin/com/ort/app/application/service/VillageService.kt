@@ -23,6 +23,10 @@ class VillageService(
         statusList: List<VillageStatus>
     ): Int = villageRepository.findLatestVillageId(statusList)
 
+    fun findVillageIds(
+        statusList: List<VillageStatus>
+    ): List<Int> = villageRepository.findVillageIds(statusList)
+
     fun findVillages(
         query: VillageQuery
     ): Villages = villageRepository.findVillages(query)

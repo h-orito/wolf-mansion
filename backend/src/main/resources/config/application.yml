@@ -37,6 +37,10 @@ app:
   original-image:
     basedir: /var/www/html/wmansion/original
     baseurl: /wmansion/original
+  daychange:
+    # 日付更新スケジューラの実行間隔 (ミリ秒)
+    interval-ms: 60000
+    # enabled は未指定なら有効。テスト時のみ src/test/resources/application.properties で false
   cors:
     allowed-origins: http://localhost:5173,http://localhost:3000
   cookie:
