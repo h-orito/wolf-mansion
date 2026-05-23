@@ -114,15 +114,22 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const isViewingLatestDay = selectedDay === village.time.latestDay;
 
   const latestDay = village.time.latestDay;
+  // setParams の updater 形式で前回値を取り、`params` を依存配列から外す
+  // (URLSearchParams は毎 render 新インスタンスなので依存に入れると memo が無効化される)。
   const selectDay = useCallback(
     (day: number) => {
-      // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
-      const next = new URLSearchParams(params);
-      if (day === latestDay) next.delete("day");
-      else next.set("day", String(day));
-      setParams(next, { replace: true });
+      setParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
+          if (day === latestDay) next.delete("day");
+          else next.set("day", String(day));
+          return next;
+        },
+        { replace: true },
+      );
     },
-    [params, setParams, latestDay],
+    [setParams, latestDay],
   );
 
   return (
@@ -262,7 +269,8 @@ function DayTabs({
 }) {
   if (days.length === 0) return null;
   // 単一の MessagesPanel に対する切替なので tablist パターンを採用 (role=tab + aria-selected)。
-  // 12b 以降で role=tabpanel を加える際にこのまま延長できる。
+  // 矢印キーナビ (roving tabindex) は実装しないため tabIndex は全タブ 0 のまま
+  // (= Tab キーで巡回できる)。12b 以降で role=tabpanel + 矢印キー対応をまとめて入れる。
   return (
     <div
       role="tablist"
@@ -277,7 +285,6 @@ function DayTabs({
             type="button"
             role="tab"
             aria-selected={active}
-            tabIndex={active ? 0 : -1}
             onClick={() => onSelect(day)}
             className={
               "rounded px-2.5 py-1 text-xs font-mono transition " +
