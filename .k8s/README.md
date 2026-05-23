@@ -24,6 +24,15 @@ apply 前に、自クラスタの構成に合わせて以下を確認・修正�
 
 - `ingress.yaml` の `ingressClassName` — ここでは `nginx` 想定。クラスタの ingress
   controller が異なる場合は変更する。
+- **TLS**: `ingress.yaml` には TLS セクションを置いていない。`wolfort.dev` の HTTPS は
+  cert-manager 等クラスタ側の仕組みで自動付与される前提。手動で証明書を当てる場合は
+  `spec.tls` を追加すること。
+- **GHCR パッケージの公開設定**: 新規 push される `wolf-mansion-api` / `wolf-mansion-frontend`
+  パッケージは GHCR のデフォルトで **private**。
+  - 単純なのは GitHub UI で package を **public** に変更すること。
+  - private のまま使う場合は、PAT (`read:packages` スコープ) で `docker-registry` 型 Secret
+    (`ghcr-pull-secret` 等) を作成し、各 Deployment の `imagePullSecrets`
+    (manifest 内にコメントアウトされた箇所あり) を有効化する。
 - `api-configmap.yaml` の `MYSQL_HOST` — クラスタ内 MySQL の Service 名に合わせる。
 - `api-configmap.yaml` の `ALLOWED_ORIGINS` — 公開ドメインに合わせる。
 - 各 Deployment の `resources` — 初期値なので実トラフィックに合わせて調整する。

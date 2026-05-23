@@ -9,4 +9,4 @@ data:
   # クラスタ内 MySQL のホスト名。実際のサービス名に合わせて調整すること。
   MYSQL_HOST: "mysql-svc.default.svc.cluster.local"
   WOLF_MANSION_DB_NAME: "werewolf_mansiondb"
-  WOLF_MANSION_DB_USERNAME: "wmansion"
+  # DB ユーザー名は Secret 側で管理する (nit: 認証情報の一部として一緒に扱う)

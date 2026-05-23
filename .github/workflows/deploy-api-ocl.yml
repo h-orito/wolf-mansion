@@ -25,16 +25,16 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Build image with Jib
-        working-directory: backend
-        run: ./gradlew jibDockerBuild
-
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image with Jib
+        working-directory: backend
+        run: ./gradlew jibDockerBuild
 
       - name: Push image
         run: docker push ghcr.io/h-orito/wolf-mansion-api

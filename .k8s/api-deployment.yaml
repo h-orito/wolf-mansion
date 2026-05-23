@@ -17,6 +17,10 @@ spec:
       labels:
         app: wolf-mansion-api
     spec:
+      # GHCR package を private 公開のまま運用する場合は、PAT 等で imagePullSecret を作成し
+      # ここで参照する。新規 package のデフォルトは private なので注意 (README 参照)。
+      # imagePullSecrets:
+      #   - name: ghcr-pull-secret
       containers:
         - name: wolf-mansion-api
           image: ghcr.io/h-orito/wolf-mansion-api:latest

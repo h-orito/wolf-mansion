@@ -31,6 +31,8 @@ jobs:
         working-directory: frontend
         run: pnpm install --frozen-lockfile --ignore-scripts
 
+      # 監査対象は --prod で本番依存に絞る (dev 依存は本番イメージに含まれないため)。
+      # --ignore-scripts は postinstall を抑止しているだけで dev 依存自体は install 済み。
       - name: Supply chain audit
         working-directory: frontend
         run: pnpm audit --prod --audit-level high
