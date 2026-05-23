@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wolf-mansion-api-config
+  namespace: default
+data:
+  # CORS ホワイトリスト (カンマ区切り)。cutover 後の本番ドメインに合わせること。
+  ALLOWED_ORIGINS: "https://wolfort.dev"
+  # クラスタ内 MySQL のホスト名。実際のサービス名に合わせて調整すること。
+  MYSQL_HOST: "mysql-svc.default.svc.cluster.local"
+  WOLF_MANSION_DB_NAME: "werewolf_mansiondb"
+  WOLF_MANSION_DB_USERNAME: "wmansion"

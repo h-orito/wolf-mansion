@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wolf-mansion-frontend
+  namespace: default
+  labels:
+    app: wolf-mansion-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wolf-mansion-frontend
+  template:
+    metadata:
+      labels:
+        app: wolf-mansion-frontend
+    spec:
+      containers:
+        - name: wolf-mansion-frontend
+          image: ghcr.io/h-orito/wolf-mansion-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: NODE_ENV
+              value: "production"
+          envFrom:
+            - configMapRef:
+                name: wolf-mansion-frontend-config
+          readinessProbe:
+            httpGet:
+              # SSR が basename /wolf-mansion 配下でトップを返す。
+              path: /wolf-mansion/
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /wolf-mansion/
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          resources:
+            # 初期値。実トラフィックに合わせて調整すること。
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"

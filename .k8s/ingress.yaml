@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wolf-mansion
+  namespace: default
+  annotations:
+    # 画像アップロード等に備えてボディサイズ上限を緩める。必要に応じ調整。
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  # クラスタの ingress controller に合わせること (ここでは ingress-nginx を想定)。
+  ingressClassName: nginx
+  rules:
+    - host: wolfort.dev
+      http:
+        paths:
+          # パス書き換えはしない。backend は context-path /wolf-mansion-api、
+          # frontend は basename /wolf-mansion で自身の prefix 配下を配信する。
+          - path: /wolf-mansion-api
+            pathType: Prefix
+            backend:
+              service:
+                name: wolf-mansion-api-svc
+                port:
+                  number: 8081
+          - path: /wolf-mansion
+            pathType: Prefix
+            backend:
+              service:
+                name: wolf-mansion-frontend-svc
+                port:
+                  number: 3000

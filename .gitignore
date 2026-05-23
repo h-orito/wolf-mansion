@@ -36,3 +36,7 @@ backend/dbflute_wolf_mansiondb/log/*
 .reviews/
 .issues/
 .playwright-mcp/
+
+### k8s ###
+# 実値を含む Secret はコミットしない (secret.example.yaml はコミット対象)
+.k8s/secret.yaml

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wolf-mansion-frontend-config
+  namespace: default
+data:
+  # SSR loader が cluster-internal に API を呼ぶときの base URL。
+  # context-path (/wolf-mansion-api) まで含める。Service ポートは 8081。
+  API_BASE_URL: "http://wolf-mansion-api-svc:8081/wolf-mansion-api"

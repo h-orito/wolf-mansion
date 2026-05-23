@@ -1,13 +1,16 @@
-name: deploy_to_ocl
+name: deploy_api_to_ocl
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+    paths:
+      - 'backend/**'
+      - '.github/workflows/deploy-api-ocl.yml'
 
 jobs:
-  build:
+  build-api:
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
@@ -34,10 +37,10 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push image
-        run: docker push ghcr.io/h-orito/wolf-mansion
+        run: docker push ghcr.io/h-orito/wolf-mansion-api
 
   deploy:
-    needs: build
+    needs: build-api
     runs-on: [self-hosted, k8s]
     steps:
       - name: Setup kubectl
@@ -46,4 +49,4 @@ jobs:
           version: 'v1.26.8'
 
       - name: Restart deployment
-        run: kubectl rollout restart deployment/wolf-mansion -n default
+        run: kubectl rollout restart deployment/wolf-mansion-api -n default
