@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wolf-mansion-api
+  namespace: default
+  labels:
+    app: wolf-mansion-api
+spec:
+  # replicas は 1 固定。DaychangeScheduler (@Scheduled) が複数 Pod で同時発火すると
+  # 日付更新が二重実行されるため、スケールアウトしないこと。
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wolf-mansion-api
+  template:
+    metadata:
+      labels:
+        app: wolf-mansion-api
+    spec:
+      # GHCR package を private 公開のまま運用する場合は、PAT 等で imagePullSecret を作成し
+      # ここで参照する。新規 package のデフォルトは private なので注意 (README 参照)。
+      # imagePullSecrets:
+      #   - name: ghcr-pull-secret
+      containers:
+        - name: wolf-mansion-api
+          image: ghcr.io/h-orito/wolf-mansion-backend:latest
+          imagePullPolicy: Always
+          ports:
+            # jib イメージは playground プロファイル (server.port: 8081) で起動する。
+            - containerPort: 8081
+          envFrom:
+            - configMapRef:
+                name: wolf-mansion-api-config
+            - secretRef:
+                name: wolf-mansion-secrets
+          readinessProbe:
+            httpGet:
+              # 未認証でも 200 ({user: null}) を返すため疎通確認に使える。
+              path: /wolf-mansion-api/api/v1/auth/me
+              port: 8081
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /wolf-mansion-api/api/v1/auth/me
+              port: 8081
+            initialDelaySeconds: 60
+            periodSeconds: 20
+          resources:
+            # 初期値。実トラフィックに合わせて調整すること。
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi"

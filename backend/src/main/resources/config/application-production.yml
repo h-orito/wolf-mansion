@@ -57,11 +57,11 @@ app:
 mastodon:
   oauth:
     host: mstdn.jp
-    access-token: ${MASTODON_ACCESS_TOKEN}
+    access-token: ${WOLF_MANSION_MASTODON_ACCESS_TOKEN}
 
 discord:
   webhook-url: ${WOLF_MANSION_DISCORD_WEBHOOK_URL}
-  master-userid:
+  master-userid: ${WOLF_MANSION_DISCORD_MASTER_USERID}
 
 microsoft:
   translator:
