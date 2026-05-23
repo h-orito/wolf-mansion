@@ -76,7 +76,7 @@ jib {
         }
     }
     to {
-        image = "ghcr.io/h-orito/wolf-mansion-api"
+        image = "ghcr.io/h-orito/wolf-mansion-backend"
     }
     container {
         jvmFlags = listOf(

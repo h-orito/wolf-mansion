@@ -1,4 +1,4 @@
-name: deploy_api_to_ocl
+name: deploy_api
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
       - main
     paths:
       - 'backend/**'
-      - '.github/workflows/deploy-api-ocl.yml'
+      - '.github/workflows/deploy-api.yml'
 
 jobs:
   build-api:
@@ -37,7 +37,7 @@ jobs:
         run: ./gradlew jibDockerBuild
 
       - name: Push image
-        run: docker push ghcr.io/h-orito/wolf-mansion-api
+        run: docker push ghcr.io/h-orito/wolf-mansion-backend
 
   deploy:
     needs: build-api

@@ -23,7 +23,7 @@ spec:
       #   - name: ghcr-pull-secret
       containers:
         - name: wolf-mansion-api
-          image: ghcr.io/h-orito/wolf-mansion-api:latest
+          image: ghcr.io/h-orito/wolf-mansion-backend:latest
           imagePullPolicy: Always
           ports:
             # jib イメージは playground プロファイル (server.port: 8081) で起動する。

@@ -27,7 +27,7 @@ apply 前に、自クラスタの構成に合わせて以下を確認・修正�
 - **TLS**: `ingress.yaml` には TLS セクションを置いていない。`wolfort.dev` の HTTPS は
   cert-manager 等クラスタ側の仕組みで自動付与される前提。手動で証明書を当てる場合は
   `spec.tls` を追加すること。
-- **GHCR パッケージの公開設定**: 新規 push される `wolf-mansion-api` / `wolf-mansion-frontend`
+- **GHCR パッケージの公開設定**: 新規 push される `wolf-mansion-backend` / `wolf-mansion-frontend`
   パッケージは GHCR のデフォルトで **private**。
   - 単純なのは GitHub UI で package を **public** に変更すること。
   - private のまま使う場合は、PAT (`read:packages` スコープ) で `docker-registry` 型 Secret
@@ -64,7 +64,7 @@ kubectl rollout status deployment/wolf-mansion-frontend
 
 - 旧構成は単一 Deployment `wolf-mansion` (Thymeleaf 一体型)。本構成への切替時に、
   旧 `deployment/wolf-mansion` と関連 Service / Ingress を停止・削除する。
-- backend イメージは `ghcr.io/h-orito/wolf-mansion` → `ghcr.io/h-orito/wolf-mansion-api`
+- backend イメージは `ghcr.io/h-orito/wolf-mansion` → `ghcr.io/h-orito/wolf-mansion-backend`
   にリネーム済み (`backend/build.gradle.kts` の jib 設定)。
 - キャラ画像など大量の静的画像はクラスタ外ホスティングへ移管する (plan.md「画像配信」)。
   移管作業自体はクラスタ操作とは別途、利用者側で実施する。
