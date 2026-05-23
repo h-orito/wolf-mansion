@@ -70,6 +70,10 @@ export function MessageCard({
             }}
           />
         )}
+        {/* React JSX は子要素の文字列を textContent としてレンダリングするため、
+            `message.text` を直接埋め込んでも XSS にはならない。旧 Thymeleaf の
+            `{{{messageContent}}}` (HTML 非エスケープ) に相当する HTML 装飾
+            (大声 / 虹色 / アンカー link) は Step 12d で安全に再実装する。 */}
         <p className={`flex-1 text-sm whitespace-pre-wrap ${style.text}`}>{message.text}</p>
       </div>
     </article>

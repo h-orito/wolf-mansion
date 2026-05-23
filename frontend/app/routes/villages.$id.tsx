@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import type { Route } from "./+types/villages.$id";
 import {
@@ -36,6 +36,8 @@ export function meta({ data }: Route.MetaArgs) {
 /**
  * `?day=` を整数に変換。負数 / NaN / 範囲外チェックは下流の backend に任せる
  * (backend は範囲外の day でも空の MessagesView を返す)。0 はプロローグなので valid。
+ *
+ * loader (SSR) とコンポーネント (CSR) 両方から呼ぶため module top に置く。
  */
 function parseDayParam(raw: string | null): number | undefined {
   if (raw == null || raw === "") return undefined;
@@ -100,19 +102,28 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const isAdmin = authority === "管理者";
 
   const village = villageQuery.data ?? initialVillage;
-  const messages = messagesQuery.data ?? messagesInitialData ?? null;
+  // useVillageMessagesQuery に initialData を渡しているので messagesQuery.data は
+  // 同値で同期される。`?? messagesInitialData` を再度書く必要はない。
+  const messages = messagesQuery.data ?? null;
   const footsteps = footstepsQuery.data ?? initialFootsteps ?? null;
   const myself = myselfQuery.data ?? initialMyself ?? null;
   // creator パネルの表示判定: 村建て本人または管理者 (旧仕様: 管理者 = 全村 creator 扱い)。
   const canSeeCreatorPanel = village.isCreator || isAdmin;
+  // 発言は常に最新日に積まれる。過去日タブを見ているときに発言してもその日には
+  // 出ないので、混乱を避けるため SayForm は最新日表示時のみ出す。
+  const isViewingLatestDay = selectedDay === village.time.latestDay;
 
-  function selectDay(day: number) {
-    const next = new URLSearchParams(params);
-    // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
-    if (day === village.time.latestDay) next.delete("day");
-    else next.set("day", String(day));
-    setParams(next, { replace: true });
-  }
+  const latestDay = village.time.latestDay;
+  const selectDay = useCallback(
+    (day: number) => {
+      // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
+      const next = new URLSearchParams(params);
+      if (day === latestDay) next.delete("day");
+      else next.set("day", String(day));
+      setParams(next, { replace: true });
+    },
+    [params, setParams, latestDay],
+  );
 
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100">
@@ -145,7 +156,7 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
           participants={village.participants.list}
         />
 
-        {myself && !myself.isSpectator && !myself.isDead && (
+        {myself && !myself.isSpectator && !myself.isDead && isViewingLatestDay && (
           <SayForm villageId={villageId} />
         )}
 
@@ -250,8 +261,11 @@ function DayTabs({
   onSelect: (day: number) => void;
 }) {
   if (days.length === 0) return null;
+  // 単一の MessagesPanel に対する切替なので tablist パターンを採用 (role=tab + aria-selected)。
+  // 12b 以降で role=tabpanel を加える際にこのまま延長できる。
   return (
-    <nav
+    <div
+      role="tablist"
       aria-label="日付ナビゲーション"
       className="flex flex-wrap gap-1 rounded-xl bg-slate-800/30 border border-slate-700 p-2"
     >
@@ -261,8 +275,10 @@ function DayTabs({
           <button
             key={day}
             type="button"
+            role="tab"
+            aria-selected={active}
+            tabIndex={active ? 0 : -1}
             onClick={() => onSelect(day)}
-            aria-pressed={active}
             className={
               "rounded px-2.5 py-1 text-xs font-mono transition " +
               (active
@@ -274,7 +290,7 @@ function DayTabs({
           </button>
         );
       })}
-    </nav>
+    </div>
   );
 }
 
