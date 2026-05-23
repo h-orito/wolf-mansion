@@ -1,7 +1,7 @@
 # .k8s — wolf-mansion Kubernetes マニフェスト
 
 API + Frontend SSR の 2 コンテナ構成を OCL k8s クラスタ (namespace: `default`) に
-デプロイするための manifest 群。CI (`deploy-api-ocl.yml` / `deploy-frontend-ocl.yml`) は
+デプロイするための manifest 群。CI (`deploy-api.yml` / `deploy-frontend.yml`) は
 `kubectl rollout restart` でイメージを更新するだけで、本ディレクトリの manifest を
 自動 apply はしない。**初回 apply と構成変更時は手動で apply する**。
 

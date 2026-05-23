@@ -121,7 +121,7 @@ fw/             → フレームワーク基盤（Security, Interceptor, Config,
 
 ### デプロイ
 
-mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ。
+mainへのpushで`deploy-api.yml` / `deploy-frontend.yml` (変更があった側のみ起動) によりOCLサーバーへ自動デプロイ。
 
 ## Key Conventions
 
