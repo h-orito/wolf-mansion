@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
 import type { Route } from "./+types/villages.$id";
 import {
@@ -15,7 +15,6 @@ import {
 } from "~/features/village/detail/api";
 import {
   useMyselfQuery,
-  useSayMutation,
   useVillageFootstepsQuery,
   useVillageMessagesQuery,
   useVillageQuery,
@@ -28,6 +27,8 @@ import { MessageCard } from "~/features/village/detail/MessageCard";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { RoomGridPanel } from "~/features/village/detail/RoomGridPanel";
 import { RpActions } from "~/features/village/detail/RpActions";
+import { SayForm } from "~/features/village/detail/SayForm";
+import { SayFormProvider } from "~/features/village/detail/SayFormContext";
 import { SituationPanel } from "~/features/village/detail/SituationPanel";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
@@ -142,95 +143,58 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     [setParams, latestDay],
   );
 
+  // SayForm 表示判定: 最新日 + backend が「発言可能」と返している場合のみ。
+  // `availableMessageTypes` が空のときは backend が事前に「発言できる種別なし」と
+  // 判断しているので、フロント側で死亡 / 見学のフラグを別途確認しない。
+  // (見学者専用の `SPECTATE_SAY` 等も backend で availableMessageTypes に含まれるため)
+  const canShowSayForm =
+    myself != null &&
+    isViewingLatestDay &&
+    myself.say.isAvailableSay &&
+    myself.say.availableMessageTypes.length > 0;
+
   return (
     <main className="min-h-screen bg-slate-900 text-slate-100">
       <section className="max-w-4xl mx-auto px-6 py-10 space-y-6">
-        <VillageHeader village={village} />
+        <SayFormProvider>
+          <VillageHeader village={village} />
 
-        <DayTabs
-          days={village.days.list.map((d) => d.day)}
-          selectedDay={selectedDay}
-          onSelect={selectDay}
-        />
+          <DayTabs
+            days={village.days.list.map((d) => d.day)}
+            selectedDay={selectedDay}
+            onSelect={selectDay}
+          />
 
-        {myself && <MyselfPanel myself={myself} />}
+          {myself && <MyselfPanel myself={myself} />}
 
-        <ParticipateActions village={village} myself={myself} />
+          <ParticipateActions village={village} myself={myself} />
 
-        {myself && <RpActions village={village} myself={myself} />}
+          {myself && <RpActions village={village} myself={myself} />}
 
-        {myself && <ActionPanel village={village} myself={myself} />}
+          {myself && <ActionPanel village={village} myself={myself} />}
 
-        {canSeeCreatorPanel && <CreatorPanel village={village} />}
+          {canSeeCreatorPanel && <CreatorPanel village={village} />}
 
-        {isAdmin && <AdminPanel village={village} />}
+          {isAdmin && <AdminPanel village={village} />}
 
-        <RoomGridPanel village={village} day={selectedDay} />
+          <RoomGridPanel village={village} day={selectedDay} />
 
-        <ParticipantsPanel participants={village.participants.list} />
+          <ParticipantsPanel participants={village.participants.list} />
 
-        <SituationPanel situation={situation} selectedDay={selectedDay} />
+          <SituationPanel situation={situation} selectedDay={selectedDay} />
 
-        <MessagesPanel
-          messages={messages}
-          day={selectedDay}
-          participants={village.participants.list}
-        />
+          <MessagesPanel
+            messages={messages}
+            day={selectedDay}
+            participants={village.participants.list}
+          />
 
-        {myself && !myself.isSpectator && !myself.isDead && isViewingLatestDay && (
-          <SayForm villageId={villageId} />
-        )}
+          {canShowSayForm && <SayForm villageId={villageId} myself={myself!} />}
 
-        <FootstepsPanel footsteps={footsteps} />
+          <FootstepsPanel footsteps={footsteps} />
+        </SayFormProvider>
       </section>
     </main>
-  );
-}
-
-function SayForm({ villageId }: { villageId: number }) {
-  const [text, setText] = useState("");
-  const sayMutation = useSayMutation(villageId);
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const trimmed = text.trim();
-    if (!trimmed) return;
-    sayMutation.mutate(
-      { message: trimmed },
-      {
-        onSuccess: () => setText(""),
-      },
-    );
-  }
-
-  return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-2">発言</h2>
-      <form onSubmit={submit} className="space-y-2">
-        <textarea
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          rows={3}
-          maxLength={400}
-          placeholder="発言を入力 (400 文字以内)"
-          className="w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
-          disabled={sayMutation.isPending}
-        />
-        <div className="flex items-center gap-3">
-          <button
-            type="submit"
-            disabled={sayMutation.isPending || text.trim().length === 0}
-            className="rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium"
-          >
-            {sayMutation.isPending ? "送信中..." : "発言する"}
-          </button>
-          <span className="text-xs text-slate-500">{text.length} / 400</span>
-          {sayMutation.isError && (
-            <span className="text-xs text-rose-300">{sayMutation.error.message}</span>
-          )}
-        </div>
-      </form>
-    </section>
   );
 }
 
