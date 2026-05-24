@@ -17,8 +17,9 @@ import io.swagger.v3.oas.annotations.media.Schema
 @Schema(description = "死亡情報 (生存中は VillageParticipantView.dead 自体が null)")
 data class DeadView(
     @field:Schema(
-        description = "死亡理由コード。CDef.DeadReason のコード、または進行中の無惨死を統一する " +
-                "API 専用の合成コード 'MISERABLE'。"
+        description = "死亡理由コード。CDef.DeadReason のコード " +
+                "(EXECUTE / SUDDON ※DBFlute の typo / SUICIDE 等)、または進行中の無惨死を " +
+                "統一する API 専用の合成コード 'MISERABLE'。"
     )
     val code: String,
     @field:Schema(description = "死亡理由表示名。例: 処刑 / 襲撃 / 突然 / 無惨")
@@ -27,10 +28,14 @@ data class DeadView(
     val day: Int,
 ) {
     constructor(dead: Dead, shouldMaskMiserable: Boolean) : this(
+        // 進行中の無惨死、または DB 不整合で reason=null になっているデータも
+        // MISERABLE / 無惨 にフォールバック (旧 maskedReason の null ガード相当)。
+        // 後者は理論上発生しないはずだが、isDead=true && reason=null のレコードが
+        // 存在しても 500 にせず役職推理にも影響しない安全な値で返す。
         code = if (shouldMaskMiserable && dead.isMiserableDead()) MISERABLE_CODE
-        else dead.reason!!.code,
+        else dead.reason?.code ?: MISERABLE_CODE,
         name = if (shouldMaskMiserable && dead.isMiserableDead()) MISERABLE_NAME
-        else dead.reason!!.name,
+        else dead.reason?.name ?: MISERABLE_NAME,
         // 呼び出し側で `dead.isDead == true` を確認してから渡す前提なので
         // `deadDay` も非 null 想定。null だったら未死亡で本クラスを作っているので
         // バグなので明示的に !! で潰す。
@@ -38,7 +43,7 @@ data class DeadView(
     )
 
     companion object {
-        const val MISERABLE_CODE = "MISERABLE"
-        const val MISERABLE_NAME = "無惨"
+        private const val MISERABLE_CODE = "MISERABLE"
+        private const val MISERABLE_NAME = "無惨"
     }
 }
