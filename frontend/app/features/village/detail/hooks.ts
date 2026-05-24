@@ -18,6 +18,7 @@ import {
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
+  fetchVillageSituation,
   postAbility,
   postAdminForceAccess,
   postAdminForceLeave,
@@ -53,6 +54,7 @@ import {
   type VillageCreatorSayBody,
   type VillageFaceTypeModifyBody,
   type VillageFootstepsView,
+  type VillageSituationView,
   type VillageKickBody,
   type VillageMemoBody,
   type VillageParticipateBody,
@@ -101,6 +103,32 @@ export function useVillageFootstepsQuery(
   return useQuery<VillageFootstepsView>({
     queryKey: ["village", villageId, "footsteps"],
     queryFn: () => fetchVillageFootsteps(villageId),
+    initialData,
+    initialDataUpdatedAt: initialData ? Date.now() : undefined,
+    refetchInterval: POLL_INTERVAL_MS,
+    staleTime: POLL_INTERVAL_MS,
+  });
+}
+
+/**
+ * 状況サマリ (whole / vote / dayFootsteps) を取得する。
+ * `day` を渡さなければ backend は `latestDay` を採用し、すべての過去日を網羅した
+ * whole / vote / dayFootsteps を返す。frontend は受け取ったデータを `selectedDay`
+ * で client side に切るだけなので、`day` の値を変えて再 fetch する必要がない =
+ * queryKey に day を含めない (= 過去日タブ切替えで API コールを発生させない)。
+ *
+ * 注: domain 側では `day` は `whole` (能力履歴の起点) と `vote` (`filterPastDay`)
+ * の両方で使われており、`day` を変えると返却内容も変わりうる。ここで `undefined`
+ * (= latestDay) 固定にしているのは「常に最新までのデータを取り、client で切る」
+ * という設計判断であり、API 仕様上は `day` 引数で範囲を絞れる。
+ */
+export function useVillageSituationQuery(
+  villageId: number,
+  initialData?: VillageSituationView,
+): UseQueryResult<VillageSituationView> {
+  return useQuery<VillageSituationView>({
+    queryKey: ["village", villageId, "situation"],
+    queryFn: () => fetchVillageSituation(villageId, undefined),
     initialData,
     initialDataUpdatedAt: initialData ? Date.now() : undefined,
     refetchInterval: POLL_INTERVAL_MS,
