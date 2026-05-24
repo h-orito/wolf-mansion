@@ -331,12 +331,13 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
       </section>
     );
   }
-  // 生存 (見学を含めない) / 死亡 / 見学 の 3 カテゴリへ振り分け。
-  // 見学者は backend で末尾に並んでいるが、表示位置を明示的にコントロールしたい。
+  // 退村済み (isGone) は旧画面でも参加者一覧から外れていたので除外する。
+  // 残りを生存 (見学を含めない) / 死亡 / 見学 の 3 カテゴリへ振り分ける。
   const alive: VillageParticipantView[] = [];
   const dead: VillageParticipantView[] = [];
   const spectators: VillageParticipantView[] = [];
   for (const p of participants) {
+    if (p.isGone) continue;
     if (p.isSpectator) spectators.push(p);
     else if (p.isDead) dead.push(p);
     else alive.push(p);

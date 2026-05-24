@@ -15,7 +15,14 @@ data class VillageParticipantView(
     val chara: CharaView,
     @field:Schema(description = "表示名 ([部屋番号略称] 名前)")
     val name: String,
-    @field:Schema(description = "簡易メモ (RP 用、未設定なら null / 全員分公開)")
+    /**
+     * 簡易メモ。旧 Thymeleaf 画面 (situation.html) でも全参加者ぶん公開して
+     * いたので踏襲。プレイヤー自由入力 (max 20 chars) のため意図せず戦略情報が
+     * 露出するリスクは認識しているが、公開範囲ポリシーの変更 (自分のみ /
+     * 同陣営のみ等) は memo を補助的に使っている既存ユーザへの影響が大きく、
+     * 別途仕様検討する。
+     */
+    @field:Schema(description = "簡易メモ (RP 用、未設定なら null / 全員分公開、旧画面と同等)")
     val memo: String?,
     @field:Schema(description = "部屋番号 (未割当なら null)")
     val roomNumber: Int?,
