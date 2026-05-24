@@ -8,9 +8,11 @@ import type { VillageParticipantView, VillageView } from "./api";
  * `village.participants.list` のうち `roomNumber` が割り当てられたものを対象に、
  * `roomWidth` 列のグリッドへ並べる。見学者は除外。
  *
- * 死亡者は半透明 + `<deadDay>d <記号>` を重ねる (記号: 襲撃=▲ / 処刑=▼ / 突然=凸 /
- * 後追=❤ / その他=空)。死亡判定は backend が現状 (最新日基準) で返す `isDead /
- * deadDay / deadReasonCode` を使う (任意の日の生死再現は範囲外、12c 以降)。
+ * 死亡者は半透明 + `<deadDay>d <記号>` を重ねる (記号: 襲撃系=▲ / 処刑=▼ /
+ * 突然=凸 / 後追=❤ / その他・null=▲)。進行中の無惨死は backend がマスクして
+ * code/name を null で返すので、isDead && null → ▲ にフォールバックする。
+ * 死亡判定は backend が現状 (最新日基準) で返す `isDead / deadDay /
+ * deadReasonCode` を使う (任意の日の生死再現は範囲外、12c 以降)。
  */
 export function RoomGridPanel({
   village,
@@ -50,6 +52,8 @@ function RoomCell({ participant }: { participant: VillageParticipantView }) {
   const room = participant.roomNumber != null
     ? String(participant.roomNumber).padStart(2, "0")
     : "--";
+  // deadMark は isDead のときだけ使う。生存者でも計算されるが安価で、結果は
+  // 下の `{isDead && ...}` ブロックでしか参照されないので問題ない。
   const deadMark = deadMarkOf(participant.deadReasonCode);
   return (
     <div
@@ -90,7 +94,8 @@ function RoomCell({ participant }: { participant: VillageParticipantView }) {
  * `code` が **null になる経路** が 2 種類ある:
  *   1. 生存中 (deadReasonCode 自体が null)
  *   2. 進行中の無惨死で backend が code/name をマスクして null にしている
- * 呼び出し側で `isDead` を判定済の前提なら 2 番に該当するので ▲ を返す。
+ * この関数自体は両者を区別せず ▲ を返す。呼び出し側で `isDead` を判定して
+ * 死亡時のみ結果を表示する (= 生存者の ▲ は描画されない)。
  * 不明 code も安全側に倒して `▲` (= 何らかの無惨な死) として扱う。
  */
 function deadMarkOf(code: string | null | undefined): string {
