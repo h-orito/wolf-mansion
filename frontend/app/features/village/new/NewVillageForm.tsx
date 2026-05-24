@@ -27,20 +27,28 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
   const [confirmOpen, setConfirmOpen] = useState(false);
 
   // 選択中キャラチップに含まれるキャラ一覧 (ダミーキャラ選択肢)
-  const characterSetId = body.characterSetId ?? [];
   const [charaListByChip, setCharaListByChip] = useState<Map<number, CharachipDetailView>>(new Map());
   // in-flight な charachip id (再 fetch 抑止用)。fetch 完了 / 失敗のどちらでも
   // 必ず delete して、unmount → 再 mount でも取得し直せるようにする。
   const fetchingRef = useRef<Set<number>>(new Set());
   useEffect(() => {
-    let cancelled = false;
-    characterSetId.forEach((id) => {
+    // 旧実装の `cancelled` フラグは React StrictMode の二重マウントで以下の
+    // 死状態を作っていた (.issues/18 参照):
+    //   #1 effect: id=1 で fetch 発射 → cleanup で cancelled_1=true
+    //   #2 effect (StrictMode 再マウント): fetchingRef.has(1) で skip
+    //   .then 解決: cancelled_1 が true なので setState skip
+    //   → setState されないまま fetch も二度と走らない
+    // 解決: cancelled を廃止し、`setCharaListByChip` 内で `prev.has(id)` の
+    //       idempotent guard を使う。同一 id に対する fetch 結果は不変なので、
+    //       cleanup で書き込みを止める必要はない。
+    const ids = body.characterSetId ?? [];
+    ids.forEach((id) => {
       if (charaListByChip.has(id) || fetchingRef.current.has(id)) return;
       fetchingRef.current.add(id);
       fetchCharachipDetail(id)
         .then((detail) => {
-          if (cancelled) return;
           setCharaListByChip((prev) => {
+            if (prev.has(id)) return prev;
             const next = new Map(prev);
             next.set(id, detail);
             return next;
@@ -53,14 +61,15 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
           fetchingRef.current.delete(id);
         });
     });
-    return () => {
-      cancelled = true;
-    };
-  }, [characterSetId, charaListByChip]);
+    // 依存は body.characterSetId (state 直参照、reference 安定) と charaListByChip
+    // (success 時の `has(id)` early return を新しい値で評価できるよう必要)。
+    // 以前の `characterSetId = body.characterSetId ?? []` (毎レンダー新規 array)
+    // を依存に入れると毎レンダー effect が走り、cancelled cleanup と race した。
+  }, [body.characterSetId, charaListByChip]);
 
   const allCharas = useMemo(
-    () => characterSetId.flatMap((id) => charaListByChip.get(id)?.charas ?? []),
-    [characterSetId, charaListByChip],
+    () => (body.characterSetId ?? []).flatMap((id) => charaListByChip.get(id)?.charas ?? []),
+    [body.characterSetId, charaListByChip],
   );
 
   const sayRestrictLabels = useMemo(
