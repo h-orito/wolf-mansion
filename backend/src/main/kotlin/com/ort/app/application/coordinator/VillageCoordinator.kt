@@ -411,18 +411,19 @@ class VillageCoordinator(
     }
 
     /**
-     * REST `/myself` 専用の軽量版。commit / vote / ability / rp の 4 サブ situation だけを構築し、
-     * `findParticipantSituation` が必要としていた以下の重い処理を行わない:
-     * - `playerService.findPlayer(username)` (myself 用)
-     * - `messageService.findParticipantDayMessageCount(...)` (say 用の発言数集計)
-     * - `playerService.findPlayer(creator)` (say の creatorPlayerId 用)
-     * - participate / skillRequest / say / admin / creator の各 sub-situation 構築
+     * REST `/myself` 専用版。commit / vote / ability / rp / say の 5 サブ situation を構築する。
      *
      * 旧 Thymeleaf 系 (`VillageControllerHelper`) は引き続き `findParticipantSituation` を使う。
+     * こちらは `participate / skillRequest / admin / creator` の各 sub-situation を持たないぶん
+     * 軽量だが、`say` を返すために以下の lookup は必要:
+     * - `playerService.findPlayer(username)` (player-aware な発言可否判定)
+     * - `messageService.findParticipantDayMessageCount(...)` (発言制限の残回数)
+     * - `playerService.findPlayer(creator)` (creator は発言制限の例外、その判定用)
      */
     fun findMyselfActionSituation(
         village: Village,
         myself: VillageParticipant,
+        username: String?,
         votes: Votes,
         abilities: Abilities,
         footsteps: Footsteps,
@@ -430,6 +431,9 @@ class VillageCoordinator(
         day: Int,
     ): MyselfActionSituation {
         val commits = commitService.findCommits(village.id)
+        val player: Player? = username?.let { playerService.findPlayer(it) }
+        val latestDayMessageCountMap = messageService.findParticipantDayMessageCount(village, village.latestDay(), myself)
+        val creator = playerService.findPlayer(village.createPlayerName)!!
         return MyselfActionSituation(
             commit = commitDomainService.convertToSituation(village, myself, commits),
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
@@ -442,6 +446,15 @@ class VillageCoordinator(
                 day
             ),
             rp = rpDomainService.convertToSituation(village, myself, charachips, day),
+            say = sayDomainService.convertToSituation(
+                village = village,
+                myself = myself,
+                player = player,
+                charachips = charachips,
+                day = day,
+                latestDayMessageCountMap = latestDayMessageCountMap,
+                creatorPlayerId = creator.id,
+            ),
         )
     }
 

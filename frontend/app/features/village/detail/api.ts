@@ -40,6 +40,9 @@ export type VillageFaceTypeModifyBody = components["schemas"]["VillageFaceTypeMo
 export type MyselfRpView = components["schemas"]["MyselfRpView"];
 export type MyselfFaceTypeView = components["schemas"]["MyselfFaceTypeView"];
 export type MyselfFaceTypesView = components["schemas"]["MyselfFaceTypesView"];
+export type MyselfSayView = components["schemas"]["MyselfSayView"];
+export type MyselfSayMessageTypeView = components["schemas"]["MyselfSayMessageTypeView"];
+export type MyselfSecretSayTargetView = components["schemas"]["MyselfSecretSayTargetView"];
 export type VillageCreatorSayBody = components["schemas"]["VillageCreatorSayBody"];
 export type VillageKickBody = components["schemas"]["VillageKickBody"];
 export type VillageAdminLeaveBody = components["schemas"]["VillageAdminLeaveBody"];
@@ -100,8 +103,8 @@ export async function fetchVillageSituation(
 
 export type SayInput = {
   message: string;
-  /** CDef.MessageType の code。省略すると "NORMAL_SAY" (通常発言) 扱い。 */
-  messageType?: string;
+  /** CDef.MessageType の code (例: "NORMAL_SAY")。必須。 */
+  messageType: string;
   secretSayTargetCharaId?: number;
   faceType?: string;
   convertDisable?: boolean;
@@ -117,13 +120,9 @@ export async function postSay(
   input: SayInput,
   fetcher: ApiFetch = browserFetch,
 ): Promise<void> {
-  const body = {
-    messageType: "NORMAL_SAY",
-    ...input,
-  };
   const res = await fetcher(`/api/v1/villages/${villageId}/messages`, {
     method: "POST",
-    body: JSON.stringify(body),
+    body: JSON.stringify(input),
   });
   if (!res.ok) {
     // backend は WolfMansionBusinessException 等を ErrorResponse(message) で返す

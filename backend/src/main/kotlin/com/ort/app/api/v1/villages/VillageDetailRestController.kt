@@ -191,13 +191,14 @@ class VillageDetailRestController(
         val situation = villageCoordinator.findMyselfActionSituation(
             village = ctx.village,
             myself = myself,
+            username = ctx.user?.username,
             votes = voteService.findVotes(ctx.village.id),
             abilities = abilityService.findAbilities(ctx.village.id),
             footsteps = footstepService.findFootsteps(ctx.village.id),
             charachips = ctx.charachips,
             day = ctx.village.latestDay(),
         )
-        return ResponseEntity.ok(MyselfView(myself, situation))
+        return ResponseEntity.ok(MyselfView(myself, situation, ctx.charachips))
     }
 
     /**

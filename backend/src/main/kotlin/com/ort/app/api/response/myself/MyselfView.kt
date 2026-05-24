@@ -1,11 +1,13 @@
 package com.ort.app.api.response.myself
 
 import com.ort.app.api.response.skill.SkillView
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.MyselfActionSituation
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
 import com.ort.app.domain.model.situation.participant.ParticipantCommitSituation
 import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
+import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
 import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import io.swagger.v3.oas.annotations.media.Schema
@@ -50,29 +52,37 @@ data class MyselfView(
     val ability: MyselfAbilityView,
     @field:Schema(description = "RP 状態 (キャラ名 / メモ / 表情差分の編集可否)")
     val rp: MyselfRpView,
+    @field:Schema(description = "発言フォーム情報 (種別 / 表情差分 / 秘話宛先 / 制限)")
+    val say: MyselfSayView,
 ) {
-    constructor(myself: VillageParticipant, situation: ParticipantSituation) : this(
+    constructor(myself: VillageParticipant, situation: ParticipantSituation, charachips: Charachips) : this(
         myself = myself,
+        charachips = charachips,
         commitSituation = situation.commit,
         voteSituation = situation.vote,
         abilitySituation = situation.ability,
         rpSituation = situation.rp,
+        saySituation = situation.say,
     )
 
-    constructor(myself: VillageParticipant, situation: MyselfActionSituation) : this(
+    constructor(myself: VillageParticipant, situation: MyselfActionSituation, charachips: Charachips) : this(
         myself = myself,
+        charachips = charachips,
         commitSituation = situation.commit,
         voteSituation = situation.vote,
         abilitySituation = situation.ability,
         rpSituation = situation.rp,
+        saySituation = situation.say,
     )
 
     private constructor(
         myself: VillageParticipant,
+        charachips: Charachips,
         commitSituation: ParticipantCommitSituation,
         voteSituation: ParticipantVoteSituation,
         abilitySituation: ParticipantAbilitySituation,
         rpSituation: ParticipantRpSituation,
+        saySituation: ParticipantSaySituation,
     ) : this(
         id = myself.id,
         charaId = myself.charaId,
@@ -90,5 +100,6 @@ data class MyselfView(
         vote = MyselfVoteView(voteSituation),
         ability = MyselfAbilityView(abilitySituation),
         rp = MyselfRpView(rpSituation),
+        say = MyselfSayView(saySituation, charachips),
     )
 }

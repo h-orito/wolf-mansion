@@ -1,4 +1,5 @@
 import type { MessageView, VillageParticipantView } from "./api";
+import { useSayFormRequester } from "./SayFormContext";
 
 /**
  * 1 発言ぶんのカード。`MessageView.typeCode` に応じて色 / 番号プレフィックスを出し分け、
@@ -7,8 +8,11 @@ import type { MessageView, VillageParticipantView } from "./api";
  * 旧 Thymeleaf 版 `.old-thymeleaf/templates/village-template/message-partial.html` の
  * 表示種別 (NORMAL_SAY / WEREWOLF_SAY / MASON_SAY / LOVERS_SAY / MONOLOGUE_SAY /
  * SECRET_SAY / GRAVE_SAY / SPECTATE_SAY / CREATOR_SAY / TELEPATHY / ACTION / 各種
- * PRIVATE_* / PUBLIC_SYSTEM / PARTICIPANTS) を一通りカバーする。表情差分 / 大声 /
- * 虹色 / 返信 / 秘話 ボタンは Step 12d で扱う。
+ * PRIVATE_* / PUBLIC_SYSTEM / PARTICIPANTS) を一通りカバーする。
+ *
+ * Step 12d 以降:
+ * - アンカー (`>>N` のラベル部分) をクリックすると SayForm の textarea に `>>N` を挿入
+ * - 各カードに [返信] を出し、SECRET_SAY なら宛先 auto-set 込みで反映
  */
 export function MessageCard({
   message,
@@ -21,6 +25,7 @@ export function MessageCard({
   const fromParticipant = message.fromParticipantId != null
     ? participantsById.get(message.fromParticipantId)
     : undefined;
+  const requestSay = useSayFormRequester();
 
   // PUBLIC_SYSTEM / PRIVATE_* / PARTICIPANTS 等は番号も発言者も持たない単純な
   // システム枠で出す (旧画面 message-public-system / message-private-* に対応)。
@@ -36,6 +41,27 @@ export function MessageCard({
   }
 
   const anchor = renderAnchor(style.anchorPrefix, message.number);
+  const isSecret = message.typeCode === "SECRET_SAY";
+
+  function handleAnchorClick() {
+    if (message.number == null) return;
+    requestSay({
+      anchorPrefix: style.anchorPrefix,
+      messageNumber: message.number,
+      isSecret: false,
+    });
+  }
+
+  function handleReplyClick() {
+    if (message.number == null) return;
+    requestSay({
+      anchorPrefix: style.anchorPrefix,
+      messageNumber: message.number,
+      isSecret,
+      // 秘話への返信: 元発言者のキャラ ID を宛先に
+      secretTargetCharaId: isSecret ? fromParticipant?.chara.id : undefined,
+    });
+  }
 
   return (
     <article
@@ -43,7 +69,16 @@ export function MessageCard({
       data-message-type={message.typeCode}
     >
       <header className="px-3 pt-2 text-xs text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-        {anchor && <span className="font-mono">{anchor}</span>}
+        {anchor && (
+          <button
+            type="button"
+            onClick={handleAnchorClick}
+            className="font-mono text-slate-400 hover:text-indigo-300"
+            title="アンカーを発言フォームに挿入"
+          >
+            {anchor}
+          </button>
+        )}
         <span className="text-slate-200">{message.fromCharaName ?? style.fallbackFrom}</span>
         {message.toCharaName && (
           <span className="text-slate-400">→ {message.toCharaName}</span>
@@ -52,6 +87,16 @@ export function MessageCard({
           <span className="text-slate-500">[{fromParticipant.playerName}]</span>
         )}
         <span className="text-slate-500 ml-auto">{formatTime(message.datetime)}</span>
+        {message.number != null && (
+          <button
+            type="button"
+            onClick={handleReplyClick}
+            className="text-xs px-1.5 py-0.5 rounded border border-slate-600 text-slate-300 hover:border-slate-400"
+            title={isSecret ? "秘話で返信 (宛先 auto-set)" : "返信"}
+          >
+            返信
+          </button>
+        )}
       </header>
       <div className="px-3 pb-2 pt-1 flex gap-2">
         {fromParticipant && (
