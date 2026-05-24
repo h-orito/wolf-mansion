@@ -114,7 +114,7 @@ function SettingsLink({ villageId }: { villageId: number }) {
 function KickForm({ village }: { village: VillageView }) {
   const mutation = useKickMutation(village.id);
   const candidates = village.participants.list.filter(
-    (p) => !p.isSpectator && !p.isDead,
+    (p) => !p.isSpectator && !p.dead,
   );
 
   function onKick(p: VillageParticipantView) {

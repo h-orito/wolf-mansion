@@ -90,7 +90,7 @@ function ForceLeaveSection({ village }: { village: VillageView }) {
   // とはいえ admin パネルとしてはステータスにかかわらず一覧を出し、
   // backend が assertLeave で 400 を返す挙動に従う方が「管理者は何でもできる」感がある。
   const candidates = village.participants.list.filter(
-    (p) => !p.isSpectator && !p.isDead,
+    (p) => !p.isSpectator && !p.dead,
   );
 
   function onLeave(p: VillageParticipantView) {

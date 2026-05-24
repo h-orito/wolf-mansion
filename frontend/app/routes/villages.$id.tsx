@@ -339,7 +339,7 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
   for (const p of participants) {
     if (p.isGone) continue;
     if (p.isSpectator) spectators.push(p);
-    else if (p.isDead) dead.push(p);
+    else if (p.dead) dead.push(p);
     else alive.push(p);
   }
   return (
@@ -348,25 +348,25 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
         参加者 (生存 {alive.length} / 死亡 {dead.length}
         {spectators.length > 0 ? ` / 見学 ${spectators.length}` : ""})
       </h2>
-      <ParticipantSubList title={`生存 (${alive.length})`} items={alive} />
-      <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} isDead />
+      <ParticipantSubList title={`生存 (${alive.length})`} items={alive} kind="alive" />
+      <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} kind="dead" />
       {spectators.length > 0 && (
-        <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} isSpectator />
+        <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} kind="spectator" />
       )}
     </section>
   );
 }
 
+type ParticipantKind = "alive" | "dead" | "spectator";
+
 function ParticipantSubList({
   title,
   items,
-  isDead = false,
-  isSpectator = false,
+  kind,
 }: {
   title: string;
   items: VillageParticipantView[];
-  isDead?: boolean;
-  isSpectator?: boolean;
+  kind: ParticipantKind;
 }) {
   if (items.length === 0) {
     return (
@@ -376,6 +376,8 @@ function ParticipantSubList({
       </div>
     );
   }
+  const isDead = kind === "dead";
+  const isSpectator = kind === "spectator";
   return (
     <div>
       <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
@@ -397,13 +399,10 @@ function ParticipantSubList({
             {isSpectator && (
               <span className="text-xs text-slate-400 shrink-0">見学</span>
             )}
-            {isDead && (
+            {/* p.dead は backend で進行中の無惨死を MISERABLE / 無惨 にマスク済 */}
+            {isDead && p.dead && (
               <span className="text-xs text-rose-300 shrink-0">
-                {p.deadDay != null ? `${p.deadDay}d ` : ""}
-                {/* deadReasonName が null = 進行中の無惨死 (襲撃 / 呪殺 / 罠死 /
-                    爆死 / 雑魚) でマスクされている状態。旧 DeadReason.getDisplayName
-                    と同じ「無惨死」表記でカバーする */}
-                {p.deadReasonName ?? "無惨死"}
+                {p.dead.day}d {p.dead.name}
               </span>
             )}
           </li>
