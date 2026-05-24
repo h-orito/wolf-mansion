@@ -31,6 +31,10 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
   // in-flight な charachip id (再 fetch 抑止用)。fetch 完了 / 失敗のどちらでも
   // 必ず delete して、unmount → 再 mount でも取得し直せるようにする。
   const fetchingRef = useRef<Set<number>>(new Set());
+  // 過去に取得失敗した id を保持。`charaListByChip` には載らないが、
+  // 他 id の成功で effect が再実行されるたびに同じ id を無限リトライしないよう
+  // ここで早期 return する (= 「黙って何もしない」というコメント通りの挙動を担保)。
+  const failedRef = useRef<Set<number>>(new Set());
   useEffect(() => {
     // 旧実装の `cancelled` フラグは React StrictMode の二重マウントで以下の
     // 死状態を作っていた (.issues/18 参照):
@@ -43,7 +47,12 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
     //       cleanup で書き込みを止める必要はない。
     const ids = body.characterSetId ?? [];
     ids.forEach((id) => {
-      if (charaListByChip.has(id) || fetchingRef.current.has(id)) return;
+      if (
+        charaListByChip.has(id) ||
+        fetchingRef.current.has(id) ||
+        failedRef.current.has(id)
+      )
+        return;
       fetchingRef.current.add(id);
       fetchCharachipDetail(id)
         .then((detail) => {
@@ -55,16 +64,20 @@ export function NewVillageForm({ initial }: { initial: NewVillageFormView }) {
           });
         })
         .catch(() => {
-          // 取得失敗時は黙って何もしない (UI 上は「キャラ選択肢なし」)
+          // 取得失敗時は黙って何もしない (UI 上は「キャラ選択肢なし」)。
+          // 他 id の成功による state 更新で effect が再実行されたときに、
+          // この id を無限リトライしないよう failedRef に記録する。
+          failedRef.current.add(id);
         })
         .finally(() => {
           fetchingRef.current.delete(id);
         });
     });
     // 依存は body.characterSetId (state 直参照、reference 安定) と charaListByChip
-    // (success 時の `has(id)` early return を新しい値で評価できるよう必要)。
-    // 以前の `characterSetId = body.characterSetId ?? []` (毎レンダー新規 array)
-    // を依存に入れると毎レンダー effect が走り、cancelled cleanup と race した。
+    // (= ある id の fetch 成功による state 更新をトリガーに、まだ未処理の id を
+    // 拾い直して fetch するため必要)。以前の
+    // `characterSetId = body.characterSetId ?? []` (毎レンダー新規 array) を
+    // 依存に入れると毎レンダー effect が走り、cancelled cleanup と race した。
   }, [body.characterSetId, charaListByChip]);
 
   const allCharas = useMemo(
