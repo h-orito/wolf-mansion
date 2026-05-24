@@ -15,6 +15,15 @@ data class VillageParticipantView(
     val chara: CharaView,
     @field:Schema(description = "表示名 ([部屋番号略称] 名前)")
     val name: String,
+    /**
+     * 簡易メモ。旧 Thymeleaf 画面 (situation.html) でも全参加者ぶん公開して
+     * いたので踏襲。プレイヤー自由入力 (max 20 chars) のため意図せず戦略情報が
+     * 露出するリスクは認識しているが、公開範囲ポリシーの変更 (自分のみ /
+     * 同陣営のみ等) は memo を補助的に使っている既存ユーザへの影響が大きく、
+     * 別途仕様検討する。
+     */
+    @field:Schema(description = "簡易メモ (RP 用、未設定なら null / 全員分公開、旧画面と同等)")
+    val memo: String?,
     @field:Schema(description = "部屋番号 (未割当なら null)")
     val roomNumber: Int?,
     @field:Schema(description = "見学者か")
@@ -23,6 +32,10 @@ data class VillageParticipantView(
     val isDead: Boolean,
     @field:Schema(description = "死亡理由コード (生存中は null)")
     val deadReasonCode: String?,
+    @field:Schema(description = "死亡理由表示名 (例: 処刑 / 襲撃 / 突然、生存中は null)")
+    val deadReasonName: String?,
+    @field:Schema(description = "死亡日 (生存中は null)")
+    val deadDay: Int?,
     @field:Schema(description = "退村済みか")
     val isGone: Boolean,
     @field:Schema(description = "勝利したか (確定前は null)")
@@ -47,10 +60,13 @@ data class VillageParticipantView(
         id = participant.id,
         chara = CharaView(chara),
         name = participant.name(),
+        memo = participant.memo,
         roomNumber = participant.room?.number,
         isSpectator = participant.isSpectator,
         isDead = participant.dead.isDead,
         deadReasonCode = participant.dead.reason?.code,
+        deadReasonName = participant.dead.reason?.name,
+        deadDay = participant.dead.deadDay,
         isGone = participant.isGone,
         isWin = participant.isWin,
         skill = if (shouldHideSkill) null else participant.skill?.let { SkillView(it) },

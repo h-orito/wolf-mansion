@@ -24,6 +24,7 @@ import { AdminPanel } from "~/features/village/detail/AdminPanel";
 import { CreatorPanel } from "~/features/village/detail/CreatorPanel";
 import { MessageCard } from "~/features/village/detail/MessageCard";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
+import { RoomGridPanel } from "~/features/village/detail/RoomGridPanel";
 import { RpActions } from "~/features/village/detail/RpActions";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
@@ -154,6 +155,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         {canSeeCreatorPanel && <CreatorPanel village={village} />}
 
         {isAdmin && <AdminPanel village={village} />}
+
+        <RoomGridPanel village={village} day={selectedDay} />
 
         <ParticipantsPanel participants={village.participants.list} />
 
@@ -315,6 +318,10 @@ function MyselfPanel({ myself }: { myself: MyselfView }) {
   );
 }
 
+/**
+ * 旧 .old-thymeleaf/templates/village/situation.html 参加者タブ相当。
+ * 生存 / 死亡 (見学者は別途末尾) に分割表示し、memo / 死亡日時を出す。
+ */
 function ParticipantsPanel({ participants }: { participants: VillageParticipantView[] }) {
   if (participants.length === 0) {
     return (
@@ -324,29 +331,82 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
       </section>
     );
   }
+  // 退村済み (isGone) は旧画面でも参加者一覧から外れていたので除外する。
+  // 残りを生存 (見学を含めない) / 死亡 / 見学 の 3 カテゴリへ振り分ける。
+  const alive: VillageParticipantView[] = [];
+  const dead: VillageParticipantView[] = [];
+  const spectators: VillageParticipantView[] = [];
+  for (const p of participants) {
+    if (p.isGone) continue;
+    if (p.isSpectator) spectators.push(p);
+    else if (p.isDead) dead.push(p);
+    else alive.push(p);
+  }
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-3">参加者 ({participants.length})</h2>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        {participants.map((p) => (
+    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-4">
+      <h2 className="text-sm text-slate-400">
+        参加者 (生存 {alive.length} / 死亡 {dead.length}
+        {spectators.length > 0 ? ` / 見学 ${spectators.length}` : ""})
+      </h2>
+      <ParticipantSubList title={`生存 (${alive.length})`} items={alive} />
+      <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} isDead />
+      {spectators.length > 0 && (
+        <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} isSpectator />
+      )}
+    </section>
+  );
+}
+
+function ParticipantSubList({
+  title,
+  items,
+  isDead = false,
+  isSpectator = false,
+}: {
+  title: string;
+  items: VillageParticipantView[];
+  isDead?: boolean;
+  isSpectator?: boolean;
+}) {
+  if (items.length === 0) {
+    return (
+      <div>
+        <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
+        <p className="text-xs text-slate-500 px-2">なし</p>
+      </div>
+    );
+  }
+  return (
+    <div>
+      <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+        {items.map((p) => (
           <li key={p.id} className="flex items-center gap-2 text-sm">
             <span className="font-mono text-slate-500 w-10 shrink-0">
               {p.roomNumber != null ? String(p.roomNumber).padStart(2, "0") : "--"}
             </span>
-            <span className="flex-1 truncate">{p.name}</span>
+            <span className={`flex-1 truncate ${isDead ? "text-slate-400" : ""}`}>
+              {p.name}
+              {p.memo && (
+                <span className="ml-2 text-slate-500 text-xs">[{p.memo}]</span>
+              )}
+            </span>
             {p.skill && (
               <span className="text-xs text-indigo-300 shrink-0">[{p.skill.shortName}]</span>
             )}
-            {p.isSpectator && (
+            {isSpectator && (
               <span className="text-xs text-slate-400 shrink-0">見学</span>
             )}
-            {p.isDead && (
-              <span className="text-xs text-rose-300 shrink-0">{p.deadReasonCode ?? "死亡"}</span>
+            {isDead && (
+              <span className="text-xs text-rose-300 shrink-0">
+                {p.deadDay != null ? `${p.deadDay}d ` : ""}
+                {p.deadReasonName ?? "死亡"}
+              </span>
             )}
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
 
