@@ -68,6 +68,9 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   const fromParticipantId = parseCsvInt(url.searchParams.get("from"));
   const toParticipantId = parseCsvInt(url.searchParams.get("to"));
   const keyword = url.searchParams.get("kw") ?? "";
+  // scrap は印刷 / 共有想定の固定 URL なので、本編 (villages.$id) より大きめの
+  // ページサイズを使い、1 ページに収まりやすくする。意図的に村画面の PAGE_SIZE=50
+  // とは別値。
   const query: MessagesQuery = {
     day,
     pageSize: typeof page === "number" ? 100 : undefined,

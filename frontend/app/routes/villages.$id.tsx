@@ -101,6 +101,34 @@ function applyFilterToParams(p: URLSearchParams, v: MessageFilterValue) {
   else p.delete("kw");
 }
 
+function sortedNumbers(arr: number[]): number[] {
+  return [...arr].sort((a, b) => a - b);
+}
+function sortedStrings(arr: string[]): string[] {
+  return [...arr].sort();
+}
+
+/**
+ * フィルタの等価判定。配列の順序差を吸収するため sort 後に比較する。
+ * useVillageMessagesQuery 側の queryKey 生成と同じ正規化方針。
+ */
+function isFilterEqual(a: MessageFilterValue, b: MessageFilterValue): boolean {
+  if (a.keyword.trim() !== b.keyword.trim()) return false;
+  const aType = sortedStrings(a.messageType);
+  const bType = sortedStrings(b.messageType);
+  if (aType.length !== bType.length) return false;
+  for (let i = 0; i < aType.length; i++) if (aType[i] !== bType[i]) return false;
+  const aFrom = sortedNumbers(a.fromParticipantId);
+  const bFrom = sortedNumbers(b.fromParticipantId);
+  if (aFrom.length !== bFrom.length) return false;
+  for (let i = 0; i < aFrom.length; i++) if (aFrom[i] !== bFrom[i]) return false;
+  const aTo = sortedNumbers(a.toParticipantId);
+  const bTo = sortedNumbers(b.toParticipantId);
+  if (aTo.length !== bTo.length) return false;
+  for (let i = 0; i < aTo.length; i++) if (aTo[i] !== bTo[i]) return false;
+  return true;
+}
+
 function buildMessagesQuery(
   day: number,
   filter: MessageFilterValue,
@@ -187,10 +215,12 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const villageQuery = useVillageQuery(villageId, initialVillage);
   // SSR initialData: 日 / フィルタ / ページが loader と一致するときだけ使う。
   // どれかが変われば別データなので initial を渡すと不整合になる。
+  // フィルタ比較は配列の順序差で initial を捨てないよう、useVillageMessagesQuery
+  // 側の queryKey と同じく sort 後比較で揃える。
   const isInitialView =
     selectedDay === initialDay &&
-    JSON.stringify(filter) === JSON.stringify(initialFilter) &&
-    page === initialPage;
+    page === initialPage &&
+    isFilterEqual(filter, initialFilter);
   const messagesInitialData = isInitialView ? initialMessages ?? undefined : undefined;
   const messagesQuery = useVillageMessagesQuery(
     villageId,

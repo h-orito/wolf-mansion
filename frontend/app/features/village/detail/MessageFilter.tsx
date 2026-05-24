@@ -186,7 +186,7 @@ export function MessageFilterModal({
             type="text"
             value={draft.keyword}
             onChange={(e) => setDraft((d) => ({ ...d, keyword: e.target.value }))}
-            placeholder="スペース区切りで AND"
+            placeholder="スペース区切りで OR"
             className="mt-2 w-full rounded bg-slate-800 border border-slate-700 px-3 py-1.5 text-sm"
           />
         </section>

@@ -27,6 +27,7 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.SpoilerDomainService
 import com.ort.app.domain.service.footstep.FootstepRevealDomainService
+import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.exception.WolfMansionRecordNotFoundException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import io.swagger.v3.oas.annotations.Operation
@@ -90,7 +91,7 @@ class VillageDetailRestController(
         @PathVariable villageId: Int,
         @Parameter(description = "何日目か。未指定なら最新日。", required = false)
         @RequestParam(required = false) day: Int?,
-        @Parameter(description = "1 ページあたりの件数。指定するとページング ON。", required = false)
+        @Parameter(description = "1 ページあたりの件数 (1 以上)。指定するとページング ON。", required = false)
         @RequestParam(required = false) pageSize: Int?,
         @Parameter(description = "1 始まりのページ番号。pageSize 必須。", required = false)
         @RequestParam(required = false) pageNum: Int?,
@@ -100,9 +101,17 @@ class VillageDetailRestController(
         @RequestParam(required = false) fromParticipantId: List<Int>?,
         @Parameter(description = "宛先 participantId (複数で OR、秘話宛先で使用)。", required = false)
         @RequestParam(required = false) toParticipantId: List<Int>?,
-        @Parameter(description = "本文キーワード (スペース区切りで AND)。", required = false)
+        @Parameter(description = "本文キーワード (スペース区切りで OR)。", required = false)
         @RequestParam(required = false) keyword: String?,
     ): MessagesView {
+        // ページング系の数値は DBFlute の `paging(pageSize, pageNum)` に渡る。
+        // 0 / 負値だと実行時例外 or 全件取得などで挙動が崩れるので、ここで 400 に正規化。
+        if (pageSize != null && pageSize < 1) {
+            throw WolfMansionBusinessException("pageSize は 1 以上を指定してください")
+        }
+        if (pageNum != null && pageNum < 1) {
+            throw WolfMansionBusinessException("pageNum は 1 以上を指定してください")
+        }
         val ctx = loadContext(villageId)
         val targetDay = day ?: ctx.village.latestDay()
         // pageSize が指定されていればページング ON。pageNum 未指定なら 1 ページ目。
@@ -124,8 +133,9 @@ class VillageDetailRestController(
             requestTypes = requestTypes,
             keywords = keyword?.takeIf { it.isNotBlank() },
             isPaging = isPaging,
-            // 最終ページ判定: 未指定 or pageNum 指定なしのときは最新表示扱い。
-            // 旧 Thymeleaf の `isDispLatest` ロジックを踏襲。
+            // ページング OFF または pageNum 未指定 (= 1 ページ目を求めている) を「最新を表示」扱いにする。
+            // 旧 `VillageGetMessageListForm` ではこのフラグは JS 側から明示的に渡されていたが、
+            // REST 化後は GET param を簡潔にするため pageNum の有無から自動で導出している。
             isDispLatest = !isPaging || pageNum == null,
         )
         val viewerPlayer = ctx.user?.let { playerService.findPlayer(it.username) }
