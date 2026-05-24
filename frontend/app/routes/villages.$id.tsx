@@ -6,6 +6,7 @@ import {
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
+  fetchVillageSituation,
   type MessagesView,
   type MyselfView,
   type VillageFootstepsView,
@@ -18,6 +19,7 @@ import {
   useVillageFootstepsQuery,
   useVillageMessagesQuery,
   useVillageQuery,
+  useVillageSituationQuery,
 } from "~/features/village/detail/hooks";
 import { ActionPanel } from "~/features/village/detail/ActionPanel";
 import { AdminPanel } from "~/features/village/detail/AdminPanel";
@@ -26,6 +28,7 @@ import { MessageCard } from "~/features/village/detail/MessageCard";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { RoomGridPanel } from "~/features/village/detail/RoomGridPanel";
 import { RpActions } from "~/features/village/detail/RpActions";
+import { SituationPanel } from "~/features/village/detail/SituationPanel";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
 
@@ -62,12 +65,15 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   // 初期表示日: ?day= があればそれ、無ければ最新日 (= backend で `day` 未指定時と同じ)。
   // 「latest」をクエリキーに乗せる都合で、ここでは明示的に number に正規化して渡す。
   const initialDay = dayParam ?? village.time.latestDay;
-  const [messages, footsteps, myself] = await Promise.all([
+  const [messages, footsteps, myself, situation] = await Promise.all([
     fetchVillageMessages(villageId, initialDay, api).catch(() => null),
     fetchVillageFootsteps(villageId, api).catch(() => null),
     fetchMyself(villageId, api).catch(() => null),
+    // situation は day を渡さなくても backend 側で latestDay を採用するため未指定で OK。
+    // CSR でも `useVillageSituationQuery` は day なしで叩く想定。
+    fetchVillageSituation(villageId, undefined, api).catch(() => null),
   ]);
-  return { villageId, village, initialDay, messages, footsteps, myself };
+  return { villageId, village, initialDay, messages, footsteps, myself, situation };
 }
 
 export default function VillageDetail({ loaderData }: Route.ComponentProps) {
@@ -78,6 +84,7 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     messages: initialMessages,
     footsteps: initialFootsteps,
     myself: initialMyself,
+    situation: initialSituation,
   } = loaderData;
 
   const [params, setParams] = useSearchParams();
@@ -96,6 +103,7 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   );
   const footstepsQuery = useVillageFootstepsQuery(villageId, initialFootsteps ?? undefined);
   const myselfQuery = useMyselfQuery(villageId, initialMyself);
+  const situationQuery = useVillageSituationQuery(villageId, initialSituation ?? undefined);
   // 認証情報を取得して管理者 (CDef.Authority.管理者) 判定に使う。
   // SSR / 未ログイン時は失敗するが、`error` を握りつぶし `isAdmin=false` 扱いで進める。
   const meQuery = useMeQuery();
@@ -108,6 +116,7 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const messages = messagesQuery.data ?? null;
   const footsteps = footstepsQuery.data ?? initialFootsteps ?? null;
   const myself = myselfQuery.data ?? initialMyself ?? null;
+  const situation = situationQuery.data ?? initialSituation ?? null;
   // creator パネルの表示判定: 村建て本人または管理者 (旧仕様: 管理者 = 全村 creator 扱い)。
   const canSeeCreatorPanel = village.isCreator || isAdmin;
   // 発言は常に最新日に積まれる。過去日タブを見ているときに発言してもその日には
@@ -159,6 +168,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         <RoomGridPanel village={village} day={selectedDay} />
 
         <ParticipantsPanel participants={village.participants.list} />
+
+        <SituationPanel situation={situation} selectedDay={selectedDay} />
 
         <MessagesPanel
           messages={messages}

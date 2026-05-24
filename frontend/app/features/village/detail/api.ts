@@ -19,6 +19,12 @@ export type VillageParticipantView = components["schemas"]["VillageParticipantVi
 export type VillageParticipantsView = components["schemas"]["VillageParticipantsView"];
 export type VillageFootstepView = components["schemas"]["VillageFootstepView"];
 export type VillageFootstepsView = components["schemas"]["VillageFootstepsView"];
+export type VillageSituationView = components["schemas"]["VillageSituationView"];
+export type VillageSituationDayView = components["schemas"]["VillageSituationDayView"];
+export type VillageSituationVoteView = components["schemas"]["VillageSituationVoteView"];
+export type VillageSituationVoteMemberView = components["schemas"]["VillageSituationVoteMemberView"];
+export type VillageSituationVoteCellView = components["schemas"]["VillageSituationVoteCellView"];
+export type VillageDayFootstepView = components["schemas"]["VillageDayFootstepView"];
 export type MessageView = components["schemas"]["MessageView"];
 export type MessagesView = components["schemas"]["MessagesView"];
 export type MyselfView = components["schemas"]["MyselfView"];
@@ -76,6 +82,17 @@ export async function fetchVillageFootsteps(
 ): Promise<VillageFootstepsView> {
   const res = await fetcher(`/api/v1/villages/${villageId}/footsteps`);
   if (!res.ok) throw new Error(`footsteps fetch failed: ${res.status}`);
+  return res.json();
+}
+
+export async function fetchVillageSituation(
+  villageId: number,
+  day: number | undefined,
+  fetcher: ApiFetch = browserFetch,
+): Promise<VillageSituationView> {
+  const qs = typeof day === "number" ? `?day=${day}` : "";
+  const res = await fetcher(`/api/v1/villages/${villageId}/situation${qs}`);
+  if (!res.ok) throw new Error(`situation fetch failed: ${res.status}`);
   return res.json();
 }
 

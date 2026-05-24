@@ -7,6 +7,7 @@ import com.ort.app.api.response.village.VillageFootstepsView
 import com.ort.app.api.response.village.VillageParticipantView
 import com.ort.app.api.response.village.VillageParticipantsView
 import com.ort.app.api.response.village.VillageView
+import com.ort.app.api.response.village.situation.VillageSituationView
 import com.ort.app.application.coordinator.CreatorCoordinator
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.AbilityService
@@ -139,6 +140,41 @@ class VillageDetailRestController(
                 )
             }
         return VillageFootstepsView(list = views)
+    }
+
+    @GetMapping("/{villageId}/situation")
+    @Operation(
+        summary = "状況サマリ取得",
+        description = "旧 Thymeleaf 画面の '状況 / 投票 / 足音' タブ相当。各日の死亡・復活・能力履歴、" +
+                "参加者ごとの投票テーブル、日別の足音まとめを返す。\n" +
+                "- `whole.ability` は spoiler 開示状態 (= エピローグ以降 / 見学 / 開示村の死亡など) でのみ非空\n" +
+                "- `vote` は黒箱日 (隠蔽能力対象) を domain 側で除外済み\n" +
+                "- `dayFootsteps` の足音文字列は domain `FootstepDomainService.convertToSituation` の隠匿ロジックを通る",
+    )
+    fun situation(
+        @PathVariable villageId: Int,
+        @Parameter(description = "現在表示中の日。投票表 / 状況表の範囲決定は frontend 側で行うため、ここでは domain への day 引数 (= ability 履歴の起点) として渡す。未指定なら最新日。", required = false)
+        @RequestParam(required = false) day: Int?,
+    ): VillageSituationView {
+        val ctx = loadContext(villageId)
+        val targetDay = day ?: ctx.village.latestDay()
+        val votes = voteService.findVotes(ctx.village.id)
+        val abilities = abilityService.findAbilities(ctx.village.id)
+        val footsteps = footstepService.findFootsteps(ctx.village.id)
+        val situation = villageCoordinator.findVillageSituation(
+            village = ctx.village,
+            myself = ctx.myself,
+            votes = votes,
+            abilities = abilities,
+            footsteps = footsteps,
+            day = targetDay,
+        )
+        return VillageSituationView(
+            village = ctx.village,
+            whole = situation.whole,
+            vote = situation.vote,
+            footstep = situation.footstep,
+        )
     }
 
     @GetMapping("/{villageId}/myself")

@@ -18,6 +18,7 @@ import {
   fetchVillage,
   fetchVillageFootsteps,
   fetchVillageMessages,
+  fetchVillageSituation,
   postAbility,
   postAdminForceAccess,
   postAdminForceLeave,
@@ -53,6 +54,7 @@ import {
   type VillageCreatorSayBody,
   type VillageFaceTypeModifyBody,
   type VillageFootstepsView,
+  type VillageSituationView,
   type VillageKickBody,
   type VillageMemoBody,
   type VillageParticipateBody,
@@ -101,6 +103,26 @@ export function useVillageFootstepsQuery(
   return useQuery<VillageFootstepsView>({
     queryKey: ["village", villageId, "footsteps"],
     queryFn: () => fetchVillageFootsteps(villageId),
+    initialData,
+    initialDataUpdatedAt: initialData ? Date.now() : undefined,
+    refetchInterval: POLL_INTERVAL_MS,
+    staleTime: POLL_INTERVAL_MS,
+  });
+}
+
+/**
+ * 状況サマリ (whole / vote / dayFootsteps) を取得する。
+ * 日付タブを切替えても `day` は domain 側では ability 履歴の起点としてしか使われず、
+ * vote / whole / footstep の中身は同じになるため、queryKey に day は含めない。
+ * (旧 Thymeleaf 画面でも 1 ページにつき 1 回しか取得していなかった)。
+ */
+export function useVillageSituationQuery(
+  villageId: number,
+  initialData?: VillageSituationView,
+): UseQueryResult<VillageSituationView> {
+  return useQuery<VillageSituationView>({
+    queryKey: ["village", villageId, "situation"],
+    queryFn: () => fetchVillageSituation(villageId, undefined),
     initialData,
     initialDataUpdatedAt: initialData ? Date.now() : undefined,
     refetchInterval: POLL_INTERVAL_MS,
