@@ -4,6 +4,7 @@ import com.ort.app.api.response.chara.CharaView
 import com.ort.app.api.response.skill.SkillView
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.village.participant.dead.DeadReason
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
 
@@ -30,11 +31,19 @@ data class VillageParticipantView(
     val isSpectator: Boolean,
     @field:Schema(description = "死亡しているか")
     val isDead: Boolean,
-    @field:Schema(description = "死亡理由コード (生存中は null)")
+    @field:Schema(
+        description = "死亡理由コード。" +
+                "進行中は無惨死 (襲撃 / 呪殺 / 罠死 / 爆死 / 雑魚) を null でマスクし、" +
+                "公開して良い死因 (突然 / 処刑 / 後追) のみ返す。エピローグ以降は全公開。" +
+                "生存中も null。"
+    )
     val deadReasonCode: String?,
-    @field:Schema(description = "死亡理由表示名 (例: 処刑 / 襲撃 / 突然、生存中は null)")
+    @field:Schema(
+        description = "死亡理由表示名 (例: 処刑 / 襲撃 / 突然)。" +
+                "deadReasonCode と同じマスク方針で進行中の無惨死は null。生存中も null。"
+    )
     val deadReasonName: String?,
-    @field:Schema(description = "死亡日 (生存中は null)")
+    @field:Schema(description = "死亡日 (生存中は null)。マスク対象ではないので進行中も日付は出る")
     val deadDay: Int?,
     @field:Schema(description = "退村済みか")
     val isGone: Boolean,
@@ -56,6 +65,28 @@ data class VillageParticipantView(
         shouldHideSkill: Boolean,
         shouldHidePlayer: Boolean,
         shouldHideAccess: Boolean,
+        shouldMaskDeadReason: Boolean,
+    ) : this(
+        participant = participant,
+        chara = chara,
+        playerName = playerName,
+        shouldHideSkill = shouldHideSkill,
+        shouldHidePlayer = shouldHidePlayer,
+        shouldHideAccess = shouldHideAccess,
+        // 進行中の無惨死 (襲撃 / 呪殺 / 罠死 / 爆死 / 雑魚) は役職推理に直結する
+        // ため code/name 両方を null にマスクする。突然 / 処刑 / 後追 は公開して
+        // 良い死因なので透過。エピローグ以降 (isSpoilerOpen=true) は全公開。
+        maskedReason = maskedReason(participant, shouldMaskDeadReason),
+    )
+
+    private constructor(
+        participant: VillageParticipant,
+        chara: Chara,
+        playerName: String?,
+        shouldHideSkill: Boolean,
+        shouldHidePlayer: Boolean,
+        shouldHideAccess: Boolean,
+        maskedReason: DeadReason?,
     ) : this(
         id = participant.id,
         chara = CharaView(chara),
@@ -64,8 +95,8 @@ data class VillageParticipantView(
         roomNumber = participant.room?.number,
         isSpectator = participant.isSpectator,
         isDead = participant.dead.isDead,
-        deadReasonCode = participant.dead.reason?.code,
-        deadReasonName = participant.dead.reason?.name,
+        deadReasonCode = maskedReason?.code,
+        deadReasonName = maskedReason?.name,
         deadDay = participant.dead.deadDay,
         isGone = participant.isGone,
         isWin = participant.isWin,
@@ -74,4 +105,14 @@ data class VillageParticipantView(
         playerName = if (shouldHidePlayer) null else playerName,
         lastAccessDatetime = if (shouldHideAccess) null else participant.lastAccessDatetime,
     )
+
+    companion object {
+        private fun maskedReason(
+            participant: VillageParticipant,
+            shouldMaskDeadReason: Boolean,
+        ): DeadReason? {
+            val reason = participant.dead.reason ?: return null
+            return if (shouldMaskDeadReason && reason.isMiserable()) null else reason
+        }
+    }
 }
