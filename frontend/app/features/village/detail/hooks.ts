@@ -112,9 +112,15 @@ export function useVillageFootstepsQuery(
 
 /**
  * 状況サマリ (whole / vote / dayFootsteps) を取得する。
- * 日付タブを切替えても `day` は domain 側では ability 履歴の起点としてしか使われず、
- * vote / whole / footstep の中身は同じになるため、queryKey に day は含めない。
- * (旧 Thymeleaf 画面でも 1 ページにつき 1 回しか取得していなかった)。
+ * `day` を渡さなければ backend は `latestDay` を採用し、すべての過去日を網羅した
+ * whole / vote / dayFootsteps を返す。frontend は受け取ったデータを `selectedDay`
+ * で client side に切るだけなので、`day` の値を変えて再 fetch する必要がない =
+ * queryKey に day を含めない (= 過去日タブ切替えで API コールを発生させない)。
+ *
+ * 注: domain 側では `day` は `whole` (能力履歴の起点) と `vote` (`filterPastDay`)
+ * の両方で使われており、`day` を変えると返却内容も変わりうる。ここで `undefined`
+ * (= latestDay) 固定にしているのは「常に最新までのデータを取り、client で切る」
+ * という設計判断であり、API 仕様上は `day` 引数で範囲を絞れる。
  */
 export function useVillageSituationQuery(
   villageId: number,

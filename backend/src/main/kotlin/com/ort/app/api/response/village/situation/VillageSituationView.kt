@@ -73,13 +73,20 @@ data class VillageSituationVoteView(
     @field:Schema(
         description = "投票の最大カラム数 (= 表示すべき日数)。" +
                 "domain の `convertToVillageSituation` が黒箱日除外後の vote を返すため、" +
-                "ここでは行ごとの vote 数の最大を取る (= 旧画面 `VillageVoteContent.maxVoteCount` 互換)",
+                "ここでは行ごとの vote 数の最大を取る (= 旧画面 `VillageVoteContent.maxVoteCount` 互換)。" +
+                "現状 frontend は `list[].voteList[].day` の最大値から自前で列数を決めるため未使用だが、" +
+                "外部連携 / 別 UI で日列数を即座に知りたいケースのために残置する",
     )
     val maxVoteCount: Int,
 ) {
     constructor(village: Village, situation: VillageVoteSituation) : this(
         list = situation.list.map { memberVotes ->
             VillageSituationVoteMemberView(
+                // 投票者の行ヘッダは複数日の投票をまとめるため、特定の日に固定できない。
+                // 旧 Thymeleaf 実装 (`VillageMemberVoteContent`) も `shortName()` (= 最新部屋番号)
+                // を使っていたため踏襲。target 側はセルごとに `shortNameWhen(vote.day)`
+                // (投票日時点の部屋番号) を使うので、見た目上は「投票日の target」と
+                // 「現在の投票者」が混在するが、これは旧画面と同じ挙動。
                 participantId = memberVotes.participant.id,
                 charaShortName = memberVotes.participant.shortName(),
                 voteList = memberVotes.voteList.map { vote ->

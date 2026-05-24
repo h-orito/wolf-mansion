@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type {
+  VillageDayFootstepView,
   VillageSituationDayView,
   VillageSituationView,
   VillageSituationVoteMemberView,
@@ -39,7 +40,14 @@ export function SituationPanel({
   if (selectedDay <= 0) return null;
 
   const hasWhole = visibleWhole.length > 0;
-  const hasVote = situation.vote.list.length > 0 && situation.vote.maxVoteCount > 0;
+  // 投票は前日に行われ翌日処刑なので、`selectedDay >= 3` ではじめて表示可能な投票が
+  // 1 つでも存在する (= 2d 投票結果が公開できる)。`VoteTable` の内部判定と
+  // 整合させ、`selectedDay <= 2` のときは「状況」セクションに投票表が無いだけで
+  // whole / dayFootsteps があれば表示する。
+  const hasVote =
+    situation.vote.list.length > 0 &&
+    situation.vote.maxVoteCount > 0 &&
+    selectedDay >= 3;
   const hasDayFootsteps = visibleDayFootsteps.some((d) => d.footstep.trim().length > 0);
 
   // 3 サブブロックいずれも内容なしならパネル自体出さない。
@@ -89,6 +97,10 @@ function WholeTable({ rows }: { rows: VillageSituationDayView[] }) {
               <td className="border border-slate-700 px-2 py-1">{formatList(r.revival)}</td>
               <td className="border border-slate-700 px-2 py-1">{formatList(r.suicide)}</td>
               {hasAbility && (
+                // 能力履歴は backend (`AbilityDomainService.mapAbilitySituation`) が
+                // `[type]from → to` の整形済み文字列を 1 件 1 行で List に詰めて返す。
+                // 他の列 (突然死 / 処刑等) は単純な name list なので `formatList` で
+                // 「、」区切りにするが、ability は 1 件ずつが長い文字列のため改行で並べる。
                 <td className="border border-slate-700 px-2 py-1 whitespace-pre-line">
                   {r.ability.join("\n")}
                 </td>
@@ -180,7 +192,7 @@ function VoteRow({
 function DayFootstepsTable({
   rows,
 }: {
-  rows: { day: number; footstep: string }[];
+  rows: VillageDayFootstepView[];
 }) {
   return (
     <div className="overflow-x-auto">
