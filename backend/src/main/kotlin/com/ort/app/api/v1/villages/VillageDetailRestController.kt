@@ -20,6 +20,8 @@ import com.ort.app.application.service.VoteApplicationService
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.message.MessageQuery
+import com.ort.app.domain.model.message.MessageType
+import com.ort.dbflute.allcommon.CDef
 import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -81,26 +83,50 @@ class VillageDetailRestController(
     @GetMapping("/{villageId}/messages")
     @Operation(
         summary = "発言一覧取得",
-        description = "指定された日の閲覧可能な発言を返す。閲覧権限は閲覧者の参加状況 + 役職 + 村ステータスで決まる。",
+        description = "指定された日の閲覧可能な発言を返す。閲覧権限は閲覧者の参加状況 + 役職 + 村ステータスで決まる。" +
+            " filter / paging クエリを指定できる (`messageType` 等で絞り込み、`page` で順次表示)。",
     )
     fun messages(
         @PathVariable villageId: Int,
         @Parameter(description = "何日目か。未指定なら最新日。", required = false)
         @RequestParam(required = false) day: Int?,
+        @Parameter(description = "1 ページあたりの件数。指定するとページング ON。", required = false)
+        @RequestParam(required = false) pageSize: Int?,
+        @Parameter(description = "1 始まりのページ番号。pageSize 必須。", required = false)
+        @RequestParam(required = false) pageNum: Int?,
+        @Parameter(description = "絞り込み対象発言種別の code (複数指定で OR)。未指定なら全種別。", required = false)
+        @RequestParam(required = false) messageType: List<String>?,
+        @Parameter(description = "発言者 participantId (複数で OR)。", required = false)
+        @RequestParam(required = false) fromParticipantId: List<Int>?,
+        @Parameter(description = "宛先 participantId (複数で OR、秘話宛先で使用)。", required = false)
+        @RequestParam(required = false) toParticipantId: List<Int>?,
+        @Parameter(description = "本文キーワード (スペース区切りで AND)。", required = false)
+        @RequestParam(required = false) keyword: String?,
     ): MessagesView {
         val ctx = loadContext(villageId)
         val targetDay = day ?: ctx.village.latestDay()
+        // pageSize が指定されていればページング ON。pageNum 未指定なら 1 ページ目。
+        val isPaging = pageSize != null
+        // 旧 `VillageGetMessageListForm.typeMap` 互換: ユーザに見せている発言種別 (例:
+        // `GRAVE_SPECTATE_SAY`, `PRIVATE_SYSTEM`) は内部では複数 CDef.MessageType を束ねている。
+        // フィルタ未指定 (== messageType が null) のときは空リスト = 全種別扱いで通す。
+        val requestTypes = messageType.orEmpty()
+            .flatMap { MESSAGE_FILTER_TYPE_MAP[it] ?: emptyList() }
+            .distinctBy { it.code() }
+            .map { MessageType(it) }
         val query = MessageQuery(
             village = ctx.village,
             day = targetDay,
-            pageSize = null,
-            pageNum = null,
-            fromParticipantIds = emptyList(),
-            toParticipantIds = emptyList(),
-            requestTypes = emptyList(),
-            keywords = null,
-            isPaging = false,
-            isDispLatest = true,
+            pageSize = pageSize,
+            pageNum = if (isPaging) pageNum ?: 1 else null,
+            fromParticipantIds = fromParticipantId.orEmpty(),
+            toParticipantIds = toParticipantId.orEmpty(),
+            requestTypes = requestTypes,
+            keywords = keyword?.takeIf { it.isNotBlank() },
+            isPaging = isPaging,
+            // 最終ページ判定: 未指定 or pageNum 指定なしのときは最新表示扱い。
+            // 旧 Thymeleaf の `isDispLatest` ロジックを踏襲。
+            isDispLatest = !isPaging || pageNum == null,
         )
         val viewerPlayer = ctx.user?.let { playerService.findPlayer(it.username) }
         val messages = messageService.findMeesages(ctx.village, ctx.myself, viewerPlayer, query)
@@ -291,4 +317,39 @@ class VillageDetailRestController(
         val myself: VillageParticipant?,
         val charachips: Charachips,
     )
+
+    companion object {
+        // フィルタ UI 上で「1 項目」として見せる発言種別を、検索クエリ用の CDef.MessageType
+        // (複数) に展開するためのマップ。旧 `VillageGetMessageListForm.typeMap` 互換。
+        // 例: `GRAVE_SPECTATE_SAY` (墓下見学) は内部では 死者の呻き + 見学発言 の 2 種別を覆う。
+        private val MESSAGE_FILTER_TYPE_MAP: Map<String, List<CDef.MessageType>> = mapOf(
+            CDef.MessageType.通常発言.code() to listOf(CDef.MessageType.通常発言),
+            CDef.MessageType.村建て発言.code() to listOf(CDef.MessageType.村建て発言),
+            CDef.MessageType.人狼の囁き.code() to listOf(CDef.MessageType.人狼の囁き),
+            CDef.MessageType.恋人発言.code() to listOf(CDef.MessageType.恋人発言),
+            CDef.MessageType.念話.code() to listOf(CDef.MessageType.念話),
+            CDef.MessageType.共鳴発言.code() to listOf(CDef.MessageType.共鳴発言),
+            "GRAVE_SPECTATE_SAY" to listOf(CDef.MessageType.死者の呻き, CDef.MessageType.見学発言),
+            CDef.MessageType.独り言.code() to listOf(CDef.MessageType.独り言),
+            CDef.MessageType.秘話.code() to listOf(CDef.MessageType.秘話),
+            CDef.MessageType.アクション.code() to listOf(CDef.MessageType.アクション),
+            CDef.MessageType.公開システムメッセージ.code() to listOf(
+                CDef.MessageType.公開システムメッセージ,
+                CDef.MessageType.参加者一覧,
+            ),
+            CDef.MessageType.非公開システムメッセージ.code() to listOf(
+                CDef.MessageType.非公開システムメッセージ,
+                CDef.MessageType.白黒占い結果,
+                CDef.MessageType.役職占い結果,
+                CDef.MessageType.白黒霊視結果,
+                CDef.MessageType.役職霊視結果,
+                CDef.MessageType.検死結果,
+                CDef.MessageType.襲撃結果,
+                CDef.MessageType.足音調査結果,
+                CDef.MessageType.恋人メッセージ,
+                CDef.MessageType.妖狐メッセージ,
+                CDef.MessageType.能力行使メッセージ,
+            ),
+        )
+    }
 }

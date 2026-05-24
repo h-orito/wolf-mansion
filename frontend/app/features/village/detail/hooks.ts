@@ -41,6 +41,7 @@ import {
   putMemo,
   putSettings,
   type CharaView,
+  type MessagesQuery,
   type MessagesView,
   type MyselfFaceTypesView,
   type MyselfView,
@@ -81,14 +82,32 @@ export function useVillageQuery(
   });
 }
 
+/**
+ * messages query を filter / paging 付きで取得する。queryKey に query 全体の
+ * stable representation を含めるので、フィルタや page が変わると自動で refetch される。
+ *
+ * 後方互換: 第二引数に number (day) を渡したら `{ day }` と等価に扱う。
+ */
 export function useVillageMessagesQuery(
   villageId: number,
-  day: number | undefined,
+  query: number | MessagesQuery | undefined,
   initialData?: MessagesView,
 ): UseQueryResult<MessagesView> {
+  const q: MessagesQuery =
+    typeof query === "number" ? { day: query } : (query ?? {});
+  // 配列やオプショナルを stable な形に揃える (順序ずれで queryKey が変わるのを防ぐ)。
+  const keyPart = {
+    day: q.day ?? "latest",
+    pageSize: q.pageSize ?? null,
+    pageNum: q.pageNum ?? null,
+    messageType: [...(q.messageType ?? [])].sort(),
+    fromParticipantId: [...(q.fromParticipantId ?? [])].sort((a, b) => a - b),
+    toParticipantId: [...(q.toParticipantId ?? [])].sort((a, b) => a - b),
+    keyword: q.keyword?.trim() || null,
+  };
   return useQuery<MessagesView>({
-    queryKey: ["village", villageId, "messages", day ?? "latest"],
-    queryFn: () => fetchVillageMessages(villageId, day),
+    queryKey: ["village", villageId, "messages", keyPart],
+    queryFn: () => fetchVillageMessages(villageId, q),
     initialData,
     initialDataUpdatedAt: initialData ? Date.now() : undefined,
     refetchInterval: POLL_INTERVAL_MS,
