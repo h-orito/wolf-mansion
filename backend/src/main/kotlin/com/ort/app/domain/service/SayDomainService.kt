@@ -115,7 +115,7 @@ class SayDomainService(
                         maxLength = restrict?.length ?: MessageContent.defaultLengthMax,
                         maxLine = MessageContent.defaultLineMax
                     ),
-                    targetList = getSecretSayTargetList(it, village, creatorPlayerId, myself!!, player!!)
+                    targetList = getSecretSayTargetList(it, village, creatorPlayerId, myself!!, player)
                 )
             }
     }
@@ -161,9 +161,14 @@ class SayDomainService(
         village: Village,
         creatorPlayerId: Int,
         myself: VillageParticipant,
-        player: Player,
+        player: Player?,
     ): List<VillageParticipant> {
         if (messageType != CDef.MessageType.秘話) return emptyList()
+        // 呼び出し側 (`convertToSituation`) は `player: Player?` を受けて未認証等で
+        // null を渡しうるので、null のときは秘話宛先を取り出せない = 空を返す。
+        // 呼び出し側が `getSelectableMessageTypeList` 内で `player!!` していたのを
+        // ここでガードに寄せている。
+        player ?: return emptyList()
         val base = village.allParticipants().sortedByRoomNumber().list.filter { it.id != myself.id }
         // 管理者および村建ては全員
         return if (myself.isAdmin() || village.isCreator(player)) base

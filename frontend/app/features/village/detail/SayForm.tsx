@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { MyselfSayMessageTypeView, MyselfView } from "./api";
 import { useSayMutation } from "./hooks";
 import { useSayAnchorSubscription } from "./SayFormContext";
@@ -43,6 +43,19 @@ export function SayForm({
   );
   const [convertDisable, setConvertDisable] = useState(false);
   const [secretTargetCharaId, setSecretTargetCharaId] = useState<number | "">("");
+  // テキスト挿入後にカーソル位置を確実に DOM へ反映するため、React の commit 後に
+  // 動く `useLayoutEffect` で setSelectionRange する。`requestAnimationFrame` だと
+  // concurrent mode 下で稀に setText の commit より前に走り、カーソル位置が
+  // ずれることがあるため避ける。
+  const [pendingCursor, setPendingCursor] = useState<number | null>(null);
+  useLayoutEffect(() => {
+    if (pendingCursor == null) return;
+    const el = textareaRef.current;
+    if (!el) return;
+    el.focus();
+    el.setSelectionRange(pendingCursor, pendingCursor);
+    setPendingCursor(null);
+  }, [pendingCursor, text]);
 
   // myself が更新されて (= 役職判明 / 死亡 等) 現在の messageTypeCode が消えたら
   // デフォルトに切り替える。発言種別を変えた選択は維持したいので、まだ available
@@ -70,7 +83,10 @@ export function SayForm({
       }
     }
     const anchorText = `${req.anchorPrefix}${req.messageNumber}\n`;
-    appendToTextarea(textareaRef.current, anchorText, setText);
+    const needsLeadingNewline = text.length > 0 && !text.endsWith("\n");
+    const newText = needsLeadingNewline ? `${text}\n${anchorText}` : text + anchorText;
+    setText(newText);
+    setPendingCursor(newText.length);
   });
 
   const currentTypeInfo = availableTypes.find((t) => t.code === messageTypeCode) ?? defaultType;
@@ -114,13 +130,9 @@ export function SayForm({
       inserted = `[[${tag}]]`;
       nextCursor = start + inserted.length;
     }
-    const next = before + inserted + after;
-    setText(next);
-    // setText は非同期、次フレームで selection を戻す
-    requestAnimationFrame(() => {
-      el.focus();
-      el.setSelectionRange(nextCursor, nextCursor);
-    });
+    setText(before + inserted + after);
+    // commit 後に確実に setSelectionRange するため useLayoutEffect 経由で位置反映
+    setPendingCursor(nextCursor);
   }
 
   function submit(e: React.FormEvent) {
@@ -393,27 +405,12 @@ function submitLabel(typeCode: string): string {
       return "呻く";
     case "SPECTATE_SAY":
       return "見学発言";
+    case "ACTION":
+      // アクション発言は専用 UI (旧 ActionPanel 相当) が未実装で、本 SayForm の
+      // 種別タブには通常出ない想定。万一 backend が含めて返した場合は汎用ラベルで動く
+      return "アクション";
     default:
       return "発言する";
   }
 }
 
-function appendToTextarea(
-  el: HTMLTextAreaElement | null,
-  insertText: string,
-  setText: (updater: (prev: string) => string) => void,
-) {
-  setText((prev) => {
-    // 末尾に改行が無ければ改行を 1 つ挟む (旧画面の `>>N` 挿入相当)。
-    // すでに `>>N\n` の形で入ってきている (anchorText) のでそのまま付ければ良い。
-    const needsLeadingNewline = prev.length > 0 && !prev.endsWith("\n");
-    return needsLeadingNewline ? `${prev}\n${insertText}` : prev + insertText;
-  });
-  // textarea にフォーカスを戻し末尾にカーソル移動
-  requestAnimationFrame(() => {
-    if (!el) return;
-    el.focus();
-    const end = el.value.length;
-    el.setSelectionRange(end, end);
-  });
-}
