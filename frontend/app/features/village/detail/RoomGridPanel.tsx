@@ -6,13 +6,14 @@ import type { VillageParticipantView, VillageView } from "./api";
  *
  * 表示条件: 村の `roomWidth` が確定済 (= プロローグ終了後) かつ `day > 0`。
  * `village.participants.list` のうち `roomNumber` が割り当てられたものを対象に、
- * `roomWidth` 列のグリッドへ並べる。見学者は除外。
+ * `roomWidth` 列のグリッドへ並べる。見学者と退村済は除外。
  *
- * 死亡者は半透明 + `<deadDay>d <記号>` を重ねる (記号: 襲撃系=▲ / 処刑=▼ /
- * 突然=凸 / 後追=❤ / その他・null=▲)。進行中の無惨死は backend がマスクして
- * code/name を null で返すので、isDead && null → ▲ にフォールバックする。
- * 死亡判定は backend が現状 (最新日基準) で返す `isDead / deadDay /
- * deadReasonCode` を使う (任意の日の生死再現は範囲外、12c 以降)。
+ * 死亡者は半透明 + `<dead.day>d <記号>` を重ねる (記号: 襲撃系=▲ / 処刑=▼ /
+ * 突然=凸 / 後追=❤ / MISERABLE=▲)。進行中の無惨死は backend が code/name を
+ * `MISERABLE` / `無惨` に統一して返すので、フロントは MISERABLE → ▲ で扱う。
+ *
+ * 死亡判定は backend が現状 (最新日基準) で返す `dead` (= DeadView | null) を
+ * 使う (任意の日の生死再現は範囲外、12c 以降)。
  */
 export function RoomGridPanel({
   village,
@@ -23,7 +24,7 @@ export function RoomGridPanel({
 }) {
   if (village.roomWidth == null || day <= 0) return null;
 
-  // 退村済み (isGone) は旧画面でも部屋割りから外れていたので除外する。
+  // 退村済 (isGone) は旧画面でも部屋割りから外れていたので除外する。
   // 部屋番号順は backend (`sortedByRoomNumber()`) で確定済なのでフロント側 sort は不要。
   const roomed = village.participants.list.filter(
     (p) => p.roomNumber != null && !p.isGone,
@@ -48,18 +49,15 @@ export function RoomGridPanel({
 }
 
 function RoomCell({ participant }: { participant: VillageParticipantView }) {
-  const isDead = participant.isDead;
+  const dead = participant.dead;
   const room = participant.roomNumber != null
     ? String(participant.roomNumber).padStart(2, "0")
     : "--";
-  // deadMark は isDead のときだけ使う。生存者でも計算されるが安価で、結果は
-  // 下の `{isDead && ...}` ブロックでしか参照されないので問題ない。
-  const deadMark = deadMarkOf(participant.deadReasonCode);
   return (
     <div
       className={
         "relative flex flex-col items-center justify-end rounded border border-slate-700 bg-slate-900/40 p-1 " +
-        (isDead ? "opacity-40" : "")
+        (dead ? "opacity-40" : "")
       }
       title={participant.name}
     >
@@ -74,10 +72,9 @@ function RoomCell({ participant }: { participant: VillageParticipantView }) {
       />
       <div className="text-[10px] font-mono text-center leading-tight text-slate-200 mt-0.5">
         <span>{room} {participant.chara.shortName}</span>
-        {isDead && (
+        {dead && (
           <span className="block text-rose-300">
-            {participant.deadDay != null ? `${participant.deadDay}d` : ""}
-            {deadMark ? ` ${deadMark}` : ""}
+            {dead.day}d {deadMarkOf(dead.code)}
           </span>
         )}
       </div>
@@ -86,20 +83,14 @@ function RoomCell({ participant }: { participant: VillageParticipantView }) {
 }
 
 /**
- * `CDef.DeadReason` の code から旧画面表記の記号を返す。
+ * `CDef.DeadReason` の code (または backend の合成コード MISERABLE) から旧画面
+ * 表記の記号を返す。
  * 旧 situation.html (line 80) の三項演算子は `EXECUTE → ▼`, `SUDDON → 凸`,
- * `SUICIDE → ❤︎`, それ以外 (襲撃系) → `▲` だったので、ATTACK 系
- * (`ATTACK / DIVINED / TRAPPED / BOMBED / ZAKO`) を明示列挙して同じ ▲ にする。
- *
- * `code` が **null になる経路** が 2 種類ある:
- *   1. 生存中 (deadReasonCode 自体が null)
- *   2. 進行中の無惨死で backend が code/name をマスクして null にしている
- * この関数自体は両者を区別せず ▲ を返す。呼び出し側で `isDead` を判定して
- * 死亡時のみ結果を表示する (= 生存者の ▲ は描画されない)。
+ * `SUICIDE → ❤︎`, それ以外 (襲撃系) → `▲`。襲撃系 (`ATTACK / DIVINED /
+ * TRAPPED / BOMBED / ZAKO`) と `MISERABLE` (進行中マスク) を明示列挙して同じ ▲ にする。
  * 不明 code も安全側に倒して `▲` (= 何らかの無惨な死) として扱う。
  */
-function deadMarkOf(code: string | null | undefined): string {
-  if (!code) return "▲";
+function deadMarkOf(code: string): string {
   switch (code) {
     case "EXECUTE":
       return "▼";
@@ -107,12 +98,14 @@ function deadMarkOf(code: string | null | undefined): string {
       return "凸";
     case "SUICIDE":
       return "❤";
-    // 旧画面で同色 (#ff0000) 扱いだった襲撃系。記号は ATTACK 含め全て ▲ に揃える
+    // 旧画面で同色 (#ff0000) 扱いだった襲撃系。記号は ATTACK 含め全て ▲ に揃える。
+    // MISERABLE は進行中マスクの合成コード (backend が無惨死を統一して返す)。
     case "ATTACK":
     case "DIVINED":
     case "TRAPPED":
     case "BOMBED":
     case "ZAKO":
+    case "MISERABLE":
       return "▲";
     default:
       return "▲";
