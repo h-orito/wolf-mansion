@@ -199,6 +199,10 @@ class VillageDetailRestController(
                 shouldHideSkill = shouldHideSkill(ctx, participant, isSpoilerOpen),
                 shouldHidePlayer = shouldHidePlayer(ctx, participant, isSpoilerOpen),
                 shouldHideAccess = shouldHideAccess(ctx, participant, isSpoilerOpen),
+                // 進行中は無惨死 (襲撃 / 呪殺 / 罠死 / 爆死 / 雑魚) の区別を隠す。
+                // 突然 / 処刑 / 後追 は公開して良いのでマスクしない。
+                // 自分自身の死因も同じく隠す (詳細は private system メッセージで通知)。
+                shouldMaskDeadReason = !isSpoilerOpen,
             )
         }
         return VillageParticipantsView(

@@ -400,7 +400,10 @@ function ParticipantSubList({
             {isDead && (
               <span className="text-xs text-rose-300 shrink-0">
                 {p.deadDay != null ? `${p.deadDay}d ` : ""}
-                {p.deadReasonName ?? "死亡"}
+                {/* deadReasonName が null = 進行中の無惨死 (襲撃 / 呪殺 / 罠死 /
+                    爆死 / 雑魚) でマスクされている状態。旧 DeadReason.getDisplayName
+                    と同じ「無惨死」表記でカバーする */}
+                {p.deadReasonName ?? "無惨死"}
               </span>
             )}
           </li>

@@ -86,10 +86,15 @@ function RoomCell({ participant }: { participant: VillageParticipantView }) {
  * 旧 situation.html (line 80) の三項演算子は `EXECUTE → ▼`, `SUDDON → 凸`,
  * `SUICIDE → ❤︎`, それ以外 (襲撃系) → `▲` だったので、ATTACK 系
  * (`ATTACK / DIVINED / TRAPPED / BOMBED / ZAKO`) を明示列挙して同じ ▲ にする。
- * 不明 code は安全側に倒して `▲` (= 何らかの非自然死) として扱う。
+ *
+ * `code` が **null になる経路** が 2 種類ある:
+ *   1. 生存中 (deadReasonCode 自体が null)
+ *   2. 進行中の無惨死で backend が code/name をマスクして null にしている
+ * 呼び出し側で `isDead` を判定済の前提なら 2 番に該当するので ▲ を返す。
+ * 不明 code も安全側に倒して `▲` (= 何らかの無惨な死) として扱う。
  */
 function deadMarkOf(code: string | null | undefined): string {
-  if (!code) return "";
+  if (!code) return "▲";
   switch (code) {
     case "EXECUTE":
       return "▼";
