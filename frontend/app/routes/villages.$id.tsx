@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import type { Route } from "./+types/villages.$id";
 import {
@@ -7,6 +7,7 @@ import {
   fetchVillageFootsteps,
   fetchVillageMessages,
   fetchVillageSituation,
+  type MessagesQuery,
   type MessagesView,
   type MyselfView,
   type VillageFootstepsView,
@@ -30,8 +31,17 @@ import { RpActions } from "~/features/village/detail/RpActions";
 import { SayForm } from "~/features/village/detail/SayForm";
 import { SayFormProvider } from "~/features/village/detail/SayFormContext";
 import { SituationPanel } from "~/features/village/detail/SituationPanel";
+import {
+  EMPTY_FILTER,
+  isEmptyFilter,
+  MessageFilterModal,
+  type MessageFilterValue,
+} from "~/features/village/detail/MessageFilter";
+import { VillageInfoModal } from "~/features/village/detail/VillageInfoModal";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
+
+const PAGE_SIZE = 50;
 
 export function meta({ data }: Route.MetaArgs) {
   const name = data?.village?.name ?? "村詳細";
@@ -51,6 +61,93 @@ function parseDayParam(raw: string | null): number | undefined {
   return n;
 }
 
+function parsePageParam(raw: string | null): number | undefined {
+  if (raw == null || raw === "") return undefined;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1) return undefined;
+  return n;
+}
+
+/**
+ * URL クエリ (`?type=A,B` `&from=1,2` `&to=3` `&kw=...`) を MessageFilterValue にパース。
+ * 旧 Thymeleaf 互換ではなく URL を短く保つため、カンマ区切り 1 パラメータ + 短いキー名にした。
+ */
+function parseFilterFromParams(p: URLSearchParams): MessageFilterValue {
+  const messageType = (p.get("type") ?? "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const fromParticipantId = (p.get("from") ?? "")
+    .split(",")
+    .map((s) => Number(s.trim()))
+    .filter((n) => Number.isInteger(n) && n > 0);
+  const toParticipantId = (p.get("to") ?? "")
+    .split(",")
+    .map((s) => Number(s.trim()))
+    .filter((n) => Number.isInteger(n) && n > 0);
+  const keyword = p.get("kw") ?? "";
+  return { messageType, fromParticipantId, toParticipantId, keyword };
+}
+
+function applyFilterToParams(p: URLSearchParams, v: MessageFilterValue) {
+  if (v.messageType.length > 0) p.set("type", v.messageType.join(","));
+  else p.delete("type");
+  if (v.fromParticipantId.length > 0)
+    p.set("from", v.fromParticipantId.join(","));
+  else p.delete("from");
+  if (v.toParticipantId.length > 0) p.set("to", v.toParticipantId.join(","));
+  else p.delete("to");
+  if (v.keyword.trim() !== "") p.set("kw", v.keyword.trim());
+  else p.delete("kw");
+}
+
+function sortedNumbers(arr: number[]): number[] {
+  return [...arr].sort((a, b) => a - b);
+}
+function sortedStrings(arr: string[]): string[] {
+  return [...arr].sort();
+}
+
+/**
+ * フィルタの等価判定。配列の順序差を吸収するため sort 後に比較する。
+ * useVillageMessagesQuery 側の queryKey 生成と同じ正規化方針。
+ */
+function isFilterEqual(a: MessageFilterValue, b: MessageFilterValue): boolean {
+  if (a.keyword.trim() !== b.keyword.trim()) return false;
+  const aType = sortedStrings(a.messageType);
+  const bType = sortedStrings(b.messageType);
+  if (aType.length !== bType.length) return false;
+  for (let i = 0; i < aType.length; i++) if (aType[i] !== bType[i]) return false;
+  const aFrom = sortedNumbers(a.fromParticipantId);
+  const bFrom = sortedNumbers(b.fromParticipantId);
+  if (aFrom.length !== bFrom.length) return false;
+  for (let i = 0; i < aFrom.length; i++) if (aFrom[i] !== bFrom[i]) return false;
+  const aTo = sortedNumbers(a.toParticipantId);
+  const bTo = sortedNumbers(b.toParticipantId);
+  if (aTo.length !== bTo.length) return false;
+  for (let i = 0; i < aTo.length; i++) if (aTo[i] !== bTo[i]) return false;
+  return true;
+}
+
+function buildMessagesQuery(
+  day: number,
+  filter: MessageFilterValue,
+  page: number | undefined,
+): MessagesQuery {
+  const q: MessagesQuery = { day };
+  if (filter.messageType.length > 0) q.messageType = filter.messageType;
+  if (filter.fromParticipantId.length > 0)
+    q.fromParticipantId = filter.fromParticipantId;
+  if (filter.toParticipantId.length > 0)
+    q.toParticipantId = filter.toParticipantId;
+  if (filter.keyword.trim() !== "") q.keyword = filter.keyword.trim();
+  if (typeof page === "number") {
+    q.pageSize = PAGE_SIZE;
+    q.pageNum = page;
+  }
+  return q;
+}
+
 export async function loader({ request, params }: Route.LoaderArgs) {
   const villageId = Number(params.id);
   if (!Number.isFinite(villageId)) {
@@ -58,6 +155,8 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   }
   const url = new URL(request.url);
   const dayParam = parseDayParam(url.searchParams.get("day"));
+  const initialFilter = parseFilterFromParams(url.searchParams);
+  const initialPage = parsePageParam(url.searchParams.get("page"));
   const api = ssrFetch(request);
   // 村の存在確認を先行させる。村が無い場合に messages / footsteps / myself へ
   // 無駄な API コール (backend で同じく 404 になる) が走るのを避けるため。
@@ -66,15 +165,27 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   // 初期表示日: ?day= があればそれ、無ければ最新日 (= backend で `day` 未指定時と同じ)。
   // 「latest」をクエリキーに乗せる都合で、ここでは明示的に number に正規化して渡す。
   const initialDay = dayParam ?? village.time.latestDay;
+  // フィルタ / ページ指定があれば SSR でも反映 (URL 共有時の見た目を一致させる)。
+  const messagesQuery = buildMessagesQuery(initialDay, initialFilter, initialPage);
   const [messages, footsteps, myself, situation] = await Promise.all([
-    fetchVillageMessages(villageId, initialDay, api).catch(() => null),
+    fetchVillageMessages(villageId, messagesQuery, api).catch(() => null),
     fetchVillageFootsteps(villageId, api).catch(() => null),
     fetchMyself(villageId, api).catch(() => null),
     // situation は day を渡さなくても backend 側で latestDay を採用するため未指定で OK。
     // CSR でも `useVillageSituationQuery` は day なしで叩く想定。
     fetchVillageSituation(villageId, undefined, api).catch(() => null),
   ]);
-  return { villageId, village, initialDay, messages, footsteps, myself, situation };
+  return {
+    villageId,
+    village,
+    initialDay,
+    initialFilter,
+    initialPage,
+    messages,
+    footsteps,
+    myself,
+    situation,
+  };
 }
 
 export default function VillageDetail({ loaderData }: Route.ComponentProps) {
@@ -82,6 +193,8 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     villageId,
     village: initialVillage,
     initialDay,
+    initialFilter,
+    initialPage,
     messages: initialMessages,
     footsteps: initialFootsteps,
     myself: initialMyself,
@@ -91,15 +204,27 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const [params, setParams] = useSearchParams();
   // ?day を最優先で使い、無ければ loader で求めた initialDay (= latest) にフォールバック。
   const selectedDay = parseDayParam(params.get("day")) ?? initialDay;
+  const filter = useMemo(() => parseFilterFromParams(params), [params]);
+  const page = parsePageParam(params.get("page"));
+  const isFiltered = !isEmptyFilter(filter);
+  const isPaging = typeof page === "number";
+
+  const [showFilter, setShowFilter] = useState(false);
+  const [showInfo, setShowInfo] = useState(false);
 
   const villageQuery = useVillageQuery(villageId, initialVillage);
-  // 表示日が初期と一致するときだけ SSR の initialMessages を渡す。タブ切替後は
-  // initial を使い回すと別日のデータを掴むため必ず再 fetch させる。
-  const messagesInitialData =
-    selectedDay === initialDay ? initialMessages ?? undefined : undefined;
+  // SSR initialData: 日 / フィルタ / ページが loader と一致するときだけ使う。
+  // どれかが変われば別データなので initial を渡すと不整合になる。
+  // フィルタ比較は配列の順序差で initial を捨てないよう、useVillageMessagesQuery
+  // 側の queryKey と同じく sort 後比較で揃える。
+  const isInitialView =
+    selectedDay === initialDay &&
+    page === initialPage &&
+    isFilterEqual(filter, initialFilter);
+  const messagesInitialData = isInitialView ? initialMessages ?? undefined : undefined;
   const messagesQuery = useVillageMessagesQuery(
     villageId,
-    selectedDay,
+    buildMessagesQuery(selectedDay, filter, page),
     messagesInitialData,
   );
   const footstepsQuery = useVillageFootstepsQuery(villageId, initialFootsteps ?? undefined);
@@ -135,12 +260,45 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
           // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
           if (day === latestDay) next.delete("day");
           else next.set("day", String(day));
+          // 日付を切り替えたらページ番号はリセット (異なる日のページ位置は意味なし)。
+          next.delete("page");
           return next;
         },
         { replace: true },
       );
     },
     [setParams, latestDay],
+  );
+
+  const applyFilter = useCallback(
+    (v: MessageFilterValue) => {
+      setParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          applyFilterToParams(next, v);
+          // フィルタ変更でページ番号はリセット (件数が変わるため意味が変わる)。
+          next.delete("page");
+          return next;
+        },
+        { replace: false },
+      );
+    },
+    [setParams],
+  );
+
+  const setPage = useCallback(
+    (p: number) => {
+      setParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          if (p <= 1) next.delete("page");
+          else next.set("page", String(p));
+          return next;
+        },
+        { replace: true },
+      );
+    },
+    [setParams],
   );
 
   // SayForm 表示判定: 最新日 + backend が「発言可能」と返している場合のみ。
@@ -157,7 +315,14 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     <main className="min-h-screen bg-slate-900 text-slate-100">
       <section className="max-w-4xl mx-auto px-6 py-10 space-y-6">
         <SayFormProvider>
-          <VillageHeader village={village} />
+          <VillageHeader
+            village={village}
+            onOpenInfo={() => setShowInfo(true)}
+            onOpenFilter={() => setShowFilter(true)}
+            isFiltered={isFiltered}
+            villageId={villageId}
+            selectedDay={selectedDay}
+          />
 
           <DayTabs
             days={village.days.list.map((d) => d.day)}
@@ -187,12 +352,29 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
             messages={messages}
             day={selectedDay}
             participants={village.participants.list}
+            isPaging={isPaging}
+            onSetPage={setPage}
           />
 
-          {canShowSayForm && <SayForm villageId={villageId} myself={myself!} />}
+          {canShowSayForm && !isFiltered && !isPaging && (
+            <SayForm villageId={villageId} myself={myself!} />
+          )}
 
           <FootstepsPanel footsteps={footsteps} />
         </SayFormProvider>
+
+        <MessageFilterModal
+          open={showFilter}
+          value={filter}
+          participants={village.participants.list}
+          onApply={applyFilter}
+          onClose={() => setShowFilter(false)}
+        />
+        <VillageInfoModal
+          open={showInfo}
+          village={village}
+          onClose={() => setShowInfo(false)}
+        />
       </section>
     </main>
   );
@@ -200,7 +382,21 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
 
 // ---------- 部品 ----------
 
-function VillageHeader({ village }: { village: VillageView }) {
+function VillageHeader({
+  village,
+  villageId,
+  selectedDay,
+  onOpenInfo,
+  onOpenFilter,
+  isFiltered,
+}: {
+  village: VillageView;
+  villageId: number;
+  selectedDay: number;
+  onOpenInfo: () => void;
+  onOpenFilter: () => void;
+  isFiltered: boolean;
+}) {
   return (
     <header className="space-y-2">
       <div className="flex items-center justify-between">
@@ -228,6 +424,36 @@ function VillageHeader({ village }: { village: VillageView }) {
         村建て: {village.createPlayerName} / {village.participants.count}人
         {village.participants.spectatorCount > 0 ? ` (見学${village.participants.spectatorCount})` : ""}
       </p>
+      <div className="flex flex-wrap gap-2 pt-1">
+        <button
+          type="button"
+          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
+          onClick={onOpenInfo}
+        >
+          村情報
+        </button>
+        <button
+          type="button"
+          className={
+            "rounded border px-2.5 py-1 text-xs " +
+            (isFiltered
+              ? "border-indigo-400 bg-indigo-600/30 text-indigo-50"
+              : "border-slate-600 text-slate-200 hover:bg-slate-800")
+          }
+          onClick={onOpenFilter}
+          aria-pressed={isFiltered}
+        >
+          発言抽出{isFiltered ? " (絞り込み中)" : ""}
+        </button>
+        <Link
+          to={`/villages/${villageId}/scrap?day=${selectedDay}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
+        >
+          切り抜き ↗
+        </Link>
+      </div>
     </header>
   );
 }
@@ -391,10 +617,14 @@ function MessagesPanel({
   messages,
   day,
   participants,
+  isPaging,
+  onSetPage,
 }: {
   messages: MessagesView | null;
   day: number;
   participants: VillageParticipantView[];
+  isPaging: boolean;
+  onSetPage: (page: number) => void;
 }) {
   // fromParticipantId → VillageParticipantView の逆引きマップを 1 回だけ作る。
   // useMemo で participants 配列の identity が変わったときのみ作り直す。
@@ -403,11 +633,31 @@ function MessagesPanel({
     [participants],
   );
   const count = messages?.list.length ?? 0;
+  const currentPage = messages?.currentPageNum ?? null;
+  const totalPages = messages?.allPageCount ?? 0;
+  // backend 側 `isExistPrePage` / `isExistNextPage` を信頼する (フィルタ込で正確に出ている)。
+  const hasPrev = messages?.isExistPrePage ?? false;
+  const hasNext = messages?.isExistNextPage ?? false;
   return (
     <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-3">
-        発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
-      </h2>
+      <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
+        <h2 className="text-sm text-slate-400">
+          発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
+          {isPaging && totalPages > 0 && currentPage != null && (
+            <span className="ml-2 text-slate-500">
+              ({currentPage} / {totalPages} ページ)
+            </span>
+          )}
+        </h2>
+        <Pagination
+          isPaging={isPaging}
+          currentPage={currentPage}
+          totalPages={totalPages}
+          hasPrev={hasPrev}
+          hasNext={hasNext}
+          onSetPage={onSetPage}
+        />
+      </div>
       {!messages || count === 0 ? (
         <p className="text-slate-400 text-sm py-2">この日の閲覧可能な発言はありません</p>
       ) : (
@@ -419,7 +669,73 @@ function MessagesPanel({
           ))}
         </ul>
       )}
+      {(hasPrev || hasNext) && (
+        <div className="flex justify-end mt-3">
+          <Pagination
+            isPaging={isPaging}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            hasPrev={hasPrev}
+            hasNext={hasNext}
+            onSetPage={onSetPage}
+          />
+        </div>
+      )}
     </section>
+  );
+}
+
+function Pagination({
+  isPaging,
+  currentPage,
+  totalPages,
+  hasPrev,
+  hasNext,
+  onSetPage,
+}: {
+  isPaging: boolean;
+  currentPage: number | null;
+  totalPages: number;
+  hasPrev: boolean;
+  hasNext: boolean;
+  onSetPage: (page: number) => void;
+}) {
+  // 全件 1 ページに収まる (ページング ON で次/前なし) または paging OFF で表示が長すぎる
+  // ケースで "分割" ボタンを出す。`?page=1` を付けると backend が pageSize=50 で paging を ON にする。
+  if (!isPaging) {
+    return (
+      <button
+        type="button"
+        className="rounded border border-slate-600 px-2 py-0.5 text-xs text-slate-300 hover:bg-slate-800"
+        onClick={() => onSetPage(1)}
+      >
+        分割表示
+      </button>
+    );
+  }
+  const cur = currentPage ?? 1;
+  return (
+    <div className="flex items-center gap-1 text-xs">
+      <button
+        type="button"
+        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        onClick={() => onSetPage(cur - 1)}
+        disabled={!hasPrev || cur <= 1}
+      >
+        ‹ 前
+      </button>
+      <span className="px-1 text-slate-400">
+        {cur}/{totalPages || cur}
+      </span>
+      <button
+        type="button"
+        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        onClick={() => onSetPage(cur + 1)}
+        disabled={!hasNext}
+      >
+        次 ›
+      </button>
+    </div>
   );
 }
 

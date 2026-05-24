@@ -68,12 +68,40 @@ export async function fetchVillage(
   return res.json();
 }
 
+/**
+ * フィルタ + ページング込みの messages クエリ。
+ *
+ * - `messageType`: UI 上の「1 項目」分の code (例: `GRAVE_SPECTATE_SAY`)。
+ *   backend 側で内部 CDef 種別の集合に展開される。空配列 / 未指定なら絞り込みなし。
+ * - `pageSize` を指定するとページング ON。`pageNum` 未指定なら最新ページ扱い。
+ */
+export type MessagesQuery = {
+  day?: number;
+  pageSize?: number;
+  pageNum?: number;
+  messageType?: string[];
+  fromParticipantId?: number[];
+  toParticipantId?: number[];
+  keyword?: string;
+};
+
 export async function fetchVillageMessages(
   villageId: number,
-  day: number | undefined,
+  query: number | MessagesQuery | undefined,
   fetcher: ApiFetch = browserFetch,
 ): Promise<MessagesView> {
-  const qs = typeof day === "number" ? `?day=${day}` : "";
+  // 後方互換: 旧シグネチャ (day: number) も受け付ける。
+  const q: MessagesQuery =
+    typeof query === "number" ? { day: query } : (query ?? {});
+  const params = new URLSearchParams();
+  if (typeof q.day === "number") params.set("day", String(q.day));
+  if (typeof q.pageSize === "number") params.set("pageSize", String(q.pageSize));
+  if (typeof q.pageNum === "number") params.set("pageNum", String(q.pageNum));
+  q.messageType?.forEach((m) => params.append("messageType", m));
+  q.fromParticipantId?.forEach((id) => params.append("fromParticipantId", String(id)));
+  q.toParticipantId?.forEach((id) => params.append("toParticipantId", String(id)));
+  if (q.keyword && q.keyword.trim() !== "") params.set("keyword", q.keyword);
+  const qs = params.toString() ? `?${params.toString()}` : "";
   const res = await fetcher(`/api/v1/villages/${villageId}/messages${qs}`);
   if (!res.ok) throw new Error(`messages fetch failed: ${res.status}`);
   return res.json();
