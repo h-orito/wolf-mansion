@@ -27,7 +27,7 @@ export function PageFooter() {
           href="https://twitter.com/ort_dev"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-mint-600 hover:text-mint-500"
+          className="text-mint-500 hover:text-mint-600"
         >
           @ort_dev
         </a>{" "}
@@ -37,7 +37,7 @@ export function PageFooter() {
         <button
           type="button"
           onClick={() => setKampaOpen(true)}
-          className="text-mint-600 hover:text-mint-500 underline"
+          className="text-mint-500 hover:text-mint-600 underline"
         >
           こちら
         </button>{" "}
@@ -46,7 +46,7 @@ export function PageFooter() {
         <button
           type="button"
           onClick={() => setPolicyOpen(true)}
-          className="text-mint-600 hover:text-mint-500 underline"
+          className="text-mint-500 hover:text-mint-600 underline"
         >
           プライバシーポリシー
         </button>
@@ -56,7 +56,7 @@ export function PageFooter() {
           href="https://github.com/h-orito/wolf-mansion"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-mint-600 hover:text-mint-500"
+          className="text-mint-500 hover:text-mint-600"
         >
           Github
         </a>
@@ -175,7 +175,7 @@ function KampaContent() {
               href="https://twitter.com/ort_dev"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-mint-600 hover:text-mint-500"
+              className="text-mint-500 hover:text-mint-600"
             >
               @ort_dev
             </a>{" "}

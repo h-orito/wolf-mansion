@@ -76,8 +76,11 @@ export function Modal({
 
   return (
     <div
-      // 旧 .modal-backdrop: 黒 opacity 0.7 (本番計測)
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[rgba(0,0,0,0.7)]"
+      // 旧 .modal-backdrop は本番 0.7。ただし dark theme + 暗いコンテンツが続くと
+      // 透けて見えやすい (ユーザ指摘) ため、コンテンツを際立たせるべく 0.85 に強化。
+      // backdrop は単色オーバーレイなので大きな乖離ではない。
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.85)" }}
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
       onClick={onClose}
       role="presentation"
     >
