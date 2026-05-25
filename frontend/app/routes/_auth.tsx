@@ -4,6 +4,7 @@ import type { MeResponse } from "~/features/auth/api";
 import { ssrFetch } from "~/lib/api/client";
 import { stripBasename } from "~/lib/basename";
 import { PageHeader } from "~/components/layout/PageHeader";
+import { PageFooter } from "~/components/layout/PageFooter";
 
 /**
  * 認証必須レイアウト。
@@ -37,6 +38,7 @@ export default function AuthLayout() {
       <div className="px-3">
         <Outlet />
       </div>
+      <PageFooter />
     </div>
   );
 }

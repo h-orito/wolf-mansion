@@ -6,6 +6,7 @@ import { useLoginMutation } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
 import { sanitizeRedirect } from "~/lib/redirect";
 import { PageHeader } from "~/components/layout/PageHeader";
+import { PageFooter } from "~/components/layout/PageFooter";
 import { Button } from "~/components/ui/Button";
 import { Input, Label } from "~/components/ui/Input";
 
@@ -109,6 +110,7 @@ export default function LoginPage() {
           </div>
         </form>
       </div>
+      <PageFooter />
     </main>
   );
 }

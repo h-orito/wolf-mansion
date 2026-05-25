@@ -14,6 +14,15 @@ export default [
   route("charachips/:id", "routes/charachips.$id.tsx"),
   route("skills", "routes/skills.tsx"),
   route("village-records", "routes/village-records.tsx"),
+  // 本番 wolfort.net に存在し React 未移植のページ用 placeholder (Step 13b 追加、
+  // 13e で実コンテンツに置き換え予定)。home の MenuTile から参照されるため、
+  // 404 を避ける目的で「準備中」スタブを返す
+  route("about", "routes/about.tsx"),
+  route("intro", "routes/intro.tsx"),
+  route("announce", "routes/announce.tsx"),
+  route("rule", "routes/rule.tsx"),
+  route("faq", "routes/faq.tsx"),
+  route("new-player", "routes/new-player.tsx"),
   // 認証必須エリア
   layout("routes/_auth.tsx", [
     route("me", "routes/me.tsx"),

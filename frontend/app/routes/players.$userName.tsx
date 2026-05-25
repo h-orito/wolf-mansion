@@ -81,7 +81,10 @@ export default function PlayerDetailPage({ loaderData }: Route.ComponentProps) {
               />
             </section>
 
-            <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-3">
+            <section
+              id="password"
+              className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-3 scroll-mt-4"
+            >
               <h2 className="text-lg font-bold">パスワード変更</h2>
               <PasswordChangeForm />
             </section>
