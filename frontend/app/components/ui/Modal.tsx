@@ -1,4 +1,5 @@
 import * as React from "react";
+import { createPortal } from "react-dom";
 import { cn } from "./cn";
 
 /**
@@ -74,7 +75,13 @@ export function Modal({
 
   if (!open) return null;
 
-  return (
+  // 重要: 親要素に opacity-* が付いていると CSS opacity が子孫に継承され
+  // 背景が透けて見えてしまう (例: PageFooter の opacity-80)。Portal で
+  // document.body 直下に描画して、呼び出し位置の opacity 文脈から逃がす。
+  // SSR では document が存在しないので open && typeof window で guard。
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
       // 旧 .modal-backdrop: 黒 opacity 0.7 (本番計測値)
       style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
@@ -121,6 +128,7 @@ export function Modal({
         {/* 旧 .modal-body: padding 20px (本番計測) */}
         <div className="px-[20px] py-[20px]">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
