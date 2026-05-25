@@ -12,10 +12,11 @@ import { cn } from "./cn";
  */
 const tileClass =
   // layout
-  // 旧 .top-menu-selectable は padding: 0、.top-menu-selectable-inner が padding-top 15px
-  // + height 100px。これを 1 要素にまとめて pt + min-h で再現。
-  "flex flex-col items-center text-center " +
-  "px-1 pt-[15px] pb-[10px] min-h-[8.334em] " + // 100px @ 12px base (100/12)
+  // 旧 .top-menu-selectable + .top-menu-selectable-inner を 1 要素に統合。
+  // 100px @ 12px base のタイル内で icon / label / sublabel が上下に等間隔で並ぶよう
+  // justify-evenly を使う (固定 padding にしない)。
+  "flex flex-col items-center justify-evenly text-center " +
+  "px-1 py-[10px] min-h-[8.334em] " + // 100px @ 12px base (100/12)
   // 色 (旧 .top-menu-selectable)
   "bg-night-950 border border-night-700 text-white " +
   // hover (旧 :hover で mint に)
@@ -45,7 +46,8 @@ function TileContent({ icon, label, sublabel }: Pick<Common, "icon" | "label" | 
   return (
     <>
       {icon && (
-        <span aria-hidden className="leading-none mb-[6px]">
+        // mb は付けない (justify-evenly が icon / label / sublabel の間隔を均等に分配)
+        <span aria-hidden className="leading-none">
           {icon}
         </span>
       )}

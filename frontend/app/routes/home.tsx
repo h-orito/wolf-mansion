@@ -111,9 +111,15 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         <p className="text-center text-[1.17em] mb-[10px] px-[15px]">
           状況のみで推理・説得する、新しい人狼
         </p>
+        {/* 旧 index.html: <br class="hidden-xs"> で sm+ では指定位置改行、xs では自然折返し */}
         <p className="text-center mb-[15px] leading-[1.5em] px-[15px]">
-          WOLF MANSION では、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】の
-          2 つを使って推理・説得する「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+          WOLF MANSION では、
+          <br className="hidden sm:inline" />
+          占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+          <br className="hidden sm:inline" />
+          【投票】の 2 つを使って推理・説得する{" "}
+          <br className="hidden sm:inline" />
+          「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
         </p>
         <MenuTileRow cols={3}>
           <MenuTileLink
@@ -199,7 +205,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
       </MenuSection>
 
-      {/* --- 4. 開催中の村 --- */}
+      {/* --- 4. 開催中の村 (旧 index.html: 4 カラム 村番号/名(tag inline)/人数/状態) --- */}
       <MenuSection title={<>開催中の村</>}>
         {villages.length === 0 ? (
           <p className="text-center py-4 text-white opacity-70">
@@ -214,11 +220,18 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                     key={v.id}
                     className="hover:bg-night-800 hover:text-mint-500 cursor-pointer transition-colors"
                   >
-                    <td className="w-[3em] text-right">{v.number}</td>
+                    <td className="w-[5em] text-right">
+                      <Link
+                        to={`/villages/${v.id}`}
+                        className="text-white no-underline hover:text-mint-500"
+                      >
+                        {v.number}
+                      </Link>
+                    </td>
                     <td>
                       <Link
                         to={`/villages/${v.id}`}
-                        className="block text-white no-underline hover:text-mint-500"
+                        className="text-white no-underline hover:text-mint-500"
                       >
                         <VillageTag level={villageTagLevel(v.statusName)}>
                           {v.statusName}
@@ -226,10 +239,23 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                         {v.name}
                       </Link>
                     </td>
-                    <td className="w-[6em] text-right text-[0.95em]">
-                      {v.spectatorCount > 0
-                        ? `${v.participantCount} (${v.spectatorCount})`
-                        : v.participantCount}
+                    <td className="w-[6em] text-right">
+                      <Link
+                        to={`/villages/${v.id}`}
+                        className="text-white no-underline hover:text-mint-500"
+                      >
+                        {v.spectatorCount > 0
+                          ? `${v.participantCount} (${v.spectatorCount})`
+                          : v.participantCount}
+                      </Link>
+                    </td>
+                    <td className="w-[6em]">
+                      <Link
+                        to={`/villages/${v.id}`}
+                        className="text-white no-underline hover:text-mint-500"
+                      >
+                        {v.statusName}
+                      </Link>
                     </td>
                   </tr>
                 ))}
