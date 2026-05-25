@@ -38,16 +38,17 @@ export function MenuSection({
       aria-label={!title ? ariaLabel : undefined}
       aria-labelledby={title ? headingId : undefined}
       className={cn(
-        // 旧 .top-menu: bg #333 + padding 15px (上下のみ。横は tile が edge-to-edge)
-        "bg-night-700 py-[15px] px-0",
+        // 旧 .top-menu (col-sm-12 が 15px x-padding を効かせる + .top-menu に
+        // padding 15px (上下))。React では明示的に px-[15px] を持つ。
+        "bg-night-700 py-[15px] px-[15px]",
         className,
       )}
     >
       {title && (
-        // 旧 h2.h5 = 14px (= 1.17em @ 12px base)。heading は section bg (#333) 上に置く
+        // 旧 h2.h5 = 14px。heading 行は旧 h100px に近い高さ感を出すため py を多めに。
         <h2
           id={headingId}
-          className="text-center text-[1.17em] mb-[15px] font-medium"
+          className="text-center text-[1.17em] py-[20px] mb-0 font-medium"
         >
           {title}
         </h2>

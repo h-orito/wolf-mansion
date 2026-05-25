@@ -98,7 +98,7 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#e5e5e5]" />
 
       <section>
         <h3 className="text-[1.1em] font-medium mb-1">
@@ -123,7 +123,7 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#e5e5e5]" />
 
       <section>
         <h3 className="text-[1.1em] font-medium mb-1">
@@ -147,7 +147,7 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#e5e5e5]" />
 
       <section>
         <h3 className="text-[1.1em] font-medium mb-1">Pixiv Fanbox</h3>
@@ -163,7 +163,7 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#e5e5e5]" />
 
       <section>
         <h3 className="text-[1.1em] font-medium mb-1">補足</h3>

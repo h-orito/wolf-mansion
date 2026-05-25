@@ -212,8 +212,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             現在、開催中の村はありません
           </p>
         ) : (
-          <TableResponsive>
-            <Table>
+          // 旧 .top-menu-selectable-area: bg #0b162a + border 1px #333
+          <div className="bg-night-950 border border-night-700">
+            <TableResponsive>
+              <Table>
               <tbody>
                 {villages.map((v) => (
                   <tr
@@ -261,7 +263,8 @@ export default function Home({ loaderData }: Route.ComponentProps) {
                 ))}
               </tbody>
             </Table>
-          </TableResponsive>
+            </TableResponsive>
+          </div>
         )}
       </MenuSection>
 

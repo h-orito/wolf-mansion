@@ -77,7 +77,8 @@ export function Modal({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 bg-black/60"
+      // 旧 .modal-backdrop: 半透明黒
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 bg-black/50"
       onClick={onClose}
       role="presentation"
     >
@@ -87,25 +88,30 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={tid}
         className={cn(
-          "w-full max-w-[40em] my-8 bg-night-950 border border-night-700 rounded-[0.25em] shadow-lg",
+          // 旧 BS3 .modal-content: 白背景 + 角丸 6px + 影 + 黒系文字
+          "w-full max-w-[600px] my-[30px] bg-white text-[#333] " +
+            "border border-[rgba(0,0,0,0.2)] rounded-[6px] shadow-lg",
           className,
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-3 py-2 border-b border-night-700">
-          <h2 id={tid} className="text-[1.17em] font-medium">
+        {/* 旧 .modal-header: padding 15px + border-bottom 1px #e5e5e5。
+            × は右上 (font-size 21px、float right 相当)。 */}
+        <div className="flex items-start justify-between px-[15px] py-[15px] border-b border-[#e5e5e5]">
+          <h2 id={tid} className="text-[1.42em] font-medium leading-[1.42857]">
             {title}
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="text-white hover:text-mint-500 transition-colors"
+            className="text-[#000] opacity-20 hover:opacity-50 transition-opacity"
           >
-            <XMarkIcon className="w-[1.5em] h-[1.5em]" aria-hidden />
+            <XMarkIcon className="w-[1.75em] h-[1.75em]" aria-hidden />
           </button>
         </div>
-        <div className="px-3 py-3">{children}</div>
+        {/* 旧 .modal-body: padding 15px */}
+        <div className="px-[15px] py-[15px]">{children}</div>
       </div>
     </div>
   );

@@ -51,9 +51,11 @@ function TileContent({ icon, label, sublabel }: Pick<Common, "icon" | "label" | 
           {icon}
         </span>
       )}
-      <span className="block text-[1em] font-bold">{label}</span>
+      {/* 旧 h6 は BS3 で font-weight: bold + 12px だが、bold は印象が重いので
+          medium 相当に落とす。sublabel は light で英語らしい軽さを出す。 */}
+      <span className="block text-[1em] font-medium">{label}</span>
       {sublabel && (
-        <span className="block text-[1em] opacity-90">{sublabel}</span>
+        <span className="block text-[1em] font-light opacity-90">{sublabel}</span>
       )}
     </>
   );
