@@ -1,15 +1,155 @@
 @import "tailwindcss";
 
+/* ----------------------------------------------------------------
+ * design tokens (Step 13a — 旧 Thymeleaf 復元)
+ *
+ * 旧 bootstrap-override.css の palette / フォント / レイアウトを再現する。
+ * モダナイズではない。色値は旧 CSS の値を 1 対 1 で持ち込む。
+ * ---------------------------------------------------------------- */
+
+@font-face {
+  font-family: "anima";
+  src: url("/wolf-mansion/fonts/anima-regular.woff") format("woff");
+  font-display: swap;
+}
+
 @theme {
+  /* body フォント。Inter は既存維持 */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* ロゴ専用 (WOLF MANSION の anima) */
+  --font-anima: "anima", "Inter", sans-serif;
+
+  /*
+   * 旧 #0b162a (深紺) を中心とした dark navy palette。
+   * 旧 CSS では surface 階段が薄かったので、必要最小限のみ再現する。
+   */
+  --color-night-950: #0b162a; /* body / tile 通常 bg */
+  --color-night-900: #18213a; /* card / panel bg (旧明示なし、補間値) */
+  --color-night-800: #22224a; /* tile hover / selected bg */
+  --color-night-700: #333333; /* border / system message bg */
+  --color-night-600: #232355; /* action message bg */
+  --color-night-500: #222222; /* loading / btn dark base */
+
+  /* mint accent: hover / active / creator / dark-success */
+  --color-mint-500: #0ce3ac; /* hover / selected-room border */
+  --color-mint-600: #00bc8c; /* creator message / btn-dark-success */
+  --color-mint-700: #009c6c; /* pagination border */
+
+  /* Bootstrap 3 btn-success の純正緑。旧画面は bootstrap.min.css の素値を
+   * そのまま使っていた (override なし)。form submit / 検索ボタン用 */
+  --color-bs-success-500: #5cb85c;
+  --color-bs-success-600: #4cae4c; /* border */
+  --color-bs-success-700: #449d44; /* hover bg */
+
+  /* 警戒色 */
+  --color-blood-500: #ff0000; /* vote / message link / village-tag.danger */
+  --color-blood-600: #f00000; /* message a (やや暗め) */
+  --color-warning-500: #f39c12; /* btn-dark-warning / alert-warning-say */
+  --color-info-500: #3498db; /* dead alert */
+
+  /* private message palette (Step 13b の message bubble で使用)。旧 CSS の
+   * .message-private-* の background-color / border 値を 1 対 1 で持ち込む */
+  --color-private-seer-border: #34a865;
+  --color-private-seer-bg: #334033;
+  --color-private-psychic-border: #3465a8;
+  --color-private-psychic-bg: #333340;
+  --color-private-investigate-border: #a86534;
+  --color-private-investigate-bg: #403333;
+  --color-private-werewolf-border: #a83434;
+  --color-private-werewolf-bg: #403333;
+  --color-private-lover-border: #f9318f;
+  --color-private-lover-bg: #403333;
+  --color-private-fox-border: #c9c934;
+  --color-private-fox-bg: #403333;
+}
+
+/*
+ * ユーザー設定で「文字サイズ拡大」を提供するため、ベースを 1 箇所
+ * (--base-font-size) に集約し、全要素は rem / em で派生させる。
+ * デフォルトは旧画面準拠の 12px。後続 step で UI トグルから上書き予定:
+ *   html.font-large { --base-font-size: 14px; }
+ *   html.font-xlarge { --base-font-size: 16px; }
+ */
+:root {
+  --base-font-size: 12px;
+}
+
+html {
+  font-size: var(--base-font-size);
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+  background-color: var(--color-night-950);
+  color: #ffffff;
+  color-scheme: dark;
+  min-height: 100vh;
+  /* Tailwind text-base は 1rem (= --base-font-size) になる */
+}
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
+/* 旧画面のアクセント文字。relative で書いておけば拡大時も比例 */
+.font-anima {
+  font-family: var(--font-anima);
+}
+
+.extra-small {
+  font-size: 0.5rem; /* 旧 6px @ base 12px */
+  font-weight: bold;
+}
+
+.loud {
+  font-size: 3em; /* 旧 300% */
+}
+
+.village-wrapper-large {
+  font-size: 1.5em; /* 旧 150% */
+}
+
+/* 旧 selected-room: 部屋グリッドの選択中 (Step 13b で使用、ここでは class のみ用意) */
+.selected-room {
+  border: 2px solid var(--color-mint-500) !important;
+  background-color: var(--color-mint-500) !important;
+  opacity: 0.3;
+}
+
+.footstep-selected-room {
+  border: 2px solid var(--color-mint-500) !important;
+}
+
+/* 旧 .rainbow (loud 発言の虹色テキスト)。Step 13b の MessageCard で使う */
+.rainbow {
+  background: linear-gradient(
+      to right,
+      #f00 0%,
+      #f80 14.28%,
+      #dd0 28.56%,
+      #0d0 42.85%,
+      #0dd 57.14%,
+      #00f 71.42%,
+      #e0e 85.71%,
+      #f00 100%
+    )
+    0% center / 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
+}
+@keyframes rainbow {
+  to {
+    background-position-x: 200%;
   }
+}
+
+/* 旧 .netabare / .transparency (ネタバレ伏字 / 透明) */
+.netabare {
+  cursor: pointer;
+  background-color: var(--color-night-700);
+  color: var(--color-night-700) !important;
+}
+.transparency {
+  cursor: pointer;
+  opacity: 0;
 }

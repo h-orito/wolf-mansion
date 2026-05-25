@@ -1,16 +1,21 @@
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/24/outline";
 import type { Route } from "./+types/villages._index";
 import { fetchVillages, type VillagesView, type VillageStatusCode } from "~/features/village/api";
 import { useVillagesQuery } from "~/features/village/hooks";
-import { VillageList } from "~/features/village/VillageList";
 import { ssrFetch } from "~/lib/api/client";
+import { PageHeader } from "~/components/layout/PageHeader";
+import { Panel, PanelHeading, PanelBody } from "~/components/ui/Panel";
+import { Button } from "~/components/ui/Button";
+import { Table, TableResponsive } from "~/components/ui/Table";
+import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
 
 // NOTE: backend (VillageRestController#parseStatuses) と意味的に対応する。
-// CDef.VillageStatus の値が増減したら backend 側も同期更新が必要。
 const ALL_STATUSES: VillageStatusCode[] = ["募集中", "進行中", "エピローグ", "終了", "廃村"];
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "村一覧 - wolf-mansion" }];
+  return [{ title: "村一覧 | WOLF MANSION" }];
 }
 
 function parseStatuses(raw: string | null): VillageStatusCode[] {
@@ -33,9 +38,17 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 }
 
+/**
+ * 旧 templates/village-list.html を React で復元。
+ *
+ * 旧画面: panel-default 内に collapse する form-horizontal 検索 +
+ * table-bordered table-condensed small の村一覧。
+ * 現 React 側は status 絞り込みのみ (キャラセット / 役職 / 編成は将来)。
+ */
 export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
   const [params, setParams] = useSearchParams();
   const selected = parseStatuses(params.get("status"));
+  const [searchOpen, setSearchOpen] = useState(selected.length > 0);
 
   const villagesQuery = useVillagesQuery(
     { statuses: selected.length > 0 ? selected : undefined },
@@ -54,54 +67,117 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
 
   const list = villagesQuery.data?.list ?? [];
 
+  const searchPanelId = "villages-search-panel";
   return (
-    <main className="min-h-screen bg-slate-900 text-slate-100">
-      <section className="max-w-3xl mx-auto px-6 py-10 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold">村一覧</h1>
-          <Link to="/" className="text-sm text-slate-400 hover:text-slate-200">
-            ← トップへ
-          </Link>
-        </div>
+    <main className="max-w-screen-lg mx-auto">
+      <PageHeader />
+      <div className="px-3">
+        <h1 className="text-[1.5em] font-medium mb-3">村一覧</h1>
 
-        <div className="flex flex-wrap gap-2">
-          {ALL_STATUSES.map((s) => {
-            const active = selected.includes(s);
-            return (
-              <button
-                key={s}
-                type="button"
-                onClick={() => toggleStatus(s)}
-                aria-pressed={active}
-                className={
-                  "rounded-full px-3 py-1 text-xs border transition " +
-                  (active
-                    ? "bg-indigo-500/30 border-indigo-400 text-indigo-100"
-                    : "border-slate-600 text-slate-300 hover:border-slate-400")
-                }
-              >
-                {s}
-              </button>
-            );
-          })}
-          {selected.length > 0 && (
+        <Panel className="mb-3">
+          <PanelHeading>
             <button
               type="button"
-              onClick={() => setParams(new URLSearchParams(), { replace: true })}
-              className="text-xs text-slate-400 hover:text-slate-200 ml-2 underline"
+              onClick={() => setSearchOpen((v) => !v)}
+              aria-expanded={searchOpen}
+              aria-controls={searchPanelId}
+              className="inline-flex items-center gap-1 text-[1.17em] text-white hover:text-mint-500 transition-colors"
             >
-              クリア
+              検索
+              {searchOpen ? (
+                <ChevronUpIcon className="w-[1em] h-[1em]" aria-hidden />
+              ) : (
+                <ChevronDownIcon className="w-[1em] h-[1em]" aria-hidden />
+              )}
             </button>
+          </PanelHeading>
+          {searchOpen && (
+            <PanelBody id={searchPanelId}>
+              <div className="flex flex-wrap items-start gap-x-2 gap-y-2 mb-2">
+                <span className="w-[5em] text-right pr-2 shrink-0 leading-[2em]">
+                  状態
+                </span>
+                <div className="flex-1 flex flex-wrap gap-1">
+                  {ALL_STATUSES.map((s) => {
+                    const active = selected.includes(s);
+                    return (
+                      <Button
+                        key={s}
+                        variant={active ? "success" : "dark-success"}
+                        onClick={() => toggleStatus(s)}
+                        aria-pressed={active}
+                      >
+                        {s}
+                      </Button>
+                    );
+                  })}
+                  {selected.length > 0 && (
+                    <Button
+                      variant="gray"
+                      onClick={() =>
+                        setParams(new URLSearchParams(), { replace: true })
+                      }
+                    >
+                      クリア
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </PanelBody>
           )}
-        </div>
+        </Panel>
 
-        <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-          <p className="text-xs text-slate-400 mb-2">
-            {selected.length === 0 ? "全村" : `${selected.join(" / ")}`} ({list.length}件)
-          </p>
-          <VillageList villages={list} emptyMessage="該当する村がありません" />
-        </section>
-      </section>
+        <p className="mb-2 text-[0.95em] opacity-80">
+          {selected.length === 0
+            ? `全村 (${list.length}件)`
+            : `${selected.join(" / ")} (${list.length}件)`}
+        </p>
+
+        {list.length === 0 ? (
+          <p className="py-4 text-center opacity-70">該当する村がありません</p>
+        ) : (
+          <TableResponsive>
+            <Table>
+              <thead>
+                <tr>
+                  <th className="w-[3em]">村番号</th>
+                  <th>村名</th>
+                  <th className="w-[6em]">人数</th>
+                  <th className="w-[6em]">状態</th>
+                </tr>
+              </thead>
+              <tbody>
+                {list.map((v) => (
+                  <tr
+                    key={v.id}
+                    className="hover:bg-night-800 hover:text-mint-500 transition-colors"
+                  >
+                    <td className="text-right">{v.number}</td>
+                    <td>
+                      <Link
+                        to={`/villages/${v.id}`}
+                        className="text-white no-underline hover:text-mint-500"
+                      >
+                        {v.name}
+                      </Link>
+                    </td>
+                    <td className="text-right">
+                      {v.spectatorCount > 0
+                        ? `${v.participantCount} (${v.spectatorCount})`
+                        : v.participantCount}
+                    </td>
+                    <td>
+                      <VillageTag level={villageTagLevel(v.statusName)}>
+                        {v.statusName}
+                      </VillageTag>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </TableResponsive>
+        )}
+      </div>
     </main>
   );
 }

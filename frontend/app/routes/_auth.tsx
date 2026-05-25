@@ -3,10 +3,12 @@ import type { Route } from "./+types/_auth";
 import type { MeResponse } from "~/features/auth/api";
 import { ssrFetch } from "~/lib/api/client";
 import { stripBasename } from "~/lib/basename";
+import { PageHeader } from "~/components/layout/PageHeader";
 
 /**
  * 認証必須レイアウト。
  * loader で /api/v1/auth/me を呼び、未認証なら /login にリダイレクト。
+ * 全配下画面に PageHeader (旧 layout/header.html 相当) を被せる。
  */
 export async function loader({ request }: Route.LoaderArgs) {
   const api = ssrFetch(request);
@@ -26,5 +28,15 @@ function redirectToLogin(request: Request): Response {
 }
 
 export default function AuthLayout() {
-  return <Outlet />;
+  // 子 route (me / new-village) が自前で <main> を持っているため、ここは <div> で
+  // 包んで PageHeader だけ被せる。子側を <main> でない構造に揃えるリファクタは
+  // Step 13d / 13e (それぞれの route を design-restore する時) で実施
+  return (
+    <div className="max-w-screen-lg mx-auto">
+      <PageHeader />
+      <div className="px-3">
+        <Outlet />
+      </div>
+    </div>
+  );
 }

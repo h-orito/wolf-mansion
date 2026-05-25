@@ -13,6 +13,7 @@
     "gen:api": "openapi-typescript http://localhost:8089/wolf-mansion-api/v3/api-docs -o app/lib/api/generated.ts"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@react-router/node": "7.15.1",
     "@react-router/serve": "7.15.1",
     "@tanstack/react-query": "^5.95.0",
