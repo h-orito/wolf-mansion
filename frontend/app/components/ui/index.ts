@@ -19,3 +19,5 @@ export { VillageTag, villageTagLevel } from "./VillageTag";
 export { Alert } from "./Alert";
 
 export { Table, TableResponsive } from "./Table";
+
+export { Modal } from "./Modal";

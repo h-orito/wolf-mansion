@@ -6,6 +6,7 @@ import { fetchVillages, type VillagesView, type VillageStatusCode } from "~/feat
 import { useVillagesQuery } from "~/features/village/hooks";
 import { ssrFetch } from "~/lib/api/client";
 import { PageHeader } from "~/components/layout/PageHeader";
+import { PageFooter } from "~/components/layout/PageFooter";
 import { Panel, PanelHeading, PanelBody } from "~/components/ui/Panel";
 import { Button } from "~/components/ui/Button";
 import { Table, TableResponsive } from "~/components/ui/Table";
@@ -178,6 +179,7 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
           </TableResponsive>
         )}
       </div>
+      <PageFooter />
     </main>
   );
 }

@@ -2,14 +2,18 @@ import { Link } from "react-router";
 import type { Route } from "./+types/home";
 import {
   BookOpenIcon,
+  BookmarkIcon,
   ClipboardDocumentListIcon,
-  DocumentTextIcon,
+  InformationCircleIcon,
   LockClosedIcon,
   LockOpenIcon,
+  MegaphoneIcon,
+  PencilSquareIcon,
   PlusIcon,
-  UserGroupIcon,
+  QuestionMarkCircleIcon,
   UserIcon,
   UsersIcon,
+  WrenchIcon,
 } from "@heroicons/react/24/outline";
 import { useLogoutMutation, useMeQuery } from "~/features/auth/hooks";
 import { fetchVillages, type VillagesView } from "~/features/village/api";
@@ -23,11 +27,12 @@ import {
 import { MenuTileLink, MenuTileButton } from "~/components/ui/MenuTile";
 import { Table, TableResponsive } from "~/components/ui/Table";
 import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
+import { PageFooter } from "~/components/layout/PageFooter";
+
+const TOP_STATUSES = ["募集中", "進行中", "エピローグ"] as const;
 
 /** MenuTile icon の共通サイズ。文字サイズ拡大に追従するよう em 単位で。 */
 const ICON_CLASS = "w-[2em] h-[2em]";
-
-const TOP_STATUSES = ["募集中", "進行中", "エピローグ"] as const;
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -49,19 +54,23 @@ export async function loader({ request }: Route.LoaderArgs) {
 }
 
 /**
- * 旧 templates/index.html を React 上で復元。
+ * 旧 templates/index.html を React で復元 (Step 13b で本番一致に修正)。
  *
  * 旧画面の構造:
  *   1. top.jpg hero + anima ロゴ (左下) + ユーザID (右下、ログイン時のみ)
- *   2. メインメニュー (3-up tile grid)
- *   3. 登録/ログイン (ログイン状態で出し分け)
+ *   2. メインメニュー: About / Intro / Announce / Rule / FAQ / Skill の 6 タイル (2 行 × 3)
+ *   3. 登録/ログイン:
+ *      - 未ログイン: Register (ID 登録) / Login の 2-up
+ *      - ログイン中: MyPage / ChangePassword / Logout の 3-up
  *   4. 開催中の村 (table)
- *   5. 村一覧 / 村作成 (2-up tile)
- *   6. プレイヤー (1-up tile)
- *   7. キャラチップ (1-up tile)
+ *   5. 村一覧 / 村作成:
+ *      - 未ログイン: Village list 単独 (col-sm-12)
+ *      - ログイン中: Village list + Create Village (col-sm-6 × 2)
+ *   6. ユーザー: User list (= /players、常時表示)
+ *   7. キャラチップ: Character list (= /charachips、常時表示)
  *
- * 旧 about / intro / announce / rule / faq / new-player は React 側で未実装の
- * ため、復元対象から除外 (HANDOFF と整合)。Step 13a スコープ外。
+ * 未実装ページ (about / intro / announce / rule / faq / new-player) は
+ * placeholder ルートで「準備中」を返す (routes.ts 参照、Step 13e で実コンテンツ)。
  */
 export default function Home({ loaderData }: Route.ComponentProps) {
   const meQuery = useMeQuery();
@@ -94,7 +103,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
       </div>
 
-      {/* --- 2. メインメニュー --- */}
+      {/* --- 2. メインメニュー (6 tiles, 旧 index.html と同じ並び) --- */}
       <MenuSection ariaLabel="メインメニュー">
         <p className="text-center text-[1.17em] mb-1">
           状況のみで推理・説得する、新しい人狼
@@ -105,22 +114,42 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </p>
         <MenuTileRow cols={3}>
           <MenuTileLink
-            to="/skills"
+            to="/about"
+            icon={<InformationCircleIcon className={ICON_CLASS} />}
+            label="本サイトは"
+            sublabel="About"
+          />
+          <MenuTileLink
+            to="/intro"
+            icon={<QuestionMarkCircleIcon className={ICON_CLASS} />}
+            label="人狼館の事件簿村"
+            sublabel="Introduction"
+          />
+          <MenuTileLink
+            to="/announce"
+            icon={<MegaphoneIcon className={ICON_CLASS} />}
+            label="お知らせ"
+            sublabel="Announce"
+          />
+        </MenuTileRow>
+        <MenuTileRow cols={3}>
+          <MenuTileLink
+            to="/rule"
             icon={<BookOpenIcon className={ICON_CLASS} />}
+            label="ルール"
+            sublabel="Rule"
+          />
+          <MenuTileLink
+            to="/faq"
+            icon={<QuestionMarkCircleIcon className={ICON_CLASS} />}
+            label="よくある質問"
+            sublabel="FAQ"
+          />
+          <MenuTileLink
+            to="/skills"
+            icon={<BookmarkIcon className={ICON_CLASS} />}
             label="役職一覧"
             sublabel="Skill"
-          />
-          <MenuTileLink
-            to="/charachips"
-            icon={<UserGroupIcon className={ICON_CLASS} />}
-            label="キャラチップ"
-            sublabel="Character list"
-          />
-          <MenuTileLink
-            to="/village-records"
-            icon={<DocumentTextIcon className={ICON_CLASS} />}
-            label="終了村一覧"
-            sublabel="Village record"
           />
         </MenuTileRow>
       </MenuSection>
@@ -136,10 +165,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               sublabel="My Page"
             />
             <MenuTileLink
-              to={`/players/${encodeURIComponent(user.userId)}`}
-              icon={<DocumentTextIcon className={ICON_CLASS} />}
-              label="戦績"
-              sublabel="Records"
+              to="/me"
+              icon={<WrenchIcon className={ICON_CLASS} />}
+              label="パスワード変更"
+              sublabel="Change Password"
             />
             <MenuTileButton
               icon={<LockClosedIcon className={ICON_CLASS} />}
@@ -152,16 +181,16 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         ) : (
           <MenuTileRow cols={2}>
             <MenuTileLink
+              to="/new-player"
+              icon={<PencilSquareIcon className={ICON_CLASS} />}
+              label="ID 登録"
+              sublabel="Register"
+            />
+            <MenuTileLink
               to="/login"
               icon={<LockOpenIcon className={ICON_CLASS} />}
               label="ログイン"
               sublabel="Login"
-            />
-            <MenuTileLink
-              to="/players"
-              icon={<UsersIcon className={ICON_CLASS} />}
-              label="プレイヤー一覧"
-              sublabel="Players"
             />
           </MenuTileRow>
         )}
@@ -227,19 +256,31 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </MenuTileRow>
       </MenuSection>
 
-      {/* --- 6. プレイヤー --- */}
-      {user && (
-        <MenuSection title={<>プレイヤー</>}>
-          <MenuTileRow cols={1}>
-            <MenuTileLink
-              to="/players"
-              icon={<UsersIcon className={ICON_CLASS} />}
-              label="プレイヤー一覧"
-              sublabel="Players"
-            />
-          </MenuTileRow>
-        </MenuSection>
-      )}
+      {/* --- 6. ユーザー (常時表示、本番踏襲) --- */}
+      <MenuSection title={<>ユーザー</>}>
+        <MenuTileRow cols={1}>
+          <MenuTileLink
+            to="/players"
+            icon={<UsersIcon className={ICON_CLASS} />}
+            label="一覧"
+            sublabel="User list"
+          />
+        </MenuTileRow>
+      </MenuSection>
+
+      {/* --- 7. キャラチップ (常時表示、本番踏襲) --- */}
+      <MenuSection title={<>キャラチップ</>}>
+        <MenuTileRow cols={1}>
+          <MenuTileLink
+            to="/charachips"
+            icon={<ClipboardDocumentListIcon className={ICON_CLASS} />}
+            label="一覧"
+            sublabel="Character list"
+          />
+        </MenuTileRow>
+      </MenuSection>
+
+      <PageFooter />
     </main>
   );
 }
