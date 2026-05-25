@@ -28,7 +28,9 @@
   --color-night-900: #18213a; /* card / panel bg (旧明示なし、補間値) */
   --color-night-800: #22224a; /* tile hover / selected bg */
   --color-night-700: #333333; /* border / system message bg */
+  --color-night-650: #303030; /* modal-content bg (本番 darkly テーマ計測値) */
   --color-night-600: #232355; /* action message bg */
+  --color-night-550: #464545; /* modal-header border / table border (本番計測) */
   --color-night-500: #222222; /* loading / btn dark base */
 
   /* mint accent: hover / active / creator / dark-success */

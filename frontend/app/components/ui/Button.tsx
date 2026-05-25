@@ -25,10 +25,10 @@ export type ButtonVariant =
 
 const baseClass =
   "inline-flex items-center justify-center gap-1 " +
-  // 旧 .btn-sm の padding 相当 (px-3 / py-1) と border-radius を em で
-  "px-3 py-1 rounded-[0.25em] border " +
-  // 文字サイズはユーザー設定で拡大されるよう em ベース
-  "text-[1em] leading-tight font-medium " +
+  // 旧 BS3 .btn-sm 相当 (本番計測値 padding 6px 9px / radius 3px / border 2px)
+  "px-[9px] py-[6px] rounded-[3px] border-2 " +
+  // 文字サイズはユーザー設定で拡大されるよう em ベース。本番 .btn-sm font-size 13px
+  "text-[13px] leading-[1.4] font-medium " +
   "transition-colors duration-100 " +
   "disabled:opacity-60 disabled:cursor-not-allowed " +
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint-500 focus-visible:outline-offset-2";

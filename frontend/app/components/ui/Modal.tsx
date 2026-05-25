@@ -86,10 +86,13 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={tid}
+        // 旧 BS3 darkly .modal-content: bg #303030 (= night-650), 文字白,
+        // border 1px rgba(0,0,0,0.2), radius 6px, shadow 0 5px 15px rgba(0,0,0,0.5)
+        // sm+ では .modal-dialog の幅 80vw (override)。
+        // inline style で背景色を強制 (Tailwind arbitrary 値生成漏れ予防)。
+        style={{ backgroundColor: "#303030" }}
         className={cn(
-          // 旧 BS3 darkly .modal-content: bg #303030, 文字白, border 1px rgba(0,0,0,0.2)
-          // angle 6px, shadow 0 5px 15px rgba(0,0,0,0.5), .modal-dialog は sm+ で width 80vw
-          "w-[80vw] my-[30px] bg-[#303030] text-white " +
+          "w-[80vw] my-[30px] text-white " +
             "border border-[rgba(0,0,0,0.2)] rounded-[6px] " +
             "shadow-[0_5px_15px_rgba(0,0,0,0.5)]",
           className,
@@ -97,7 +100,7 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* 旧 .modal-header: padding 15px + border-bottom 1px #464545 */}
-        <div className="px-[15px] py-[15px] border-b border-[#464545]">
+        <div className="px-[15px] py-[15px] border-b border-night-550">
           {/* close × は float-right。テキスト × (font-size 22.5px / weight 700 / opacity 0.4) */}
           <button
             type="button"

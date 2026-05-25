@@ -38,14 +38,15 @@ export function MenuSection({
       aria-label={!title ? ariaLabel : undefined}
       aria-labelledby={title ? headingId : undefined}
       className={cn(
-        // 旧 .top-menu: bg #333 + padding 15px (4 辺すべて、本番計測値)
-        "bg-night-700 p-[15px]",
+        // 旧 .top-menu: bg #333 + padding 15px (上下のみ。横は row 側が持つので 0)
+        // タイル row はこの section の左右いっぱいまで広がる (横余白なし)
+        "bg-night-700 py-[15px] px-0",
         className,
       )}
     >
       {title && (
         // 旧 h2.h5 を含む h100px 行: flex 中央配置で 100px 高さ。
-        // h2 自体は font-size 15px / weight 400 / margin 10.5px 0 (BS3 デフォルト)
+        // 見出し行のみ px-[15px] (本番 .top-menu-inner-row 計測値)
         <div className="h-[100px] flex items-center justify-center px-[15px]">
           <h2
             id={headingId}
