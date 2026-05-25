@@ -30,7 +30,8 @@ export function MenuSection({
   className?: string;
 }) {
   // title 指定時は内側の <h2> を accessible name として利用するため id を採番し、
-  // <section aria-labelledby> で紐付ける (unnamed landmark を回避)
+  // <section aria-labelledby> で紐付ける (unnamed landmark を回避)。
+  // title 省略時も Hooks の呼び出し順を保つため useId は常に呼ぶ (id は DOM に出ない)。
   const headingId = React.useId();
   return (
     <section
