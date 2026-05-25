@@ -16,15 +16,22 @@ import { cn } from "./cn";
  */
 export function MenuSection({
   title,
+  ariaLabel,
   children,
   className,
 }: {
   title?: React.ReactNode;
+  /**
+   * title 省略時に accessible name として使う。スクリーンリーダの region 一覧で
+   * unnamed section にならないように、title or ariaLabel のいずれかを指定する。
+   */
+  ariaLabel?: string;
   children: React.ReactNode;
   className?: string;
 }) {
   return (
     <section
+      aria-label={!title ? ariaLabel : undefined}
       className={cn(
         "bg-night-700 py-4 px-3", // 旧 #333333 + padding 15px
         className,

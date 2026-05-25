@@ -28,6 +28,9 @@ function redirectToLogin(request: Request): Response {
 }
 
 export default function AuthLayout() {
+  // 子 route (me / new-village) が自前で <main> を持っているため、ここは <div> で
+  // 包んで PageHeader だけ被せる。子側を <main> でない構造に揃えるリファクタは
+  // Step 13d / 13e (それぞれの route を design-restore する時) で実施
   return (
     <div className="max-w-screen-lg mx-auto">
       <PageHeader />

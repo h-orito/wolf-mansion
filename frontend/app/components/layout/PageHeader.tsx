@@ -23,7 +23,7 @@ export function PageHeader() {
   const meQuery = useMeQuery();
   const user = meQuery.data?.user;
   return (
-    <div className="relative w-full mb-4 cursor-pointer">
+    <div className="relative w-full mb-4">
       <Link
         to="/"
         aria-label="トップに戻る"

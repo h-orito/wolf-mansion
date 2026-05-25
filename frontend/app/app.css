@@ -36,13 +36,20 @@
   --color-mint-600: #00bc8c; /* creator message / btn-dark-success */
   --color-mint-700: #009c6c; /* pagination border */
 
+  /* Bootstrap 3 btn-success の純正緑。旧画面は bootstrap.min.css の素値を
+   * そのまま使っていた (override なし)。form submit / 検索ボタン用 */
+  --color-bs-success-500: #5cb85c;
+  --color-bs-success-600: #4cae4c; /* border */
+  --color-bs-success-700: #449d44; /* hover bg */
+
   /* 警戒色 */
   --color-blood-500: #ff0000; /* vote / message link / village-tag.danger */
   --color-blood-600: #f00000; /* message a (やや暗め) */
   --color-warning-500: #f39c12; /* btn-dark-warning / alert-warning-say */
   --color-info-500: #3498db; /* dead alert */
 
-  /* private message palette (Step 13b の message bubble で使用) */
+  /* private message palette (Step 13b の message bubble で使用)。旧 CSS の
+   * .message-private-* の background-color / border 値を 1 対 1 で持ち込む */
   --color-private-seer-border: #34a865;
   --color-private-seer-bg: #334033;
   --color-private-psychic-border: #3465a8;
@@ -52,7 +59,9 @@
   --color-private-werewolf-border: #a83434;
   --color-private-werewolf-bg: #403333;
   --color-private-lover-border: #f9318f;
+  --color-private-lover-bg: #403333;
   --color-private-fox-border: #c9c934;
+  --color-private-fox-bg: #403333;
 }
 
 /*

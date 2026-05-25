@@ -9,7 +9,7 @@ import { PageHeader } from "~/components/layout/PageHeader";
 import { Panel, PanelHeading, PanelBody } from "~/components/ui/Panel";
 import { Button } from "~/components/ui/Button";
 import { Table, TableResponsive } from "~/components/ui/Table";
-import { VillageTag } from "~/components/ui/VillageTag";
+import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
 
 // NOTE: backend (VillageRestController#parseStatuses) と意味的に対応する。
 const ALL_STATUSES: VillageStatusCode[] = ["募集中", "進行中", "エピローグ", "終了", "廃村"];
@@ -67,8 +67,9 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
 
   const list = villagesQuery.data?.list ?? [];
 
+  const searchPanelId = "villages-search-panel";
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <main className="max-w-screen-lg mx-auto">
       <PageHeader />
       <div className="px-3">
         <h1 className="text-[1.5em] font-medium mb-3">村一覧</h1>
@@ -79,6 +80,7 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
               type="button"
               onClick={() => setSearchOpen((v) => !v)}
               aria-expanded={searchOpen}
+              aria-controls={searchPanelId}
               className="inline-flex items-center gap-1 text-[1.17em] text-white hover:text-mint-500 transition-colors"
             >
               検索
@@ -90,7 +92,7 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
             </button>
           </PanelHeading>
           {searchOpen && (
-            <PanelBody>
+            <PanelBody id={searchPanelId}>
               <div className="flex flex-wrap items-start gap-x-2 gap-y-2 mb-2">
                 <span className="w-[5em] text-right pr-2 shrink-0 leading-[2em]">
                   状態
@@ -176,17 +178,6 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
           </TableResponsive>
         )}
       </div>
-    </div>
+    </main>
   );
-}
-
-function villageTagLevel(statusName: string): "success" | "danger" | "default" {
-  switch (statusName) {
-    case "募集中":
-      return "success";
-    case "廃村":
-      return "danger";
-    default:
-      return "default";
-  }
 }

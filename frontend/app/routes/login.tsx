@@ -66,7 +66,7 @@ export default function LoginPage() {
     : null;
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <main className="max-w-screen-lg mx-auto">
       <PageHeader />
       <div className="px-3 max-w-[40em]">
         <h1 className="text-[1.5em] font-medium mb-3">ログイン</h1>
@@ -109,7 +109,7 @@ export default function LoginPage() {
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }
 

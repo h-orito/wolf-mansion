@@ -14,7 +14,7 @@ export type { ButtonProps, ButtonVariant, LinkButtonProps } from "./Button";
 export { Input, Textarea, Select, Label, FieldError } from "./Input";
 export type { InputProps, TextareaProps, SelectProps } from "./Input";
 
-export { VillageTag } from "./VillageTag";
+export { VillageTag, villageTagLevel } from "./VillageTag";
 
 export { Alert } from "./Alert";
 

@@ -34,10 +34,11 @@ const baseClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint-500 focus-visible:outline-offset-2";
 
 const variantClass: Record<ButtonVariant, string> = {
-  // Bootstrap btn-success: mint-600 を踏襲
+  // Bootstrap 3 .btn-success の素値 (#5cb85c / border #4cae4c / hover #449d44)。
+  // 旧画面では login / villages-list の検索 submit など form の決定ボタンで使用
   success:
-    "bg-mint-600 border-mint-600 text-white hover:bg-mint-700 hover:border-mint-700",
-  // 旧 btn-dark-success: dark bg + mint 文字 + mint border
+    "bg-bs-success-500 border-bs-success-600 text-white hover:bg-bs-success-700 hover:border-bs-success-700",
+  // 旧 .btn-dark-success: dark bg + mint 文字 + mint border、hover で反転
   "dark-success":
     "bg-night-500 border-mint-600 text-mint-600 hover:bg-mint-600 hover:text-white",
   danger:

@@ -22,7 +22,7 @@ import {
 } from "~/components/ui/MenuSection";
 import { MenuTileLink, MenuTileButton } from "~/components/ui/MenuTile";
 import { Table, TableResponsive } from "~/components/ui/Table";
-import { VillageTag } from "~/components/ui/VillageTag";
+import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
 
 /** MenuTile icon の共通サイズ。文字サイズ拡大に追従するよう em 単位で。 */
 const ICON_CLASS = "w-[2em] h-[2em]";
@@ -75,7 +75,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const villages = villagesQuery.data?.list ?? [];
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <main className="max-w-screen-lg mx-auto">
       {/* --- 1. hero --- */}
       <div className="relative w-full mb-4">
         <img
@@ -95,7 +95,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       </div>
 
       {/* --- 2. メインメニュー --- */}
-      <MenuSection>
+      <MenuSection ariaLabel="メインメニュー">
         <p className="text-center text-[1.17em] mb-1">
           状況のみで推理・説得する、新しい人狼
         </p>
@@ -240,18 +240,6 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           </MenuTileRow>
         </MenuSection>
       )}
-    </div>
+    </main>
   );
-}
-
-/** 旧画面の village-tag.success / danger の出し分け。 */
-function villageTagLevel(statusName: string): "success" | "danger" | "default" {
-  switch (statusName) {
-    case "募集中":
-      return "success";
-    case "廃村":
-      return "danger";
-    default:
-      return "default";
-  }
 }
