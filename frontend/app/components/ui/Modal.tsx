@@ -76,10 +76,8 @@ export function Modal({
 
   return (
     <div
-      // 旧 .modal-backdrop は本番 0.7。ただし dark theme + 暗いコンテンツが続くと
-      // 透けて見えやすい (ユーザ指摘) ため、コンテンツを際立たせるべく 0.85 に強化。
-      // backdrop は単色オーバーレイなので大きな乖離ではない。
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.85)" }}
+      // 旧 .modal-backdrop: 黒 opacity 0.7 (本番計測値)
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
       className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
       onClick={onClose}
       role="presentation"
@@ -89,13 +87,12 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={tid}
-        // 旧 BS3 darkly .modal-content: bg #303030 (= night-650), 文字白,
-        // border 1px rgba(0,0,0,0.2), radius 6px, shadow 0 5px 15px rgba(0,0,0,0.5)
-        // sm+ では .modal-dialog の幅 80vw (override)。
-        // inline style で背景色を強制 (Tailwind arbitrary 値生成漏れ予防)。
+        // 旧 BS3 darkly .modal-content: bg #303030, 文字白
+        // bg は app.css の .modal-dialog-bg (!important) + inline style の二重がけで
+        // Tailwind arbitrary 値生成漏れ / 上書きを完全に排除する。
         style={{ backgroundColor: "#303030" }}
         className={cn(
-          "w-[80vw] my-[30px] text-white " +
+          "modal-dialog-bg w-[80vw] my-[30px] text-white " +
             "border border-[rgba(0,0,0,0.2)] rounded-[6px] " +
             "shadow-[0_5px_15px_rgba(0,0,0,0.5)]",
           className,

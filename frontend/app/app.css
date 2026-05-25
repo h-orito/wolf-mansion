@@ -145,6 +145,12 @@ body {
   }
 }
 
+/* Modal dialog bg を完全 opaque で確実に塗る (Tailwind arbitrary 値の
+ * 生成漏れや上書きを避けるため、!important + 明示的 background-color)。 */
+.modal-dialog-bg {
+  background-color: #303030 !important;
+}
+
 /* 旧 .netabare / .transparency (ネタバレ伏字 / 透明) */
 .netabare {
   cursor: pointer;
