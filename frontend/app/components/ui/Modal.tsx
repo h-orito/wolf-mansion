@@ -9,8 +9,13 @@ import { cn } from "./cn";
  * - Esc で閉じる
  * - 背景クリックで閉じる
  * - body スクロールをロック
- * - 完全な focus trap は実装せず、open 時に最初の要素にフォーカス + close 時に
- *   trigger にフォーカス戻し (Step 13b の最小要件、必要に応じ後続強化)
+ * - open 時に最初の focusable へ focus、close 時に trigger に focus 戻し
+ *
+ * **既知の制約**: Tab / Shift+Tab のフォーカストラップは未実装。`aria-modal=true`
+ * はあくまでヒントで、ブラウザ・AT 実装によっては modal 外要素にフォーカスが
+ * 移ることがある。現状の用途 (kampa / policy のような閉じる・外部リンク中心の
+ * informational modal) では実害は限定的。フォーム入力を持つ Modal に使う場合は
+ * focus trap を別途実装すること。
  */
 type ModalProps = {
   open: boolean;

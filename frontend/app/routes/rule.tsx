@@ -1,8 +1,8 @@
 import type { Route } from "./+types/rule";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "ルール | WOLF MANSION" }];
+  return placeholderMeta("ルール");
 }
 
 export default function Rule() {

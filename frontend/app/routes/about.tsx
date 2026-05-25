@@ -1,8 +1,8 @@
 import type { Route } from "./+types/about";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "本サイトは | WOLF MANSION" }];
+  return placeholderMeta("本サイトは");
 }
 
 export default function About() {

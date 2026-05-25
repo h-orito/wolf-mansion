@@ -165,7 +165,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
               sublabel="My Page"
             />
             <MenuTileLink
-              to="/me"
+              to={`/players/${encodeURIComponent(user.userId)}#password`}
               icon={<WrenchIcon className={ICON_CLASS} />}
               label="パスワード変更"
               sublabel="Change Password"

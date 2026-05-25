@@ -1,8 +1,8 @@
 import type { Route } from "./+types/new-player";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "ID 登録 | WOLF MANSION" }];
+  return placeholderMeta("ID 登録");
 }
 
 export default function NewPlayer() {

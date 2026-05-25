@@ -1,8 +1,8 @@
 import type { Route } from "./+types/announce";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "お知らせ | WOLF MANSION" }];
+  return placeholderMeta("お知らせ");
 }
 
 export default function Announce() {

@@ -1,8 +1,8 @@
 import type { Route } from "./+types/faq";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "よくある質問 | WOLF MANSION" }];
+  return placeholderMeta("FAQ");
 }
 
 export default function Faq() {

@@ -1,8 +1,8 @@
 import type { Route } from "./+types/intro";
-import { PlaceholderPage } from "~/components/layout/PlaceholderPage";
+import { PlaceholderPage, placeholderMeta } from "~/components/layout/PlaceholderPage";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "人狼館の事件簿村 | WOLF MANSION" }];
+  return placeholderMeta("人狼館の事件簿村ルール");
 }
 
 export default function Intro() {

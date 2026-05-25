@@ -1,7 +1,20 @@
+import type { ReactNode } from "react";
 import { LinkButton } from "~/components/ui/Button";
 import { Panel, PanelBody } from "~/components/ui/Panel";
 import { PageHeader } from "~/components/layout/PageHeader";
 import { PageFooter } from "~/components/layout/PageFooter";
+
+/**
+ * placeholder route 用の meta 共通ヘルパ。
+ * - title は旧本番のタイトルをダッシュで結合 (旧 `<title>WOLF MANSION 〜人狼館の事件簿村〜 <pageTitle></title>` 相当)
+ * - SEO 上 indexable にしたくない (実コンテンツは Step 13e で移植予定) ため robots noindex を付ける
+ */
+export function placeholderMeta(pageTitle: string) {
+  return [
+    { title: `${pageTitle} — WOLF MANSION` },
+    { name: "robots", content: "noindex" },
+  ];
+}
 
 /**
  * 旧 Thymeleaf 版に存在し React 側に未移植のページのスタブ。
@@ -17,7 +30,7 @@ export function PlaceholderPage({
 }: {
   title: string;
   englishTitle?: string;
-  description: React.ReactNode;
+  description: ReactNode;
 }) {
   return (
     <>
