@@ -31,8 +31,11 @@ import { PageFooter } from "~/components/layout/PageFooter";
 
 const TOP_STATUSES = ["募集中", "進行中", "エピローグ"] as const;
 
-/** MenuTile icon の共通サイズ。文字サイズ拡大に追従するよう em 単位で。 */
-const ICON_CLASS = "w-[2em] h-[2em]";
+/**
+ * MenuTile icon の共通サイズ。旧 glyphicon (~14px) 相当を狙う。
+ * 文字サイズ拡大に追従するよう em 単位で。
+ */
+const ICON_CLASS = "w-[1.3em] h-[1.3em]";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -84,9 +87,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const villages = villagesQuery.data?.list ?? [];
 
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       {/* --- 1. hero --- */}
-      <div className="relative w-full mb-4">
+      <div className="relative w-full mb-[15px]">
         <img
           src="/wolf-mansion/img/top.jpg"
           alt=""
@@ -105,10 +108,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       {/* --- 2. メインメニュー (6 tiles, 旧 index.html と同じ並び) --- */}
       <MenuSection ariaLabel="メインメニュー">
-        <p className="text-center text-[1.17em] mb-1">
+        <p className="text-center text-[1.17em] mb-[10px] px-[15px]">
           状況のみで推理・説得する、新しい人狼
         </p>
-        <p className="text-center mb-4 leading-[1.5em] px-4">
+        <p className="text-center mb-[15px] leading-[1.5em] px-[15px]">
           WOLF MANSION では、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】の
           2 つを使って推理・説得する「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
         </p>
@@ -236,37 +239,38 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
       </MenuSection>
 
-      {/* --- 5. 村一覧 / 村作成 --- */}
-      <MenuSection title={<>村一覧 / 村作成</>}>
-        <MenuTileRow cols={user ? 2 : 1}>
-          <MenuTileLink
-            to="/villages"
-            icon={<ClipboardDocumentListIcon className={ICON_CLASS} />}
-            label="全村一覧"
-            sublabel="Village list"
-          />
-          {user && (
+      {/* --- 5 & 6. 村一覧/村作成 + ユーザー (旧 col-sm-6 で 2 カラム横並び) --- */}
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <MenuSection title={<>村一覧 / 村作成</>}>
+          <MenuTileRow cols={user ? 2 : 1}>
             <MenuTileLink
-              to="/new-village"
-              icon={<PlusIcon className={ICON_CLASS} />}
-              label="村を建てる"
-              sublabel="Create Village"
+              to="/villages"
+              icon={<ClipboardDocumentListIcon className={ICON_CLASS} />}
+              label="全村一覧"
+              sublabel="Village list"
             />
-          )}
-        </MenuTileRow>
-      </MenuSection>
+            {user && (
+              <MenuTileLink
+                to="/new-village"
+                icon={<PlusIcon className={ICON_CLASS} />}
+                label="村を建てる"
+                sublabel="Create Village"
+              />
+            )}
+          </MenuTileRow>
+        </MenuSection>
 
-      {/* --- 6. ユーザー (常時表示、本番踏襲) --- */}
-      <MenuSection title={<>ユーザー</>}>
-        <MenuTileRow cols={1}>
-          <MenuTileLink
-            to="/players"
-            icon={<UsersIcon className={ICON_CLASS} />}
-            label="一覧"
-            sublabel="User list"
-          />
-        </MenuTileRow>
-      </MenuSection>
+        <MenuSection title={<>ユーザー</>}>
+          <MenuTileRow cols={1}>
+            <MenuTileLink
+              to="/players"
+              icon={<UsersIcon className={ICON_CLASS} />}
+              label="一覧"
+              sublabel="User list"
+            />
+          </MenuTileRow>
+        </MenuSection>
+      </div>
 
       {/* --- 7. キャラチップ (常時表示、本番踏襲) --- */}
       <MenuSection title={<>キャラチップ</>}>

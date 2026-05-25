@@ -12,8 +12,10 @@ import { cn } from "./cn";
  */
 const tileClass =
   // layout
-  "flex flex-col items-center justify-center text-center gap-1 " +
-  "px-3 py-4 min-h-[8.3em] " + // 旧 100px @ 12px base 相当を em で
+  // 旧 .top-menu-selectable は padding: 0、.top-menu-selectable-inner が padding-top 15px
+  // + height 100px。これを 1 要素にまとめて pt + min-h で再現。
+  "flex flex-col items-center text-center " +
+  "px-1 pt-[15px] pb-[10px] min-h-[8.3em] " + // 100px @ 12px base
   // 色 (旧 .top-menu-selectable)
   "bg-night-950 border border-night-700 text-white " +
   // hover (旧 :hover で mint に)
@@ -41,10 +43,12 @@ export function MenuTileLink({
 }: Common & LinkProps) {
   return (
     <Link {...rest} className={cn(tileClass, className)}>
-      {icon && <span aria-hidden className="text-[1.5em] leading-none">{icon}</span>}
-      <span className="block font-bold">{label}</span>
+      {/* 旧 glyphicon ~14px。span に scaler は付けない (svg 自身を 1em 相当で出す) */}
+      {icon && <span aria-hidden className="leading-none mb-[6px]">{icon}</span>}
+      {/* 旧 <span class="h6"> は BS3 で font-weight: bold + 12px。サブは body 12px (regular) */}
+      <span className="block text-[1em] font-bold">{label}</span>
       {sublabel && (
-        <span className="block text-[0.85em] opacity-80">{sublabel}</span>
+        <span className="block text-[1em] opacity-90">{sublabel}</span>
       )}
     </Link>
   );
@@ -60,10 +64,11 @@ export function MenuTileButton({
 }: Common & React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button {...rest} type={type} className={cn(tileClass, className)}>
-      {icon && <span aria-hidden className="text-[1.5em] leading-none">{icon}</span>}
-      <span className="block font-bold">{label}</span>
+      {icon && <span aria-hidden className="leading-none mb-[6px]">{icon}</span>}
+      {/* 旧 <span class="h6"> は BS3 で font-weight: bold + 12px。サブは body 12px (regular) */}
+      <span className="block text-[1em] font-bold">{label}</span>
       {sublabel && (
-        <span className="block text-[0.85em] opacity-80">{sublabel}</span>
+        <span className="block text-[1em] opacity-90">{sublabel}</span>
       )}
     </button>
   );

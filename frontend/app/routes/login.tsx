@@ -67,7 +67,7 @@ export default function LoginPage() {
     : null;
 
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       <PageHeader />
       <div className="px-3 max-w-[40em]">
         <h1 className="text-[1.5em] font-medium mb-3">ログイン</h1>

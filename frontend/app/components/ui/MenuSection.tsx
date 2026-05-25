@@ -33,12 +33,16 @@ export function MenuSection({
     <section
       aria-label={!title ? ariaLabel : undefined}
       className={cn(
-        "bg-night-700 py-4 px-3", // 旧 #333333 + padding 15px
+        // 旧 .top-menu: bg #333 + padding 15px (上下のみ。横は tile が edge-to-edge)
+        "bg-night-700 py-[15px] px-0",
         className,
       )}
     >
       {title && (
-        <h2 className="text-center text-[1.17em] mb-3 font-medium">{title}</h2>
+        // 旧 h2.h5 = 14px (= 1.17em @ 12px base)。heading は section bg (#333) 上に置く
+        <h2 className="text-center text-[1.17em] mb-[15px] font-medium">
+          {title}
+        </h2>
       )}
       {children}
     </section>

@@ -33,7 +33,7 @@ export default function AuthLayout() {
   // 包んで PageHeader だけ被せる。子側を <main> でない構造に揃えるリファクタは
   // Step 13d / 13e (それぞれの route を design-restore する時) で実施
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-[1170px] mx-auto">
       <PageHeader />
       <div className="px-3">
         <Outlet />

@@ -70,7 +70,7 @@ export default function VillagesIndex({ loaderData }: Route.ComponentProps) {
 
   const searchPanelId = "villages-search-panel";
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       <PageHeader />
       <div className="px-3">
         <h1 className="text-[1.5em] font-medium mb-3">村一覧</h1>

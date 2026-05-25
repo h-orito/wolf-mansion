@@ -18,8 +18,9 @@ export function PageFooter() {
   const [policyOpen, setPolicyOpen] = useState(false);
 
   return (
-    <footer className="px-3 py-4 mt-4 text-[0.95em] opacity-80">
-      <hr className="border-night-700 mb-3" />
+    // 旧 footer.html: section と直接続 (mt 0)、内部 padding 15px
+    <footer className="px-[15px] py-[15px] mt-0 text-[0.95em] opacity-80">
+      <hr className="border-night-700 mb-[10px]" />
       <p className="leading-[1.6em]">
         要望、改善提案、不具合報告は Twitter{" "}
         <a
