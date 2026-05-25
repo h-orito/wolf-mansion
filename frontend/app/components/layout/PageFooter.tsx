@@ -82,7 +82,7 @@ function KampaContent() {
   return (
     <div className="space-y-3">
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">Amazon ほしい物リストから送る</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">Amazon ほしい物リストから送る</h3>
         <ul className="list-disc pl-5 mb-2">
           <li>Amazon ほしいものリストから選んで開発者に送ることができます。</li>
         </ul>
@@ -98,10 +98,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-[#e5e5e5]" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">
           Amazon ギフト券 (E メールタイプ) を送る
         </h3>
         <ul className="list-disc pl-5 mb-2">
@@ -123,10 +123,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-[#e5e5e5]" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">
           Amazon アソシエイト経由で買い物をする
         </h3>
         <ul className="list-disc pl-5 mb-2">
@@ -147,10 +147,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-[#e5e5e5]" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">Pixiv Fanbox</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">Pixiv Fanbox</h3>
         <div className="flex justify-end">
           <LinkButton
             to="https://ort.fanbox.cc/"
@@ -163,10 +163,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-[#e5e5e5]" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">補足</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">補足</h3>
         <ul className="list-disc pl-5">
           <li>
             頂いた改善提案、ご要望については投げ銭の有無に関係なく積極的に取り入れていく
@@ -360,7 +360,7 @@ function PolicySection({
 }) {
   return (
     <section>
-      <h3 className="text-[1.05em] font-medium mt-2 mb-1">{title}</h3>
+      <h3 className="text-[19px] font-normal mt-[10.5px] mb-[10.5px] leading-[1.428]">{title}</h3>
       {children}
     </section>
   );

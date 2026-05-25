@@ -14,11 +14,11 @@
 }
 
 @theme {
-  /* body フォント。Inter は既存維持 */
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
+  /* body フォント。本番 (wolfort.net) と同じく Lato → Helvetica Neue を優先 */
+  --font-sans: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   /* ロゴ専用 (WOLF MANSION の anima) */
-  --font-anima: "anima", "Inter", sans-serif;
+  --font-anima: "anima", "Lato", sans-serif;
 
   /*
    * 旧 #0b162a (深紺) を中心とした dark navy palette。

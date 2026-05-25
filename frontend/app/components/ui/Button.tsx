@@ -34,10 +34,10 @@ const baseClass =
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint-500 focus-visible:outline-offset-2";
 
 const variantClass: Record<ButtonVariant, string> = {
-  // Bootstrap 3 .btn-success の素値 (#5cb85c / border #4cae4c / hover #449d44)。
-  // 旧画面では login / villages-list の検索 submit など form の決定ボタンで使用
+  // 旧画面は Bootstrap Darkly テーマで .btn-success を mint (#00bc8c) に上書き
+  // していた (本番計測値)。Bootswatch 既定の緑 #5cb85c ではない。
   success:
-    "bg-bs-success-500 border-bs-success-600 text-white hover:bg-bs-success-700 hover:border-bs-success-700",
+    "bg-mint-600 border-mint-600 text-white hover:bg-mint-700 hover:border-mint-700",
   // 旧 .btn-dark-success: dark bg + mint 文字 + mint border、hover で反転
   "dark-success":
     "bg-night-500 border-mint-600 text-mint-600 hover:bg-mint-600 hover:text-white",

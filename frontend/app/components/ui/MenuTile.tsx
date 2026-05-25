@@ -11,19 +11,17 @@ import { cn } from "./cn";
  * - hover: bg = #22224a, border + 文字を mint-500 に
  */
 const tileClass =
-  // layout
-  // 旧 .top-menu-selectable + .top-menu-selectable-inner を 1 要素に統合。
-  // 100px @ 12px base のタイル内で icon / label / sublabel が上下に等間隔で並ぶよう
-  // justify-evenly を使う (固定 padding にしない)。
-  "flex flex-col items-center justify-evenly text-center " +
-  "px-1 py-[10px] min-h-[8.334em] " + // 100px @ 12px base (100/12)
-  // 色 (旧 .top-menu-selectable)
+  // 旧 .top-menu-selectable: padding 0、固定 100px 高さ、bg #0b162a + border 1px #333
+  // 旧 .top-menu-selectable-inner: padding-top 15px のみ + height 100px + display inline-block
+  // 中の icon / h6 / sublabel は通常の block 縦積み (margin で自然に間隔がつく)。
+  "block text-center h-[100px] p-0 " +
   "bg-night-950 border border-night-700 text-white " +
-  // hover (旧 :hover で mint に)
   "hover:bg-night-800 hover:border-mint-500 hover:text-mint-500 " +
   "transition-colors duration-100 " +
-  // a 由来の打ち消し
   "no-underline cursor-pointer";
+
+// inner: 旧 .top-menu-selectable-inner の padding-top: 15px 相当
+const innerClass = "block w-full pt-[15px]";
 
 type Common = {
   /** 上段に出す小さなアイコン / glyph (絵文字 or SVG) */
@@ -44,20 +42,22 @@ type Common = {
  */
 function TileContent({ icon, label, sublabel }: Pick<Common, "icon" | "label" | "sublabel">) {
   return (
-    <>
+    <span className={innerClass}>
+      {/* 旧 glyphicon ~12px。svg をそのままインライン配置 */}
       {icon && (
-        // mb は付けない (justify-evenly が icon / label / sublabel の間隔を均等に分配)
-        <span aria-hidden className="leading-none">
+        <span aria-hidden className="inline-block leading-none">
           {icon}
         </span>
       )}
-      {/* 旧 h6 は BS3 で font-weight: bold + 12px だが、bold は印象が重いので
-          medium 相当に落とす。sublabel は light で英語らしい軽さを出す。 */}
-      <span className="block text-[1em] font-medium">{label}</span>
+      {/* 旧 .h6: font-size 13px / weight 400 / margin 10.5px 0 / line-height 14.3px */}
+      <span className="block text-[13px] font-normal leading-[14.3px] my-[10.5px]">
+        {label}
+      </span>
       {sublabel && (
-        <span className="block text-[1em] font-light opacity-90">{sublabel}</span>
+        // 旧 sublabel は body デフォルト (12px regular) のテキスト
+        <span className="block text-[12px] font-normal">{sublabel}</span>
       )}
-    </>
+    </span>
   );
 }
 

@@ -1,5 +1,4 @@
 import * as React from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import { cn } from "./cn";
 
 /**
@@ -77,8 +76,8 @@ export function Modal({
 
   return (
     <div
-      // 旧 .modal-backdrop: 半透明黒
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 bg-black/50"
+      // 旧 .modal-backdrop: 黒 opacity 0.7 (本番計測)
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[rgba(0,0,0,0.7)]"
       onClick={onClose}
       role="presentation"
     >
@@ -88,30 +87,36 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={tid}
         className={cn(
-          // 旧 BS3 .modal-content: 白背景 + 角丸 6px + 影 + 黒系文字
-          "w-full max-w-[600px] my-[30px] bg-white text-[#333] " +
-            "border border-[rgba(0,0,0,0.2)] rounded-[6px] shadow-lg",
+          // 旧 BS3 darkly .modal-content: bg #303030, 文字白, border 1px rgba(0,0,0,0.2)
+          // angle 6px, shadow 0 5px 15px rgba(0,0,0,0.5), .modal-dialog は sm+ で width 80vw
+          "w-[80vw] my-[30px] bg-[#303030] text-white " +
+            "border border-[rgba(0,0,0,0.2)] rounded-[6px] " +
+            "shadow-[0_5px_15px_rgba(0,0,0,0.5)]",
           className,
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 旧 .modal-header: padding 15px + border-bottom 1px #e5e5e5。
-            × は右上 (font-size 21px、float right 相当)。 */}
-        <div className="flex items-start justify-between px-[15px] py-[15px] border-b border-[#e5e5e5]">
-          <h2 id={tid} className="text-[1.42em] font-medium leading-[1.42857]">
-            {title}
-          </h2>
+        {/* 旧 .modal-header: padding 15px + border-bottom 1px #464545 */}
+        <div className="px-[15px] py-[15px] border-b border-[#464545]">
+          {/* close × は float-right。テキスト × (font-size 22.5px / weight 700 / opacity 0.4) */}
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="text-[#000] opacity-20 hover:opacity-50 transition-opacity"
+            className="float-right text-white opacity-40 hover:opacity-80 transition-opacity text-[22.5px] leading-[1] font-bold cursor-pointer"
           >
-            <XMarkIcon className="w-[1.75em] h-[1.75em]" aria-hidden />
+            ×
           </button>
+          {/* 旧 .modal-title (h4): font-size 19px / weight 400 / margin 0 / line-height 1.428 */}
+          <h2
+            id={tid}
+            className="text-[19px] font-normal m-0 leading-[1.428]"
+          >
+            {title}
+          </h2>
         </div>
-        {/* 旧 .modal-body: padding 15px */}
-        <div className="px-[15px] py-[15px]">{children}</div>
+        {/* 旧 .modal-body: padding 20px (本番計測) */}
+        <div className="px-[20px] py-[20px]">{children}</div>
       </div>
     </div>
   );
