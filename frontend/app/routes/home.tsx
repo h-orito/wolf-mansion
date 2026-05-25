@@ -25,14 +25,16 @@ import {
   MenuTileRow,
 } from "~/components/ui/MenuSection";
 import { MenuTileLink, MenuTileButton } from "~/components/ui/MenuTile";
-import { Table, TableResponsive } from "~/components/ui/Table";
+import { cn } from "~/components/ui/cn";
 import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
 import { PageFooter } from "~/components/layout/PageFooter";
 
 const TOP_STATUSES = ["募集中", "進行中", "エピローグ"] as const;
 
-/** MenuTile icon の共通サイズ。文字サイズ拡大に追従するよう em 単位で。 */
-const ICON_CLASS = "w-[2em] h-[2em]";
+/**
+ * MenuTile icon の共通サイズ。本番 glyphicon は font-size 12px (= 12px × 12px box)。
+ */
+const ICON_CLASS = "w-[12px] h-[12px]";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -84,9 +86,9 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   const villages = villagesQuery.data?.list ?? [];
 
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       {/* --- 1. hero --- */}
-      <div className="relative w-full mb-4">
+      <div className="relative w-full mb-[15px]">
         <img
           src="/wolf-mansion/img/top.jpg"
           alt=""
@@ -105,13 +107,28 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
       {/* --- 2. メインメニュー (6 tiles, 旧 index.html と同じ並び) --- */}
       <MenuSection ariaLabel="メインメニュー">
-        <p className="text-center text-[1.17em] mb-1">
-          状況のみで推理・説得する、新しい人狼
-        </p>
-        <p className="text-center mb-4 leading-[1.5em] px-4">
-          WOLF MANSION では、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】の
-          2 つを使って推理・説得する「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
-        </p>
+        {/* 旧 h100px 行: 中央寄せキャッチコピー。本番 .h5 = 15px / weight 400 */}
+        <div className="h-[100px] flex items-center justify-center px-[15px]">
+          <h2 className="m-0 text-center text-[15px] font-normal leading-[1.1]">
+            状況のみで推理・説得する、新しい人狼
+          </h2>
+        </div>
+        {/* 旧 h100px 行 + style="padding-left:40px;padding-right:40px;word-break:break-word;line-height:1.5em"
+            <br class="hidden-xs"> で sm+ では指定位置改行、xs では自然折返し */}
+        <div
+          className="h-[100px] flex items-center justify-center px-[40px] text-center leading-[1.5em]"
+          style={{ wordBreak: "break-word" }}
+        >
+          <p className="m-0">
+            WOLF MANSION では、
+            <br className="hidden sm:inline" />
+            占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+            <br className="hidden sm:inline" />
+            【投票】の 2 つを使って推理・説得する{" "}
+            <br className="hidden sm:inline" />
+            「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+          </p>
+        </div>
         <MenuTileRow cols={3}>
           <MenuTileLink
             to="/about"
@@ -196,77 +213,104 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         )}
       </MenuSection>
 
-      {/* --- 4. 開催中の村 --- */}
+      {/* --- 4. 開催中の村 (本番計測準拠) --- */}
       <MenuSection title={<>開催中の村</>}>
         {villages.length === 0 ? (
           <p className="text-center py-4 text-white opacity-70">
             現在、開催中の村はありません
           </p>
         ) : (
-          <TableResponsive>
-            <Table>
-              <tbody>
-                {villages.map((v) => (
-                  <tr
-                    key={v.id}
-                    className="hover:bg-night-800 hover:text-mint-500 cursor-pointer transition-colors"
-                  >
-                    <td className="w-[3em] text-right">{v.number}</td>
-                    <td>
-                      <Link
-                        to={`/villages/${v.id}`}
-                        className="block text-white no-underline hover:text-mint-500"
-                      >
-                        <VillageTag level={villageTagLevel(v.statusName)}>
-                          {v.statusName}
-                        </VillageTag>
-                        {v.name}
-                      </Link>
-                    </td>
-                    <td className="w-[6em] text-right text-[0.95em]">
-                      {v.spectatorCount > 0
-                        ? `${v.participantCount} (${v.spectatorCount})`
-                        : v.participantCount}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </TableResponsive>
+          // 旧 .top-menu-selectable-area: bg #0b162a + border 1px #333
+          <div className="bg-night-950 border border-night-700">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full border-collapse text-[12px]">
+                <tbody>
+                  {villages.map((v) => {
+                    const cellCls =
+                      // td padding 0 + border 1px #464545 + hover で row 全体が mint に
+                      "p-0 border border-[#464545] " +
+                      "group-hover:bg-night-800 group-hover:text-mint-500";
+                    return (
+                      <tr key={v.id} className="group cursor-pointer transition-colors">
+                        {/* 旧 col-sm-1 (8.3% ≒ 95px @ 1170 container) */}
+                        <td className={cn(cellCls, "w-[8.333%] text-center")}>
+                          <Link
+                            to={`/villages/${v.id}`}
+                            className="block p-[5px] text-white no-underline group-hover:text-mint-500"
+                          >
+                            {String(v.number).padStart(4, "0")}
+                          </Link>
+                        </td>
+                        <td className={cn(cellCls, "text-left")}>
+                          <Link
+                            to={`/villages/${v.id}`}
+                            className="block p-[5px] text-white no-underline group-hover:text-mint-500"
+                          >
+                            <VillageTag level={villageTagLevel(v.statusName)}>
+                              {v.statusName}
+                            </VillageTag>
+                            {v.name}
+                          </Link>
+                        </td>
+                        {/* 旧 col-sm-2 (16.6% ≒ 190px) */}
+                        <td className={cn(cellCls, "w-[16.667%] text-center")}>
+                          <Link
+                            to={`/villages/${v.id}`}
+                            className="block p-[5px] text-white no-underline group-hover:text-mint-500"
+                          >
+                            {v.participantCount}人
+                          </Link>
+                        </td>
+                        <td className={cn(cellCls, "w-[16.667%] text-center")}>
+                          <Link
+                            to={`/villages/${v.id}`}
+                            className="block p-[5px] text-white no-underline group-hover:text-mint-500"
+                          >
+                            {v.statusName}
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </MenuSection>
 
-      {/* --- 5. 村一覧 / 村作成 --- */}
-      <MenuSection title={<>村一覧 / 村作成</>}>
-        <MenuTileRow cols={user ? 2 : 1}>
-          <MenuTileLink
-            to="/villages"
-            icon={<ClipboardDocumentListIcon className={ICON_CLASS} />}
-            label="全村一覧"
-            sublabel="Village list"
-          />
-          {user && (
+      {/* --- 5 & 6. 村一覧/村作成 + ユーザー (旧 col-sm-6 で 2 カラム横並び) --- */}
+      <div className="grid grid-cols-1 sm:grid-cols-2">
+        <MenuSection title={<>村一覧 / 村作成</>}>
+          <MenuTileRow cols={user ? 2 : 1}>
             <MenuTileLink
-              to="/new-village"
-              icon={<PlusIcon className={ICON_CLASS} />}
-              label="村を建てる"
-              sublabel="Create Village"
+              to="/villages"
+              icon={<ClipboardDocumentListIcon className={ICON_CLASS} />}
+              label="全村一覧"
+              sublabel="Village list"
             />
-          )}
-        </MenuTileRow>
-      </MenuSection>
+            {user && (
+              <MenuTileLink
+                to="/new-village"
+                icon={<PlusIcon className={ICON_CLASS} />}
+                label="村を建てる"
+                sublabel="Create Village"
+              />
+            )}
+          </MenuTileRow>
+        </MenuSection>
 
-      {/* --- 6. ユーザー (常時表示、本番踏襲) --- */}
-      <MenuSection title={<>ユーザー</>}>
-        <MenuTileRow cols={1}>
-          <MenuTileLink
-            to="/players"
-            icon={<UsersIcon className={ICON_CLASS} />}
-            label="一覧"
-            sublabel="User list"
-          />
-        </MenuTileRow>
-      </MenuSection>
+        <MenuSection title={<>ユーザー</>}>
+          <MenuTileRow cols={1}>
+            <MenuTileLink
+              to="/players"
+              icon={<UsersIcon className={ICON_CLASS} />}
+              label="一覧"
+              sublabel="User list"
+            />
+          </MenuTileRow>
+        </MenuSection>
+      </div>
 
       {/* --- 7. キャラチップ (常時表示、本番踏襲) --- */}
       <MenuSection title={<>キャラチップ</>}>

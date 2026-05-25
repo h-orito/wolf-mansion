@@ -1,5 +1,5 @@
 import * as React from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
+import { createPortal } from "react-dom";
 import { cn } from "./cn";
 
 /**
@@ -75,9 +75,17 @@ export function Modal({
 
   if (!open) return null;
 
-  return (
+  // 重要: 親要素に opacity-* が付いていると CSS opacity が子孫に継承され
+  // 背景が透けて見えてしまう (例: PageFooter の opacity-80)。Portal で
+  // document.body 直下に描画して、呼び出し位置の opacity 文脈から逃がす。
+  // SSR では document が存在しないので open && typeof window で guard。
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto p-4 bg-black/60"
+      // 旧 .modal-backdrop: 黒 opacity 0.7 (本番計測値)
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.7)" }}
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto"
       onClick={onClose}
       role="presentation"
     >
@@ -86,27 +94,41 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={tid}
+        // 旧 BS3 darkly .modal-content: bg #303030, 文字白
+        // bg は app.css の .modal-dialog-bg (!important) + inline style の二重がけで
+        // Tailwind arbitrary 値生成漏れ / 上書きを完全に排除する。
+        style={{ backgroundColor: "#303030" }}
         className={cn(
-          "w-full max-w-[40em] my-8 bg-night-950 border border-night-700 rounded-[0.25em] shadow-lg",
+          "modal-dialog-bg w-[80vw] my-[30px] text-white " +
+            "border border-[rgba(0,0,0,0.2)] rounded-[6px] " +
+            "shadow-[0_5px_15px_rgba(0,0,0,0.5)]",
           className,
         )}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-3 py-2 border-b border-night-700">
-          <h2 id={tid} className="text-[1.17em] font-medium">
-            {title}
-          </h2>
+        {/* 旧 .modal-header: padding 15px + border-bottom 1px #464545 */}
+        <div className="px-[15px] py-[15px] border-b border-night-550">
+          {/* close × は float-right。テキスト × (font-size 22.5px / weight 700 / opacity 0.4) */}
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="text-white hover:text-mint-500 transition-colors"
+            className="float-right text-white opacity-40 hover:opacity-80 transition-opacity text-[22.5px] leading-[1] font-bold cursor-pointer"
           >
-            <XMarkIcon className="w-[1.5em] h-[1.5em]" aria-hidden />
+            ×
           </button>
+          {/* 旧 .modal-title (h4): font-size 19px / weight 400 / margin 0 / line-height 1.428 */}
+          <h2
+            id={tid}
+            className="text-[19px] font-normal m-0 leading-[1.428]"
+          >
+            {title}
+          </h2>
         </div>
-        <div className="px-3 py-3">{children}</div>
+        {/* 旧 .modal-body: padding 20px (本番計測) */}
+        <div className="px-[20px] py-[20px]">{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

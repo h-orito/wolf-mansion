@@ -29,16 +29,32 @@ export function MenuSection({
   children: React.ReactNode;
   className?: string;
 }) {
+  // title 指定時は内側の <h2> を accessible name として利用するため id を採番し、
+  // <section aria-labelledby> で紐付ける (unnamed landmark を回避)。
+  // title 省略時も Hooks の呼び出し順を保つため useId は常に呼ぶ (id は DOM に出ない)。
+  const headingId = React.useId();
   return (
     <section
       aria-label={!title ? ariaLabel : undefined}
+      aria-labelledby={title ? headingId : undefined}
       className={cn(
-        "bg-night-700 py-4 px-3", // 旧 #333333 + padding 15px
+        // 旧 .top-menu: bg #333 + padding 15px (上下のみ。横は row 側が持つので 0)
+        // タイル row はこの section の左右いっぱいまで広がる (横余白なし)
+        "bg-night-700 py-[15px] px-0",
         className,
       )}
     >
       {title && (
-        <h2 className="text-center text-[1.17em] mb-3 font-medium">{title}</h2>
+        // 旧 h2.h5 を含む h100px 行: flex 中央配置で 100px 高さ。
+        // 見出し行のみ px-[15px] (本番 .top-menu-inner-row 計測値)
+        <div className="h-[100px] flex items-center justify-center px-[15px]">
+          <h2
+            id={headingId}
+            className="m-0 text-center text-[15px] font-normal leading-[1.1]"
+          >
+            {title}
+          </h2>
+        </div>
       )}
       {children}
     </section>

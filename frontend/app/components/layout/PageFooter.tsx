@@ -18,15 +18,16 @@ export function PageFooter() {
   const [policyOpen, setPolicyOpen] = useState(false);
 
   return (
-    <footer className="px-3 py-4 mt-4 text-[0.95em] opacity-80">
-      <hr className="border-night-700 mb-3" />
+    // 旧 footer.html: section と直接続 (mt 0)、内部 padding 15px
+    <footer className="px-[15px] py-[15px] mt-0 text-[0.95em] opacity-80">
+      <hr className="border-night-700 mb-[10px]" />
       <p className="leading-[1.6em]">
         要望、改善提案、不具合報告は Twitter{" "}
         <a
           href="https://twitter.com/ort_dev"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blood-600 hover:text-mint-500"
+          className="text-mint-500 hover:text-mint-600"
         >
           @ort_dev
         </a>{" "}
@@ -36,7 +37,7 @@ export function PageFooter() {
         <button
           type="button"
           onClick={() => setKampaOpen(true)}
-          className="text-blood-600 hover:text-mint-500 underline"
+          className="text-mint-500 hover:text-mint-600 underline"
         >
           こちら
         </button>{" "}
@@ -45,7 +46,7 @@ export function PageFooter() {
         <button
           type="button"
           onClick={() => setPolicyOpen(true)}
-          className="text-blood-600 hover:text-mint-500 underline"
+          className="text-mint-500 hover:text-mint-600 underline"
         >
           プライバシーポリシー
         </button>
@@ -55,7 +56,7 @@ export function PageFooter() {
           href="https://github.com/h-orito/wolf-mansion"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blood-600 hover:text-mint-500"
+          className="text-mint-500 hover:text-mint-600"
         >
           Github
         </a>
@@ -81,7 +82,7 @@ function KampaContent() {
   return (
     <div className="space-y-3">
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">Amazon ほしい物リストから送る</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">Amazon ほしい物リストから送る</h3>
         <ul className="list-disc pl-5 mb-2">
           <li>Amazon ほしいものリストから選んで開発者に送ることができます。</li>
         </ul>
@@ -97,10 +98,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">
           Amazon ギフト券 (E メールタイプ) を送る
         </h3>
         <ul className="list-disc pl-5 mb-2">
@@ -122,10 +123,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">
           Amazon アソシエイト経由で買い物をする
         </h3>
         <ul className="list-disc pl-5 mb-2">
@@ -146,10 +147,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">Pixiv Fanbox</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">Pixiv Fanbox</h3>
         <div className="flex justify-end">
           <LinkButton
             to="https://ort.fanbox.cc/"
@@ -162,10 +163,10 @@ function KampaContent() {
         </div>
       </section>
 
-      <hr className="border-night-700" />
+      <hr className="border-[#464545]" />
 
       <section>
-        <h3 className="text-[1.1em] font-medium mb-1">補足</h3>
+        <h3 className="text-[19px] font-normal m-0 mb-[10.5px] leading-[1.428]">補足</h3>
         <ul className="list-disc pl-5">
           <li>
             頂いた改善提案、ご要望については投げ銭の有無に関係なく積極的に取り入れていく
@@ -174,7 +175,7 @@ function KampaContent() {
               href="https://twitter.com/ort_dev"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blood-600 hover:text-mint-500"
+              className="text-mint-500 hover:text-mint-600"
             >
               @ort_dev
             </a>{" "}
@@ -359,7 +360,7 @@ function PolicySection({
 }) {
   return (
     <section>
-      <h3 className="text-[1.05em] font-medium mt-2 mb-1">{title}</h3>
+      <h3 className="text-[19px] font-normal mt-[10.5px] mb-[10.5px] leading-[1.428]">{title}</h3>
       {children}
     </section>
   );

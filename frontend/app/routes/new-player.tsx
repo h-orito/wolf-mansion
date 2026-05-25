@@ -7,7 +7,7 @@ export function meta(_: Route.MetaArgs) {
 
 export default function NewPlayer() {
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       <PlaceholderPage
         title="ID 登録"
         englishTitle="Register"

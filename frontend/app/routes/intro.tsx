@@ -7,7 +7,7 @@ export function meta(_: Route.MetaArgs) {
 
 export default function Intro() {
   return (
-    <main className="max-w-screen-lg mx-auto">
+    <main className="max-w-[1170px] mx-auto">
       <PlaceholderPage
         title="人狼館の事件簿村"
         englishTitle="Introduction"

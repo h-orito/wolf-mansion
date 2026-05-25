@@ -25,19 +25,19 @@ export type ButtonVariant =
 
 const baseClass =
   "inline-flex items-center justify-center gap-1 " +
-  // 旧 .btn-sm の padding 相当 (px-3 / py-1) と border-radius を em で
-  "px-3 py-1 rounded-[0.25em] border " +
-  // 文字サイズはユーザー設定で拡大されるよう em ベース
-  "text-[1em] leading-tight font-medium " +
+  // 旧 BS3 .btn-sm 相当 (本番計測値 padding 6px 9px / radius 3px / border 2px)
+  "px-[9px] py-[6px] rounded-[3px] border-2 " +
+  // 文字サイズはユーザー設定で拡大されるよう em ベース。本番 .btn-sm font-size 13px
+  "text-[13px] leading-[1.4] font-medium " +
   "transition-colors duration-100 " +
   "disabled:opacity-60 disabled:cursor-not-allowed " +
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-mint-500 focus-visible:outline-offset-2";
 
 const variantClass: Record<ButtonVariant, string> = {
-  // Bootstrap 3 .btn-success の素値 (#5cb85c / border #4cae4c / hover #449d44)。
-  // 旧画面では login / villages-list の検索 submit など form の決定ボタンで使用
+  // 旧画面は Bootstrap Darkly テーマで .btn-success を mint (#00bc8c) に上書き
+  // していた (本番計測値)。Bootswatch 既定の緑 #5cb85c ではない。
   success:
-    "bg-bs-success-500 border-bs-success-600 text-white hover:bg-bs-success-700 hover:border-bs-success-700",
+    "bg-mint-600 border-mint-600 text-white hover:bg-mint-700 hover:border-mint-700",
   // 旧 .btn-dark-success: dark bg + mint 文字 + mint border、hover で反転
   "dark-success":
     "bg-night-500 border-mint-600 text-mint-600 hover:bg-mint-600 hover:text-white",
