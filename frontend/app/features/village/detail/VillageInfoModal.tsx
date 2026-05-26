@@ -27,14 +27,14 @@ export function VillageInfoModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-slate-900 border border-slate-700 p-5 space-y-3"
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl bg-night-900 border border-night-700 p-5 space-y-3"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between">
           <h3 className="text-base font-semibold">村情報</h3>
           <button
             type="button"
-            className="text-slate-400 hover:text-slate-200 text-sm"
+            className="opacity-80 hover:text-white text-sm"
             onClick={onClose}
             aria-label="閉じる"
           >
@@ -99,18 +99,18 @@ export function VillageInfoModal({
             <Row label="役職構成" value="ランダム編成 (闇鍋)" />
           )}
         </dl>
-        <div className="flex justify-end gap-2 pt-2 border-t border-slate-700">
+        <div className="flex justify-end gap-2 pt-2 border-t border-night-700">
           {village.isCreator && (
             <a
               href={`/wolf-mansion/villages/${village.id}/settings`}
-              className="rounded bg-emerald-600 hover:bg-emerald-500 px-3 py-1.5 text-sm text-white"
+              className="rounded bg-bs-success-500 hover:bg-bs-success-700 px-3 py-1.5 text-sm text-white"
             >
               設定変更
             </a>
           )}
           <button
             type="button"
-            className="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
+            className="rounded border border-night-700 px-3 py-1.5 text-sm text-white hover:bg-night-700"
             onClick={onClose}
           >
             閉じる
@@ -124,8 +124,8 @@ export function VillageInfoModal({
 function Row({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <>
-      <dt className="text-slate-400">{label}</dt>
-      <dd className="text-slate-100 break-all">{value}</dd>
+      <dt className="opacity-80">{label}</dt>
+      <dd className="text-white break-all">{value}</dd>
     </>
   );
 }

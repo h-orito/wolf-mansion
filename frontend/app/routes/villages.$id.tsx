@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router";
+import { useQueryClient } from "@tanstack/react-query";
 import type { Route } from "./+types/villages.$id";
 import {
   fetchMyself,
@@ -24,6 +25,7 @@ import {
 import { ActionPanel } from "~/features/village/detail/ActionPanel";
 import { AdminPanel } from "~/features/village/detail/AdminPanel";
 import { CreatorPanel } from "~/features/village/detail/CreatorPanel";
+import { FooterMenuDock } from "~/features/village/detail/FooterMenuDock";
 import { MessageCard } from "~/features/village/detail/MessageCard";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { RoomGridPanel } from "~/features/village/detail/RoomGridPanel";
@@ -40,20 +42,18 @@ import {
 import { VillageInfoModal } from "~/features/village/detail/VillageInfoModal";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
+import { Panel, PanelBody, PanelHeading } from "~/components/ui/Panel";
+import { Button, LinkButton } from "~/components/ui/Button";
+import { PageHeader } from "~/components/layout/PageHeader";
+import { PageFooter } from "~/components/layout/PageFooter";
 
 const PAGE_SIZE = 50;
 
 export function meta({ data }: Route.MetaArgs) {
   const name = data?.village?.name ?? "村詳細";
-  return [{ title: `${name} - wolf-mansion` }];
+  return [{ title: `${name} | WOLF MANSION` }];
 }
 
-/**
- * `?day=` を整数に変換。負数 / NaN / 範囲外チェックは下流の backend に任せる
- * (backend は範囲外の day でも空の MessagesView を返す)。0 はプロローグなので valid。
- *
- * loader (SSR) とコンポーネント (CSR) 両方から呼ぶため module top に置く。
- */
 function parseDayParam(raw: string | null): number | undefined {
   if (raw == null || raw === "") return undefined;
   const n = Number(raw);
@@ -68,10 +68,6 @@ function parsePageParam(raw: string | null): number | undefined {
   return n;
 }
 
-/**
- * URL クエリ (`?type=A,B` `&from=1,2` `&to=3` `&kw=...`) を MessageFilterValue にパース。
- * 旧 Thymeleaf 互換ではなく URL を短く保つため、カンマ区切り 1 パラメータ + 短いキー名にした。
- */
 function parseFilterFromParams(p: URLSearchParams): MessageFilterValue {
   const messageType = (p.get("type") ?? "")
     .split(",")
@@ -108,10 +104,6 @@ function sortedStrings(arr: string[]): string[] {
   return [...arr].sort();
 }
 
-/**
- * フィルタの等価判定。配列の順序差を吸収するため sort 後に比較する。
- * useVillageMessagesQuery 側の queryKey 生成と同じ正規化方針。
- */
 function isFilterEqual(a: MessageFilterValue, b: MessageFilterValue): boolean {
   if (a.keyword.trim() !== b.keyword.trim()) return false;
   const aType = sortedStrings(a.messageType);
@@ -158,21 +150,14 @@ export async function loader({ request, params }: Route.LoaderArgs) {
   const initialFilter = parseFilterFromParams(url.searchParams);
   const initialPage = parsePageParam(url.searchParams.get("page"));
   const api = ssrFetch(request);
-  // 村の存在確認を先行させる。村が無い場合に messages / footsteps / myself へ
-  // 無駄な API コール (backend で同じく 404 になる) が走るのを避けるため。
   const village = await fetchVillage(villageId, api).catch(() => null);
   if (!village) throw new Response("village not found", { status: 404 });
-  // 初期表示日: ?day= があればそれ、無ければ最新日 (= backend で `day` 未指定時と同じ)。
-  // 「latest」をクエリキーに乗せる都合で、ここでは明示的に number に正規化して渡す。
   const initialDay = dayParam ?? village.time.latestDay;
-  // フィルタ / ページ指定があれば SSR でも反映 (URL 共有時の見た目を一致させる)。
   const messagesQuery = buildMessagesQuery(initialDay, initialFilter, initialPage);
   const [messages, footsteps, myself, situation] = await Promise.all([
     fetchVillageMessages(villageId, messagesQuery, api).catch(() => null),
     fetchVillageFootsteps(villageId, api).catch(() => null),
     fetchMyself(villageId, api).catch(() => null),
-    // situation は day を渡さなくても backend 側で latestDay を採用するため未指定で OK。
-    // CSR でも `useVillageSituationQuery` は day なしで叩く想定。
     fetchVillageSituation(villageId, undefined, api).catch(() => null),
   ]);
   return {
@@ -202,7 +187,6 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   } = loaderData;
 
   const [params, setParams] = useSearchParams();
-  // ?day を最優先で使い、無ければ loader で求めた initialDay (= latest) にフォールバック。
   const selectedDay = parseDayParam(params.get("day")) ?? initialDay;
   const filter = useMemo(() => parseFilterFromParams(params), [params]);
   const page = parsePageParam(params.get("page"));
@@ -213,10 +197,6 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const [showInfo, setShowInfo] = useState(false);
 
   const villageQuery = useVillageQuery(villageId, initialVillage);
-  // SSR initialData: 日 / フィルタ / ページが loader と一致するときだけ使う。
-  // どれかが変われば別データなので initial を渡すと不整合になる。
-  // フィルタ比較は配列の順序差で initial を捨てないよう、useVillageMessagesQuery
-  // 側の queryKey と同じく sort 後比較で揃える。
   const isInitialView =
     selectedDay === initialDay &&
     page === initialPage &&
@@ -230,37 +210,26 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
   const footstepsQuery = useVillageFootstepsQuery(villageId, initialFootsteps ?? undefined);
   const myselfQuery = useMyselfQuery(villageId, initialMyself);
   const situationQuery = useVillageSituationQuery(villageId, initialSituation ?? undefined);
-  // 認証情報を取得して管理者 (CDef.Authority.管理者) 判定に使う。
-  // SSR / 未ログイン時は失敗するが、`error` を握りつぶし `isAdmin=false` 扱いで進める。
   const meQuery = useMeQuery();
   const authority = meQuery.data?.user?.authority;
   const isAdmin = authority === "管理者";
 
   const village = villageQuery.data ?? initialVillage;
-  // useVillageMessagesQuery に initialData を渡しているので messagesQuery.data は
-  // 同値で同期される。`?? messagesInitialData` を再度書く必要はない。
   const messages = messagesQuery.data ?? null;
   const footsteps = footstepsQuery.data ?? initialFootsteps ?? null;
   const myself = myselfQuery.data ?? initialMyself ?? null;
   const situation = situationQuery.data ?? initialSituation ?? null;
-  // creator パネルの表示判定: 村建て本人または管理者 (旧仕様: 管理者 = 全村 creator 扱い)。
   const canSeeCreatorPanel = village.isCreator || isAdmin;
-  // 発言は常に最新日に積まれる。過去日タブを見ているときに発言してもその日には
-  // 出ないので、混乱を避けるため SayForm は最新日表示時のみ出す。
   const isViewingLatestDay = selectedDay === village.time.latestDay;
 
   const latestDay = village.time.latestDay;
-  // setParams の updater 形式で前回値を取り、`params` を依存配列から外す
-  // (URLSearchParams は毎 render 新インスタンスなので依存に入れると memo が無効化される)。
   const selectDay = useCallback(
     (day: number) => {
       setParams(
         (prev) => {
           const next = new URLSearchParams(prev);
-          // 最新日に戻すときは ?day= を消して URL を綺麗に保つ。
           if (day === latestDay) next.delete("day");
           else next.set("day", String(day));
-          // 日付を切り替えたらページ番号はリセット (異なる日のページ位置は意味なし)。
           next.delete("page");
           return next;
         },
@@ -276,7 +245,6 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
         (prev) => {
           const next = new URLSearchParams(prev);
           applyFilterToParams(next, v);
-          // フィルタ変更でページ番号はリセット (件数が変わるため意味が変わる)。
           next.delete("page");
           return next;
         },
@@ -301,25 +269,24 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     [setParams],
   );
 
-  // SayForm 表示判定: 最新日 + backend が「発言可能」と返している場合のみ。
-  // `availableMessageTypes` が空のときは backend が事前に「発言できる種別なし」と
-  // 判断しているので、フロント側で死亡 / 見学のフラグを別途確認しない。
-  // (見学者専用の `SPECTATE_SAY` 等も backend で availableMessageTypes に含まれるため)
   const canShowSayForm =
     myself != null &&
     isViewingLatestDay &&
     myself.say.isAvailableSay &&
     myself.say.availableMessageTypes.length > 0;
 
+  const queryClient = useQueryClient();
+  const refreshAll = useCallback(() => {
+    queryClient.invalidateQueries({ queryKey: ["village", villageId] });
+  }, [queryClient, villageId]);
+
   return (
-    <main className="min-h-screen bg-slate-900 text-slate-100">
-      <section className="max-w-4xl mx-auto px-6 py-10 space-y-6">
+    <main className="max-w-[1170px] mx-auto text-white pb-[40px]">
+      <PageHeader />
+      <section className="px-[15px] pb-[60px] space-y-[15px]">
         <SayFormProvider>
           <VillageHeader
             village={village}
-            onOpenInfo={() => setShowInfo(true)}
-            onOpenFilter={() => setShowFilter(true)}
-            isFiltered={isFiltered}
             villageId={villageId}
             selectedDay={selectedDay}
           />
@@ -328,7 +295,23 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
             days={village.days.list.map((d) => d.day)}
             selectedDay={selectedDay}
             onSelect={selectDay}
+            statusName={village.statusName}
           />
+
+          {/* 旧 village.html はメッセージを最上位に置く構成。
+              user-context panel (あなた / 参加 / RP / 行動 / Creator / Admin) は
+              メッセージの下、SayForm の前後で並べる。 */}
+          <MessagesPanel
+            messages={messages}
+            day={selectedDay}
+            participants={village.participants.list}
+            isPaging={isPaging}
+            onSetPage={setPage}
+          />
+
+          {canShowSayForm && !isFiltered && !isPaging && (
+            <SayForm villageId={villageId} myself={myself!} />
+          )}
 
           {myself && <MyselfPanel myself={myself} />}
 
@@ -342,23 +325,11 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
 
           {isAdmin && <AdminPanel village={village} />}
 
-          <RoomGridPanel village={village} day={selectedDay} />
-
-          <ParticipantsPanel participants={village.participants.list} />
-
-          <SituationPanel situation={situation} selectedDay={selectedDay} />
-
-          <MessagesPanel
-            messages={messages}
-            day={selectedDay}
-            participants={village.participants.list}
-            isPaging={isPaging}
-            onSetPage={setPage}
+          <SituationOverviewPanel
+            village={village}
+            situation={situation}
+            selectedDay={selectedDay}
           />
-
-          {canShowSayForm && !isFiltered && !isPaging && (
-            <SayForm villageId={villageId} myself={myself!} />
-          )}
 
           <FootstepsPanel footsteps={footsteps} />
         </SayFormProvider>
@@ -376,80 +347,58 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
           onClose={() => setShowInfo(false)}
         />
       </section>
+      <PageFooter />
+      <FooterMenuDock
+        onOpenInfo={() => setShowInfo(true)}
+        onOpenFilter={() => setShowFilter(true)}
+        isFiltered={isFiltered}
+        showVoteShortcut={
+          !!myself &&
+          village.statusCode === "IN_PROGRESS" &&
+          myself.vote.canVote &&
+          myself.vote.targetCharaId == null
+        }
+        onGoToVote={() => {
+          const el = document.querySelector("[data-action-panel]");
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+        onRefresh={refreshAll}
+      />
     </main>
   );
 }
 
 // ---------- 部品 ----------
 
+/**
+ * 旧 village.html の冒頭部分 (`0001. 村名` のヘッダ行 + ステータスタグ + 補助 link) 相当。
+ * 本番計測 (wolfort.net /village/13) では:
+ * - h1: 22.5px / weight 400 / line-height 1.428em
+ * - 村番号は `0001.` (4桁ゼロ詰め + ピリオド) で名前と空白なし結合
+ */
 function VillageHeader({
   village,
   villageId,
   selectedDay,
-  onOpenInfo,
-  onOpenFilter,
-  isFiltered,
 }: {
   village: VillageView;
   villageId: number;
   selectedDay: number;
-  onOpenInfo: () => void;
-  onOpenFilter: () => void;
-  isFiltered: boolean;
 }) {
+  // 旧 village.html 踏襲: h1 は `0001. 村名` のみで status badge は含めない。
+  // 状態名は DayTabs 末尾に出している (= 旧画面のレイアウト)。
   return (
-    <header className="space-y-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-slate-400 text-sm">#{village.number}</span>
-          <h1 className="text-2xl font-bold">{village.name}</h1>
-        </div>
-        <Link to="/villages" className="text-sm text-slate-400 hover:text-slate-200">
-          ← 村一覧
-        </Link>
-      </div>
-      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
-        <StatusBadge name={village.statusName} />
-        <span>現在 {village.time.latestDay}日目</span>
-        {village.time.nextDayChangeDatetime && (
-          <span className="text-slate-400">
-            次回更新: {formatDateTime(village.time.nextDayChangeDatetime)}
-          </span>
-        )}
-        {village.winCampName && (
-          <span className="text-amber-300">勝利: {village.winCampName}</span>
-        )}
-      </div>
-      <p className="text-xs text-slate-500">
-        村建て: {village.createPlayerName} / {village.participants.count}人
-        {village.participants.spectatorCount > 0 ? ` (見学${village.participants.spectatorCount})` : ""}
-      </p>
-      <div className="flex flex-wrap gap-2 pt-1">
-        <button
-          type="button"
-          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
-          onClick={onOpenInfo}
-        >
-          村情報
-        </button>
-        <button
-          type="button"
-          className={
-            "rounded border px-2.5 py-1 text-xs " +
-            (isFiltered
-              ? "border-indigo-400 bg-indigo-600/30 text-indigo-50"
-              : "border-slate-600 text-slate-200 hover:bg-slate-800")
-          }
-          onClick={onOpenFilter}
-          aria-pressed={isFiltered}
-        >
-          発言抽出{isFiltered ? " (絞り込み中)" : ""}
-        </button>
+    <header className="flex items-baseline justify-between flex-wrap gap-2">
+      <h1 className="text-[1.875em] font-normal m-0 leading-[1.1]">
+        {village.number}. {village.name}
+      </h1>
+      <div className="flex items-center gap-2 text-[0.95em]">
+        <Link to="/villages" className="message-link hover:underline">← 村一覧</Link>
         <Link
           to={`/villages/${villageId}/scrap?day=${selectedDay}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
+          className="message-link hover:underline"
         >
           切り抜き ↗
         </Link>
@@ -460,80 +409,152 @@ function VillageHeader({
 
 /**
  * 旧 .old-thymeleaf/templates/village/village-day-list.html 相当の日付タブ。
- * `?day=N` を URL に同期させ、ページ遷移なしで messages を切り替える。
+ *
+ * 本番は BS3 btn-group を ul として並べ、active=mint背景+白字 / inactive=黒背景+mint枠+mint字 の
+ * .btn-success スタイル。村末尾には現ステータス (進行中 / 終了 等) を `<li>` で出している。
  */
 function DayTabs({
   days,
   selectedDay,
   onSelect,
+  statusName,
 }: {
   days: number[];
   selectedDay: number;
   onSelect: (day: number) => void;
+  statusName: string;
 }) {
   if (days.length === 0) return null;
-  // 単一の MessagesPanel に対する切替なので tablist パターンを採用 (role=tab + aria-selected)。
-  // 矢印キーナビ (roving tabindex) は実装しないため tabIndex は全タブ 0 のまま
-  // (= Tab キーで巡回できる)。12b 以降で role=tabpanel + 矢印キー対応をまとめて入れる。
   return (
-    <div
+    <ul
       role="tablist"
       aria-label="日付ナビゲーション"
-      className="flex flex-wrap gap-1 rounded-xl bg-slate-800/30 border border-slate-700 p-2"
+      className="flex flex-wrap items-center gap-0 list-none m-0 p-0"
     >
       {days.map((day) => {
         const active = day === selectedDay;
         return (
-          <button
-            key={day}
-            type="button"
-            role="tab"
-            aria-selected={active}
-            onClick={() => onSelect(day)}
-            className={
-              "rounded px-2.5 py-1 text-xs font-mono transition " +
-              (active
-                ? "bg-indigo-500/40 text-indigo-50 border border-indigo-400"
-                : "border border-transparent text-slate-300 hover:bg-slate-700/40")
-            }
-          >
-            {day === 0 ? "プロローグ" : `${day}日目`}
-          </button>
+          <li key={day} className="-ml-px first:ml-0">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={active}
+              onClick={() => onSelect(day)}
+              className={
+                "px-[9px] py-[5px] border text-[13px] leading-[1.4] cursor-pointer transition-colors duration-100 " +
+                (active
+                  ? "bg-mint-600 border-mint-600 text-white"
+                  : "bg-night-500 border-mint-600 text-mint-600 hover:bg-mint-600 hover:text-white")
+              }
+            >
+              {day === 0 ? "プロローグ" : `${day}日目`}
+            </button>
+          </li>
         );
       })}
-    </div>
+      <li className="px-3 text-[13px] opacity-80">{statusName}</li>
+    </ul>
   );
 }
 
 function MyselfPanel({ myself }: { myself: MyselfView }) {
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-2">あなた</h2>
-      <p className="text-base">
-        {myself.name}
-        {myself.skill && <span className="ml-2 text-indigo-300">[{myself.skill.name}]</span>}
-        {myself.campCode && <span className="ml-2 text-amber-300">{myself.campCode}</span>}
-        {myself.isDead && <span className="ml-2 text-rose-300">死亡</span>}
-      </p>
-    </section>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">あなた</h2>
+      </PanelHeading>
+      <PanelBody>
+        <p className="m-0 text-[1em]">
+          {myself.name}
+          {myself.skill && <span className="ml-2 text-mint-500">[{myself.skill.name}]</span>}
+          {myself.campCode && <span className="ml-2 text-warning-500">{myself.campCode}</span>}
+          {myself.isDead && <span className="ml-2 text-blood-500">死亡</span>}
+        </p>
+      </PanelBody>
+    </Panel>
   );
 }
 
 /**
- * 旧 .old-thymeleaf/templates/village/situation.html 参加者タブ相当。
- * 生存 / 死亡 (見学者は別途末尾) に分割表示し、memo / 死亡日時を出す。
+ * 旧 situation.html の "状況 / 部屋割り当て / 参加者 / 投票 / 足音" タブ群相当。
+ * Panel 1 枚の中にタブ UI を構築し、本番のコンパクトな表示に揃える。
+ *
+ * 本番は jQuery タブで切替えるが、React 版は state でタブ切替。
+ * RoomGridPanel / ParticipantsPanel / SituationPanel をタブパネルとして組み合わせる。
  */
+function SituationOverviewPanel({
+  village,
+  situation,
+  selectedDay,
+}: {
+  village: VillageView;
+  situation: ReturnType<typeof useVillageSituationQuery>["data"] | null;
+  selectedDay: number;
+}) {
+  // 表示可能なタブを決める
+  const hasRoom = village.roomWidth != null && selectedDay > 0;
+  // 参加者は常にあり (1人でも)。
+  const hasParticipants = village.participants.list.length > 0;
+  const hasSituation = situation != null && selectedDay > 0;
+
+  type Tab = "room" | "participants" | "situation";
+  const tabs: Tab[] = [];
+  if (hasRoom) tabs.push("room");
+  if (hasParticipants) tabs.push("participants");
+  if (hasSituation) tabs.push("situation");
+
+  const [active, setActive] = useState<Tab>(tabs[0] ?? "participants");
+
+  if (tabs.length === 0) return null;
+
+  const tabLabel: Record<Tab, string> = {
+    room: "部屋割り当て",
+    participants: "参加者",
+    situation: "状況",
+  };
+
+  return (
+    <Panel>
+      <PanelHeading>
+        <ul className="flex list-none m-0 p-0 -my-[10px] -mx-[15px]">
+          {tabs.map((t) => {
+            const isActive = t === active;
+            return (
+              <li key={t}>
+                <button
+                  type="button"
+                  onClick={() => setActive(t)}
+                  className={
+                    "px-[15px] py-[10px] text-[13px] cursor-pointer border-b-2 transition-colors duration-100 " +
+                    (isActive
+                      ? "border-mint-500 text-mint-500"
+                      : "border-transparent text-white hover:text-mint-500")
+                  }
+                >
+                  {tabLabel[t]}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </PanelHeading>
+      <PanelBody>
+        {active === "room" && hasRoom && <RoomGridPanel village={village} day={selectedDay} />}
+        {active === "participants" && (
+          <ParticipantsPanel participants={village.participants.list} />
+        )}
+        {active === "situation" && (
+          <SituationPanel situation={situation ?? null} selectedDay={selectedDay} />
+        )}
+      </PanelBody>
+    </Panel>
+  );
+}
+
 function ParticipantsPanel({ participants }: { participants: VillageParticipantView[] }) {
   if (participants.length === 0) {
-    return (
-      <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-        <h2 className="text-sm text-slate-400">参加者</h2>
-        <p className="text-slate-400 text-sm py-2">まだ参加者がいません</p>
-      </section>
-    );
+    return <p className="opacity-80 m-0 py-2">まだ参加者がいません</p>;
   }
-  // 退村済み (isGone) は旧画面でも参加者一覧から外れていたので除外する。
-  // 残りを生存 (見学を含めない) / 死亡 / 見学 の 3 カテゴリへ振り分ける。
   const alive: VillageParticipantView[] = [];
   const dead: VillageParticipantView[] = [];
   const spectators: VillageParticipantView[] = [];
@@ -544,17 +565,13 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
     else alive.push(p);
   }
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-4">
-      <h2 className="text-sm text-slate-400">
-        参加者 (生存 {alive.length} / 死亡 {dead.length}
-        {spectators.length > 0 ? ` / 見学 ${spectators.length}` : ""})
-      </h2>
+    <div className="space-y-3">
       <ParticipantSubList title={`生存 (${alive.length})`} items={alive} kind="alive" />
       <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} kind="dead" />
       {spectators.length > 0 && (
         <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} kind="spectator" />
       )}
-    </section>
+    </div>
   );
 }
 
@@ -572,8 +589,8 @@ function ParticipantSubList({
   if (items.length === 0) {
     return (
       <div>
-        <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
-        <p className="text-xs text-slate-500 px-2">なし</p>
+        <h3 className="text-[0.95em] opacity-80 mb-1">{title}</h3>
+        <p className="text-[0.85em] opacity-60 px-2 m-0">なし</p>
       </div>
     );
   }
@@ -581,28 +598,27 @@ function ParticipantSubList({
   const isSpectator = kind === "spectator";
   return (
     <div>
-      <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+      <h3 className="text-[0.95em] opacity-80 mb-1">{title}</h3>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 list-none p-0 m-0">
         {items.map((p) => (
-          <li key={p.id} className="flex items-center gap-2 text-sm">
-            <span className="font-mono text-slate-500 w-10 shrink-0">
+          <li key={p.id} className="flex items-center gap-2 text-[0.95em]">
+            <span className="font-mono opacity-60 w-10 shrink-0">
               {p.roomNumber != null ? String(p.roomNumber).padStart(2, "0") : "--"}
             </span>
-            <span className={`flex-1 truncate ${isDead ? "text-slate-400" : ""}`}>
+            <span className={`flex-1 truncate ${isDead ? "opacity-80" : ""}`}>
               {p.name}
               {p.memo && (
-                <span className="ml-2 text-slate-500 text-xs">[{p.memo}]</span>
+                <span className="ml-2 opacity-60 text-[0.85em]">[{p.memo}]</span>
               )}
             </span>
             {p.skill && (
-              <span className="text-xs text-indigo-300 shrink-0">[{p.skill.shortName}]</span>
+              <span className="text-[0.85em] text-mint-500 shrink-0">[{p.skill.shortName}]</span>
             )}
             {isSpectator && (
-              <span className="text-xs text-slate-400 shrink-0">見学</span>
+              <span className="text-[0.85em] opacity-80 shrink-0">見学</span>
             )}
-            {/* p.dead は backend で進行中の無惨死を MISERABLE / 無惨 にマスク済 */}
             {isDead && p.dead && (
-              <span className="text-xs text-rose-300 shrink-0">
+              <span className="text-[0.85em] text-blood-500 shrink-0">
                 {p.dead.day}d {p.dead.name}
               </span>
             )}
@@ -626,8 +642,6 @@ function MessagesPanel({
   isPaging: boolean;
   onSetPage: (page: number) => void;
 }) {
-  // fromParticipantId → VillageParticipantView の逆引きマップを 1 回だけ作る。
-  // useMemo で participants 配列の identity が変わったときのみ作り直す。
   const participantsById = useMemo(
     () => new Map(participants.map((p) => [p.id, p])),
     [participants],
@@ -635,42 +649,20 @@ function MessagesPanel({
   const count = messages?.list.length ?? 0;
   const currentPage = messages?.currentPageNum ?? null;
   const totalPages = messages?.allPageCount ?? 0;
-  // backend 側 `isExistPrePage` / `isExistNextPage` を信頼する (フィルタ込で正確に出ている)。
   const hasPrev = messages?.isExistPrePage ?? false;
   const hasNext = messages?.isExistNextPage ?? false;
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
-        <h2 className="text-sm text-slate-400">
-          発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
-          {isPaging && totalPages > 0 && currentPage != null && (
-            <span className="ml-2 text-slate-500">
-              ({currentPage} / {totalPages} ページ)
-            </span>
-          )}
-        </h2>
-        <Pagination
-          isPaging={isPaging}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          hasPrev={hasPrev}
-          hasNext={hasNext}
-          onSetPage={onSetPage}
-        />
-      </div>
-      {!messages || count === 0 ? (
-        <p className="text-slate-400 text-sm py-2">この日の閲覧可能な発言はありません</p>
-      ) : (
-        <ul className="space-y-2 max-h-[640px] overflow-y-auto pr-1">
-          {messages.list.map((m, i) => (
-            <li key={`${m.typeCode}-${m.number ?? i}`}>
-              <MessageCard message={m} participantsById={participantsById} />
-            </li>
-          ))}
-        </ul>
-      )}
-      {(hasPrev || hasNext) && (
-        <div className="flex justify-end mt-3">
+    <Panel>
+      <PanelHeading>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-[1em] m-0 font-normal">
+            発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
+            {isPaging && totalPages > 0 && currentPage != null && (
+              <span className="ml-2 opacity-80">
+                ({currentPage} / {totalPages} ページ)
+              </span>
+            )}
+          </h2>
           <Pagination
             isPaging={isPaging}
             currentPage={currentPage}
@@ -680,8 +672,33 @@ function MessagesPanel({
             onSetPage={onSetPage}
           />
         </div>
-      )}
-    </section>
+      </PanelHeading>
+      <PanelBody>
+        {!messages || count === 0 ? (
+          <p className="opacity-80 m-0 py-2">この日の閲覧可能な発言はありません</p>
+        ) : (
+          <ul className="list-none p-0 m-0">
+            {messages.list.map((m, i) => (
+              <li key={`${m.typeCode}-${m.number ?? i}`}>
+                <MessageCard message={m} participantsById={participantsById} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {(hasPrev || hasNext) && (
+          <div className="flex justify-end mt-3">
+            <Pagination
+              isPaging={isPaging}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+              onSetPage={onSetPage}
+            />
+          </div>
+        )}
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -700,13 +717,11 @@ function Pagination({
   hasNext: boolean;
   onSetPage: (page: number) => void;
 }) {
-  // 全件 1 ページに収まる (ページング ON で次/前なし) または paging OFF で表示が長すぎる
-  // ケースで "分割" ボタンを出す。`?page=1` を付けると backend が pageSize=50 で paging を ON にする。
   if (!isPaging) {
     return (
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-xs text-slate-300 hover:bg-slate-800"
+        className="px-[9px] py-[5px] border border-mint-600 bg-night-500 text-mint-600 text-[13px] hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(1)}
       >
         分割表示
@@ -715,21 +730,21 @@ function Pagination({
   }
   const cur = currentPage ?? 1;
   return (
-    <div className="flex items-center gap-1 text-xs">
+    <div className="flex items-center gap-1 text-[13px]">
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        className="px-[9px] py-[5px] border border-mint-600 bg-night-500 text-mint-600 disabled:opacity-40 hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(cur - 1)}
         disabled={!hasPrev || cur <= 1}
       >
         ‹ 前
       </button>
-      <span className="px-1 text-slate-400">
+      <span className="px-1 opacity-80">
         {cur}/{totalPages || cur}
       </span>
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        className="px-[9px] py-[5px] border border-mint-600 bg-night-500 text-mint-600 disabled:opacity-40 hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(cur + 1)}
         disabled={!hasNext}
       >
@@ -741,48 +756,34 @@ function Pagination({
 
 function FootstepsPanel({ footsteps }: { footsteps: VillageFootstepsView | null }) {
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-3">足音</h2>
-      {!footsteps || footsteps.list.length === 0 ? (
-        <p className="text-slate-400 text-sm py-2">表示できる足音はありません</p>
-      ) : (
-        <ul className="space-y-1 text-sm">
-          {footsteps.list.map((f, i) => (
-            <li key={`${f.day}-${f.roomNumbers}-${i}`} className="flex items-center gap-2">
-              <span className="text-slate-500 w-12 shrink-0">{f.day}日目</span>
-              <span className="font-mono">{f.roomNumbers}</span>
-              {f.registerChara && (
-                <span className="text-xs text-slate-400">
-                  by {f.registerChara.shortName}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
-  );
-}
-
-// ---------- utils ----------
-
-const STATUS_BADGE: Record<string, string> = {
-  募集中: "bg-emerald-600/30 text-emerald-100 border-emerald-500/40",
-  進行中: "bg-amber-600/30 text-amber-100 border-amber-500/40",
-  エピローグ: "bg-sky-600/30 text-sky-100 border-sky-500/40",
-  終了: "bg-slate-600/30 text-slate-200 border-slate-500/40",
-  廃村: "bg-rose-600/30 text-rose-100 border-rose-500/40",
-};
-
-function StatusBadge({ name }: { name: string }) {
-  const cls = STATUS_BADGE[name] ?? "bg-slate-700/40 text-slate-200 border-slate-500/40";
-  return (
-    <span className={`text-xs px-2 py-0.5 rounded border ${cls}`}>{name}</span>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">足音</h2>
+      </PanelHeading>
+      <PanelBody>
+        {!footsteps || footsteps.list.length === 0 ? (
+          <p className="opacity-80 m-0 py-2">表示できる足音はありません</p>
+        ) : (
+          <ul className="space-y-1 text-[0.95em] list-none p-0 m-0">
+            {footsteps.list.map((f, i) => (
+              <li key={`${f.day}-${f.roomNumbers}-${i}`} className="flex items-center gap-2">
+                <span className="opacity-60 w-12 shrink-0">{f.day}日目</span>
+                <span className="font-mono">{f.roomNumbers}</span>
+                {f.registerChara && (
+                  <span className="text-[0.85em] opacity-80">
+                    by {f.registerChara.shortName}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </PanelBody>
+    </Panel>
   );
 }
 
 function formatDateTime(iso: string): string {
-  // backend が LocalDateTime を ISO 文字列で返す前提。Date 経由で MM/dd HH:mm 形式に整形。
   const d = new Date(iso);
   if (Number.isNaN(d.getTime())) return iso;
   const mm = String(d.getMonth() + 1).padStart(2, "0");

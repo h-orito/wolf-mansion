@@ -7,6 +7,7 @@ import {
   useFaceTypesQuery,
   useMemoMutation,
 } from "./hooks";
+import { Panel, PanelBody, PanelHeading } from "~/components/ui/Panel";
 
 /**
  * RP 系 (キャラ名 / 簡易メモ / 表情差分) の編集パネル。
@@ -36,12 +37,18 @@ export function RpActions({
   if (!showChangeName && !showMemo && !showFaceType) return null;
 
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-4">
-      <h2 className="text-sm text-slate-400">RP</h2>
-      {showChangeName && <ChangeNameForm villageId={village.id} myself={myself} />}
-      {showMemo && <MemoForm villageId={village.id} myself={myself} />}
-      {showFaceType && <FaceTypesForm villageId={village.id} />}
-    </section>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">RP</h2>
+      </PanelHeading>
+      <PanelBody>
+        <div className="space-y-4">
+          {showChangeName && <ChangeNameForm villageId={village.id} myself={myself} />}
+          {showMemo && <MemoForm villageId={village.id} myself={myself} />}
+          {showFaceType && <FaceTypesForm villageId={village.id} />}
+        </div>
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -74,8 +81,8 @@ function ChangeNameForm({ villageId, myself }: { villageId: number; myself: Myse
   const dirty = name !== myself.charaName || shortName !== myself.charaShortName;
 
   return (
-    <form onSubmit={submit} className="space-y-2 first:border-t-0 first:pt-0 border-t border-slate-700/60 pt-3">
-      <p className="text-xs text-slate-400">キャラ名変更</p>
+    <form onSubmit={submit} className="space-y-2 first:border-t-0 first:pt-0 border-t border-night-700 pt-3">
+      <p className="text-xs opacity-80">キャラ名変更</p>
       <div className="grid grid-cols-[1fr_5rem] gap-2 items-end">
         <Field label="表示名 (40 文字以内)">
           <input
@@ -107,7 +114,7 @@ function ChangeNameForm({ villageId, myself }: { villageId: number; myself: Myse
           {mutation.isPending ? "送信中..." : "名前を変更"}
         </button>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -136,8 +143,8 @@ function MemoForm({ villageId, myself }: { villageId: number; myself: MyselfView
   const dirty = memo !== (myself.memo ?? "");
 
   return (
-    <form onSubmit={submit} className="space-y-2 border-t border-slate-700/60 pt-3">
-      <p className="text-xs text-slate-400">簡易メモ ({MEMO_MAX_LENGTH} 文字以内、自分しか見えない)</p>
+    <form onSubmit={submit} className="space-y-2 border-t border-night-700 pt-3">
+      <p className="text-xs opacity-80">簡易メモ ({MEMO_MAX_LENGTH} 文字以内、自分しか見えない)</p>
       <input
         type="text"
         value={memo}
@@ -155,11 +162,11 @@ function MemoForm({ villageId, myself }: { villageId: number; myself: MyselfView
         >
           {mutation.isPending ? "送信中..." : "メモを保存"}
         </button>
-        <span className="text-xs text-slate-500">
+        <span className="text-xs opacity-60">
           {memo.length} / {MEMO_MAX_LENGTH}
         </span>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -207,22 +214,22 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
     items.every((it) => it.name.trim().length >= 1 && it.name.trim().length <= 5);
 
   return (
-    <div className="space-y-4 border-t border-slate-700/60 pt-3">
+    <div className="space-y-4 border-t border-night-700 pt-3">
       <form onSubmit={submit} className="space-y-3">
-        <p className="text-xs text-slate-400">表情差分編集</p>
-        {query.isLoading && <p className="text-slate-400 text-sm">読み込み中...</p>}
+        <p className="text-xs opacity-80">表情差分編集</p>
+        {query.isLoading && <p className="opacity-80 text-sm">読み込み中...</p>}
         {query.isError && (
-          <p className="text-rose-300 text-sm">表情差分の取得に失敗しました</p>
+          <p className="text-blood-500 text-sm">表情差分の取得に失敗しました</p>
         )}
         {query.data && items.length === 0 && (
-          <p className="text-slate-400 text-sm">編集可能な表情差分がありません</p>
+          <p className="opacity-80 text-sm">編集可能な表情差分がありません</p>
         )}
         {items.length > 0 && (
           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {items.map((it, idx) => (
               <li
                 key={it.code}
-                className="flex gap-3 items-start rounded border border-slate-700 p-2 bg-slate-900/40"
+                className="flex gap-3 items-start rounded border border-night-700 p-2 bg-night-900"
               >
                 <img
                   src={it.url}
@@ -241,7 +248,7 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
                     placeholder="表情名 (1-5 文字)"
                     disabled={mutation.isPending}
                   />
-                  <label className="flex items-center gap-1 text-xs text-slate-300">
+                  <label className="flex items-center gap-1 text-xs text-white">
                     <input
                       type="checkbox"
                       checked={it.isDisplay}
@@ -264,7 +271,7 @@ function FaceTypesForm({ villageId }: { villageId: number }) {
             {mutation.isPending ? "送信中..." : "表情差分を更新"}
           </button>
           {mutation.isError && (
-            <span className="text-xs text-rose-300">{mutation.error.message}</span>
+            <span className="text-xs text-blood-500">{mutation.error.message}</span>
           )}
         </div>
       </form>
@@ -320,9 +327,9 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
   }
 
   return (
-    <form onSubmit={submit} className="space-y-2 border-t border-slate-700/40 pt-3">
-      <p className="text-xs text-slate-400">表情差分追加</p>
-      <ul className="text-xs text-slate-500 list-disc pl-4 space-y-0.5">
+    <form onSubmit={submit} className="space-y-2 border-t border-night-700 pt-3">
+      <p className="text-xs opacity-80">表情差分追加</p>
+      <ul className="text-xs opacity-60 list-disc pl-4 space-y-0.5">
         <li>表情差分名は 1〜5 文字。</li>
         <li>画像は 60x60px で表示されるため 60 の倍数解像度推奨。</li>
         <li>100KB を超える画像はアップロードできません。</li>
@@ -347,12 +354,12 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
             accept={FACE_TYPE_IMAGE_ACCEPT}
             onChange={onFileChange}
             disabled={mutation.isPending}
-            className="text-xs text-slate-200 file:mr-2 file:rounded file:border-0 file:bg-slate-700 file:px-2 file:py-1 file:text-slate-100 hover:file:bg-slate-600 disabled:opacity-50"
+            className="text-xs text-white file:mr-2 file:rounded file:border-0 file:bg-night-700 file:px-2 file:py-1 file:text-white hover:file:bg-night-600 disabled:opacity-50"
           />
         </Field>
       </div>
       {image != null && !imageValid && (
-        <p className="text-xs text-rose-300">
+        <p className="text-xs text-blood-500">
           {!imageExtValid
             ? "対応形式は png / jpg / jpeg / gif / webp のみです"
             : image.size === 0
@@ -369,7 +376,7 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
           {mutation.isPending ? "送信中..." : "表情差分を追加"}
         </button>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -381,14 +388,14 @@ function AddFaceTypeForm({ villageId }: { villageId: number }) {
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div className="space-y-1">
-      <label className="text-xs text-slate-400">{label}</label>
+      <label className="text-xs opacity-80">{label}</label>
       {children}
     </div>
   );
 }
 
 const inputClass =
-  "w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50";
+  "w-full bg-night-900 border border-night-700 rounded-[3px] px-2 py-1 text-[1em] focus:outline-none focus:border-mint-500 disabled:opacity-50";
 
 const primaryButtonClass =
-  "rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium";
+  "px-[9px] py-[6px] rounded-[3px] border-2 border-bs-success-600 bg-bs-success-500 text-white text-[13px] hover:bg-bs-success-700 hover:border-bs-success-700 disabled:opacity-50 disabled:cursor-not-allowed";

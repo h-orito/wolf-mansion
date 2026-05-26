@@ -54,12 +54,11 @@ export function SituationPanel({
   if (!hasWhole && !hasVote && !hasDayFootsteps) return null;
 
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-5">
-      <h2 className="text-sm text-slate-400">状況</h2>
+    <div className="space-y-5">
       {hasWhole && <WholeTable rows={visibleWhole} />}
       {hasVote && <VoteTable vote={situation.vote} selectedDay={selectedDay} />}
       {hasDayFootsteps && <DayFootstepsTable rows={visibleDayFootsteps} />}
-    </section>
+    </div>
   );
 }
 
@@ -70,38 +69,38 @@ function WholeTable({ rows }: { rows: VillageSituationDayView[] }) {
   const hasAbility = rows.some((r) => r.ability.length > 0);
   return (
     <div className="overflow-x-auto">
-      <h3 className="text-xs text-slate-400 mb-1">日次状況</h3>
+      <h3 className="text-xs opacity-80 mb-1">日次状況</h3>
       <table className="min-w-full text-xs border-collapse">
         <thead>
-          <tr className="text-slate-400">
-            <th className="border border-slate-700 px-2 py-1 text-center w-12">日付</th>
-            <th className="border border-slate-700 px-2 py-1 text-left">突然死</th>
-            <th className="border border-slate-700 px-2 py-1 text-left">処刑</th>
-            <th className="border border-slate-700 px-2 py-1 text-left">無惨</th>
-            <th className="border border-slate-700 px-2 py-1 text-left">復活</th>
-            <th className="border border-slate-700 px-2 py-1 text-left">後追</th>
+          <tr className="opacity-80">
+            <th className="border border-night-700 px-2 py-1 text-center w-12">日付</th>
+            <th className="border border-night-700 px-2 py-1 text-left">突然死</th>
+            <th className="border border-night-700 px-2 py-1 text-left">処刑</th>
+            <th className="border border-night-700 px-2 py-1 text-left">無惨</th>
+            <th className="border border-night-700 px-2 py-1 text-left">復活</th>
+            <th className="border border-night-700 px-2 py-1 text-left">後追</th>
             {hasAbility && (
-              <th className="border border-slate-700 px-2 py-1 text-left">能力</th>
+              <th className="border border-night-700 px-2 py-1 text-left">能力</th>
             )}
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => (
             <tr key={r.day}>
-              <td className="border border-slate-700 px-2 py-1 text-center text-slate-300">
+              <td className="border border-night-700 px-2 py-1 text-center text-white">
                 {r.day}d
               </td>
-              <td className="border border-slate-700 px-2 py-1">{formatList(r.suddenlyDeath)}</td>
-              <td className="border border-slate-700 px-2 py-1">{formatList(r.executed)}</td>
-              <td className="border border-slate-700 px-2 py-1">{formatList(r.miserable)}</td>
-              <td className="border border-slate-700 px-2 py-1">{formatList(r.revival)}</td>
-              <td className="border border-slate-700 px-2 py-1">{formatList(r.suicide)}</td>
+              <td className="border border-night-700 px-2 py-1">{formatList(r.suddenlyDeath)}</td>
+              <td className="border border-night-700 px-2 py-1">{formatList(r.executed)}</td>
+              <td className="border border-night-700 px-2 py-1">{formatList(r.miserable)}</td>
+              <td className="border border-night-700 px-2 py-1">{formatList(r.revival)}</td>
+              <td className="border border-night-700 px-2 py-1">{formatList(r.suicide)}</td>
               {hasAbility && (
                 // 能力履歴は backend (`AbilityDomainService.mapAbilitySituation`) が
                 // `[type]from → to` の整形済み文字列を 1 件 1 行で List に詰めて返す。
                 // 他の列 (突然死 / 処刑等) は単純な name list なので `formatList` で
                 // 「、」区切りにするが、ability は 1 件ずつが長い文字列のため改行で並べる。
-                <td className="border border-slate-700 px-2 py-1 whitespace-pre-line">
+                <td className="border border-night-700 px-2 py-1 whitespace-pre-line">
                   {r.ability.join("\n")}
                 </td>
               )}
@@ -140,13 +139,13 @@ function VoteTable({
 
   return (
     <div className="overflow-x-auto">
-      <h3 className="text-xs text-slate-400 mb-1">投票</h3>
+      <h3 className="text-xs opacity-80 mb-1">投票</h3>
       <table className="min-w-full text-xs border-collapse">
         <thead>
-          <tr className="text-slate-400">
-            <th className="border border-slate-700 px-2 py-1 text-left">投票者</th>
+          <tr className="opacity-80">
+            <th className="border border-night-700 px-2 py-1 text-left">投票者</th>
             {dayCols.map((d) => (
-              <th key={d} className="border border-slate-700 px-2 py-1 text-center">
+              <th key={d} className="border border-night-700 px-2 py-1 text-center">
                 {d}d
               </th>
             ))}
@@ -177,11 +176,11 @@ function VoteRow({
   }, [member.voteList]);
   return (
     <tr>
-      <td className="border border-slate-700 px-2 py-1 text-slate-300 whitespace-nowrap">
+      <td className="border border-night-700 px-2 py-1 text-white whitespace-nowrap">
         {member.charaShortName}
       </td>
       {dayCols.map((d) => (
-        <td key={d} className="border border-slate-700 px-2 py-1 text-center text-slate-200">
+        <td key={d} className="border border-night-700 px-2 py-1 text-center text-white">
           {byDay.get(d) ?? ""}
         </td>
       ))}
@@ -196,15 +195,15 @@ function DayFootstepsTable({
 }) {
   return (
     <div className="overflow-x-auto">
-      <h3 className="text-xs text-slate-400 mb-1">足音 (日別)</h3>
+      <h3 className="text-xs opacity-80 mb-1">足音 (日別)</h3>
       <table className="min-w-full text-xs border-collapse">
         <tbody>
           {rows.map((r) => (
             <tr key={r.day}>
-              <td className="border border-slate-700 px-2 py-1 text-center text-slate-300 w-12">
+              <td className="border border-night-700 px-2 py-1 text-center text-white w-12">
                 {r.day}d
               </td>
-              <td className="border border-slate-700 px-2 py-1 whitespace-pre-line">
+              <td className="border border-night-700 px-2 py-1 whitespace-pre-line">
                 {r.footstep.trim().length > 0 ? r.footstep : "なし"}
               </td>
             </tr>

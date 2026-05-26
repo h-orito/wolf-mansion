@@ -111,25 +111,25 @@ export function MessageFilterModal({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl bg-slate-900 border border-slate-700 p-5 space-y-4"
+        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl bg-night-900 border border-night-700 p-5 space-y-4"
         onClick={(e) => e.stopPropagation()}
       >
         <h3 className="text-base font-semibold">発言抽出</h3>
 
         <section>
           <div className="flex items-center justify-between">
-            <h4 className="text-sm text-slate-300">発言種別</h4>
+            <h4 className="text-sm text-white">発言種別</h4>
             <div className="text-xs space-x-2">
               <button
                 type="button"
-                className="text-slate-300 hover:text-slate-100"
+                className="text-white hover:text-white"
                 onClick={() => setDraft((d) => ({ ...d, messageType: [] }))}
               >
                 クリア
               </button>
               <button
                 type="button"
-                className="text-slate-300 hover:text-slate-100"
+                className="text-white hover:text-white"
                 onClick={() =>
                   setDraft((d) => ({ ...d, messageType: MESSAGE_FILTER_TYPES.map((t) => t.code) }))
                 }
@@ -147,15 +147,15 @@ export function MessageFilterModal({
                   className={
                     "flex items-center gap-2 text-xs cursor-pointer rounded px-2 py-1 border " +
                     (active
-                      ? "bg-indigo-600/30 border-indigo-400 text-indigo-50"
-                      : "bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-700/40")
+                      ? "bg-mint-600/20 border-mint-500 text-white"
+                      : "bg-night-650 border-night-700 text-white hover:bg-night-650")
                   }
                 >
                   <input
                     type="checkbox"
                     checked={active}
                     onChange={() => toggleType(t.code)}
-                    className="accent-indigo-500"
+                    className="accent-mint-600"
                   />
                   {t.label}
                 </label>
@@ -181,34 +181,34 @@ export function MessageFilterModal({
         />
 
         <section>
-          <h4 className="text-sm text-slate-300">キーワード</h4>
+          <h4 className="text-sm text-white">キーワード</h4>
           <input
             type="text"
             value={draft.keyword}
             onChange={(e) => setDraft((d) => ({ ...d, keyword: e.target.value }))}
             placeholder="スペース区切りで OR"
-            className="mt-2 w-full rounded bg-slate-800 border border-slate-700 px-3 py-1.5 text-sm"
+            className="mt-2 w-full rounded-[3px] bg-night-900 border border-night-700 px-2 py-1 text-[1em] focus:outline-none focus:border-mint-500"
           />
         </section>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-slate-700">
+        <div className="flex justify-end gap-2 pt-2 border-t border-night-700">
           <button
             type="button"
-            className="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
+            className="rounded border border-night-700 px-3 py-1.5 text-sm text-white hover:bg-night-700"
             onClick={() => setDraft(EMPTY_FILTER)}
           >
             リセット
           </button>
           <button
             type="button"
-            className="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
+            className="rounded border border-night-700 px-3 py-1.5 text-sm text-white hover:bg-night-700"
             onClick={onClose}
           >
             閉じる
           </button>
           <button
             type="button"
-            className="rounded bg-indigo-500 hover:bg-indigo-400 px-3 py-1.5 text-sm text-white"
+            className="rounded bg-bs-success-500 hover:bg-bs-success-700 px-3 py-1.5 text-sm text-white"
             onClick={() => {
               onApply(draft);
               onClose();
@@ -238,10 +238,10 @@ function ParticipantSelector({
   return (
     <section>
       <div className="flex items-center justify-between">
-        <h4 className="text-sm text-slate-300">{title}</h4>
+        <h4 className="text-sm text-white">{title}</h4>
         <button
           type="button"
-          className="text-xs text-slate-300 hover:text-slate-100"
+          className="text-xs text-white hover:text-white"
           onClick={onClear}
         >
           クリア
@@ -256,15 +256,15 @@ function ParticipantSelector({
               className={
                 "flex items-center gap-2 text-xs cursor-pointer rounded px-2 py-1 border " +
                 (active
-                  ? "bg-indigo-600/30 border-indigo-400 text-indigo-50"
-                  : "bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-700/40")
+                  ? "bg-mint-600/20 border-mint-500 text-white"
+                  : "bg-night-650 border-night-700 text-white hover:bg-night-650")
               }
             >
               <input
                 type="checkbox"
                 checked={active}
                 onChange={() => onToggle(p.id)}
-                className="accent-indigo-500"
+                className="accent-mint-600"
               />
               <span className="truncate">{p.name}</span>
             </label>

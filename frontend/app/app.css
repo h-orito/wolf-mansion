@@ -83,7 +83,12 @@ html {
 
 html,
 body {
-  background-color: var(--color-night-950);
+  /* 本番計測 (wolfort.net): body bg は #222 (night-500)。
+   * 旧コードでは night-950 (#0b162a) を body にも使っていたが、これは
+   * 「ホームページの tile (.top-menu-selectable) bg」用の値で本来 body には別の値。
+   * 本番に合わせて #222 に揃える (home tiles は明示的に bg-night-950 を当てているため
+   * 見た目に影響なし)。 */
+  background-color: var(--color-night-500);
   color: #ffffff;
   color-scheme: dark;
   min-height: 100vh;
@@ -149,6 +154,14 @@ body {
  * 生成漏れや上書きを避けるため、!important + 明示的 background-color)。 */
 .modal-dialog-bg {
   background-color: #303030 !important;
+}
+
+/* 旧 .message a (本文中のアンカー / リンク): 赤系 #f00000
+ * .message-public-system a は mint だが、PUBLIC_SYSTEM 本文中に >>N を含まないので
+ * 共通の赤指定でよい */
+.message-link {
+  color: var(--color-blood-600);
+  cursor: pointer;
 }
 
 /* 旧 .netabare / .transparency (ネタバレ伏字 / 透明) */

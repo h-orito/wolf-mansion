@@ -11,6 +11,7 @@ import type {
   MyselfView,
   VillageView,
 } from "./api";
+import { Panel as UIPanel, PanelBody, PanelHeading } from "~/components/ui/Panel";
 
 /**
  * プロローグ中の参加系操作 UI。
@@ -117,9 +118,9 @@ function ParticipateForm({ village }: { village: VillageView }) {
         {!isOriginal && (
           <Field label="キャラ">
             {isLoadingCharas ? (
-              <p className="text-slate-400 text-sm">読み込み中...</p>
+              <p className="opacity-80 text-sm">読み込み中...</p>
             ) : charas.length === 0 ? (
-              <p className="text-slate-400 text-sm">選択可能なキャラがいません</p>
+              <p className="opacity-80 text-sm">選択可能なキャラがいません</p>
             ) : (
               <CharaGrid charas={charas} selectedId={charaId} onSelect={onSelectChara} />
             )}
@@ -136,7 +137,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
               disabled={mutation.isPending}
             />
             {charaImage && (
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs opacity-80 mt-1">
                 {charaImage.name} ({Math.round(charaImage.size / 1024)} KB)
               </p>
             )}
@@ -198,7 +199,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
               placeholder={`挨拶など (発言扱い、${MESSAGE_MAX_LENGTH} 文字以内)`}
               disabled={mutation.isPending}
             />
-            <p className="text-xs text-slate-500 text-right">
+            <p className="text-xs opacity-60 text-right">
               {joinMessage.length} / {MESSAGE_MAX_LENGTH}
             </p>
           </div>
@@ -218,7 +219,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
         )}
 
         {settings.isSpectateAvailable && (
-          <label className="flex items-center gap-2 text-sm text-slate-200">
+          <label className="flex items-center gap-2 text-sm text-white">
             <input
               type="checkbox"
               checked={spectator}
@@ -238,7 +239,7 @@ function ParticipateForm({ village }: { village: VillageView }) {
             {mutation.isPending ? "送信中..." : spectator ? "見学する" : "入村する"}
           </button>
           {mutation.isError && (
-            <span className="text-xs text-rose-300">{mutation.error.message}</span>
+            <span className="text-xs text-blood-500">{mutation.error.message}</span>
           )}
         </div>
       </form>
@@ -266,12 +267,12 @@ function CharaGrid({
               onClick={() => onSelect(c.id)}
               className={`w-full text-left p-2 rounded border text-sm transition ${
                 isSelected
-                  ? "border-indigo-400 bg-indigo-500/20"
-                  : "border-slate-700 hover:border-slate-500 bg-slate-900/40"
+                  ? "border-mint-500 bg-mint-600/20"
+                  : "border-night-700 hover:border-mint-500 bg-night-900"
               }`}
             >
               <span className="font-medium">{c.name}</span>
-              <span className="ml-2 text-xs text-slate-400">[{c.shortName}]</span>
+              <span className="ml-2 text-xs opacity-80">[{c.shortName}]</span>
             </button>
           </li>
         );
@@ -302,7 +303,7 @@ function ParticipatingActions({
         )}
         {!village.isCreator && <LeaveButton villageId={village.id} />}
         {village.isCreator && (
-          <p className="text-xs text-slate-500">
+          <p className="text-xs opacity-60">
             村建ては退村できません (廃村は別途 admin 画面で操作)。
           </p>
         )}
@@ -330,7 +331,7 @@ function SwitchParticipateButton({
         {isSpectator ? "参加者になる" : "見学者になる"}
       </button>
       {mutation.isError && (
-        <span className="text-xs text-rose-300">{mutation.error.message}</span>
+        <span className="text-xs text-blood-500">{mutation.error.message}</span>
       )}
     </div>
   );
@@ -363,8 +364,8 @@ function ChangeRequestSkillForm({
   const submittable = !mutation.isPending;
 
   return (
-    <form onSubmit={submit} className="space-y-2 border-t border-slate-700/60 pt-3">
-      <p className="text-xs text-slate-400">希望役職変更</p>
+    <form onSubmit={submit} className="space-y-2 border-t border-night-700 pt-3">
+      <p className="text-xs opacity-80">希望役職変更</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <SkillSelect
           value={requestedSkill}
@@ -388,7 +389,7 @@ function ChangeRequestSkillForm({
           {mutation.isPending ? "送信中..." : "希望を反映"}
         </button>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -402,17 +403,17 @@ function LeaveButton({ villageId }: { villageId: number }) {
     mutation.mutate();
   }
   return (
-    <div className="flex items-center gap-3 border-t border-slate-700/60 pt-3">
+    <div className="flex items-center gap-3 border-t border-night-700 pt-3">
       <button
         type="button"
         onClick={onClick}
         disabled={mutation.isPending}
-        className="rounded bg-rose-600 hover:bg-rose-500 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium"
+        className="px-[9px] py-[6px] rounded-[3px] border-2 border-blood-500 bg-blood-500 text-white text-[13px] hover:bg-blood-600 hover:border-blood-600 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {mutation.isPending ? "送信中..." : "退村する"}
       </button>
       {mutation.isError && (
-        <span className="text-xs text-rose-300">{mutation.error.message}</span>
+        <span className="text-xs text-blood-500">{mutation.error.message}</span>
       )}
     </div>
   );
@@ -422,18 +423,21 @@ function LeaveButton({ villageId }: { villageId: number }) {
 
 function Panel({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-3">{title}</h2>
-      {children}
-    </section>
+    <UIPanel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">{title}</h2>
+      </PanelHeading>
+      <PanelBody>{children}</PanelBody>
+    </UIPanel>
   );
 }
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  // 旧 .form-horizontal 風: sm 以上で label を左 8em、コントロールを右に並べる
   return (
-    <div className="space-y-1">
-      <label className="text-xs text-slate-400">{label}</label>
-      {children}
+    <div className="sm:flex sm:items-start sm:gap-2 space-y-1 sm:space-y-0">
+      <label className="block sm:w-[8em] shrink-0 text-[0.95em] opacity-80 py-1">{label}</label>
+      <div className="flex-1 space-y-1">{children}</div>
     </div>
   );
 }
@@ -479,10 +483,10 @@ const MESSAGE_MAX_LENGTH = 400;
 const OMAKASE_CODE = "LEFTOVER";
 
 const inputClass =
-  "w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50";
+  "w-full bg-night-900 border border-night-700 rounded-[3px] px-2 py-1 text-[1em] focus:outline-none focus:border-mint-500 disabled:opacity-50";
 
 const primaryButtonClass =
-  "rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium";
+  "px-[9px] py-[6px] rounded-[3px] border-2 border-bs-success-600 bg-bs-success-500 text-white text-[13px] hover:bg-bs-success-700 hover:border-bs-success-700 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const secondaryButtonClass =
-  "rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium";
+  "px-[9px] py-[6px] rounded-[3px] border-2 border-night-700 bg-night-800 text-white text-[13px] hover:bg-night-700 disabled:opacity-50 disabled:cursor-not-allowed";

@@ -1,18 +1,20 @@
+import * as React from "react";
 import type { MessageView, VillageParticipantView } from "./api";
 import { useSayFormRequester } from "./SayFormContext";
 
 /**
- * 1 発言ぶんのカード。`MessageView.typeCode` に応じて色 / 番号プレフィックスを出し分け、
- * 発言者キャラ画像とプレイヤー名 (エピローグ以降のみ backend が返す) を表示する。
+ * 1 発言ぶんのカード。`MessageView.typeCode` に応じて旧 Thymeleaf
+ * `.message-*` variant 色 / アンカー記号 / 構造を 1:1 で復元する。
  *
- * 旧 Thymeleaf 版 `.old-thymeleaf/templates/village-template/message-partial.html` の
- * 表示種別 (NORMAL_SAY / WEREWOLF_SAY / MASON_SAY / LOVERS_SAY / MONOLOGUE_SAY /
- * SECRET_SAY / GRAVE_SAY / SPECTATE_SAY / CREATOR_SAY / TELEPATHY / ACTION / 各種
- * PRIVATE_* / PUBLIC_SYSTEM / PARTICIPANTS) を一通りカバーする。
+ * 本番計測 (wolfort.net /village/13) の .message-normal: bg #fff / color #555 /
+ * border 1px solid #e3e3e3 / radius 5px / padding 9px / margin 0 0 20px 5px /
+ * font-family **sans-serif** (Lato ではない)。font-size 12px (body と同じ)。
  *
- * Step 12d 以降:
- * - アンカー (`>>N` のラベル部分) をクリックすると SayForm の textarea に `>>N` を挿入
- * - 各カードに [返信] を出し、SECRET_SAY なら宛先 auto-set 込みで反映
+ * - 通常発言系 (kind=say): 発言番号アンカー + キャラ画像 60x60 + 色つき bubble + 返信/秘話 link
+ * - システム系 (kind=system): bubble 1 枚のみ (画像なし、アンカーなし)
+ *
+ * 装飾タグは React 要素にパース (dangerouslySetInnerHTML 不使用)。`loud` / `rainbow` /
+ * `extra-small` の自動付与は backend にフラグが必要なため当面非対応。
  */
 export function MessageCard({
   message,
@@ -27,20 +29,31 @@ export function MessageCard({
     : undefined;
   const requestSay = useSayFormRequester();
 
-  // PUBLIC_SYSTEM / PRIVATE_* / PARTICIPANTS 等は番号も発言者も持たない単純な
-  // システム枠で出す (旧画面 message-public-system / message-private-* に対応)。
+  const content = renderMessageContent(message.text, message.isConvertDisable);
+
+  // BS3 .message 共通スタイル (本番計測値)
+  const bubbleStyle: React.CSSProperties = {
+    backgroundColor: style.bg,
+    color: style.color,
+    border: `1px solid ${style.border}`,
+    borderRadius: "5px",
+    padding: "9px",
+    fontFamily: "sans-serif",
+    fontSize: "1em",
+    wordBreak: "break-word",
+    flex: "1",
+    marginLeft: "5px",
+  };
+
+  // システム枠 (PUBLIC_SYSTEM / PRIVATE_* / PARTICIPANTS): 画像も発言者名もない単純枠
   if (style.kind === "system") {
     return (
-      <article
-        className={`rounded border px-3 py-2 text-sm whitespace-pre-wrap ${style.body}`}
-        data-message-type={message.typeCode}
-      >
-        {message.text}
+      <article className="mb-[20px]" data-message-type={message.typeCode}>
+        <div style={{ ...bubbleStyle, marginLeft: 0 }}>{content}</div>
       </article>
     );
   }
 
-  const anchor = renderAnchor(style.anchorPrefix, message.number);
   const isSecret = message.typeCode === "SECRET_SAY";
 
   function handleAnchorClick() {
@@ -58,216 +71,140 @@ export function MessageCard({
       anchorPrefix: style.anchorPrefix,
       messageNumber: message.number,
       isSecret,
-      // 秘話への返信: 元発言者のキャラ ID を宛先に
       secretTargetCharaId: isSecret ? fromParticipant?.chara.id : undefined,
     });
   }
 
+  function handleSecretClick() {
+    if (message.number == null) return;
+    requestSay({
+      anchorPrefix: style.anchorPrefix,
+      messageNumber: message.number,
+      isSecret: true,
+      secretTargetCharaId: fromParticipant?.chara.id,
+    });
+  }
+
+  const anchor = renderAnchor(style.anchorPrefix, message.number);
+  const targetName = message.toCharaName ? ` → ${message.toCharaName}` : "";
+
   return (
-    <article
-      className={`rounded border ${style.frame}`}
-      data-message-type={message.typeCode}
-    >
-      <header className="px-3 pt-2 text-xs text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+    <article className="mb-[20px]" data-message-type={message.typeCode}>
+      {/* ヘッダ行 (`>>N. CharaName [Player]`) */}
+      <div className="text-[0.85em] flex items-baseline flex-wrap gap-x-2">
         {anchor && (
           <button
             type="button"
             onClick={handleAnchorClick}
-            className="font-mono text-slate-400 hover:text-indigo-300"
+            className="font-mono message-link hover:underline"
             title="アンカーを発言フォームに挿入"
           >
             {anchor}
           </button>
         )}
-        <span className="text-slate-200">{message.fromCharaName ?? style.fallbackFrom}</span>
-        {message.toCharaName && (
-          <span className="text-slate-400">→ {message.toCharaName}</span>
-        )}
+        <span>{message.fromCharaName ?? style.fallbackFrom}{targetName}</span>
         {fromParticipant?.playerName && (
-          <span className="text-slate-500">[{fromParticipant.playerName}]</span>
+          <span className="opacity-80">[{fromParticipant.playerName}]</span>
         )}
-        <span className="text-slate-500 ml-auto">{formatTime(message.datetime)}</span>
-        {message.number != null && (
+        <span className="ml-auto opacity-80">{formatTime(message.datetime)}</span>
+      </div>
+      {/* 本体: キャラ画像 (左) + bubble (右、flex: 1) */}
+      <div className="flex items-start mt-1">
+        {fromParticipant && (
+          <div className="shrink-0">
+            <img
+              src={fromParticipant.chara.defaultImageUrl}
+              width={fromParticipant.chara.imageWidth}
+              height={fromParticipant.chara.imageHeight}
+              alt=""
+              loading="lazy"
+              style={{
+                maxWidth: 60,
+                maxHeight: 60,
+                width: "auto",
+                height: "auto",
+              }}
+            />
+          </div>
+        )}
+        <div style={bubbleStyle}>{content}</div>
+      </div>
+      {/* フッタ: 返信 / 秘話 link (旧画面踏襲、右寄せ) */}
+      {message.number != null && (
+        <div className="text-[0.85em] flex justify-end gap-3 mt-1">
           <button
             type="button"
             onClick={handleReplyClick}
-            className="text-xs px-1.5 py-0.5 rounded border border-slate-600 text-slate-300 hover:border-slate-400"
-            title={isSecret ? "秘話で返信 (宛先 auto-set)" : "返信"}
+            className="message-link hover:underline"
           >
-            返信
+            &gt;&gt;返信
           </button>
-        )}
-      </header>
-      <div className="px-3 pb-2 pt-1 flex gap-2">
-        {fromParticipant && (
-          <img
-            src={fromParticipant.chara.defaultImageUrl}
-            width={fromParticipant.chara.imageWidth}
-            height={fromParticipant.chara.imageHeight}
-            alt=""
-            loading="lazy"
-            className="shrink-0 rounded border border-slate-700"
-            style={{
-              maxWidth: 60,
-              maxHeight: 60,
-              width: "auto",
-              height: "auto",
-            }}
-          />
-        )}
-        {/* React JSX は子要素の文字列を textContent としてレンダリングするため、
-            `message.text` を直接埋め込んでも XSS にはならない。旧 Thymeleaf の
-            `{{{messageContent}}}` (HTML 非エスケープ) に相当する HTML 装飾
-            (大声 / 虹色 / アンカー link) は Step 12d で安全に再実装する。 */}
-        <p className={`flex-1 text-sm whitespace-pre-wrap ${style.text}`}>{message.text}</p>
-      </div>
+          {fromParticipant && !isSecret && (
+            <button
+              type="button"
+              onClick={handleSecretClick}
+              className="message-link hover:underline"
+            >
+              &gt;&gt;秘話
+            </button>
+          )}
+        </div>
+      )}
     </article>
   );
 }
 
-// ---------- styles ----------
+// ---------- styles (旧 bootstrap-override.css の hex 値を 1:1 で持ち込み) ----------
 
 type MessageKind = "say" | "system";
 
 type MessageStyle = {
   kind: MessageKind;
-  /** カード枠 (kind=say のときに使用) */
-  frame: string;
-  /** 本文文字色 (kind=say のときに使用) */
-  text: string;
-  /** システム枠の background+border (kind=system のときに使用) */
-  body: string;
-  /** >>N のような番号プレフィックス記号 (旧画面のアンカー記法に揃える) */
+  bg: string;
+  color: string;
+  border: string;
   anchorPrefix: string;
-  /** fromCharaName が null のときに表示するフォールバック (主に creator) */
   fallbackFrom: string;
 };
 
 const DEFAULT_STYLE: MessageStyle = {
   kind: "say",
-  frame: "bg-slate-800/40 border-slate-700",
-  text: "text-slate-100",
-  body: "",
+  bg: "#ffffff",
+  color: "#555555",
+  border: "#e3e3e3",
   anchorPrefix: ">>",
   fallbackFrom: "?",
 };
 
-// 旧 .old-thymeleaf/templates/village-template/message-partial.html の anchor 記法と
-// 配色を Tailwind に移植したもの。背景は slate ベースに寄せて統一感を出す。
 const MESSAGE_STYLES: Record<string, MessageStyle> = {
-  NORMAL_SAY: {
-    kind: "say",
-    frame: "bg-slate-800/50 border-slate-600",
-    text: "text-slate-100",
-    body: "",
-    anchorPrefix: ">>",
-    fallbackFrom: "?",
-  },
-  WEREWOLF_SAY: {
-    kind: "say",
-    frame: "bg-rose-950/40 border-rose-700",
-    text: "text-rose-100",
-    body: "",
-    anchorPrefix: ">>*",
-    fallbackFrom: "?",
-  },
-  MASON_SAY: {
-    kind: "say",
-    frame: "bg-violet-950/40 border-violet-700",
-    text: "text-violet-100",
-    body: "",
-    anchorPrefix: ">>=",
-    fallbackFrom: "?",
-  },
-  LOVERS_SAY: {
-    kind: "say",
-    frame: "bg-pink-950/40 border-pink-700",
-    text: "text-pink-100",
-    body: "",
-    anchorPrefix: ">>?",
-    fallbackFrom: "?",
-  },
-  MONOLOGUE_SAY: {
-    kind: "say",
-    frame: "bg-slate-900/60 border-slate-700",
-    text: "text-slate-300 italic",
-    body: "",
-    anchorPrefix: ">>-",
-    fallbackFrom: "?",
-  },
-  SECRET_SAY: {
-    kind: "say",
-    frame: "bg-amber-950/40 border-amber-700",
-    text: "text-amber-100",
-    body: "",
-    anchorPrefix: ">>s",
-    fallbackFrom: "?",
-  },
-  GRAVE_SAY: {
-    kind: "say",
-    frame: "bg-zinc-900/70 border-zinc-700",
-    text: "text-zinc-300",
-    body: "",
-    anchorPrefix: ">>+",
-    fallbackFrom: "?",
-  },
-  SPECTATE_SAY: {
-    kind: "say",
-    frame: "bg-sky-950/40 border-sky-700",
-    text: "text-sky-100",
-    body: "",
-    anchorPrefix: ">>@",
-    fallbackFrom: "?",
-  },
-  CREATOR_SAY: {
-    kind: "say",
-    frame: "bg-yellow-950/40 border-yellow-700",
-    text: "text-yellow-100",
-    body: "",
-    anchorPrefix: ">>#",
-    fallbackFrom: "天からのお告げ",
-  },
-  TELEPATHY: {
-    kind: "say",
-    frame: "bg-indigo-950/40 border-indigo-700",
-    text: "text-indigo-100",
-    body: "",
-    anchorPrefix: ">>_",
-    fallbackFrom: "?",
-  },
-  ACTION: {
-    kind: "say",
-    frame: "bg-slate-800/30 border-slate-700",
-    text: "text-slate-300 italic",
-    body: "",
-    anchorPrefix: ">>a",
-    fallbackFrom: "",
-  },
-  // システム / 個別役職向け private 系: 番号もキャラ画像も持たない一行枠
-  PUBLIC_SYSTEM: makeSystem("bg-slate-700/30 border-slate-600 text-slate-100"),
-  PRIVATE_SYSTEM: makeSystem("bg-slate-800/50 border-slate-600 text-slate-200"),
-  PRIVATE_SEER: makeSystem("bg-emerald-950/40 border-emerald-700 text-emerald-100"),
-  PRIVATE_WISE: makeSystem("bg-emerald-950/40 border-emerald-700 text-emerald-100"),
-  PRIVATE_PSYCHIC: makeSystem("bg-teal-950/40 border-teal-700 text-teal-100"),
-  PRIVATE_GURU: makeSystem("bg-teal-950/40 border-teal-700 text-teal-100"),
-  PRIVATE_CORONER: makeSystem("bg-teal-950/40 border-teal-700 text-teal-100"),
-  PRIVATE_INVESTIGATE: makeSystem("bg-cyan-950/40 border-cyan-700 text-cyan-100"),
-  PRIVATE_WEREWOLF: makeSystem("bg-rose-950/40 border-rose-700 text-rose-100"),
-  PRIVATE_LOVER: makeSystem("bg-pink-950/40 border-pink-700 text-pink-100"),
-  PRIVATE_FOX: makeSystem("bg-orange-950/40 border-orange-700 text-orange-100"),
-  PRIVATE_ABILITY: makeSystem("bg-slate-800/60 border-slate-600 text-slate-200"),
-  PARTICIPANTS: makeSystem("bg-slate-700/30 border-slate-600 text-slate-100"),
+  NORMAL_SAY: { kind: "say", bg: "#ffffff", color: "#555555", border: "#e3e3e3", anchorPrefix: ">>", fallbackFrom: "?" },
+  WEREWOLF_SAY: { kind: "say", bg: "#f2aeae", color: "#333333", border: "#f2aeae", anchorPrefix: ">>*", fallbackFrom: "?" },
+  MASON_SAY: { kind: "say", bg: "#aef2ae", color: "#333333", border: "#aef2ae", anchorPrefix: ">>=", fallbackFrom: "?" },
+  LOVERS_SAY: { kind: "say", bg: "#f2cece", color: "#cc2222", border: "#f2cece", anchorPrefix: ">>?", fallbackFrom: "?" },
+  TELEPATHY: { kind: "say", bg: "#f2f2ae", color: "#cc2200", border: "#f2f2ae", anchorPrefix: ">>_", fallbackFrom: "?" },
+  MONOLOGUE_SAY: { kind: "say", bg: "#aaaaaa", color: "#333333", border: "#b5b5b5", anchorPrefix: ">>-", fallbackFrom: "?" },
+  SECRET_SAY: { kind: "say", bg: "#aa99aa", color: "#333333", border: "#b5b5b5", anchorPrefix: ">>s", fallbackFrom: "?" },
+  GRAVE_SAY: { kind: "say", bg: "#a9edf7", color: "#333333", border: "#a9edf7", anchorPrefix: ">>+", fallbackFrom: "?" },
+  SPECTATE_SAY: { kind: "say", bg: "#ffdea9", color: "#333333", border: "#ffdea9", anchorPrefix: ">>@", fallbackFrom: "?" },
+  CREATOR_SAY: { kind: "say", bg: "transparent", color: "#00bc8c", border: "#00bc8c", anchorPrefix: ">>#", fallbackFrom: "天からのお告げ" },
+  ACTION: { kind: "say", bg: "#232355", color: "#ffffff", border: "#232355", anchorPrefix: ">>a", fallbackFrom: "" },
+  PUBLIC_SYSTEM: makeSystem("transparent", "#ffffff", "transparent"),
+  PRIVATE_SYSTEM: makeSystem("#333333", "#eeeeee", "#cccccc"),
+  PRIVATE_SEER: makeSystem("#334033", "#eeeeee", "#34a865"),
+  PRIVATE_WISE: makeSystem("#334033", "#eeeeee", "#34a865"),
+  PRIVATE_PSYCHIC: makeSystem("#333340", "#eeeeee", "#3465a8"),
+  PRIVATE_GURU: makeSystem("#333340", "#eeeeee", "#3465a8"),
+  PRIVATE_CORONER: makeSystem("#333340", "#eeeeee", "#3465a8"),
+  PRIVATE_INVESTIGATE: makeSystem("#403333", "#eeeeee", "#a86534"),
+  PRIVATE_WEREWOLF: makeSystem("#403333", "#eeeeee", "#a83434"),
+  PRIVATE_LOVER: makeSystem("#403333", "#eeeeee", "#f9318f"),
+  PRIVATE_FOX: makeSystem("#403333", "#eeeeee", "#c9c934"),
+  PRIVATE_ABILITY: makeSystem("#333333", "#eeeeee", "#cccccc"),
+  PARTICIPANTS: makeSystem("transparent", "#ffffff", "transparent"),
 };
 
-function makeSystem(body: string): MessageStyle {
-  return {
-    kind: "system",
-    frame: "",
-    text: "",
-    body,
-    anchorPrefix: "",
-    fallbackFrom: "",
-  };
+function makeSystem(bg: string, color: string, border: string): MessageStyle {
+  return { kind: "system", bg, color, border, anchorPrefix: "", fallbackFrom: "" };
 }
 
 function renderAnchor(prefix: string, num: number | null | undefined): string {
@@ -281,4 +218,135 @@ function formatTime(iso: string): string {
   const hh = String(d.getHours()).padStart(2, "0");
   const mi = String(d.getMinutes()).padStart(2, "0");
   return `${hh}:${mi}`;
+}
+
+// ---------- 装飾タグ + アンカー → React 要素 変換 ----------
+
+function renderMessageContent(text: string, isConvertDisable: boolean): React.ReactNode {
+  const lines = text.split(/\r\n|\r|\n/);
+  const out: React.ReactNode[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    out.push(
+      <React.Fragment key={`l-${i}`}>{parseLine(lines[i], isConvertDisable, `l-${i}`)}</React.Fragment>,
+    );
+    if (i < lines.length - 1) out.push(<br key={`br-${i}`} />);
+  }
+  return <>{out}</>;
+}
+
+function parseLine(line: string, isConvertDisable: boolean, keyBase: string): React.ReactNode[] {
+  const out: React.ReactNode[] = [];
+  let remaining = line;
+  let idx = 0;
+  while (remaining.length > 0) {
+    const best = findEarliestMatch(remaining, isConvertDisable);
+    if (!best) {
+      out.push(<React.Fragment key={`${keyBase}-t${idx}`}>{remaining}</React.Fragment>);
+      break;
+    }
+    if (best.index > 0) {
+      const textChunk = remaining.slice(0, best.index);
+      out.push(<React.Fragment key={`${keyBase}-t${idx}`}>{textChunk}</React.Fragment>);
+      idx++;
+    }
+    out.push(best.render(`${keyBase}-${idx}`, isConvertDisable));
+    idx++;
+    remaining = remaining.slice(best.index + best.length);
+  }
+  return out;
+}
+
+type Match = {
+  index: number;
+  length: number;
+  render: (key: string, isConvertDisable: boolean) => React.ReactNode;
+};
+
+function findEarliestMatch(s: string, isConvertDisable: boolean): Match | null {
+  const candidates: Match[] = [];
+
+  const anchorRegexes = [
+    /(>>\*\d{1,5})/,
+    /(>>=\d{1,5})/,
+    /(>>\?\d{1,5})/,
+    /(>>_\d{1,5})/,
+    /(>>@\d{1,5})/,
+    /(>>-\d{1,5})/,
+    /(>>\+\d{1,5})/,
+    /(>>#\d{1,5})/,
+    /(>>a\d{1,5})/,
+    /(>>s\d{1,5})/,
+    /(>>\d{1,5})/,
+  ];
+  let earliestAnchor: { idx: number; text: string } | null = null;
+  for (const re of anchorRegexes) {
+    const m = re.exec(s);
+    if (!m) continue;
+    if (earliestAnchor == null) {
+      earliestAnchor = { idx: m.index, text: m[1] };
+      continue;
+    }
+    if (m.index < earliestAnchor.idx) {
+      earliestAnchor = { idx: m.index, text: m[1] };
+    } else if (m.index === earliestAnchor.idx && m[1].length > earliestAnchor.text.length) {
+      earliestAnchor = { idx: m.index, text: m[1] };
+    }
+  }
+  if (earliestAnchor) {
+    const { idx, text } = earliestAnchor;
+    candidates.push({
+      index: idx,
+      length: text.length,
+      render: (k) => <span key={k} className="message-link">{text}</span>,
+    });
+  }
+
+  if (!isConvertDisable) {
+    pushTag(/\[\[(#[0-9a-fA-F]{6})\]\]([\s\S]*?)\[\[\/#\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} style={{ color: m[1] }}>{parseLine(m[2], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[b\]\]([\s\S]*?)\[\[\/b\]\]/, s, candidates, (m, k, cd) => (
+      <strong key={k}>{parseLine(m[1], cd, `${k}-i`)}</strong>
+    ));
+    pushTag(/\[\[s\]\]([\s\S]*?)\[\[\/s\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} style={{ textDecoration: "line-through" }}>{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[large\]\]([\s\S]*?)\[\[\/large\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} style={{ fontSize: "150%" }}>{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[small\]\]([\s\S]*?)\[\[\/small\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} style={{ fontSize: "80%" }}>{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[ruby\]\]([\s\S]*?)\[\[rt\]\]([\s\S]*?)\[\[\/rt\]\]\[\[\/ruby\]\]/, s, candidates, (m, k) => (
+      <ruby key={k}>{m[1]}<rt>{m[2]}</rt></ruby>
+    ));
+    pushTag(/\[\[netabare\]\]([\s\S]*?)\[\[\/netabare\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} className="netabare">{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[cw\]\]([\s\S]*?)\[\[\/cw\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} className="netabare">{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+    pushTag(/\[\[tp\]\]([\s\S]*?)\[\[\/tp\]\]/, s, candidates, (m, k, cd) => (
+      <span key={k} className="transparency">{parseLine(m[1], cd, `${k}-i`)}</span>
+    ));
+  }
+
+  if (candidates.length === 0) return null;
+  candidates.sort((a, b) => a.index - b.index);
+  return candidates[0];
+}
+
+function pushTag(
+  re: RegExp,
+  s: string,
+  candidates: Match[],
+  render: (m: RegExpExecArray, key: string, isConvertDisable: boolean) => React.ReactNode,
+) {
+  const m = re.exec(s);
+  if (!m) return;
+  candidates.push({
+    index: m.index,
+    length: m[0].length,
+    render: (k, cd) => render(m, k, cd),
+  });
 }

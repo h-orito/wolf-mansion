@@ -14,6 +14,7 @@ import {
   useFootstepCandidatesQuery,
   useVoteMutation,
 } from "./hooks";
+import { Panel, PanelBody, PanelHeading } from "~/components/ui/Panel";
 
 /**
  * 進行中の村で「能力 / 投票 / コミット」をまとめて行う操作パネル。
@@ -38,21 +39,27 @@ export function ActionPanel({
   if (myself.isSpectator) return null;
 
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-4">
-      <h2 className="text-sm text-slate-400">行動</h2>
-      <AbilitySection
-        village={village}
-        myself={myself}
-        ability={myself.ability}
-        isDead={myself.isDead}
-      />
-      <VoteSection
-        village={village}
-        myselfCharaId={myself.charaId}
-        vote={myself.vote}
-      />
-      <CommitSection villageId={village.id} commit={myself.commit} />
-    </section>
+    <Panel data-action-panel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">行動</h2>
+      </PanelHeading>
+      <PanelBody>
+        <div className="space-y-4">
+          <AbilitySection
+            village={village}
+            myself={myself}
+            ability={myself.ability}
+            isDead={myself.isDead}
+          />
+          <VoteSection
+            village={village}
+            myselfCharaId={myself.charaId}
+            vote={myself.vote}
+          />
+          <CommitSection villageId={village.id} commit={myself.commit} />
+        </div>
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -90,8 +97,8 @@ function AbilitySection({
   const showForm = ability.canUseAbility && !isDead;
 
   return (
-    <div className="space-y-3 border-t border-slate-700/60 pt-3 first:border-t-0 first:pt-0">
-      <div className="text-xs text-slate-400">
+    <div className="space-y-3 border-t border-night-700 pt-3 first:border-t-0 first:pt-0">
+      <div className="text-xs opacity-80">
         能力 {ability.typeName ? `(${ability.typeName})` : ""}
       </div>
 
@@ -99,8 +106,8 @@ function AbilitySection({
 
       {ability.skillHistoryList.length > 0 && (
         <div className="space-y-1">
-          <p className="text-xs text-slate-400">能力セット履歴</p>
-          <ul className="text-xs text-slate-300 space-y-0.5">
+          <p className="text-xs opacity-80">能力セット履歴</p>
+          <ul className="text-xs text-white space-y-0.5">
             {ability.skillHistoryList.map((h, i) => (
               <li key={`${i}-${h}`}>{h}</li>
             ))}
@@ -361,7 +368,7 @@ function AbilityForm({
           </button>
         )}
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -381,8 +388,8 @@ function VoteSection({
 }) {
   if (!vote.canVote) return null;
   return (
-    <div className="space-y-2 border-t border-slate-700/60 pt-3">
-      <div className="text-xs text-slate-400">投票</div>
+    <div className="space-y-2 border-t border-night-700 pt-3">
+      <div className="text-xs opacity-80">投票</div>
       <VoteForm
         villageId={village.id}
         participants={village.participants.list}
@@ -449,7 +456,7 @@ function VoteForm({
           {mutation.isPending ? "送信中..." : vote.targetCharaId != null ? "投票変更" : "投票"}
         </button>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </form>
@@ -473,14 +480,14 @@ function CommitSection({
   }
 
   return (
-    <div className="space-y-2 border-t border-slate-700/60 pt-3">
-      <div className="text-xs text-slate-400">コミット (行動確定)</div>
+    <div className="space-y-2 border-t border-night-700 pt-3">
+      <div className="text-xs opacity-80">コミット (行動確定)</div>
       <div className="flex items-center gap-3">
         <span className="text-sm">
           {commit.isCommitting ? (
-            <span className="text-emerald-300">確定済み</span>
+            <span className="text-mint-500">確定済み</span>
           ) : (
-            <span className="text-slate-300">未確定</span>
+            <span className="text-white">未確定</span>
           )}
         </span>
         <button
@@ -496,7 +503,7 @@ function CommitSection({
               : "コミットする"}
         </button>
         {mutation.isError && (
-          <span className="text-xs text-rose-300">{mutation.error.message}</span>
+          <span className="text-xs text-blood-500">{mutation.error.message}</span>
         )}
       </div>
     </div>
@@ -521,9 +528,9 @@ function Row({
 }) {
   return (
     <label className="block space-y-1">
-      <span className="text-xs text-slate-400">{label}</span>
+      <span className="text-xs opacity-80">{label}</span>
       {children}
-      {suffix && <span className="block text-xs text-slate-500">{suffix}</span>}
+      {suffix && <span className="block text-xs opacity-60">{suffix}</span>}
     </label>
   );
 }
@@ -537,10 +544,10 @@ function buildCharaNameMap(participants: VillageParticipantView[]): Record<numbe
 }
 
 const inputClass =
-  "w-full bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500 disabled:opacity-50";
+  "w-full bg-night-900 border border-night-700 rounded-[3px] px-2 py-1 text-[1em] focus:outline-none focus:border-mint-500 disabled:opacity-50";
 
 const primaryButtonClass =
-  "rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium";
+  "px-[9px] py-[6px] rounded-[3px] border-2 border-bs-success-600 bg-bs-success-500 text-white text-[13px] hover:bg-bs-success-700 hover:border-bs-success-700 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const secondaryButtonClass =
-  "rounded bg-slate-700 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium";
+  "px-[9px] py-[6px] rounded-[3px] border-2 border-night-700 bg-night-800 text-white text-[13px] hover:bg-night-700 disabled:opacity-50 disabled:cursor-not-allowed";

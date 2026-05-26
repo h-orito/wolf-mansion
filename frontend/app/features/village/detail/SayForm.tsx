@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { MyselfSayMessageTypeView, MyselfView } from "./api";
 import { useSayMutation } from "./hooks";
 import { useSayAnchorSubscription } from "./SayFormContext";
+import { Panel, PanelBody, PanelHeading } from "~/components/ui/Panel";
 
 const SECRET_SAY_CODE = "SECRET_SAY";
 
@@ -157,11 +158,13 @@ export function SayForm({
   }
 
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-2">発言</h2>
-
-      {/* 発言種別タブ */}
-      <div role="radiogroup" aria-label="発言種別" className="flex flex-wrap gap-1 mb-2">
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-[1em] m-0 font-normal">発言</h2>
+      </PanelHeading>
+      <PanelBody>
+      {/* 発言種別タブ (旧 .btn-saytypes 相当) */}
+      <div role="radiogroup" aria-label="発言種別" className="flex flex-wrap gap-0 mb-2">
         {availableTypes.map((t) => (
           <MessageTypeButton
             key={t.code}
@@ -175,13 +178,13 @@ export function SayForm({
       {/* 秘話宛先 (秘話選択時のみ) */}
       {isSecret && (
         <div className="mb-2">
-          <label className="block text-xs text-slate-400 mb-1">秘話相手</label>
+          <label className="block text-xs opacity-80 mb-1">秘話相手</label>
           <select
             value={secretTargetCharaId}
             onChange={(e) =>
               setSecretTargetCharaId(e.target.value === "" ? "" : Number(e.target.value))
             }
-            className="w-full bg-slate-900 border border-slate-700 rounded px-2 py-1 text-sm text-slate-100"
+            className="w-full bg-night-900 border border-night-700 rounded px-2 py-1 text-sm text-white"
           >
             <option value="">秘話相手を選択してください</option>
             {secretSayTargets.map((t) => (
@@ -208,13 +211,13 @@ export function SayForm({
                 }
                 alt={faceTypeCode}
                 loading="lazy"
-                className="rounded border border-slate-700 max-w-full"
+                className="rounded border border-night-700 max-w-full"
                 style={{ maxHeight: 120, width: "auto", height: "auto" }}
               />
               <select
                 value={faceTypeCode}
                 onChange={(e) => setFaceTypeCode(e.target.value)}
-                className="mt-1 bg-slate-900 border border-slate-700 rounded px-1 py-0.5 text-xs text-slate-100"
+                className="mt-1 bg-night-900 border border-night-700 rounded px-1 py-0.5 text-xs text-white"
               >
                 {myself.say.selectableFaceTypes.map((f) => (
                   <option key={f.code} value={f.code}>
@@ -231,30 +234,30 @@ export function SayForm({
             onChange={(e) => setText(e.target.value)}
             rows={6}
             placeholder={`発言を入力 (${maxLength} 文字以内)`}
-            className="flex-1 bg-slate-900 border border-slate-700 rounded px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-indigo-500"
+            className="flex-1 bg-night-900 border border-night-700 rounded px-3 py-2 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-mint-500"
             disabled={sayMutation.isPending}
           />
         </div>
 
         {/* 文字数 / 行数 / 残り回数 */}
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-400">
-          <span className={isOverLength ? "text-rose-300" : ""}>
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs opacity-80">
+          <span className={isOverLength ? "text-blood-500" : ""}>
             文字数 {text.length} / {maxLength}
           </span>
-          <span className={isOverLine ? "text-rose-300" : ""}>
+          <span className={isOverLine ? "text-blood-500" : ""}>
             行数 {lineCount} / {maxLine}
           </span>
           {remainingCount != null && maxCount != null && (
-            <span className={remainingCount === 0 ? "text-rose-300" : ""}>
+            <span className={remainingCount === 0 ? "text-blood-500" : ""}>
               残り {remainingCount} / {maxCount} 回
             </span>
           )}
-          <label className="ml-auto flex items-center gap-1 text-slate-300 cursor-pointer">
+          <label className="ml-auto flex items-center gap-1 text-white cursor-pointer">
             <input
               type="checkbox"
               checked={convertDisable}
               onChange={(e) => setConvertDisable(e.target.checked)}
-              className="accent-indigo-500"
+              className="accent-mint-600"
             />
             装飾・変換無効
           </label>
@@ -264,16 +267,17 @@ export function SayForm({
           <button
             type="submit"
             disabled={!canSubmit}
-            className="rounded bg-indigo-500 hover:bg-indigo-400 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium"
+            className="rounded bg-bs-success-500 hover:bg-bs-success-700 disabled:opacity-40 disabled:cursor-not-allowed px-4 py-1.5 text-sm font-medium"
           >
             {sayMutation.isPending ? "送信中..." : submitLabel(messageTypeCode)}
           </button>
           {sayMutation.isError && (
-            <span className="text-xs text-rose-300">{sayMutation.error.message}</span>
+            <span className="text-xs text-blood-500">{sayMutation.error.message}</span>
           )}
         </div>
       </form>
-    </section>
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -286,17 +290,20 @@ function MessageTypeButton({
   active: boolean;
   onSelect: () => void;
 }) {
+  // 旧 .btn-saytypes .btn-success: dark bg #222 + mint border + mint text
+  // active: mint bg + white text。BS3 btn-group の -1px overlap で連結 (見た目)
+  const base =
+    "-ml-px first:ml-0 px-[9px] py-[5px] border text-[13px] cursor-pointer transition-colors duration-100";
+  const cls = active
+    ? `${base} bg-mint-600 border-mint-600 text-white`
+    : `${base} bg-night-500 border-mint-600 text-mint-600 hover:bg-mint-600 hover:text-white`;
   return (
     <button
       type="button"
       role="radio"
       aria-checked={active}
       onClick={onSelect}
-      className={`px-2 py-1 rounded border text-xs ${
-        active
-          ? "bg-indigo-500 border-indigo-400 text-white"
-          : "bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500"
-      }`}
+      className={cls}
     >
       {type.name}
     </button>
@@ -330,7 +337,7 @@ function DecorationTagBar({
       <button
         type="button"
         onClick={() => onInsert("", "single")}
-        className="px-2 py-0.5 rounded border bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500 text-xs"
+        className="px-2 py-0.5 rounded border bg-night-900 border-night-700 text-white hover:border-mint-500 text-xs"
         title="[[]] を挿入"
       >
         [[]]
@@ -358,7 +365,7 @@ function TagBtn({
     <button
       type="button"
       onClick={() => onInsert(tag, kind)}
-      className={`px-2 py-0.5 rounded border bg-slate-900 border-slate-700 text-slate-300 hover:border-slate-500 text-xs ${
+      className={`px-2 py-0.5 rounded border bg-night-900 border-night-700 text-white hover:border-mint-500 text-xs ${
         bold ? "font-bold" : ""
       } ${strike ? "line-through" : ""}`}
       title={`[[${tag}]]...[[/${tag}]]`}
@@ -379,7 +386,7 @@ function ColorTagBtn({
     <button
       type="button"
       onClick={() => onInsert(color, "double")}
-      className="w-6 h-6 rounded border border-slate-700 hover:border-slate-400"
+      className="w-6 h-6 rounded border border-night-700 hover:border-slate-400"
       style={{ backgroundColor: color }}
       title={`[[${color}]]...[[/${color}]]`}
       aria-label={`色タグ ${color}`}
