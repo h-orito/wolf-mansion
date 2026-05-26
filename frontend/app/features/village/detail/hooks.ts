@@ -85,16 +85,13 @@ export function useVillageQuery(
 /**
  * messages query を filter / paging 付きで取得する。queryKey に query 全体の
  * stable representation を含めるので、フィルタや page が変わると自動で refetch される。
- *
- * 後方互換: 第二引数に number (day) を渡したら `{ day }` と等価に扱う。
  */
 export function useVillageMessagesQuery(
   villageId: number,
-  query: number | MessagesQuery | undefined,
+  query: MessagesQuery | undefined,
   initialData?: MessagesView,
 ): UseQueryResult<MessagesView> {
-  const q: MessagesQuery =
-    typeof query === "number" ? { day: query } : (query ?? {});
+  const q: MessagesQuery = query ?? {};
   // 配列やオプショナルを stable な形に揃える (順序ずれで queryKey が変わるのを防ぐ)。
   const keyPart = {
     day: q.day ?? "latest",

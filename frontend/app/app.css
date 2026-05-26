@@ -161,3 +161,11 @@ body {
   cursor: pointer;
   opacity: 0;
 }
+
+/* 旧 .message a (本文中のアンカー / リンク): 赤系 #f00000
+ * .message-public-system a は mint だが、PUBLIC_SYSTEM は本文中に >>N を含まないので
+ * 共通の赤指定でよい */
+.message-link {
+  color: var(--color-blood-600);
+  cursor: pointer;
+}

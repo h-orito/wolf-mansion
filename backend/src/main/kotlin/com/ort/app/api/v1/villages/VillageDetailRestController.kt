@@ -78,6 +78,7 @@ class VillageDetailRestController(
             participants = participants,
             isCreator = isCreator,
             isParticipating = ctx.myself != null,
+            charachips = ctx.charachips,
         )
     }
 

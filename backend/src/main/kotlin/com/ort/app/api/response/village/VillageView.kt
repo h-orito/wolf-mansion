@@ -1,6 +1,7 @@
 package com.ort.app.api.response.village
 
 import com.ort.app.api.response.skill.SkillView
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.village.Village
 import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
@@ -52,6 +53,7 @@ data class VillageView(
         participants: VillageParticipantsView,
         isCreator: Boolean,
         isParticipating: Boolean,
+        charachips: Charachips,
     ) : this(
         id = village.id,
         number = village.id.toString().padStart(4, '0'),
@@ -64,7 +66,7 @@ data class VillageView(
         epilogueDay = village.epilogueDay,
         winCampName = village.winCamp?.name,
         roomWidth = village.roomSize?.width,
-        settings = VillageSettingsView(village),
+        settings = VillageSettingsView(village, charachips),
         days = VillageDaysView(village.days),
         participants = participants,
         isCreator = isCreator,

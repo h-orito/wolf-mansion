@@ -24,6 +24,7 @@ import {
 import { ActionPanel } from "~/features/village/detail/ActionPanel";
 import { AdminPanel } from "~/features/village/detail/AdminPanel";
 import { CreatorPanel } from "~/features/village/detail/CreatorPanel";
+import { FooterMenuDock } from "~/features/village/detail/FooterMenuDock";
 import { MessageCard } from "~/features/village/detail/MessageCard";
 import { ParticipateActions } from "~/features/village/detail/ParticipateActions";
 import { RoomGridPanel } from "~/features/village/detail/RoomGridPanel";
@@ -40,6 +41,10 @@ import {
 import { VillageInfoModal } from "~/features/village/detail/VillageInfoModal";
 import { useMeQuery } from "~/features/auth/hooks";
 import { ssrFetch } from "~/lib/api/client";
+import { Panel, PanelBody, PanelHeading } from "~/components/ui/Panel";
+import { Button, LinkButton } from "~/components/ui/Button";
+import { VillageTag, villageTagLevel } from "~/components/ui/VillageTag";
+import { useQueryClient } from "@tanstack/react-query";
 
 const PAGE_SIZE = 50;
 
@@ -311,9 +316,14 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     myself.say.isAvailableSay &&
     myself.say.availableMessageTypes.length > 0;
 
+  const queryClient = useQueryClient();
+  function refreshAll() {
+    queryClient.invalidateQueries({ queryKey: ["village", villageId] });
+  }
+
   return (
-    <main className="min-h-screen bg-slate-900 text-slate-100">
-      <section className="max-w-4xl mx-auto px-6 py-10 space-y-6">
+    <main className="text-white pb-[60px]">
+      <section className="max-w-[1170px] mx-auto px-2 py-4 space-y-3">
         <SayFormProvider>
           <VillageHeader
             village={village}
@@ -376,6 +386,24 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
           onClose={() => setShowInfo(false)}
         />
       </section>
+      <FooterMenuDock
+        onOpenInfo={() => setShowInfo(true)}
+        onOpenFilter={() => setShowFilter(true)}
+        isFiltered={isFiltered}
+        showVoteShortcut={
+          !!myself &&
+          village.statusCode === "IN_PROGRESS" &&
+          myself.vote.canVote &&
+          myself.vote.targetCharaId == null
+        }
+        onGoToVote={() => {
+          // 行動パネル (id 未設定だが ActionPanel の <h2>行動</h2> 近辺) へ簡易スクロール。
+          // 厳密な id ターゲットは別 PR で。
+          const el = document.querySelector("[data-action-panel]");
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+        onRefresh={refreshAll}
+      />
     </main>
   );
 }
@@ -400,59 +428,49 @@ function VillageHeader({
   return (
     <header className="space-y-2">
       <div className="flex items-center justify-between">
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-slate-400 text-sm">#{village.number}</span>
-          <h1 className="text-2xl font-bold">{village.name}</h1>
+        <div className="flex items-baseline gap-2">
+          <span className="font-mono opacity-60 text-[0.95em]">#{village.number}</span>
+          <h1 className="text-[1.5em] font-bold m-0">
+            <VillageTag level={villageTagLevel(village.statusName)}>{village.statusName}</VillageTag>
+            {village.name}
+          </h1>
         </div>
-        <Link to="/villages" className="text-sm text-slate-400 hover:text-slate-200">
+        <Link to="/villages" className="message-link hover:underline">
           ← 村一覧
         </Link>
       </div>
-      <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
-        <StatusBadge name={village.statusName} />
+      <div className="flex flex-wrap items-center gap-3 text-[0.95em] opacity-90">
         <span>現在 {village.time.latestDay}日目</span>
         {village.time.nextDayChangeDatetime && (
-          <span className="text-slate-400">
+          <span className="opacity-80">
             次回更新: {formatDateTime(village.time.nextDayChangeDatetime)}
           </span>
         )}
         {village.winCampName && (
-          <span className="text-amber-300">勝利: {village.winCampName}</span>
+          <span className="text-mint-500">勝利: {village.winCampName}</span>
         )}
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="text-[0.85em] opacity-60 m-0">
         村建て: {village.createPlayerName} / {village.participants.count}人
         {village.participants.spectatorCount > 0 ? ` (見学${village.participants.spectatorCount})` : ""}
       </p>
       <div className="flex flex-wrap gap-2 pt-1">
-        <button
-          type="button"
-          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
-          onClick={onOpenInfo}
-        >
-          村情報
-        </button>
-        <button
-          type="button"
-          className={
-            "rounded border px-2.5 py-1 text-xs " +
-            (isFiltered
-              ? "border-indigo-400 bg-indigo-600/30 text-indigo-50"
-              : "border-slate-600 text-slate-200 hover:bg-slate-800")
-          }
+        <Button variant="dark-success" onClick={onOpenInfo}>村情報</Button>
+        <Button
+          variant={isFiltered ? "success" : "dark-success"}
           onClick={onOpenFilter}
           aria-pressed={isFiltered}
         >
           発言抽出{isFiltered ? " (絞り込み中)" : ""}
-        </button>
-        <Link
+        </Button>
+        <LinkButton
+          variant="dark-success"
           to={`/villages/${villageId}/scrap?day=${selectedDay}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="rounded border border-slate-600 px-2.5 py-1 text-xs text-slate-200 hover:bg-slate-800"
         >
-          切り抜き ↗
-        </Link>
+          切り抜き
+        </LinkButton>
       </div>
     </header>
   );
@@ -479,7 +497,7 @@ function DayTabs({
     <div
       role="tablist"
       aria-label="日付ナビゲーション"
-      className="flex flex-wrap gap-1 rounded-xl bg-slate-800/30 border border-slate-700 p-2"
+      className="flex flex-wrap gap-[2px] border border-night-700 bg-night-950 p-2 rounded-[3px]"
     >
       {days.map((day) => {
         const active = day === selectedDay;
@@ -491,10 +509,10 @@ function DayTabs({
             aria-selected={active}
             onClick={() => onSelect(day)}
             className={
-              "rounded px-2.5 py-1 text-xs font-mono transition " +
+              "px-[9px] py-[5px] rounded-[3px] border text-[0.95em] font-mono transition-colors duration-100 " +
               (active
-                ? "bg-indigo-500/40 text-indigo-50 border border-indigo-400"
-                : "border border-transparent text-slate-300 hover:bg-slate-700/40")
+                ? "bg-mint-600 text-white border-mint-600"
+                : "border-mint-600 text-mint-600 bg-night-500 hover:bg-mint-600 hover:text-white")
             }
           >
             {day === 0 ? "プロローグ" : `${day}日目`}
@@ -507,15 +525,19 @@ function DayTabs({
 
 function MyselfPanel({ myself }: { myself: MyselfView }) {
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-2">あなた</h2>
-      <p className="text-base">
-        {myself.name}
-        {myself.skill && <span className="ml-2 text-indigo-300">[{myself.skill.name}]</span>}
-        {myself.campCode && <span className="ml-2 text-amber-300">{myself.campCode}</span>}
-        {myself.isDead && <span className="ml-2 text-rose-300">死亡</span>}
-      </p>
-    </section>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-sm m-0">あなた</h2>
+      </PanelHeading>
+      <PanelBody>
+        <p className="m-0">
+          {myself.name}
+          {myself.skill && <span className="ml-2 text-mint-500">[{myself.skill.name}]</span>}
+          {myself.campCode && <span className="ml-2 text-warning-500">{myself.campCode}</span>}
+          {myself.isDead && <span className="ml-2 text-blood-500">死亡</span>}
+        </p>
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -526,10 +548,14 @@ function MyselfPanel({ myself }: { myself: MyselfView }) {
 function ParticipantsPanel({ participants }: { participants: VillageParticipantView[] }) {
   if (participants.length === 0) {
     return (
-      <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-        <h2 className="text-sm text-slate-400">参加者</h2>
-        <p className="text-slate-400 text-sm py-2">まだ参加者がいません</p>
-      </section>
+      <Panel>
+        <PanelHeading>
+          <h2 className="text-sm m-0">参加者</h2>
+        </PanelHeading>
+        <PanelBody>
+          <p className="opacity-80 m-0">まだ参加者がいません</p>
+        </PanelBody>
+      </Panel>
     );
   }
   // 退村済み (isGone) は旧画面でも参加者一覧から外れていたので除外する。
@@ -544,17 +570,23 @@ function ParticipantsPanel({ participants }: { participants: VillageParticipantV
     else alive.push(p);
   }
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4 space-y-4">
-      <h2 className="text-sm text-slate-400">
-        参加者 (生存 {alive.length} / 死亡 {dead.length}
-        {spectators.length > 0 ? ` / 見学 ${spectators.length}` : ""})
-      </h2>
-      <ParticipantSubList title={`生存 (${alive.length})`} items={alive} kind="alive" />
-      <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} kind="dead" />
-      {spectators.length > 0 && (
-        <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} kind="spectator" />
-      )}
-    </section>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-sm m-0">
+          参加者 (生存 {alive.length} / 死亡 {dead.length}
+          {spectators.length > 0 ? ` / 見学 ${spectators.length}` : ""})
+        </h2>
+      </PanelHeading>
+      <PanelBody>
+        <div className="space-y-4">
+          <ParticipantSubList title={`生存 (${alive.length})`} items={alive} kind="alive" />
+          <ParticipantSubList title={`死亡 (${dead.length})`} items={dead} kind="dead" />
+          {spectators.length > 0 && (
+            <ParticipantSubList title={`見学 (${spectators.length})`} items={spectators} kind="spectator" />
+          )}
+        </div>
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -572,8 +604,8 @@ function ParticipantSubList({
   if (items.length === 0) {
     return (
       <div>
-        <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
-        <p className="text-xs text-slate-500 px-2">なし</p>
+        <h3 className="text-[0.95em] opacity-80 mb-1">{title}</h3>
+        <p className="text-[0.85em] opacity-60 px-2 m-0">なし</p>
       </div>
     );
   }
@@ -581,28 +613,27 @@ function ParticipantSubList({
   const isSpectator = kind === "spectator";
   return (
     <div>
-      <h3 className="text-xs text-slate-400 mb-1">{title}</h3>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+      <h3 className="text-[0.95em] opacity-80 mb-1">{title}</h3>
+      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 list-none p-0 m-0">
         {items.map((p) => (
-          <li key={p.id} className="flex items-center gap-2 text-sm">
-            <span className="font-mono text-slate-500 w-10 shrink-0">
+          <li key={p.id} className="flex items-center gap-2 text-[0.95em]">
+            <span className="font-mono opacity-60 w-10 shrink-0">
               {p.roomNumber != null ? String(p.roomNumber).padStart(2, "0") : "--"}
             </span>
-            <span className={`flex-1 truncate ${isDead ? "text-slate-400" : ""}`}>
+            <span className={`flex-1 truncate ${isDead ? "opacity-80" : ""}`}>
               {p.name}
               {p.memo && (
-                <span className="ml-2 text-slate-500 text-xs">[{p.memo}]</span>
+                <span className="ml-2 opacity-60 text-[0.85em]">[{p.memo}]</span>
               )}
             </span>
             {p.skill && (
-              <span className="text-xs text-indigo-300 shrink-0">[{p.skill.shortName}]</span>
+              <span className="text-[0.85em] text-mint-500 shrink-0">[{p.skill.shortName}]</span>
             )}
             {isSpectator && (
-              <span className="text-xs text-slate-400 shrink-0">見学</span>
+              <span className="text-[0.85em] opacity-80 shrink-0">見学</span>
             )}
-            {/* p.dead は backend で進行中の無惨死を MISERABLE / 無惨 にマスク済 */}
             {isDead && p.dead && (
-              <span className="text-xs text-rose-300 shrink-0">
+              <span className="text-[0.85em] text-blood-500 shrink-0">
                 {p.dead.day}d {p.dead.name}
               </span>
             )}
@@ -639,38 +670,17 @@ function MessagesPanel({
   const hasPrev = messages?.isExistPrePage ?? false;
   const hasNext = messages?.isExistNextPage ?? false;
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <div className="flex flex-wrap items-center justify-between mb-3 gap-2">
-        <h2 className="text-sm text-slate-400">
-          発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
-          {isPaging && totalPages > 0 && currentPage != null && (
-            <span className="ml-2 text-slate-500">
-              ({currentPage} / {totalPages} ページ)
-            </span>
-          )}
-        </h2>
-        <Pagination
-          isPaging={isPaging}
-          currentPage={currentPage}
-          totalPages={totalPages}
-          hasPrev={hasPrev}
-          hasNext={hasNext}
-          onSetPage={onSetPage}
-        />
-      </div>
-      {!messages || count === 0 ? (
-        <p className="text-slate-400 text-sm py-2">この日の閲覧可能な発言はありません</p>
-      ) : (
-        <ul className="space-y-2 max-h-[640px] overflow-y-auto pr-1">
-          {messages.list.map((m, i) => (
-            <li key={`${m.typeCode}-${m.number ?? i}`}>
-              <MessageCard message={m} participantsById={participantsById} />
-            </li>
-          ))}
-        </ul>
-      )}
-      {(hasPrev || hasNext) && (
-        <div className="flex justify-end mt-3">
+    <Panel>
+      <PanelHeading>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-sm m-0">
+            発言 ({day === 0 ? "プロローグ" : `${day}日目`} · {count}件)
+            {isPaging && totalPages > 0 && currentPage != null && (
+              <span className="ml-2 opacity-60">
+                ({currentPage} / {totalPages} ページ)
+              </span>
+            )}
+          </h2>
           <Pagination
             isPaging={isPaging}
             currentPage={currentPage}
@@ -680,8 +690,33 @@ function MessagesPanel({
             onSetPage={onSetPage}
           />
         </div>
-      )}
-    </section>
+      </PanelHeading>
+      <PanelBody>
+        {!messages || count === 0 ? (
+          <p className="opacity-80 m-0 py-2">この日の閲覧可能な発言はありません</p>
+        ) : (
+          <ul className="space-y-1 list-none p-0 m-0">
+            {messages.list.map((m, i) => (
+              <li key={`${m.typeCode}-${m.number ?? i}`}>
+                <MessageCard message={m} participantsById={participantsById} />
+              </li>
+            ))}
+          </ul>
+        )}
+        {(hasPrev || hasNext) && (
+          <div className="flex justify-end mt-3">
+            <Pagination
+              isPaging={isPaging}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              hasPrev={hasPrev}
+              hasNext={hasNext}
+              onSetPage={onSetPage}
+            />
+          </div>
+        )}
+      </PanelBody>
+    </Panel>
   );
 }
 
@@ -706,7 +741,7 @@ function Pagination({
     return (
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-xs text-slate-300 hover:bg-slate-800"
+        className="rounded-[3px] border border-mint-600 bg-night-500 px-2 py-0.5 text-[0.95em] text-mint-600 hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(1)}
       >
         分割表示
@@ -715,21 +750,21 @@ function Pagination({
   }
   const cur = currentPage ?? 1;
   return (
-    <div className="flex items-center gap-1 text-xs">
+    <div className="flex items-center gap-1 text-[0.95em]">
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        className="rounded-[3px] border border-mint-600 bg-night-500 px-2 py-0.5 text-mint-600 disabled:opacity-40 hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(cur - 1)}
         disabled={!hasPrev || cur <= 1}
       >
         ‹ 前
       </button>
-      <span className="px-1 text-slate-400">
+      <span className="px-1 opacity-80">
         {cur}/{totalPages || cur}
       </span>
       <button
         type="button"
-        className="rounded border border-slate-600 px-2 py-0.5 text-slate-200 disabled:opacity-40 hover:bg-slate-800"
+        className="rounded-[3px] border border-mint-600 bg-night-500 px-2 py-0.5 text-mint-600 disabled:opacity-40 hover:bg-mint-600 hover:text-white"
         onClick={() => onSetPage(cur + 1)}
         disabled={!hasNext}
       >
@@ -741,45 +776,34 @@ function Pagination({
 
 function FootstepsPanel({ footsteps }: { footsteps: VillageFootstepsView | null }) {
   return (
-    <section className="rounded-xl bg-slate-800/40 border border-slate-700 p-4">
-      <h2 className="text-sm text-slate-400 mb-3">足音</h2>
-      {!footsteps || footsteps.list.length === 0 ? (
-        <p className="text-slate-400 text-sm py-2">表示できる足音はありません</p>
-      ) : (
-        <ul className="space-y-1 text-sm">
-          {footsteps.list.map((f, i) => (
-            <li key={`${f.day}-${f.roomNumbers}-${i}`} className="flex items-center gap-2">
-              <span className="text-slate-500 w-12 shrink-0">{f.day}日目</span>
-              <span className="font-mono">{f.roomNumbers}</span>
-              {f.registerChara && (
-                <span className="text-xs text-slate-400">
-                  by {f.registerChara.shortName}
-                </span>
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-    </section>
+    <Panel>
+      <PanelHeading>
+        <h2 className="text-sm m-0">足音</h2>
+      </PanelHeading>
+      <PanelBody>
+        {!footsteps || footsteps.list.length === 0 ? (
+          <p className="opacity-80 m-0 py-2">表示できる足音はありません</p>
+        ) : (
+          <ul className="space-y-1 text-[0.95em] list-none p-0 m-0">
+            {footsteps.list.map((f, i) => (
+              <li key={`${f.day}-${f.roomNumbers}-${i}`} className="flex items-center gap-2">
+                <span className="opacity-60 w-12 shrink-0">{f.day}日目</span>
+                <span className="font-mono">{f.roomNumbers}</span>
+                {f.registerChara && (
+                  <span className="text-[0.85em] opacity-80">
+                    by {f.registerChara.shortName}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </PanelBody>
+    </Panel>
   );
 }
 
 // ---------- utils ----------
-
-const STATUS_BADGE: Record<string, string> = {
-  募集中: "bg-emerald-600/30 text-emerald-100 border-emerald-500/40",
-  進行中: "bg-amber-600/30 text-amber-100 border-amber-500/40",
-  エピローグ: "bg-sky-600/30 text-sky-100 border-sky-500/40",
-  終了: "bg-slate-600/30 text-slate-200 border-slate-500/40",
-  廃村: "bg-rose-600/30 text-rose-100 border-rose-500/40",
-};
-
-function StatusBadge({ name }: { name: string }) {
-  const cls = STATUS_BADGE[name] ?? "bg-slate-700/40 text-slate-200 border-slate-500/40";
-  return (
-    <span className={`text-xs px-2 py-0.5 rounded border ${cls}`}>{name}</span>
-  );
-}
 
 function formatDateTime(iso: string): string {
   // backend が LocalDateTime を ISO 文字列で返す前提。Date 経由で MM/dd HH:mm 形式に整形。

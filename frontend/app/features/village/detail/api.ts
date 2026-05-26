@@ -87,12 +87,10 @@ export type MessagesQuery = {
 
 export async function fetchVillageMessages(
   villageId: number,
-  query: number | MessagesQuery | undefined,
+  query: MessagesQuery | undefined,
   fetcher: ApiFetch = browserFetch,
 ): Promise<MessagesView> {
-  // 後方互換: 旧シグネチャ (day: number) も受け付ける。
-  const q: MessagesQuery =
-    typeof query === "number" ? { day: query } : (query ?? {});
+  const q: MessagesQuery = query ?? {};
   const params = new URLSearchParams();
   if (typeof q.day === "number") params.set("day", String(q.day));
   if (typeof q.pageSize === "number") params.set("pageSize", String(q.pageSize));

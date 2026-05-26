@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import type { VillageParticipantView } from "./api";
+import { Modal } from "~/components/ui/Modal";
+import { Button } from "~/components/ui/Button";
 
 /**
  * UI 上で「1 つの絞り込み単位」として扱う発言種別。backend 側の
@@ -53,6 +55,14 @@ export function isEmptyFilter(v: MessageFilterValue): boolean {
   );
 }
 
+/**
+ * 発言フィルタ Modal。Step 13c で Modal primitive に揃え、checkbox UI を
+ * 旧 BS3 .form-horizontal 風の見た目に近づけた。
+ *
+ * 旧画面の `aria-controls` 先要素は collapse 時に DOM から消える設計だったが、
+ * 本実装は Modal の open/close で全体を出し入れする形なので、JAWS 等で問題に
+ * なる aria-controls 先要素の常駐化問題は構造上発生しない (13a 残 nit 解消)。
+ */
 export function MessageFilterModal({
   open,
   value,
@@ -67,12 +77,9 @@ export function MessageFilterModal({
   onClose: () => void;
 }) {
   const [draft, setDraft] = useState<MessageFilterValue>(value);
-  // モーダルを開くたびに親の最新値で初期化する。閉じている間は不要な再 render を避ける。
   useEffect(() => {
     if (open) setDraft(value);
   }, [open, value]);
-
-  if (!open) return null;
 
   const toggleType = (code: string) => {
     setDraft((d) => ({
@@ -103,66 +110,26 @@ export function MessageFilterModal({
   const selectable = participants.filter((p) => !p.isGone);
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="発言フィルタ"
-      className="fixed inset-0 z-40 flex items-center justify-center bg-black/60 p-4"
-      onClick={onClose}
-    >
-      <div
-        className="w-full max-w-3xl max-h-[90vh] overflow-y-auto rounded-xl bg-slate-900 border border-slate-700 p-5 space-y-4"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="text-base font-semibold">発言抽出</h3>
-
-        <section>
-          <div className="flex items-center justify-between">
-            <h4 className="text-sm text-slate-300">発言種別</h4>
-            <div className="text-xs space-x-2">
-              <button
-                type="button"
-                className="text-slate-300 hover:text-slate-100"
-                onClick={() => setDraft((d) => ({ ...d, messageType: [] }))}
-              >
-                クリア
-              </button>
-              <button
-                type="button"
-                className="text-slate-300 hover:text-slate-100"
-                onClick={() =>
-                  setDraft((d) => ({ ...d, messageType: MESSAGE_FILTER_TYPES.map((t) => t.code) }))
-                }
-              >
-                全選択
-              </button>
-            </div>
+    <Modal open={open} onClose={onClose} title="発言抽出">
+      <div className="space-y-4">
+        <FilterSection
+          title="発言種別"
+          onClear={() => setDraft((d) => ({ ...d, messageType: [] }))}
+          onSelectAll={() =>
+            setDraft((d) => ({ ...d, messageType: MESSAGE_FILTER_TYPES.map((t) => t.code) }))
+          }
+        >
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
+            {MESSAGE_FILTER_TYPES.map((t) => (
+              <CheckboxItem
+                key={t.code}
+                checked={draft.messageType.includes(t.code)}
+                onToggle={() => toggleType(t.code)}
+                label={t.label}
+              />
+            ))}
           </div>
-          <div className="mt-2 grid grid-cols-2 sm:grid-cols-4 gap-1">
-            {MESSAGE_FILTER_TYPES.map((t) => {
-              const active = draft.messageType.includes(t.code);
-              return (
-                <label
-                  key={t.code}
-                  className={
-                    "flex items-center gap-2 text-xs cursor-pointer rounded px-2 py-1 border " +
-                    (active
-                      ? "bg-indigo-600/30 border-indigo-400 text-indigo-50"
-                      : "bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-700/40")
-                  }
-                >
-                  <input
-                    type="checkbox"
-                    checked={active}
-                    onChange={() => toggleType(t.code)}
-                    className="accent-indigo-500"
-                  />
-                  {t.label}
-                </label>
-              );
-            })}
-          </div>
-        </section>
+        </FilterSection>
 
         <ParticipantSelector
           title="発言者"
@@ -181,44 +148,91 @@ export function MessageFilterModal({
         />
 
         <section>
-          <h4 className="text-sm text-slate-300">キーワード</h4>
+          <h4 className="text-[0.95em] mb-1">キーワード</h4>
           <input
             type="text"
             value={draft.keyword}
             onChange={(e) => setDraft((d) => ({ ...d, keyword: e.target.value }))}
             placeholder="スペース区切りで OR"
-            className="mt-2 w-full rounded bg-slate-800 border border-slate-700 px-3 py-1.5 text-sm"
+            className="w-full bg-night-900 border border-night-700 rounded-[3px] px-2 py-1 text-[1em]"
           />
         </section>
 
-        <div className="flex justify-end gap-2 pt-2 border-t border-slate-700">
-          <button
-            type="button"
-            className="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
-            onClick={() => setDraft(EMPTY_FILTER)}
-          >
-            リセット
-          </button>
-          <button
-            type="button"
-            className="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-800"
-            onClick={onClose}
-          >
-            閉じる
-          </button>
-          <button
-            type="button"
-            className="rounded bg-indigo-500 hover:bg-indigo-400 px-3 py-1.5 text-sm text-white"
+        <div className="flex justify-end gap-2 pt-2 border-t border-night-550">
+          <Button variant="default" onClick={() => setDraft(EMPTY_FILTER)}>リセット</Button>
+          <Button variant="default" onClick={onClose}>閉じる</Button>
+          <Button
+            variant="success"
             onClick={() => {
               onApply(draft);
               onClose();
             }}
           >
             抽出
-          </button>
+          </Button>
         </div>
       </div>
-    </div>
+    </Modal>
+  );
+}
+
+function FilterSection({
+  title,
+  onClear,
+  onSelectAll,
+  children,
+}: {
+  title: string;
+  onClear: () => void;
+  onSelectAll?: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="flex items-center justify-between mb-1">
+        <h4 className="text-[0.95em] m-0">{title}</h4>
+        <div className="text-[0.85em] flex gap-2">
+          <button type="button" className="message-link hover:underline" onClick={onClear}>
+            クリア
+          </button>
+          {onSelectAll && (
+            <button type="button" className="message-link hover:underline" onClick={onSelectAll}>
+              全選択
+            </button>
+          )}
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function CheckboxItem({
+  checked,
+  onToggle,
+  label,
+}: {
+  checked: boolean;
+  onToggle: () => void;
+  label: string;
+}) {
+  return (
+    <label
+      className={
+        "flex items-center gap-2 text-[0.95em] cursor-pointer rounded-[3px] px-2 py-1 border " +
+        (checked
+          ? "bg-mint-600 border-mint-600 text-white"
+          : "bg-night-900 border-night-700 hover:border-mint-600")
+      }
+    >
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onToggle}
+        className="accent-mint-600"
+      />
+      <span className="truncate">{label}</span>
+    </label>
   );
 }
 
@@ -236,41 +250,17 @@ function ParticipantSelector({
   onClear: () => void;
 }) {
   return (
-    <section>
-      <div className="flex items-center justify-between">
-        <h4 className="text-sm text-slate-300">{title}</h4>
-        <button
-          type="button"
-          className="text-xs text-slate-300 hover:text-slate-100"
-          onClick={onClear}
-        >
-          クリア
-        </button>
+    <FilterSection title={title} onClear={onClear}>
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-1">
+        {selectable.map((p) => (
+          <CheckboxItem
+            key={p.id}
+            checked={selected.includes(p.id)}
+            onToggle={() => onToggle(p.id)}
+            label={p.name}
+          />
+        ))}
       </div>
-      <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-1">
-        {selectable.map((p) => {
-          const active = selected.includes(p.id);
-          return (
-            <label
-              key={p.id}
-              className={
-                "flex items-center gap-2 text-xs cursor-pointer rounded px-2 py-1 border " +
-                (active
-                  ? "bg-indigo-600/30 border-indigo-400 text-indigo-50"
-                  : "bg-slate-800/40 border-slate-700 text-slate-300 hover:bg-slate-700/40")
-              }
-            >
-              <input
-                type="checkbox"
-                checked={active}
-                onChange={() => onToggle(p.id)}
-                className="accent-indigo-500"
-              />
-              <span className="truncate">{p.name}</span>
-            </label>
-          );
-        })}
-      </div>
-    </section>
+    </FilterSection>
   );
 }

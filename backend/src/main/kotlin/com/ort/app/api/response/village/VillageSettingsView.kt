@@ -1,5 +1,7 @@
 package com.ort.app.api.response.village
 
+import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
 import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.media.Schema
@@ -59,8 +61,18 @@ data class VillageSettingsView(
     val organization: String,
     @field:Schema(description = "ダミーキャラ ID")
     val dummyCharaId: Int,
+    @field:Schema(description = "ダミーキャラ名 (= 1日目発言主)")
+    val dummyCharaName: String,
+    @field:Schema(description = "村のキャラチップ一覧 (`isOriginalCharachip=false` のときのみ外部リンク用に id を使う)")
+    val charachips: List<CharachipSummaryView>,
+    @field:Schema(description = "通常発言の役職別制限 (制限がかかっている役職のみ。空ならすべて無制限)")
+    val sayRestrictList: List<SkillSayRestrictView>,
+    @field:Schema(description = "役職発言 (人狼の囁き/共鳴/恋人/念話) の発言種別別制限 (制限がかかっているもののみ)")
+    val skillSayRestrictList: List<MessageTypeSayRestrictView>,
+    @field:Schema(description = "RP 発言 (アクション) の発言種別別制限")
+    val rpSayRestrictList: List<MessageTypeSayRestrictView>,
 ) {
-    constructor(village: Village) : this(
+    constructor(village: Village, charachips: Charachips) : this(
         personMin = village.setting.personMin,
         personMax = village.setting.personMax,
         startDatetime = village.setting.startDatetime,
@@ -91,5 +103,75 @@ data class VillageSettingsView(
         isRandomOrganization = village.setting.rule.isRandomOrganization,
         organization = village.setting.organize.fixedOrganization,
         dummyCharaId = village.setting.chara.dummyCharaId,
+        dummyCharaName = charachips.charas().list.firstOrNull { it.id == village.setting.chara.dummyCharaId }?.name
+            ?: "?",
+        charachips = charachips.list.map { CharachipSummaryView(it.id, it.name) },
+        sayRestrictList = mapSayRestrictList(village),
+        skillSayRestrictList = mapSkillRestrictList(
+            village,
+            listOf(
+                CDef.MessageType.人狼の囁き,
+                CDef.MessageType.共鳴発言,
+                CDef.MessageType.恋人発言,
+                CDef.MessageType.念話,
+            ),
+        ),
+        rpSayRestrictList = mapSkillRestrictList(
+            village,
+            listOf(CDef.MessageType.アクション),
+        ),
     )
+
+    @Schema(description = "キャラチップの id + 表示名 (`isOriginalCharachip=false` のときのみクライアントは外部リンクを作る)")
+    data class CharachipSummaryView(val id: Int, val name: String)
+
+    @Schema(description = "通常発言の役職別制限。制限がかかっている役職のみリストに含む")
+    data class SkillSayRestrictView(
+        val skillCode: String,
+        val skillName: String,
+        val count: Int,
+        val length: Int,
+    )
+
+    @Schema(description = "発言種別別の発言制限。制限がかかっている発言種別のみリストに含む")
+    data class MessageTypeSayRestrictView(
+        val messageTypeCode: String,
+        val messageTypeName: String,
+        val count: Int,
+        val length: Int,
+    )
+
+    companion object {
+        private fun mapSayRestrictList(village: Village): List<SkillSayRestrictView> {
+            // 旧 modal-village-info.html は「制限がかかっている役職のみ表示」だったため
+            // ここでも `normalSayRestriction` に登録されているものだけを返す。
+            return village.setting.sayRestriction.normalSayRestriction.mapNotNull { restrict ->
+                val skill = Skills.all().filterNotSomeone().list.find { it.code == restrict.skill.code }
+                    ?: return@mapNotNull null
+                SkillSayRestrictView(
+                    skillCode = skill.code,
+                    skillName = skill.name,
+                    count = restrict.count,
+                    length = restrict.length,
+                )
+            }
+        }
+
+        private fun mapSkillRestrictList(
+            village: Village,
+            types: List<CDef.MessageType>,
+        ): List<MessageTypeSayRestrictView> {
+            return types.mapNotNull { mt ->
+                val restrict = village.setting.sayRestriction.skillSayRestriction
+                    .find { it.messageType.code == mt.code() }
+                    ?: return@mapNotNull null
+                MessageTypeSayRestrictView(
+                    messageTypeCode = mt.code(),
+                    messageTypeName = mt.alias(),
+                    count = restrict.count,
+                    length = restrict.length,
+                )
+            }
+        }
+    }
 }

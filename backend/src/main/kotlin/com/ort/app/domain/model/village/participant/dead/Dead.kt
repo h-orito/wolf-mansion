@@ -8,12 +8,12 @@ data class Dead(
     val reason: DeadReason?,
     val histories: DeadHistories
 ) {
-    fun isMiserableDead(): Boolean = isDead && reason?.isMiserable() ?: false
-    fun isExecuted(): Boolean = isDead && reason?.isExecuted() ?: false
-    fun isAttacked(): Boolean = isDead && reason?.isAttacked() ?: false
-    fun isSuicideDead(): Boolean = isDead && reason?.isSuicide() ?: false
-    fun isSuddenlyDead(): Boolean = isDead && reason?.isSuddenly() ?: false
-    fun isPsychicable(): Boolean = isDead && reason?.isPsychicable() ?: false
+    fun isMiserableDead(): Boolean = isDead && (reason?.isMiserable() ?: false)
+    fun isExecuted(): Boolean = isDead && (reason?.isExecuted() ?: false)
+    fun isAttacked(): Boolean = isDead && (reason?.isAttacked() ?: false)
+    fun isSuicideDead(): Boolean = isDead && (reason?.isSuicide() ?: false)
+    fun isSuddenlyDead(): Boolean = isDead && (reason?.isSuddenly() ?: false)
+    fun isPsychicable(): Boolean = isDead && (reason?.isPsychicable() ?: false)
 
     fun isDeadWhen(day: Int): Boolean {
         // 最後に死んだ日
