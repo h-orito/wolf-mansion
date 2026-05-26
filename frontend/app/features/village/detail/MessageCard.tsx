@@ -232,13 +232,19 @@ function parseLine(line: string, isConvertDisable: boolean, keyBase: string): Re
   const out: React.ReactNode[] = [];
   let remaining = line;
   let idx = 0;
+  // text 断片にも key を付ける (React の key 警告予防 + reconciler の最適化が
+  // 効くようにするため)。Fragment でラップして key を載せる。
   while (remaining.length > 0) {
     const best = findEarliestMatch(remaining, isConvertDisable);
     if (!best) {
-      out.push(remaining);
+      out.push(<React.Fragment key={`${keyBase}-t${idx}`}>{remaining}</React.Fragment>);
       break;
     }
-    if (best.index > 0) out.push(remaining.slice(0, best.index));
+    if (best.index > 0) {
+      const textChunk = remaining.slice(0, best.index);
+      out.push(<React.Fragment key={`${keyBase}-t${idx}`}>{textChunk}</React.Fragment>);
+      idx++;
+    }
     out.push(best.render(`${keyBase}-${idx}`, isConvertDisable));
     idx++;
     remaining = remaining.slice(best.index + best.length);
@@ -268,10 +274,21 @@ function findEarliestMatch(s: string, isConvertDisable: boolean): Match | null {
     /(>>s\d{1,5})/,
     /(>>\d{1,5})/,
   ];
+  // 同じ index に複数パターンがマッチした場合は **マッチ長が長い方** を優先する
+  // (例: `>>*12` を `>>\d{1,5}` ではなく `>>\*\d{1,5}` で拾う)。現状の入力では
+  // 各プレフィックス文字が digit でないため同一 index で競合しないが、防御的に
+  // この不変条件を明示する。
   let earliestAnchor: { idx: number; text: string } | null = null;
   for (const re of anchorRegexes) {
     const m = re.exec(s);
-    if (m && (earliestAnchor == null || m.index < earliestAnchor.idx)) {
+    if (!m) continue;
+    if (earliestAnchor == null) {
+      earliestAnchor = { idx: m.index, text: m[1] };
+      continue;
+    }
+    if (m.index < earliestAnchor.idx) {
+      earliestAnchor = { idx: m.index, text: m[1] };
+    } else if (m.index === earliestAnchor.idx && m[1].length > earliestAnchor.text.length) {
       earliestAnchor = { idx: m.index, text: m[1] };
     }
   }

@@ -72,7 +72,8 @@ export function VillageInfoModal({
               />
               <InfoRow label="ダミーキャラ" value={s.dummyCharaName} />
               <InfoRow label="入村パスワード" value={s.joinPasswordRequired ? "あり" : "なし"} />
-              <InfoRow label="館を建てたプレイヤー" value={village.createPlayerName} />
+              {/* 「館を建てたプレイヤー」は VillageView 直下のフィールドで「設定」では
+                  ないため、設定テーブルから分離して RP 設定テーブルの後に出す。 */}
               {!s.isRandomOrganization && (
                 <InfoRow
                   label="役職構成"
@@ -112,6 +113,14 @@ export function VillageInfoModal({
                   value={<MessageTypeRestrictTable list={s.rpSayRestrictList} />}
                 />
               )}
+            </tbody>
+          </Table>
+        </TableResponsive>
+
+        <TableResponsive>
+          <Table>
+            <tbody>
+              <InfoRow label="館を建てたプレイヤー" value={village.createPlayerName} />
             </tbody>
           </Table>
         </TableResponsive>
@@ -178,12 +187,14 @@ function NormalSayRestrictTable({
   if (list.length === 0) return <>制限がかかっている役職はありません。</>;
   return (
     <div>
-      <p className="m-0 mb-1 text-[0.95em]">制限がかかっている役職のみ表示しています。</p>
+      <p className="m-0 mb-1 text-[0.95em]">
+        制限がかかっている役職のみ表示しています。「文字数 * 回数」は 1 回あたりの発言文字数 × 1 日あたりの発言回数。
+      </p>
       <Table>
         <thead>
           <tr>
             <th>役職</th>
-            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+            <th>文字数 * 回数</th>
           </tr>
         </thead>
         <tbody>
@@ -207,12 +218,14 @@ function MessageTypeRestrictTable({
   if (list.length === 0) return <>制限がかかっている発言種別はありません。</>;
   return (
     <div>
-      <p className="m-0 mb-1 text-[0.95em]">制限がかかっている発言種別のみ表示しています。</p>
+      <p className="m-0 mb-1 text-[0.95em]">
+        制限がかかっている発言種別のみ表示しています。「文字数 * 回数」は 1 回あたりの発言文字数 × 1 日あたりの発言回数。
+      </p>
       <Table>
         <thead>
           <tr>
             <th>発言種別</th>
-            <th>1回あたりの発言文字数 * 1日あたりの発言回数</th>
+            <th>文字数 * 回数</th>
           </tr>
         </thead>
         <tbody>

@@ -39,7 +39,7 @@ export function ActionPanel({
   if (myself.isSpectator) return null;
 
   return (
-    <Panel>
+    <Panel data-action-panel>
       <PanelHeading>
         <h2 className="text-sm m-0">行動</h2>
       </PanelHeading>

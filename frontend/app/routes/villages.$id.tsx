@@ -317,9 +317,9 @@ export default function VillageDetail({ loaderData }: Route.ComponentProps) {
     myself.say.availableMessageTypes.length > 0;
 
   const queryClient = useQueryClient();
-  function refreshAll() {
+  const refreshAll = useCallback(() => {
     queryClient.invalidateQueries({ queryKey: ["village", villageId] });
-  }
+  }, [queryClient, villageId]);
 
   return (
     <main className="text-white pb-[60px]">

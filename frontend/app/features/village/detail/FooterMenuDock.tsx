@@ -40,8 +40,7 @@ export function FooterMenuDock({
     >
       {showVoteShortcut && onGoToVote && (
         <div
-          className="flex w-full px-[3px] py-[3px]"
-          style={{ backgroundColor: "var(--color-night-500)" }}
+          className="flex w-full px-[3px] py-[3px] bg-night-500"
         >
           <DockButton variant="vote" onClick={onGoToVote}>
             投票欄へ (未セットのままだと突然死します)
