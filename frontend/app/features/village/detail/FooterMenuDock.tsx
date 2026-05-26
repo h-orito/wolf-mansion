@@ -47,10 +47,7 @@ export function FooterMenuDock({
           </DockButton>
         </div>
       )}
-      <div
-        className="flex w-full px-[3px] py-[3px]"
-        style={{ backgroundColor: "var(--color-night-500)" }}
-      >
+      <div className="flex w-full px-[3px] py-[3px] bg-night-500">
         <DockButton onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
           <ArrowUpIcon className="w-4 h-4 inline-block" aria-hidden="true" />
           <span className="hidden sm:inline ml-1">最上部へ</span>
