@@ -25,7 +25,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew jibDockerBuild
 ```
 
-- Java 11 / Kotlin 1.5.32 / Spring Boot 2.3.0
+- Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9
 - ローカルDB: MySQL `werewolf_mansiondb` (port 3306, user: wmansion)
 - アプリポート: 8089, コンテキストパス: `/wolf-mansion`
 - プロファイル: `playground`（Jib）、`production`（本番）
