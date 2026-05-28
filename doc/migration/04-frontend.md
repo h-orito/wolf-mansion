@@ -9,11 +9,48 @@
 - Zustand (UI state)
 - `openapi-typescript` (型生成)
 - heroicons (アイコン)
+- **react-hook-form + zod** (フォーム / バリデーション)
+
+## 状態管理の使い分け (確定)
+
+- **server state**: `@tanstack/react-query` に一元化
+  - API 由来データは全て TanStack Query のキャッシュに乗せる (`useQuery` / `useMutation`)
+  - 認証情報 (me) も `useMe` hook で TanStack Query 経由で取得 (Zustand に mirror しない)
+- **UI state**: `Zustand` のみ
+  - モーダル開閉、サイドバー表示、トースト等の **client-only state**
+  - サーバーデータの mirror は禁止 (二重管理の温床)
+- フォーム内ローカル state は `react-hook-form` 側に閉じる
+
+## 認証状態 (me) の取得経路 (確定)
+
+- **ルートレイアウト (`app/root.tsx`)** で `useMe` を呼ぶ
+  - `/api/v1/auth/me` を **CSR (hydration 後)** で叩く
+  - 401 の場合は `user = null`
+- 認証必要ページは個別に `<RequireAuth>` wrapper でガードし、`user === null` なら `useNavigate("/login")` でリダイレクト
+- 認証不要ページではヘッダー表示等で `user` を参照しつつ、ログイン未済時の挙動を出し分け
+
+## エラーハンドリング (確定)
+
+- **Route 単位の重いエラー** (loader 失敗、想定外例外) は React Router の `ErrorBoundary` で専用画面を表示
+- **CSR の useQuery / useMutation のエラー**は `QueryClient` の `defaultOptions.queries.onError` (および mutation) に集約し、共通 toast を出す
+  - トーストライブラリは Step 1 で選定 (Sonner 等を有力候補に)
+- **401 だけ特例**: 共通 onError で `/login` に navigate (refresh が必要なら refresh 試行 → 失敗で login)
+- バリデーションエラー (zod 結果) はフォーム個別表示。グローバル toast には流さない
+
+## フォーム / バリデーション (確定)
+
+- **react-hook-form** + **zod** をデフォルト採用
+- API レスポンスの型 (openapi-typescript 由来) とは別に、クライアント側で zod スキーマを定義する
+  - 例: パスワード強度規約はクライアント側スキーマで先行チェック
+- 送信は `react-hook-form` の `handleSubmit` → TanStack Query の `useMutation` を呼ぶ
+- サーバー側のバリデーションエラー (`ProblemDetail` の properties 等) はフォーム側でフィールドエラーに振り分ける規約を Step 1 で決める
 
 ## lint / format
 
 - **lint: oxlint をメイン**で採用
   - Rust 製で高速。React Hooks 等の主要ルールはカバーされる想定
+  - 初期ルールセットは **recommend ベース** + `react-hooks` 系を有効化
+  - **jsx-a11y / @tanstack/query 系**は oxlint で cover されない領域があるため、Step 2 で必要性を見て ESLint plugin の追加採用を検討 (oxlint で代替が cover されればそれを使う)
 - **format: oxfmt (oxc format) を採用**
   - oxlint と同じ oxc エコシステムでツールチェイン統一
   - Prettier との切り分けはせず、原則 oxfmt に寄せる
@@ -62,28 +99,45 @@
 
 を整理する。粒度が大きくなったら `doc/migration/screens/<screen>.md` に分割する。
 
-### 画面リスト (要確定)
+### 画面リストの棚卸し (Step 0 で実施)
 
-要洗い出し。既存 `src/main/resources/templates/` の Thymeleaf テンプレート構成をベースに棚卸しする予定。例 (確認前):
+- **Step 0 で一括棚卸し**する
+  - `src/main/resources/templates/` 配下の Thymeleaf テンプレートと `api/` 配下の Controller を一覧化
+  - 画面ごとに `doc/migration/screens/<screen>.md` を作成し、上記「画面別の詳細」のテンプレで埋める
+  - 以降の step で 1 画面 (or 1 機能群) ずつ React に移植
+- 確認前のたたき台 (Step 0 で正確に確定):
+  - ログイン / 新規登録
+  - ホーム (村一覧)
+  - プロフィール / パスワード変更 / 戦績
+  - 新規村作成
+  - 村画面 (発言, 参加, 能力, 投票, RP, 設定変更, creator/admin 操作 ...)
 
-- ログイン / 新規登録
-- ホーム (村一覧)
-- プロフィール / パスワード変更 / 戦績
-- 新規村作成
-- 村画面 (発言, 参加, 能力, 投票, RP, 設定変更, creator/admin 操作 ...)
+## デザイントークン棚卸し (Step 0 で実施)
+
+- **Step 0 で既存 CSS / Thymeleaf を読み込んで token を抽出**し `doc/migration/design-tokens.md` に記録
+  - 抽出対象: 主要色 (役職別カラー / 陣営別カラー / 状態色) / 余白 / 角丸 / フォントサイズ / シャドウ など
+- **Step 1 (frontend 初期設計)** で Tailwind v4 の theme (CSS variables) に落とし込む
+  - Tailwind v4 の `@theme` ブロックで CSS variables として定義
+  - ページ毎の直値埋め込みは禁止 (= モダナイズフェーズで token 値変更だけで全体更新できる構造)
+
+## 静的アセット配置 (確定)
+
+- 原則: **frontend repo の `public/` に同梱**して同じ frontend service から配信
+- ただし以下は例外:
+  - **キャラチップ画像**: 既に `wolfort.dev/wmansion` 配下に外部公開済みで全て URL 参照に置き換え済み。**frontend には同梱しない**。コード上は環境変数 (`CHARA_BASE_URL` 等) でベース URL を持つ
+- Step 0 の静的リソース棚卸しで個別に決定する
+
+## 国際化 (確定)
+
+- **i18n は導入しない**
+- テキストは日本語ハードコードでよい (現行と同じ)
+- 将来余地として react-i18next 等を入れる計画は **本移行スコープ外**
 
 ## 未確定事項 / 要調査
 
-- [ ] React Router v7 framework mode の SSR と TanStack Query / Zustand の組み合わせ方
-- [ ] SSR loader 経由で API を呼ぶ際の Cookie 引き渡し
-- [ ] エラーハンドリングのグローバル戦略 (TanStack Query の error boundary, RR の `ErrorBoundary`)
-- [ ] 認証状態 (誰がログインしているか) の取得経路 (loader + Zustand?)
-- [ ] フォーム / バリデーションのライブラリ選定 (react-hook-form 等)
-- [ ] 国際化 (現状は日本語のみだが将来余地を残すか)
-- [ ] heroicons 以外の必要アイコン (絵文字・装飾) の素材
-- [ ] 静的アセット (キャラチップ画像等) の配置 (frontend? CDN?)
-- [ ] oxlint で使うルールセット (recommend / 個別調整)
-- [ ] oxlint で cover されない欲しいルール (`@tanstack/eslint-plugin-query`, jsx-a11y 等) の必要性洗い出し
-- [ ] oxfmt の対応範囲確認 (TS/TSX/CSS / Tailwind v4 directive / RR v7 構成) と未対応ファイルタイプの扱い
-- [ ] デザイントークンの初期セット (現行カラー / 余白 / 角丸 等の棚卸し) と Tailwind v4 theme への落とし込み
-- [ ] 共通コンポーネントの初期ラインナップ (Button / Card / Modal / Form / Avatar / Badge ...) と配置場所 (`app/components/ui/` 等)
+- [ ] heroicons 以外の必要アイコン (絵文字・装飾) の素材 — Step 0 で棚卸し
+- [ ] トースト UI ライブラリ選定 (Sonner / react-hot-toast / 自前 等) — Step 1
+- [ ] oxlint で cover されない欲しいルール (`@tanstack/eslint-plugin-query`, jsx-a11y 等) の必要性洗い出し — Step 2
+- [ ] oxfmt の対応範囲確認 (TS/TSX/CSS / Tailwind v4 directive / RR v7 構成) と未対応ファイルタイプの扱い — Step 2
+- [ ] 共通コンポーネントの初期ラインナップ (Button / Card / Modal / Form / Avatar / Badge ...) と配置場所 (`app/components/ui/` 等) — Step 1
+- [ ] サーバー側バリデーションエラー (`ProblemDetail` properties) → react-hook-form のフィールドエラー振り分け規約 — Step 1

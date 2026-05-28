@@ -21,22 +21,25 @@
 
 画面別の機能調査・REST 化対応表・e2e ケースは、今後 `doc/migration/screens/` 配下に画面単位で分けて配置する。
 
-## 現状メモ (横断)
+## 計画フェーズの進捗
 
-### ローカル作業ツリー
-- 現在ローカル `main` ブランチ。`backend/` `frontend/` `e2e/` は **未作成**
-- `.issues/` `.reviews/` ディレクトリは存在するが現時点では空
+- **領域別の設計詳細 (01〜08) は一通り確定済み** (各 md の「確定」セクション参照)
+  - backend: View 配置 (`api/response/`) / エラー (`ProblemDetail`) / DBFlute 現状維持 / 静的リソース frontend 移管 / API 併存ルール (既存凍結 + 新規 `/api/v1/`)
+  - auth: jjwt / HS256 + 環境変数 / refresh 使い捨て rotation / `/api/v1/auth/me` (401・最小情報) / 権限 (claim + 重要 endpoint のみ DB 再確認) / CORS 不要 (同一オリジン) / 認証不要は SSR・認証必要は CSR
+  - frontend: TanStack Query (server) + Zustand (UI のみ) / useMe + RequireAuth / RR ErrorBoundary + QueryClient onError + toast / react-hook-form + zod / 静的アセット public 同梱 (キャラチップは外部 URL) / i18n なし / oxlint recommend
+  - e2e: Playwright webServer 自動起動 + 別ポート / DB あいのり + テストごと独立データ / Daychange は現行 endpoint / on-failure artifacts
+  - infra: legacy API は frontend proxy / backend context-path `/wolf-mansion-api` / frontend Docker `node:22-bookworm` arm64 / OpenAPI 手元生成 + commit + CI drift 検知
+  - workflow: Issue は Step 0 のみ先行・以降都度 / 動作確認は verify/run skill + step-plan 記述 / skill 採番を階層番号対応 / ktlint は gradle plugin + hook
+  - step-plan: Step 0 完全完了後に Step 1 / 画面順 認証→ホーム→プロフィール→新規村→村画面 / e2e は実装後
 
-### CLAUDE.md
-- バージョン記述を **Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9** に修正済み (本計画作業の冒頭で実施)
-- 他の記述 (Thymeleaf 前提, Build & Run 等) は monorepo 化完了後に全面更新予定
+- **残る主な未確定**は各領域の「未確定事項」に集約。多くは **Step 0 (調査) / Step 1 着手時に確定**する性質のもの
+
+## 横断メモ
 
 ### `.java-version` の不整合
 - `.java-version` は `17` のままだが build.gradle.kts は Java 21
-- Step 0 (環境整備) 候補に含める
+- **Step 1 (環境整備)** で修正
 
-## 未確認事項 / 質問候補
-
-各領域ファイル末尾の「未確定事項 / 要調査」セクションに集約している。横断的な論点はここに追記する。
-
-- (現時点なし — 各領域で詰める)
+### CLAUDE.md
+- バージョン記述は **Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9** に修正済み
+- 他の記述 (Thymeleaf 前提, Build & Run 等) は monorepo 化 (Step 2) 完了後に全面更新予定

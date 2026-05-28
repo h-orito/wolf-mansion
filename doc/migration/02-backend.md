@@ -85,26 +85,60 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
   - hook が呼び出すスクリプトは `.context/ktlint-hook/` 配下に配置する想定 (lastwolf 構成を参考)
 - 設定の詳細は [07-workflow.md](07-workflow.md) で扱う
 
-## API 設計指針 (ドラフト)
+## API 設計指針
 
-- バージョニング: 新規エンドポイントは `/api/v1/...` を基本とする
-  - ただし上記「外部公開済み API」は既存パスを維持する
-- レスポンス形式: JSON
-- エラーレスポンス: 統一フォーマット (詳細は別途設計)
-- ページネーション、フィルタ、ソート: 必要箇所で統一規約を設ける
+### バージョニング・エンドポイント構成 (B10 確定)
+
+- **新規エンドポイントは `/api/v1/...` 配下に集約**する
+- **既存パブリック API のパスは凍結 (= 完全維持)** とする:
+  - `/village-record/list`
+  - `/village-record/latest-vid`
+  - `/skill/list`
+  - `/recruiting`
+  - `/wolf-mansion/api/village/{id}`
+- 既存パスは `/api/v1/...` 配下への複製や rewrite は行わず、現在の Controller / View を **そのまま温存**する
+- frontend service 側で `/wolf-mansion/...` 配下の legacy パスを backend に proxy する (詳細は [06-infra-deploy.md](06-infra-deploy.md))
+- 既存パスを将来 `/api/v1/...` 側へ deprecation 移行する計画は **本移行スコープ外**
+
+### レスポンス形式 (B2 確定)
+
+- **JSON 一択**
+- レスポンス用クラスは **`api/response/` 配下に新設**する
+  - クラス名は `XxxResponse` 系統 (例: `VillageResponse`, `VillageDetailResponse`)
+  - SSR 時代の `api/view/` 配下 (Thymeleaf 用 ViewModel) とは **別ディレクトリ**として明確に分ける
+  - 移行期間中は `api/view/` (旧) と `api/response/` (新) が並存する。Step 終盤で旧 Controller / Thymeleaf テンプレートと一緒に `api/view/` も撤去
+- リクエストフォームは既存の `api/request/` 配下を継続利用
+- ページネーション、フィルタ、ソート: 必要箇所で統一規約を設ける (詳細は別途)
+
+### エラーレスポンス (B4 確定)
+
+- **Spring Boot 3 標準の `ProblemDetail` (RFC 7807 / `application/problem+json`)** を採用
+- 共通フィールド: `type` / `title` / `status` / `detail` / `instance`
+- アプリ固有のエラーコードや追加情報が必要になった場合は、`ProblemDetail` の `properties` を拡張して持たせる
+- `@RestControllerAdvice` (`fw/` 配下) で例外を `ProblemDetail` に集約変換
+- 既存パブリック API (上記「凍結」対象) は **対象外**。レスポンス互換性維持のため現状のエラー返却を変えない
+
+## DBFlute との同居方針 (B5 確定)
+
+- **現状維持**: `src/main/java/com/ort/dbflute/` 配下の自動生成コードは触らず、Repository 実装も Bhv 利用のまま継続
+- REST 化に伴う変更は **api 層 / application 層の入り口** に局所化し、`domain/` / `infrastructure/` は原則ノータッチ
+- DBFlute 自体を別 ORM (Exposed / jOOQ 等) に差し替える話は **本移行スコープ外**
+
+## 静的リソース (B6 確定)
+
+- `src/main/resources/static/` 配下のファイル (画像 / CSS / 既存 jQuery + Handlebars JS 13 ファイル等) は **全て frontend service へ移管**する
+- backend は REST API 専用とし、静的ファイル配信を持たない
+- Step 0 (調査ステップ) で静的リソースの **棚卸し一覧**を作成 (どのファイルがどの画面で使われているかを含めて)
+- React 側で再利用するもの (画像 / 一部 CSS) は frontend リポジトリ配下の `public/` または `assets/` に移す
+- jQuery + Handlebars JS は React コンポーネントに置き換えるため、Step 1 以降で **段階的に削除**
 
 ## 未確定事項 / 要調査
 
-- [ ] エンドポイント一覧の洗い出し (画面別調査と連動)
-- [ ] View クラスの命名規則・配置 (`api/view/` 直下? `api/response/`?)
-- [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得)
-- [ ] エラー JSON フォーマット
-- [ ] DBFlute との同居方針 (大きな変更はなし、でよいかの確認)
-- [ ] 静的リソース (`src/main/resources/static/`) の扱い (frontend に移すのか、API に残すのか)
-- [ ] 日付更新 (Daychange) のトリガー (現在 Thymeleaf 側? バッチ?) の確認と REST 化対応
-- [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画
-- [ ] 外部公開済み API の **現状フルパス**確認 (context-path 含む) と移行後の維持方針
-- [ ] 新規 `/api/v1/...` パスと既存パブリック API の **併存ルール**
-- [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備
-- [ ] ktlint 導入の具体構成 (gradle plugin / standalone CLI / lastwolf 構成の流用範囲)
-- [ ] `.context/ktlint-hook/` 配下に置くスクリプトの設計 (lastwolf を参考)
+- [ ] エンドポイント一覧の洗い出し (画面別調査と連動) — Step 0
+- [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得) — Step 2/3 着手前
+- [ ] 日付更新 (Daychange) のトリガー (現在 Thymeleaf 側? バッチ?) の確認と REST 化対応 — Step 0
+- [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 終盤
+- [ ] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — Step 0
+- [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — Step 0 中盤
+- [ ] ktlint 導入の具体構成 (gradle plugin / standalone CLI / lastwolf 構成の流用範囲) — Step 2 着手前
+- [ ] `.context/ktlint-hook/` 配下に置くスクリプトの設計 (lastwolf を参考) — Step 2 で実装
