@@ -102,24 +102,24 @@ Step 0 の画面リストに沿って画面単位で進める。1 画面 = 1 ste
 - 各 step 内の進め方: **実装 → 動作確認 (verify/run skill + 既存実装とスクショ比較) → e2e ケース追加**
 - **依存**: Step 3、および当該画面に対応する Step 0 のドキュメント
 
-#### 村画面は特別: 大量の step に刻む
+#### 村画面は特別: 大量の step に刻む (Step 0 完了により粒度確定)
 
-wolf-mansion で最も機能密度が高い画面。1 step に収めることは不可能なため、**機能ブロック単位で多数のサブ step に分割**する。Step 0 の村画面ドキュメントを元に分割粒度を最終確定するが、想定される分割軸の例:
+wolf-mansion で最も機能密度が高い画面。Step 0 の調査 (`doc/migration/screens/village-*.md`) を元に、**実装サブ step を調査の機能ブロックと一致させる**ことで確定:
 
-- 村画面ベース (レイアウト / 日付ナビ / 状況サマリ)
-- 発言表示 (種別ごとの出し分け、ページネーション、フィルタ)
-- 発言投稿 (通常発言 / 表情差分 / 装飾タグ / アンカー / 秘話 / 返信)
-- 参加・退村・見学切替・希望役職変更
-- RP 関連 (キャラ名 / メモ / 表情差分)
-- 投票
-- 能力使用 (役職ごとの能力 UI)
-- コミット
-- 部屋割り (room grid) / 日別足音
-- 参加者一覧 (生死分離 / memo 編集)
-- 村情報モーダル / 切り抜き画面
-- creator / admin 操作 (kick / 廃村 / 強制退村 / 全員アクセス / 全員自票 / 村建て発言 / epilogue / プレイヤー確認)
+| 実装サブ step | 対応調査 md | 主な内容 | 依存 |
+|---|---|---|---|
+| 村画面ベース | village-base.md | レイアウト/日付ナビ/状況サマリ/ポーリング/`ParticipantSituation` 基盤 | 先頭 (他サブ step の土台) |
+| メッセージ表示 | village-messages.md | 一覧/種別描画/フィルタ/アンカー/参加者公開 | ベース |
+| 発言投稿 | village-say.md | 発言/アクション/装飾/表情/秘話/確認フロー | メッセージ表示 |
+| 参加・退村 | village-participate.md | 入村/観戦/切替/希望役職/退村 | ベース |
+| 能力・投票・コミット | village-ability-vote.md | 能力(役職別+足音)/投票/コミット | ベース |
+| RP | village-rp.md | 名前/メモ/表情差分/通知設定 | 発言投稿 |
+| creator/admin/debug | village-creator-admin.md | 設定変更/kick/廃村/エピローグ/admin/debug | ベース + 新規村作成のフォーム共通化 |
+| 村情報/切り抜き | village-info-scrap.md | 村情報モーダル/切り抜きページ | メッセージ表示 |
 
-各サブ step の粒度・順序・依存関係は Step 0 完了時点で改めて整理する。
+- **基盤の最重要事項**: `ParticipantSituation` / `VillageSituation` / `isViewableSpoilerContent` を村取得 API のマスク基盤に据える (village-base.md / usecases/mask.md)。これを村画面ベース step で確立し、以降のサブ step が乗る
+- 横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
+- 各サブ step は必要に応じ `step-N.M.K` 相当でさらに分割可 (例: 能力は役職グループ単位)
 
 ### Step 中盤の横断タスク
 
