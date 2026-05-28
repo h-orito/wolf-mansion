@@ -72,9 +72,9 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 メイン JS は `village.js` / `village-message.js`。Handlebars テンプレート (`village-template/*.html`) でクライアント描画。
 共通レイアウト断片は `village/*.html` (24 ファイル) に分散。
 
-| # | サブ領域 | 主なテンプレート | 主な endpoint |
-|---|---|---|---|
-| `step-0.6` | 村画面ベース (レイアウト/日付ナビ/状況サマリ) | `village.html`, `village/situation.html`, `footer-menu.html`, `form-area.html`, `village-day-list.html`, `display-settings.html` | `GET /village/{id}`, `/village/{id}/day/{day}`, `/village/{id}/update`, `getLatestMessageDatetime` |
+| # | サブ領域 | 主なテンプレート | 主な endpoint | 調査 md |
+|---|---|---|---|---|
+| `step-0.6` ✅ | 村画面ベース (レイアウト/日付ナビ/状況サマリ) | `village.html`, `village/situation.html`, `footer-menu.html`, `form-area.html`, `village-day-list.html`, `display-settings.html` | `GET /village/{id}`, `/village/{id}/day/{day}`, `/village/{id}/update`, `getLatestMessageDatetime` | [village-base.md](village-base.md) |
 | `step-0.7` | メッセージ表示 (一覧/フィルタ/アンカー) | `village-message.html`, `village-template/{message,message-partial,participants}.html`, `village/modal-filter.html` | `getMessageList`, `getAnchorMessage`, `/village/{id}/getAnchorMessages`, `/village/{id}/message`, `getParticipants` |
 | `step-0.8` | 発言投稿 (通常/表情/装飾/アンカー/秘話/返信/アクション) | `village/say-form.html`, `say-confirm.html`, `creator-say-confirm.html`, `village/action-form.html`, `village/face-type-form.html` | `POST /village/{id}/say`, `/confirm`, `/action`, `/action-confirm`, `/creator-say`, `/creator-say-confirm` |
 | `step-0.9` | 参加・退村・見学切替・希望役職 | `village/participate-form.html`, `participate-confirm.html`, `village/switch-participate-form.html`, `leave-form.html`, `change-skill-form.html` | `POST /village/{id}/participate`, `/confirm-participate`, `/switch-participate`, `/leave`, `/change-skill` |
