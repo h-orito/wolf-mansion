@@ -18,7 +18,7 @@
 - 関連レイヤー: VillageMessageController / 村画面 View 変換 / DomainService
 - 可視化 UI (analyzer 風) は **本移行スコープ外**
 
-### `step-0.15` Daychange (日付更新)
+### `step-0.15` Daychange (日付更新) ✅ → [daychange.md](daychange.md)
 
 - 村の状態遷移処理。`Daychange` データクラスに村の全状態を集約し copy で進行
 - 調査軸:

@@ -136,7 +136,7 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 
 - [ ] エンドポイント一覧の洗い出し (画面別調査と連動) — Step 0
 - [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得) — Step 2/3 着手前
-- [ ] 日付更新 (Daychange) のトリガー (現在 Thymeleaf 側? バッチ?) の確認と REST 化対応 — Step 0
+- [x] 日付更新 (Daychange) のトリガー — **調査済 ([usecases/daychange.md](usecases/daychange.md))**: 本番は**ポーリング駆動** (`POST /village/{id}/update` 内で `changeDayIfNeeded`)、スケジューラ無し。→ **設計論点**: 移行を機に cron/scheduler 化するか現状踏襲か (要判断)
 - [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 終盤
 - [ ] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — Step 0
 - [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — Step 0 中盤
