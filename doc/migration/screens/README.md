@@ -103,15 +103,18 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 | `step-0.15` | Daychange (日付更新) | `POST /village/{id}/dayChange` (debug) → `DaychangeCoordinator`。村の状態遷移 |
 | `step-0.16` | 認可マスク (死亡理由/投票/役職) | 状況・視点依存で見え方が変わるフィールドの整理 |
 
-## 外部公開 API ピン留め (→ `step-0.17`)
+## 外部公開 API ピン留め (→ `step-0.17` ✅ → [public-api-pinning.md](public-api-pinning.md))
 
 互換性維持必須 ([02-backend.md](../02-backend.md))。現状レスポンスを記録し契約テストでピン留め:
 
 - `GET /wolf-mansion/recruiting`
 - `GET /wolf-mansion/village-record/list`
 - `GET /wolf-mansion/village-record/latest-vid`
-- `GET /wolf-mansion/skill/list`
+- `GET /wolf-mansion/skill/list` (★ snake_case)
 - `GET /wolf-mansion/api/village/{id}`
+- `GET /wolf-mansion/api/village-list` (★ camelCase)
+
+> 重要: エンドポイントで命名規則が混在 (snake_case / camelCase)、存在しない村は 500+stacktrace。各々を個別維持。詳細は [public-api-pinning.md](public-api-pinning.md)。
 
 ## 子 Issue ロードマップ
 
