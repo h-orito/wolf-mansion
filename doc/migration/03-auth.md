@@ -11,6 +11,16 @@
   - 署名鍵は **環境変数** で渡す (OCL は `.env` / 将来 k8s に移ったら Secret)
   - 鍵ローテーション戦略は将来課題として保留
 
+## パスワードポリシー (移行時に緩和 — 既存からの意図的逸脱)
+
+現状の制約 (3〜12文字 / 英数のみ) を **signup / change-password で緩和**し、**login 側の形式バリデーションは撤廃**する。Step 3 (認証 REST 化) で対応。
+
+- 緩和後: パスワードは **3〜60文字 / 印字可能 ASCII (`0x21`–`0x7E`、英数+記号)**。スペース・制御文字・マルチバイトは不可
+- 上限 60 の根拠: **BCrypt は先頭 72 バイトのみ使用**。ASCII 60 文字 = 60 バイトで安全。DB は BCrypt ハッシュ (常に 60 文字固定) を保存するためカラム長は無関係
+- **login (`/api/v1/auth/login`) は password 形式を検証しない** (NotNull のみ)。形式チェックを残すと緩和後パスワードでログイン不能になるため必須対応
+- 長さ・文字種の定数は **zod (クライアント) とサーバで共有**
+- 詳細は画面別: [auth-signup.md](screens/auth-signup.md) / [auth-login.md](screens/auth-login.md) / [auth-change-password.md](screens/auth-change-password.md)
+
 ## トークン仕様
 
 | 項目 | 内容 |
