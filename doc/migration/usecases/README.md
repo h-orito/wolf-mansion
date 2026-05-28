@@ -7,7 +7,7 @@
 
 ## 調査対象
 
-### `step-0.14` 足音 (footstep) reveal
+### `step-0.14` 足音 (footstep) reveal ✅ → [footstep.md](footstep.md)
 
 - 「誰がどの部屋を通ったか」を表す情報。見え方の制御が複雑 (firewolf には無い wolf-mansion 固有概念)
 - 調査軸:
