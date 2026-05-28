@@ -55,11 +55,25 @@
 
 ## 入力仕様 (PlayerChangePasswordForm)
 
-| フィールド | 制約 |
+| フィールド | 制約 (現状) |
 |---|---|
 | `password` | NotNull / 3〜12文字 / `[a-zA-Z0-9]*` |
 | `confirmPassword` | NotNull / 3〜12文字 / `[a-zA-Z0-9]*` |
 | (相関) | `password == confirmPassword` (Validator、エラーキー `PlayerChangePasswordForm.validator.password`) |
+
+## 拡張仕様 (移行時に変更 — 既存からの意図的逸脱)
+
+> パスワードの制約を **signup と同一**に緩和する (詳細・根拠は [auth-signup.md](auth-signup.md#拡張仕様-移行時に変更--既存からの意図的逸脱))。
+
+| フィールド | 移行後の制約 |
+|---|---|
+| `password` | NotNull / **3〜60文字** / **印字可能 ASCII (英数 + 記号, `0x21`–`0x7E`)** |
+| `confirmPassword` | 同上 |
+| (相関) | `password == confirmPassword` (維持) |
+
+- 最大長 12 → 60、記号許可。最小 3 は維持
+- BCrypt 72 バイト制約内 / ハッシュ 60 文字固定で DB カラム長は無関係
+- signup と長さ・文字種の定数を共有 (zod + サーバ)
 
 ## メモ / 移行時の注意
 
