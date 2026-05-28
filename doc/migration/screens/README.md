@@ -19,20 +19,20 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 4. **対応する既存 JS の挙動**: `static/app/js/*.js` の動的描画 / AJAX / バリデーション / フォーム制御を読み解いて記述
 5. **権限による分岐**: 匿名 / ログイン済 / 村参加者 / 村主 (creator) / 管理者 (admin) での出し分け
 6. **認可マスク**: 足音 / 死亡理由 / 投票先など状況依存で見え方が変わるフィールド (該当時)
-7. **状態別スクショ**: 既存環境から取得し添付 (匿名 / ログイン / 参加者 / 各村 status など該当パターン)
+7. **視覚比較**: 既存環境 (`:8091`) を一次基準にする。状態別 (匿名 / ログイン / 参加者 / 各村 status など) の確認ポイントを md に記述。スクショは `.playwright-mcp/` に随時取得 (git 管理外。PNG は commit せずライブ環境で都度比較)
 8. **関連 e2e ケース候補**: 移行後の挙動確認に使うシナリオのドラフト
 
 ## 画面カテゴリ一覧
 
-### A. 認証・プレイヤー (→ `step-0.1`)
+### A. 認証・プレイヤー (→ `step-0.1` ✅ 調査済)
 
-| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint |
-|---|---|---|---|
-| ログイン | `login.html` | (common) | `GET/POST /login` (Security), `POST /api/login` |
-| 新規登録 | `new-player.html` | `new-player.js` | `GET/POST /new-player` |
-| パスワード変更 | `change-password.html` | (common) | `GET/POST /change-password` (要認証) |
-| プロフィール / 戦績 | `user.html` | `user.js` | `GET /user/{userName}`, `POST /user-detail` |
-| プレイヤー一覧 | `player-list.html` | `user-list.js` | `GET /user-list` |
+| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint | 調査 md |
+|---|---|---|---|---|
+| ログイン | `login.html` | (common) | `GET/POST /login` (Security), `POST /api/login` | [auth-login.md](auth-login.md) |
+| 新規登録 | `new-player.html` | `new-player.js` | `GET/POST /new-player` | [auth-signup.md](auth-signup.md) |
+| パスワード変更 | `change-password.html` | (common) | `GET/POST /change-password` (要認証) | [auth-change-password.md](auth-change-password.md) |
+| プロフィール / 戦績 | `user.html` | `user.js` | `GET /user/{userName}`, `POST /user-detail` | [player-profile.md](player-profile.md) |
+| プレイヤー一覧 | `player-list.html` | `user-list.js` | `GET /user-list` | [player-list.md](player-list.md) |
 
 ### B. ホーム・村一覧 (→ `step-0.2`)
 
