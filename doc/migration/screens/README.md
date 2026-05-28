@@ -34,13 +34,15 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 | プロフィール / 戦績 | `user.html` | `user.js` | `GET /user/{userName}`, `POST /user-detail` | [player-profile.md](player-profile.md) |
 | プレイヤー一覧 | `player-list.html` | `user-list.js` | `GET /user-list` | [player-list.md](player-list.md) |
 
-### B. ホーム・村一覧 (→ `step-0.2`)
+### B. ホーム・村一覧 (→ `step-0.2` ✅ 調査済)
 
-| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint |
-|---|---|---|---|
-| ホーム / トップ | `index.html` | `index.js` | `GET /`, `GET /recruiting` (公開API) |
-| イントロ | `intro.html` | - | `GET /intro` |
-| 村一覧 | `village-list.html` | - | `GET /village-list`, `GET /api/village-list` |
+| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint | 調査 md |
+|---|---|---|---|---|
+| ホーム / トップ | `index.html` | `index.js` | `GET /`, `GET /recruiting` (公開API) | [home.md](home.md) |
+| イントロ | `intro.html` | (index.js) | `GET /intro` | [intro.md](intro.md) |
+| 村一覧 | `village-list.html` | - | `GET /village-list`, `GET /api/village-list` | [village-list.md](village-list.md) |
+
+> 共通基盤: `user` グローバル属性は `UserInfoInterceptor` が全 ModelAndView に注入 (→ 移行後は `useMe` CSR)。ログインフォームは共通ヘッダ (top-layout/header)。
 
 ### C. 新規村作成 (→ `step-0.3`)
 
