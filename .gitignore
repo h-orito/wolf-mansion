@@ -34,3 +34,4 @@ dbflute_wolf_mansiondb/log/*
 .context
 .reviews
 .issues
+.playwright-mcp/
