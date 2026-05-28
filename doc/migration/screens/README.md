@@ -59,12 +59,13 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 | ルール / About / FAQ / 練習 / 公告 | `rule.html`+`rule/*` / `about.html` / `faq.html` / `practice.html` / `announce.html` | - | `GET /rule` `/about` `/faq` `/practice` `/announce` | [rule-and-info.md](rule-and-info.md) |
 | キャラチップ一覧/詳細 | `chara-list.html` / `chara.html` | - | `GET /chara-group`, `/chara-group/{id}`, `/getCharacterList`, `/getFaceImgUrl/...` | [charachip.md](charachip.md) |
 
-### E. ランダム機能 (→ `step-0.5`)
+### E. ランダム機能 (→ `step-0.5` ✅ 調査済)
 
-| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint |
-|---|---|---|---|
-| ランダムキーワード | `random-keyword.html` / `new-random-keyword.html` | `random-keyword.js` | `GET /random-keyword/{id}`, `/new-random-keyword`, `POST /new-random-keyword`, `/update-random-keyword`, `/delete-random-keyword` |
-| ランダムメッセージ | `random-message.html` | `random-message.js` | `GET /random-message` |
+| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint | 調査 md |
+|---|---|---|---|---|
+| ランダムキーワード 一覧/作成/編集/削除 | `random-message.html` / `new-random-keyword.html` / `random-keyword.html` | `random-message.js` / `random-keyword.js` | `GET /random-message`, `/new-random-keyword`, `/random-keyword/{id}`, `POST /{new,update,delete}-random-keyword` | [random-keyword.md](random-keyword.md) |
+
+> ⚠️ random-* に認可制限がない (permitAll)。移行時に編集権限の見直しを要確認。
 
 ### F〜M. 村画面 (最重量・多数のサブ step)
 
