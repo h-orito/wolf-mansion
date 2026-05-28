@@ -44,14 +44,12 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 
 > 共通基盤: `user` グローバル属性は `UserInfoInterceptor` が全 ModelAndView に注入 (→ 移行後は `useMe` CSR)。ログインフォームは共通ヘッダ (top-layout/header)。
 
-### C. 新規村作成 (→ `step-0.3`)
+### C. 新規村作成 (→ `step-0.3` ✅ 調査済)
 
-| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint |
-|---|---|---|---|
-| 村作成フォーム | `new-village.html` | `new-village.js` | `RequestMapping /new-village`, `POST /new-village/confirm`, `/create`, `/divert/{id}` |
-| 村作成確認 | `new-village-confirm.html` | `new-village-confirm.js` | (上記 confirm/create) |
-| 発言制限設定 (サブ) | `new-village-say-restriction.html` / `new-village-rp-say-restriction.html` / `new-village-skill-say-restriction.html` | (new-village) | (フォーム内モーダル/部分) |
-| キャラ選択 (関連) | `chara-list.html` / `chara.html` | (new-village) | `GET /getCharacterList`, `/getSelectableCharaList/{id}`, `/chara-group` |
+| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint | 調査 md |
+|---|---|---|---|---|
+| 村作成フォーム+確認+発言制限+流用 | `new-village.html` / `new-village-confirm.html` / `new-village-*-say-restriction.html` | `new-village.js` / `new-village-confirm.js` | `RequestMapping /new-village`, `POST /new-village/{confirm,create,divert/{id}}`, `GET /getCharacterList` | [new-village.md](new-village.md) |
+| キャラ選択 (関連、別途) | `chara-list.html` / `chara.html` | - | `/chara-group`, `/getSelectableCharaList/{id}` | (step-0.4 で調査) |
 
 ### D. 役職・ルール・情報 (→ `step-0.4`)
 
