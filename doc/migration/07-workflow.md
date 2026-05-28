@@ -30,12 +30,18 @@
 
 - **frontend** (TS / TSX / CSS): **oxlint + oxfmt** ([04-frontend.md](04-frontend.md) 参照)
 - **backend** (Kotlin): **ktlint** ([02-backend.md](02-backend.md) 参照)
-  - 参考: [h-orito/lastwolf](https://github.com/h-orito/lastwolf) の backend hooks 構成 (ktlint check & fix を hook で自動実行)
-  - スクリプト配置先: `.context/ktlint-hook/` (現状空のディレクトリだが、lastwolf 構成を参考に整備する)
-- hook の trigger は `PostToolUse` on Edit/Write を想定
-- 編集ファイルパスを見て backend / frontend を出し分け、対象範囲外のファイルは何もしない
 
-(設定の具体内容は実装フェーズで詰める。skill `update-config` で settings.json を編集する想定)
+### ktlint 導入構成 (確定)
+
+- **Gradle plugin (`org.jlleitschuh.gradle.ktlint`)** を `backend/build.gradle.kts` に導入
+  - `./gradlew ktlintCheck` / `./gradlew ktlintFormat` で実行
+- **Claude PostToolUse hook で自動 fix**:
+  - `.kt` ファイルを Edit/Write した後に hook が走り、ktlintFormat (or 相当) で自動整形
+  - スクリプト配置先: `.context/ktlint-hook/` ([h-orito/lastwolf](https://github.com/h-orito/lastwolf) の backend hooks 構成を参考に整備)
+- hook の trigger は `PostToolUse` on Edit/Write
+- 編集ファイルパスを見て backend (`.kt` → ktlint) / frontend (`.ts/.tsx/.css` → oxlint+oxfmt) を出し分け、対象範囲外のファイルは何もしない
+
+(settings.json の具体内容は Step 2 実装フェーズで skill `update-config` で編集する想定)
 
 ## Issue / 計画ファイルの運用
 
@@ -43,13 +49,31 @@
   - **階層番号方式**を採用 (例: `step-1-bootstrap.md`, `step-2-auth-api.md`)
   - **中間にタスクを足したい場合はマイナー番号で吸収**する (例: `step-1.5-tailwind-config.md`, `step-3.1-error-boundary.md`)
   - 既存ファイルの rename は基本不要 (どこに挿入しても周辺の番号を動かさなくて済む)
-  - skill `ship-issue` / `add-issue` の自動採番ロジックがこの命名に合わない可能性があるため、実装時に skill の挙動を確認 / 必要に応じて手動採番に切り替える
 - `.reviews/PR-<番号>.md` … pr-reviewer の結果出力
 - `doc/migration/` … 設計ドキュメント (この計画ドラフト)
 - `migration.md` … 全体 index と横断メモ
 
+### Issue 化のタイミング (確定)
+
+- **Step 0 (調査 step) の Issue だけ先に作成**し、着手する
+- **Step 1 以降は都度** (各 step 着手直前にその step の Issue を作成)
+  - 理由: Step 0 の調査結果 (画面リスト / endpoint / 静的リソース / 村画面のサブ step 粒度) を踏まえないと、以降 step の正確な内容が確定しないため
+- 08-step-plan.md には全 step の **骨子** (目的 / 成果物 / 依存) を書くが、Issue 化は上記タイミングで行う
+
+### skill の採番対応 (確定)
+
+- skill `ship-issue` / `add-issue` の **採番ロジックを `step-N(.M)-<slug>` 形式に対応させるカスタマイズ**を行う
+  - カスタマイズ作業自体を **Step 0 (or その前) の準備タスク**として扱う
+  - 対応するまでは手動採番で運用してもよい
+
+## step 動作確認の標準化 (確定)
+
+- 各 step の Issue に **「動作確認」セクション**を必須で設ける
+  - `./gradlew bootRun` (backend) + `pnpm dev` (frontend) の同時起動手順
+  - 確認する URL / 操作 / 期待される表示・挙動を step 固有に記述
+- Claude の **`verify` / `run` skill** を活用して実際にアプリを起動して確認
+- UI 変更を含む step では既存実装 (`http://localhost:8091/wolf-mansion/`) とのスクショ比較を行う
+
 ## 未確定事項
 
-- [ ] step 毎の Issue 化のタイミング (計画ドラフト完成後に一気に作る? 都度?)
-- [ ] step ごとの動作確認手順の標準化 (`./gradlew bootRun` + `pnpm dev` の同時起動など)
-- [ ] skill `ship-issue` / `add-issue` の自動採番ロジックが階層番号方式に対応しているか確認 / 対応していない場合の運用方針
+- [ ] skill `ship-issue` / `add-issue` のカスタマイズ実装範囲 (採番ロジックのどこを変えるか) — Step 0 準備時
