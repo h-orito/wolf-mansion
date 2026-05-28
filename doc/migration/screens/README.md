@@ -51,14 +51,13 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 | 村作成フォーム+確認+発言制限+流用 | `new-village.html` / `new-village-confirm.html` / `new-village-*-say-restriction.html` | `new-village.js` / `new-village-confirm.js` | `RequestMapping /new-village`, `POST /new-village/{confirm,create,divert/{id}}`, `GET /getCharacterList` | [new-village.md](new-village.md) |
 | キャラ選択 (関連、別途) | `chara-list.html` / `chara.html` | - | `/chara-group`, `/getSelectableCharaList/{id}` | (step-0.4 で調査) |
 
-### D. 役職・ルール・情報 (→ `step-0.4`)
+### D. 役職・ルール・情報 (→ `step-0.4` ✅ 調査済)
 
-| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint |
-|---|---|---|---|
-| 役職一覧 | `skill.html` | `skill.js` | `GET /skill`, `/skill-list`, `/skill/list` (公開API) |
-| ルール | `rule.html` + `rule/{camp,detail,judge,mansion,other,room,skill,status}.html` | - | `GET /rule` |
-| About / FAQ / 練習 | `about.html` / `faq.html` / `practice.html` | - | `GET /about`, `/faq`, `/practice` |
-| 公告 | `announce.html` (965行) | - | `GET /announce` |
+| 画面 | テンプレート | 担当 JS | 主な Controller / endpoint | 調査 md |
+|---|---|---|---|---|
+| 役職一覧 | `skill.html` | `skill.js` | `GET /skill`, `/skill-list`, `/skill/list` (公開API) | [skill.md](skill.md) |
+| ルール / About / FAQ / 練習 / 公告 | `rule.html`+`rule/*` / `about.html` / `faq.html` / `practice.html` / `announce.html` | - | `GET /rule` `/about` `/faq` `/practice` `/announce` | [rule-and-info.md](rule-and-info.md) |
+| キャラチップ一覧/詳細 | `chara-list.html` / `chara.html` | - | `GET /chara-group`, `/chara-group/{id}`, `/getCharacterList`, `/getFaceImgUrl/...` | [charachip.md](charachip.md) |
 
 ### E. ランダム機能 (→ `step-0.5`)
 
