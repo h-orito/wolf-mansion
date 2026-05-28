@@ -81,7 +81,9 @@ Thymeleaf SSR から REST + React への移行にあたり、既存の全画面�
 | `step-0.10` ✅ | 能力使用・投票・コミット | `village/skill-area.html` (381行), `skill-selecting.html`, `skill-description.html`, `vote-form.html`, `commit-form.html` | `POST /village/{id}/setAbility`, `/setVote`, `/commit`, `getAttackTargetList`, `getFootstepList` | [village-ability-vote.md](village-ability-vote.md) |
 | `step-0.11` ✅ | RP (キャラ名/メモ/表情差分/通知) | `village/change-name-form.html`, `village/face-type-form.html` | `POST /village/{id}/change-name`, `/memo`, `/add-face-type`, `/modify-face-type`, `/notification-setting` | [village-rp.md](village-rp.md) |
 | `step-0.12` ✅ | creator / admin / debug 操作 | `village/creator-form.html`, `admin-form.html`, `village-settings.html` (669行), `village/agelimit-confirm.html`, `debug-form.html` | `GET/POST /village/{id}/settings`, `/cancel`, `/extend-epilogue`, `/shorten-epilogue`, `/kick`, `/creator-say`, `/allparticipate`, `/admin/village/{id}/{access,leave,vote,player}`, `/village/{id}/dayChange` | [village-creator-admin.md](village-creator-admin.md) |
-| `step-0.13` | 村情報モーダル / 切り抜き | `village/modal-village-info.html`, `scrap.html` | `GET /village/{id}/scrap` |
+| `step-0.13` ✅ | 村情報モーダル / 切り抜き | `village/modal-village-info.html`, `scrap.html` | `GET /village/{id}/scrap` | [village-info-scrap.md](village-info-scrap.md) |
+
+> 村画面 (0.6〜0.13) 調査完了。参加者一覧/部屋割りタブは village-base に記載。
 
 ### 保留・対象外 (要判断)
 
