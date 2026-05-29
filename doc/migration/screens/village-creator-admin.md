@@ -17,10 +17,10 @@
 ## 2. 表示要素・UI 状態
 
 - **creator-form**: 設定変更へのリンク、村建て発言フォーム、廃村、エピローグ延長/短縮、kick (参加者選択)
-- **村設定 (village-settings)**: new-village とほぼ同じ設定項目 ([new-village.md](new-village.md))。`VillageSettingForm(village)` で現設定を初期化
+- **村設定 (village-settings, 669行)**: new-village とほぼ同じ設定項目 ([new-village.md](new-village.md))。`VillageSettingForm(village)` で現設定を初期化。7 セクション構成: 基本設定 / キャラチップ設定 / 詳細ルール設定 / 見学・閲覧設定 / 身内村向け設定 / 特殊ルール向け / RP村向け (`village-settings.html:23,136,167,415,478,499,609`)
 - **admin-form**: 強制退村 / 全員アクセス / 全員自票 / 参加プレイヤー確認
-- **debug-form**: 一括参戦 (人数) / 時間を進める。`isDebugMode` 時のみ。なりすましログイン用 `dummyLoginPlayerList`
-- **agelimit-confirm**: R15/R18 村の年齢確認モーダル
+- **debug-form**: 一括参戦 (`content.day == 0` 時のみ表示, `debug-form.html:32`) / 時間を進める。`isDebugMode` 時のみ。`dummyLoginPlayerList` を使った**なりすましログイン/ログアウト**フォーム (`/login` `/logout` へ POST, `debug-form.html:56-73`)
+- **agelimit-confirm**: R15/R18 村の年齢確認モーダル。creator/admin 機能ではなく**全閲覧者向け**で、JS は `village-message.js:326-340` (確認済みフラグを表示設定 Cookie に保存)
 
 ## 3. 呼び出す API エンドポイント
 

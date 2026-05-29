@@ -21,7 +21,7 @@
 - パスワード入力 (password)
 - hidden `remember-me=on`
 - ログインボタン
-- エラー時: `ユーザIDまたはパスワードが違います` (赤字)。`GET /login?error=true` で表示
+- エラー時: `ユーザIDまたはパスワードが違います` (赤字)。`GET /login?error=true` で表示。※ login.html は **bean-validation のフィールドエラーは描画しない** (`errorMessage` のみ表示。new-player / change-password はフィールドエラーを描画する差分あり)
 
 ## 3. 呼び出す API エンドポイント
 
@@ -29,7 +29,7 @@
 |---|---|---|---|
 | POST | `/login` | Spring Security formLogin (`loginProcessingUrl`)。param: `userId` / `password` / `remember-me` | フォーム submit |
 | GET | `/login` | フォールバックのログインページ (error 表示) | SSR |
-| POST | `/api/login` | **別系統の JSON ログイン** (`VillageApiController`、CSRF 除外、`PlayerView` を返す) | (要調査: analyzer/SPA 用?) |
+| POST | `/api/login` | **別系統の JSON ログイン** (`VillageApiController`、CSRF 除外、`PlayerView{id,name}` を返す) | **caller ゼロ (全 src に参照なし) → 現状デッドエンドの可能性が高い** |
 
 - 成功時: `defaultSuccessUrl("/")` → ホームへ
 - 失敗時: `failureUrl("/login?error=true")`
@@ -80,5 +80,5 @@
 - **現状はセッション + remember-me Cookie** (`WolfMansionWebSecurityConfig`、rememberMe key `X7kmptSvar`)。移行後は **JWT (access/refresh Cookie)** に置換 ([03-auth.md](../03-auth.md))
 - パスワードは **BCrypt** (`BCryptPasswordEncoder`)。player テーブル + ハッシュはそのまま流用
 - ログインフォームがホーム (`/`) に埋め込まれている点は、React では「ヘッダーのログインフォーム or ログインページ」のどちらにするか設計判断が必要
-- 新 endpoint: `POST /api/v1/auth/login`。既存 `POST /api/login` (JSON) の利用元を step-0.17 で確認し、互換維持要否を判断
+- 新 endpoint: `POST /api/v1/auth/login`。既存 `POST /api/login` (JSON) は **現状 caller ゼロ**のため互換維持は不要の可能性が高い (step-0.17 で最終確認)
 - CSRF: 現状 `/api/login` は CSRF 除外。JWT + SameSite=Lax 化で CSRF 戦略を再設計

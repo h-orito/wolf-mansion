@@ -21,7 +21,7 @@
 - 自己紹介文 (改行保持)
 - **総合戦績**: 参加数 / 勝利数 / 勝率
 - **陣営戦績**: 陣営ごと 参加 / 勝利 / 勝率 (`campStatsList`)
-- **役職戦績**: 役職ごと 参加 / 勝利 / 勝率 (`skillStatsList`)
+- **役職戦績**: 役職ごと 参加 / 勝利 / 勝率 (`skillStatsList`)。**参加実績のある役職のみ表示** (`participateNum > 0` でフィルタ, `PlayerRecordsContent.kt:35-37`)。陣営戦績 (`campStatsList`) はフィルタ無し=全陣営表示、という非対称あり (移植時に再現すべき)
 - **参加した村**: 村番号(リンク) / 村名 / キャラ画像 / 役職 / 生死 (例: `6d 襲撃死`) / 陣営 / 勝敗
 - **見学した村**: 村番号 / 村名 / キャラ画像
 - 自分のページ: 「自己紹介編集」ボタン + モーダル (Twitter ユーザ名 / 自己紹介 textarea)
@@ -35,7 +35,7 @@
 
 ## 4. 既存 JS の挙動
 
-- `user.js` は空。編集モーダルの開閉は Bootstrap (`data-toggle="modal"`)
+- `user.js` は空。編集モーダルの開閉は Bootstrap (`data-toggle="modal"`)。自己紹介 textarea は `data-say-textarea` 属性を持つが、これは village 系 JS のオートサイズ用属性で user 画面ではハンドラがロードされず実質 no-op (移植不要)
 
 ## 5. 権限による分岐
 

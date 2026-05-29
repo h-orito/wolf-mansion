@@ -13,7 +13,7 @@
 ## 1. 機能 / 出来ることリスト
 
 - 村の各種設定を入力して村作成
-- **既存村からの流用** (divert): 終了/募集中等の村の設定をコピーして初期値化
+- **既存村からの流用** (divert): **エピローグ/終了/廃村の村** (`VillageStatus.notProgressStatusLsit`) の設定をコピーして初期値化 (`NewVillageController.kt:167-171`)。募集中・進行中は流用候補に含まれない
 - 確認画面 → 作成 → 作成した村へ遷移
 - ダミーキャラのキャラチップ選択 (or オリジナル画像アップロード)
 - 固定編成 / 闇鍋編成 の切替と詳細設定
@@ -28,13 +28,13 @@
 | 開始日時 | `startYear/Month/Day/Hour/Minute` (既定: 現在+7日 0:00) |
 | 募集/年齢 | `welcomeRange` (誰歓/身内), `ageLimit` (R15/R18) → タグに変換 |
 | ルール (bool) | `openVote`(記名投票,既定true), `possibleSkillRequest`(役職希望,true), `availableSameWolfAttack`(連続襲撃,true), `openSkillInGrave`(墓下役職公開,false), `visibleGraveSpectateMessage`(墓下見学地上可視,false), `availableSpectate`(観戦,false), `creatorIsProducer`(村建てプロデューサー,false), `availableSuddonlyDeath`(突然死,false), `availableCommit`(コミット,false), `availableGuardSameTarget`(連続ガード,true), `availableAction`(アクション,false), `reincarnationSkillAll`(転生全役職,false) |
-| キャラ | `shouldOriginalImage`(自前画像か,false), `characterSetId` (複数, 既定[1]), `dummyCharaId`, `dummyCharaImageFile` (オリジナル時 multipart), `dummyCharaName`(1-40,既定"楽天家 ゲルト"), `dummyCharaShortName`(1字,既定"楽"), `dummyJoinMessage`(1-400), `dummyDay1Message`(max400) |
+| キャラ | `shouldOriginalImage`(自前画像か,false), `characterSetId` (複数, 既定[1]), `dummyCharaId`, `dummyCharaName`(1-40,既定"楽天家 ゲルト"), `dummyCharaShortName`(1字,既定"楽"), `dummyJoinMessage`(1-400), `dummyDay1Message`(max400)。※ `dummyCharaImageFile` (オリジナル時 multipart) は**確認画面でのみ入力** |
 | 入村制限 | `joinPassword` (入村パスワード) |
 | 構成 | `organization` (固定編成テキスト), `randomOrganization`(闇鍋か,false), `campAllocationList` (闇鍋: 村人/人狼/狐/恋人/愉快犯 陣営別配分 + 役職別配分), `wolfAllocation` (人狼数配分) |
 | 秘話 | `allowedSecretSayCode` (既定: なし) |
 | 発言制限 | `sayRestrictList` (役職別 通常発言: count既定20/length既定400), `skillSayRestrictList` (人狼の囁き/共鳴/恋人/念話), `rpSayRestrictList` (アクション) |
 
-確認画面 (`new-village-confirm`): 入力値サマリ + 開始日時/更新間隔の整形表示 + ダミーキャラ画像プレビュー。
+確認画面 (`new-village-confirm`, 517行): 全セクション (基本 / キャラチップ / 詳細ルール / 見学・閲覧 / 身内村 / 特殊ルール / RP村) を表形式で再掲 + 闇鍋編成は二次元配分テーブルも描画。**オリジナル画像のファイル入力 (`dummyCharaImageFile`) は最初のフォームには無く、この確認画面でのみ表示** (`new-village-confirm.html:77-79`、new-village.html:212 の案内文と整合)。`new-village-confirm.js` のプレビューは入村発言/1日目発言の 2 要素 (`#dummy-chara-img` / `#dummy-chara-img2`) に反映。
 
 ## 3. 呼び出す API エンドポイント
 
@@ -83,7 +83,7 @@
 - [ ] 固定編成 / 闇鍋編成 の切替と作成
 - [ ] 発言制限の設定 → 作成後に反映
 - [ ] 流用: 既存村から初期化
-- [ ] バリデーション: villageName 文字数、最低人数 等
+- [ ] バリデーション: villageName 文字数 / 定員 < 最少人数 NG / 更新間隔 1分〜72時間 / 開始日時は過去 NG かつ **2週間先まで** / 入村パスワード 3-12字 / オリジナル時パスワード必須 / オリジナル画像 ≤100KB / 構成 (固定: 各人数の行が過不足なく1つ・村人/人狼必須・狼過半数NG・恋人偶数 等、闇鍋: 陣営/役職/転生配分) (`NewVillageFormValidator.kt`)
 
 ## データ構成 / 変換
 

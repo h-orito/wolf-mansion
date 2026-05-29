@@ -19,8 +19,8 @@
 
 ## 2. 表示要素・UI 状態
 
-- **参戦フォーム** (`participate-form`): キャラ選択 (キャラチップ → getSelectableCharaList で候補、テキスト/画像選択 UI)、キャラ名/略称、オリジナル画像アップロード (原画村)、入村発言、入村パスワード、希望役職(第1/第2)、観戦チェック
-- **入村確認** (`participate-confirm`): 選択キャラ画像 + 内容確認 → 入村
+- **参戦フォーム** (`participate-form`): キャラ選択 (キャラチップ → getSelectableCharaList で候補、テキスト/画像選択 UI)、キャラ名/略称、入村発言、入村パスワード、希望役職(第1/第2)、観戦チェック。**原画村のオリジナル画像アップロードは参戦フォームではなく確認画面で行う** (`participate-form.html:104` の案内文)
+- **入村確認** (`participate-confirm`): `say-confirm.js` が描画。選択キャラ画像プレビュー + 内容確認 + **オリジナル画像アップロード (multipart, 原画村)** + **2 つの同意チェック (ルール `agree-rule` / 礼節 `agree-mind`) で「入村する」ボタンが活性化** (`participate-confirm.html:9,18-47,67-72`)
 - **見学切替** (`switch-participate-form`): 参加 ⇄ 見学
 - **希望役職変更** (`change-skill-form`): 第1/第2希望 select
 - **退村** (`leave-form`): 退村ボタン
@@ -43,7 +43,8 @@
 
 ## 4. 既存 JS の挙動
 
-- 参戦時: `getSelectableCharaList` → キャラ選択 UI 生成 (テキスト一覧 / 画像選択)
+- 参戦時: `getSelectableCharaList` → キャラ選択 UI 生成 (テキスト一覧 / 画像選択)。選択キャラから charaName/charaShortName を自動補完 (`village.js:1890-1891`)、`canChangeName` が false のキャラは名前/略称を readonly 化 (`village.js:1864-1869`)
+- 確認画面 (`participate-confirm`) は `say-confirm.js` 担当: メッセージ整形 + 画像プレビュー + 同意チェックで submit 活性化
 - 確認 → 入村の 2 段。redirect は referer query 維持
 
 ## 5. 権限による分岐 / 6. 認可マスク

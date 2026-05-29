@@ -17,7 +17,7 @@
 
 ## 2. 表示要素・UI 状態
 
-- 検索パネル (Bootstrap collapse 「検索」):
+- 検索パネル (Bootstrap collapse 「検索」、**初期は閉**: `village-list.html:20` は `collapse` のみ。skill.html は `collapse in` で初期展開と逆):
   - キャラセット (複数選択 `charachipIds`)
   - 役職 (複数選択 `skillCodes`)
   - 編成 (ラジオ: 両方=null / 闇鍋=true / 固定=false、`random`)

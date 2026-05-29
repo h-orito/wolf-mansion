@@ -20,10 +20,13 @@
 - **能力欄 (skill-area)**: 役職に応じた能力 UI
   - 対象選択 (targetCharaId)。襲撃者選択 (attackerCharaId、複数人狼時)
   - **足音選択**: 襲撃対象を選ぶと `getFootstepList` で候補取得、足音 (経路の部屋) を選択。狐/狂人の徘徊は部屋選択テーブル
-  - `targetingMessage` で「○○に△△する」等の説明表示
+  - `targetPrefixMessage` / `targetSuffixMessage` で「○○に△△する」等の説明表示 (`skill-area.html:66-74`。situation には `targetingMessage` もあるがテンプレ上は prefix/suffix を使用)
   - 役職説明 (skill-description) / 役職選択 (skill-selecting)
+  - **村開始時の初回役職確認モーダル** (`#modal-initial-skill-description`, `skill-area.html:236-377`): 自役職 + 村設定を初回表示
+  - **能力セット履歴** (`skillHistoryList`, `skill-area.html:226-230`)
+  - **陣営別メンバー名リスト**: 狂信者 / 人狼 / 背徳者 / 恋人 / 共鳴・共有 向けの仲間表示 (`skill-area.html:186-225`)
 - **投票欄 (vote-form)**: 投票先 select。未投票警告 (footer-menu からも誘導)。突然死注意
-- **コミット欄 (commit-form)**: コミットする/解除する (situation.commit.isCommitting でトグル表示)
+- **コミット欄 (commit-form)**: 表示可否は `content.form.commit.dispCommitForm`。ボタン文言はフォーム値 `*{commit}` で「コミットする / コミットを取り消す」を切替 (`commit-form.html:33`)
 
 ## 3. 呼び出す API エンドポイント
 

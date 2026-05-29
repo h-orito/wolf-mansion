@@ -16,8 +16,8 @@
 
 ## 2. 表示要素・UI 状態
 
-- 役職メニュー (`#menu` のアンカー) + 役職説明リスト (`#skill li ul li`、各 `id` = 役職コード)
-- 検索 UI: タグラベル (クリックで選択 label-success/default 切替)、役職名入力 (`#skill-name`)、村選択 (`#villageId`)、検索ボタン
+- 役職メニュー (`#menu` のアンカー) + 役職説明リスト (`#skill li ul li`、各 `id` = 役職コード)。※ `#skill` リスト本体は `rule/skill.html` フラグメント (`layout:fragment="skill"`, `rule/skill.html:7`) で、skill.html がこれを取り込む (rule-and-info.md と共通)
+- 検索 UI: 「特徴」タグラベル (クリックで選択 label-success/default 切替, `skill.html:31`)、役職名入力 (`#skill-name`)、「村に登場する役職」= 村選択 (`#villageId`, `skill.html:44-46`)、検索ボタン
 - 検索結果に該当しない役職を `hidden` で非表示化
 
 ## 3. 呼び出す API エンドポイント

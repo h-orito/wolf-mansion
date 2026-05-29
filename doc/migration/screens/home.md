@@ -69,8 +69,8 @@
 
 ## データ構成 (View: IndexContent)
 
-- `villageList` (未終了 = 募集中/進行中/エピローグ): villageNumber, villageName, tags(name/level), participateNum, status
-- `participate` (参加中フラグ), `canCreateVillage`
+- `villageList` (未終了 = 募集中/進行中/エピローグ): **villageId (遷移キー)**, villageNumber, villageName, tags(name/level), participateNum, status。※ 加えて april 企画用の不動産ネタ項目 chiku/toho/area/madori/yachin を保持 (`IndexContent.kt:40-48`、通常画面では未使用、`april20250401/02` で表示)
+- `isParticipate` (参加中フラグ)。※ `canCreateVillage` はコンストラクタ引数で、保持フィールドは `isParticipate = !canCreateVillage` (`IndexContent.kt:14,22`)。テンプレの `content.participate` は `isParticipate` の getter
 
 ## メモ / 移行時の注意
 

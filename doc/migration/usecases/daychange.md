@@ -20,7 +20,7 @@
 
 ```
 DaychangeCoordinator.changeDayIfNeeded(village)
-  ├ Daychange 集約構築 (village, abilities, votes, footsteps, players, messages, tweets, guarded)
+  ├ Daychange 集約構築 (5引数 secondary constructor: village, abilities, votes, footsteps, players)
   ├ DaychangeDomainService.leaveParticipantIfNeeded()      … 長期未アクセス者の退村 (Prologue)
   ├ DaychangeDomainService.cancelOrExtendPrologueIfNeeded() … 最小人数未満で廃村 or 延長
   └ DaychangeDomainService.changeDayIfNeeded(daychange, commits, charas)
@@ -39,6 +39,7 @@ data class Daychange(
     val tweets: List<String>, val guarded: List<VillageParticipant>
 )
 ```
+- Coordinator は **5 引数 secondary constructor** で構築し、`messages` / `tweets` / `guarded` は空初期化される (`Messages(emptyList())` 等, `Daychange.kt:21-39`)。この 3 フィールドは処理中に蓄積されるもので、集約構築時の入力ではない
 - 各処理は `daychange.copy(village=..., messages=...)` で不変進行 → 最後に diff 検出 → DB 更新 → 通知
 
 ## status 遷移条件
@@ -46,7 +47,8 @@ data class Daychange(
 | status | 遷移条件 | 次 | 処理 |
 |---|---|---|---|
 | 募集中 (PROLOGUE, day0) | `now >= dayChangeDatetime` && 参加者 >= personMin | 進行中 | 役職/部屋割当・能力初期化 |
-| 募集中 | `now >= dayChangeDatetime` && 参加者 < personMin | 廃村 | キャンセル |
+| 募集中 | `now >= dayChangeDatetime` && 参加者 < personMin && 参加者 > 1 | 募集中 (延長) | `extendPrologue` で dayChangeDatetime 延長 |
+| 募集中 | `now >= dayChangeDatetime` && 参加者 < personMin && 参加者 <= 1 | 廃村 | キャンセル |
 | 進行中 (PROGRESS) | (時刻超過 OR 全員コミット) && !settled | 進行中 | 能力処理・投票・処刑 |
 | 進行中 | settled (狼全滅 OR 村人数 <= 狼) | エピローグ | 勝敗判定 |
 | エピローグ (EPILOGUE) | `now >= dayChangeDatetime` | 終了 | ゲーム終了 |

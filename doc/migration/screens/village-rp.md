@@ -4,7 +4,7 @@
 
 ## 概要
 
-- **テンプレート**: `village/change-name-form.html` / `village/face-type-form.html`
+- **テンプレート**: `village/change-name-form.html` / `village/face-type-form.html` / 通知設定は `village/display-settings.html` (表示設定モーダル `#modal-dsetting` 内, `:103-159`)
 - **担当 JS**: `village.js` (RP/返信 L.2016-2065)
 - **Controller**: `VillageRpController` + 通知は `VillageNotificationController`
 - **対象ユーザー**: 参加者本人 (situation.rp 由来)
@@ -14,7 +14,7 @@
 - キャラ名 / 略称の変更 (RP リネーム)
 - 簡易メモ (自分用) の編集
 - 表情差分の **追加** (画像アップロード) / **編集** (名前・表示有無) — 原画村
-- 通知設定 (Discord webhook、村開始/日付更新/エピローグ、秘話/アンカー/能力/キーワード通知)
+- 通知設定 (Discord webhook、村開始/日付更新/エピローグ、秘話/アンカー/役職窓 (abilitySay, UI ラベルは「役職窓通知」)/キーワード通知)
 
 ## 2. 表示要素・UI 状態
 
@@ -40,8 +40,11 @@
 
 ## 4. 既存 JS の挙動
 
-- 返信 (`data-reply-to`) クリック → 発言 textarea にアンカー挿入
-- 秘話返信 (`data-secret-to`) → 秘話相手 charaId をセット + 秘話種別に切替
+- 名前/略称変更: 文字数監視 (略称 1 / 名前 40 字, `village.js:888-900`)
+- メモ: 文字数監視 (`village.js:909` 付近)
+- 表情差分追加: ファイル選択時のファイル名表示 (`village.js:2067` 付近)
+- 通知設定保存時、`notificationService.notifyTest` で webhook にテスト通知が飛ぶ (`VillageNotificationController.kt:68`)
+- (参考) 返信 `data-reply-to` / 秘話返信 `data-secret-to` (`village.js:2016-2065`) は発言フォーム (step-0.8) 側の機能で RP 本体ではない
 
 ## 5. 権限による分岐 / 6. 認可マスク
 

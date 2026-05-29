@@ -28,7 +28,7 @@
 ## 3. reveal / マスク (誰にどこまで)
 
 - 表示形式の分岐: `FootstepDomainService.convertToSituation()` が `SpoilerDomainService.isViewableSpoilerContent(village, myself)` で切替
-  - **可視 (詳細)**: 終了/エピローグ、または「死者 + 墓下役職公開(openSkillInGrave)」→ `getDisplayFootstepStringOpenSkill()` = `[キャラ名][役職名] セット→実際` 形式
+  - **可視 (詳細)**: 終了/エピローグ、または「死者 + 墓下役職公開(openSkillInGrave)」→ `getDisplayFootstepStringOpenSkill()` = `[shortNameWhen(day-1)][役職名] セット→実際` 形式 (`FootstepDomainService.kt:279`。`shortNameWhen` は部屋番号付き短縮名)
   - **非可視 (簡略)**: 進行中の生存者 → `getDisplayFootstepStringWithoutHeader()` = 「部屋XX で足音…」のみ (誰のか分からない)
 - spoiler 判定の根拠:
   - `Village.isViewableSpoilerContent()` = `status.isSettled()` (終了系)
@@ -57,7 +57,7 @@
 | Application | FootstepApplicationService | `application/service/FootstepApplicationService.kt` |
 | Domain | FootstepDomainService | `domain/service/FootstepDomainService.kt` |
 | Domain | SpoilerDomainService | `domain/service/SpoilerDomainService.kt` |
-| Model | Footstep / Footsteps | `domain/model/footstep/Footstep.kt` |
+| Model | Footstep / Footsteps | `domain/model/footstep/Footstep.kt` / `Footsteps.kt` (別ファイル) |
 | Model | Village.isViewableSpoilerContent | `domain/model/village/Village.kt` |
 | Repository | FootstepDataSource | `infrastructure/datasource/FootstepDataSource.kt` |
 | View | VillageContent / WholeVillageSituationsContent | `api/view/...` |

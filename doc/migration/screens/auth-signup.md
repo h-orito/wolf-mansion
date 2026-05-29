@@ -21,6 +21,7 @@
 - パスワード入力 (password) + フィールドエラー表示
 - 作成ボタン
 - エラー: `errorMessage` (赤字)。ビジネス例外メッセージ or クールダウンメッセージ
+- GET 時に `noAd=true` を付与し広告非表示 (`PlayerController`)
 
 ## 3. 呼び出す API エンドポイント
 

@@ -7,10 +7,10 @@
 | パス | View | 命名規則 | 備考 |
 |---|---|---|---|
 | `GET /recruiting` | `RecruitingContent` | camelCase | 募集中〜未終了の村 (サンプル村除外) + charachips |
-| `GET /village-record/list` | `VillageRecordListContent` | (要確認) | エピローグ/終了/廃村の村 (reversed) + players。`?vid=` で絞込 |
+| `GET /village-record/list` | `VillageRecordListContent` | **snake_case** | エピローグ/終了/廃村の村 (reversed) + players。`?vid=` で絞込。ネスト (`VillageRecord`/`VillageParticipantRecord`) に `interval_seconds`/`start_datetime`/`win_camp_name`/`user_id`/`dead_reason` 等多数の `@JsonProperty` |
 | `GET /village-record/latest-vid` | `VillageRecordLatestVidContent` | camelCase | エピローグ/終了/廃村の最新村 id |
 | `GET /skill/list` | `SkillListContent` | **snake_case** | 陣営別役職名 |
-| `GET /api/village/{id}` | `WholeVillageSituationsContent` | (要確認) | 村の全状況 (足音は部屋番号のみ・1日ずれ、[footstep.md](../usecases/footstep.md)) |
+| `GET /api/village/{id}` | `WholeVillageSituationsContent` | **camelCase** | 村の全状況 (足音は部屋番号のみ・1日ずれ、[footstep.md](../usecases/footstep.md))。ネストビュー含め `@JsonProperty` 無し |
 | `GET /api/village-list` | `VillageListContent` | camelCase | 全村 + charachipList + skillList |
 
 ## 現状レスポンス記録 (ローカル :8091、村データ空の状態)
@@ -33,7 +33,9 @@
  "charachipList":[{"id":1,"name":"人狼BBS"},{"id":2,"name":"大神学園"},...],
  "skillList":[{"code":"VILLAGER","name":"村人"},{"code":"SEER","name":"占い師"},...]}
 
-// GET /api/village/1   (存在しない村)  ★ 500 + スタックトレースを返す (現状の挙動)
+// GET /api/village/1   (存在しない村)  ★ ローカル :8091 (devtools 有効) では 500 + trace
+//   ⚠ この trace は spring-boot-devtools が有効な開発環境の挙動。本番 (packaged jar = devtools 自動無効、
+//      Boot 3.5.9 既定 include-stacktrace=never / include-message=never) では trace も詳細 message も出ない見込み
 {"timestamp":"...","status":500,"error":"Internal Server Error",
  "trace":"com.ort.app.fw.exception.WolfMansionBusinessException: village not found. id: 1 ..."}
 ```
@@ -42,8 +44,11 @@
 
 1. **命名規則がエンドポイントで混在**: `skill/list` は **snake_case** (`camp_name`, `skill_name_list`)、`api/village-list` は **camelCase**。
    - REST 化で Jackson のグローバル命名戦略を変えると **既存 API が壊れる**。各エンドポイントの現状 casing を**個別に維持**すること (View ごとに `@JsonProperty` 等で固定)
-2. **エラー時に 500 + スタックトレース**を返している (`village not found` で stack trace 露出)。
-   - 新規 API は `ProblemDetail` 化するが、**公開 API のエラー形状を変えると消費側が壊れる可能性**。互換のため当面は現状維持 (ただしスタックトレース露出はセキュリティ上望ましくない → 公開 API の error 整形は要検討)
+2. **エラー時の 500 レスポンス形状は環境依存** (`village not found` で `WolfMansionBusinessException`)。
+   - アプリ層に有効な例外ハンドラは無い (`ExceptionControllerAdvice` は `@ControllerAdvice` 等の annotation が無く**未登録のデッドコード**) → Spring Boot 既定の `BasicErrorController` が処理
+   - **ローカル :8091 で trace が出るのは `spring-boot-devtools` が有効なため** (`build.gradle.kts:33` `developmentOnly`)。本番 (packaged jar で devtools 自動無効、Boot 3.5.9 既定 `include-stacktrace=never`) では trace は出ない見込み
+   - → **ピン留めサンプルは本番 (or devtools 無効ビルド) の実レスポンスから採取**すること。dev の trace 付きサンプルを凍結すると本番と恒常的に不一致になる
+   - 新規 API は `ProblemDetail` 化。公開 API のエラー形状変更は消費側を壊す可能性があるため、本番の現状形状を確定してから方針判断 (スタックトレース露出はセキュリティ上望ましくない)
 3. **足音**: `/api/village/{id}` は部屋番号のみ公開・1 日ずれ ([footstep.md](../usecases/footstep.md))。この隠蔽/集計を維持
 4. **URL 全体 (context-path `/wolf-mansion` 込み)** を維持。新構成では frontend が proxy ([06-infra-deploy.md](../06-infra-deploy.md))
 

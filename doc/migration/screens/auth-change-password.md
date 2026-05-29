@@ -20,6 +20,7 @@
 - hidden `remember-me=on`
 - 送信ボタン (ラベルが `ログイン` になっている — コピペ由来の癖、要修正候補)
 - エラー: `errorMessage` / フィールドエラー
+- GET 時に `noAd=true` を付与し広告非表示 (`PlayerController`)
 
 ## 3. 呼び出す API エンドポイント
 
@@ -36,7 +37,7 @@
 
 | 権限 | 見え方・できること |
 |---|---|
-| 匿名 | アクセス不可 (`fullyAuthenticated`、未認証はログインへ) |
+| 匿名 | アクセス不可 (`fullyAuthenticated`)。未認証時は `loginPage("/")` のため **ホーム `/` (埋め込みフォーム) へリダイレクト** (専用ログインページではない, `WolfMansionWebSecurityConfig.kt:31`) |
 | ログイン済 | 自身のパスワード変更可 |
 
 ## 6. 認可マスク
@@ -51,7 +52,7 @@
 
 - [ ] 正常変更: 一致するパスワード → 変更 → ホームへ
 - [ ] 不一致: password ≠ confirmPassword → エラー
-- [ ] 未認証アクセス: ログイン画面へ誘導
+- [ ] 未認証アクセス: ホーム `/` (埋め込みログインフォーム) へリダイレクト
 
 ## 入力仕様 (PlayerChangePasswordForm)
 

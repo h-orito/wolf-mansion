@@ -33,7 +33,7 @@
 - **成果物**:
   - `doc/migration/screens/<screen>.md` … 画面別ファイル群 (機能・UI 要素・呼び出す API・**対応する既存 JS の挙動**・権限分岐・認可マスク・関連 e2e ケース)
   - `doc/migration/screens/README.md` … 画面一覧 index
-  - `doc/migration/usecases/<usecase>.md` … ユースケース横断の調査メモ (足音 reveal / Daychange / 死亡情報マスク / 投票 等。配置は要相談)
+  - `doc/migration/usecases/<usecase>.md` … ユースケース横断の調査メモ (足音 reveal / Daychange / 死亡情報マスク / 投票 等。`doc/migration/usecases/` に配置済み)
   - 外部公開 API (`/village-record/list` 等) の現状挙動メモ
   - 既存 JS が叩いている内部 AJAX エンドポイントの一覧 (Handlebars レンダリング含む)
 - **作業内容**:
@@ -138,6 +138,6 @@ wolf-mansion で最も機能密度が高い画面。Step 0 の調査 (`doc/migra
 
 ## 未確定事項
 
-- [ ] Step 0 のドキュメント完成度 (合格基準) の定義 — Step 0 bootstrap で定める
-- [ ] **村画面**サブ step の最終的な分割粒度・順序 — Step 0 完了時点で確定
+- [x] Step 0 のドキュメント完成度 (合格基準) の定義 — `screens/README.md` 12-24 に 8 項目で定義済み
+- [x] **村画面**サブ step の最終的な分割粒度・順序 — 上記「村画面は特別」表で 8 サブ step に確定済み
 - [ ] cutover の具体的な切替手順 (ダウンタイム有無 / ロールバック手順) — 終盤

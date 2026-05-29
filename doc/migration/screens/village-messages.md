@@ -51,6 +51,8 @@
 装飾: `isLoud`→loud クラス, `isRainbow`→rainbow ラッパ。
 Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWithoutBr` `minHeightCss`。
 
+> **フィルタ種別の補足**: `村建て発言` (`CDef.MessageType.村建て発言`) も filter 対象種別として typeMap に存在 (`VillageGetMessageListForm.kt:77`)。上表に専用行は無く公開/通常系として描画される (募集中の村建て発言)。`GRAVE_SPECTATE_SAY` キーは「死者の呻き + 見学発言」をまとめた合成フィルタ種別。
+
 ## 3. 呼び出す API エンドポイント
 
 | メソッド | パス | 用途 | 呼び出し元 |
@@ -62,7 +64,9 @@ Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWit
 | GET | `/village/{id}/getParticipants` | 参加者正体一覧 (settled時のみ) | village.js |
 | GET | `/village/{id}/message` | アンカー専用メッセージページ (SSR) | リンク |
 
-`getMessageList` パラメータ: villageId, day, pageNum, pageSize, filterParticipantIds, filterTypes, filterKeywords, toParticipantIds, isPaging, isDispLatest。
+`getMessageList` パラメータ (実 API 名, `VillageGetMessageListForm`): `villageId, day, pageNum, pageSize, participantIds (発言者), types (種別), keywords (スペース区切り), toParticipantIds (宛先), isPaging, isDispLatest`。
+
+> ⚠️ `filterParticipantIds` / `filterTypes` / `filterKeywords` は **village.js 内部の JS 変数名であって API パラメータ名ではない**。REST 化時は上記の実パラメータ名 (`participantIds` / `types` / `keywords`) を使うこと。
 
 ## 4. 既存 JS の挙動
 
@@ -71,6 +75,7 @@ Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWit
 - **アンカー展開**: `>>N` クリック → `getAnchorMessage` → `messagePartialTemplate` で collapse 展開。種別別アンカー (重狼/mason/恋人/念話等) 対応
 - **アナウンス**: suddenlyDeathMessage / villageStatusMessage / commitStatusMessage を一覧末尾に表示
 - **フィルタ (modal-filter)**: 種別 (全ON/OFF/反転)、発言者、宛先、キーワード(スペース区切り)、ショートカット(囁き/共鳴/恋人/念話/自分宛/通知キーワード)。選択は URL query に保存。抽出/別タブ/リセット
+- **ハッシュタグ**: 本文中の `#タグ` は `data-message-hashtag` 付きリンクとして描画され、クリックで全種別/全宛先 ON + キーワードにタグを設定してフィルタ実行 (`village.js:1406-1413`)
 - **ネタバレ防止 (`data-dsetting-unspoiled` / filterSpoiled)**: `data-spoiled-content` を隠し `data-spoiled-alternative-content` を表示。「エピローグ前同等の表示にする」トグル
 
 ## 5. 権限による分岐 / 6. 認可マスク

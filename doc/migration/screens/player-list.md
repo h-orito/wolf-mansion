@@ -53,7 +53,7 @@
 
 ## データ構成 (View: PlayerListContent)
 
-- `players`, `allPageCount`, `currentPageNum`, `pageNumList`, `existPrePage`, `existNextPage`
+- `players`, `allPageCount`, `currentPageNum`, `pageNumList`, `isExistPrePage`, `isExistNextPage` (`PlayerListContent.kt:8-9`。テンプレが `content.existPrePage` で引けるのは Kotlin `is`-prefix boolean の getter マッピングによる。**REST DTO 化時は Jackson が `is` を落とすシリアライズ名に注意**)
 - `PlayerService.findAllPlayers(pageSize=30, pageNum)` で取得
 
 ## メモ / 移行時の注意
