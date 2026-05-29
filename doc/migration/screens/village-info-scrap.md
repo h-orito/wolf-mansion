@@ -5,7 +5,7 @@
 ## 概要
 
 - **テンプレート**: `village/modal-village-info.html` (村情報モーダル) / `scrap.html` (切り抜きページ)
-- **担当 JS**: `village.js` (モーダルは Bootstrap) / `village.js` (scrap もメッセージ取得を再利用)
+- **担当 JS**: 村情報モーダルは Bootstrap modal (固有 JS なし)。**切り抜きページ `scrap.html` は `village-message.js` を読み込む** (`scrap.html:8` で `src` は village.js だが `th:src` は village-message.js → Thymeleaf 解決後は village-message.js が効く)。scrap 固有処理 (`#scrap-form` submit / `[data-scrap-remove-btn]`) は `village-message.js:405-410`。village.js に scrap 処理は無い
 - **Controller**: `VillageController.scrap`
 - **対象ユーザー**: 全員 (公開設定情報)
 
@@ -18,6 +18,7 @@
 
 - **村情報モーダル** (`#village-info`): 設定テーブル — 募集範囲 / 最少開始人数 / 定員 / 開始日時 / 更新間隔 / 投票形式 / 役職希望 / 見学入村 / プロデューサー機能 / 連続襲撃 / 連続護衛 / 転生候補 / 墓下役職公開 / 墓下地上会話 / 秘話 / 突然死 / コミット / キャラセット(リンク) / ダミーキャラ / 入村パスワード有無 / 村建てプレイヤー 等
   - 日付リスト・footer-menu の「情報」から開く
+  - モーダル内に **村主 (creator) 限定の「設定変更」導線** あり (`content.availableSettingsUpdate` で活性、`/village/{id}/settings` へ遷移, `modal-village-info.html:327-333`)
 - **切り抜き** (`scrap.html`): 村画面と同じメッセージ表示基盤を使い、フィルタした発言を表示。`GET /village/{id}/scrap`、別タブで開く
 
 ## 3. 呼び出す API エンドポイント
@@ -30,7 +31,7 @@
 ## 4. 既存 JS の挙動
 
 - 村情報モーダルは Bootstrap modal (固有 JS なし)
-- 切り抜きは村画面のメッセージ取得ロジックを再利用 (フィルタ付き)。`isSettled` チェックは現状コメントアウト (進行中でも開ける)
+- 切り抜きは `village-message.js` で村画面のメッセージ取得ロジックを再利用 (フィルタ付き)。`isSettled` チェックは現状コメントアウト (進行中でも開ける)
 
 ## 5. 権限による分岐 / 6. 認可マスク
 

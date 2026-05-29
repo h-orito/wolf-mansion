@@ -5,7 +5,7 @@
 ## 概要
 
 - **テンプレート**: `village/say-form.html` (309行) / `say-confirm.html` / `creator-say-confirm.html` / `village/action-form.html`
-- **担当 JS**: `village.js` (発言フォーム L.400-662, アクション L.548-887)
+- **担当 JS**: 村画面内の発言フォーム・確認プレビューは `village.js` (発言フォーム L.400-662, アクション L.548-887)。**SSR 確認ページ `say-confirm.html` / `creator-say-confirm.html` は別 JS `say-confirm.js` (109行) が描画** (メッセージ文字列変換 + キャラ画像プレビュー)。村画面内のプレビュー確認は `village.js:510-661`
 - **Controller**: `VillageSayController` (creator-say は `CreatorController`、step-0.12)
 - **対象ユーザー**: 発言可能な参加者 (situation.say.isAvailableSay 由来)
 
@@ -21,7 +21,7 @@
 - 死亡時アラート / 進行ルール注意 (墓下・見学発言の可視性に応じ分岐)
 - **発言種別ラジオ** (availability フラグで出し分け): 囁き(WEREWOLF_SAY) / 共鳴(MASON_SAY) / 恋人(LOVERS_SAY) / 念話(TELEPATHY) / 通常(NORMAL_SAY) / 呻き(GRAVE_SAY) / 見学(SPECTATE_SAY) / 独り言(MONOLOGUE_SAY) / 秘話(SECRET_SAY)
 - **秘話相手**選択 (select + 画像選択モーダル)
-- **装飾タグ**ボタン: B(太字) / S(取消線) / 大 / 小 / ruby / 隠(cw=ネタバレ) / 透(tp) / 色8種 / `[[]]`
+- **装飾タグ**ボタン: B(太字) / S(取消線) / 大 / 小 / ruby / 隠(cw=ネタバレ) / 透(tp) / 色**7種** (`say-form.html:134-152`) / `[[]]`。色タグ領域 (`data-random-tag-area`) は表示設定 `is_disp_random_tag_area` で表示トグル (初期 hidden, `village.js:1569-1691`)
 - **ランダム機能** select: fortune / 1d6 / or / who / allwho / gwho + ランダムキーワード → タグ追加
 - 表情画像 + 表情 select (+ 画像選択モーダル)
 - 本文 textarea
@@ -37,11 +37,11 @@
 | POST | `/village/{id}/say` | 発言投稿 → redirect (referer query 維持 + `#bottom`) | 確認画面 |
 | POST | `/village/{id}/action-confirm` | アクション確認 (JSON) | village.js |
 | POST | `/village/{id}/action` | アクション投稿 | 確認画面 |
-| GET | `/getFaceImgUrl/{id}/{faceTypeCode}` | 表情画像 URL | village.js (表情切替) |
+| GET | `/getFaceImgUrl/{villageId}/{faceTypeCode}` | 表情画像 URL (所属は `CharaController`) | village.js (表情切替) |
 
 - フォーム: `VillageSayForm` (message, messageType, secretSayTargetCharaId, convertDisable, faceType) / `VillageActionForm` (myself, target, message, convertDisable)
 - 投稿は `MessageCoordinator.confirmToSay` / `say` (IP アドレス記録)。バリデータ: `SayFormValidator` / `ActionFormValidator`
-- CSRF: `/village/*/confirm` `/village/*/say` は CSRF 除外 ([WolfMansionWebSecurityConfig])
+- CSRF: `/village/*/confirm` `/village/*/say` は CSRF 除外。一方 **`/village/*/action` `/village/*/action-confirm` は除外されず CSRF トークン必須** (`WolfMansionWebSecurityConfig.kt:53-57`、除外は confirm/say/update/api-login のみ) → 発言系とアクション系で非対称
 
 ## 4. 既存 JS の挙動
 

@@ -16,7 +16,7 @@
 ## 2. 表示要素・UI 状態
 
 - 一覧: キャラチップ名 + デザイナー名、各詳細へのリンク (`CharaGroupListContent`)
-- 詳細: キャラチップ内の全キャラの画像・名前 (`CharaGroupContent`)
+- 詳細 (`CharaGroupContent`): 作者名 (`designerName`) / **肩書・名称変更可否** (`availableChangeName`, `chara.html:19`) / **作者様 HP リンク** (`descriptionUrl`, `chara.html:20-21`) / キャラチップ内の全キャラの画像・名前 (`charaList`) / **部屋割り例テーブル** (`roomAssignedRowList`, `chara.html:36-48` — 詳細画面の主要コンポーネント。React 移植で漏らさないこと)
 
 ## 3. 呼び出す API エンドポイント
 
@@ -24,7 +24,7 @@
 |---|---|---|---|
 | GET | `/chara-group` | キャラチップ一覧 | SSR |
 | GET | `/chara-group/{id}` | キャラチップ詳細 | SSR |
-| GET | `/getCharacterList?charaGroupId=` | キャラチップのキャラ一覧 (通常表情のみ, JSON) | `new-village.js` (村作成) |
+| GET | `/getCharacterList?charaGroupId=` | キャラチップのキャラ一覧 (通常表情のみ, JSON)。`charaGroupId` は `List<Int>` (複数指定可, `CharacterListForm.kt:4`)。戻り値は専用 View でなく**ドメイン `Chara` 直シリアライズ** (`CharaController.kt:41-52`) → 契約が暗黙的 | `new-village.js` (村作成) |
 | GET | `/getFaceImgUrl/{villageId}/{faceTypeCode}` | 自分の参加キャラの指定表情画像 URL (JSON) | **村画面の発言フォーム** (表情選択) |
 
 ## 4. 既存 JS の挙動

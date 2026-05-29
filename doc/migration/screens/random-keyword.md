@@ -18,9 +18,9 @@
 
 ## 2. 表示要素・UI 状態
 
-- 一覧 (`random-message.html`): キーワードテーブル (キーワード名 / コンテンツ複数行)。検索ボックス、「全て表示」展開、コピー ボタン
+- 一覧 (`random-message.html`): テーブル (ヘッダ「キーワード」「変換後」, `:27-28`)。0 件時「登録されているキーワードがありません。」(`:34`)。各キーワードのコンテンツは**先頭 5 行のみ表示・6 行目以降 hidden** + 「全て表示」リンクで展開 (`:43-49`)。検索ボックス、コピーボタン
 - 作成 (`new-random-keyword.html`): keyword + message (複数行 = 複数コンテンツ) フォーム
-- 編集 (`random-keyword.html`): 既存キーワードの編集フォーム + 削除
+- 編集 (`random-keyword.html`): 既存キーワードの編集フォーム + 削除。**`randomKeywordForm == null` 時は「すでに削除されています」**を表示 (`:16-17`)。keyword は読み取り専用表示 (`*{keyword}` text + hidden, `:31`)
 
 ## 3. 呼び出す API エンドポイント
 
@@ -68,7 +68,9 @@
 
 ## データ構成
 
-- `RandomKeyword`: `keyword` + `contents` (改行区切りの複数メッセージ `RandomContent`)
+- ドメイン `RandomKeyword`: `keyword` + `contents` (複数メッセージ `RandomContent`)
+- View `RandomMessageListContent.RandomMessageContent`: `keywordId` / `keyword` / `contentExample` (`RandomMessageListContent.kt:17-19`)
+- **改行コードの非対称**: 保存/更新は `form.message.split("\r\n")` (`RandomController.kt:58,102`)、編集表示は `contents.joinToString("\n")` (`:75`) → 移行時のデータ整形で要注意
 - `RandomKeywordService` で CRUD、`RandomKeywordFormValidator` で検証
 
 ## メモ / 移行時の注意

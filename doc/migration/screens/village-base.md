@@ -14,7 +14,9 @@
 
 村画面の「誰に何を見せ、何を操作させるか」は **`VillageControllerHelper.setIndexModel`** が組み立てる:
 
-- `VillageContent` = village / day / myself / player / charachips / keywords / **villageSituation** / **participantSituation** / **isDispSpoilerContent**
+- `VillageContent` の **constructor 入力** = village / day / myself / player / charachips / keywords / **villageSituation** / **participantSituation** / **isDispSpoilerContent** (`VillageContent.kt:72-81`)。これらは内部で変換され、**実際にシリアライズされる data class フィールドは別物**:
+  - `villageId, villageNumber, villageName, villageStatusCode, settings, day, dayList, epilogueDay, memberList, characterList, participantList, roomAssignedRowList, roomWidth, form, myself, isAvailableSettingsUpdate, vote, villageFootstepList, dayChangeDatetime, isDispUnspoiler, randomKeywords, situationList, isDispSpoilerContent, isCreatePlayer` (`VillageContent.kt:22-70`)
+  - `villageSituation` / `participantSituation` は**フィールドとして保持されず**、`form` / `vote` / `situationList` 等に変換される → **REST DTO 設計はこの実フィールドを正本にする**
 - `villageSituation` / `participantSituation` (← `VillageCoordinator.findVillageSituation` / `findParticipantSituation`) が **能力モデル**。各フラグで以下フォームを条件付き出力:
   - participate / switchParticipate / changeRequestSkill / leave / commit / say / action / changeName / memo / faceType / ability / vote / creator(+kick, creatorSay) / notification
 - `isDispSpoilerContent` (`SpoilerDomainService.isViewableSpoilerContent`) = スポイラー (足音・役職等) の可視判定 → step-0.16
@@ -43,6 +45,8 @@ village.html
 ├ modal-filter (抽出)                     → step-0.7
 ├ modal-village-info (村情報)             → step-0.13
 ├ display-settings (表示設定)             ← 本 md
+├ agelimit-confirm (R15/R18 確認モーダル)  ← village-message.js (全閲覧者向け)
+├ skill-description (初回役職確認モーダル)  → step-0.10
 ├ Handlebars: message / message-partial / participants テンプレート
 └ alerts: daychange / autorefresh / time(残り時間) / user
 ```
@@ -77,10 +81,12 @@ village.html
 | POST | `/village/{id}/update` | 村状態の定期更新 (login/latestDay 確認) | village.js (30秒) |
 | GET | `/village/getLatestMessageDatetime?villageId=&day=` | 最新発言日時 (更新検知) | village.js (30秒) |
 
+> **CSRF**: `POST /village/{id}/update` は CSRF 除外 (`WolfMansionWebSecurityConfig.kt:53-57`、除外は confirm/say/update/api-login のみ)。移行時の CSRF 方針に影響。
+
 ## 4. 既存 JS の挙動 (ベース部分)
 
-- **ポーリング (30秒)**: `getLatestMessageDatetime` で新着検知 → リフレッシュアイコン点滅 / autorefresh 有効時は再ロード。`POST update` で日付更新・セッション失効を検知し alert
-- **残り時間 (500ms)**: `daychange-datetime` と現在時刻の差分を `HH:MM:SS` 表示
+- **ポーリング (30秒)**: 同一 30 秒ループ内で `getLatestMessageDatetime` (新着検知 → リフレッシュアイコン点滅 / autorefresh 時は再ロード) と `POST update` (日付更新・セッション失効を検知し alert) を**両方**呼ぶ (`village.js:1929-1961`、`updateVillage()` は初回ロード直後にも 1 回実行 `:1961`)
+- **残り時間 (500ms)**: `#daychange-datetime` 要素が存在する時のみ (= `dayChangeDatetime != null`、終了村は null で非表示) 現在時刻との差分を `HH:MM:SS` 表示 (`village.js:1897-1908`)
 - **日付ナビ**: ページネーション (前/次/指定/最新)。日付リンク遷移は1ページ目、それ以外は最新
 - **表示設定 (display-settings)**: Cookie に各タブ開閉 / ページサイズ / 画像大小 / テキスト大小 / 年齢制限確認を保存・復元
 - **footer-menu**: 最上部/最下部/更新/抽出(filter modal)/情報(village-info modal)/設定(dsetting modal)。未投票時「投票欄へ」警告
