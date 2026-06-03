@@ -14,7 +14,8 @@
 | | 見学者 | `openSkillInGrave` で墓下公開 |
 | フィールド | GRAVE_SAY | `visibleGraveSpectateMessage` でオーバーライド |
 | | SECRET_SAY | 当事者のみ (+ admin) |
-| | 死因 | 現状は全表示 (制限なし) |
+| | 死因 | **進行中は無惨死 (襲撃/呪殺/罠死/爆死/雑魚) を「無惨」にマスク**。突然/処刑/後追はそのまま表示。settled で実死因を全開示 (§3) |
+| | 投票先メッセージ | **無記名 (`openVote=false`) or 黒箱あり → 非公開システムメッセージ (当事者のみ)**、記名かつ黒箱なし → 公開システムメッセージ (§4) |
 
 ## 1. スポイラー判定の共通基盤
 
@@ -41,7 +42,11 @@
 ## 3. 死亡理由・死亡日
 
 - `VillageParticipant.dead: Dead` (reason 襲撃/処刑/突然死/後追 + deadDay)
-- View (`VillageParticipantsContent` 等) では死因を表示。進行中の room 表示でも死亡マーク (凸/▼/❤︎/▲) は出る (situation.html, step-0.6)
+- **死因は進行中マスクされる (全表示ではない)**: `DeadReason.getDisplayName(isSettled)` = `if (!isSettled && isMiserable()) "無惨" else name` (`DeadReason.kt:21-27`)
+  - **無惨 (miserable) = `襲撃 / 呪殺 / 罠死 / 爆死 / 雑魚`** (`CDef.DeadReason.listOfMiserable()`)。進行中はこれらを実死因ではなく **「無惨死」(▲)** としてのみ開示
+  - **`突然 / 処刑 / 後追` は非無惨**なので進行中も**そのまま表示**
+  - `settled` (エピローグ/終了) で全死因を実名開示
+- View (`VillageParticipantsContent` 等) では上記マスク後の死因を表示。進行中の room 表示でも死亡マーク (凸/▼/❤︎/▲) は出る (▲=無惨, situation.html, step-0.6)
 - 墓下発言可否: `VillageParticipant.isViewableGraveSay()` = `isAdmin() || isSpectator || (isDead() && !dead.reason!!.isSuddenly())` (`VillageParticipant.kt:79`)。**admin と見学者は無条件で可視**、それ以外は死者かつ非突然死のみ (突然死は墓下発言不可)。進行中の見学者への公開可否は `Village.isViewableGraveSay(player)` 側の `isVisibleGraveSpectateMessage` ゲートが別途かかる
 
 ## 4. 投票先
@@ -50,8 +55,10 @@
   - `VoteDomainService.convertToVillageSituation` が `filterPastDay(day)` で当日票を除外 (`VoteDomainService.kt:38`) → 進行中は最新日の投票先がそもそも返らない
   - 黒箱 (隠蔽) ability の対象日は `getHideDays` で非表示化 (`VoteDomainService.kt:74-76`)
   - 公開 API `/api/village/{id}` も `filterDisplayVotes` (黒箱除去) + `filterByDay(day-1)` (1日ずれ) を適用 (`WholeVillageSituationsContent.kt`)
-- `openVote` (記名/無記名) は主に UI 表示の差
-- → **「投票先マスクはモデルに無い」は誤りで、既に部分実装済み**。残る論点は「黒箱以外の任意投票先を進行中に追加で隠すか」(下記「移行時の注意」参照)
+- **`openVote` (記名/無記名) は投票先の可視性そのものを左右する** (UI 表示差ではない): 日付更新時の投票結果メッセージ生成で `messageType = if (isOpenVote && !existsBlackbox) 公開システムメッセージ else 非公開システムメッセージ` (`ExecuteDomainService.kt:204-205`)
+  - **無記名 (`openVote=false`) または黒箱あり → 非公開システムメッセージ (PRIVATE_SYSTEM)** = 当事者以外に投票先が見えない
+  - **記名 (`openVote=true`) かつ黒箱なし → 公開システムメッセージ** = 全員に投票先一覧が見える
+- → 投票先マスクは **filterPastDay (当日票除外) + 黒箱 getHideDays + openVote によるメッセージ種別分岐**で日付更新時に完結済み。移行では**この既存挙動をそのまま温存**すればよく、追加マスクの設計判断は不要
 
 ## 5. 役職可視性
 
@@ -73,7 +80,7 @@
 
 - **マスクは全て backend で完結させる**。REST レスポンスは「そのビューアに見せてよいデータのみ」を返す。frontend にマスク前データを渡さない (リーク防止)
 - `ParticipantSituation` / `isViewableSpoilerContent` / `getViewableMessageTypeList` を **村取得 API のマスク基盤**に据える ([village-base.md](../screens/village/village-base.md), firewolf の View 変換参考)
-- **3 軸 (status × 視点 × フィールド)** を意識した API 設計。同じ村でもビューアごとにレスポンスが変わる → キャッシュキーに視点を含める / 認証必要データは CSR ([03-auth.md](../03-auth.md))
-- **投票先の進行中マスク**は `filterPastDay` + 黒箱 `getHideDays` で既に部分実装済み (§4)。残論点は「黒箱以外の任意投票先を進行中に追加で隠すか」を明示決定 (要ユーザー確認の候補)
-- 死因の可視範囲も「現状全表示」を維持するか確認
+- **3 軸 (status × 視点 × フィールド)** を意識した API 設計。同じ村でもビューアごとにレスポンスが変わる → **ビューアによって内容が変わる部分はキャッシュ化しない** (サーバーサイドキャッシュの実装方針は現行から変えない。視点をキャッシュキーに含める等は不要)。認証必要データは CSR ([03-auth.md](../03-auth.md))
+- **投票先の進行中マスク**は `filterPastDay` + 黒箱 `getHideDays` + `openVote` のメッセージ種別分岐 (§4) で日付更新時に**実装済み**。移行ではこの既存挙動を温存するのみ (追加マスクの設計判断は不要)
+- **死因マスク**も既存挙動を温存: 進行中は無惨 (襲撃/呪殺/罠死/爆死/雑魚) を「無惨」表示、突然/処刑/後追はそのまま、settled で全開示 (§3)
 - 公開 API (`/api/village/{id}`) の隠蔽パターンは step-0.17 でピン留め
