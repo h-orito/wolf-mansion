@@ -17,13 +17,18 @@ Spring Boot + Thymeleaf → Spring Boot REST API + React Router v7 (SSR) 移行�
 | 07 | [workflow.md](07-workflow.md) | 開発フロー (ブランチ戦略, PR, pr-reviewer, ユーザー承認 → merge) |
 | 08 | [step-plan.md](08-step-plan.md) | Step 分解ドラフト (順次更新) |
 
-## 画面別の詳細 (後続で作成)
+## 調査ドキュメント (Step 0 で作成済み)
 
-各画面の機能調査・REST 化対応表・e2e ケース等は `screens/` 配下に画面単位で分けて配置する想定。
+Step 0 (現状調査) の成果物。3 系統に分けて配置している:
 
 ```
-doc/migration/screens/
-  <screen-name>.md   # 1 画面 1 ファイル、または画面単位のディレクトリ
+doc/migration/
+  screens/      # 画面別 (機能・UI・呼び出す API・既存 JS 挙動・権限分岐・認可マスク・e2e ケース)
+    README.md   #   全画面 index。村プレイ画面は village/ サブディレクトリに集約
+    village/    #   村画面の機能ブロック別 md 群
+  usecases/     # 横断ユースケース (縦 = 1 機構をレイヤー横断で深掘り)
+    README.md   #   足音 reveal / Daychange / 認可マスク
+  scenarios/    # 進行シナリオ (横 = 村ライフサイクルを時系列で追う happy-path)
+    README.md   #   実体の authoring は e2e 検討時 (計画と器のみ用意済み)
+  public-api-pinning.md   # 外部公開 API のピン留め (現状挙動の記録)
 ```
-
-具体的な命名規則・粒度は画面リスト確定後に決める。

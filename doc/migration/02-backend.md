@@ -41,18 +41,22 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 
 → 計画ドラフト段階で firewolf のコードを直接確認し、本プロジェクトに適用できる形に落とし込む。
 
-## wolf-mansion 固有: 足音情報
+## マスク基盤は既存の situation 駆動 (Step 0 で確定)
 
-- firewolf には存在しない概念
-- 「足音 (footstep)」は誰がどの部屋を通ったかを表す情報で、見え方の制御 (誰に見せるか) が複雑
-- View 変換時の取り扱いは **別途調査・設計が必要**
-- 仕様調査は **ユースケース単位**で行う:
-  - 足音の登録 (能力使用時 / Daychange 時に発生?) → どのテーブルにどう積まれるか
-  - 足音の参照 (村画面表示 / 日付ナビ / 各役職視点) → 誰にどこまで見せるか、reveal タイミング
-  - Daychange による状態遷移 (Prologue / Progress / Epilogue / Finished / 廃村) 各段階での見え方
-  - 関連レイヤーは Controller / Coordinator / DomainService / Repository / 各種 View 変換 にまたがるので、横断的に追う
-- 上記をもとに reveal ロジック / View 変換仕様を整理する
-- **非参加者向け表示**は、現行公開 API (`/wolf-mansion/api/village/{id}`) の隠蔽パターンを流用候補とする (上記「現行公開 API も参考にする」参照)
+- firewolf を View 変換の**参考**にしつつ、本プロジェクトの**マスクの正本は既存の `VillageSituation` / `ParticipantSituation` 二層**である ([usecases/mask.md](usecases/mask.md), [screens/village/village-base.md](screens/village/village-base.md))
+  - `VillageControllerHelper` が視点 (匿名/参加者/死者/人狼/村建て/管理者) × 村 status × フィールドで見え方を組み立て済み。**この situation 二層を村取得 API のマスク基盤にそのまま据える**
+  - 共通スポイラー判定 `SpoilerDomainService.isViewableSpoilerContent` が足音・死因・墓下発言などのマスクを束ねる
+- **マスクは全て backend で完結**させ、frontend にはマスク後データのみ返す (リーク防止)。3 軸 (status × 視点 × フィールド) でビューアごとにレスポンスが変わる点に注意 ([usecases/mask.md](usecases/mask.md))
+
+## wolf-mansion 固有: 足音情報 (Step 0 で調査済み)
+
+- firewolf には存在しない概念。「足音 (footstep)」は誰がどの部屋を通ったかを表す情報で、見え方の制御 (誰に見せるか) が複雑
+- **調査完了 → [usecases/footstep.md](usecases/footstep.md)**。移行時の要点:
+  - **能力使用 / 徘徊セット時に DB へ積まれ、日付更新で前日分が一斉に「鳴る」** (`day-1` を `day` で公開する 1 日ずれ)
+  - **聞こえない足音はサーバーサイドで部屋単位に消し込み** (生存かつ非防音者の部屋のみ残す = 死亡者部屋/空室/防音者部屋を除去)。残った足音のみを API / 状況欄 / メッセージで公開
+  - **ビューア別の表示形式**は spoiler 判定 (`isViewableSpoilerContent`) で詳細/簡略に切替 → 認可マスク ([usecases/mask.md](usecases/mask.md)) と共通基盤
+  - reveal ロジック・経路生成・表示文字列化は **domain に温存**し、REST レスポンスは「そのビューアに見せてよい足音」に整形済みで返す
+- **非参加者向け表示**は、現行公開 API (`/wolf-mansion/api/village/{id}`) の隠蔽パターンを流用 (部屋番号のみ公開・1 日ずれ。上記「現行公開 API も参考にする」参照)
 - 足音の **可視化 UI** (analyzer 風) は本移行スコープ外、後続ステップで扱う
 
 ## 外部公開済み API (互換性必須)
@@ -75,7 +79,8 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
   - もしくは frontend (React Router の resource route 等) が backend を呼んで `application/json` を返す
   - どちらの形態を取るかは別途確定 ([06-infra-deploy.md](06-infra-deploy.md) 参照)
 - 新規エンドポイントを `/api/v1/...` で切る場合、これら既存パスとの併存方針を決める必要がある
-- 互換性確認のため **e2e or 契約テスト** で挙動をピン留めしておくことが望ましい
+- **レスポンスの命名規則は API ごとに混在している** (例: `skill/list` 系は snake_case、`api/village-list` 系は camelCase)。**正規化せず個別にそのまま維持**する (詳細は [public-api-pinning.md](public-api-pinning.md))
+- 互換性確認のため **e2e or 契約テスト** で挙動をピン留めしておく ([public-api-pinning.md](public-api-pinning.md) に現状記録済み)
 
 ## lint / format
 
@@ -130,15 +135,15 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 - backend は REST API 専用とし、静的ファイル配信を持たない
 - Step 0 (調査ステップ) で静的リソースの **棚卸し一覧**を作成 (どのファイルがどの画面で使われているかを含めて)
 - React 側で再利用するもの (画像 / 一部 CSS) は frontend リポジトリ配下の `public/` または `assets/` に移す
-- jQuery + Handlebars JS は React コンポーネントに置き換えるため、Step 1 以降で **段階的に削除**
+- jQuery + Handlebars JS は React コンポーネントに置き換えるため、**各画面 step (Step 4+) で段階的に削除**
 
 ## 未確定事項 / 要調査
 
 - [ ] エンドポイント一覧の洗い出し (画面別調査と連動) — Step 0
 - [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得) — Step 2/3 着手前
-- [x] 日付更新 (Daychange) のトリガー — **調査済 ([usecases/daychange.md](usecases/daychange.md))**: 本番は**ポーリング駆動** (`POST /village/{id}/update` 内で `changeDayIfNeeded`)、スケジューラ無し。→ **設計論点**: 移行を機に cron/scheduler 化するか現状踏襲か (要判断)
+- [x] 日付更新 (Daychange) のトリガー — **調査済 ([usecases/daychange.md](usecases/daychange.md))**: 本番は**ポーリング駆動** (`POST /village/{id}/update` 内で `changeDayIfNeeded`)、スケジューラ無し。二重進行は `VILLAGE_DAY` PK で排他済み (複数インスタンスでも安全) → **scheduler 化は必須でなく**「無人だと進まない」を変えたい場合のみの任意検討事項
 - [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 終盤
-- [ ] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — Step 0
-- [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — Step 0 中盤
-- [ ] ktlint 導入の具体構成 (gradle plugin / standalone CLI / lastwolf 構成の流用範囲) — Step 2 着手前
+- [x] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — **調査済 ([public-api-pinning.md](public-api-pinning.md))**: パス凍結対象 + 命名規則混在を記録
+- [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — 現状記録は完了、実テスト整備は Step 0 中盤〜各画面 step
+- [x] ktlint 導入の具体構成 — **確定**: Gradle plugin `org.jlleitschuh.gradle.ktlint` + Claude hook ([07-workflow.md](07-workflow.md))、Step 2 で実装
 - [ ] `.context/ktlint-hook/` 配下に置くスクリプトの設計 (lastwolf を参考) — Step 2 で実装
