@@ -10,11 +10,23 @@
 - つまり **「誰も村を見ていないと日付が進まない」** 可能性がある現仕様
 - debug: `POST /village/{id}/dayChange` (`app.debug:true`) が最新日の `daychangeDatetime` を `now-1秒` にして `changeDayIfNeeded` を呼ぶ (e2e の日付進行手段、step-0.13/05-e2e)
 
-### 移行時の設計判断 (要検討)
+### 同時実行の排他は既に成立している (DB PK による)
 
-- 現状踏襲 (ポーリング駆動) か、移行を機に **cron/scheduler 導入**か
+- **`VILLAGE_DAY` の `PRIMARY KEY (VILLAGE_ID, DAY)`** が二重進行のロックを兼ねる。日付遷移時、`VillageDayDataSource.insertVillageDay()` が新日 `(village_id, day+1)` を insert する (`VillageDayDataSource.kt:63-69`)
+- 複数ポーリングが同時に来ても、両者が同じ `day+1` を insert しようとし、**2 件目が PK 重複でエラー → `changeDayIfNeeded` の `@Transactional(rollbackFor = [Exception, WolfMansionBusinessException])` でトランザクションごとロールバック** (`DaychangeCoordinator.kt:25`)。結果、**遷移を commit できるのは 1 つだけ**
+- ⇒ **stateless backend + 複数インスタンスでも二重進行は起きない** (PK が冪等性ガード)。負けた側の `POST /update` はその回だけ失敗扱いになるが、次のポーリングでリトライされるだけで実害なし
+
+### 移行時の設計判断 (scheduler 化は必須ではない)
+
 - React 化後はポーリングが TanStack Query の `refetchInterval` 経由になる。`POST /update` 相当を叩き続ける限り現挙動は維持できる
-- ただし stateless backend + 複数 frontend インスタンスでは「ポーリング駆動の副作用で状態遷移」はやや危うい → **スケジューラ化を推奨検討事項**として残す ([06-infra-deploy.md](../06-infra-deploy.md) と連動)
+- 上記のとおり**排他は DB PK で担保済み**なので、複数インスタンス化を理由とした scheduler 化は**不要**。残る唯一の特性は **「無人だと日付が進まない」** (誰もポーリングしないと遷移トリガーが発火しない) という点のみ
+- この「無人だと進まない」挙動を変えたい場合に限り scheduler/cron 導入を**任意の選択肢**として検討する (推奨ではない)。導入する場合の `@Scheduled` 時のエラー時挙動は下記参照
+
+#### (参考) `@Scheduled` を導入した場合のエラー時挙動
+
+- `@Scheduled` メソッドが投げた例外は、`@Transactional` 境界で**通常どおりロールバック**された後、Spring の `TaskScheduler` の `ErrorHandler` に伝播する
+- `@Scheduled` のデフォルト ErrorHandler は **`TaskUtils.LOG_AND_SUPPRESS_ERROR_HANDLER`** = **例外をログ出力して握り潰す**。fixedRate/fixedDelay/cron の**次回発火は止まらない** (次の周期で再実行される)
+- 注意点: (1) デフォルトの `TaskScheduler` は**単一スレッド**なので、長時間 daychange が他の scheduled タスクを待たせる → プールサイズ設定 or `@Async` が要る。(2) 失敗は**ログのみで誰にも surface されない** (ポーリング駆動と違い caller が気づけない) → 監視が前提。([06-infra-deploy.md](../06-infra-deploy.md) と連動)
 
 ## 委譲フロー
 
@@ -76,5 +88,5 @@ data class Daychange(
 
 - **Daychange の全 domain ロジックは温存** (REST 化は api/application 入口のみ、[02-backend.md](../02-backend.md))
 - `POST /village/{id}/update` (ポーリング+日付更新トリガー) は REST 化必須。レスポンス `VillageUpdateResponse` (login, latestDay 等) を React のポーリングで使う
-- **ポーリング駆動 vs スケジューラ化**は移行の設計論点として 08-step-plan / 06-infra に残す
+- **ポーリング駆動は現状踏襲**。二重進行は `VILLAGE_DAY` PK で排他済みのため複数インスタンス化でも安全 → scheduler 化は必須でなく、「無人だと進まない」を変えたい場合のみの任意検討事項 (上記「同時実行の排他」参照)
 - e2e は debug `dayChange` で進行制御 ([05-e2e.md](../05-e2e.md))
