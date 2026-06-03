@@ -19,7 +19,8 @@
 | 07 | [workflow](doc/migration/07-workflow.md) | 開発フロー (ブランチ戦略, PR, pr-reviewer, ユーザー承認 → merge) |
 | 08 | [step-plan](doc/migration/08-step-plan.md) | Step 分解ドラフト (順次更新) |
 
-画面別の機能調査・REST 化対応表・e2e ケースは、今後 `doc/migration/screens/` 配下に画面単位で分けて配置する。
+画面別の機能調査・REST 化対応表・e2e ケースは `doc/migration/screens/` 配下に画面単位で配置する。
+横断的な仕様は 2 系統に分けて記録する: `doc/migration/usecases/` (縦 = 1 機構をレイヤー横断で深掘り。足音/Daychange/認可マスク) と `doc/migration/scenarios/` (横 = 時系列 happy-path。村作成→参加→開始→進行→終了。実体は e2e 検討時に authoring)。
 
 ## 計画フェーズの進捗
 
