@@ -93,53 +93,108 @@
 - **依存**: Step 2
 - **動作確認**: ログイン → me が取得できる / 未認証で認証必要ページが /login に飛ぶ / refresh で access 更新 / logout で Cookie 消去 (e2e: 認証フロー)
 
-### Step 4+: 主要画面ごとの REST 化 + frontend 実装
+### Step 4 以降: 画面ごとの REST 化 + frontend 実装
 
-Step 0 の画面リストに沿って画面単位で進める。1 画面 = 1 step を基本とし、複雑な画面はサブ step (`step-N.M`) に分割。
+各画面 step は **REST API (`api/response/` に Response クラス) + React 実装 + e2e ケース**を 1 セットで仕上げる。
 
-**進める順序 (確定)**: 認証 (Step 3 で実施済) → **ホーム (村一覧)** → **プロフィール系 (プロフィール / パスワード変更 / 戦績)** → **新規村作成** → **村画面** (最重量、多数のサブ step)
+- **各 step 共通の進め方**: 実装 → 動作確認 (verify/run skill + `:8091` とスクショ比較) → e2e ケース追加
+- **共通の依存**: Step 3 (認証基盤)、および当該画面の Step 0 ドキュメント (`screens/<screen>.md`)
+- **並び順の原則**: 公開・読み取り中心の軽量画面を先、認証必須・複雑画面を後 (依存が浅い順)。確定の主要画面順 ホーム → プロフィール系 → 新規村作成 → 村画面 を骨格にし、情報系 (D) / ランダム (E) はその間の低リスク枠に差し込む (この 2 つの差し込み位置は調整可)
+- 各 step は規模に応じ複数 PR に分割可
 
-- 各 step の成果物: 当該画面の REST API (`api/response/` に Response クラス) + frontend 実装 + e2e ケース
-- 各 step 内の進め方: **実装 → 動作確認 (verify/run skill + 既存実装とスクショ比較) → e2e ケース追加**
-- **依存**: Step 3、および当該画面に対応する Step 0 のドキュメント
+#### Step 4: ホーム・村一覧 (公開ランディング + 共通レイアウト基盤)
 
-#### 村画面は特別: 大量の step に刻む (Step 0 完了により粒度確定)
+- **goal (完了時にできること)**: 未ログインでもトップ / イントロ / 村一覧が既存同等に表示でき、村一覧から各村画面へ遷移できる。**共通レイアウト (ヘッダ / フッタ) と `useMe` のログイン出し分け基盤がここで確立**し、以降の全画面がこれに乗る
+- **対象**: [home.md](screens/home.md) / [intro.md](screens/intro.md) / [village-list.md](screens/village-list.md)
+- **成果物**: `/` `/intro` `/village-list` の React route + 村一覧用 REST (`/api/v1/...`)。公開 API `/api/village-list` `/recruiting` は凍結のまま proxy 経由で利用。共通 layout / header / footer コンポーネント (フッタの広告・投げ銭・プライバシーポリシー含む) + `useMe` によるヘッダ出し分け
+- **依存**: Step 3
+- **動作確認**: トップ / 村一覧が `:8091` と一致表示 / 未ログイン・ログインでヘッダが切り替わる / 村一覧 → 村画面へ遷移
 
-wolf-mansion で最も機能密度が高い画面。Step 0 の調査 (`doc/migration/screens/village/village-*.md`) を元に、**実装サブ step を調査の機能ブロックと一致させる**ことで確定:
+#### Step 5: 情報・静的ページ (公開・読み取り)
 
-| 実装サブ step | 対応調査 md | 主な内容 | 依存 |
+- **goal**: 役職一覧・ルール・About・FAQ・練習問題・お知らせ・キャラチップ一覧/詳細、およびエイプリル企画アーカイブが公開ページとして既存同等に表示できる
+- **対象**: [skill.md](screens/skill.md) / [rule.md](screens/rule.md) / [about.md](screens/about.md) / [faq.md](screens/faq.md) / [practice.md](screens/practice.md) / [announce.md](screens/announce.md) / [charachip-list.md](screens/charachip-list.md) / [charachip-detail.md](screens/charachip-detail.md) (+ エイプリル `/archives/april-*`)
+- **成果物**: 各 route + REST (公開 API `skill/list` は凍結のまま、他は新規 `/api/v1/...`)。キャラチップ画像は外部 URL 参照
+- **依存**: Step 4 (layout)
+- **動作確認**: 各ページが `:8091` と一致表示。PR は画面グループ単位に分割可 (例: 5.1 役職一覧 / 5.2 ルール・情報群 / 5.3 キャラチップ / 5.4 エイプリル)
+
+#### Step 6: プロフィール系 (認証あり閲覧 + パスワード変更)
+
+- **goal**: プロフィール (`/user/{name}`)・戦績・プレイヤー一覧が表示でき、パスワード変更ができる。**戦績は settled (エピローグ以降) のみ集計**
+- **対象**: [player-profile.md](screens/player-profile.md) / [player-list.md](screens/player-list.md) / [auth-change-password.md](screens/auth-change-password.md) (画面のみ。endpoint `/api/v1/auth/password` は Step 3 で実装済)
+- **成果物**: 各 route + REST (`/api/v1/players/{id}` 等)。パスワード変更フォーム (react-hook-form + zod)
+- **依存**: Step 3 (auth), Step 4 (layout)
+- **動作確認**: プロフィール/戦績/一覧が `:8091` と一致 / パスワード変更が成功・失敗時に適切な表示 (緩和後ポリシー 3-60字)
+
+#### Step 7: ランダム機能 (公開閲覧 + 認証書き込み)
+
+- **goal**: ランダムキーワードの一覧閲覧 (公開) と作成・編集・削除 (要認証) ができる。**認証付き CRUD の最初のパターン**を確立する
+- **対象**: [random-keyword.md](screens/random-keyword.md)
+- **成果物**: 一覧 / 作成 / 編集 route + REST (閲覧 permitAll、書き込み要認証)
+- **依存**: Step 3 (auth)
+- **動作確認**: 未ログインで閲覧可・書き込み不可 (401) / ログインで作成・編集・削除が成功
+
+#### Step 8: 新規村作成 (複雑フォーム)
+
+- **goal**: 村作成フォーム → **確認モーダル** → 作成までが通り、募集中の村が立つ。発言制限設定・既存村からの流用・キャラ選択を含む
+- **対象**: [new-village.md](screens/new-village.md) (+ キャラ選択は Step 5 の charachip 表示を流用)
+- **成果物**: `/new-village` route + REST (`/new-village/{confirm,create,divert}` 相当の `/api/v1/...`)。確認はモーダル化 (ユーザー指示)、ダミー画像は元フォーム
+- **依存**: Step 3 (auth)、Step 5 (キャラチップ表示の共通化)
+- **動作確認**: フォーム入力 → 確認モーダル → 作成 → 募集中の村が生成 / 流用・発言制限が反映
+
+#### Step 9: 村画面 (最重量・サブ step に分割)
+
+wolf-mansion で最も機能密度が高い画面。Step 0 の `screens/village/village-*.md` を起点に、**実装サブ step を調査の機能ブロックと一致**させる。**9.1 (ベース) を最初に確立**し、以降のサブ step がこれに乗る。
+
+| サブ step | goal (完了時にできること) | 対象 md | 依存 |
 |---|---|---|---|
-| 村画面ベース | village/village-base.md / village/village-situation-summary.md | レイアウト/日付ナビ/状況サマリ/ポーリング/`VillageSituation`+`ParticipantSituation` 二層基盤 | 先頭 (他サブ step の土台) |
-| メッセージ表示 | village/village-messages.md | 一覧/種別描画/フィルタ/アンカー/参加者公開 | ベース |
-| 発言投稿 / アクション | village/village-say.md / village/village-action.md | 発言/装飾/表情/秘話/確認フロー、アクション(別パネル) | メッセージ表示 |
-| 参加・退村 | village/village-participate.md | 入村/観戦/切替/希望役職/退村 | ベース |
-| 能力・投票・コミット | village/village-ability.md / village/village-vote.md / village/village-commit.md | 能力(役職別パターン A〜H +足音)/投票/コミット | ベース |
-| RP / 設定モーダル | village/village-rp.md / village/village-user-settings.md | 名前/簡易メモ/表情差分、表示設定/Discord通知 | 発言投稿 |
-| creator/admin/debug | village/village-creator.md / village/village-admin.md / village/village-debug.md | 村主(kick/廃村/エピローグ/村建て発言)/管理者/デバッグ。設定変更は village-settings.md | ベース + 新規村作成のフォーム共通化 |
-| 村情報モーダル | village/village-info.md | 村設定の閲覧モーダル | ベース |
-| 村切り抜き (別画面) | village/village-scrap.md | 切り抜きページ (別ルート) | メッセージ表示 |
+| 9.1 村画面ベース | 村を開くとレイアウト/日付ナビ/状況サマリ (部屋割り/参加者/投票/足音) が表示され、ポーリングで自動更新される。**`VillageSituation`+`ParticipantSituation` 二層 + `isViewableSpoilerContent` をマスク基盤として確立** | village-base / village-situation-summary | Step 8 |
+| 9.2 メッセージ表示 | 発言ログが種別ごとに正しく描画され、フィルタ / アンカー / 参加者一覧公開が動く | village-messages | 9.1 |
+| 9.3 発言投稿・アクション | 通常/表情/装飾/秘話/返信の発言を確認フロー経由で投稿でき、アクション発言 (別パネル) も投稿できる。文字数/行数制限 (種別別) で送信可否が出し分く | village-say / village-action | 9.2 |
+| 9.4 参加・退村 | 入村 / 見学 / 切替 / 希望役職 / 退村ができる | village-participate | 9.1 |
+| 9.5 能力・投票・コミット | 役職別 (A〜H) の能力セット (足音含む)・投票 (2日目以降のみ・`day>1`)・コミットができる | village-ability / village-vote / village-commit | 9.1 |
+| 9.6 RP・設定モーダル | キャラ名/簡易メモ/表情差分の編集、表示設定 (デフォルト変更済) と Discord 通知設定ができる | village-rp / village-user-settings | 9.3 |
+| 9.7 村情報モーダル | 村設定を閲覧モーダルで確認できる | village-info | 9.1 |
+| 9.8 creator/admin/debug + 村設定変更 | 村主操作 (kick/廃村/エピローグ延長短縮/村建て発言)・管理者操作 (参加プレイヤー確認は panel 内インライン)・debug・募集中の村設定変更ができる | village-creator / village-admin / village-debug / village-settings | 9.1 + Step 8 (フォーム共通化) |
+| 9.9 村切り抜き (別画面) | 村の発言を切り抜くページ (別ルート) が動く | village-scrap | 9.2 |
 
-- **基盤の最重要事項**: `ParticipantSituation` / `VillageSituation` / `isViewableSpoilerContent` を村取得 API のマスク基盤に据える (village/village-base.md / usecases/mask.md)。これを村画面ベース step で確立し、以降のサブ step が乗る
-- 横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
-- 各サブ step は必要に応じ `step-N.M.K` 相当でさらに分割可 (例: 能力は役職グループ単位)
+- **9.1 の最重要事項**: situation 二層 + spoiler 判定を村取得 API のマスク基盤に据える ([usecases/mask.md](usecases/mask.md) / [footstep.md](usecases/footstep.md))。横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
+- 各サブ step は必要に応じ `9.M.K` 相当でさらに分割可 (例: 能力は役職グループ単位)
+- **e2e の進行シナリオ**: 9.x 実装後、`scenarios/` の happy-path (村作成→参加→開始→進行) を authoring して e2e の土台にする ([scenarios/README.md](scenarios/README.md))
 
-### Step 中盤の横断タスク
+### 横断タスク (各画面 step と並行)
+
+特定の step に属さず、Step 3 以降を通して進める:
 
 - **OpenAPI → TS 型生成パイプラインの構築**: Step 3 (認証 REST 化) の直後に入れる
   - `pnpm gen:api` で生成 + commit、CI で drift 検知 ([06-infra-deploy.md](06-infra-deploy.md))
 - **外部公開 API の互換性ピン留めテスト**: Step 0 中盤で整備済みのものを継続活用 (REST 化で壊れないことを担保)
 - e2e スイートの拡充 (各画面 step 内で実装後に追加)
 
-### Step 終盤
+### Step 10: 旧資産の撤去
 
-- 旧 Thymeleaf テンプレート / Controller / `api/view/` (旧 ViewModel) / 静的リソースの撤去
-- legacy 公開 API の frontend proxy の path mapping 最終確定 ([06-infra-deploy.md](06-infra-deploy.md))
-- 静的アセットの frontend 移管完了 (キャラチップは外部 URL 参照のまま)
-- DB マイグレーション戦略の確定 / ログ・メトリクスの整合
-- cutover (Ingress / k8s manifest / GitHub Actions 分割の本番反映、`feature/monorepo` → `main` を `--no-ff` merge)
+- **goal**: 旧 Thymeleaf テンプレート / 旧 Controller / `api/view/` (旧 ViewModel) / backend 静的リソースが全て除去され、backend が REST API 専用になる
+- **作業内容**: 全画面の React 移行完了を前提に旧 SSR 資産を削除。静的アセットの frontend 移管を完了 (キャラチップは外部 URL 参照のまま)。legacy 公開 API は frontend proxy として温存
+- **依存**: Step 9 まで完了 (全画面移行済)
+- **動作確認**: 旧テンプレート削除後も全画面が React で表示 / 公開 API がピン留めテストを通過
+
+### Step 11: cutover (本番切替)
+
+- **goal**: 本番が monorepo 構成 (backend / frontend 別 Deployment) で稼働し、`feature/monorepo` が `main` に取り込まれる
+- **作業内容**: Ingress / k8s manifest / GitHub Actions 分割の本番反映、legacy proxy の path mapping 最終確定 ([06-infra-deploy.md](06-infra-deploy.md))、DB マイグレーション戦略の確定、ログ・メトリクスの整合。`feature/monorepo` → `main` を `--no-ff` merge
+- **依存**: Step 10
+- **動作確認**: 本番で全画面動作 / 公開 API 互換 / ロールバック手順の確認
+
+### Step 12-13: 後続フェーズ (本移行スコープ外・cutover 後)
+
+本移行 (Step 0-11) は **UI/UX 現状維持**が原則。見た目に関わる作業は cutover 後の別フェーズで実施:
+
+- **Step 12: 元画面の忠実復元** — 移行中に近似で済ませた箇所を `:8091` 基準で細部まで一致させる
+- **Step 13: 視覚モダナイズ** — デザイントークン + 共通コンポーネントの差し替えで見た目を刷新 ([04-frontend.md](04-frontend.md))
 
 ## 未確定事項
 
 - [x] Step 0 のドキュメント完成度 (合格基準) の定義 — `screens/README.md` 12-24 に 8 項目で定義済み
-- [x] **村画面**サブ step の最終的な分割粒度・順序 — 上記「村画面は特別」表で 8 サブ step に確定済み
-- [ ] cutover の具体的な切替手順 (ダウンタイム有無 / ロールバック手順) — 終盤
+- [x] **村画面**サブ step の最終的な分割粒度・順序 — Step 9 の表で 9 サブ step (9.1〜9.9) に確定済み
+- [x] **画面 step (Step 4 以降) の細分化** — Step 4〜9 + Step 10/11 (撤去/cutover) に goal 付きで定義済み
+- [ ] cutover の具体的な切替手順 (ダウンタイム有無 / ロールバック手順) — Step 11
