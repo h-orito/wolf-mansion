@@ -12,6 +12,7 @@
 | `GET /skill/list` | `SkillListContent` | **snake_case** | 陣営別役職名 |
 | `GET /api/village/{id}` | `WholeVillageSituationsContent` | **camelCase** | 村の全状況 (足音は部屋番号のみ・1日ずれ、[footstep.md](../usecases/footstep.md))。ネストビュー含め `@JsonProperty` 無し |
 | `GET /api/village-list` | `VillageListContent` | camelCase | 全村 + charachipList + skillList |
+| `POST /api/login` | `PlayerView` | camelCase | 認証情報 (`LoginForm`: userId/password) を検証し `{id,name}` を返す (不一致時 null)。**analyzer がログイン検証に使用**。Cookie/セッションは発行しない純粋な資格情報チェック (`VillageApiController.kt:78`) |
 
 ## 現状レスポンス記録 (ローカル :8091、村データ空の状態)
 

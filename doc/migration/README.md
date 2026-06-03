@@ -24,11 +24,11 @@ Step 0 (現状調査) の成果物。3 系統に分けて配置している:
 ```
 doc/migration/
   screens/      # 画面別 (機能・UI・呼び出す API・既存 JS 挙動・権限分岐・認可マスク・e2e ケース)
-    README.md   #   全画面 index。村プレイ画面は village/ サブディレクトリに集約
-    village/    #   村画面の機能ブロック別 md 群
+    README.md              #   全画面 index。村プレイ画面は village/ サブディレクトリに集約
+    village/               #   村画面の機能ブロック別 md 群
+    public-api-pinning.md  #   外部公開 API のピン留め (現状挙動の記録)
   usecases/     # 横断ユースケース (縦 = 1 機構をレイヤー横断で深掘り)
     README.md   #   足音 reveal / Daychange / 認可マスク
   scenarios/    # 進行シナリオ (横 = 村ライフサイクルを時系列で追う happy-path)
     README.md   #   実体の authoring は e2e 検討時 (計画と器のみ用意済み)
-  public-api-pinning.md   # 外部公開 API のピン留め (現状挙動の記録)
 ```

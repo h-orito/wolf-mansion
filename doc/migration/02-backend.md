@@ -68,9 +68,10 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 - `/skill/list`
 - `/recruiting`
 
-加えて、村単位の公開 API も外部 (analyzer サイト等) から消費されている:
+加えて、以下も外部 (analyzer サイト等) から消費されている:
 
 - `/wolf-mansion/api/village/{id}` (例: `https://wolfort.net/wolf-mansion/api/village/711`)
+- `POST /wolf-mansion/api/login` … 認証情報を検証して `PlayerView` を返す JSON endpoint。**[h-orito/wolf-mansion-analyzer](https://github.com/h-orito/wolf-mansion-analyzer) がログイン情報検証に使用**しているため互換維持必須 (リポジトリ内 caller は無いが外部から呼ばれる)
 
 互換性維持にあたっての注意:
 
@@ -79,8 +80,8 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
   - もしくは frontend (React Router の resource route 等) が backend を呼んで `application/json` を返す
   - どちらの形態を取るかは別途確定 ([06-infra-deploy.md](06-infra-deploy.md) 参照)
 - 新規エンドポイントを `/api/v1/...` で切る場合、これら既存パスとの併存方針を決める必要がある
-- **レスポンスの命名規則は API ごとに混在している** (例: `skill/list` 系は snake_case、`api/village-list` 系は camelCase)。**正規化せず個別にそのまま維持**する (詳細は [public-api-pinning.md](public-api-pinning.md))
-- 互換性確認のため **e2e or 契約テスト** で挙動をピン留めしておく ([public-api-pinning.md](public-api-pinning.md) に現状記録済み)
+- **レスポンスの命名規則は API ごとに混在している** (例: `skill/list` 系は snake_case、`api/village-list` 系は camelCase)。**正規化せず個別にそのまま維持**する (詳細は [public-api-pinning.md](screens/public-api-pinning.md))
+- 互換性確認のため **e2e or 契約テスト** で挙動をピン留めしておく ([public-api-pinning.md](screens/public-api-pinning.md) に現状記録済み)
 
 ## lint / format
 
@@ -101,6 +102,7 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
   - `/skill/list`
   - `/recruiting`
   - `/wolf-mansion/api/village/{id}`
+  - `POST /wolf-mansion/api/login` (analyzer がログイン情報検証に使用)
 - 既存パスは `/api/v1/...` 配下への複製や rewrite は行わず、現在の Controller / View を **そのまま温存**する
 - frontend service 側で `/wolf-mansion/...` 配下の legacy パスを backend に proxy する (詳細は [06-infra-deploy.md](06-infra-deploy.md))
 - 既存パスを将来 `/api/v1/...` 側へ deprecation 移行する計画は **本移行スコープ外**
@@ -143,7 +145,7 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 - [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得) — Step 2/3 着手前
 - [x] 日付更新 (Daychange) のトリガー — **調査済 ([usecases/daychange.md](usecases/daychange.md))**: 本番は**ポーリング駆動** (`POST /village/{id}/update` 内で `changeDayIfNeeded`)、スケジューラ無し。二重進行は `VILLAGE_DAY` PK で排他済み (複数インスタンスでも安全) → **scheduler 化は必須でなく**「無人だと進まない」を変えたい場合のみの任意検討事項
 - [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 終盤
-- [x] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — **調査済 ([public-api-pinning.md](public-api-pinning.md))**: パス凍結対象 + 命名規則混在を記録
+- [x] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — **調査済 ([public-api-pinning.md](screens/public-api-pinning.md))**: パス凍結対象 + 命名規則混在を記録
 - [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — 現状記録は完了、実テスト整備は Step 0 中盤〜各画面 step
 - [x] ktlint 導入の具体構成 — **確定**: Gradle plugin `org.jlleitschuh.gradle.ktlint` + Claude hook ([07-workflow.md](07-workflow.md))、Step 2 で実装
 - [ ] `.context/ktlint-hook/` 配下に置くスクリプトの設計 (lastwolf を参考) — Step 2 で実装

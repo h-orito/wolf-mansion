@@ -123,11 +123,11 @@
   - 新規村作成
   - 村画面 (発言, 参加, 能力, 投票, RP, 設定変更, creator/admin 操作 ...)
 
-## デザイントークン棚卸し (Step 0 で実施)
+## デザイントークン抽出 (Step 2 で theme 化と同時)
 
-- **Step 0 で既存 CSS / Thymeleaf を読み込んで token を抽出**し `doc/migration/design-tokens.md` に記録
+- **Step 0 では実施しない** (専用の `design-tokens.md` は作らない)。デザインを詰めるのは cutover 後 (Step 13) の原則に沿い、トークンの抽出は **Step 2 (frontend 雛形/初期設計) で Tailwind v4 theme を組む際に同時に行う**
+- **Step 2**: 既存 CSS / Thymeleaf から token を抽出しつつ、そのまま Tailwind v4 の theme (CSS variables) に落とし込む
   - 抽出対象: 主要色 (役職別カラー / 陣営別カラー / 状態色) / 余白 / 角丸 / フォントサイズ / シャドウ など
-- **Step 2 (frontend 雛形/初期設計)** で Tailwind v4 の theme (CSS variables) に落とし込む
   - Tailwind v4 の `@theme` ブロックで CSS variables として定義
   - ページ毎の直値埋め込みは禁止 (= モダナイズフェーズで token 値変更だけで全体更新できる構造)
 
