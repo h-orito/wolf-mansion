@@ -75,6 +75,16 @@
   - 既存ユーザーの短いパスワードも引き続きログイン可
   - userId は引き続き形式検証してよい (現状維持)
 
+## セキュリティ上の懸念 (現状、移行で要改善)
+
+現状のログインには以下のリスクがある (コード確認済):
+
+1. **試行回数が無制限** — `WolfMansionWebSecurityConfig` の formLogin は **レート制限 / アカウントロックアウト / CAPTCHA を一切持たない**。失敗しても無制限に再試行でき、ブルートフォース耐性がない
+2. **ログイン ID が公開されている** — 認証 username (`userId`) は `player.playerName` と照合される (`UserInfoService.loadUserByUsername` → `setPlayerName_Equal`)。この `playerName` は **プレイヤー一覧 (`/user-list`) / プロフィール URL (`/user/{name}`) でそのまま公開表示**される ([player-list.md](player-list.md))。`Player` に表示名とログイン ID を分ける別フィールドはなく、= **有効なログイン ID が誰でも列挙可能**
+3. **(compounding) パスワード下限 3 文字** — 緩和後も下限 3 文字 ([03-auth.md](../03-auth.md))。上記 1+2 と合わさると、列挙したログイン ID に対する短いパスワードの総当たりが現実的になる
+
+**移行方針 (確定)**: ログイン ID と公開表示名の分離は **行わず (現状維持)**、ブルートフォース対策として **ログイン側にレート制限** (IP + アカウント 2 軸、超過時 429) を導入する。詳細は [03-auth.md](../03-auth.md) の「ログイン試行制限 / レート制限」を参照。
+
 ## メモ / 移行時の注意
 
 - **現状はセッション + remember-me Cookie** (`WolfMansionWebSecurityConfig`、rememberMe key `X7kmptSvar`)。移行後は **JWT (access/refresh Cookie)** に置換 ([03-auth.md](../03-auth.md))

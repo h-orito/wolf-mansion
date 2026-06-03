@@ -104,20 +104,21 @@ Step 0 の画面リストに沿って画面単位で進める。1 画面 = 1 ste
 
 #### 村画面は特別: 大量の step に刻む (Step 0 完了により粒度確定)
 
-wolf-mansion で最も機能密度が高い画面。Step 0 の調査 (`doc/migration/screens/village-*.md`) を元に、**実装サブ step を調査の機能ブロックと一致させる**ことで確定:
+wolf-mansion で最も機能密度が高い画面。Step 0 の調査 (`doc/migration/screens/village/village-*.md`) を元に、**実装サブ step を調査の機能ブロックと一致させる**ことで確定:
 
 | 実装サブ step | 対応調査 md | 主な内容 | 依存 |
 |---|---|---|---|
-| 村画面ベース | village-base.md | レイアウト/日付ナビ/状況サマリ/ポーリング/`ParticipantSituation` 基盤 | 先頭 (他サブ step の土台) |
-| メッセージ表示 | village-messages.md | 一覧/種別描画/フィルタ/アンカー/参加者公開 | ベース |
-| 発言投稿 | village-say.md | 発言/アクション/装飾/表情/秘話/確認フロー | メッセージ表示 |
-| 参加・退村 | village-participate.md | 入村/観戦/切替/希望役職/退村 | ベース |
-| 能力・投票・コミット | village-ability-vote.md | 能力(役職別+足音)/投票/コミット | ベース |
-| RP | village-rp.md | 名前/メモ/表情差分/通知設定 | 発言投稿 |
-| creator/admin/debug | village-creator-admin.md | 設定変更/kick/廃村/エピローグ/admin/debug | ベース + 新規村作成のフォーム共通化 |
-| 村情報/切り抜き | village-info-scrap.md | 村情報モーダル/切り抜きページ | メッセージ表示 |
+| 村画面ベース | village/village-base.md / village/village-situation-summary.md | レイアウト/日付ナビ/状況サマリ/ポーリング/`VillageSituation`+`ParticipantSituation` 二層基盤 | 先頭 (他サブ step の土台) |
+| メッセージ表示 | village/village-messages.md | 一覧/種別描画/フィルタ/アンカー/参加者公開 | ベース |
+| 発言投稿 / アクション | village/village-say.md / village/village-action.md | 発言/装飾/表情/秘話/確認フロー、アクション(別パネル) | メッセージ表示 |
+| 参加・退村 | village/village-participate.md | 入村/観戦/切替/希望役職/退村 | ベース |
+| 能力・投票・コミット | village/village-ability.md / village/village-vote.md / village/village-commit.md | 能力(役職別パターン A〜H +足音)/投票/コミット | ベース |
+| RP / 設定モーダル | village/village-rp.md / village/village-user-settings.md | 名前/簡易メモ/表情差分、表示設定/Discord通知 | 発言投稿 |
+| creator/admin/debug | village/village-creator.md / village/village-admin.md / village/village-debug.md | 村主(kick/廃村/エピローグ/村建て発言)/管理者/デバッグ。設定変更は village-settings.md | ベース + 新規村作成のフォーム共通化 |
+| 村情報モーダル | village/village-info.md | 村設定の閲覧モーダル | ベース |
+| 村切り抜き (別画面) | village/village-scrap.md | 切り抜きページ (別ルート) | メッセージ表示 |
 
-- **基盤の最重要事項**: `ParticipantSituation` / `VillageSituation` / `isViewableSpoilerContent` を村取得 API のマスク基盤に据える (village-base.md / usecases/mask.md)。これを村画面ベース step で確立し、以降のサブ step が乗る
+- **基盤の最重要事項**: `ParticipantSituation` / `VillageSituation` / `isViewableSpoilerContent` を村取得 API のマスク基盤に据える (village/village-base.md / usecases/mask.md)。これを村画面ベース step で確立し、以降のサブ step が乗る
 - 横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
 - 各サブ step は必要に応じ `step-N.M.K` 相当でさらに分割可 (例: 能力は役職グループ単位)
 
