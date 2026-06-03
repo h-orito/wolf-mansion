@@ -113,7 +113,7 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 - レスポンス用クラスは **`api/response/` 配下に新設**する
   - クラス名は `XxxResponse` 系統 (例: `VillageResponse`, `VillageDetailResponse`)
   - SSR 時代の `api/view/` 配下 (Thymeleaf 用 ViewModel) とは **別ディレクトリ**として明確に分ける
-  - 移行期間中は `api/view/` (旧) と `api/response/` (新) が並存する。Step 終盤で旧 Controller / Thymeleaf テンプレートと一緒に `api/view/` も撤去
+  - 移行期間中は `api/view/` (旧) と `api/response/` (新) が並存する。Step 10 (旧資産撤去) で旧 Controller / Thymeleaf テンプレートと一緒に `api/view/` も撤去
 - リクエストフォームは既存の `api/request/` 配下を継続利用
 - ページネーション、フィルタ、ソート: 必要箇所で統一規約を設ける (詳細は別途)
 
@@ -137,14 +137,14 @@ Spring Boot バックエンドを Thymeleaf SSR から REST API 専用に変換�
 - backend は REST API 専用とし、静的ファイル配信を持たない
 - Step 0 (調査ステップ) で静的リソースの **棚卸し一覧**を作成 (どのファイルがどの画面で使われているかを含めて)
 - React 側で再利用するもの (画像 / 一部 CSS) は frontend リポジトリ配下の `public/` または `assets/` に移す
-- jQuery + Handlebars JS は React コンポーネントに置き換えるため、**各画面 step (Step 4+) で段階的に削除**
+- jQuery + Handlebars JS は React コンポーネントに置き換えるため、**各画面 step (Step 4〜9) で段階的に置換し、Step 10 で残りを撤去**
 
 ## 未確定事項 / 要調査
 
 - [ ] エンドポイント一覧の洗い出し (画面別調査と連動) — Step 0
 - [ ] 認可情報の View 渡し方 (現在の SecurityContext からの取得) — Step 2/3 着手前
 - [x] 日付更新 (Daychange) のトリガー — **調査済 ([usecases/daychange.md](usecases/daychange.md))**: 本番は**ポーリング駆動** (`POST /village/{id}/update` 内で `changeDayIfNeeded`)、スケジューラ無し。二重進行は `VILLAGE_DAY` PK で排他済み (複数インスタンスでも安全) → **scheduler 化は必須でなく**「無人だと進まない」を変えたい場合のみの任意検討事項
-- [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 終盤
+- [ ] 旧 Controller (`api/`) と Thymeleaf テンプレート (`src/main/resources/templates/`) の撤去計画 — Step 10
 - [x] 外部公開済み API の **現状フルパス**確認 (context-path 含む) — **調査済 ([public-api-pinning.md](screens/public-api-pinning.md))**: パス凍結対象 + 命名規則混在を記録
 - [ ] 外部公開済み API の **挙動ピン留めテスト** (契約テスト or e2e) の整備 — 現状記録は完了、実テスト整備は Step 0 中盤〜各画面 step
 - [x] ktlint 導入の具体構成 — **確定**: Gradle plugin `org.jlleitschuh.gradle.ktlint` + Claude hook ([07-workflow.md](07-workflow.md))、Step 2 で実装
