@@ -45,7 +45,7 @@
 - `/api/v1/auth/refresh` を呼ぶたびに新しい refresh token を発行し、古いものを無効化する
 - DB に refresh token (またはその `jti` / ハッシュ) を保存し、利用済みフラグや失効を管理する
 - 既に使用済みの refresh token が再度送られてきた場合は、**漏洩疑い**として該当ユーザーの全 refresh を失効させる (検討事項)
-- 詳細スキーマは Step 1 (auth 実装ステップ) で詰める
+- 詳細スキーマは Step 3 (認証 REST 化ステップ) で詰める
 
 ## CSRF 対策
 
@@ -85,7 +85,7 @@
   - `exp` / `iat` 等の標準クレーム
 - 通常エンドポイントは **claim の authorities を信用**して認可判定する (HS256 で署名されているため改竄不可)
 - **重要エンドポイント** (管理者操作 / 権限剥奪が即座に効くべき箇所) では **DB から再取得して再確認**する
-  - 具体的に「どのエンドポイントを重要扱いするか」は Step 1 着手時に endpoint 一覧と合わせて定義
+  - 具体的に「どのエンドポイントを重要扱いするか」は Step 3 着手時に endpoint 一覧と合わせて定義
   - 想定: 管理者専用の村操作 (強制廃村、強制 Daychange など)、プレイヤー権限変更、参加者BAN 系
 - JWT filter は claim から `UsernamePasswordAuthenticationToken` を組み立てて `SecurityContext` に詰め、Spring Security の `@PreAuthorize` / `hasRole()` で通常チェック
 - 重要エンドポイント側では `application/coordinator/` または `domain/service/` 内で改めて DB から最新の権限を取得し直して assertion を行う
@@ -118,7 +118,7 @@
 ## 未確定事項 / 要調査
 
 - [ ] ログイン レート制限の閾値 (時間窓 / 失敗回数) / 共有ストア (DB or Redis) / 429 解除条件 — Step 3 認証 REST 化で確定
-- [ ] refresh token DB スキーマの詳細 (`jti` 保存方式 / ハッシュ化 / 期限 / 漏洩疑い時の全失効仕様) — Step 1 着手前
-- [ ] 「重要エンドポイント」の具体的リスト (DB 再確認を必須とするもの) — Step 1 endpoint 設計時
+- [ ] refresh token DB スキーマの詳細 (`jti` 保存方式 / ハッシュ化 / 期限 / 漏洩疑い時の全失効仕様) — Step 3 着手前
+- [ ] 「重要エンドポイント」の具体的リスト (DB 再確認を必須とするもの) — Step 3 endpoint 設計時
 - [ ] 鍵ローテーション戦略 (HS256 鍵の更新手順) — 運用課題として将来検討
 - [ ] 開発環境で CORS 許可する Origin のリスト (Vite dev server のポート確定後)

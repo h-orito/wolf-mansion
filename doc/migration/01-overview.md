@@ -4,7 +4,8 @@
 
 人狼Webアプリ wolf-mansion を、Spring Boot + Thymeleaf の一体型構成から、Spring Boot REST API + React Router v7 (SSR) フロントエンドの分離構成に刷新する。
 
-- フロントエンドの開発体験・UI 品質を現代化する (Tailwind, TanStack Query, 型安全な API クライアント)
+- フロントエンドの**開発体験・技術スタックを現代化**する (Tailwind, TanStack Query, 型安全な API クライアント)
+  - ⚠️ **見た目の UI/UX は現状を忠実に踏襲する** (本移行ではモダナイズしない)。視覚的なモダナイズは cutover 後の別フェーズ (Step 13) で行う。詳細は [04-frontend.md](04-frontend.md) の「UI/UX 現状維持原則」
 - API サーバとして独立させることで、将来のクライアント追加 (モバイル等) に備える
 - 認証をセッションから JWT に移行し、バックエンドを stateless にする
 
