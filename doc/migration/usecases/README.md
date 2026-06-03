@@ -5,6 +5,8 @@
 
 詳細は `doc/migration/usecases/<usecase>.md` に分けて記録する。
 
+> ここは **縦** (1 機構をレイヤー横断で深掘り) の調査。**横** (村ライフサイクルを時系列で追う happy-path シナリオ) は [`../scenarios/`](../scenarios/README.md) に分けて記録する。
+
 ## 調査対象
 
 ### `step-0.14` 足音 (footstep) reveal ✅ → [footstep.md](footstep.md)

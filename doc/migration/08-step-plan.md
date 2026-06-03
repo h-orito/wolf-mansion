@@ -33,7 +33,8 @@
 - **成果物**:
   - `doc/migration/screens/<screen>.md` … 画面別ファイル群 (機能・UI 要素・呼び出す API・**対応する既存 JS の挙動**・権限分岐・認可マスク・関連 e2e ケース)
   - `doc/migration/screens/README.md` … 画面一覧 index
-  - `doc/migration/usecases/<usecase>.md` … ユースケース横断の調査メモ (足音 reveal / Daychange / 死亡情報マスク / 投票 等。`doc/migration/usecases/` に配置済み)
+  - `doc/migration/usecases/<usecase>.md` … ユースケース横断 (縦/機構深掘り) の調査メモ (足音 reveal / Daychange / 死亡情報マスク / 投票 等。`doc/migration/usecases/` に配置済み)
+  - `doc/migration/scenarios/<scenario>.md` … 進行シナリオ (横/時系列 happy-path) の調査メモ。**実体の authoring は e2e 検討時**で良い (`doc/migration/scenarios/README.md` に計画と器を用意済み)
   - 外部公開 API (`/village-record/list` 等) の現状挙動メモ
   - 既存 JS が叩いている内部 AJAX エンドポイントの一覧 (Handlebars レンダリング含む)
 - **作業内容**:
