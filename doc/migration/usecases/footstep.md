@@ -34,7 +34,7 @@
   - `Village.isViewableSpoilerContent()` = `status.isSettled()` (終了系)
   - `VillageParticipant.isViewableSpoilerContent(isOpenSkillInGrave)` = 死者 && 墓下役職公開
 - 生存者フィルタ: `isAliveWhen(day)` かつ `!isNoSound()` (無音役職除外)
-- 村画面テンプレ (situation.html 足音タブ) の `data-spoiled-content` / `data-spoiled-alternative-content` と連動 ([village-base.md](../screens/village-base.md))
+- 村画面テンプレ (situation.html 足音タブ) の `data-spoiled-content` / `data-spoiled-alternative-content` と連動 ([village-base.md](../screens/village/village-base.md))
 
 ## 4. View 変換
 

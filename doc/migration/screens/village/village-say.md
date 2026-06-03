@@ -1,11 +1,11 @@
-# 画面: 村画面 — 発言投稿 / アクション
+# 画面: 村画面 — 発言投稿
 
-> 村画面 form-area の発言系。発言種別選択・装飾・表情・秘話・アクションを扱う。
+> 村画面 form-area の発言系。発言種別選択・装飾・表情・秘話を扱う。**アクション発言は別パネルのため [village-action.md](village-action.md) に分離**。
 
 ## 概要
 
-- **テンプレート**: `village/say-form.html` (309行) / `say-confirm.html` / `creator-say-confirm.html` / `village/action-form.html`
-- **担当 JS**: 村画面内の発言フォーム・確認プレビューは `village.js` (発言フォーム L.400-662, アクション L.548-887)。**SSR 確認ページ `say-confirm.html` / `creator-say-confirm.html` は別 JS `say-confirm.js` (109行) が描画** (メッセージ文字列変換 + キャラ画像プレビュー)。村画面内のプレビュー確認は `village.js:510-661`
+- **テンプレート**: `village/say-form.html` (309行) / `say-confirm.html` / `creator-say-confirm.html`
+- **担当 JS**: 村画面内の発言フォーム・確認プレビューは `village.js` (発言フォーム L.400-662)。**SSR 確認ページ `say-confirm.html` / `creator-say-confirm.html` は別 JS `say-confirm.js` (109行) が描画** (メッセージ文字列変換 + キャラ画像プレビュー)。村画面内のプレビュー確認は `village.js:510-661`
 - **Controller**: `VillageSayController` (creator-say は `CreatorController`、step-0.12)
 - **対象ユーザー**: 発言可能な参加者 (situation.say.isAvailableSay 由来)
 
@@ -13,7 +13,6 @@
 
 - 発言種別を選んで発言 (確認画面 → 投稿)
 - 装飾タグ / ランダム機能の挿入、表情選択、秘話相手指定
-- アクション発言 (「〜は、〜」形式)
 - 文字数 / 行数 / 残り発言回数のリアルタイム表示
 
 ## 2. 表示要素・UI 状態 (say-form)
@@ -25,7 +24,7 @@
 - **ランダム機能** select: fortune / 1d6 / or / who / allwho / gwho + ランダムキーワード → タグ追加
 - 表情画像 + 表情 select (+ 画像選択モーダル)
 - 本文 textarea
-- 文字数表示 (種別別の max length/count/left count を data 属性で保持)
+- **文字数表示** (`data-message-count` 系): **発言種別ごと**に `max length` / `max count` / `left count` (残り回数) を data 属性で保持。これらの制限値は **村設定で発言種別ごとに細かく設定**される (`sayRestriction`、[village-settings.md](village-settings.md) / [new-village.md](../new-village.md) の発言制限)
 - 変換無効 (convertDisable) チェック
 - 確認画面へ submit、返信プレビュー領域
 
@@ -35,13 +34,12 @@
 |---|---|---|---|
 | POST | `/village/{id}/confirm` | 発言確認プレビュー (JSON, 失敗時 null) | village.js |
 | POST | `/village/{id}/say` | 発言投稿 → redirect (referer query 維持 + `#bottom`) | 確認画面 |
-| POST | `/village/{id}/action-confirm` | アクション確認 (JSON) | village.js |
-| POST | `/village/{id}/action` | アクション投稿 | 確認画面 |
 | GET | `/getFaceImgUrl/{villageId}/{faceTypeCode}` | 表情画像 URL (所属は `CharaController`) | village.js (表情切替) |
 
-- フォーム: `VillageSayForm` (message, messageType, secretSayTargetCharaId, convertDisable, faceType) / `VillageActionForm` (myself, target, message, convertDisable)
-- 投稿は `MessageCoordinator.confirmToSay` / `say` (IP アドレス記録)。バリデータ: `SayFormValidator` / `ActionFormValidator`
-- CSRF: `/village/*/confirm` `/village/*/say` は CSRF 除外。一方 **`/village/*/action` `/village/*/action-confirm` は除外されず CSRF トークン必須** (`WolfMansionWebSecurityConfig.kt:53-57`、除外は confirm/say/update/api-login のみ) → 発言系とアクション系で非対称
+- フォーム: `VillageSayForm` (message, messageType, secretSayTargetCharaId, convertDisable, faceType)。バリデータ `SayFormValidator`
+- 投稿は `MessageCoordinator.confirmToSay` / `say` (IP アドレス記録)
+- CSRF: `/village/*/confirm` `/village/*/say` は CSRF 除外 (`WolfMansionWebSecurityConfig.kt:53-57`)。一方アクション (`/action` `/action-confirm`) は除外されず非対称 → [village-action.md](village-action.md)
+- アクション発言の endpoint・フォームは [village-action.md](village-action.md)
 
 ## 4. 既存 JS の挙動
 
@@ -50,7 +48,7 @@
 - 秘話選択時は相手選択を強制
 - 確認フロー中は `canAutoRefresh=false` (自動更新抑止)
 - 装飾タグ: 選択テキストを `[[tag:...]]` 等で囲む。`[[]]` / ランダム関数挿入
-- アクション: myself("〜は、") + target + message を結合してアクション種別で投稿
+- 文字数・行数が制限を超えても**入力自体はできる**が、超過時は**確認ボタンが disabled で送信不可**
 
 ## 5. 権限による分岐 / 6. 認可マスク
 
@@ -59,7 +57,7 @@
 
 ## 7. 視覚比較
 
-- 既存 `:8091`。各種別の発言、装飾プレビュー、確認画面、アクション
+- 既存 `:8091`。各種別の発言、装飾プレビュー、確認画面
 
 ## 8. 関連 e2e ケース候補
 
@@ -67,14 +65,15 @@
 - [ ] 種別切替 (囁き/独り言/秘話)、秘話相手指定
 - [ ] 装飾タグ・ランダム機能・変換無効
 - [ ] 表情切替
-- [ ] 残り回数・文字数制限
-- [ ] アクション発言
+- [ ] 残り回数・文字数制限 (超過時は送信不可)
+- [ ] 発言確認 → プレビュー位置に遷移 → 投稿 / キャンセルで入力欄に戻る
 
 ## メモ / 移行時の注意
 
 - **装飾・変換システム** ([[b]]/色/ruby/cw/tp、fortune/dice/who 等のランダム、`[[キーワード]]` 展開) は backend の messageContent 変換で実現。記法・変換仕様を移行時に明文化 (step-0.5 ランダムと対)
-- 確認 (`confirm`) → 投稿 (`say`) の 2 段フローは React では「プレビュー → 確定」UI に。確認は JSON プレビューなので CSR で実装しやすい
-- 表情選択は `getFaceImgUrl` (本人参加キャラのみ、step-0.4 charachip)
+  - **発言装飾の実装は firewolf (<https://github.com/h-orito/firewolf>) の `message-decorator` が参考になる**。装飾記法のパース/レンダリングはそれを参照して設計する
+- **文字数制限**: 発言種別ごとに `max length` / `max count` / `left count` を持ち、値は村設定 (`sayRestriction`) で細かく設定される。**制限超過しても入力は可能だが送信 (確認) はできない** (確認ボタン disabled)。この挙動を移行後も維持。data 属性群は situation の restrict 情報なので REST レスポンスに含める
+- **確認 (`confirm`) → 投稿 (`say`) の 2 段フローの UIUX は崩さない** (確定方針): React 化でも、確認時は**実際に発言が表示される位置に遷移してプレビュー**し、キャンセル時は**発言入力欄に戻る**、という現行の体験を維持する。確認は JSON プレビューなので CSR で実装しやすい
+- 表情選択は `getFaceImgUrl` (本人参加キャラのみ、step-0.4 [charachip-list.md](../charachip-list.md) の横断 JSON API)
 - IP アドレス記録は移行後も維持 (不正対策)
-- 文字数制限の data 属性群は situation の restrict 情報。REST レスポンスに含める
 - `face-type-form.html` (表情差分の**追加/管理**) は RP 機能として step-0.11 で扱う (本 step は表情**選択**のみ)

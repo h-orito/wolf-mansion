@@ -4,8 +4,8 @@
 
 ## 概要
 
-- **テンプレート**: `village-template/message.html` (一覧ラッパ) / `message-partial.html` (各メッセージ, 490行) / `participants.html` (終了時正体公開) / `village/modal-filter.html` (抽出)
-- **専用ページ**: `village-message.html` (`GET /village/{id}/message`、アンカー/切り抜き用の軽量メッセージページ)
+- **テンプレート**: `village-template/message.html` (一覧ラッパ) / `message-partial.html` (各メッセージ, 490行) / `participants.html` (エピローグ以降の正体公開) / `village/modal-filter.html` (抽出)
+- **専用ページ**: `village-message.html` (`GET /village/{id}/message?anchors=`、**通知に貼られるアンカーのパーマリンクページ**。アプリ内 UI からの遷移は無く、通知 (`NotificationService`) 経由の外部ディープリンク専用)
 - **担当 JS**: `village.js` (一覧取得/フィルタ/ポーリング) / `village-message.js` (アンカー専用)
 - **Controller**: `VillageMessageController`
 - **対象ユーザー**: 全員 (可視範囲はサーバ側でマスク)
@@ -16,7 +16,7 @@
 - 発言種別 / 発言者 / 宛先 / キーワード での抽出 (フィルタ)
 - アンカー (`>>123` 等) クリックでの該当発言インライン展開
 - 返信 / 秘話返信リンク
-- 終了village での参加者正体公開
+- **エピローグ以降 (settled = エピローグ + 終了)** での参加者正体公開 (`getParticipants` は `village.status.isSettled()` ガード, `VillageMessageController.kt:187`)
 
 ## 2. メッセージ種別カタログ (message-partial.html)
 
@@ -33,7 +33,7 @@
 | TELEPATHY (念話) | `>>_N` | message-telepathy | ✓ | |
 | GRAVE_SAY (墓下) | `>>+N` | message-grave | ✓ | |
 | SPECTATE_SAY (見学) | `>>@N` | message-spectate | ✓ | |
-| CREATOR_SAY (天からのお告げ) | `>>#N` | message-creator | - | |
+| CREATOR_SAY (村建て発言) | `>>#N` | message-creator | - | `CDef.MessageType.村建て発言` = `"CREATOR_SAY"`。村主が「天からのお告げ」として投稿 |
 | ACTION (アクション) | `>>aN` | message-action | - | |
 | PUBLIC_SYSTEM | - | message-public-system | - | |
 | PRIVATE_SYSTEM | - | message-private-system | ✓ | |
@@ -44,14 +44,14 @@
 | PRIVATE_LOVER | - | message-private-lover | ✓ | |
 | PRIVATE_FOX | - | message-private-fox | ✓ | |
 | PRIVATE_ABILITY | - | message-private-ability | ✓ | |
-| PARTICIPANTS | - | (participants table) | - | 終了時の正体公開 |
+| PARTICIPANTS | - | (participants table) | - | エピローグ以降 (settled) の正体公開 |
 | (isBigEars 地獄耳) | - | message-owl | ✓ | 顔なし特殊表示 |
 
 共通要素 (say系): copy-anchor / characterName / playerName(spoiled) / timeFormat / 顔画像 / canReply (data-reply-to) / canSecret (data-secret-to)。
 装飾: `isLoud`→loud クラス, `isRainbow`→rainbow ラッパ。
 Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWithoutBr` `minHeightCss`。
 
-> **フィルタ種別の補足**: `村建て発言` (`CDef.MessageType.村建て発言`) も filter 対象種別として typeMap に存在 (`VillageGetMessageListForm.kt:77`)。上表に専用行は無く公開/通常系として描画される (募集中の村建て発言)。`GRAVE_SPECTATE_SAY` キーは「死者の呻き + 見学発言」をまとめた合成フィルタ種別。
+> **フィルタ種別の補足**: `村建て発言` は **`CDef.MessageType.村建て発言` = `"CREATOR_SAY"`** であり、上表の **CREATOR_SAY (message-creator) 行と同一**。filter 対象種別として typeMap にも存在 (`VillageGetMessageListForm.kt:77`)。`GRAVE_SPECTATE_SAY` キーは「死者の呻き + 見学発言」をまとめた合成フィルタ種別。
 
 ## 3. 呼び出す API エンドポイント
 
@@ -61,8 +61,8 @@ Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWit
 | GET | `/village/getLatestMessageDatetime` | 更新検知 | village.js (ポーリング) |
 | GET | `/village/getAnchorMessage` | 単一アンカー発言 | village.js / village-message.js |
 | GET | `/village/{id}/getAnchorMessages?anchors=` | 複数アンカー (`n123_w45` 形式) | village-message.js |
-| GET | `/village/{id}/getParticipants` | 参加者正体一覧 (settled時のみ) | village.js |
-| GET | `/village/{id}/message` | アンカー専用メッセージページ (SSR) | リンク |
+| GET | `/village/{id}/getParticipants` | 参加者正体一覧 (settled=エピローグ以降のみ, `isSettled()` ガード) | village.js |
+| GET | `/village/{id}/message?anchors=` | **通知に貼られるアンカーのパーマリンクページ** (`village-message.html`、`VillageController.kt:86`)。`village-message.js` が `getAnchorMessages?anchors=<種別><番号>` で該当発言のみ取得・表示する軽量ページ | **通知 (`NotificationService.createMessageNotificationUrl`, NotificationService.kt:247-253)**。アプリ内 UI からのリンクは無し |
 
 `getMessageList` パラメータ (実 API 名, `VillageGetMessageListForm`): `villageId, day, pageNum, pageSize, participantIds (発言者), types (種別), keywords (スペース区切り), toParticipantIds (宛先), isPaging, isDispLatest`。
 
@@ -94,7 +94,11 @@ Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWit
 - [ ] ページング・最新移動
 - [ ] フィルタ (種別/発言者/宛先/キーワード/ショートカット)
 - [ ] アンカー展開
-- [ ] 終了村の参加者正体公開
+- [ ] 返信 / 秘話返信リンクから返信・秘話を送信
+- [ ] ハッシュタグ表示 → クリックで該当タグ抽出 (フィルタ連動)
+- [ ] ランダム機能 (fortune/dice/who 等) が展開された発言の表示
+- [ ] 文字装飾 (色/ruby/cw/tp/太字/取消線 等) が適用された発言の表示
+- [ ] エピローグ以降 (settled) の参加者正体公開
 - [ ] ネタバレ防止トグル
 
 ## メモ / 移行時の注意
@@ -102,6 +106,8 @@ Handlebars カスタムヘルパー: `eq` `neq` `or` `timeFormat` `escapeHtmlWit
 - **React 化**: 1 つの `MessageCard` コンポーネント + 種別バリアント (上表) で実装。Handlebars テンプレート群を置換
 - **アンカー記法のパース** (`n123_w45`、種別文字 `nwmflgsMSca`) は backend (`Anchors.of`) + frontend 両方で必要。記法仕様を共有
 - メッセージ可視性マスクは backend に残す (`messageService` + situation)。REST レスポンスは「見せてよい発言のみ」を返す設計
+- **参加者正体一覧 (`getParticipants`) はクライアント処理に寄せられる可能性**: エピローグ以降 (settled) は村取得 API のレスポンスに役職等が既に含まれていれば、専用 API を叩かずクライアント側で正体一覧を組み立てられる (要検討)。現状は専用 endpoint
+- **アナウンス (suddenlyDeathMessage / villageStatusMessage / commitStatusMessage) もクライアント生成に寄せられる**: 一覧末尾のこれらの定型メッセージは、クライアント側で文言を組み立てて表示可能。ただし突然死候補者・コミット済み人数などの素材は `VillageSituation` 等から取得する必要がある
 - 装飾 (loud/rainbow/ruby/色/取消線/ネタバレタグ) と `[[ランダムキーワード]]` 展開は発言投稿 (step-0.8) と対。messageContent は HTML (`{{{ }}}` raw 出力) なので **XSS 対策**を移行時に再確認 (現状 escapeHtmlWithoutBr ヘルパー)
 - フィルタ状態の URL query 保存は React Router の searchParams で再現
 - `village-message.html` の `<script src>` が village.js だが `th:src` は village-message.js という不整合あり (実体は village-message.js が効く)

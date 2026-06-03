@@ -11,6 +11,17 @@
 - heroicons (アイコン)
 - **react-hook-form + zod** (フォーム / バリデーション)
 
+## UI/UX 現状維持原則 (確定・最重要)
+
+- **既存の UI/UX は完成度が高い。移行では現状を忠実に踏襲し、レイアウト・操作フロー・インタラクション・見た目を変えない**
+- **UI/UX を変更するのは、ユーザーが明示的に指示した箇所のみ**。実装者 (Claude 含む) の判断で勝手に「改善」しない
+- 各画面 md に UI/UX の変更を書く場合は **「ユーザー指示による変更」であることを明記**する。指示のない変更提案・改善案は書かない
+- 実装上やむを得ない置換 (例: Bootstrap collapse → React state、Handlebars → React component、Cookie → localStorage) は、**挙動・見た目が同一である限り UI/UX 変更ではない** (現状踏襲とみなす)
+- デザインのモダナイズは cutover 後の別フェーズ (Step 13)。本移行では行わない
+- 視覚比較 (`screens/*` の「視覚比較」) は既存 `:8091` を一次基準にし、差異が出たら **既存に合わせる**
+
+> 現状 docs に記載のある UI/UX 変更 (例: [new-village.md](screens/new-village.md) の確認モーダル化、[village-admin.md](screens/village/village-admin.md) の参加プレイヤー一覧インライン化) は **すべてユーザー指示によるもの**。各 md にその旨を明記している。
+
 ## 状態管理の使い分け (確定)
 
 - **server state**: `@tanstack/react-query` に一元化

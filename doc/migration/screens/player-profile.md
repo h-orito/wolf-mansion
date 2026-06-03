@@ -46,7 +46,8 @@
 
 ## 6. 認可マスク
 
-- 参加した村の役職・陣営・勝敗は **本人/他人問わず公開** (終了済み戦績の集計値)。進行中の村の役職リークは無い想定だが、戦績集計の対象範囲は step-0.16 (マスク) と合わせて確認
+- 参加した村の役職・陣営・勝敗は **本人/他人問わず公開** (集計値)
+- ⚠️ **進行中・募集中の村は戦績集計にも参加村一覧にも含まれない (確定動作、サーバーサイドで保証)** — `PlayerCoordinator.findPlayerRecords` が `player.participateFinishedVillageIdList` × `VillageStatus.settledStatusList` (= **エピローグ + 終了** のみ) で村を絞ってから集計する (`PlayerCoordinator.kt:15-25`)。募集中・進行中はもちろん **廃村も対象外**。→ 進行中の村の役職・陣営リークは構造的に発生しない。**移行後もこの絞り込み (settled のみ) を維持すること** (step-0.16 マスクと整合)
 
 ## 7. スクリーンショット
 
@@ -69,6 +70,7 @@
 
 - `PlayerRecordsContent`: `wholeStats` (participateNum/winNum/winRate), `campStatsList`, `skillStatsList`, `participateVillageList`, `spectateVillageList`, `twitterUserName`, `introduction`
 - 戦績の組み立ては `PlayerCoordinator.findPlayerRecords(player)` + `CharaService` でキャラ画像解決
+- ⚠️ `findPlayerRecords` は **settled (エピローグ+終了) の参加終了村のみ**を入力に `PlayerRecords` を構築 (`PlayerCoordinator.kt:15-25`)。よって全戦績テーブル・参加村一覧は進行中/募集中/廃村を含まない (上記「認可マスク」参照、移行後も維持)
 
 ## メモ / 移行時の注意
 

@@ -21,7 +21,7 @@
 - **`SpoilerDomainService.isViewableSpoilerContent(village, myself)`** =
   - `Village.isViewableSpoilerContent()` (= `status.isSettled()`, 終了後全公開) **OR**
   - `VillageParticipant.isViewableSpoilerContent(isOpenSkillInGrave)` (= `isOpenSkillInGrave && (isDead() || isSpectator)`, 死者/見学者 + 墓下公開)
-- 村画面テンプレの `data-spoiled-content` / `content.dispSpoilerContent` はこれが正本 ([village-base.md](../screens/village-base.md))。足音 ([footstep.md](footstep.md)) もこれを使う
+- 村画面テンプレの `data-spoiled-content` / `content.dispSpoilerContent` はこれが正本 ([village-base.md](../screens/village/village-base.md))。足音 ([footstep.md](footstep.md)) もこれを使う
 
 ## 2. メッセージ可視性
 
@@ -72,7 +72,7 @@
 ## 移行時の注意 (最重要)
 
 - **マスクは全て backend で完結させる**。REST レスポンスは「そのビューアに見せてよいデータのみ」を返す。frontend にマスク前データを渡さない (リーク防止)
-- `ParticipantSituation` / `isViewableSpoilerContent` / `getViewableMessageTypeList` を **村取得 API のマスク基盤**に据える ([village-base.md](../screens/village-base.md), firewolf の View 変換参考)
+- `ParticipantSituation` / `isViewableSpoilerContent` / `getViewableMessageTypeList` を **村取得 API のマスク基盤**に据える ([village-base.md](../screens/village/village-base.md), firewolf の View 変換参考)
 - **3 軸 (status × 視点 × フィールド)** を意識した API 設計。同じ村でもビューアごとにレスポンスが変わる → キャッシュキーに視点を含める / 認証必要データは CSR ([03-auth.md](../03-auth.md))
 - **投票先の進行中マスク**は `filterPastDay` + 黒箱 `getHideDays` で既に部分実装済み (§4)。残論点は「黒箱以外の任意投票先を進行中に追加で隠すか」を明示決定 (要ユーザー確認の候補)
 - 死因の可視範囲も「現状全表示」を維持するか確認
