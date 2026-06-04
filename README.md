@@ -10,8 +10,8 @@
 | --- | --- | --- |
 | Java (JDK) | **21** | backend（Spring Boot / Gradle） |
 | MySQL | 8 系 | ローカル DB |
-| Node.js | 22 系 | frontend（Step 2 以降で導入） |
-| pnpm | 10 系 | frontend のパッケージマネージャ（Step 2 以降） |
+| Node.js | 22 系 | **Step 2 以降**で導入する frontend 用（現状は不要） |
+| pnpm | 10 系 | **Step 2 以降**の frontend パッケージマネージャ（現状は不要） |
 
 Node / pnpm は移行で導入する frontend 用。現状の backend 開発だけなら Java + MySQL があれば動く。
 
@@ -20,8 +20,9 @@ Node / pnpm は移行で導入する frontend 用。現状の backend 開発だ�
 リポジトリ直下の `.java-version` が `21` に固定されている。[jenv](https://github.com/jenv/jenv) を使う場合、JDK 21 を登録しておけば本ディレクトリで自動的に 21 が選択される。
 
 ```bash
-# 例: 既存の JDK 21 を jenv に登録
-jenv add "$(/usr/libexec/java_home -v 21)"
+# 既存の JDK 21 を jenv に登録（JDK のパスは環境に合わせて指定）
+jenv add /path/to/jdk-21                     # 任意の OS
+jenv add "$(/usr/libexec/java_home -v 21)"   # macOS の場合
 
 # 確認（このディレクトリで 21 になっていること）
 jenv version          # => 21 (set by .../.java-version)
@@ -40,6 +41,8 @@ java -version         # => openjdk version "21.x"
 | database | `werewolf_mansiondb` |
 | user | `wmansion` |
 | password | `wmans10n` |
+
+> 上記はローカル開発専用の既定値（`application.yml`）。本番は環境変数（`WOLF_MANSION_DB_USERNAME` / `WOLF_MANSION_DB_PASSWORD` 等）で上書きされる（`application-production.yml`）。
 
 スキーマ定義は `dbflute_wolf_mansiondb/` 配下。`src/main/java/com/ort/dbflute/` は DBFlute による自動生成コード（手動編集不可。`exbhv/` `exentity/` のみカスタマイズ可）。
 
