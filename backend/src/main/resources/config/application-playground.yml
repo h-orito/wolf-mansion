@@ -66,3 +66,8 @@ jwt:
   access-token-validity-minutes: 15
   refresh-token-validity-days: 14
   cookie-secure: true
+
+login-rate-limit:
+  window-minutes: 15
+  max-per-account: 5
+  max-per-ip: 30

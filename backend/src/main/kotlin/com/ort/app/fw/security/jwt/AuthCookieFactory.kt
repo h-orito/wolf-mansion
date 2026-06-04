@@ -25,13 +25,21 @@ class AuthCookieFactory(
     fun refreshTokenCookie(
         value: String,
         maxAge: Duration,
-    ): ResponseCookie = build(REFRESH_TOKEN, value, refreshTokenPath(), maxAge)
+    ): ResponseCookie = build(REFRESH_TOKEN, value, authBasePath(), maxAge)
 
     fun clearAccessTokenCookie(): ResponseCookie = build(ACCESS_TOKEN, "", "/", Duration.ZERO)
 
-    fun clearRefreshTokenCookie(): ResponseCookie = build(REFRESH_TOKEN, "", refreshTokenPath(), Duration.ZERO)
+    fun clearRefreshTokenCookie(): ResponseCookie = build(REFRESH_TOKEN, "", authBasePath(), Duration.ZERO)
 
-    private fun refreshTokenPath(): String = "${servletContext.contextPath}/api/v1/auth"
+    /**
+     * 連続登録防止 (cooldown) Cookie。値 `true` が存在する間は signup を拒否する。
+     * signup (`<ctx>/api/v1/auth/signup`) に届けば十分なので、refresh と同じく auth エンドポイント配下に絞る
+     * (SSR 画面や他 API には送らない)。
+     */
+    fun idRegisterCookie(): ResponseCookie = build(ID_REGISTER, "true", authBasePath(), ID_REGISTER_MAX_AGE)
+
+    /** auth エンドポイントの基底パス (`<contextPath>/api/v1/auth`)。refresh / id_register Cookie の Path に使う。 */
+    private fun authBasePath(): String = "${servletContext.contextPath}/api/v1/auth"
 
     private fun build(
         name: String,
@@ -51,5 +59,7 @@ class AuthCookieFactory(
     companion object {
         const val ACCESS_TOKEN = "access_token"
         const val REFRESH_TOKEN = "refresh_token"
+        const val ID_REGISTER = "id_register"
+        private val ID_REGISTER_MAX_AGE = Duration.ofMinutes(30)
     }
 }

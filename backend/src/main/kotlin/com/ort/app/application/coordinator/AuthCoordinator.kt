@@ -1,9 +1,12 @@
 package com.ort.app.application.coordinator
 
+import com.ort.app.application.service.PlayerService
 import com.ort.app.domain.model.auth.PlayerAuth
 import com.ort.app.domain.model.auth.PlayerAuthRepository
 import com.ort.app.domain.model.auth.RefreshTokenRepository
+import com.ort.app.domain.service.auth.LoginRateLimiter
 import com.ort.app.fw.exception.WolfMansionAuthException
+import com.ort.app.fw.exception.WolfMansionTooManyRequestsException
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import com.ort.app.fw.security.jwt.JwtTokenProvider
 import com.ort.app.fw.security.jwt.RefreshTokenFactory
@@ -25,17 +28,69 @@ class AuthCoordinator(
     private val jwtTokenProvider: JwtTokenProvider,
     private val refreshTokenFactory: RefreshTokenFactory,
     private val passwordEncoder: PasswordEncoder,
+    private val playerService: PlayerService,
+    private val loginRateLimiter: LoginRateLimiter,
 ) {
-    @Transactional(rollbackFor = [Exception::class])
+    // 失敗試行の記録 (recordFailure) は 401 を投げた後もコミットさせる必要があるため、
+    // WolfMansionAuthException ではロールバックしない。429 は記録前に投げるので書き込みは無い。
+    @Transactional(
+        rollbackFor = [Exception::class],
+        noRollbackFor = [WolfMansionAuthException::class, WolfMansionTooManyRequestsException::class],
+    )
     fun login(
         userId: String,
         rawPassword: String,
+        clientIp: String,
     ): AuthTokens {
+        val now = LocalDateTime.now()
+        // 資格情報を検証する前にレート制限を判定する (超過なら 429)
+        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
         val playerAuth = playerAuthRepository.findByName(userId)
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
+            loginRateLimiter.recordFailure(userId, clientIp, now)
             throw WolfMansionAuthException("ユーザIDまたはパスワードが違います")
         }
+        // 窓内でログイン成功したら当該アカウントの失敗履歴をリセットする
+        loginRateLimiter.reset(userId)
         return issueTokens(playerAuth)
+    }
+
+    /**
+     * 新規登録 + 自動ログイン。連続登録防止 (cooldown) は呼び出し側 (Cookie) が判定し [recentlyRegistered] で渡す。
+     * 重複 ID は [PlayerService.registerPlayer] が [com.ort.app.fw.exception.WolfMansionBusinessException] を投げる (400)。
+     *
+     * 大量アカウント生成 (volumetric) の IP 単位制限は **アプリ層では行わない**。
+     * 本アプリは Cloudflare 配下で稼働しており、署名なし POST の volumetric 濫用は Cloudflare edge の
+     * rate-limit ルールで対処するのが適切なレイヤ。アプリ層は cookie cooldown ([recentlyRegistered]) で
+     * カジュアルな連続登録のみ抑止する。厳密な IP スロットルが必要になれば別 step で専用ストアを検討する。
+     */
+    @Transactional(rollbackFor = [Exception::class])
+    fun signup(
+        userId: String,
+        rawPassword: String,
+        recentlyRegistered: Boolean,
+    ): AuthTokens {
+        if (recentlyRegistered) {
+            throw WolfMansionTooManyRequestsException(
+                "連続して複数のIDを取得することはできません。時間をおいてから再度取得してください。",
+            )
+        }
+        playerService.registerPlayer(userId, rawPassword)
+        // 同一トランザクション内で登録直後のため通常 null にはならない防御的処理。
+        // 万一不整合が起きた場合は認証失敗 (401) ではなくサーバーエラー (500) として扱う。
+        val playerAuth =
+            playerAuthRepository.findByName(userId)
+                ?: throw IllegalStateException("登録直後のプレイヤー認証情報が取得できません: $userId")
+        return issueTokens(playerAuth)
+    }
+
+    /** ログイン中ユーザー自身のパスワード変更。確認用一致チェックは呼び出し側で行う。 */
+    @Transactional(rollbackFor = [Exception::class])
+    fun changePassword(
+        username: String,
+        rawPassword: String,
+    ) {
+        playerService.updatePassword(username, rawPassword)
     }
 
     // 漏洩検知の revokeAllByPlayer は throw 後もコミットさせる必要があるため、

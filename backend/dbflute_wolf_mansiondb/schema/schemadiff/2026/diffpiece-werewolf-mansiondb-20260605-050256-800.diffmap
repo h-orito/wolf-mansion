@@ -1,0 +1,17 @@
+map:{
+    ; 2026/06/05 05:02:56.800 = map:{
+        ; diffDate = 2026/06/05 05:02:56.800
+        ; tableCount = map:{
+            ; next = 47
+            ; previous = 46
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = chore/step-3.2-auth-signup-password-ratelimit
+        ; tableDiff = map:{
+            ; login_failure = map:{
+                ; tableName = login_failure
+                ; diffType = ADD
+            }
+        }
+    }
+}

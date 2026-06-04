@@ -318,6 +318,40 @@
             <reference foreign="DAY" local="DAY"/>
         </foreign-key>
     </table>
+    <table comment="ログイン失敗試行" name="login_failure"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="ログイン失敗ID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="LOGIN_FAILURE_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="試行されたログインID(存在しないこともある)" dbType="VARCHAR"
+            javaType="String" name="LOGIN_NAME" required="true"
+            size="60" type="VARCHAR"/>
+        <column comment="クライアントIP(CF-Connecting-IP優先)" dbType="VARCHAR"
+            javaType="String" name="IP_ADDRESS" required="true"
+            size="64" type="VARCHAR"/>
+        <column comment="失敗試行日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="ATTEMPT_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <index name="IX_LOGIN_FAILURE_IP">
+            <index-column name="IP_ADDRESS" position="1"/>
+            <index-column name="ATTEMPT_DATETIME" position="2"/>
+        </index>
+        <index name="IX_LOGIN_FAILURE_NAME">
+            <index-column name="LOGIN_NAME" position="1"/>
+            <index-column name="ATTEMPT_DATETIME" position="2"/>
+        </index>
+    </table>
     <table comment="メッセージ" name="message"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="メッセージID"
