@@ -49,4 +49,12 @@ discord:
 
 microsoft:
   translator:
-    key: 
+    key:
+
+jwt:
+  # HS256 署名鍵。本番は環境変数必須。ローカルは dev 既定値 (32 バイト以上)
+  secret: ${WOLF_MANSION_JWT_SECRET:wolf-mansion-local-dev-secret-change-me-please-0123456789abcdef}
+  access-token-validity-minutes: 15
+  refresh-token-validity-days: 14
+  # ローカル (http) では Secure Cookie を無効化
+  cookie-secure: false

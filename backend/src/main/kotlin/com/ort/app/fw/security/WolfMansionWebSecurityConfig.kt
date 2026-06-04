@@ -1,20 +1,63 @@
 package com.ort.app.fw.security
 
+import com.ort.app.fw.security.jwt.JwtAuthenticationEntryPoint
+import com.ort.app.fw.security.jwt.JwtAuthenticationFilter
+import com.ort.app.fw.security.jwt.JwtTokenProvider
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.core.annotation.Order
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 @Configuration
 @EnableWebSecurity
 class WolfMansionWebSecurityConfig {
+    /**
+     * REST API チェーン (`/api/v1` 配下)。JWT による stateless 認証。
+     * 移行期間は本チェーンと既存 SSR チェーン ([webFilterChain]) が共存する。
+     */
     @Bean
-    fun filterChain(
+    @Order(1)
+    fun apiFilterChain(
+        http: HttpSecurity,
+        jwtTokenProvider: JwtTokenProvider,
+        jwtAuthenticationEntryPoint: JwtAuthenticationEntryPoint,
+    ): SecurityFilterChain {
+        http
+            .securityMatcher("/api/v1/**")
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers(
+                        "/api/v1/auth/login",
+                        "/api/v1/auth/refresh",
+                        "/api/v1/auth/logout",
+                    ).permitAll()
+                    .anyRequest()
+                    .authenticated()
+            }.exceptionHandling { it.authenticationEntryPoint(jwtAuthenticationEntryPoint) }
+            .addFilterBefore(
+                JwtAuthenticationFilter(jwtTokenProvider),
+                UsernamePasswordAuthenticationFilter::class.java,
+            )
+        return http.build()
+    }
+
+    /**
+     * 既存 SSR チェーン (`/api/v1` 配下 以外すべて)。セッション + formLogin。
+     * 旧 Thymeleaf 画面と公開 API (`/api/login` 等) は Step 10 までこの構成で動かす。
+     */
+    @Bean
+    @Order(2)
+    fun webFilterChain(
         http: HttpSecurity,
         userInfoService: UserInfoService,
     ): SecurityFilterChain {
