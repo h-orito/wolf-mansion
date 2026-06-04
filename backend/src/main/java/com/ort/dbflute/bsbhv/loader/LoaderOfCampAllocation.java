@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of CAMP_ALLOCATION as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_ID, CAMP_CODE
- *
- * [column]
- *     VILLAGE_ID, CAMP_CODE, MIN_NUM, MAX_NUM, ALLOCATION, REINCARNATION_ALLOCATION, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     CAMP, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     camp, village
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of CAMP_ALLOCATION as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfCampAllocation {

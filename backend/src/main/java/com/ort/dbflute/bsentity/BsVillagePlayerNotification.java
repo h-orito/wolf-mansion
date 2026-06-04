@@ -15,64 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_NOTIFICATION as TABLE. <br>
  * 村参加者通知
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_ID
- *
- * [column]
- *     VILLAGE_PLAYER_ID, DISCORD_WEBHOOK_URL, VILLAGE_START, VILLAGE_DAYCHANGE, VILLAGE_EPILOGUE, RECEIVE_SECRET_SAY, RECEIVE_ABILITY_SAY, RECEIVE_ANCHOR_SAY, KEYWORD, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     villagePlayer
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * String discordWebhookUrl = entity.getDiscordWebhookUrl();
- * Boolean villageStart = entity.getVillageStart();
- * Boolean villageDaychange = entity.getVillageDaychange();
- * Boolean villageEpilogue = entity.getVillageEpilogue();
- * Boolean receiveSecretSay = entity.getReceiveSecretSay();
- * Boolean receiveAbilitySay = entity.getReceiveAbilitySay();
- * Boolean receiveAnchorSay = entity.getReceiveAnchorSay();
- * String keyword = entity.getKeyword();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setDiscordWebhookUrl(discordWebhookUrl);
- * entity.setVillageStart(villageStart);
- * entity.setVillageDaychange(villageDaychange);
- * entity.setVillageEpilogue(villageEpilogue);
- * entity.setReceiveSecretSay(receiveSecretSay);
- * entity.setReceiveAbilitySay(receiveAbilitySay);
- * entity.setReceiveAnchorSay(receiveAnchorSay);
- * entity.setKeyword(keyword);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerNotification extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

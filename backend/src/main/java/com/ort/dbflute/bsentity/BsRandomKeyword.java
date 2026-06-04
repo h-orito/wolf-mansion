@@ -12,42 +12,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of RANDOM_KEYWORD as TABLE. <br>
  * ランダムキーワード
- * <pre>
- * [primary-key]
- *     RANDOM_KEYWORD_ID
- *
- * [column]
- *     RANDOM_KEYWORD_ID, KEYWORD
- *
- * [sequence]
- *     
- *
- * [identity]
- *     RANDOM_KEYWORD_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     RANDOM_CONTENT
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     randomContentList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer randomKeywordId = entity.getRandomKeywordId();
- * String keyword = entity.getKeyword();
- * entity.setRandomKeywordId(randomKeywordId);
- * entity.setKeyword(keyword);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsRandomKeyword extends AbstractEntity implements DomainEntity {

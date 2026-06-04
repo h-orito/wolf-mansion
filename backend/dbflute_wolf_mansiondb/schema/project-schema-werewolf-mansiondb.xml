@@ -670,6 +670,51 @@
             <unique-column name="KEYWORD" position="1"/>
         </unique>
     </table>
+    <table comment="リフレッシュトークン" name="refresh_token"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="リフレッシュトークンID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="REFRESH_TOKEN_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="プレイヤーID" dbType="INT UNSIGNED"
+            javaType="Integer" name="PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="リフレッシュトークンのSHA-256ハッシュ(hex)" dbType="CHAR"
+            javaType="String" name="TOKEN_HASH" required="true"
+            size="64" type="CHAR"/>
+        <column comment="発行日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="ISSUED_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="有効期限" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="EXPIRES_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="使用(ローテーション)日時。使用済みは再利用不可" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="USED_DATETIME"
+            size="19" type="TIMESTAMP"/>
+        <column comment="失効日時。ログアウトや漏洩疑い等で失効" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REVOKED_DATETIME"
+            size="19" type="TIMESTAMP"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="player" name="FK_REFRESH_TOKEN_PLAYER">
+            <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
+        </foreign-key>
+        <unique name="TOKEN_HASH">
+            <unique-column name="TOKEN_HASH" position="1"/>
+        </unique>
+        <index name="FK_REFRESH_TOKEN_PLAYER">
+            <index-column name="PLAYER_ID" position="1"/>
+        </index>
+    </table>
     <table comment="役職" name="skill"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="役職コード" dbType="VARCHAR" javaType="String"

@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of PLAYER as TABLE. <br>
- * <pre>
- * [primary key]
- *     PLAYER_ID
- *
- * [column]
- *     PLAYER_ID, PLAYER_NAME, PLAYER_PASSWORD, AUTHORITY_CODE, IS_RESTRICTED_PARTICIPATION, SHOULD_CHECK_ACCESS_INFO, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     PLAYER_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     AUTHORITY, PLAYER_DETAIL(AsOne)
- *
- * [referrer table]
- *     MESSAGE, VILLAGE_PLAYER, PLAYER_DETAIL
- *
- * [foreign property]
- *     authority, playerDetailAsOne
- *
- * [referrer property]
- *     messageList, villagePlayerList
- * </pre>
+ * The referrer loader of PLAYER as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfPlayer {
@@ -93,6 +65,40 @@ public class LoaderOfPlayer {
     public NestedReferrerLoaderGateway<LoaderOfMessage> loadMessage(ReferrerConditionSetupper<MessageCB> refCBLambda) {
         myBhv().loadMessage(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerMessage = refLs);
         return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessage, _selector));
+    }
+
+    protected List<RefreshToken> _referrerRefreshToken;
+
+    /**
+     * Load referrer of refreshTokenList by the set-upper of referrer. <br>
+     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadRefreshToken</span>(<span style="color: #553000">tokenCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">tokenCB</span>.setupSelect...
+     *         <span style="color: #553000">tokenCB</span>.query().set...
+     *         <span style="color: #553000">tokenCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">tokenLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    tokenLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Player player : <span style="color: #553000">playerList</span>) {
+     *     ... = player.<span style="color: #CC4747">getRefreshTokenList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfRefreshToken> loadRefreshToken(ReferrerConditionSetupper<RefreshTokenCB> refCBLambda) {
+        myBhv().loadRefreshToken(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerRefreshToken = refLs);
+        return hd -> hd.handle(new LoaderOfRefreshToken().ready(_referrerRefreshToken, _selector));
     }
 
     protected List<VillagePlayer> _referrerVillagePlayer;

@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of MESSAGE_SENDTO as TABLE. <br>
- * <pre>
- * [primary key]
- *     MESSAGE_REPLYTO_ID
- *
- * [column]
- *     MESSAGE_REPLYTO_ID, MESSAGE_ID, VILLAGE_PLAYER_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     MESSAGE_REPLYTO_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     MESSAGE, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     message, villagePlayer
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of MESSAGE_SENDTO as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfMessageSendto {
