@@ -26,7 +26,6 @@ dist/
 nbdist/
 .nb-gradle/
 
-/log/
 backend/dbflute_wolf_mansiondb/log/*
 
 ### Claude ###
