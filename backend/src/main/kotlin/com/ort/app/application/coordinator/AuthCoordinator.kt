@@ -58,6 +58,11 @@ class AuthCoordinator(
     /**
      * 新規登録 + 自動ログイン。連続登録防止 (cooldown) は呼び出し側 (Cookie) が判定し [recentlyRegistered] で渡す。
      * 重複 ID は [PlayerService.registerPlayer] が [com.ort.app.fw.exception.WolfMansionBusinessException] を投げる (400)。
+     *
+     * 大量アカウント生成 (volumetric) の IP 単位制限は **アプリ層では行わない**。
+     * 本アプリは Cloudflare 配下で稼働しており、署名なし POST の volumetric 濫用は Cloudflare edge の
+     * rate-limit ルールで対処するのが適切なレイヤ。アプリ層は cookie cooldown ([recentlyRegistered]) で
+     * カジュアルな連続登録のみ抑止する。厳密な IP スロットルが必要になれば別 step で専用ストアを検討する。
      */
     @Transactional(rollbackFor = [Exception::class])
     fun signup(
@@ -71,9 +76,11 @@ class AuthCoordinator(
             )
         }
         playerService.registerPlayer(userId, rawPassword)
+        // 同一トランザクション内で登録直後のため通常 null にはならない防御的処理。
+        // 万一不整合が起きた場合は認証失敗 (401) ではなくサーバーエラー (500) として扱う。
         val playerAuth =
             playerAuthRepository.findByName(userId)
-                ?: throw WolfMansionAuthException("登録に失敗しました")
+                ?: throw IllegalStateException("登録直後のプレイヤー認証情報が取得できません: $userId")
         return issueTokens(playerAuth)
     }
 

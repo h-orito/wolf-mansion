@@ -38,6 +38,11 @@ class LoginRateLimiter(
     /**
      * 失敗を 1 件記録し、肥大化抑制のため窓外の古い行を掃除する。
      * 記録後にいずれかの軸が閾値に到達していれば管理者へ通知する。
+     *
+     * **トランザクション契約**: 記録 (insert) と掃除 (deleteOlderThan) は呼び出し側のトランザクションに参加する。
+     * この後に呼び出し側が認証失敗例外を投げてもこれらをコミットさせる必要があるため、呼び出し側 (
+     * [com.ort.app.application.coordinator.AuthCoordinator.login]) は当該例外を `noRollbackFor` に指定すること。
+     * これを怠ると記録・掃除ごとロールバックされ、レート制限が機能しなくなる。
      */
     fun recordFailure(
         loginName: String,

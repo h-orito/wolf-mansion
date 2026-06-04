@@ -12,6 +12,6 @@ object PasswordPolicy {
     const val MIN_LENGTH = 3
     const val MAX_LENGTH = 60
 
-    /** 印字可能 ASCII のみ (`0x21`–`0x7E`)。Java 正規表現の hex 範囲指定。長さは [MIN_LENGTH]/[MAX_LENGTH] 側で担保。 */
-    const val PATTERN = "[\\x21-\\x7E]*"
+    /** 印字可能 ASCII のみ (`0x21`–`0x7E`)。Java 正規表現の hex 範囲指定。長さの上下限は [MIN_LENGTH]/[MAX_LENGTH] で担保。 */
+    const val PATTERN = "[\\x21-\\x7E]+"
 }
