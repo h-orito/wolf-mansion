@@ -7,7 +7,7 @@
 - **Step 0 (調査) を完全に完了させてから Step 1 (環境整備) に着手**する (順番厳守)。並行はしない
 - **Issue 化**: Step 0 の Issue だけ先に作成、Step 1 以降は各 step 着手直前に都度作成 ([07-workflow.md](07-workflow.md))
 - **e2e**: 各画面 step では **実装後に e2e ケースを書く** (UI が固まってからセレクタを書く)
-- **画面 step の順序**: 認証 → ホーム(村一覧) → プロフィール系 → 新規村作成 → 村画面 (依存が浅い順 / 村画面が最重量で最後)
+- **画面 step の順序**: 認証 → ホーム(村一覧) → 情報・静的 → ランダム → 新規村作成 → 村画面 → **プロフィール系** (依存が浅い順。プロフィール系は戦績検証に村のエピローグが要るため村画面の後へ後ろ倒し — ユーザー指示)
 - **外部公開 API ピン留めテスト**: Step 0 (中盤) で整備し、以降の REST 化が既存挙動を壊さない安全網にする
 
 ## 各 step の記載項目
@@ -99,8 +99,8 @@
 
 - **各 step 共通の進め方**: 実装 → 動作確認 (verify/run skill + `:8091` とスクショ比較) → e2e ケース追加
 - **共通の依存**: Step 3 (認証基盤)、および当該画面の Step 0 ドキュメント (`screens/<screen>.md`)
-- **並び順の原則**: 公開・読み取り中心の軽量画面を先、認証必須・複雑画面を後 (依存が浅い順)。確定の主要画面順 ホーム → プロフィール系 → 新規村作成 → 村画面 を骨格にし、情報系 (D) / ランダム (E) はその間の低リスク枠に差し込む (この 2 つの差し込み位置は調整可)
-- 各 step は規模に応じ複数 PR に分割可
+- **並び順の原則**: 公開・読み取り中心の軽量画面を先、認証必須・複雑画面を後 (依存が浅い順)。順序は ホーム → 情報・静的 → ランダム → 新規村作成 → 村画面 → プロフィール系。**プロフィール系 (戦績) は settled 村が要るため村画面の後**へ置く (ユーザー指示)
+- 各 step は規模に応じ複数 PR / サブ step に分割 (大きい画面は機能ブロックごとに細分化)
 
 #### Step 4: ホーム・村一覧 (公開ランディング + 共通レイアウト基盤)
 
@@ -110,23 +110,19 @@
 - **依存**: Step 3
 - **動作確認**: トップ / 村一覧が `:8091` と一致表示 / 未ログイン・ログインでヘッダが切り替わる / 村一覧 → 村画面へ遷移
 
-#### Step 5: 情報・静的ページ (公開・読み取り)
+#### Step 5: 情報・静的ページ (公開・読み取り・サブ step に分割)
 
-- **goal**: 役職一覧・ルール・About・FAQ・練習問題・お知らせ・キャラチップ一覧/詳細、およびエイプリル企画アーカイブが公開ページとして既存同等に表示できる
-- **対象**: [skill.md](screens/skill.md) / [rule.md](screens/rule.md) / [about.md](screens/about.md) / [faq.md](screens/faq.md) / [practice.md](screens/practice.md) / [announce.md](screens/announce.md) / [charachip-list.md](screens/charachip-list.md) / [charachip-detail.md](screens/charachip-detail.md) (+ エイプリル `/archives/april-*`)
-- **成果物**: 各 route + REST (公開 API `skill/list` は凍結のまま、他は新規 `/api/v1/...`)。キャラチップ画像は外部 URL 参照
-- **依存**: Step 4 (layout)
-- **動作確認**: 各ページが `:8091` と一致表示。PR は画面グループ単位に分割可 (例: 5.1 役職一覧 / 5.2 ルール・情報群 / 5.3 キャラチップ / 5.4 エイプリル)
+公開の読み取り専用ページ群。低リスクなので機能グループごとに細かく消化する。各サブ step の共通依存は Step 4 (layout)。
 
-#### Step 6: プロフィール系 (認証あり閲覧 + パスワード変更)
+| サブ step | goal (完了時にできること) | 対象 md | 備考 |
+|---|---|---|---|
+| 5.1 役職一覧 | 役職一覧が陣営別に表示できる | skill.md | 公開 API `skill/list` は凍結のまま流用 |
+| 5.2 ルール | ルールページ (`rule/*` サブ含む、`RuleContent` 駆動) が表示できる | rule.md | |
+| 5.3 情報ページ群 | About / FAQ / 練習問題 / お知らせ が表示できる | about / faq / practice / announce | 単純静的。PR は個別でも一括でも可 |
+| 5.4 キャラチップ一覧・詳細 | キャラチップ一覧と詳細が表示できる | charachip-list / charachip-detail | キャラ画像は外部 URL。**Step 7 の村作成キャラ選択で流用** |
+| 5.5 エイプリル企画アーカイブ | `/archives/april-*` が表示できる | home.md のメモ | 2026 ランダム役職を `/archives/april-20260401` 化 |
 
-- **goal**: プロフィール (`/user/{name}`)・戦績・プレイヤー一覧が表示でき、パスワード変更ができる。**戦績は settled (エピローグ以降) のみ集計**
-- **対象**: [player-profile.md](screens/player-profile.md) / [player-list.md](screens/player-list.md) / [auth-change-password.md](screens/auth-change-password.md) (画面のみ。endpoint `/api/v1/auth/password` は Step 3 で実装済)
-- **成果物**: 各 route + REST (`/api/v1/players/{id}` 等)。パスワード変更フォーム (react-hook-form + zod)
-- **依存**: Step 3 (auth), Step 4 (layout)
-- **動作確認**: プロフィール/戦績/一覧が `:8091` と一致 / パスワード変更が成功・失敗時に適切な表示 (緩和後ポリシー 3-60字)
-
-#### Step 7: ランダム機能 (公開閲覧 + 認証書き込み)
+#### Step 6: ランダム機能 (公開閲覧 + 認証書き込み)
 
 - **goal**: ランダムキーワードの一覧閲覧 (公開) と作成・編集・削除 (要認証) ができる。**認証付き CRUD の最初のパターン**を確立する
 - **対象**: [random-keyword.md](screens/random-keyword.md)
@@ -134,33 +130,58 @@
 - **依存**: Step 3 (auth)
 - **動作確認**: 未ログインで閲覧可・書き込み不可 (401) / ログインで作成・編集・削除が成功
 
-#### Step 8: 新規村作成 (複雑フォーム)
+#### Step 7: 新規村作成 (複雑フォーム・サブ step に分割)
 
-- **goal**: 村作成フォーム → **確認モーダル** → 作成までが通り、募集中の村が立つ。発言制限設定・既存村からの流用・キャラ選択を含む
-- **対象**: [new-village.md](screens/new-village.md) (+ キャラ選択は Step 5 の charachip 表示を流用)
-- **成果物**: `/new-village` route + REST (`/new-village/{confirm,create,divert}` 相当の `/api/v1/...`)。確認はモーダル化 (ユーザー指示)、ダミー画像は元フォーム
-- **依存**: Step 3 (auth)、Step 5 (キャラチップ表示の共通化)
-- **動作確認**: フォーム入力 → 確認モーダル → 作成 → 募集中の村が生成 / 流用・発言制限が反映
+設定項目が最多 (~40 フィールド) の画面。フォーム → 確認モーダル → 作成のフローを機能ブロックに分ける。対象はすべて [new-village.md](screens/new-village.md)。
 
-#### Step 9: 村画面 (最重量・サブ step に分割)
+| サブ step | goal | 依存 |
+|---|---|---|
+| 7.1 村作成フォーム本体 | 基本設定 / 詳細ルール / 見学・閲覧 / 身内村 / 特殊ルール / RP村 の入力フォームが表示・入力できる | Step 3 |
+| 7.2 発言制限設定 | 役職別・発言種別・RP の発言制限 (count/length、先頭行コピー) が設定できる | 7.1 |
+| 7.3 キャラチップ選択 | キャラセット連動 (`getCharacterList`) でダミーキャラ・画像を選択できる (オリジナル画像は確認画面で) | 7.1 + Step 5.4 |
+| 7.4 確認モーダル → 作成 | 入力内容を**確認モーダル** (ユーザー指示) で再掲し、作成して募集中の村が立つ。闇鍋配分テーブル再掲・オリジナル画像アップロードを含む | 7.1〜7.3 |
+| 7.5 既存村からの流用 | エピローグ/終了/廃村の村設定を流用 (`divert`) して初期化できる | 7.1 |
 
-wolf-mansion で最も機能密度が高い画面。Step 0 の `screens/village/village-*.md` を起点に、**実装サブ step を調査の機能ブロックと一致**させる。**9.1 (ベース) を最初に確立**し、以降のサブ step がこれに乗る。
+#### Step 8: 村画面 (最重量・サブ step に細分化)
+
+wolf-mansion で最も機能密度が高い画面。**8.1 (ベース) を最初に確立**し、以降のサブ step がこれに乗る。対象 md は `screens/village/`。
 
 | サブ step | goal (完了時にできること) | 対象 md | 依存 |
 |---|---|---|---|
-| 9.1 村画面ベース | 村を開くとレイアウト/日付ナビ/状況サマリ (部屋割り/参加者/投票/足音) が表示され、ポーリングで自動更新される。**`VillageSituation`+`ParticipantSituation` 二層 + `isViewableSpoilerContent` をマスク基盤として確立** | village-base / village-situation-summary | Step 8 |
-| 9.2 メッセージ表示 | 発言ログが種別ごとに正しく描画され、フィルタ / アンカー / 参加者一覧公開が動く | village-messages | 9.1 |
-| 9.3 発言投稿・アクション | 通常/表情/装飾/秘話/返信の発言を確認フロー経由で投稿でき、アクション発言 (別パネル) も投稿できる。文字数/行数制限 (種別別) で送信可否が出し分く | village-say / village-action | 9.2 |
-| 9.4 参加・退村 | 入村 / 見学 / 切替 / 希望役職 / 退村ができる | village-participate | 9.1 |
-| 9.5 能力・投票・コミット | 役職別 (A〜H) の能力セット (足音含む)・投票 (2日目以降のみ・`day>1`)・コミットができる | village-ability / village-vote / village-commit | 9.1 |
-| 9.6 RP・設定モーダル | キャラ名/簡易メモ/表情差分の編集、表示設定 (デフォルト変更済) と Discord 通知設定ができる | village-rp / village-user-settings | 9.3 |
-| 9.7 村情報モーダル | 村設定を閲覧モーダルで確認できる | village-info | 9.1 |
-| 9.8 creator/admin/debug + 村設定変更 | 村主操作 (kick/廃村/エピローグ延長短縮/村建て発言)・管理者操作 (参加プレイヤー確認は panel 内インライン)・debug・募集中の村設定変更ができる | village-creator / village-admin / village-debug / village-settings | 9.1 + Step 8 (フォーム共通化) |
-| 9.9 村切り抜き (別画面) | 村の発言を切り抜くページ (別ルート) が動く | village-scrap | 9.2 |
+| 8.1 村画面ベース | 村を開くとレイアウト/日付ナビ/状況サマリ (部屋割り/参加者/投票/足音) が表示され、ポーリングで自動更新される。**`VillageSituation`+`ParticipantSituation` 二層 + `isViewableSpoilerContent` をマスク基盤として確立** | village-base / village-situation-summary | Step 7 |
+| 8.2 メッセージ表示 | 発言ログが種別ごとに正しく描画され、アンカー / 参加者一覧公開が動く | village-messages | 8.1 |
+| 8.3 メッセージフィルタ | 種別・対象でのメッセージフィルタ (modal-filter) が動く | village-messages | 8.2 |
+| 8.4 発言投稿 | 通常/表情/装飾/秘話/返信の発言を確認フロー経由で投稿できる。文字数/行数制限 (種別別) で送信可否が出し分く | village-say | 8.2 |
+| 8.5 アクション発言 | アクション発言 (別パネル `#actionform-panel`) を投稿できる | village-action | 8.4 |
+| 8.6 入村 | キャラ選択 + 入村発言 + 希望役職 + 確認 (ルール/礼節の同意チェック) で入村できる。原画村のオリジナル画像アップロード含む | village-participate | 8.1 |
+| 8.7 見学参加・参加見学切替 | 見学参加と 参加⇄見学 の切替ができる | village-participate | 8.1 |
+| 8.8 希望役職変更・退村 | 希望役職 (第1/第2) の変更と退村ができる | village-participate | 8.1 |
+| 8.9 能力使用 | 役職別パターン (A〜H) の能力をセットできる (襲撃者/対象/足音/徘徊先 等、`ParticipantAbilitySituation` フラグで UI 出し分け) | village-ability | 8.1 |
+| 8.10 投票 | 投票 (2日目以降のみ・`day>1`) ができる | village-vote | 8.1 |
+| 8.11 コミット | コミット (全員コミットで時刻前進行) ができる | village-commit | 8.1 |
+| 8.12 RP | キャラ名/簡易メモ/表情差分の編集ができる | village-rp | 8.4 |
+| 8.13 ユーザー設定 | 表示設定 (Cookie/localStorage、デフォルト変更済) と Discord 通知設定ができる | village-user-settings | 8.1 |
+| 8.14 村情報モーダル | 村設定を閲覧モーダルで確認できる | village-info | 8.1 |
+| 8.15 creator パネル | 村主操作 (kick/廃村/エピローグ延長短縮/村建て発言) ができる | village-creator | 8.1 + Step 7 |
+| 8.16 admin パネル | 管理者操作 (access/leave/vote/player、参加プレイヤー確認は panel 内インライン) ができる | village-admin | 8.1 |
+| 8.17 debug パネル | debug 操作 (allparticipate/dayChange/login/logout、ローカル開発向け) ができる | village-debug | 8.1 |
+| 8.18 村設定変更 | creator が募集中の村設定を変更できる | village-settings | 8.1 + Step 7 |
+| 8.19 村切り抜き (別画面) | 村の発言を切り抜くページ (別ルート) が動く | village-scrap | 8.2 |
 
-- **9.1 の最重要事項**: situation 二層 + spoiler 判定を村取得 API のマスク基盤に据える ([usecases/mask.md](usecases/mask.md) / [footstep.md](usecases/footstep.md))。横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
-- 各サブ step は必要に応じ `9.M.K` 相当でさらに分割可 (例: 能力は役職グループ単位)
-- **e2e の進行シナリオ**: 9.x 実装後、`scenarios/` の happy-path (村作成→参加→開始→進行) を authoring して e2e の土台にする ([scenarios/README.md](scenarios/README.md))
+- **8.1 の最重要事項**: situation 二層 + spoiler 判定を村取得 API のマスク基盤に据える ([usecases/mask.md](usecases/mask.md) / [footstep.md](usecases/footstep.md))。横断ユースケース (足音 reveal / Daychange / 認可マスク) は該当サブ step 内で domain ロジックを温存しつつ View 変換を実装
+- **8.9 能力**は役職 133 / 能力サービス 67 と多い。`SkillTag` 述語でパターン A〜H に機械分類し、パターン別コンポーネントで実装。必要なら `8.9.K` でパターングループ単位にさらに分割可
+- **e2e の進行シナリオ**: 村画面が動いたら `scenarios/` の happy-path (村作成→参加→開始→進行) を authoring して e2e の土台にする ([scenarios/README.md](scenarios/README.md))
+
+#### Step 9: プロフィール系 (村画面の後・認証あり閲覧)
+
+> **順序変更 (ユーザー指示)**: 戦績は settled (エピローグ以降) の村が必要なため、**村画面 (Step 8) が動いて村をエピローグまで進められる状態になってから**着手する。当初「ホーム → プロフィール系 → …」だった主要画面順を、プロフィール系だけ村画面の後ろへ後ろ倒し。
+
+- **goal**: プロフィール (`/user/{name}`)・戦績・プレイヤー一覧が表示でき、パスワード変更ができる。**戦績は settled のみ集計**
+- **対象**: [player-profile.md](screens/player-profile.md) / [player-list.md](screens/player-list.md) / [auth-change-password.md](screens/auth-change-password.md) (画面のみ。endpoint `/api/v1/auth/password` は Step 3)
+- **成果物**: 各 route + REST (`/api/v1/players/{id}` 等)。パスワード変更フォーム (react-hook-form + zod)
+- **依存**: Step 3 (auth)、**Step 8 (戦績検証に村のエピローグが必要)**
+- **補足**: player-list / パスワード変更は村に依存しないため、検証上問題なければ前倒し可
+- **動作確認**: プロフィール/戦績/一覧が `:8091` と一致 / パスワード変更が成功・失敗時に適切な表示 (緩和後ポリシー 3-60字)
 
 ### 横断タスク (各画面 step と並行)
 
@@ -195,6 +216,6 @@ wolf-mansion で最も機能密度が高い画面。Step 0 の `screens/village/
 ## 未確定事項
 
 - [x] Step 0 のドキュメント完成度 (合格基準) の定義 — `screens/README.md` 12-24 に 8 項目で定義済み
-- [x] **村画面**サブ step の最終的な分割粒度・順序 — Step 9 の表で 9 サブ step (9.1〜9.9) に確定済み
-- [x] **画面 step (Step 4 以降) の細分化** — Step 4〜9 + Step 10/11 (撤去/cutover) に goal 付きで定義済み
+- [x] **村画面**サブ step の最終的な分割粒度・順序 — Step 8 の表で 19 サブ step (8.1〜8.19) に確定済み
+- [x] **画面 step (Step 4 以降) の細分化** — Step 4〜9 (情報系・新規村作成・村画面はサブ step に細分化、プロフィール系は村画面の後へ後ろ倒し) + Step 10/11 (撤去/cutover) に goal 付きで定義済み
 - [ ] cutover の具体的な切替手順 (ダウンタイム有無 / ロールバック手順) — Step 11
