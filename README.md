@@ -75,9 +75,3 @@ Docker イメージ（Jib）をビルドする場合:
 - [`CLAUDE.md`](CLAUDE.md) — アーキテクチャ・設計パターン・規約
 - [`migration.md`](migration.md) — monorepo + REST + RR v7 移行計画の index
 - [`doc/migration/`](doc/migration/) — 移行の領域別ドキュメント（画面別調査・ユースケース・step 分解）
-
-## メモ
-
-* 指揮官メッセージを目立たせる
-* 管狐の場合呪殺なし
-* ストーカーや求愛は使わないと死亡
