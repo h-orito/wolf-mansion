@@ -60,3 +60,9 @@ discord:
 microsoft:
   translator:
     key: ${WOLF_MANSION_MICROSOFT_TRANSLATOR_KEY}
+
+jwt:
+  secret: ${WOLF_MANSION_JWT_SECRET}
+  access-token-validity-minutes: 15
+  refresh-token-validity-days: 14
+  cookie-secure: true

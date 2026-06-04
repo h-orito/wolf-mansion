@@ -45,6 +45,10 @@ dependencies {
     implementation("org.apache.commons:commons-collections4:4.4")
     // jackson
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    // jwt (jjwt)
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 
     // test
     testImplementation("org.jetbrains.kotlin:kotlin-test")
