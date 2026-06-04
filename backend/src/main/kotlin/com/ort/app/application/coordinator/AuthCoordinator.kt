@@ -53,14 +53,17 @@ class AuthCoordinator(
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
         if (!refreshToken.isUsable(now)) throw WolfMansionAuthException(INVALID_REFRESH)
+        // プレイヤー取得は markUsed より前に行う (null なら旧トークンを消費せずに弾けるため、
+        // noRollbackFor 下でも "旧トークンだけ使用済み・新トークン未発行" の中途半端なコミットを避けられる)。
+        // FK 上 REFRESH_TOKEN は PLAYER に従属し削除フローも無いため、通常 null にはならない防御的処理。
+        val playerAuth =
+            playerAuthRepository.findById(refreshToken.playerId)
+                ?: throw WolfMansionAuthException(INVALID_REFRESH)
         // 使い捨て: 未使用のものだけをアトミックに使用済みにする。
         // 並行リクエストに先を越された (= 二重消費) 場合は false → このリクエストは拒否する。
         if (!refreshTokenRepository.markUsed(refreshToken.id, now)) {
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
-        val playerAuth =
-            playerAuthRepository.findById(refreshToken.playerId)
-                ?: throw WolfMansionAuthException(INVALID_REFRESH)
         return issueTokens(playerAuth)
     }
 
