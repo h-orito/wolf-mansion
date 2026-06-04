@@ -29,15 +29,16 @@ Node / pnpm は移行で導入する frontend 用。現状の backend 開発だ�
 
 ### Java バージョン管理（jenv）
 
-リポジトリ直下の `.java-version` が `21` に固定されている。[jenv](https://github.com/jenv/jenv) を使う場合、JDK 21 を登録しておけば本ディレクトリで自動的に 21 が選択される。
+`backend/.java-version` が `21` に固定されている（Java は backend のみで使うため pin も backend 配下）。[jenv](https://github.com/jenv/jenv) を使う場合、JDK 21 を登録しておけば `backend/` で自動的に 21 が選択される。
 
 ```bash
 # 既存の JDK 21 を jenv に登録（JDK のパスは環境に合わせて指定）
 jenv add /path/to/jdk-21                     # 任意の OS
 jenv add "$(/usr/libexec/java_home -v 21)"   # macOS の場合
 
-# 確認（このディレクトリで 21 になっていること）
-jenv version          # => 21 (set by .../.java-version)
+# 確認（backend/ で 21 になっていること）
+cd backend
+jenv version          # => 21 (set by .../backend/.java-version)
 java -version         # => openjdk version "21.x"
 ```
 
