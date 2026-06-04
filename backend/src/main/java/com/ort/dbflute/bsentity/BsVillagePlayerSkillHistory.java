@@ -16,54 +16,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_PLAYER_SKILL_HISTORY as TABLE. <br>
  * 村参加者役職履歴
- * <pre>
- * [primary-key]
- *     VILLAGE_PLAYER_SKILL_HISTORY_ID
- *
- * [column]
- *     VILLAGE_PLAYER_SKILL_HISTORY_ID, VILLAGE_PLAYER_ID, DAY, SKILL_CODE, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_PLAYER_SKILL_HISTORY_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     SKILL, VILLAGE_PLAYER
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     skill, villagePlayer
- *
- * [referrer property]
- *     
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villagePlayerSkillHistoryId = entity.getVillagePlayerSkillHistoryId();
- * Integer villagePlayerId = entity.getVillagePlayerId();
- * Integer day = entity.getDay();
- * String skillCode = entity.getSkillCode();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillagePlayerSkillHistoryId(villagePlayerSkillHistoryId);
- * entity.setVillagePlayerId(villagePlayerId);
- * entity.setDay(day);
- * entity.setSkillCode(skillCode);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillagePlayerSkillHistory extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -134,7 +86,7 @@ public abstract class BsVillagePlayerSkillHistory extends AbstractEntity impleme
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.Skill getSkillCodeAsSkill() {
-        return CDef.Skill.codeOf(getSkillCode());
+        return CDef.Skill.of(getSkillCode()).orElse(null);
     }
 
     /**

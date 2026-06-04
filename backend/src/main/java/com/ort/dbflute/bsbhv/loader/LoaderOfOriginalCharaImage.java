@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of ORIGINAL_CHARA_IMAGE as TABLE. <br>
- * <pre>
- * [primary key]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [column]
- *     ORIGINAL_CHARA_IMAGE_ID, ORIGINAL_CHARA_ID, FACE_TYPE_NAME, CHARA_IMG_URL, IS_DISPLAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ORIGINAL_CHARA
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     originalChara
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of ORIGINAL_CHARA_IMAGE as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfOriginalCharaImage {

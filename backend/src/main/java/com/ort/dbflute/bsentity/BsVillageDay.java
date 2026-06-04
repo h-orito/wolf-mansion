@@ -15,52 +15,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_DAY as TABLE. <br>
  * 村日付
- * <pre>
- * [primary-key]
- *     VILLAGE_ID, DAY
- *
- * [column]
- *     VILLAGE_ID, DAY, DAYCHANGE_DATETIME, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     VILLAGE
- *
- * [referrer table]
- *     ABILITY, COMMIT, FOOTSTEP, MESSAGE, VOTE
- *
- * [foreign property]
- *     village
- *
- * [referrer property]
- *     abilityList, commitList, footstepList, messageList, voteList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * Integer villageId = entity.getVillageId();
- * Integer day = entity.getDay();
- * java.time.LocalDateTime daychangeDatetime = entity.getDaychangeDatetime();
- * java.time.LocalDateTime registerDatetime = entity.getRegisterDatetime();
- * String registerTrace = entity.getRegisterTrace();
- * java.time.LocalDateTime updateDatetime = entity.getUpdateDatetime();
- * String updateTrace = entity.getUpdateTrace();
- * entity.setVillageId(villageId);
- * entity.setDay(day);
- * entity.setDaychangeDatetime(daychangeDatetime);
- * entity.setRegisterDatetime(registerDatetime);
- * entity.setRegisterTrace(registerTrace);
- * entity.setUpdateDatetime(updateDatetime);
- * entity.setUpdateTrace(updateTrace);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillageDay extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {

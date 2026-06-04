@@ -9,35 +9,7 @@ import com.ort.dbflute.exentity.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The referrer loader of DEAD_REASON as TABLE. <br>
- * <pre>
- * [primary key]
- *     DEAD_REASON_CODE
- *
- * [column]
- *     DEAD_REASON_CODE, DEAD_REASON_NAME
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_PLAYER, VILLAGE_PLAYER_DEAD_HISTORY
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villagePlayerList, villagePlayerDeadHistoryList
- * </pre>
+ * The referrer loader of DEAD_REASON as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfDeadReason {

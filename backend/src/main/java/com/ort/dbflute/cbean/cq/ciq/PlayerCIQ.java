@@ -64,19 +64,29 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
     public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepPlayerId_ExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepPlayerId_NotExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepPlayerId_SpecifyDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_MessageListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_RefreshTokenListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }

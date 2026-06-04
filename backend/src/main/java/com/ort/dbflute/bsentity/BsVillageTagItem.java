@@ -13,44 +13,6 @@ import com.ort.dbflute.exentity.*;
 /**
  * The entity of VILLAGE_TAG_ITEM as TABLE. <br>
  * 村タグ種別
- * <pre>
- * [primary-key]
- *     VILLAGE_TAG_ITEM_CODE
- *
- * [column]
- *     VILLAGE_TAG_ITEM_CODE, VILLAGE_TAG_ITEM_NAME, DISP_ORDER
- *
- * [sequence]
- *     
- *
- * [identity]
- *     
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     
- *
- * [referrer table]
- *     VILLAGE_TAG
- *
- * [foreign property]
- *     
- *
- * [referrer property]
- *     villageTagList
- *
- * [get/set template]
- * /= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =
- * String villageTagItemCode = entity.getVillageTagItemCode();
- * String villageTagItemName = entity.getVillageTagItemName();
- * Integer dispOrder = entity.getDispOrder();
- * entity.setVillageTagItemCode(villageTagItemCode);
- * entity.setVillageTagItemName(villageTagItemName);
- * entity.setDispOrder(dispOrder);
- * = = = = = = = = = =/
- * </pre>
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsVillageTagItem extends AbstractEntity implements DomainEntity {
@@ -106,7 +68,7 @@ public abstract class BsVillageTagItem extends AbstractEntity implements DomainE
      * @return The instance of classification definition (as ENUM type). (NullAllowed: when the column value is null)
      */
     public CDef.VillageTagItem getVillageTagItemCodeAsVillageTagItem() {
-        return CDef.VillageTagItem.codeOf(getVillageTagItemCode());
+        return CDef.VillageTagItem.of(getVillageTagItemCode()).orElse(null);
     }
 
     /**

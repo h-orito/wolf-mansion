@@ -7,35 +7,7 @@ import com.ort.dbflute.exbhv.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The referrer loader of VILLAGE_CHARA_GROUP as TABLE. <br>
- * <pre>
- * [primary key]
- *     VILLAGE_CHARA_GROUP_ID
- *
- * [column]
- *     VILLAGE_CHARA_GROUP_ID, VILLAGE_ID, CHARA_GROUP_ID, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     VILLAGE_CHARA_GROUP_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     CHARA_GROUP, VILLAGE
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     charaGroup, village
- *
- * [referrer property]
- *     
- * </pre>
+ * The referrer loader of VILLAGE_CHARA_GROUP as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public class LoaderOfVillageCharaGroup {

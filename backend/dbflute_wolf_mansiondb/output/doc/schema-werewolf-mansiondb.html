@@ -101,6 +101,23 @@ h4 {
 }
 
 /* -------------------------------------------------
+                                    Schema Comment
+------------------------------------------------- */
+pre.schemaalias {
+	padding-top: 0.5em;
+	padding-left: 0.5em;
+	color: #3F7E5E;
+	font-size: 2.0em;
+}
+
+pre.schemadescription {
+	padding-top: 0.5em;
+	padding-left: 0.5em;
+	color: #3F7E5E;
+	font-size: 1.2em;
+}
+
+/* -------------------------------------------------
                                    Database Table
 ------------------------------------------------- */
 table {
@@ -119,7 +136,7 @@ td {
 	padding:2px;
 }
 .tablecomment {
-	font-size: 0.8em;
+	font-size: 1.0em;
 	color: #3F7E5E;
 	padding:0 0 0.2em 1em;
 }
@@ -142,6 +159,14 @@ td {
 .flgcell {
 	text-align: center;
 }
+.notnullbusiness {
+	font-style: italic;
+	font-size: 0.7em;
+}
+.notnullmaybe {
+	font-style: italic;
+	font-size: 0.7em;
+}
 .flgplus {
 	font-size: 0.7em;
 }
@@ -157,10 +182,10 @@ td {
 	font-size: 0.6em;
 }
 .relcell {
-	font-size: 0.7em;
+	font-size: 0.8em;
 }
 .commentcell {
-	font-size: 0.7em;
+	font-size: 0.9em;
 	color: #3F7E5E;
 }
 .commentcellerror {
@@ -187,6 +212,13 @@ td {
 }
 .commentdesc {
 	color: #3F7E5E;
+}
+.deprecatedtable {
+	color: #3F7E5E; /* comment-out color */
+	font-size: 0.8em;
+}
+.deprecatedtablerelation {
+	color: #3F7E5E; /* comment-out color */
 }
 
 /* inner table */
@@ -380,6 +412,25 @@ pre.spolicyviodisp {
 	margin-top: 10px;
 	font-size: 12px;
 }
+.decomment-alias-input-area {
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.decomment-alias-label {
+	font-size: 12px;
+	color: #222277;
+	white-space: nowrap;
+}
+.decomment-alias-input {
+	flex: 1;
+	max-width: 300px;
+	padding: 5px;
+	font-size: 12px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
 .decommentmodal-ok-area {
 	text-align: right;
 	margin: 0em 1em 0em 0em
@@ -432,6 +483,52 @@ pre.spolicyviodisp {
 .decomment-user-name-desc {
 	margin-left: 0.5em;
 	color: #222277;
+}
+
+/* -------------------------------------------------
+                            Notification Banner
+------------------------------------------------- */
+.notificationbanner {
+	display: none;
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	z-index: 1000;
+	max-width: 400px;
+}
+.notificationbannercontent {
+	position: relative;
+	padding: 15px;
+	background-color: #709dff;
+	border: 1px solid #5a7fcf;
+	border-radius: 4px;
+	color: #ffffff;
+}
+.notificationbannercontent p {
+	margin: 0;
+	padding-right: 20px;
+	font-size: 14px;
+	color: #ffffff;
+}
+.notificationbanner-close-btn {
+	position: absolute;
+	padding: 0;
+	right: 10px;
+	top: 5px;
+	cursor: pointer;
+	width: 28px;
+	height: 28px;
+	border: 0;
+	border-radius: 50%;
+	background-color: transparent;
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 24px;
+	text-align: center;
+	transition: box-shadow .15s ease-in-out;
+}
+.notificationbanner-close-btn:hover {
+	background-color: rgba(255, 255, 255, 0.2);
 }
 	</style>
 </head>
@@ -496,11 +593,13 @@ pre.spolicyviodisp {
 	<button id="column-mapping-submit-button">Mapping</button>
 </div>
 
-<h2>Table List</h2>
+
+
+<h2 title="mainSchema=werewolf_mansiondb, tableCount=46, columnCountAll=357">Table List</h2>
 <div class="keywordsearch">
 	<input type="text" id="incremental-search-field" tabindex=1 value="" placeholder="Table Search" />
 	<ul id="suggestion-list" class="suggestionarea"></ul>
-	<span class="searchmemo">*Push 'tab' (primary tab order)</span>
+	<span class="searchmemo">*Push 'shift + command (ctrl) + , (comma)'</span>
 </div>
 <table>
 	<thead>
@@ -731,7 +830,7 @@ pre.spolicyviodisp {
 		<td class="namecell" data-name="player"><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=10">PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a></td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>, <a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>, <a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>, <a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="commentcell player_comment"><pre>プレイヤー</pre></td>
 		<td class="subcell">Player</td>
 		<td class="subcell">2017/12/20</td>
@@ -768,6 +867,16 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">26</td>
+		<td class="namecell" data-name="refresh_token"><a href="#refresh_token" title="type=TABLE, primaryKey={REFRESH_TOKEN_ID}, nameLength=13, columnCount=11">REFRESH_TOKEN</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#player" title="FK_REFRESH_TOKEN_PLAYER">PLAYER</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell refresh_token_comment"><pre>リフレッシュトークン</pre></td>
+		<td class="subcell">RefreshToken</td>
+		<td class="subcell">2026/06/05</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">27</td>
 		<td class="namecell" data-name="skill"><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=5">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
@@ -777,7 +886,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">27</td>
+		<td class="rownumcell">28</td>
 		<td class="namecell" data-name="skill_allocation"><a href="#skill_allocation" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE}, nameLength=16, columnCount=10">SKILL_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#skill" title="FK_SKILL_ALLOCATION_SKILL">SKILL</a>, <a href="#village" title="FK_SKILL_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -787,7 +896,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/07/27</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">28</td>
+		<td class="rownumcell">29</td>
 		<td class="namecell" data-name="skill_say_restriction"><a href="#skill_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, MESSAGE_TYPE_CODE}, nameLength=21, columnCount=8">SKILL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#village" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
@@ -797,7 +906,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">29</td>
+		<td class="rownumcell">30</td>
 		<td class="namecell" data-name="village"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
@@ -807,7 +916,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">30</td>
+		<td class="rownumcell">31</td>
 		<td class="namecell" data-name="village_chara_group"><a href="#village_chara_group" title="type=TABLE, primaryKey={VILLAGE_CHARA_GROUP_ID}, nameLength=19, columnCount=7">VILLAGE_CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE</a></td>
@@ -817,7 +926,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">31</td>
+		<td class="rownumcell">32</td>
 		<td class="namecell" data-name="village_day"><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE</a></td>
@@ -827,7 +936,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">32</td>
+		<td class="rownumcell">33</td>
 		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
@@ -837,7 +946,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">33</td>
+		<td class="rownumcell">34</td>
 		<td class="namecell" data-name="village_player_access_info"><a href="#village_player_access_info" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ACCESS_INFO_ID}, nameLength=26, columnCount=7">VILLAGE_PLAYER_ACCESS_INFO</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -847,7 +956,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/04/08</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">34</td>
+		<td class="rownumcell">35</td>
 		<td class="namecell" data-name="village_player_dead_history"><a href="#village_player_dead_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_DEAD_HISTORY_ID}, nameLength=27, columnCount=9">VILLAGE_PLAYER_DEAD_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_DEAD_REASON">DEAD_REASON</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -857,7 +966,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">35</td>
+		<td class="rownumcell">36</td>
 		<td class="namecell" data-name="village_player_notification"><a href="#village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=13">VILLAGE_PLAYER_NOTIFICATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -867,7 +976,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2023/02/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">36</td>
+		<td class="rownumcell">37</td>
 		<td class="namecell" data-name="village_player_room_history"><a href="#village_player_room_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ROOM_HISTORY_ID}, nameLength=27, columnCount=8">VILLAGE_PLAYER_ROOM_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -877,7 +986,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">37</td>
+		<td class="rownumcell">38</td>
 		<td class="namecell" data-name="village_player_skill_history"><a href="#village_player_skill_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_SKILL_HISTORY_ID}, nameLength=28, columnCount=8">VILLAGE_PLAYER_SKILL_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL">SKILL</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -887,7 +996,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/03</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">38</td>
+		<td class="rownumcell">39</td>
 		<td class="namecell" data-name="village_player_status"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
@@ -897,7 +1006,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">39</td>
+		<td class="rownumcell">40</td>
 		<td class="namecell" data-name="village_player_status_type"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -907,7 +1016,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">40</td>
+		<td class="rownumcell">41</td>
 		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=28">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#original_chara_group" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">ORIGINAL_CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
@@ -917,7 +1026,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">41</td>
+		<td class="rownumcell">42</td>
 		<td class="namecell" data-name="village_status"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -927,7 +1036,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">42</td>
+		<td class="rownumcell">43</td>
 		<td class="namecell" data-name="village_tag"><a href="#village_tag" title="type=TABLE, primaryKey={VILLAGE_TAG_ID}, nameLength=11, columnCount=7">VILLAGE_TAG</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE</a>, <a href="#village_tag_item" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG_ITEM</a></td>
@@ -937,7 +1046,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">43</td>
+		<td class="rownumcell">44</td>
 		<td class="namecell" data-name="village_tag_item"><a href="#village_tag_item" title="type=TABLE, primaryKey={VILLAGE_TAG_ITEM_CODE}, nameLength=16, columnCount=3">VILLAGE_TAG_ITEM</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -947,7 +1056,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">44</td>
+		<td class="rownumcell">45</td>
 		<td class="namecell" data-name="vote"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a></td>
@@ -957,7 +1066,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">45</td>
+		<td class="rownumcell">46</td>
 		<td class="namecell" data-name="wolf_allocation"><a href="#wolf_allocation" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=15, columnCount=7">WOLF_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_WOLF_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -4287,7 +4396,7 @@ PLAYER
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>,<br><a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>,<br><a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>,<br><a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>プレイヤーID</pre></td>
 		<td class="subcell">playerId</td>
@@ -4690,6 +4799,235 @@ RANDOM_KEYWORD
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>キーワード</pre></td>
 		<td class="subcell">keyword</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="refresh_token" title="type=TABLE, primaryKey={REFRESH_TOKEN_ID}, nameLength=13, columnCount=11">
+REFRESH_TOKEN
+&nbsp;<span class="tablefirstdatetitle">since 2026/06/05</span>
+</h2>
+<div class="tablecomment refresh_token_comment" data-name="refresh_token"><pre>リフレッシュトークン</pre></div>
+<input type="hidden" value="refresh_token">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="refresh_token-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="refresh_token_refresh_token_id">REFRESH_TOKEN_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>リフレッシュトークンID</pre></td>
+		<td class="subcell">refreshTokenId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="FK_REFRESH_TOKEN_PLAYER(PLAYER_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="refresh_token_player_id">PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#player" title="FK_REFRESH_TOKEN_PLAYER">PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>プレイヤーID</pre></td>
+		<td class="subcell">playerId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="TOKEN_HASH(TOKEN_HASH)">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="refresh_token_token_hash">TOKEN_HASH</td>
+		<td class="typecell">CHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>リフレッシュトークンのSHA-256ハッシュ(hex)</pre></td>
+		<td class="subcell">tokenHash</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="refresh_token_issued_datetime">ISSUED_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>発行日時</pre></td>
+		<td class="subcell">issuedDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="refresh_token_expires_datetime">EXPIRES_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>有効期限</pre></td>
+		<td class="subcell">expiresDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="refresh_token_used_datetime">USED_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>使用(ローテーション)日時。使用済みは再利用不可</pre></td>
+		<td class="subcell">usedDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class=" columnnamecell" id="refresh_token_revoked_datetime">REVOKED_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>失効日時。ログアウトや漏洩疑い等で失効</pre></td>
+		<td class="subcell">revokedDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="refresh_token_register_datetime">REGISTER_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録日時</pre></td>
+		<td class="subcell">registerDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">9</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="refresh_token_register_trace">REGISTER_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録トレース</pre></td>
+		<td class="subcell">registerTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">10</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="refresh_token_update_datetime">UPDATE_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新日時</pre></td>
+		<td class="subcell">updateDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">11</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="refresh_token_update_trace">UPDATE_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新トレース</pre></td>
+		<td class="subcell">updateTrace</td>
 		<td class="subcell">String</td>
 		<td class="subcell">first</td>
 	</tr>
@@ -12108,14 +12446,25 @@ WOLF_ALLOCATION
 	Created by <a href="http://dbflute.org/">DBFlute(AutoGenerator)</a>
 </p>
 
-<!-- Only used by dbflute intro http://dbflute.seasar.org/ja/manual/function/helper/intro/index.html -->
+<!-- Only used by dbflute intro http://dbflute.seasar.org/ja/manual/function/generator/intro/index.html -->
 <div id="decomment-modal" class="decommentmodal">
 	<div class="decommentmodalcontent">
 		<div id="decomment-close" class="decommentmodal-close-btn"><span>x</span></div>
-		<p>Input the new column comment of <span id="decomment-modal-column-info"></span></p>
+		<p>Input the new comment of <span id="decomment-modal-column-info"></span></p>
 		<textarea id="decomment-input" class="decommentinput" rows="5"></textarea>
+		<div class="decomment-alias-input-area">
+			<label for="decomment-alias-input" class="decomment-alias-label">Alias:</label>
+			<input type="text" id="decomment-alias-input" class="decomment-alias-input"/>
+		</div>
 		<div id="decomment-user-input" class="decomment-user-input"><input type="text" id="decomment-user-name" class="decomment-user-name" placeholder="User name"/><span class="decomment-user-name-desc">*required (saved in cookie)</span></div>
 		<div class="decommentmodal-ok-area"><button id="decomment-ok" class="decommentmodal-ok-btn">OK</button></div>
+	</div>
+</div>
+<!-- Notification Banner for informational messages -->
+<div id="notification-banner" class="notificationbanner">
+	<div class="notificationbannercontent">
+		<div id="notification-close" class="notificationbanner-close-btn"><span>×</span></div>
+		<p id="notification-message"></p>
 	</div>
 </div>
 <script>
@@ -12297,20 +12646,20 @@ Incremental.prototype = {
 	 * Select suggestion
 	 */
 	selectSuggestion: function (ev) {
-		var keyCode = ev.keyCode,
+		var key = ev.key,
 			visibleChildNodes = this.filterVisibleChild(),
 			prevIdx;
 
-		if (keyCode === 38 || keyCode === 40) {
+		if (key === 'ArrowUp' || key === 'ArrowDown') {
 
 			if (visibleChildNodes.length) {
 				prevIdx = this.suggestionIdx;
 
-				if (keyCode === 40 && this.suggestionIdx < visibleChildNodes.length - 1) {
+				if (key === 'ArrowDown' && this.suggestionIdx < visibleChildNodes.length - 1) {
 					this.suggestionIdx++;
 				}
 
-				if (keyCode === 38 && this.suggestionIdx > 0) {
+				if (key === 'ArrowUp' && this.suggestionIdx > 0) {
 					this.suggestionIdx--;
 				}
 
@@ -12337,7 +12686,7 @@ Incremental.prototype = {
 	 * @param {Object} ev
 	 */
 	setInputValue: function (ev) {
-		var keyCode = ev.keyCode,
+		var key = ev.key,
 			visibleChildNodes = this.filterVisibleChild(),
 			currentSuggestionTxt,
 			selectedSection;
@@ -12345,7 +12694,7 @@ Incremental.prototype = {
 		if (visibleChildNodes.length) {
 			currentSuggestionTxt = this.util.getElemTxt(visibleChildNodes[this.suggestionIdx]);
 
-			if (keyCode === 13) {
+			if (key === 'Enter') {
 				this.targetInput.value = currentSuggestionTxt;
 				selectedSection = this.getSelectedSection(visibleChildNodes[this.suggestionIdx]);
 				this.clearSuggestion();
@@ -12467,9 +12816,33 @@ Incremental.prototype.util = {
 
 var searcher = new Incremental(document.getElementById('incremental-search-field'), document.getElementById('table-list-body'));
 searcher.init();
+
+// ===================================================================================
+//                                                              Search Keyboard Shortcut
+//                                                              ========================
+// Keyboard shortcut to focus search: Shift+Cmd+,
+document.addEventListener('keydown', function(e) {
+	// Skip if user is already typing in an input/textarea
+	if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+		return;
+	}
+
+	if (e.shiftKey && (e.ctrlKey || e.metaKey) && e.key === ',') {
+		e.preventDefault();
+		var searchField = document.getElementById('incremental-search-field');
+		if (searchField) {
+			searchField.focus();
+			searchField.select();
+			searchField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+	}
+});
 </script>
 <script>
 
+// ===================================================================================
+//                                                                          Api Client
+//                                                                          ==========
 /**
  * @author deco
  */
@@ -12546,6 +12919,9 @@ ApiClient.prototype = {
 	}
 }
 
+// ===================================================================================
+//                                                                      Decomment Util
+//                                                                      ==============
 /**
  * @author deco
  */
@@ -12584,8 +12960,8 @@ var DecommentUtil = new function(){
 		});
 	},
 	/**
-	 * Escape newline character of text
-	 * @param {String} string - text
+	 * Escape newline character of text. (changing to real line separator)
+	 * @param {String} string - text (NotNull, EmpytAllowed)
 	 */
 	this.escapeNewlineCharacter = function (string) {
 		return string.split('<br>').join('\n');
@@ -12618,18 +12994,114 @@ var DecommentUtil = new function(){
 	 */
 	this.isDecommentServer = function() {
 		return document.getElementById("decomment_server") != null;
+	},
+	/**
+	 * Extract alias from dfalias:{} or shalias:{} marker in decomment
+	 * @param {string} decomment - decomment text
+	 * @returns {string} extracted alias (empty if not found)
+	 */
+	this.extractAlias = function(decomment) {
+		if (!decomment) {
+			return '';
+		}
+		var match = decomment.match(/(?:dfalias|shalias):\s*\{\s*([^}]*)\s*\}/);
+		return match ? match[1].trim() : '';
+	},
+	/**
+	 * Remove dfalias:{} or shalias:{} marker from decomment
+	 * @param {string} decomment - decomment text
+	 * @returns {string} decomment without alias marker
+	 */
+	this.removeAliasFromDecomment = function(decomment) {
+		if (!decomment) {
+			return '';
+		}
+		var result = decomment.replace(/(?:dfalias|shalias):\s*\{[^}]*\}\s*\n?/g, '');
+		// remove leading <br> to prevent empty line when opening in plain schema html
+		return result.replace(/^<br\s*\/?>/i, '').trim();
 	}
 }
 
+// ===================================================================================
+//                                                              Notification Handler
+//                                                              ====================
+/**
+ * @author shiny
+ */
+var NotificationHandler = new function() {
+	var AUTO_HIDE_DELAY = 10000; // 10 seconds
+	var hideTimeout = null;
+
+	/**
+	 * Show notification banner with message
+	 * @param {string} message - The message to display (NotNull)
+	 */
+	this.show = function(message) {
+		var bannerElement = document.getElementById('notification-banner');
+		var messageElement = document.getElementById('notification-message');
+
+		if (!bannerElement || !messageElement) {
+			return;
+		}
+
+		if (hideTimeout) {
+			clearTimeout(hideTimeout);
+		}
+
+		messageElement.innerText = message;
+		bannerElement.style.display = 'block';
+
+		var closeBtn = document.getElementById('notification-close');
+		if (closeBtn) {
+			closeBtn.onclick = function() {
+				NotificationHandler.hide();
+			};
+		}
+
+		hideTimeout = setTimeout(function() {
+			NotificationHandler.hide();
+		}, AUTO_HIDE_DELAY);
+	};
+
+	/**
+	 * Hide notification banner
+	 */
+	this.hide = function() {
+		var bannerElement = document.getElementById('notification-banner');
+		if (bannerElement) {
+			bannerElement.style.display = 'none';
+		}
+		if (hideTimeout) {
+			clearTimeout(hideTimeout);
+			hideTimeout = null;
+		}
+	};
+}
+
+// ===================================================================================
+//                                                                     Decomment Store
+//                                                                     ===============
 /**
  * @author deco
  */
 function StoreClient() {
+
+    // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// the pickup object as embedded in this SchemaHTML by DBFlute Engine.
+	// initialized from saved pickup file by Doc task.
+	// _/_/_/_/_/_/_/_/
 	// setup from dbflute if decomment pickup exists
 	this.embeddedPickup = {
 		'tables': [
 		]
 	}
+
+    // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+	// the stored object of pickup to display.
+	// this pickup store stores virtual pickup or embedded pickup to reflect it to HTML display.
+	// while, pickup store has current database comment as initialized values
+	// to determine database comment conflict.
+	// _/_/_/_/_/_/_/_/
 	this.pickupStore = {
 		'ability': {
 			'databaseComment': '能力行使'
@@ -13245,6 +13717,44 @@ function StoreClient() {
 				}
 				, 'KEYWORD': {
 					'databaseComment': 'キーワード'
+				}
+			}
+		}
+		, 'refresh_token': {
+			'databaseComment': 'リフレッシュトークン'
+			, 'columns': {
+				'REFRESH_TOKEN_ID': {
+					'databaseComment': 'リフレッシュトークンID'
+				}
+				, 'PLAYER_ID': {
+					'databaseComment': 'プレイヤーID'
+				}
+				, 'TOKEN_HASH': {
+					'databaseComment': 'リフレッシュトークンのSHA-256ハッシュ(hex)'
+				}
+				, 'ISSUED_DATETIME': {
+					'databaseComment': '発行日時'
+				}
+				, 'EXPIRES_DATETIME': {
+					'databaseComment': '有効期限'
+				}
+				, 'USED_DATETIME': {
+					'databaseComment': '使用(ローテーション)日時。使用済みは再利用不可'
+				}
+				, 'REVOKED_DATETIME': {
+					'databaseComment': '失効日時。ログアウトや漏洩疑い等で失効'
+				}
+				, 'REGISTER_DATETIME': {
+					'databaseComment': '登録日時'
+				}
+				, 'REGISTER_TRACE': {
+					'databaseComment': '登録トレース'
+				}
+				, 'UPDATE_DATETIME': {
+					'databaseComment': '更新日時'
+				}
+				, 'UPDATE_TRACE': {
+					'databaseComment': '更新トレース'
 				}
 			}
 		}
@@ -13902,10 +14412,24 @@ function StoreClient() {
 
 StoreClient.prototype = {
 	/**
-	 * Store pickup json to store
-	 * @param {Object} pickup - pickup response
+	 * Store pickup json to pickup store that used as HTML display.
+	 * @param {Object} pickup - Decomment pickup object which is virtual or embedded. (NotNull)
 	 */
-	storePickup: function (pickup) {
+	storePickup: function(pickup) {
+		// _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+		// fetchVirtualPickup() // request virtual pickup to server
+		//  or
+		// reflectEmbeddedPickup() // using embedded pickup
+		//   |-reflectPickup()  // store it and reflect to html
+		//     | 
+		//     | (storeClient) 
+		//     |-storePickup()  // store the virtual pickup to pickup store
+		//     |  |-storePickupTable()
+		//     |     |-storePickupColumn()
+		//     | 
+		//     |-table.reflectToHtml() 
+		//     |-column.reflectToHtml() 
+		// _/_/_/_/_/_/_/_/
 		var that = this;
 		Array.prototype.forEach.call(pickup["tables"], function (table) {
 			that.storePickupTable(table);
@@ -13926,10 +14450,10 @@ StoreClient.prototype = {
 	},
 
 	/**
-	 * Store table
-	 * @param {Object} table - table object of pickup response
+	 * Store table to pickup store for HTML display.
+	 * @param {Object} table - The table object of pickup response, which is virtual or embedded. (NotNull)
 	 */
-	storePickupTable: function (table) {
+	storePickupTable: function(table) {
 		// init if not exists
 		var tableName = table['tableName'];
 		if (this.pickupStore[tableName] === undefined) {
@@ -13942,21 +14466,32 @@ StoreClient.prototype = {
 			return;
 		}
 
-		// get database comment
+		// get current database comment on database from pickup store
+		// (pickup store has current database comment as initialized values)
 		var tableMap = this.pickupStore[tableName];
-		var databaseComment = tableMap['databaseComment'];
+		var currentDatabaseComment = tableMap['databaseComment'];
 
 		// setup properties to store
 		var isConflict = properties.length > 1;
-		var isDatabaseCommentConflict = false;
+		var isDatabaseCommentConflict = false; // true if real DB comment was changed 
 		var decomments = [];
 		var previousPieces = [];
 		var authors = [];
 		var commentVersion = 0;
 		var that = this;
-		Array.prototype.forEach.call(properties, function (property) {
-			if (property['databaseComment'] != null && databaseComment != null && !isDatabaseCommentConflict) {
-				isDatabaseCommentConflict = DecommentUtil.escapeNewlineCharacter(databaseComment) != DecommentUtil.escapeNewlineCharacter(property['databaseComment']);
+		Array.prototype.forEach.call(properties, function(property) {
+			if (property['databaseComment'] != null && currentDatabaseComment != null && !isDatabaseCommentConflict) {
+				// it needs trim-comparing because piece file loses rear line separator as dfmap behavior
+				// https://github.com/dbflute/dbflute-core/issues/271
+				var currentEscapedDatabaseComment = DecommentUtil.escapeNewlineCharacter(currentDatabaseComment).trim();
+				var previousEscapedDatabaseComment = DecommentUtil.escapeNewlineCharacter(property['databaseComment']).trim();
+
+				if (currentEscapedDatabaseComment != '') { // conflict detect when existing only
+					// true if real DB comment was changed
+					isDatabaseCommentConflict = currentEscapedDatabaseComment != previousEscapedDatabaseComment;
+				}
+				// ignore conflect when database comment is deleted because it's probably migration to decomment
+				// https://github.com/dbflute/dbflute-core/issues/272
 			}
 			var decomment = {
 				"body": property["decomment"],
@@ -13985,9 +14520,9 @@ StoreClient.prototype = {
 	},
 
 	/**
-	 * Store column
-	 * @param {string} tableDbName - table db name
-	 * @param {Object} column - column object of pickup response
+	 * Store column to pickup store for HTML display.
+	 * @param {string} tableDbName - The DB name of table of the column. (NotNull, NotEmpty)
+	 * @param {Object} column - The column object of pickup response, which is virtual or embedded (NotNull)
 	 */
 	storePickupColumn: function (tableDbName, column) {
 		var columnName = column['columnName'];
@@ -14006,21 +14541,32 @@ StoreClient.prototype = {
 			return;
 		}
 
-		// get database comment
+		// get current database comment on database from pickup store
+		// (pickup store has current database comment as initialized values)
 		var columnMap = this.pickupStore[tableDbName]['columns'][columnName];
-		var databaseComment = columnMap['databaseComment'];
+		var currentDatabaseComment = columnMap['databaseComment'];
 
 		// setup properties to store
 		var isConflict = properties.length > 1;
-		var isDatabaseCommentConflict = false;
+		var isDatabaseCommentConflict = false; // true if real DB comment was changed
 		var decomments = [];
 		var previousPieces = [];
 		var authors = [];
 		var commentVersion = 0;
 		var that = this;
 		Array.prototype.forEach.call(properties, function (property) {
-			if (property['databaseComment'] != null && databaseComment != null && !isDatabaseCommentConflict) {
-				isDatabaseCommentConflict = DecommentUtil.escapeNewlineCharacter(databaseComment) != DecommentUtil.escapeNewlineCharacter(property['databaseComment']);
+			if (property['databaseComment'] != null && currentDatabaseComment != null && !isDatabaseCommentConflict) {
+				// it needs trim-comparing because piece file loses rear line separator as dfmap behavior
+				// https://github.com/dbflute/dbflute-core/issues/271
+				var currentEscapedDatabaseComment = DecommentUtil.escapeNewlineCharacter(currentDatabaseComment).trim();
+				var previousEscapedDatabaseComment = DecommentUtil.escapeNewlineCharacter(property['databaseComment']).trim();
+
+				if (currentEscapedDatabaseComment != '') { // conflict detect when existing only
+					// true if real DB comment was changed
+					isDatabaseCommentConflict = currentEscapedDatabaseComment != previousEscapedDatabaseComment;
+				}
+				// ignore conflect when database comment is deleted because it's probably migration to decomment
+				// https://github.com/dbflute/dbflute-core/issues/272
 			}
 			var decomment = {
 				"body": property["decomment"],
@@ -14082,11 +14628,14 @@ StoreClient.prototype = {
 	}
 }
 
+// ===================================================================================
+//                                                                     Decomment Table
+//                                                                     ===============
 function PickupTableProperty(tableDbName, json) {
 	this.tableDbName = tableDbName;
 	this.inputAuthor = null; // use when decomment server mode.
 	if (json) {
-		this.databaseComment = json.databaseComment;
+		this.databaseComment = json.databaseComment; // not null, empty allowed
 		this.isDatabaseCommentConflict = json.isDatabaseCommentConflict;
 		this.decomments = json.decomments || [];
 		this.previousPieces = json.previousPieces;
@@ -14104,6 +14653,21 @@ function PickupTableProperty(tableDbName, json) {
 PickupTableProperty.prototype = {
 
 	/**
+	 * Get current alias displayed in HTML (from table title h2)
+	 * @return {string} current alias (empty if not found)
+	 */
+	getCurrentDisplayedAlias: function() {
+		var h2Element = document.getElementById(this.tableDbName.toLowerCase());
+		if (!h2Element) {
+			return "";
+		}
+		// extract alias from h2 title - format is "(alias)TableName" when there is an alias
+		var titleText = h2Element.innerText || h2Element.textContent;
+		var aliasMatch = titleText.match(/^\(([^)]+)\)/);
+		return aliasMatch ? aliasMatch[1].trim() : "";
+	},
+
+	/**
 	 * Reflect new comment to html
 	 */
 	reflectToHtml: function () {
@@ -14119,6 +14683,74 @@ PickupTableProperty.prototype = {
 				element.className += " commentcellerror"
 			}
 		});
+
+		this.updateTableTitleAlias();
+		this.updateTableListAlias();
+	},
+
+	/**
+	 * Update table title (h2) with alias from decomment
+	 */
+	updateTableTitleAlias: function() {
+		if (this.decomments.length === 0) {
+			return;
+		}
+
+		var decommentBody = this.decomments[0].body || "";
+		var aliasFromDecomment = DecommentUtil.extractAlias(decommentBody);
+		// When there is no alias in the decomment, do nothing
+		if (!aliasFromDecomment) {
+			return;
+		}
+
+		// find the h2 title element
+		var h2Element = document.getElementById(this.tableDbName.toLowerCase());
+		if (!h2Element || !h2Element.childNodes[0]) {
+			return;
+		}
+
+		var firstTextNode = h2Element.childNodes[0];
+		var currentText = firstTextNode.nodeValue;
+		// remove all existing alias patterns at the beginning (handles multiple aliases with spaces between)
+		var tableNamePart = currentText.replace(/^(\s*\([^)]+\)\s*)+/, '');
+
+		// update with new alias
+		firstTextNode.nodeValue = '(' + aliasFromDecomment + ')' + tableNamePart;
+	},
+
+	/**
+	 * Update table list alias cell with alias from decomment
+	 */
+	updateTableListAlias: function() {
+		if (this.decomments.length === 0) {
+			return;
+		}
+
+		var decommentBody = this.decomments[0].body || "";
+		var aliasFromDecomment = DecommentUtil.extractAlias(decommentBody);
+
+		// When there is no alias in the decomment, do nothing
+		if (!aliasFromDecomment) {
+			return;
+		}
+
+		// find the table list row by table name
+		var tableListBody = document.getElementById('table-list-body');
+		if (!tableListBody) {
+			return;
+		}
+
+		var rows = tableListBody.querySelectorAll('tr');
+		for (var i = 0; i < rows.length; i++) {
+			var nameCell = rows[i].querySelector('td[data-name="' + this.tableDbName + '"]');
+			if (nameCell) {
+				var aliasCell = rows[i].querySelector('.aliascell');
+				if (aliasCell) {
+					aliasCell.innerText = aliasFromDecomment;
+				}
+				break;
+			}
+		}
 	},
 
 	/**
@@ -14150,7 +14782,9 @@ PickupTableProperty.prototype = {
 		var commentCount = this.decomments.length;
 		for (key in this.decomments) {
 			var decomment = this.decomments[key];
-			displayComment += decomment.body
+			// strip dfalias:{} or shalias:{} from display
+			var cleanBody = DecommentUtil.removeAliasFromDecomment(decomment.body);
+			displayComment += cleanBody;
 			if (this.isConflict() && decomment.pieceGitBranch) {
 				displayComment += '\n=======' + decomment.pieceGitBranch + ' (' + decomment.pieceOwner + ')';
 				if (key < commentCount - 1) {
@@ -14166,13 +14800,11 @@ PickupTableProperty.prototype = {
 	},
 
 	/**
-	 * Get escaped database comment
-	 * @return {string} escaped database comment
+	 * Get escaped database comment. (e.g. changing br tag to real line separator)
+	 * @return {string} escaped database comment (NotNull, EmptyAllowed)
 	 */
 	getEscapedDatabaseComment: function() {
-		var escapedComment = "";
-		escapedComment = DecommentUtil.escapeNewlineCharacter(escapedComment);
-		return escapedComment;
+		return DecommentUtil.escapeNewlineCharacter(this.databaseComment);
 	},
 
 	/**
@@ -14231,12 +14863,15 @@ PickupTableProperty.prototype = {
 	}
 };
 
+// ===================================================================================
+//                                                                    Decomment Column
+//                                                                    ================
 function PickupColumnProperty(tableDbName, columnName, json) {
 	this.tableDbName = tableDbName;
 	this.columnName = columnName;
 	this.inputAuthor = null; // use when decomment server mode.
 	if (json) {
-		this.databaseComment = json['databaseComment'];
+		this.databaseComment = json['databaseComment']; // not null, empty allowed
 		this.isDatabaseCommentConflict = json['isDatabaseCommentConflict'];
 		this.decomments = json['decomments'] || [];
 		this.previousPieces = json['previousPieces'];
@@ -14248,6 +14883,49 @@ function PickupColumnProperty(tableDbName, columnName, json) {
 }
 
 PickupColumnProperty.prototype = {
+
+	/**
+	 * Get current alias displayed in HTML (from column alias cell)
+	 * @return {string} current alias (empty if not found)
+	 */
+	getCurrentDisplayedAlias: function() {
+		var columnId = this.tableDbName + "_" + this.columnName;
+		columnId = columnId.toLowerCase();
+		var columnElement = document.getElementById(columnId);
+		if (!columnElement) {
+			return "";
+		}
+
+		// find the table and header to locate alias column index
+		var row = columnElement.parentElement;
+		var table = row.parentElement.parentElement; // tbody -> table
+		var headerRow = table.querySelector('thead tr');
+		if (!headerRow) {
+			return "";
+		}
+
+		// find which column index has "Alias" header
+		var headers = headerRow.querySelectorAll('th');
+		var aliasColumnIndex = -1;
+		for (var i = 0; i < headers.length; i++) {
+			if (headers[i].innerText.trim() === 'Alias') {
+				aliasColumnIndex = i;
+				break;
+			}
+		}
+
+		if (aliasColumnIndex === -1) {
+			return ""; // no alias column in this table
+		}
+
+		// get the cell at the same index in the current row
+		var cells = row.querySelectorAll('td');
+		if (aliasColumnIndex < cells.length) {
+			return cells[aliasColumnIndex].innerText.trim();
+		}
+
+		return "";
+	},
 
 	/**
 	 * Reflect new comment to html
@@ -14265,6 +14943,53 @@ PickupColumnProperty.prototype = {
 		element.innerHTML = comment;
 		if (this.isConflict()) {
 			element.className += " commentcellerror"
+		}
+
+		this.updateColumnAliasCell();
+	},
+
+	/**
+	 * Update alias cell in the table with alias from decomment
+	 */
+	updateColumnAliasCell: function() {
+		if (this.decomments.length === 0) {
+			return;
+		}
+
+		var decommentBody = this.decomments[0].body || "";
+		var aliasFromDecomment = DecommentUtil.extractAlias(decommentBody);
+
+		if (!aliasFromDecomment) {
+			return;
+		}
+
+		// find the alias cell
+		var columnId = this.tableDbName + "_" + this.columnName;
+		columnId = columnId.toLowerCase();
+		var columnElement = document.getElementById(columnId);
+
+		var row = columnElement.parentElement;
+		var table = row.parentElement.parentElement;
+		var headerRow = table.querySelector('thead tr');
+
+		// find which column index has "Alias" header
+		var headers = headerRow.querySelectorAll('th');
+		var aliasColumnIndex = -1;
+		for (var i = 0; i < headers.length; i++) {
+			if (headers[i].innerText.trim() === 'Alias') {
+				aliasColumnIndex = i;
+				break;
+			}
+		}
+
+		if (aliasColumnIndex === -1) {
+			return; // no alias column in this table
+		}
+
+		// update the alias cell with decomment alias
+		var cells = row.querySelectorAll('td');
+		if (aliasColumnIndex < cells.length) {
+			cells[aliasColumnIndex].innerText = aliasFromDecomment;
 		}
 	},
 
@@ -14298,7 +15023,9 @@ PickupColumnProperty.prototype = {
 		var commentCount = this.decomments.length;
 		for (key in this.decomments) {
 			var decomment = this.decomments[key];
-			displayComment += decomment.body
+			// strip dfalias:{} or shalias:{} from display
+			var cleanBody = DecommentUtil.removeAliasFromDecomment(decomment.body);
+			displayComment += cleanBody;
 			if (this.isConflict() && decomment.pieceGitBranch) {
 				displayComment += '\n=======' + decomment.pieceGitBranch + ' (' + decomment.pieceOwner + ')';
 				if (key < commentCount - 1) {
@@ -14314,13 +15041,11 @@ PickupColumnProperty.prototype = {
 	},
 
 	/**
-	 * Get escaped database comment
-	 * @return {string} escaped database comment
+	 * Get escaped database comment. (e.g. changing br tag to real line separator)
+	 * @return {string} escaped database comment (NotNull, EmptyAllowed)
 	 */
 	getEscapedDatabaseComment: function() {
-		var escapedComment = "";
-		escapedComment = DecommentUtil.escapeNewlineCharacter(escapedComment);
-		return escapedComment;
+		return DecommentUtil.escapeNewlineCharacter(this.databaseComment);
 	},
 
 	/**
@@ -14376,9 +15101,82 @@ PickupColumnProperty.prototype = {
 	}
 };
 
+// ===================================================================================
+//                                                               Decomment Core Object
+//                                                               =====================
+// _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// [Decomment Initialization]
+//
+//                       +----------------------+
+//            +--------- | DBFlute Intro Server |
+//            | make     +----------------------+
+//            |                          |
+//            |                          | read
+//            |                          v
+//            v                      +----------------------------+
+//   +----------------+              |                            |
+//   | Virtual Pickup |              |    DBFlute Client          |
+//   +----------------+              |                            |
+//      |                            |   decomment-piece....dfmap | // as virtual pickup
+//      |                            |   decomment-pickup.dfmap   | // as virtual or embedded pickup
+//      |                            +----------------------------+
+//      |                                      |
+//      |      +-----------------+             |
+//      |      | Embedded Pickup | <-----------+
+//      |      +-----------------+ embedded from pickup file
+//      |                 |
+//      |                 |
+//      |                 |
+//      |                 |
+//      |                 | stored if plain HTML
+//      |                 v
+//      | stored       +--------------+ 
+//      |  if intro    |              | (has current database comment as initialized values)
+//      +------------> | Pickup Store | reflected to HTML display
+//                     |              |
+//                     +--------------+
+//                            |
+//   +--------+               |
+//   |  HTML  | <-------------+
+//   +--------+
+// _/_/_/_/_/_/_/_/
+//
+// _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+// [Decomment Registration]
+// 
+//
+//                       +----------------------+
+//                  +--> | DBFlute Intro Server |
+//                  |    +----------------------+
+//                  |                    |
+//                  +--+                 | write piece
+//                     |                 v
+//                     |             +----------------------------+
+//                     |             |                            |
+//                     |             |    DBFlute Client          |
+//                     |             |                            |
+//                     |             |   decomment-piece....dfmap |
+//                     |             +----------------------------+
+//                     |                        
+//                     |
+//   +--------+        |
+//   |  HTML  |        |
+//   +--------+        | register piece
+//        |            |
+//        |   +------------------+
+//        +-- | Decomment Dialog |
+//            +------------------+
+//                     ^
+//             o       |
+//            /|\   ---+ input and OK
+//             /\
+//
+// _/_/_/_/_/_/_/_/
 /**
  * @author deco
  * @author cabos
+ * @author jflute
+ * @author shiny
  */
 function Decomment() {
 	this.storeClient = new StoreClient()
@@ -14386,25 +15184,39 @@ function Decomment() {
 Decomment.prototype = {
 
 	/**
-	 * init
+	 * initialize decomment world.
 	 */
 	init: function () {
-		if (document.getElementById("intro_opening") !== null) {
+		if (document.getElementById("intro_opening") !== null) { // #intro_opening
+			// _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+			// fetchVirtualPickup() // request virtual pickup to server
+			//   |-reflectPickup()  // store it and reflect to html
+			//     | 
+			//     | (storeClient) 
+			//     |-storePickup()  // store the virtual pickup to pickup store
+			//     |  |-storePickupTable()
+			//     |     |-storePickupColumn()
+			//     | 
+			//     |-table.reflectToHtml() 
+			//     |-column.reflectToHtml() 
+			// _/_/_/_/
 			this.fetchVirtualPickup();
+
 			this.setupKeyDownEvent();
 			this.showUserNameInputIfNeed();
-		} else {
+		} else { // #plain_opening
 			this.reflectEmbeddedPickup();
 		}
 	},
 
 	/**
-	 * Fetch virtual pickup from server
+	 * Fetch virtual pickup from server and reflect the pickup to HTML display.
+	 * (The virtual pickup has saved pickup merged with saved pieces in server)
 	 */
-	fetchVirtualPickup: function () {
+	fetchVirtualPickup: function() { // entry of #intro_opening
 		var that = this;
 		new ApiClient().fetchDecomment(function(response) {
-			var decomment = JSON.parse(response);
+			var decomment = JSON.parse(response); // DecommentPickupResult of DBFlute Intro
 			that.reflectPickup(decomment);
 			that.setupSaveDecomment();
 		})
@@ -14424,23 +15236,38 @@ Decomment.prototype = {
 	},
 
 	/**
-	 * Reflect embedded pick
+	 * Reflect embedded pickup to HTML display.
 	 */
-	reflectEmbeddedPickup: function () {
+	reflectEmbeddedPickup: function () { // entry of #plain_opening
 		this.reflectPickup(this.storeClient.embeddedPickup);
 	},
 
 	/**
-	 * Reflect pickup
-	 * @param {Object} decomment - Decomment object
+	 * Reflect pickup to HTML display.
+	 * @param {Object} decomment - Decomment pickup object, which is virtual or embedded. (NotNull)
 	 */
 	reflectPickup: function (decomment) {
+		// _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+		// fetchVirtualPickup() // request virtual pickup to server
+		//  or
+		// reflectEmbeddedPickup() // using embedded pickup
+		//   |-reflectPickup()  // store it and reflect to html
+		//     | 
+		//     | (storeClient) 
+		//     |-storePickup()  // store the virtual pickup to pickup store
+		//     |  |-storePickupTable()
+		//     |     |-storePickupColumn()
+		//     | 
+		//     |-table.reflectToHtml() 
+		//     |-column.reflectToHtml() 
+		// _/_/_/_/_/_/_/_/
 		var that = this;
 		this.storeClient.unmappedTableArea.clear();
 		this.storeClient.unmappedColumnArea.clear();
 		this.storeClient.storePickup(decomment);
+
 		var pickup = this.storeClient.getDecomments()
-		Array.prototype.forEach.call(pickup, function (table) {
+		Array.prototype.forEach.call(pickup, function(table) {
 			table.reflectToHtml();
 			for (var key in table.columns) {
 				var column = table.columns[key]
@@ -14475,6 +15302,12 @@ Decomment.prototype = {
 		Array.prototype.forEach.call(commentTables, function (tableElement) {
 			var tableName = tableElement.getAttribute('data-name');
 			that.setupSaveTableClickEvent(tableName, tableElement);
+			// add click handler to table title (h2) to enable insert/edit decomment
+			// this enables users to insert decomment when table is comment is empty
+			var titleElement = tableElement.previousElementSibling;
+			if (titleElement && titleElement.tagName === 'H2') {
+				that.setupSaveTableClickEvent(tableName, titleElement);
+			}
 		});
 	},
 
@@ -14518,6 +15351,11 @@ Decomment.prototype = {
 	createSaveDecommentFunction: function (commentProperty) {
 		var that = this;
  		return function () {
+			// prevent modal from opening if user is selecting text (for copy/paste)
+			var selection = window.getSelection();
+			if (selection && selection.toString().length > 0) {
+				return;
+			}
 	 		var modalElement = document.getElementById("decomment-modal");
 			modalElement.style.display = "block";
 
@@ -14525,8 +15363,16 @@ Decomment.prototype = {
 
 			var inputElement = document.getElementById("decomment-input");
 			var previousWholeComment = commentProperty.getDisplayHtmlComment();
-			inputElement.value = previousWholeComment;
+
+			// Clean comment without dfalias:{} or shalias:{} in textarea
+			var cleanComment = DecommentUtil.removeAliasFromDecomment(previousWholeComment);
+			inputElement.value = cleanComment;
 			inputElement.focus();
+
+			// populate alias input
+			var aliasInputElement = document.getElementById("decomment-alias-input");
+			var previousAlias = commentProperty.getCurrentDisplayedAlias();
+			aliasInputElement.value = previousAlias;
 
 			document.getElementById("decomment-close").onclick = function () {
 				modalElement.style.display = "none";
@@ -14534,6 +15380,8 @@ Decomment.prototype = {
 
 			document.getElementById("decomment-ok").onclick = function () {
 				var decomment = inputElement.value;
+				var aliasFromInput = aliasInputElement.value.trim();
+
 				if (DecommentUtil.isDecommentServer() && that.isUserNameEmpty()) {
 					alert('Input your user name.');
 					return;
@@ -14542,18 +15390,29 @@ Decomment.prototype = {
 					alert('Still conflicting. please resolve.')
 					return;
 				}
-				if (!that.isCommentChanged(previousWholeComment, decomment)) {
+				if (!that.isCommentChanged(previousWholeComment, decomment) && !that.isAliasChanged(previousAlias, aliasFromInput)) {
 					modalElement.style.display = "none";
 					return;
 				}
 				decomment = DecommentUtil.escapeInputText(decomment);
 				decomment = DecommentUtil.deleteUnnecessaryWhitespace(decomment);
+				decomment = DecommentUtil.removeAliasFromDecomment(decomment);
+
+				decomment = 'shalias:{' + aliasFromInput + '}\n' + decomment;
+
 				commentProperty.decomments = [{'body': decomment}]
 				commentProperty.inputAuthor = that.getUserName();
 				var params = commentProperty.toRequestParams()
+				var shouldCheckAliasColumn = aliasFromInput && aliasFromInput.length > 0;
+
 				new ApiClient().saveDecomment(params, function () {
 					that.fetchVirtualPickup();
 					that.hideUserNameInput();
+
+					// Show notification if alias saved but column doesn't exist
+					if (shouldCheckAliasColumn) {
+						that.checkAndNotifyMissingAliasColumn(params);
+					}
 				});
 				modalElement.style.display = "none";
 			};
@@ -14607,12 +15466,69 @@ Decomment.prototype = {
 	 */
 	setupKeyDownEvent : function() {
 		document.onkeydown = function (e) {
-			// ESC
-			if(e.keyCode == 27){
-				var modalElement = document.getElementById("decomment-modal");
+			var modalElement = document.getElementById("decomment-modal");
+			// ESC to close modal
+			if (e.key === 'Escape') {
 				modalElement.style.display = "none";
 			}
+			// Cmd+Enter (Mac) or Ctrl+Enter (Windows) to submit
+			if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+				if (modalElement.style.display !== "none") {
+					document.getElementById("decomment-ok").click();
+				}
+			}
 		}
+	},
+
+	/**
+	 * Check if alias column exists and notify if missing
+	 * @param {Object} params - Request params containing targetType, tableName, etc.
+	 */
+	checkAndNotifyMissingAliasColumn: function(params) {
+		var hasAliasColumn = false;
+		var message = '';
+
+		if (params.targetType === 'TABLE') {
+			var tableListBody = document.getElementById('table-list-body');
+			if (!tableListBody) {
+				return;
+			}
+			hasAliasColumn = tableListBody.querySelector('.aliascell') !== null;
+			message = 'Alias saved! Please run the Doc task to display the alias column (alias display area) in the table list.';
+		} else if (params.targetType === 'COLUMN') {
+			var tableId = this.getTableIdForSchemaHtml(params.tableName);
+			var tableHeading = document.getElementById(tableId);
+			if (!tableHeading) {
+				return;
+			}
+
+			var sibling = tableHeading.nextElementSibling;
+			while (sibling) {
+				if (sibling.tagName === 'TABLE') {
+					hasAliasColumn = sibling.querySelector('.aliascell') !== null;
+					break;
+				}
+				sibling = sibling.nextElementSibling;
+			}
+			message = 'Alias saved! Please run the Doc task to display the alias column (alias display area) in table ' + params.tableName + '.';
+		}
+
+		if (!hasAliasColumn) {
+			NotificationHandler.show(message);
+		}
+	},
+
+	/**
+	 * Get table ID for SchemaHTML (same logic as server-side)
+	 * @param {string} tableName - The table name
+	 * @return {string} table ID for HTML
+	 */
+	getTableIdForSchemaHtml: function(tableName) {
+		var normalized = tableName.toLowerCase();
+		if (normalized.indexOf('.') !== -1) {
+			normalized = normalized.replace(/\./g, '_');
+		}
+		return normalized;
 	},
 
 	/**
@@ -14646,9 +15562,25 @@ Decomment.prototype = {
 			return previousWholeComment.trim() !== decomment.trim();
 		}
 		return decomment.trim().length != 0;
+	},
+
+	/**
+	 * Check change alias
+	 * @param {string} previousAlias - previous alias
+	 * @param {string} currentAlias - current alias
+	 * @returns {Boolean} is changed
+	 */
+	isAliasChanged: function (previousAlias, currentAlias) {
+		return previousAlias !== currentAlias;
 	}
 };
 
+// ===================================================================================
+//                                                            Decomment Unmapped Table
+//                                                            ========================
+// -----------------------------------------------------
+//                          Decomment Unmapped Table Row
+//                          ----------------------------
 /**
  * @author cabos
  */
@@ -14702,6 +15634,9 @@ UnmappedTableRow.prototype = {
 	}
 }
 
+// -----------------------------------------------------
+//                         Decomment Unmapped Table Area
+//                         -----------------------------
 /**
  * @author cabos
  */
@@ -14877,6 +15812,12 @@ UnmappedTableArea.prototype = {
 	},
 }
 
+// ===================================================================================
+//                                                           Decomment Unmapped Column
+//                                                           =========================
+// -----------------------------------------------------
+//                         Decomment Unmapped Column Row
+//                         -----------------------------
 /**
  * @author cabos
  */
@@ -14933,6 +15874,9 @@ UnmappedColumnRow.prototype = {
 	}
 }
 
+// -----------------------------------------------------
+//                        Decomment Unmapped Column Area
+//                        ------------------------------
 /**
  * @author cabos
  */

@@ -22,35 +22,7 @@ import com.ort.dbflute.bsentity.dbmeta.*;
 import com.ort.dbflute.cbean.*;
 
 /**
- * The behavior of ORIGINAL_CHARA_IMAGE as TABLE. <br>
- * <pre>
- * [primary key]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [column]
- *     ORIGINAL_CHARA_IMAGE_ID, ORIGINAL_CHARA_ID, FACE_TYPE_NAME, CHARA_IMG_URL, IS_DISPLAY, REGISTER_DATETIME, REGISTER_TRACE, UPDATE_DATETIME, UPDATE_TRACE
- *
- * [sequence]
- *     
- *
- * [identity]
- *     ORIGINAL_CHARA_IMAGE_ID
- *
- * [version-no]
- *     
- *
- * [foreign table]
- *     ORIGINAL_CHARA
- *
- * [referrer table]
- *     
- *
- * [foreign property]
- *     originalChara
- *
- * [referrer property]
- *     
- * </pre>
+ * The behavior of ORIGINAL_CHARA_IMAGE as TABLE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<OriginalCharaImage, OriginalCharaImageCB> {
@@ -122,7 +94,7 @@ public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<O
      * </pre>
      * @param cbLambda The callback for condition-bean of OriginalCharaImage. (NotNull)
      * @return The optional entity selected by the condition. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -161,7 +133,7 @@ public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<O
      * Select the entity by the primary-key value.
      * @param originalCharaImageId : PK, ID, NotNull, INT UNSIGNED(10). (NotNull)
      * @return The optional entity selected by the PK. (NotNull: if no data, empty entity)
-     * @throws EntityAlreadyDeletedException When get(), required() of return value is called and the value is null, which means entity has already been deleted (not found).
+     * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.
      * @throws SelectEntityConditionNotFoundException When the condition for selecting an entity is not found.
      */
@@ -597,7 +569,7 @@ public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<O
     /**
      * Delete the several entities by query. (NonExclusiveControl)
      * <pre>
-     * <span style="color: #0000C0">originalCharaImageBhv</span>.<span style="color: #CC4747">queryDelete</span>(originalCharaImage, <span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     * <span style="color: #0000C0">originalCharaImageBhv</span>.<span style="color: #CC4747">queryDelete</span>(<span style="color: #553000">cb</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     <span style="color: #553000">cb</span>.query().setFoo...
      * });
      * </pre>
@@ -846,19 +818,22 @@ public abstract class BsOriginalCharaImageBhv extends AbstractBehaviorWritable<O
     //                                                                            Accessor
     //                                                                            ========
     @Override
-    @jakarta.annotation.Resource(name="behaviorCommandInvoker")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorCommandInvoker")
     public void setBehaviorCommandInvoker(BehaviorCommandInvoker behaviorCommandInvoker) {
         super.setBehaviorCommandInvoker(behaviorCommandInvoker);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="behaviorSelector")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("behaviorSelector")
     public void setBehaviorSelector(BehaviorSelector behaviorSelector) {
         super.setBehaviorSelector(behaviorSelector);
     }
 
     @Override
-    @jakarta.annotation.Resource(name="commonColumnAutoSetupper")
+    @org.springframework.beans.factory.annotation.Autowired
+    @org.springframework.beans.factory.annotation.Qualifier("commonColumnAutoSetupper")
     public void setCommonColumnAutoSetupper(CommonColumnAutoSetupper commonColumnAutoSetupper) {
         super.setCommonColumnAutoSetupper(commonColumnAutoSetupper);
     }
