@@ -1,34 +1,17 @@
-.gradle
-target/
-out/
-!.mvn/wrapper/maven-wrapper.jar
+.DS_Store
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-bin/
-
-### IntelliJ IDEA ###
+### IntelliJ IDEA / エディタ (リポジトリ root で開く想定。任意階層に出るため非アンカー) ###
 .idea
 *.iws
 *.iml
 *.ipr
+.vscode/
 
-### NetBeans ###
-nbproject/private/
-build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+### root に残る stale な IDE/Gradle 成果物 (Gradle プロジェクトは backend/ へ移行済) ###
+/.gradle
+/.settings
 
-backend/dbflute_wolf_mansiondb/log/*
-
-### Claude ###
+### Claude / ツール (リポジトリ全体) ###
 .claude/settings.local.json
 .serena
 .context
