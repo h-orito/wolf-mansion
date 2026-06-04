@@ -23,6 +23,7 @@ jobs:
           java-version: '21'
 
       - name: Build image with Jib
+        working-directory: backend
         run: ./gradlew jibDockerBuild
 
       - name: Login to GHCR
@@ -33,8 +34,12 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push image
-        run: docker push ghcr.io/h-orito/wolf-mansion
+        run: docker push ghcr.io/h-orito/wolf-mansion-backend
 
+  # NOTE (Step 2.1): Jib image は ghcr.io/h-orito/wolf-mansion-backend にリネーム済み。
+  # 下記 deployment 名 (wolf-mansion) と k8s 側 manifest の image 参照は Step 11 (cutover) で
+  # backend / frontend 分割と合わせて更新する。それまで本 workflow は main push 時のみ走る
+  # dormant 状態 (移行は feature/monorepo 上で進行)。
   deploy:
     needs: build
     runs-on: [self-hosted, k8s]
