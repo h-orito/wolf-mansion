@@ -1,0 +1,13 @@
+.DS_Store
+
+# 依存
+/node_modules/
+
+# Playwright 成果物 (05-e2e.md: git 管理外)
+/test-results/
+/playwright-report/
+/blob-report/
+/.playwright/
+
+# ローカル実行ログ (動作確認用、git 管理外)
+/.logs/
