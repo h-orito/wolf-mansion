@@ -5,6 +5,7 @@ plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
     id("com.google.cloud.tools.jib") version "3.4.4"
+    id("org.jlleitschuh.gradle.ktlint") version "12.2.0"
 }
 
 group = "com.ort"
@@ -77,9 +78,20 @@ jib {
         image = "ghcr.io/h-orito/wolf-mansion-backend"
     }
     container {
-        jvmFlags = listOf(
-            "-server", "-Djava.awt.headless=true", "-Dspring.profiles.active=playground"
-        )
+        jvmFlags =
+            listOf(
+                "-server",
+                "-Djava.awt.headless=true",
+                "-Dspring.profiles.active=playground",
+            )
         creationTime = "USE_CURRENT_TIMESTAMP"
+    }
+}
+
+ktlint {
+    version.set("1.5.0")
+    filter {
+        // DBFlute 自動生成コード (現状は .java のみ) は対象外。将来 .kt が混ざっても除外
+        exclude { element -> element.file.path.contains("/com/ort/dbflute/") }
     }
 }
