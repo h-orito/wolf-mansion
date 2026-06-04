@@ -165,7 +165,12 @@ private class FakeRefreshTokenRepository : RefreshTokenRepository {
     override fun markUsed(
         id: Int,
         usedDatetime: LocalDateTime,
-    ) = replace(id) { it.copy(usedDatetime = usedDatetime) }
+    ): Boolean {
+        val index = tokens.indexOfFirst { it.id == id }
+        if (index < 0 || tokens[index].usedDatetime != null) return false
+        tokens[index] = tokens[index].copy(usedDatetime = usedDatetime)
+        return true
+    }
 
     override fun revoke(
         id: Int,
@@ -179,6 +184,13 @@ private class FakeRefreshTokenRepository : RefreshTokenRepository {
         tokens.replaceAll {
             if (it.playerId == playerId && it.revokedDatetime == null) it.copy(revokedDatetime = revokedDatetime) else it
         }
+    }
+
+    override fun deleteExpiredByPlayer(
+        playerId: Int,
+        now: LocalDateTime,
+    ) {
+        tokens.removeAll { it.playerId == playerId && it.expiresDatetime.isBefore(now) }
     }
 
     fun hasAny(): Boolean = tokens.isNotEmpty()

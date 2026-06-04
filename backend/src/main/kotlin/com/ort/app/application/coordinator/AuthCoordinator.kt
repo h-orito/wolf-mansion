@@ -10,8 +10,8 @@ import com.ort.app.fw.security.jwt.RefreshTokenFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 /**
  * 認証ユースケースのトランザクション境界。login / refresh / logout を担う。
@@ -38,7 +38,9 @@ class AuthCoordinator(
         return issueTokens(playerAuth)
     }
 
-    @Transactional(rollbackFor = [Exception::class])
+    // 漏洩検知の revokeAllByPlayer は throw 後もコミットさせる必要があるため、
+    // WolfMansionAuthException ではロールバックしない (それ以外の例外ではロールバックする)。
+    @Transactional(rollbackFor = [Exception::class], noRollbackFor = [WolfMansionAuthException::class])
     fun refresh(rawRefreshToken: String): AuthTokens {
         val now = LocalDateTime.now()
         val tokenHash = refreshTokenFactory.hash(rawRefreshToken)
@@ -51,8 +53,11 @@ class AuthCoordinator(
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
         if (!refreshToken.isUsable(now)) throw WolfMansionAuthException(INVALID_REFRESH)
-        // 使い捨て: 旧トークンを使用済みにし、新トークンを発行する
-        refreshTokenRepository.markUsed(refreshToken.id, now)
+        // 使い捨て: 未使用のものだけをアトミックに使用済みにする。
+        // 並行リクエストに先を越された (= 二重消費) 場合は false → このリクエストは拒否する。
+        if (!refreshTokenRepository.markUsed(refreshToken.id, now)) {
+            throw WolfMansionAuthException(INVALID_REFRESH)
+        }
         val playerAuth =
             playerAuthRepository.findById(refreshToken.playerId)
                 ?: throw WolfMansionAuthException(INVALID_REFRESH)
@@ -61,6 +66,8 @@ class AuthCoordinator(
 
     @Transactional(rollbackFor = [Exception::class])
     fun logout(rawRefreshToken: String?) {
+        // access token (JWT) は stateless のためサーバー側では失効できない (発行から 15 分間は有効なまま)。
+        // ここで失効させるのは DB 管理下の refresh token のみ。クライアントは両 Cookie を消す。
         if (rawRefreshToken.isNullOrBlank()) return
         val refreshToken = refreshTokenRepository.findByHash(refreshTokenFactory.hash(rawRefreshToken)) ?: return
         if (refreshToken.revokedDatetime == null) {
@@ -69,16 +76,20 @@ class AuthCoordinator(
     }
 
     private fun issueTokens(playerAuth: PlayerAuth): AuthTokens {
+        // 1 トランザクション内で時刻を統一 (JWT の iat と refresh の issued_datetime を揃える)
+        val now = LocalDateTime.now()
+        val nowInstant = now.atZone(ZoneId.systemDefault()).toInstant()
+        // 肥大化抑制: 当該プレイヤーの期限切れトークンを掃除してから新規発行する
+        refreshTokenRepository.deleteExpiredByPlayer(playerAuth.playerId, now)
         val accessToken =
             jwtTokenProvider.issueAccessToken(
                 playerId = playerAuth.playerId,
                 name = playerAuth.name,
                 authorities = playerAuth.authorities,
-                now = Instant.now(),
+                now = nowInstant,
             )
         val rawRefreshToken = refreshTokenFactory.generate()
         val refreshValidity = jwtTokenProvider.refreshTokenValidity()
-        val now = LocalDateTime.now()
         refreshTokenRepository.insert(
             playerId = playerAuth.playerId,
             tokenHash = refreshTokenFactory.hash(rawRefreshToken),
