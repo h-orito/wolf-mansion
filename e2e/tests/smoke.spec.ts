@@ -14,8 +14,9 @@ import { expect, test } from "@playwright/test";
 test("frontend トップ画面が表示される", async ({ page }) => {
   await page.goto("/");
 
-  // RR v7 welcome 画面の meta title (frontend/app/routes/home.tsx)
-  await expect(page).toHaveTitle(/React Router/);
+  // RR v7 scaffold の既定 title (frontend/app/routes/home.tsx の meta)。
+  // Step 8 以降で実アプリ画面に差し替わったら、この smoke も合わせて更新する。
+  await expect(page).toHaveTitle("New React Router App");
 
   // welcome 画面のリンク (frontend/app/welcome/welcome.tsx)
   await expect(

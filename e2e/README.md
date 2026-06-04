@@ -12,8 +12,8 @@ wolf-mansion の E2E テスト (Playwright)。**ローカル動作確認専用**
 
 ```bash
 cd e2e
-pnpm install                       # .npmrc の ignore-scripts=true により browser は入らない
-pnpm exec playwright install chromium  # browser バイナリを別途取得 (postinstall を使わない)
+pnpm install                # .npmrc の ignore-scripts=true により browser は入らない
+pnpm run install:browsers   # browser バイナリを別途取得 (= playwright install chromium、postinstall を使わない)
 ```
 
 - パッケージマネージャは **pnpm** (frontend と同じ `pnpm@10.33.0` を `packageManager` で固定)
