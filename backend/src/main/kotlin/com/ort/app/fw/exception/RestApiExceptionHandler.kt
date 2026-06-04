@@ -20,6 +20,10 @@ class RestApiExceptionHandler {
     fun handleAuth(e: WolfMansionAuthException): ProblemDetail =
         problem(HttpStatus.UNAUTHORIZED, e.message ?: "認証に失敗しました", "authentication_failed")
 
+    @ExceptionHandler(WolfMansionTooManyRequestsException::class)
+    fun handleTooManyRequests(e: WolfMansionTooManyRequestsException): ProblemDetail =
+        problem(HttpStatus.TOO_MANY_REQUESTS, e.message ?: "リクエストが多すぎます", "too_many_requests")
+
     @ExceptionHandler(WolfMansionBusinessException::class)
     fun handleBusiness(e: WolfMansionBusinessException): ProblemDetail =
         problem(HttpStatus.BAD_REQUEST, e.message ?: "リクエストを処理できません", "business_error")

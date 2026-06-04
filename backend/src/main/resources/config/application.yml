@@ -58,3 +58,12 @@ jwt:
   refresh-token-validity-days: 14
   # ローカル (http) では Secure Cookie を無効化
   cookie-secure: false
+
+# ログイン失敗のレート制限 (ブルートフォース対策)。2軸 (アカウント / IP) で時間窓内の失敗数を制限する
+login-rate-limit:
+  # 時間窓 (分)。この窓内の失敗数でカウントし、窓を超えたら自動回復 (スライディング)
+  window-minutes: 15
+  # アカウント (login ID) 単位の失敗上限。超過で 429
+  max-per-account: 5
+  # IP 単位の失敗上限。共有 NAT を許容しつつ bulk を抑止
+  max-per-ip: 30

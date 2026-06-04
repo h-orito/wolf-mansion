@@ -43,13 +43,23 @@ class AccessContextInterceptor : HandlerInterceptor {
     }
 }
 
+/**
+ * クライアントの接続元 IP を返す。Cloudflare 配下のため `CF-Connecting-IP` を最優先する。
+ * - `CF-Connecting-IP`: Cloudflare が必ず単一の接続元 IP で上書きするヘッダ (詐称不可)
+ * - フォールバックは `X-Forwarded-For` の **先頭ホップ** (最左 = オリジナルクライアント)。
+ *   生の全文字列を返すと攻撃者が偽プレフィックスを毎回変えて IP キーを変動させられるため先頭のみ採用する
+ * - いずれも無ければ `remoteAddr`
+ *
+ * 前提: origin が Cloudflare 経由のリクエストのみ受ける構成であること (直アクセス可だと CF ヘッダも詐称可能)。
+ */
 fun HttpServletRequest.getIpAddress(): String {
-    val xForwardedFor = this.getHeader("X-Forwarded-For")
-    return if (xForwardedFor.isNullOrEmpty()) {
-        this.remoteAddr
-    } else {
-        xForwardedFor
-    }
+    // Cloudflare が必ず単一の接続元 IP で上書きする CF-Connecting-IP を最優先する
+    val cfConnectingIp = this.getHeader("CF-Connecting-IP")
+    if (!cfConnectingIp.isNullOrBlank()) return cfConnectingIp.trim()
+    // フォールバック: X-Forwarded-For の先頭ホップ (最左 = オリジナルクライアント)。生の全文字列は採らない
+    val forwardedFor = this.getHeader("X-Forwarded-For")
+    if (!forwardedFor.isNullOrBlank()) return forwardedFor.substringBefore(",").trim()
+    return this.remoteAddr
 }
 
 fun HttpServletRequest.getRefererQueryString(): String =

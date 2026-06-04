@@ -7,6 +7,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
+import org.springframework.http.client.SimpleClientHttpRequestFactory
 import org.springframework.stereotype.Repository
 import org.springframework.web.client.RestTemplate
 
@@ -40,6 +41,25 @@ class DiscordRepositoryImpl : DiscordRepository {
             restTemplate.exchange(webhookUrl, HttpMethod.POST, formEntity, String::class.java)
         } catch (e: Exception) {
             logger.error("discord投稿に失敗しました", e)
+        }
+    }
+
+    override fun postToMaster(message: String) {
+        if (webhookUrl.isEmpty()) return
+        try {
+            // ハングする webhook がログイン等の呼び出し元を長くブロックしないよう短いタイムアウトを設定する
+            val factory = SimpleClientHttpRequestFactory()
+            factory.setConnectTimeout(2000)
+            factory.setReadTimeout(2000)
+            val restTemplate = RestTemplate(factory)
+            val mention = if (masterUserId.isEmpty()) "" else "<@!$masterUserId>\n"
+            val request = Request(content = "$mention$message")
+            val formHeaders = HttpHeaders()
+            formHeaders.contentType = MediaType.APPLICATION_JSON
+            val formEntity = HttpEntity(request, formHeaders)
+            restTemplate.exchange(webhookUrl, HttpMethod.POST, formEntity, String::class.java)
+        } catch (e: Exception) {
+            logger.error("discord(master)投稿に失敗しました", e)
         }
     }
 
