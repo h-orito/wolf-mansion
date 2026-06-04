@@ -10,6 +10,7 @@ out/
 .project
 .settings
 .springBeans
+bin/
 
 ### IntelliJ IDEA ###
 .idea
@@ -25,8 +26,7 @@ dist/
 nbdist/
 .nb-gradle/
 
-/log/
-dbflute_wolf_mansiondb/log/*
+backend/dbflute_wolf_mansiondb/log/*
 
 ### Claude ###
 .claude/settings.local.json

@@ -6,9 +6,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 人狼ゲーム（Werewolf/Mafia）のWebアプリケーション「wolf-mansion」。Spring Boot + Kotlin（バックエンド）、Thymeleaf（テンプレートエンジン）、MySQL + DBFlute（ORM）で構成されたサーバーサイドレンダリングのWebアプリ。
 
+## Monorepo 構成
+
+monorepo 移行中。Gradle プロジェクト一式は **`backend/` 配下に移動済み**（root に Gradle ファイルは無い）。`frontend/`（RR v7）/ `e2e/`（Playwright）は後続サブ step で追加予定。以下の Gradle コマンドは **`backend/` で実行**する。
+
 ## Build & Run Commands
 
 ```bash
+cd backend
+
 # ビルド（テストスキップ）
 ./gradlew build -x test
 
@@ -21,12 +27,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # アプリケーション起動（ローカル）
 ./gradlew bootRun
 
-# Dockerイメージビルド（Jib）
+# Dockerイメージビルド（Jib、image 名 ghcr.io/h-orito/wolf-mansion-backend）
 ./gradlew jibDockerBuild
 ```
 
 - Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9
-- ローカルDB: MySQL `werewolf_mansiondb` (port 3306, user: wmansion)
+- ローカルDB: MySQL `werewolf_mansiondb` (port 4306, user: wmansion)
 - アプリポート: 8089, コンテキストパス: `/wolf-mansion`
 - プロファイル: `playground`（Jib）、`production`（本番）
 
@@ -60,13 +66,13 @@ fw/             → フレームワーク基盤（Security, Interceptor, Config,
 ### 重要な設計パターン
 
 - **Repositoryパターン**: `domain/model/*/〜Repository.kt`にインターフェース定義、`infrastructure/datasource/`に実装
-- **CDef（分類定義）**: DBFluteの自動生成コード`CDef`クラス（`src/main/java/com/ort/dbflute/allcommon/CDef.java`）が役職・陣営・村ステータスなどのenum的定数を管理。ドメインモデルとCDefの相互変換は`toCdef()`/`toModel()`で行う
+- **CDef（分類定義）**: DBFluteの自動生成コード`CDef`クラス（`backend/src/main/java/com/ort/dbflute/allcommon/CDef.java`）が役職・陣営・村ステータスなどのenum的定数を管理。ドメインモデルとCDefの相互変換は`toCdef()`/`toModel()`で行う
 - **Daychangeパターン**: 日付更新処理は`Daychange`データクラスに村の全状態を集約し、イミュータブルにcopyしながら処理を進行。`DaychangeCoordinator` → `DaychangeDomainService` → `PrologueDomainService`/`ProgressDomainService`/`EpilogueDomainService`の順に委譲
 - **Abilityサービス**: 各役職の能力は`domain/service/ability/`配下に1能力1クラスで分離（60以上の能力サービスが存在）
 
 ### DBFlute（自動生成コード）
 
-`src/main/java/com/ort/dbflute/` 配下はDBFluteによる自動生成Javaコード。手動編集不可（`exbhv/`と`exentity/`のみカスタマイズ可能）。スキーマ定義は`dbflute_wolf_mansiondb/`にある。
+`backend/src/main/java/com/ort/dbflute/` 配下はDBFluteによる自動生成Javaコード。手動編集不可（`exbhv/`と`exentity/`のみカスタマイズ可能）。スキーマ定義は`backend/dbflute_wolf_mansiondb/`にある。
 
 ### 村のライフサイクル
 
@@ -80,5 +86,5 @@ mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ�
 
 - ドメインモデルはKotlin data classで不変（状態変更は`copy()`で新インスタンスを返す）
 - ゲーム内テキスト（ステータスメッセージ、役職名など）は日本語
-- テンプレートは`src/main/resources/templates/`にThymeleaf HTML
-- 静的ファイルは`src/main/resources/static/`
+- テンプレートは`backend/src/main/resources/templates/`にThymeleaf HTML
+- 静的ファイルは`backend/src/main/resources/static/`
