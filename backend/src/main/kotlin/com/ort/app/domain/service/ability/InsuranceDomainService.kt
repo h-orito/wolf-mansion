@@ -15,22 +15,29 @@ import org.springframework.stereotype.Service
 
 @Service
 class InsuranceDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.保険.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
+
     override fun getTargetPrefix(): String? = "保険を勧める対象"
+
     override fun getTargetSuffix(): String? = "に保険を勧める"
 
     fun insurance(daychange: Daychange): Daychange {
@@ -51,26 +58,24 @@ class InsuranceDomainService(
     private fun createInsuranceMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}に保険を勧めた。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
     private fun createInsurancedMessage(
         village: Village,
         insurancer: VillageParticipant,
-        myself: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "あなたは、${insurancer.name()}に保険を勧められた。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

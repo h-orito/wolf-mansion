@@ -27,13 +27,17 @@ class VillageControllerHelper(
     private val charaService: CharaService,
     private val randomKeywordService: RandomKeywordService,
     private val spoilerDomainService: SpoilerDomainService,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
 ) {
-
     @Value("\${app.debug:}")
     private lateinit var debug: String
 
-    fun setIndexModel(village: Village, day: Int, model: Model, villageForms: VillageForms) {
+    fun setIndexModel(
+        village: Village,
+        day: Int,
+        model: Model,
+        villageForms: VillageForms,
+    ) {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo()
         val myself = userInfo?.let { villageService.findVillageParticipant(village.id, it.username) }
         val player = userInfo?.let { playerService.findPlayer(it.username) }
@@ -43,36 +47,39 @@ class VillageControllerHelper(
         val charachips =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         val keywords = randomKeywordService.findRandomKeywords()
-        val villageSituation = villageCoordinator.findVillageSituation(
-            village = village,
-            myself = myself,
-            votes = votes,
-            abilities = abilities,
-            footsteps = footsteps,
-            day = day
-        )
-        val participantSituation = villageCoordinator.findParticipantSituation(
-            village = village,
-            username = userInfo?.username,
-            myself = myself,
-            votes = votes,
-            abilities = abilities,
-            footsteps = footsteps,
-            charachips = charachips,
-            day = day
-        )
+        val villageSituation =
+            villageCoordinator.findVillageSituation(
+                village = village,
+                myself = myself,
+                votes = votes,
+                abilities = abilities,
+                footsteps = footsteps,
+                day = day,
+            )
+        val participantSituation =
+            villageCoordinator.findParticipantSituation(
+                village = village,
+                username = userInfo?.username,
+                myself = myself,
+                votes = votes,
+                abilities = abilities,
+                footsteps = footsteps,
+                charachips = charachips,
+                day = day,
+            )
         val isDispSpoilerContent = spoilerDomainService.isViewableSpoilerContent(village, myself)
-        val content = VillageContent(
-            village = village,
-            day = day,
-            myself = myself,
-            player = player,
-            charachips = charachips,
-            keywords = keywords,
-            villageSituation = villageSituation,
-            participantSituation = participantSituation,
-            isDispSpoilerContent = isDispSpoilerContent
-        )
+        val content =
+            VillageContent(
+                village = village,
+                day = day,
+                myself = myself,
+                player = player,
+                charachips = charachips,
+                keywords = keywords,
+                villageSituation = villageSituation,
+                participantSituation = participantSituation,
+                isDispSpoilerContent = isDispSpoilerContent,
+            )
         model.addAttribute("content", content)
         setForm(model, village, myself, participantSituation, villageForms, charachips)
         setDebug(village, model)
@@ -84,7 +91,7 @@ class VillageControllerHelper(
         myself: VillageParticipant?,
         situation: ParticipantSituation,
         forms: VillageForms,
-        charachips: Charachips
+        charachips: Charachips,
     ) {
         setParticipateFormIfNeeded(situation, model, forms)
         setSwitchParticipateFormIfNeeded(situation, model, forms)
@@ -105,24 +112,24 @@ class VillageControllerHelper(
     private fun setParticipateFormIfNeeded(
         situation: ParticipantSituation,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         if (!situation.participate.isAvailableParticipate && !situation.participate.isAvailableSpectate) return
         model.addAttribute(
             "participateForm",
-            forms.participateForm ?: VillageParticipateForm()
+            forms.participateForm ?: VillageParticipateForm(),
         )
     }
 
     private fun setSwitchParticipateFormIfNeeded(
         situation: ParticipantSituation,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         if (!situation.participate.isAvailableSwitchParticipate) return
         model.addAttribute(
             "switchParticipateForm",
-            forms.switchParticipateForm ?: VillageSwitchParticipateForm()
+            forms.switchParticipateForm ?: VillageSwitchParticipateForm(),
         )
     }
 
@@ -130,7 +137,7 @@ class VillageControllerHelper(
         situation: ParticipantSituation,
         myself: VillageParticipant?,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         if (!situation.skillRequest.isAvailableSkillRequest) return
         val first = myself!!.requestSkill!!.first
@@ -139,8 +146,8 @@ class VillageControllerHelper(
             "changeRequestSkillForm",
             forms.changeRequestSkillForm ?: VillageChangeRequestSkillForm(
                 requestedSkill = first.code,
-                secondRequestedSkill = second.code
-            )
+                secondRequestedSkill = second.code,
+            ),
         )
         model.addAttribute("requestSkillName", first.name)
         model.addAttribute("secondRequestSkillName", second.name)
@@ -148,7 +155,7 @@ class VillageControllerHelper(
 
     private fun setLeaveFormIfNeeded(
         situation: ParticipantSituation,
-        model: Model
+        model: Model,
     ) {
         if (!situation.participate.isAvailableLeave) return
         model.addAttribute("villageLeaveForm", VillageLeaveForm())
@@ -156,7 +163,7 @@ class VillageControllerHelper(
 
     private fun setCommitFormIfNeeded(
         situation: ParticipantSituation,
-        model: Model
+        model: Model,
     ) {
         if (!situation.commit.isAvailableCommit) return
         model.addAttribute("commitForm", VillageCommitForm(!situation.commit.isCommitting))
@@ -167,7 +174,7 @@ class VillageControllerHelper(
         myself: VillageParticipant?,
         model: Model,
         forms: VillageForms,
-        charachips: Charachips
+        charachips: Charachips,
     ) {
         forms.sayForm?.let { model.addAttribute("sayForm", it) }
         if (!situation.say.isAvailableSay) return
@@ -176,8 +183,8 @@ class VillageControllerHelper(
             "sayForm",
             VillageSayForm(
                 messageType = defaultMessageType.code,
-                faceType = charachips.chara(myself!!.charaId).detectDefaultFaceTypeCode(defaultMessageType)
-            )
+                faceType = charachips.chara(myself!!.charaId).detectDefaultFaceTypeCode(defaultMessageType),
+            ),
         )
     }
 
@@ -185,15 +192,15 @@ class VillageControllerHelper(
         situation: ParticipantSituation,
         myself: VillageParticipant?,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         forms.actionForm?.let { model.addAttribute("actionForm", it) }
         if (situation.say.selectableMessageTypeList.none { it.messageType.toCdef() == CDef.MessageType.アクション }) return
         model.addAttribute(
             "actionForm",
             VillageActionForm(
-                myself = "${myself!!.name()}は、"
-            )
+                myself = "${myself!!.name()}は、",
+            ),
         )
     }
 
@@ -201,7 +208,7 @@ class VillageControllerHelper(
         situation: ParticipantSituation,
         myself: VillageParticipant?,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         forms.changeNameForm?.let { model.addAttribute("changeNameForm", it) }
         if (!situation.rp.isAvailableChangeName) return
@@ -209,8 +216,8 @@ class VillageControllerHelper(
             "changeNameForm",
             VillageChangeNameForm(
                 name = myself!!.charaName.name,
-                shortName = myself.charaName.shortName
-            )
+                shortName = myself.charaName.shortName,
+            ),
         )
     }
 
@@ -218,13 +225,13 @@ class VillageControllerHelper(
         situation: ParticipantSituation,
         myself: VillageParticipant?,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         forms.memoForm?.let { model.addAttribute("memoForm", it) }
         if (!situation.rp.isAvailableMemo) return
         model.addAttribute(
             "memoForm",
-            VillageMemoForm(memo = myself!!.memo)
+            VillageMemoForm(memo = myself!!.memo),
         )
     }
 
@@ -233,32 +240,35 @@ class VillageControllerHelper(
         myself: VillageParticipant?,
         charachips: Charachips,
         model: Model,
-        forms: VillageForms
+        forms: VillageForms,
     ) {
         forms.faceTypeForm?.let { model.addAttribute("faceTypeForm", it) }
         forms.faceTypeModifyForm?.let { model.addAttribute("faceTypeModifyForm", it) }
         if (!situation.rp.canAddImage) return
         model.addAttribute(
             "faceTypeForm",
-            VillageFaceTypeForm()
+            VillageFaceTypeForm(),
         )
-        val faceTypeList = charachips.chara(myself!!.charaId).images.list
-            .drop(1)
-            .map {
-                VillageFaceTypeModifyForm.FaceTypeForm(
-                    code = it.faceType.code,
-                    name = it.faceType.name,
-                    display = it.isDisplay,
-                    url = it.url
-                )
-            }
+        val faceTypeList =
+            charachips
+                .chara(myself!!.charaId)
+                .images.list
+                .drop(1)
+                .map {
+                    VillageFaceTypeModifyForm.FaceTypeForm(
+                        code = it.faceType.code,
+                        name = it.faceType.name,
+                        display = it.isDisplay,
+                        url = it.url,
+                    )
+                }
         model.addAttribute("faceTypeModifyForm", VillageFaceTypeModifyForm(faceTypeList))
     }
 
     private fun setAbilityFormIfNeeded(
         situation: ParticipantSituation,
         myself: VillageParticipant?,
-        model: Model
+        model: Model,
     ) {
         // 能力セット系役職
         situation.ability.let { ability ->
@@ -269,8 +279,8 @@ class VillageControllerHelper(
                 VillageAbilityForm(
                     attackerCharaId = ability.attacker?.charaId ?: myself!!.charaId,
                     targetCharaId = ability.target?.charaId,
-                    footstep = ability.targetFootstep ?: ability.footstep
-                )
+                    footstep = ability.targetFootstep ?: ability.footstep,
+                ),
             )
             ability.targetingMessage?.let {
                 model.addAttribute("targetingMessage", it)
@@ -287,17 +297,21 @@ class VillageControllerHelper(
 
     private fun setVoteFormIfNeeded(
         situation: ParticipantSituation,
-        model: Model
+        model: Model,
     ) {
         if (!situation.vote.canVote) return
         model.addAttribute(
             "voteForm",
-            VillageVoteForm(targetCharaId = situation.vote.target?.charaId)
+            VillageVoteForm(targetCharaId = situation.vote.target?.charaId),
         )
         model.addAttribute("voteTarget", situation.vote.target?.name())
     }
 
-    private fun setCreatorFormIfNeeded(village: Village, situation: ParticipantSituation, model: Model) {
+    private fun setCreatorFormIfNeeded(
+        village: Village,
+        situation: ParticipantSituation,
+        model: Model,
+    ) {
         if (!situation.creator.isCreator) return
         model.addAttribute("canShortenEpilogue", village.canShortenEpilogue())
         model.addAttribute("kickForm", VillageKickForm())
@@ -306,7 +320,10 @@ class VillageControllerHelper(
         }
     }
 
-    private fun setNotificationFormIfNeeded(myself: VillageParticipant?, model: Model) {
+    private fun setNotificationFormIfNeeded(
+        myself: VillageParticipant?,
+        model: Model,
+    ) {
         myself ?: return
         model.addAttribute(
             "notificationForm",
@@ -318,22 +335,30 @@ class VillageControllerHelper(
                 secretSay = myself.notification?.message?.secretSay ?: false,
                 anchorSay = myself.notification?.message?.anchor ?: false,
                 abilitySay = myself.notification?.message?.abilitySay ?: false,
-                keyword = myself.notification?.message?.keywords?.joinToString(separator = " ") ?: ""
-            )
+                keyword =
+                    myself.notification
+                        ?.message
+                        ?.keywords
+                        ?.joinToString(separator = " ") ?: "",
+            ),
         )
     }
 
-    private fun setDebug(village: Village, model: Model) {
+    private fun setDebug(
+        village: Village,
+        model: Model,
+    ) {
         val isDebug = debug.toBoolean()
         model.addAttribute("isDebugMode", isDebug)
         if (!isDebug) return
         val players = playerService.findPlayers(village.id)
-        val participantList = village.allParticipants().sortedByRoomNumber().list.map {
-            val name = it.name()
-            val skill = it.skill?.name?.let { skill -> ": $skill" } ?: ""
-            val playerName = players.player(it.playerId).name
-            OptionContent(name = "$name$skill", value = playerName)
-        }
+        val participantList =
+            village.allParticipants().sortedByRoomNumber().list.map {
+                val name = it.name()
+                val skill = it.skill?.name?.let { skill -> ": $skill" } ?: ""
+                val playerName = players.player(it.playerId).name
+                OptionContent(name = "$name$skill", value = playerName)
+            }
         model.addAttribute("dummyLoginPlayerList", participantList)
     }
 }

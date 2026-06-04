@@ -24,159 +24,196 @@ import com.ort.dbflute.exentity.Message as DbMessage
 @Repository
 class MessageDataSource(
     private val messageBhv: MessageBhv,
-    private val messageSendtoBhv: MessageSendtoBhv
+    private val messageSendtoBhv: MessageSendtoBhv,
 ) : MessageRepository {
-
     companion object {
-        val patternMessageTypeMap = mapOf(
-            Pattern.compile("^(?![\\+=\\?@\\-\\*a_])(\\d{1,5})") to CDef.MessageType.通常発言,
-            Pattern.compile("^\\+(\\d{1,5})") to CDef.MessageType.死者の呻き,
-            Pattern.compile("^=(\\d{1,5})") to CDef.MessageType.共鳴発言,
-            Pattern.compile("^\\?(\\d{1,5})") to CDef.MessageType.恋人発言,
-            Pattern.compile("^@(\\d{1,5})") to CDef.MessageType.見学発言,
-            Pattern.compile("^-(\\d{1,5})") to CDef.MessageType.独り言,
-            Pattern.compile("^\\*(\\d{1,5})") to CDef.MessageType.人狼の囁き,
-            Pattern.compile("^a(\\d{1,5})") to CDef.MessageType.アクション,
-            Pattern.compile("^_(\\d{1,5})") to CDef.MessageType.念話
-        )
+        val patternMessageTypeMap =
+            mapOf(
+                Pattern.compile("^(?![\\+=\\?@\\-\\*a_])(\\d{1,5})") to CDef.MessageType.通常発言,
+                Pattern.compile("^\\+(\\d{1,5})") to CDef.MessageType.死者の呻き,
+                Pattern.compile("^=(\\d{1,5})") to CDef.MessageType.共鳴発言,
+                Pattern.compile("^\\?(\\d{1,5})") to CDef.MessageType.恋人発言,
+                Pattern.compile("^@(\\d{1,5})") to CDef.MessageType.見学発言,
+                Pattern.compile("^-(\\d{1,5})") to CDef.MessageType.独り言,
+                Pattern.compile("^\\*(\\d{1,5})") to CDef.MessageType.人狼の囁き,
+                Pattern.compile("^a(\\d{1,5})") to CDef.MessageType.アクション,
+                Pattern.compile("^_(\\d{1,5})") to CDef.MessageType.念話,
+            )
     }
 
     override fun findMessages(
         village: Village,
         myself: VillageParticipant?,
-        query: MessageQuery
+        query: MessageQuery,
     ): Messages {
         if (query.messageTypeList.isEmpty() && !query.includeMonologue && !query.includeSecret && !query.includePrivateAbility) {
             return Messages(listOf())
         }
-        val messagePage = messageBhv.selectPage {
-            queryPaging(it, query)
-            queryMessage(it, query, myself)
-            if (query.isDispLatest) {
-                it.query().addOrderBy_MessageDatetime_Desc()
-                it.query().addOrderBy_MessageId_Desc()
-            } else {
-                it.query().addOrderBy_MessageDatetime_Asc()
-                it.query().addOrderBy_MessageId_Asc()
+        val messagePage =
+            messageBhv.selectPage {
+                queryPaging(it, query)
+                queryMessage(it, query, myself)
+                if (query.isDispLatest) {
+                    it.query().addOrderBy_MessageDatetime_Desc()
+                    it.query().addOrderBy_MessageId_Desc()
+                } else {
+                    it.query().addOrderBy_MessageDatetime_Asc()
+                    it.query().addOrderBy_MessageId_Asc()
+                }
             }
-        }
         messageBhv.load(messagePage) { it.loadMessageSendto { } }
-        return if (query.isDispLatest) mapMessagesWithLatest(village, messagePage)
-        else mapMessagesWithPaging(village, messagePage)
+        return if (query.isDispLatest) {
+            mapMessagesWithLatest(village, messagePage)
+        } else {
+            mapMessagesWithPaging(village, messagePage)
+        }
     }
 
     override fun findMessage(
         village: Village,
         messageType: CDef.MessageType,
-        messageNumber: Int
+        messageNumber: Int,
     ): Message? {
-        val optMessage = messageBhv.selectEntity {
-            it.query().setVillageId_Equal(village.id)
-            it.query().setMessageNumber_Equal(messageNumber)
-            it.query().setMessageTypeCode_Equal_AsMessageType(messageType)
-        }
+        val optMessage =
+            messageBhv.selectEntity {
+                it.query().setVillageId_Equal(village.id)
+                it.query().setMessageNumber_Equal(messageNumber)
+                it.query().setMessageTypeCode_Equal_AsMessageType(messageType)
+            }
         if (!optMessage.isPresent) return null
         val message = optMessage.get()
         messageBhv.load(message) { it.loadMessageSendto { } }
         return mapMessage(village, message)
     }
 
-    override fun findLatestMessageDatetime(myself: VillageParticipant?, query: MessageQuery): LocalDateTime? {
+    override fun findLatestMessageDatetime(
+        myself: VillageParticipant?,
+        query: MessageQuery,
+    ): LocalDateTime? {
         if (query.messageTypeList.isEmpty() && !query.includeMonologue && !query.includeSecret && !query.includePrivateAbility) {
             return null
         }
-        val datetime = messageBhv.selectScalar(LocalDateTime::class.java).max {
-            it.specify().columnMessageDatetime()
-            // query
-            queryMessage(it, query, myself)
-        }
+        val datetime =
+            messageBhv.selectScalar(LocalDateTime::class.java).max {
+                it.specify().columnMessageDatetime()
+                // query
+                queryMessage(it, query, myself)
+            }
         return datetime.orElse(null)
     }
 
     override fun findParticipantDayMessageCount(
         village: Village,
         day: Int,
-        participant: VillageParticipant
+        participant: VillageParticipant,
     ): Map<CDef.MessageType, Int> {
-        val list = messageBhv.selectList {
-            it.query().setVillageId_Equal(village.id)
-            it.query().setDay_Equal(day)
-            it.query().setVillagePlayerId_Equal(participant.id)
-        }
+        val list =
+            messageBhv.selectList {
+                it.query().setVillageId_Equal(village.id)
+                it.query().setDay_Equal(day)
+                it.query().setVillagePlayerId_Equal(participant.id)
+            }
         if (day < 3) return mapToMessageTypeCount(list)
         // 3日目以降は襲撃メッセージがあるので、襲撃メッセージを除く
-        val optFirstAttackMessage = messageBhv.selectEntity {
-            it.query().setVillageId_Equal(village.id)
-            it.query().setDay_Equal(day)
-            it.query().setMessageTypeCode_Equal_人狼の囁き()
-            it.query().addOrderBy_RegisterDatetime_Asc()
-            it.fetchFirst(1)
+        val optFirstAttackMessage =
+            messageBhv.selectEntity {
+                it.query().setVillageId_Equal(village.id)
+                it.query().setDay_Equal(day)
+                it.query().setMessageTypeCode_Equal_人狼の囁き()
+                it.query().addOrderBy_RegisterDatetime_Asc()
+                it.fetchFirst(1)
+            }
+        return if (!optFirstAttackMessage.isPresent) {
+            mapToMessageTypeCount(list)
+        } else {
+            mapToMessageTypeCount(list.filterNot { it.messageId == optFirstAttackMessage.get().messageId })
         }
-        return if (!optFirstAttackMessage.isPresent) mapToMessageTypeCount(list)
-        else mapToMessageTypeCount(list.filterNot { it.messageId == optFirstAttackMessage.get().messageId })
     }
 
-    override fun registerMessage(village: Village, message: Message): Message {
+    override fun registerMessage(
+        village: Village,
+        message: Message,
+    ): Message {
         val id = insertMessage(village, message)
         return findMessageById(id, village)
     }
 
-    private fun findMessageById(id: Int, village: Village): Message {
-        val message = messageBhv.selectEntityWithDeletedCheck {
-            it.query().setMessageId_Equal(id)
-        }
+    private fun findMessageById(
+        id: Int,
+        village: Village,
+    ): Message {
+        val message =
+            messageBhv.selectEntityWithDeletedCheck {
+                it.query().setMessageId_Equal(id)
+            }
         messageBhv.load(message) { it.loadMessageSendto { } }
         return mapMessage(village, message)
     }
 
-    private fun mapMessagesWithPaging(village: Village, messagePage: PagingResultBean<DbMessage>): Messages =
+    private fun mapMessagesWithPaging(
+        village: Village,
+        messagePage: PagingResultBean<DbMessage>,
+    ): Messages =
         Messages(
             list = messagePage.map { mapMessage(village, it) },
             allPageCount = messagePage.allPageCount,
             isExistPrePage = messagePage.existsPreviousPage(),
             isExistNextPage = messagePage.existsNextPage(),
             currentPageNum = messagePage.currentPageNumber,
-            isLatest = false
+            isLatest = false,
         )
 
-    private fun mapMessagesWithLatest(village: Village, messagePage: PagingResultBean<DbMessage>): Messages =
+    private fun mapMessagesWithLatest(
+        village: Village,
+        messagePage: PagingResultBean<DbMessage>,
+    ): Messages =
         Messages(
             list = messagePage.reversed().map { mapMessage(village, it) },
             allPageCount = messagePage.allPageCount,
             isExistPrePage = messagePage.existsNextPage(), // 逆順にしているので
             isExistNextPage = false, // 最新なので次はなし
             currentPageNum = messagePage.allPageCount, // 必ず最終ページ
-            isLatest = true
+            isLatest = true,
         )
 
-    private fun mapMessage(village: Village, message: DbMessage): Message =
+    private fun mapMessage(
+        village: Village,
+        message: DbMessage,
+    ): Message =
         Message(
             fromParticipantId = message.villagePlayerId,
-            fromCharacterName = message.charaName?.let {
-                val roomNumber = village.allParticipants().member(message.villagePlayerId!!).roomNumberWhen(message.day)
-                message.name(roomNumber)
-            },
+            fromCharacterName =
+                message.charaName?.let {
+                    val roomNumber = village.allParticipants().member(message.villagePlayerId!!).roomNumberWhen(message.day)
+                    message.name(roomNumber)
+                },
             toParticipantId = message.toVillagePlayerId,
-            toCharacterName = message.toCharaName?.let {
-                val roomNumber =
-                    village.allParticipants().member(message.toVillagePlayerId!!).roomNumberWhen(message.day)
-                message.targetName(roomNumber)
-            },
-            time = MessageTime(
-                day = message.day,
-                datetime = message.messageDatetime
-            ),
-            content = MessageContent(
-                type = MessageType(message.messageTypeCodeAsMessageType),
-                num = message.messageNumber,
-                text = message.messageContent,
-                faceTypeCode = message.faceTypeCode,
-                isConvertDisable = message.isConvertDisable
-            ),
-            sendToParticipantIds = message.messageSendtoList.map { it.villagePlayerId }
+            toCharacterName =
+                message.toCharaName?.let {
+                    val roomNumber =
+                        village.allParticipants().member(message.toVillagePlayerId!!).roomNumberWhen(message.day)
+                    message.targetName(roomNumber)
+                },
+            time =
+                MessageTime(
+                    day = message.day,
+                    datetime = message.messageDatetime,
+                ),
+            content =
+                MessageContent(
+                    type = MessageType(message.messageTypeCodeAsMessageType),
+                    num = message.messageNumber,
+                    text = message.messageContent,
+                    faceTypeCode = message.faceTypeCode,
+                    isConvertDisable = message.isConvertDisable,
+                ),
+            sendToParticipantIds = message.messageSendtoList.map { it.villagePlayerId },
         )
 
-    private fun insertMessage(village: Village, message: Message): Int {
+    private fun insertMessage(
+        village: Village,
+        message: Message,
+    ): Int {
         val m = DbMessage()
         m.villageId = village.id
         m.day = message.time.day
@@ -212,7 +249,7 @@ class MessageDataSource(
     private fun insertMessageSendTo(m: DbMessage) {
         val splitted = m.messageContent.split(">>")
         if (splitted.size <= 1) {
-            return  // >>が含まれていない
+            return // >>が含まれていない
         }
         splitted.drop(1).forEach { str ->
             patternMessageTypeMap.forEach { (pattern: Pattern, messageType: CDef.MessageType) ->
@@ -244,16 +281,25 @@ class MessageDataSource(
         }
     }
 
-    private fun selectNextMessageNumber(villageId: Int, type: CDef.MessageType): Int {
-        val maxNessageNumber = messageBhv.selectScalar(Int::class.java).max {
-            it.specify().columnMessageNumber()
-            it.query().setVillageId_Equal(villageId)
-            it.query().setMessageTypeCode_Equal_AsMessageType(type)
-        }.orElse(0)
+    private fun selectNextMessageNumber(
+        villageId: Int,
+        type: CDef.MessageType,
+    ): Int {
+        val maxNessageNumber =
+            messageBhv
+                .selectScalar(Int::class.java)
+                .max {
+                    it.specify().columnMessageNumber()
+                    it.query().setVillageId_Equal(villageId)
+                    it.query().setMessageTypeCode_Equal_AsMessageType(type)
+                }.orElse(0)
         return maxNessageNumber + 1
     }
 
-    private fun queryPaging(cb: MessageCB, query: MessageQuery) {
+    private fun queryPaging(
+        cb: MessageCB,
+        query: MessageQuery,
+    ) {
         when {
             !query.isPaging -> cb.paging(100000, 1)
             query.isDispLatest -> cb.paging(query.pageSize!!, 1)
@@ -266,7 +312,7 @@ class MessageDataSource(
     private fun queryMessage(
         cb: MessageCB,
         query: MessageQuery,
-        myself: VillageParticipant?
+        myself: VillageParticipant?,
     ) {
         cb.query().setVillageId_Equal(query.village.id)
         cb.query().setDay_Equal(query.day)
@@ -297,7 +343,7 @@ class MessageDataSource(
     private fun queryMessageType(
         cb: MessageCB,
         query: MessageQuery,
-        myself: VillageParticipant?
+        myself: VillageParticipant?,
     ) {
         if (myself == null) {
             if (query.messageTypeList.isNotEmpty()) {
@@ -321,7 +367,11 @@ class MessageDataSource(
         }
     }
 
-    private fun queryMyself(cb: MessageCB, query: MessageQuery, myself: VillageParticipant) {
+    private fun queryMyself(
+        cb: MessageCB,
+        query: MessageQuery,
+        myself: VillageParticipant,
+    ) {
         if (query.includeMonologue) {
             cb.orScopeQueryAndPart { andCB -> queryMyMonologue(andCB, myself.id) }
         }
@@ -334,22 +384,34 @@ class MessageDataSource(
         }
     }
 
-    private fun queryMyMonologue(cb: MessageCB, id: Int) {
+    private fun queryMyMonologue(
+        cb: MessageCB,
+        id: Int,
+    ) {
         cb.query().setVillagePlayerId_Equal(id)
         cb.query().setMessageTypeCode_Equal_独り言()
     }
 
-    private fun queryMySecret(cb: MessageCB, id: Int) {
+    private fun queryMySecret(
+        cb: MessageCB,
+        id: Int,
+    ) {
         cb.query().setVillagePlayerId_Equal(id)
         cb.query().setMessageTypeCode_Equal_秘話()
     }
 
-    private fun querySecretToMe(cb: MessageCB, id: Int) {
+    private fun querySecretToMe(
+        cb: MessageCB,
+        id: Int,
+    ) {
         cb.query().setToVillagePlayerId_Equal(id)
         cb.query().setMessageTypeCode_Equal_秘話()
     }
 
-    private fun queryPrivateAbility(cb: MessageCB, id: Int) {
+    private fun queryPrivateAbility(
+        cb: MessageCB,
+        id: Int,
+    ) {
         cb.query().setVillagePlayerId_Equal(id)
         cb.query().setMessageTypeCode_InScope_AsMessageType(MessageType.personalSystemTypeList)
     }

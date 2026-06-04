@@ -11,14 +11,13 @@ import org.springframework.stereotype.Service
 
 @Service
 class ParticipateDomainService {
-
     fun convertToSituation(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        charachips: Charachips
-    ): ParticipantParticipateSituation {
-        return ParticipantParticipateSituation(
+        charachips: Charachips,
+    ): ParticipantParticipateSituation =
+        ParticipantParticipateSituation(
             isParticipating = myself != null,
             isAvailableParticipate = isAvailableParticipate(player, village),
             isAvailableSpectate = isAvailableSpectate(player, village, charachips),
@@ -26,34 +25,46 @@ class ParticipateDomainService {
             selectableCharachipList = getSelectableCharachipList(village, charachips),
             selectableCharaList = getSelectableCharaList(village, charachips),
             isAvailableLeave = isAvailableLeave(village, myself),
-            myself = myself
+            myself = myself,
         )
-    }
 
-    private fun isAvailableParticipate(player: Player?, village: Village): Boolean {
-        player ?: return false
-        return player.isAvailableParticipateVillage(village.id)
-                && village.canParticipate(player)
-    }
-
-    private fun isAvailableSpectate(player: Player?, village: Village, charachips: Charachips): Boolean {
+    private fun isAvailableParticipate(
+        player: Player?,
+        village: Village,
+    ): Boolean {
         player ?: return false
         return player.isAvailableParticipateVillage(village.id) &&
-                village.canSpectate(charachips.list.sumOf { it.charas.list.size })
+            village.canParticipate(player)
+    }
+
+    private fun isAvailableSpectate(
+        player: Player?,
+        village: Village,
+        charachips: Charachips,
+    ): Boolean {
+        player ?: return false
+        return player.isAvailableParticipateVillage(village.id) &&
+            village.canSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
     private fun isAvailableSwitchParticipate(
         myself: VillageParticipant?,
         player: Player?,
         village: Village,
-        charachips: Charachips
+        charachips: Charachips,
     ): Boolean {
         myself ?: return false
-        return if (myself.isSpectator) village.canParticipate(player)
-        else village.canSpectate(charachips.list.sumOf { it.charas.list.size })
+        return if (myself.isSpectator) {
+            village.canParticipate(player)
+        } else {
+            village.canSpectate(charachips.list.sumOf { it.charas.list.size })
+        }
     }
 
-    private fun getSelectableCharachipList(village: Village, charachips: Charachips): List<Charachip> {
+    private fun getSelectableCharachipList(
+        village: Village,
+        charachips: Charachips,
+    ): List<Charachip> {
         // 選べるキャラが1名もいないキャラチップは表示しない
         return charachips.list.filterNot { charachip ->
             charachip.charas.list.all { chara ->
@@ -62,27 +73,32 @@ class ParticipateDomainService {
         }
     }
 
-    private fun getSelectableCharaList(village: Village, charachips: Charachips): List<Chara> {
-        return charachips.list.flatMap { it.charas.list }.filterNot { chara ->
+    private fun getSelectableCharaList(
+        village: Village,
+        charachips: Charachips,
+    ): List<Chara> =
+        charachips.list.flatMap { it.charas.list }.filterNot { chara ->
             village.allParticipants().list.any { it.charaId == chara.id }
         }
-    }
 
-    fun getSelectableCharaList(village: Village, charachip: Charachip): List<Chara> {
-        return charachip.charas.list.filterNot { chara ->
+    fun getSelectableCharaList(
+        village: Village,
+        charachip: Charachip,
+    ): List<Chara> =
+        charachip.charas.list.filterNot { chara ->
             village.allParticipants().list.any { it.charaId == chara.id }
         }
-    }
 
-    private fun isAvailableLeave(village: Village, myself: VillageParticipant?): Boolean {
-        return myself != null && village.canLeave()
-    }
+    private fun isAvailableLeave(
+        village: Village,
+        myself: VillageParticipant?,
+    ): Boolean = myself != null && village.canLeave()
 
     fun assertParticipate(
         village: Village,
         player: Player,
         charaId: Int?,
-        joinPassword: String?
+        joinPassword: String?,
     ) {
         player.assertParticipate(village.id)
         village.assertParticipate(charaId, joinPassword, player)
@@ -100,7 +116,7 @@ class ParticipateDomainService {
         player: Player,
         charaId: Int?,
         joinPassword: String?,
-        charachips: Charachips
+        charachips: Charachips,
     ) {
         player.assertSpectate(village.id)
         village.assertSpectate(charaId, joinPassword, charachips.list.sumOf { it.charas.list.size })
@@ -109,10 +125,13 @@ class ParticipateDomainService {
     fun assertSwitchToSpectate(
         village: Village,
         player: Player,
-        charachips: Charachips
+        charachips: Charachips,
     ) {
         village.assertSwitchToSpectate(charachips.list.sumOf { it.charas.list.size })
     }
 
-    fun assertLeave(village: Village, myself: VillageParticipant) = village.assertLeave()
+    fun assertLeave(
+        village: Village,
+        myself: VillageParticipant,
+    ) = village.assertLeave()
 }

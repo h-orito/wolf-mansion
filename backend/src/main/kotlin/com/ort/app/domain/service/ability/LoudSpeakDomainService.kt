@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class LoudSpeakDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.拡声.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "拡声器を渡す対象"
+
     override fun getTargetSuffix(): String? = "に拡声器を渡す"
 
     fun loudSpeak(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class LoudSpeakDomainService : AbilityTypeDomainService {
 
     private fun createRainbowMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}の部屋に拡声器が置かれていた。"
+            message = "${target.name()}の部屋に拡声器が置かれていた。",
         )
-    }
 }

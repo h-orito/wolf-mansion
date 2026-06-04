@@ -32,9 +32,8 @@ class NewVillageController(
     private val villageCoordinator: VillageCoordinator,
     private val villageService: VillageService,
     private val charaService: CharaService,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
 ) {
-
     @InitBinder("villageForm")
     fun initBinder(binder: WebDataBinder) {
         binder.addValidators(newVillageFormValidator)
@@ -52,11 +51,12 @@ class NewVillageController(
     private fun divert(
         @PathVariable villageId: Int,
         form: NewVillageForm,
-        model: Model
+        model: Model,
     ): String {
         setIndexModel(form, model)
-        val village = villageService.findVillage(villageId)
-            ?: throw IllegalStateException("village not found.")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw IllegalStateException("village not found.")
         form.override(village)
         model.addAttribute("villageForm", form)
         return "new-village"
@@ -67,11 +67,12 @@ class NewVillageController(
     private fun newVillageConfirm(
         @Validated @ModelAttribute("villageForm") villageForm: NewVillageForm,
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            playerService.findPlayer(it.username)
-        }
+        val player =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                playerService.findPlayer(it.username)
+            }
         if (result.hasErrors() || player == null) {
             setIndexModel(villageForm, model)
             return "new-village"
@@ -111,11 +112,12 @@ class NewVillageController(
     private fun createVillage(
         @Validated @ModelAttribute("villageForm") villageForm: NewVillageForm,
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val player = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            playerService.findPlayer(it.username)
-        }
+        val player =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                playerService.findPlayer(it.username)
+            }
         if (result.hasErrors() || player == null) {
             setIndexModel(villageForm, model)
             return "new-village"
@@ -126,21 +128,22 @@ class NewVillageController(
             setIndexModel(villageForm, model)
             return "new-village"
         }
-        val village = try {
-            villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
-            villageCoordinator.registerVillage(
-                villageForm.toVillage(player),
-                villageForm.dummyCharaName!!,
-                villageForm.dummyCharaShortName!!,
-                villageForm.dummyCharaImageFile,
-                villageForm.dummyJoinMessage!!,
-                villageForm.dummyDay1Message
-            )
-        } catch (e: WolfMansionBusinessException) {
-            model.addAttribute("errorMessage", e.message)
-            setIndexModel(villageForm, model)
-            return "new-village"
-        }
+        val village =
+            try {
+                villageCoordinator.assertCreateVillage(player, villageForm.personMaxNum!!, charachips, isOriginal)
+                villageCoordinator.registerVillage(
+                    villageForm.toVillage(player),
+                    villageForm.dummyCharaName!!,
+                    villageForm.dummyCharaShortName!!,
+                    villageForm.dummyCharaImageFile,
+                    villageForm.dummyJoinMessage!!,
+                    villageForm.dummyDay1Message,
+                )
+            } catch (e: WolfMansionBusinessException) {
+                model.addAttribute("errorMessage", e.message)
+                setIndexModel(villageForm, model)
+                return "new-village"
+            }
         return "redirect:/village/${village.id}#bottom"
     }
 
@@ -154,27 +157,39 @@ class NewVillageController(
         return hour + minute + second
     }
 
-    private fun mapStartDateTime(villageForm: NewVillageForm): String {
-        return LocalDateTime.of(
-            villageForm.startYear!!, villageForm.startMonth!!, villageForm.startDay!!,
-            villageForm.startHour!!, villageForm.startMinute!!, 0
-        ).format(DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm"))
-    }
+    private fun mapStartDateTime(villageForm: NewVillageForm): String =
+        LocalDateTime
+            .of(
+                villageForm.startYear!!,
+                villageForm.startMonth!!,
+                villageForm.startDay!!,
+                villageForm.startHour!!,
+                villageForm.startMinute!!,
+                0,
+            ).format(DateTimeFormatter.ofPattern("uuuu/MM/dd HH:mm"))
 
-    private fun setIndexModel(form: NewVillageForm, model: Model) {
+    private fun setIndexModel(
+        form: NewVillageForm,
+        model: Model,
+    ) {
         form.initialize()
         model.addAttribute("villageForm", form)
-        val finishedVillages = villageService.findVillages(
-            query = VillageQuery(
-                statuses = VillageStatus.notProgressStatusLsit.map { VillageStatus(it) }
-            )
-        ).list.map { NewVillageDivertContent(it.id, it.id.toString().padStart(4, '0'), it.name) }
+        val finishedVillages =
+            villageService
+                .findVillages(
+                    query =
+                        VillageQuery(
+                            statuses = VillageStatus.notProgressStatusLsit.map { VillageStatus(it) },
+                        ),
+                ).list
+                .map { NewVillageDivertContent(it.id, it.id.toString().padStart(4, '0'), it.name) }
         model.addAttribute("villageList", finishedVillages)
         model.addAttribute("skillListStr", Skills.getSkillListStr())
         model.addAttribute("nowYear", LocalDateTime.now().year)
-        val charachips = charaService.findCharachips().list.map {
-            OptionContent(name = "${it.name}（${it.designer!!.name}様作）", value = it.id.toString())
-        }
+        val charachips =
+            charaService.findCharachips().list.map {
+                OptionContent(name = "${it.name}（${it.designer!!.name}様作）", value = it.id.toString())
+            }
         model.addAttribute("characterSetList", charachips)
     }
 }

@@ -43,7 +43,7 @@ data class VillageMessageContent(
     /** 返信可能か */
     val canReply: Boolean,
     /** 秘話可能か */
-    val canSecret: Boolean
+    val canSecret: Boolean,
 ) {
     /** css指定用  */
     fun getMinHeightCss(): String = "min-height: ${height}px;"
@@ -59,14 +59,21 @@ data class VillageMessageContent(
         hasBigEar: Boolean,
         isRainbow: Boolean,
         isLoud: Boolean,
-        isLatestDay: Boolean
+        isLatestDay: Boolean,
     ) : this(
         playerName = if (shouldDispPlayerName(village, myself, myselfPlayer)) player?.name else null,
         characterName = message.fromCharacterName,
         characterId = fromParticipant?.charaId,
-        characterImageUrl = if (fromParticipant != null && message.content.faceTypeCode != null) {
-            charas.chara(fromParticipant.charaId).images.findByFaceType(message.content.faceTypeCode)?.url
-        } else null,
+        characterImageUrl =
+            if (fromParticipant != null && message.content.faceTypeCode != null) {
+                charas
+                    .chara(fromParticipant.charaId)
+                    .images
+                    .findByFaceType(message.content.faceTypeCode)
+                    ?.url
+            } else {
+                null
+            },
         messageType = message.content.type.code,
         messageNumber = if (shouldDispMessageNumber(message, village)) message.content.num else null,
         messageContent = message.content.text,
@@ -79,18 +86,26 @@ data class VillageMessageContent(
         isRainbow = isRainbow,
         isLoud = isLoud,
         canReply = isLatestDay && shouldDispMessageNumber(message, village),
-        canSecret = isLatestDay && (village.isSayableSecretSay() || myself?.isAdmin() ?: false)
+        canSecret = isLatestDay && (village.isSayableSecretSay() || myself?.isAdmin() ?: false),
     )
 
     companion object {
+        fun shouldDispMessageNumber(
+            message: Message,
+            village: Village,
+        ): Boolean =
+            if (village.status.isSettleOrCanceled()) {
+                true
+            } else {
+                message.content.type
+                    .toCdef()
+                    .let { it != CDef.MessageType.独り言 && it != CDef.MessageType.秘話 }
+            }
 
-        fun shouldDispMessageNumber(message: Message, village: Village): Boolean {
-            return if (village.status.isSettleOrCanceled()) true
-            else message.content.type.toCdef().let { it != CDef.MessageType.独り言 && it != CDef.MessageType.秘話 }
-        }
-
-        fun shouldDispPlayerName(village: Village, myself: VillageParticipant?, player: Player?): Boolean {
-            return village.status.isSettleOrCanceled() || myself?.isAdmin() ?: false || village.isProducer(player)
-        }
+        fun shouldDispPlayerName(
+            village: Village,
+            myself: VillageParticipant?,
+            player: Player?,
+        ): Boolean = village.status.isSettleOrCanceled() || myself?.isAdmin() ?: false || village.isProducer(player)
     }
 }

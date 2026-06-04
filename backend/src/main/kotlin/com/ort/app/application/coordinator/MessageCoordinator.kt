@@ -29,14 +29,18 @@ class MessageCoordinator(
     private val messageDomainService: MessageDomainService,
     private val sayDomainService: SayDomainService,
 ) {
-    fun registerMessage(villageId: Int, message: Message): Message {
+    fun registerMessage(
+        villageId: Int,
+        message: Message,
+    ): Message {
         val village =
             villageService.findVillage(villageId) ?: throw IllegalStateException("village not found. id: $villageId")
-        val replacedMessage = messageDomainService.replaceRandomMessageIfNeeded(
-            message = message,
-            participants = village.allParticipants(),
-            randomKeywords = randomKeywordService.findRandomKeywords()
-        )
+        val replacedMessage =
+            messageDomainService.replaceRandomMessageIfNeeded(
+                message = message,
+                participants = village.allParticipants(),
+                randomKeywords = randomKeywordService.findRandomKeywords(),
+            )
         val registered = messageService.registerMessage(village, replacedMessage)
         notificationService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
         return registered
@@ -49,7 +53,7 @@ class MessageCoordinator(
         messageType: String,
         faceType: String?,
         isConvertDisable: Boolean?,
-        targetCharaId: Int?
+        targetCharaId: Int?,
     ): Message {
         myself ?: throw WolfMansionBusinessException("myself not found.")
         val messageContent = MessageContent.invoke(messageType, messageText, faceType, isConvertDisable)
@@ -62,7 +66,7 @@ class MessageCoordinator(
             toParticipantId = toParticipant?.id,
             toCharacterName = toParticipant?.name(),
             time = MessageTime(day = village.latestDay(), datetime = LocalDateTime.now()),
-            content = messageContent
+            content = messageContent,
         )
     }
 
@@ -74,7 +78,7 @@ class MessageCoordinator(
         faceType: String?,
         convertDisable: Boolean?,
         targetCharaId: Int?,
-        ipAddress: String
+        ipAddress: String,
     ) {
         // assert
         myself ?: throw WolfMansionBusinessException("myself not found.")
@@ -82,15 +86,21 @@ class MessageCoordinator(
         val player = playerService.findPlayer(myself.playerId)
         assertSay(village, myself, player, messageContent)
         // register message
-        val messages = messageDomainService.createSayMessages(
-            village = village,
-            myself = myself,
-            target = if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
-                targetCharaId?.let { village.allParticipants().chara(it) }
-            } else null,
-            messageContent = messageContent,
-            abilities = abilityService.findAbilities(village.id)
-        ).list.map { registerMessage(village.id, it) }
+        val messages =
+            messageDomainService
+                .createSayMessages(
+                    village = village,
+                    myself = myself,
+                    target =
+                        if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
+                            targetCharaId?.let { village.allParticipants().chara(it) }
+                        } else {
+                            null
+                        },
+                    messageContent = messageContent,
+                    abilities = abilityService.findAbilities(village.id),
+                ).list
+                .map { registerMessage(village.id, it) }
         // register access info
         accessInfoCoordinator.registerAccessInfo(village, myself, ipAddress)
         // notification
@@ -102,10 +112,11 @@ class MessageCoordinator(
         village: Village,
         myself: VillageParticipant,
         player: Player,
-        messageContent: MessageContent
+        messageContent: MessageContent,
     ) {
-        val chara = charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip)
-            ?: throw WolfMansionBusinessException("chara not found.")
+        val chara =
+            charaService.findChara(myself.charaId, village.setting.chara.isOriginalCharachip)
+                ?: throw WolfMansionBusinessException("chara not found.")
         val latestDayMessageCountMap =
             messageService.findParticipantDayMessageCount(village, village.latestDay(), myself)
         sayDomainService.assertSay(village, myself, player, chara, latestDayMessageCountMap, messageContent)

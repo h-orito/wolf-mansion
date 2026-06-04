@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class YubisashiDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.指差死.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun getTargetPrefix(): String = "死に際に指差す対象"
+
     override fun getTargetSuffix(): String? = "を死に際に指差す"
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun yubisashi(daychange: Daychange): Daychange {
@@ -33,7 +39,9 @@ class YubisashiDomainService : AbilityTypeDomainService {
         var messages = daychange.messages.copy()
         village.participants
             .filterBySkill(CDef.Skill.不止者.toModel())
-            .filterDeadDay(village.latestDay()).list.forEach {
+            .filterDeadDay(village.latestDay())
+            .list
+            .forEach {
                 val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
                 val target = village.participants.chara(ability.targetCharaId!!)
                 messages = messages.add(createYubisashiMessage(village, it, target))
@@ -45,11 +53,12 @@ class YubisashiDomainService : AbilityTypeDomainService {
     private fun createYubisashiMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = """
+            message =
+                """
                 止まるんじゃねぇぞ...
 
                 　　rm1
@@ -74,7 +83,6 @@ class YubisashiDomainService : AbilityTypeDomainService {
                 　　　　　　|;;;;;;;;;;|　　　　〉;;;;;;|
                 
                 ${myself.name()}は、${target.name()}を指差した。
-            """.trimIndent()
+                """.trimIndent(),
         )
-    }
 }

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 
 class ExceptionControllerAdvice {
-
     private val logger = LoggerFactory.getLogger(ExceptionControllerAdvice::class.java)
 
     @InitBinder

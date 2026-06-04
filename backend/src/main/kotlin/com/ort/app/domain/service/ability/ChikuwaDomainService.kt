@@ -22,57 +22,69 @@ import org.springframework.stereotype.Service
 class ChikuwaDomainService(
     private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.誰だ今の)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> {
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else listOf(myself)
-    }
+        votes: Votes,
+    ): List<VillageParticipant> =
+        if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            listOf(myself)
+        }
 
     override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): String? {
-        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
-        else "挟まる"
-    }
+        abilities: Abilities,
+    ): String? =
+        if (getSelectingTarget(village, myself, abilities) == null) {
+            "何もしない"
+        } else {
+            "挟まる"
+        }
 
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByCharaId(myself.charaId)
             .filterByType(abilityType)
-            .sortedByDay().list.map { "${it.day}日目 挟まる" }
-    }
+            .sortedByDay()
+            .list
+            .map { "${it.day}日目 挟まる" }
 
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
         targetCharaId ?: return "${myself.name()}が挟まるのをやめました。"
         return "${myself.name()}が挟まることにしました。"
     }
 
     override fun getTargetPrefix(): String? = "挟まる場合自分を選択してください"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
 
-    fun chikuwa(daychange: Daychange, charas: Charas): Daychange {
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
+    fun chikuwa(
+        daychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         val village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.ちくわ大明神.toModel()).list.forEach {
@@ -85,41 +97,47 @@ class ChikuwaDomainService(
     private fun createChikuwaMessage(
         village: Village,
         it: VillageParticipant,
-        charas: Charas
-    ): Message {
-        return messageDomainService.createSayMessage(
+        charas: Charas,
+    ): Message =
+        messageDomainService.createSayMessage(
             village = village,
             myself = it,
             target = null,
-            messageContent = MessageContent.invoke(
-                messageType = CDef.MessageType.通常発言.code(),
-                text = "ちくわ大明神",
-                faceCode = charas.chara(it.charaId).defaultImage().faceType.code,
-                isConvertDisable = false
-            ),
+            messageContent =
+                MessageContent.invoke(
+                    messageType = CDef.MessageType.通常発言.code(),
+                    text = "ちくわ大明神",
+                    faceCode =
+                        charas
+                            .chara(it.charaId)
+                            .defaultImage()
+                            .faceType.code,
+                    isConvertDisable = false,
+                ),
         )
-    }
 
     private fun createAttackMessage(
         village: Village,
         myself: VillageParticipant,
         target: VillageParticipant,
-        charas: Charas
+        charas: Charas,
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
         val myselfChara = charas.chara(myself.charaId)
         val faceType =
-            if (hasFaceType(myselfChara)) CDef.FaceType.囁き.toModel()
-            else charas.chara(myself.charaId).defaultImage().faceType
+            if (hasFaceType(myselfChara)) {
+                CDef.FaceType.囁き.toModel()
+            } else {
+                charas.chara(myself.charaId).defaultImage().faceType
+            }
         return messageDomainService.createAttackMessage(
             village,
             myself,
             text,
             faceType,
-            CDef.MessageType.独り言.toModel()
+            CDef.MessageType.独り言.toModel(),
         )
     }
 
-    private fun hasFaceType(chara: Chara): Boolean =
-        chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
+    private fun hasFaceType(chara: Chara): Boolean = chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
 }

@@ -8,9 +8,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class RandomKeywordService(
-    val randomKeywordRepository: RandomKeywordRepository
+    val randomKeywordRepository: RandomKeywordRepository,
 ) {
-
     fun findRandomKeywords(): RandomKeywords = randomKeywordRepository.findRandomKeywords()
 
     fun findRandomKeyword(id: Int): RandomKeyword? = randomKeywordRepository.findRandomKeyword(id)

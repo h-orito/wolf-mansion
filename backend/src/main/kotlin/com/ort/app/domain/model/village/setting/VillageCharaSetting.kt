@@ -4,5 +4,5 @@ data class VillageCharaSetting(
     val isOriginalCharachip: Boolean,
     val dummyCharaId: Int,
     val dummyDay1Message: String?,
-    val charachipIds: List<Int>
+    val charachipIds: List<Int>,
 )

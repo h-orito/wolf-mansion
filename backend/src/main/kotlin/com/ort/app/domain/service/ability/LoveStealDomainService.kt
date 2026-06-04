@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class LoveStealDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.恋泥棒)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String = "心を盗む対象"
+
     override fun getTargetSuffix(): String = "の心を盗む"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun stealLove(daychange: Daychange): Daychange {
@@ -52,34 +58,46 @@ class LoveStealDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createStealLoveMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createStealLoveMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}の心を盗んだ。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createStolenLoveMessage(village: Village, thiefCat: VillageParticipant, myself: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createStolenLoveMessage(
+        village: Village,
+        thiefCat: VillageParticipant,
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${thiefCat.name()}に心を盗まれ、これまでの相手を忘れて恋をしてしまった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createFailedMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createFailedMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}の心を盗もうとしたが、${target.name()}は恋をしていなかった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun isFailed(target: VillageParticipant, village: Village): Boolean {
+    private fun isFailed(
+        target: VillageParticipant,
+        village: Village,
+    ): Boolean {
         if (target.isDead()) return true
         // 相方同棲者を除いた恋絆の本数が0の場合は失敗
         val cohabitor = target.getTargetCohabitor(village)
@@ -92,22 +110,28 @@ class LoveStealDomainService(
 
         village.participants
             .filterAlive()
-            .filterBySkill(CDef.Skill.泥棒猫.toModel()).list
+            .filterBySkill(CDef.Skill.泥棒猫.toModel())
+            .list
             .filter {
-                daychange.abilities.filterByType(abilityType).filterByCharaId(it.charaId).list.isEmpty()
+                daychange.abilities
+                    .filterByType(abilityType)
+                    .filterByCharaId(it.charaId)
+                    .list
+                    .isEmpty()
             }.forEach {
                 messages = messages.add(createUnusedMessage(village, it))
                 village = village.attackedParticipant(it.id)
             }
 
         return daychange.copy(village = village, messages = messages)
-
     }
 
-    private fun createUnusedMessage(village: Village, bomber: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createUnusedMessage(
+        village: Village,
+        bomber: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${bomber.name()}は、生きがいを失ってしまい、自害した。"
+            message = "${bomber.name()}は、生きがいを失ってしまい、自害した。",
         )
-    }
 }

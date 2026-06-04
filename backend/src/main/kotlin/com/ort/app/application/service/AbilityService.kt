@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class AbilityService(
-    private val abilityRepository: AbilityRepository
+    private val abilityRepository: AbilityRepository,
 ) {
-
     fun findAbilities(villageId: Int): Abilities = abilityRepository.findAbilities(villageId)
 
     fun updateAbility(
@@ -19,20 +18,24 @@ class AbilityService(
         myself: VillageParticipant,
         attackerCharaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ) {
         val abilityType = myself.skill?.getAbility() ?: return
-        val ability = Ability(
-            day = village.latestDay(),
-            type = abilityType,
-            charaId = myself.charaId,
-            attackerCharaId = attackerCharaId,
-            targetCharaId = targetCharaId,
-            targetFootstep = footstep
-        )
+        val ability =
+            Ability(
+                day = village.latestDay(),
+                type = abilityType,
+                charaId = myself.charaId,
+                attackerCharaId = attackerCharaId,
+                targetCharaId = targetCharaId,
+                targetFootstep = footstep,
+            )
         abilityRepository.updateAbility(village, ability)
     }
 
-    fun updateDaychangeDifference(village: Village, current: Abilities, changed: Abilities) =
-        abilityRepository.updateDaychangeDifference(village, current, changed)
+    fun updateDaychangeDifference(
+        village: Village,
+        current: Abilities,
+        changed: Abilities,
+    ) = abilityRepository.updateDaychangeDifference(village, current, changed)
 }

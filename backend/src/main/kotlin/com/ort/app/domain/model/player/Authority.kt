@@ -4,10 +4,9 @@ import com.ort.dbflute.allcommon.CDef
 
 data class Authority(
     val code: String,
-    val name: String
+    val name: String,
 ) {
     constructor(cdef: CDef.Authority) : this(code = cdef.code(), name = cdef.alias())
 
-    fun toCdef(): CDef.Authority =
-        CDef.Authority.codeOf(code) ?: throw IllegalStateException("unknown authority: $code")
+    fun toCdef(): CDef.Authority = CDef.Authority.codeOf(code) ?: throw IllegalStateException("unknown authority: $code")
 }

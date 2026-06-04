@@ -11,12 +11,11 @@ import org.springframework.context.annotation.Import
 @SpringBootApplication
 @Import(
     DBFluteBeansJavaConfig::class,
-    WolfMansionWebMvcConfigurer::class
+    WolfMansionWebMvcConfigurer::class,
 )
 class WolfMansionApplication : SpringBootServletInitializer() {
-    override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder? {
-        return application.sources(WolfMansionApplication::class.java)
-    }
+    override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder? =
+        application.sources(WolfMansionApplication::class.java)
 }
 
 fun main(args: Array<String>) {

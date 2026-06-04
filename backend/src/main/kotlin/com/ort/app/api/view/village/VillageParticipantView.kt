@@ -14,12 +14,12 @@ data class VillageParticipantView(
 ) {
     constructor(
         participant: VillageParticipant,
-        participantIdToChara: Map<Int, Chara>
+        participantIdToChara: Map<Int, Chara>,
     ) : this(
         id = participant.id,
         charaName = participant.charaName,
         chara = participantIdToChara[participant.id]!!,
         room = participant.room,
-        dead = DeadView(participant.dead)
+        dead = DeadView(participant.dead),
     )
 }

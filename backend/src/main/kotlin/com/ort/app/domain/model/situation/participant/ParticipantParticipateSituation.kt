@@ -12,5 +12,5 @@ data class ParticipantParticipateSituation(
     val selectableCharachipList: List<Charachip>,
     val selectableCharaList: List<Chara>,
     val isAvailableLeave: Boolean,
-    val myself: VillageParticipant?
+    val myself: VillageParticipant?,
 )

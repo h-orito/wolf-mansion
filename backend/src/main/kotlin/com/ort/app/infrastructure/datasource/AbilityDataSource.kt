@@ -12,35 +12,43 @@ import com.ort.dbflute.exentity.Ability as DbAbility
 
 @Repository
 class AbilityDataSource(
-    private val abilityBhv: AbilityBhv
+    private val abilityBhv: AbilityBhv,
 ) : AbilityRepository {
-
     override fun findAbilities(villageId: Int): Abilities {
-        val list = abilityBhv.selectList {
-            it.query().setVillageId_Equal(villageId)
-        }
+        val list =
+            abilityBhv.selectList {
+                it.query().setVillageId_Equal(villageId)
+            }
         return mapAbilities(list)
     }
 
     override fun updateAbility(
         village: Village,
-        ability: Ability
+        ability: Ability,
     ) {
         deleteAbility(village, ability)
         insertAbility(village, ability)
     }
 
-    override fun updateDaychangeDifference(village: Village, current: Abilities, changed: Abilities) {
-        changed.list.filterNot { changedAbility ->
-            current.list.any { currentAbility ->
-                changedAbility.day == currentAbility.day
-                        && changedAbility.charaId == currentAbility.charaId
-                        && changedAbility.type.code == currentAbility.type.code
-            }
-        }.forEach { insertAbility(village, it) }
+    override fun updateDaychangeDifference(
+        village: Village,
+        current: Abilities,
+        changed: Abilities,
+    ) {
+        changed.list
+            .filterNot { changedAbility ->
+                current.list.any { currentAbility ->
+                    changedAbility.day == currentAbility.day &&
+                        changedAbility.charaId == currentAbility.charaId &&
+                        changedAbility.type.code == currentAbility.type.code
+                }
+            }.forEach { insertAbility(village, it) }
     }
 
-    private fun deleteAbility(village: Village, ability: Ability) {
+    private fun deleteAbility(
+        village: Village,
+        ability: Ability,
+    ) {
         val type = ability.type.toCdef()
         abilityBhv.queryDelete {
             it.query().setVillageId_Equal(village.id)
@@ -56,7 +64,10 @@ class AbilityDataSource(
         }
     }
 
-    private fun insertAbility(village: Village, ability: Ability) {
+    private fun insertAbility(
+        village: Village,
+        ability: Ability,
+    ) {
         val type = ability.type.toCdef()
         if (type != CDef.AbilityType.捜査 && ability.targetCharaId == null) return
 
@@ -86,12 +97,13 @@ class AbilityDataSource(
 
     private fun mapAbilities(list: List<DbAbility>): Abilities = Abilities(list = list.map { mapAbility(it) })
 
-    private fun mapAbility(ability: DbAbility): Ability = Ability(
-        day = ability.day,
-        type = AbilityType(ability.abilityTypeCodeAsAbilityType),
-        charaId = ability.charaId,
-        attackerCharaId = ability.attackerCharaId,
-        targetCharaId = ability.targetCharaId,
-        targetFootstep = ability.targetFootstep
-    )
+    private fun mapAbility(ability: DbAbility): Ability =
+        Ability(
+            day = ability.day,
+            type = AbilityType(ability.abilityTypeCodeAsAbilityType),
+            charaId = ability.charaId,
+            attackerCharaId = ability.attackerCharaId,
+            targetCharaId = ability.targetCharaId,
+            targetFootstep = ability.targetFootstep,
+        )
 }

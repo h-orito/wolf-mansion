@@ -7,10 +7,12 @@ import org.springframework.validation.Validator
 
 @Component
 class SayFormValidator : Validator {
-
     override fun supports(clazz: Class<*>): Boolean = VillageSayForm::class.java.isAssignableFrom(clazz)
 
-    override fun validate(target: Any, errors: Errors) {
+    override fun validate(
+        target: Any,
+        errors: Errors,
+    ) {
         if (errors.hasErrors()) return
 
         val form = target as VillageSayForm

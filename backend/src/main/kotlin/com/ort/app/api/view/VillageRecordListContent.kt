@@ -9,10 +9,10 @@ import com.ort.app.domain.model.village.participant.dead.Dead
 import java.time.format.DateTimeFormatter
 
 data class VillageRecordListContent(
-    val list: List<VillageRecord>
+    val list: List<VillageRecord>,
 ) {
     constructor(villages: Villages, players: Players) : this(
-        list = villages.list.map { VillageRecord(it, players) }
+        list = villages.list.map { VillageRecord(it, players) },
     )
 
     data class VillageRecord(
@@ -46,7 +46,7 @@ data class VillageRecordListContent(
         val winCampName: String?,
         /** 参加者リスト  */
         @JsonProperty("participant_list")
-        val participantList: List<VillageParticipantRecord>
+        val participantList: List<VillageParticipantRecord>,
     ) {
         constructor(village: Village, players: Players) : this(
             id = village.id,
@@ -54,17 +54,26 @@ data class VillageRecordListContent(
             status = village.status.name,
             organization = convertToOrganization(village),
             intervalSeconds = village.setting.dayChangeIntervalSeconds,
-            startDatetime = if (village.status.isCanceled()) null
-            else village.setting.startDatetime.format(formatter),
+            startDatetime =
+                if (village.status.isCanceled()) {
+                    null
+                } else {
+                    village.setting.startDatetime.format(formatter)
+                },
             prologueDatetime = village.createDatetime.format(formatter),
-            epilogueDatetime = if (village.status.isCanceled()) null
-            else convertToEpilogueDatetime(village),
+            epilogueDatetime =
+                if (village.status.isCanceled()) {
+                    null
+                } else {
+                    convertToEpilogueDatetime(village)
+                },
             epilogueDay = village.epilogueDay,
             url = "https://wolfort.net/wolf-mansion/village/${village.id}",
             winCampName = village.winCamp?.name,
-            participantList = village.allParticipants().list.map {
-                VillageParticipantRecord(it, players)
-            }
+            participantList =
+                village.allParticipants().list.map {
+                    VillageParticipantRecord(it, players)
+                },
         )
 
         companion object {
@@ -88,11 +97,11 @@ data class VillageRecordListContent(
                 }
             }
 
-            private fun convertToEpilogueDatetime(village: Village): String? {
-                return village.days.list
+            private fun convertToEpilogueDatetime(village: Village): String? =
+                village.days.list
                     .firstOrNull { it.day == village.epilogueDay!! - 1 }
-                    ?.dayChangeDatetime?.format(formatter)
-            }
+                    ?.dayChangeDatetime
+                    ?.format(formatter)
         }
 
         data class VillageParticipantRecord(
@@ -122,11 +131,11 @@ data class VillageRecordListContent(
             val deadReason: String?,
             /** 勝敗判定陣営  */
             @JsonProperty("camp_name")
-            val campName: String?
+            val campName: String?,
         ) {
             constructor(
                 participant: VillageParticipant,
-                players: Players
+                players: Players,
             ) : this(
                 userId = players.list.first { it.id == participant.playerId }.name,
                 characterName = participant.charaName.name,
@@ -136,13 +145,14 @@ data class VillageRecordListContent(
                 isDead = participant.dead.isDead,
                 deadDay = participant.dead.deadDay,
                 deadReason = extractDeadReason(participant.dead),
-                campName = participant.camp?.name
+                campName = participant.camp?.name,
             )
 
             companion object {
                 private fun extractDeadReason(dead: Dead): String? {
-                    return if (!dead.isDead) null
-                    else {
+                    return if (!dead.isDead) {
+                        null
+                    } else {
                         val reason = dead.reason!!.name
                         return if (reason.endsWith("死")) {
                             reason
@@ -153,6 +163,5 @@ data class VillageRecordListContent(
                 }
             }
         }
-
     }
 }

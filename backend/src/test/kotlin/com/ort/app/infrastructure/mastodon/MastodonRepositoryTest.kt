@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class MastodonRepositoryTest {
-
     @Autowired
     private lateinit var repository: MastodonRepository
 

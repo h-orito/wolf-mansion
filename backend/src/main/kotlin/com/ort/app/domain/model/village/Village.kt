@@ -27,16 +27,20 @@ data class Village(
     val days: VillageDays,
     val setting: VillageSetting,
     val epilogueDay: Int?,
-    val winCamp: Camp?
+    val winCamp: Camp?,
 ) {
     fun allParticipants(excludeDummy: Boolean = false): VillageParticipants {
         val list = (participants.list + spectators.list)
-        val participants = VillageParticipants(
-            count = list.size,
-            list = list
-        )
-        return if (excludeDummy) participants.filterNotDummy(dummyParticipant())
-        else participants
+        val participants =
+            VillageParticipants(
+                count = list.size,
+                list = list,
+            )
+        return if (excludeDummy) {
+            participants.filterNotDummy(dummyParticipant())
+        } else {
+            participants
+        }
     }
 
     fun allRequestableSkillList(): List<Skill> = setting.allRequestableSkillList()
@@ -44,11 +48,17 @@ data class Village(
     fun dummyParticipant(): VillageParticipant = participants.chara(setting.chara.dummyCharaId)
 
     fun isCreator(player: Player?): Boolean = player?.name == createPlayerName
+
     fun isProducer(player: Player?): Boolean = isCreator(player) && setting.rule.isCreatorIsProducer
+
     fun canCancel(): Boolean = status.isPrologue()
+
     fun canKick(): Boolean = status.isPrologue()
+
     fun canModifySetting(): Boolean = status.isPrologue()
+
     fun canExtendEpilogue(): Boolean = status.isEpilogue()
+
     fun canShortenEpilogue(): Boolean {
         val tomorrow = LocalDateTime.now().plusDays(1L)
         // まだ1日以上エピローグがある
@@ -62,7 +72,11 @@ data class Village(
         return status.isPrologue() && participants.count < setting.personMax
     }
 
-    fun assertParticipate(charaId: Int?, joinPassword: String?, player: Player?) {
+    fun assertParticipate(
+        charaId: Int?,
+        joinPassword: String?,
+        player: Player?,
+    ) {
         if (!canParticipate(player)) {
             throw WolfMansionBusinessException("参加できません")
         }
@@ -81,11 +95,15 @@ data class Village(
     }
 
     fun canSpectate(charaNum: Int): Boolean =
-        setting.rule.isAvailableSpectate
-                && status.isPrologue()
-                && (setting.chara.isOriginalCharachip || spectators.count < charaNum - setting.personMax)
+        setting.rule.isAvailableSpectate &&
+            status.isPrologue() &&
+            (setting.chara.isOriginalCharachip || spectators.count < charaNum - setting.personMax)
 
-    fun assertSpectate(charaId: Int?, joinPassword: String?, charaNum: Int) {
+    fun assertSpectate(
+        charaId: Int?,
+        joinPassword: String?,
+        charaNum: Int,
+    ) {
         if (!canSpectate(charaNum)) {
             throw WolfMansionBusinessException("参加できません")
         }
@@ -104,6 +122,7 @@ data class Village(
     }
 
     fun canLeave(): Boolean = status.isPrologue()
+
     fun assertLeave() {
         if (!canLeave()) throw WolfMansionBusinessException("退村できません")
     }
@@ -122,6 +141,7 @@ data class Village(
     fun isSayableGraveSay(): Boolean = status.isProgress()
 
     fun isViewableMonologueSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableMonologueSay(): Boolean = true
 
     fun isViewableSpectateSay(player: Player?): Boolean =
@@ -130,34 +150,49 @@ data class Village(
     fun isSayableSpectateSay(): Boolean = true
 
     fun isViewableWerewolfSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableWerewolfSay(): Boolean = status.isProgress()
 
     fun isViewableSympathizeSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableSympathizeSay(): Boolean = status.isProgress()
 
     fun isViewableTelepathy(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableTelepathy(): Boolean = status.isProgress()
 
     fun isViewableLoversSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableLoversSay(): Boolean = status.isProgress()
 
     fun isSayableCreatorSay(): Boolean = status.isNotFinished()
 
     fun isViewableSecretSay(player: Player?): Boolean = status.isSettled() || isProducer(player)
+
     fun isSayableSecretSay(): Boolean = status.isNotFinished() && setting.rule.secretSayRange.canSay()
 
     fun isSayableActionSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableAction
 
     fun isViewablePsychicMessage(): Boolean = status.isSettled()
+
     fun isViewableGuruMessage(): Boolean = status.isSettled()
+
     fun isViewableAttackMessage(): Boolean = status.isSettled()
+
     fun isViewableCoronerMessage(): Boolean = status.isSettled()
+
     fun isViewableDivineMessage(): Boolean = status.isSettled()
+
     fun isViewableWiseMessage(): Boolean = status.isSettled()
+
     fun isViewableLoversMessage(): Boolean = status.isSettled()
+
     fun isViewableFoxMessage(): Boolean = status.isSettled()
+
     fun isViewableInvestigateMessage(): Boolean = status.isSettled()
+
     fun isViewablePrivateSystemMessage(): Boolean = status.isSettled()
+
     fun isViewablePrivateAbilityMessage(): Boolean = status.isSettled()
 
     fun canUseAbility(day: Int): Boolean = status.isProgress() && isLatestDay(day)
@@ -165,15 +200,19 @@ data class Village(
     fun canVote(): Boolean = status.isProgress() && days.latestDay().day > 1
 
     fun canChangeName(day: Int): Boolean = status.isNotFinished() && isLatestDay(day)
+
     fun canAddImage(day: Int): Boolean = setting.chara.isOriginalCharachip && status.isNotFinished() && isLatestDay(day)
 
     fun isLatestDay(day: Int): Boolean = latestDay() == day
+
     fun latestDay(): Int = days.latestDay().day
 
     fun isViewableSpoilerContent(): Boolean = status.isSettled()
 
-    fun findRestrict(myself: VillageParticipant, type: MessageType): SayRestriction.Restriction? =
-        setting.findRestrict(myself, type)
+    fun findRestrict(
+        myself: VillageParticipant,
+        type: MessageType,
+    ): SayRestriction.Restriction? = setting.findRestrict(myself, type)
 
     fun assertModifySetting() {
         if (latestDay() > 0) throw WolfMansionBusinessException("既にプロローグが終了しているため変更できません")
@@ -183,7 +222,10 @@ data class Village(
         if (!setting.rule.isAvailableSpectate && spectators.count > 0) throw WolfMansionBusinessException("見学者が既にいるため、見学入村を不可にすることはできません")
     }
 
-    fun statusMessage(isLogin: Boolean, isParticipating: Boolean): String {
+    fun statusMessage(
+        isLogin: Boolean,
+        isParticipating: Boolean,
+    ): String {
         val daychangeDatetime = days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("MM/dd HH:mm"))
         return when {
             status.isPrologue() -> {
@@ -216,181 +258,184 @@ data class Village(
         }
     }
 
-    fun getDay2Message(): String = """
-            ついに犠牲者が出た。
-            
-            村人達は、この中にいる人狼を排除するため、投票を行う事にした。
-            無実の犠牲者が出るのもやむをえない。館の外に被害を広げるわけにはいかないのだ。
-            
-            最後まで残るのは村人か、それとも人狼か。
+    fun getDay2Message(): String =
+        """
+        ついに犠牲者が出た。
+        
+        村人達は、この中にいる人狼を排除するため、投票を行う事にした。
+        無実の犠牲者が出るのもやむをえない。館の外に被害を広げるわけにはいかないのだ。
+        
+        最後まで残るのは村人か、それとも人狼か。
         """.trimIndent()
 
-    fun getEpilogueTransitionMessage(): String {
-        return when {
+    fun getEpilogueTransitionMessage(): String =
+        when {
             winCamp!!.isLovers() -> "どんな古びた伝承も、今を生きる者たちの前では無力だった。\n愛こそ最も尊いのだ。"
             winCamp.isFoxs() -> "全ては終わったかのように見えた。\nだが、奴が生き残っていた。"
             winCamp.isVillagers() -> "全ての人狼を退治した。人狼に怯える日々は去ったのだ！"
             winCamp.isWolfs() -> "もう人狼に抵抗できるほど村人は残っていない。\n人狼は残った村人を全て食らい、別の獲物を求めて館を去っていった。"
             else -> throw IllegalStateException("unknown wincamp. $winCamp")
         }
-    }
 
     fun getAliveParticipantsMessage(): String {
         val aliveParticipants = participants.filterAlive().sortedByRoomNumber().list
         return aliveParticipants.joinToString(
             separator = "、",
-            prefix = "現在の生存者は、以下の${aliveParticipants.size}名。\n"
+            prefix = "現在の生存者は、以下の${aliveParticipants.size}名。\n",
         ) { it.name() }
     }
 
     // 日付更新用
-    fun isSame(other: Village): Boolean {
-        return status.code == other.status.code
-                && winCamp?.code == other.winCamp?.code
-                && roomSize?.width == other.roomSize?.width
-                && participants.isSame(other.participants)
-                && spectators.isSame(other.spectators)
-                && days.isSame(other.days)
-                && setting.isSame(other.setting)
-    }
+    fun isSame(other: Village): Boolean =
+        status.code == other.status.code &&
+            winCamp?.code == other.winCamp?.code &&
+            roomSize?.width == other.roomSize?.width &&
+            participants.isSame(other.participants) &&
+            spectators.isSame(other.spectators) &&
+            days.isSame(other.days) &&
+            setting.isSame(other.setting)
 
-    fun leaveParticipant(participantId: Int): Village {
-        return if (participants.list.any { it.id == participantId }) {
+    fun leaveParticipant(participantId: Int): Village =
+        if (participants.list.any { it.id == participantId }) {
             this.copy(participants = participants.leave(participantId))
-        } else this.copy(spectators = spectators.leave(participantId))
-    }
+        } else {
+            this.copy(spectators = spectators.leave(participantId))
+        }
 
-    fun suddenlyDeathParticipant(participantId: Int): Village {
-        return copy(participants = participants.suddenlyDeadh(participantId, latestDay()))
-    }
+    fun suddenlyDeathParticipant(participantId: Int): Village = copy(participants = participants.suddenlyDeadh(participantId, latestDay()))
 
-    fun executeParticipant(participantId: Int): Village {
-        return copy(participants = participants.execute(participantId, latestDay()))
-    }
+    fun executeParticipant(participantId: Int): Village = copy(participants = participants.execute(participantId, latestDay()))
 
-    fun divineKillParticipant(participantId: Int): Village {
-        return copy(participants = participants.divineKill(participantId, latestDay()))
-    }
+    fun divineKillParticipant(participantId: Int): Village = copy(participants = participants.divineKill(participantId, latestDay()))
 
-    fun attackedParticipant(participantId: Int): Village {
-        return copy(participants = participants.attacked(participantId, latestDay()))
-    }
+    fun attackedParticipant(participantId: Int): Village = copy(participants = participants.attacked(participantId, latestDay()))
 
-    fun trapKillParticipant(participantId: Int): Village {
-        return copy(participants = participants.trapKill(participantId, latestDay()))
-    }
+    fun trapKillParticipant(participantId: Int): Village = copy(participants = participants.trapKill(participantId, latestDay()))
 
-    fun bombKillParticipant(participantId: Int): Village {
-        return copy(participants = participants.bombKill(participantId, latestDay()))
-    }
+    fun bombKillParticipant(participantId: Int): Village = copy(participants = participants.bombKill(participantId, latestDay()))
 
-    fun zakoKilledParticipant(participantId: Int): Village {
-        return copy(participants = participants.zakoKilled(participantId, latestDay()))
-    }
+    fun zakoKilledParticipant(participantId: Int): Village = copy(participants = participants.zakoKilled(participantId, latestDay()))
 
-    fun suicideParticipant(participantId: Int): Village {
-        return copy(participants = participants.suicide(participantId, latestDay()))
-    }
+    fun suicideParticipant(participantId: Int): Village = copy(participants = participants.suicide(participantId, latestDay()))
 
-    fun forceReincarnation(participantId: Int, skill: Skill): Village {
-        return copy(participants = participants.forceReincarnation(participantId, latestDay(), skill))
-    }
+    fun forceReincarnation(
+        participantId: Int,
+        skill: Skill,
+    ): Village = copy(participants = participants.forceReincarnation(participantId, latestDay(), skill))
 
-    fun reviveParticipant(participantId: Int): Village {
-        return copy(participants = participants.revive(participantId, latestDay()))
-    }
+    fun reviveParticipant(participantId: Int): Village = copy(participants = participants.revive(participantId, latestDay()))
 
-    fun foxPossessionParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.foxPossession(this, fromParticipantId, toParticipantId))
-    }
+    fun foxPossessionParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.foxPossession(this, fromParticipantId, toParticipantId))
 
-    fun insaneParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.insane(this, fromParticipantId, toParticipantId))
-    }
+    fun insaneParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.insane(this, fromParticipantId, toParticipantId))
 
-    fun persuadeParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.persuade(this, fromParticipantId, toParticipantId))
-    }
+    fun persuadeParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.persuade(this, fromParticipantId, toParticipantId))
 
-    fun courtParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.court(fromParticipantId, toParticipantId))
-    }
+    fun courtParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.court(fromParticipantId, toParticipantId))
 
-    fun stalkingParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.stalking(fromParticipantId, toParticipantId))
-    }
+    fun stalkingParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.stalking(fromParticipantId, toParticipantId))
 
-    fun cheatLoveParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.cheatLove(this, fromParticipantId, toParticipantId))
-    }
+    fun cheatLoveParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.cheatLove(this, fromParticipantId, toParticipantId))
 
-    fun seduceParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.seduce(fromParticipantId, toParticipantId))
-    }
+    fun seduceParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.seduce(fromParticipantId, toParticipantId))
 
-    fun insuranceParticipant(fromParticipantId: Int, toParticipantId: Int): Village {
-        return copy(participants = participants.insurance(fromParticipantId, toParticipantId))
-    }
+    fun insuranceParticipant(
+        fromParticipantId: Int,
+        toParticipantId: Int,
+    ): Village = copy(participants = participants.insurance(fromParticipantId, toParticipantId))
 
-    fun breakupParticipant(participantId: Int): Village {
-        return copy(participants = participants.breakup(participantId, this))
-    }
+    fun breakupParticipant(participantId: Int): Village = copy(participants = participants.breakup(participantId, this))
 
-    fun stealLoveParticipant(participantId: Int, stealerId: Int): Village {
-        return copy(participants = participants.stealLove(participantId, stealerId, this))
-    }
+    fun stealLoveParticipant(
+        participantId: Int,
+        stealerId: Int,
+    ): Village = copy(participants = participants.stealLove(participantId, stealerId, this))
 
-    fun useInsurance(participantId: Int): Village {
-        return copy(participants = participants.useInsurance(participantId))
-    }
+    fun useInsurance(participantId: Int): Village = copy(participants = participants.useInsurance(participantId))
 
-    fun disrespect(fromId: Int, toId: Int): Village = copy(participants = participants.disrespect(fromId, toId))
+    fun disrespect(
+        fromId: Int,
+        toId: Int,
+    ): Village = copy(participants = participants.disrespect(fromId, toId))
 
     fun addCurseMark(id: Int): Village = copy(participants = participants.addCurseMark(id))
+
     fun addCounterCurseMark(id: Int): Village = copy(participants = participants.addCounterCurseMark(id))
+
     fun clearCounterCurseMark(id: Int): Village = copy(participants = participants.clearCounterCurseMark(id))
+
     fun addTelekinesis(id: Int): Village = copy(participants = participants.addTelekinesis(id))
+
     fun clearTelekinesis(id: Int): Village = copy(participants = participants.clearTelekinesis(id))
 
-    fun assignParticipantSkill(participantId: Int, skill: Skill): Village {
-        return this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))
-    }
+    fun assignParticipantSkill(
+        participantId: Int,
+        skill: Skill,
+    ): Village = this.copy(participants = participants.assignSkill(participantId, skill, latestDay()))
 
-    fun extendPrologue(): Village = copy(
-        setting = setting.extendPrologue(),
-        days = days.extenrPrologue()
-    )
+    fun extendPrologue(): Village =
+        copy(
+            setting = setting.extendPrologue(),
+            days = days.extenrPrologue(),
+        )
 
     fun cancel(): Village = copy(status = CDef.VillageStatus.廃村.toModel())
+
     fun toProgress(): Village = copy(status = CDef.VillageStatus.進行中.toModel())
+
     fun toEpilogue(): Village {
-        val winCamp = when {
-            getAliveLoversCount() > 0 -> CDef.Camp.恋人陣営.toModel()
-            getAliveFoxCount() > 0 -> CDef.Camp.狐陣営.toModel()
-            getAliveWolfCount() >= getAliveVillagerCount() -> CDef.Camp.人狼陣営.toModel()
-            else -> CDef.Camp.村人陣営.toModel()
-        }
+        val winCamp =
+            when {
+                getAliveLoversCount() > 0 -> CDef.Camp.恋人陣営.toModel()
+                getAliveFoxCount() > 0 -> CDef.Camp.狐陣営.toModel()
+                getAliveWolfCount() >= getAliveVillagerCount() -> CDef.Camp.人狼陣営.toModel()
+                else -> CDef.Camp.村人陣営.toModel()
+            }
         return copy(
             status = CDef.VillageStatus.エピローグ.toModel(),
             days = days.toEpilogue(),
             epilogueDay = latestDay(),
-            winCamp = winCamp
+            winCamp = winCamp,
         )
     }
 
     fun toFinished(): Village = copy(status = CDef.VillageStatus.終了.toModel())
 
     fun addNewDay(): Village = copy(days = days.addNewDay(setting.dayChangeIntervalSeconds))
+
     fun mapToSkillCount(): Map<CDef.Skill, Int> = setting.mapToSkillCount(participants.list.size)
 
-    private fun getAliveVillagerCount(): Int =
-        participants.filterAlive().list.count { !it.skill!!.isWolfCount() && !it.skill.isNoCount() }
+    private fun getAliveVillagerCount(): Int = participants.filterAlive().list.count { !it.skill!!.isWolfCount() && !it.skill.isNoCount() }
 
     private fun getAliveWolfCount(): Int = participants.filterAlive().list.count { it.skill!!.isWolfCount() }
+
     private fun getAliveFoxCount(): Int = participants.filterAlive().list.count { it.skill!!.isFoxCount() }
-    private fun getAliveLoversCount(): Int = participants.filterAlive().list.count {
-        it.status.hasLover() || it.skill!!.camp().isLovers()
-    }
+
+    private fun getAliveLoversCount(): Int =
+        participants.filterAlive().list.count {
+            it.status.hasLover() || it.skill!!.camp().isLovers()
+        }
 
     fun judgeParticipantsWin(): Village = copy(participants = participants.judgeWin(winCamp!!))
 

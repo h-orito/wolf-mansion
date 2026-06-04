@@ -14,19 +14,20 @@ import org.springframework.stereotype.Service
 @Service
 class PushpinDomainService(
     private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) {
     fun pushpin(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.画鋲.toModel()).list.forEach { pushpin ->
             // 通過すると死亡
-            val passedParticipants = footstepDomainService.findPassedParticipants(
-                village = village,
-                footsteps = daychange.footsteps,
-                day = village.latestDay() - 1,
-                roomNumber = pushpin.room!!.number
-            )
+            val passedParticipants =
+                footstepDomainService.findPassedParticipants(
+                    village = village,
+                    footsteps = daychange.footsteps,
+                    day = village.latestDay() - 1,
+                    roomNumber = pushpin.room!!.number,
+                )
             passedParticipants.filter { it.isAlive() }.forEach { passed ->
                 village = village.zakoKilledParticipant(passed.id)
                 messages = messages.add(createPinnedMessage(village, pushpin, passed))
@@ -39,13 +40,12 @@ class PushpinDomainService(
     private fun createPinnedMessage(
         village: Village,
         pushpin: VillageParticipant,
-        passed: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        passed: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = pushpin,
             text = "${passed.name()}は、画鋲を踏んでしまい、即死した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

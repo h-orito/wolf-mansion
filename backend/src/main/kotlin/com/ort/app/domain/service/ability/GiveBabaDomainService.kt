@@ -16,30 +16,39 @@ import org.springframework.stereotype.Service
 
 @Service
 class GiveBabaDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.ババを渡す.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // ババになったことがない人
         return village.participants
             .filterAlive()
             .sortedByRoomNumber()
-            .filterNotDummy(village.dummyParticipant()).list
+            .filterNotDummy(village.dummyParticipant())
+            .list
             .filterNot {
-                it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.ババ }
+                it.skill!!
+                    .histories.list
+                    .any { h -> h.skill.toCdef() == CDef.Skill.ババ }
             }.filterNot { Skills.openSkills.contains(it.skill!!.toCdef()) }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "ババを押し付ける対象"
+
     override fun getTargetSuffix(): String = "にババを押し付ける"
 
     fun giveBaba(daychange: Daychange): Daychange {
@@ -72,33 +81,32 @@ class GiveBabaDomainService(
     private fun createGiveBabaMessage(
         village: Village,
         baba: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val targetSkill = target.skill!!.toCdef()
-        val text = when {
-            target.isDead() -> "${target.name()}は死亡しているため、${baba.name()}はババを押し付けられなかった。"
-            targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${baba.name()}はババを押し付けられなかった。"
-            Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${baba.name()}はババを押し付けられなかった。"
-            else -> "${baba.name()}は、${target.name()}にババを押し付けた。"
-        }
+        val text =
+            when {
+                target.isDead() -> "${target.name()}は死亡しているため、${baba.name()}はババを押し付けられなかった。"
+                targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${baba.name()}はババを押し付けられなかった。"
+                Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${baba.name()}はババを押し付けられなかった。"
+                else -> "${baba.name()}は、${target.name()}にババを押し付けた。"
+            }
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = baba,
             text = text,
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel(),
         )
     }
 
     private fun createGivenBabaMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = target,
             text = "${target.name()}は、ババを押し付けられた。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

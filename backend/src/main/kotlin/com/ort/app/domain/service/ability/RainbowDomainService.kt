@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class RainbowDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.虹塗り.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "虹色に塗る対象"
+
     override fun getTargetSuffix(): String? = "を虹色に塗る"
 
     fun rainbow(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class RainbowDomainService : AbilityTypeDomainService {
 
     private fun createRainbowMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、虹色になった。"
+            message = "${target.name()}は、虹色になった。",
         )
-    }
 }

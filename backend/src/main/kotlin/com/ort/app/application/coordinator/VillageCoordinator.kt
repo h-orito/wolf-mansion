@@ -74,7 +74,7 @@ class VillageCoordinator(
     private val roomDomainService: RoomDomainService,
     private val footstepDomainService: FootstepDomainService,
     private val messageDomainService: MessageDomainService,
-    private val attackDomainService: AttackDomainService
+    private val attackDomainService: AttackDomainService,
 ) {
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun participate(
@@ -89,7 +89,7 @@ class VillageCoordinator(
         joinMessage: String,
         joinPassword: String?,
         isSpectator: Boolean,
-        ipAddress: String
+        ipAddress: String,
     ): VillageParticipant {
         assertParticipate(
             village,
@@ -99,37 +99,42 @@ class VillageCoordinator(
             charaShortName,
             charaImageFile,
             joinPassword,
-            isSpectator
+            isSpectator,
         )
-        val chara = if (village.setting.chara.isOriginalCharachip) {
-            charaService.registerOriginalChara(
-                village.setting.chara.charachipIds.first(),
-                charaName,
-                charaShortName,
-                charaImageFile!!
+        val chara =
+            if (village.setting.chara.isOriginalCharachip) {
+                charaService.registerOriginalChara(
+                    village.setting.chara.charachipIds
+                        .first(),
+                    charaName,
+                    charaShortName,
+                    charaImageFile!!,
+                )
+            } else {
+                charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip)
+                    ?: throw IllegalStateException("chara not found.")
+            }
+        val myself =
+            villageService.participate(
+                villageId = village.id,
+                playerId = player.id,
+                chara = chara,
+                charaName = charaName,
+                charaShortName = charaShortName,
+                firstRequestSkill = firstRequestSkill,
+                secondRequestSkill = secondRequestSkill,
+                isSpectator = isSpectator,
             )
-        } else charaService.findChara(charaId!!, village.setting.chara.isOriginalCharachip)
-            ?: throw IllegalStateException("chara not found.")
-        val myself = villageService.participate(
-            villageId = village.id,
-            playerId = player.id,
-            chara = chara,
-            charaName = charaName,
-            charaShortName = charaShortName,
-            firstRequestSkill = firstRequestSkill,
-            secondRequestSkill = secondRequestSkill,
-            isSpectator = isSpectator
-        )
         val afterVillage = villageService.findVillage(village.id)!!
         // N人目シスメ
         messageCoordinator.registerMessage(
             afterVillage.id,
-            messageDomainService.createParticipateSystemMessage(afterVillage, myself, isSpectator)
+            messageDomainService.createParticipateSystemMessage(afterVillage, myself, isSpectator),
         )
         // 参加発言
         messageCoordinator.registerMessage(
             afterVillage.id,
-            messageDomainService.createJoinMessage(afterVillage, myself, isSpectator, chara, joinMessage)
+            messageDomainService.createJoinMessage(afterVillage, myself, isSpectator, chara, joinMessage),
         )
         if (!isSpectator) {
             // 希望役職シスメ
@@ -140,10 +145,15 @@ class VillageCoordinator(
         // IPアドレスが重複している人がいたら通知
         accessInfoCoordinator.registerAccessInfo(afterVillage, myself, ipAddress)
         if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return myself
-        val isContain = village.allParticipants().filterNotParticipant(myself).list
-            .filterNot { it.playerId == 1 }
-            .flatMap { it.ipAddresses }.distinct()
-            .contains(ipAddress)
+        val isContain =
+            village
+                .allParticipants()
+                .filterNotParticipant(myself)
+                .list
+                .filterNot { it.playerId == 1 }
+                .flatMap { it.ipAddresses }
+                .distinct()
+                .contains(ipAddress)
         if (isContain) {
             slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }
@@ -158,7 +168,7 @@ class VillageCoordinator(
         charaShortName: String?,
         charaImageFile: MultipartFile?,
         joinPassword: String?,
-        isSpectator: Boolean
+        isSpectator: Boolean,
     ) {
         if (village.setting.chara.isOriginalCharachip) {
             if (charaName.isNullOrBlank()) throw WolfMansionBusinessException("キャラクター名は必須です")
@@ -191,7 +201,7 @@ class VillageCoordinator(
         val afterVillage = villageService.findVillage(village.id)!!
         messageCoordinator.registerMessage(
             afterVillage.id,
-            messageDomainService.createSwitchParticipateSystemMessage(afterVillage, myself, isSpectator)
+            messageDomainService.createSwitchParticipateSystemMessage(afterVillage, myself, isSpectator),
         )
         if (!isSpectator) {
             // 人数が揃ったらツイート
@@ -219,7 +229,7 @@ class VillageCoordinator(
         village: Village,
         myself: VillageParticipant,
         first: Skill,
-        second: Skill
+        second: Skill,
     ) {
         skillRequestDomainService.assertChangeRequestSkill(village, myself)
         villageService.changeRequestSkill(myself, first, second)
@@ -232,18 +242,22 @@ class VillageCoordinator(
         village: Village,
         myself: VillageParticipant?,
         name: String,
-        shortName: String
+        shortName: String,
     ) {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         villageService.changeParticipantName(myself, name, shortName)
         val after = villageService.findVillageParticipant(myself.id)!!
         messageService.registerMessage(
-            village, messageDomainService.createChangeNameMessage(village.latestDay(), myself, after)
+            village,
+            messageDomainService.createChangeNameMessage(village.latestDay(), myself, after),
         )
     }
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
-    fun leave(village: Village, myself: VillageParticipant) {
+    fun leave(
+        village: Village,
+        myself: VillageParticipant,
+    ) {
         participateDomainService.assertLeave(village, myself)
         villageService.leave(myself)
         messageService.registerMessage(village, messageDomainService.createLeaveMessage(myself))
@@ -255,7 +269,7 @@ class VillageCoordinator(
         myself: VillageParticipant?,
         attackerCharaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ) {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         val abilities = abilityService.findAbilities(village.id)
@@ -269,39 +283,52 @@ class VillageCoordinator(
             footstep,
             abilities,
             votes,
-            footsteps
+            footsteps,
         )
         abilityService.updateAbility(village, myself, attackerCharaId, targetCharaId, footstep)
         val footstepParticipant = attackerCharaId?.let { village.participants.chara(it) } ?: myself
         footstepService.updateFootstep(village, myself, footstepParticipant, footstep)
         messageService.registerMessage(
             village,
-            abilityDomainService.createSetMessage(village, myself, attackerCharaId, targetCharaId, footstep)
+            abilityDomainService.createSetMessage(village, myself, attackerCharaId, targetCharaId, footstep),
         )
     }
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
-    fun setVote(village: Village, myself: VillageParticipant?, targetCharaId: Int) {
+    fun setVote(
+        village: Village,
+        myself: VillageParticipant?,
+        targetCharaId: Int,
+    ) {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         voteDomainService.assertVote(village, myself, targetCharaId)
         voteService.updateVote(
             village,
-            Vote(day = village.latestDay(), charaId = myself.charaId, targetCharaId = targetCharaId)
+            Vote(day = village.latestDay(), charaId = myself.charaId, targetCharaId = targetCharaId),
         )
     }
 
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
-    fun setCommit(village: Village, myself: VillageParticipant?, commit: Boolean) {
+    fun setCommit(
+        village: Village,
+        myself: VillageParticipant?,
+        commit: Boolean,
+    ) {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         commitDomainService.assertCommit(village, myself)
         commitService.setCommit(village, Commit(day = village.latestDay(), myselfId = myself.id))
         messageService.registerMessage(
             village,
-            commitDomainService.createSetMessage(village, myself, commit)
+            commitDomainService.createSetMessage(village, myself, commit),
         )
     }
 
-    fun assertCreateVillage(player: Player, max: Int, charachips: Charachips, isOriginal: Boolean) {
+    fun assertCreateVillage(
+        player: Player,
+        max: Int,
+        charachips: Charachips,
+        isOriginal: Boolean,
+    ) {
         if (!player.isAvailableCreateVillage()) {
             throw WolfMansionBusinessException("村建てした村の決着がつくまでは村を建てられません。")
         }
@@ -320,19 +347,24 @@ class VillageCoordinator(
         day1Message: String?,
     ): Village {
         // オリジナル画像を使用する場合はキャラチップ登録
-        val param = if (paramVillage.setting.chara.isOriginalCharachip) {
-            val charachip = registerOriginalCharachip(paramVillage.name)
-            paramVillage.copy(
-                setting = paramVillage.setting.copy(
-                    chara = VillageCharaSetting(
-                        isOriginalCharachip = true,
-                        charachipIds = listOf(charachip.id),
-                        dummyCharaId = 1, // dummy
-                        dummyDay1Message = day1Message
-                    )
+        val param =
+            if (paramVillage.setting.chara.isOriginalCharachip) {
+                val charachip = registerOriginalCharachip(paramVillage.name)
+                paramVillage.copy(
+                    setting =
+                        paramVillage.setting.copy(
+                            chara =
+                                VillageCharaSetting(
+                                    isOriginalCharachip = true,
+                                    charachipIds = listOf(charachip.id),
+                                    dummyCharaId = 1, // dummy
+                                    dummyDay1Message = day1Message,
+                                ),
+                        ),
                 )
-            )
-        } else paramVillage
+            } else {
+                paramVillage
+            }
         // 村登録
         val village = villageService.registerVillage(param)
         // シスメ登録
@@ -344,7 +376,11 @@ class VillageCoordinator(
         return village
     }
 
-    fun getAttackableTargets(village: Village, myself: VillageParticipant?, charaId: Int): VillageParticipants {
+    fun getAttackableTargets(
+        village: Village,
+        myself: VillageParticipant?,
+        charaId: Int,
+    ): VillageParticipants {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         val abilities = abilityService.findAbilities(village.id)
         val votes = voteService.findVotes(village.id)
@@ -358,7 +394,7 @@ class VillageCoordinator(
         village: Village,
         myself: VillageParticipant?,
         charaId: Int?,
-        targetCharaId: Int?
+        targetCharaId: Int?,
     ): List<String> {
         myself ?: throw WolfMansionBusinessException("ログインしてください")
         abilityDomainService.assertGetSelectableFootsteps(village, myself)
@@ -373,48 +409,54 @@ class VillageCoordinator(
         abilities: Abilities,
         footsteps: Footsteps,
         charachips: Charachips,
-        day: Int
+        day: Int,
     ): ParticipantSituation {
         val player: Player? = username?.let { playerService.findPlayer(it) }
         val commits = commitService.findCommits(village.id)
-        val latestDayMessageCountMap = myself?.let {
-            messageService.findParticipantDayMessageCount(village, village.latestDay(), it)
-        }
+        val latestDayMessageCountMap =
+            myself?.let {
+                messageService.findParticipantDayMessageCount(village, village.latestDay(), it)
+            }
         val creator = playerService.findPlayer(village.createPlayerName)!!
 
         return ParticipantSituation(
             participate = participateDomainService.convertToSituation(village, myself, player, charachips),
             skillRequest = skillRequestDomainService.convertToSituation(village, myself, myself?.requestSkill),
             commit = commitDomainService.convertToSituation(village, myself, commits),
-            say = sayDomainService.convertToSituation(
-                village = village,
-                myself = myself,
-                player = player,
-                charachips = charachips,
-                day = day,
-                latestDayMessageCountMap = latestDayMessageCountMap,
-                creatorPlayerId = creator.id
-            ),
+            say =
+                sayDomainService.convertToSituation(
+                    village = village,
+                    myself = myself,
+                    player = player,
+                    charachips = charachips,
+                    day = day,
+                    latestDayMessageCountMap = latestDayMessageCountMap,
+                    creatorPlayerId = creator.id,
+                ),
             rp = rpDomainService.convertToSituation(village, myself, charachips, day),
-            ability = abilityDomainService.convertToParticipantSituation(
-                village,
-                myself,
-                abilities,
-                votes,
-                footsteps,
-                day
-            ),
+            ability =
+                abilityDomainService.convertToParticipantSituation(
+                    village,
+                    myself,
+                    abilities,
+                    votes,
+                    footsteps,
+                    day,
+                ),
             vote = voteDomainService.convertToParticipantSituation(village, myself, votes),
             admin = adminDomainService.convertToSituation(village, myself),
-            creator = creatorDomainService.convertToSituation(village, player)
+            creator = creatorDomainService.convertToSituation(village, player),
         )
     }
 
-    fun findSelectableCharaList(villageId: Int, charachipId: Int): List<Chara> {
+    fun findSelectableCharaList(
+        villageId: Int,
+        charachipId: Int,
+    ): List<Chara> {
         val village = villageService.findVillage(villageId)!!
         return participateDomainService.getSelectableCharaList(
             village = village,
-            charachip = charaService.findCharachip(charachipId, false)!!
+            charachip = charaService.findCharachip(charachipId, false)!!,
         )
     }
 
@@ -424,47 +466,43 @@ class VillageCoordinator(
         votes: Votes,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): VillageSituation {
-        return VillageSituation(
+        day: Int,
+    ): VillageSituation =
+        VillageSituation(
             roomAssigned = roomDomainService.convertToSituation(village, day),
             live = VillageParticipantLiveSituation(village),
             footstep = footstepDomainService.convertToSituation(village, myself, footsteps, day),
             vote = voteDomainService.convertToVillageSituation(village, votes, abilities, day),
-            whole = abilityDomainService.convertToVillageSituation(village, myself, abilities, day)
+            whole = abilityDomainService.convertToVillageSituation(village, myself, abilities, day),
         )
-    }
 
     private fun participateDummyChara(
         village: Village,
         dummyCharaName: String,
         dummyCharaShortName: String,
         dummyCharaImage: MultipartFile?,
-        joinMessage: String
+        joinMessage: String,
     ) {
         val player = playerService.findPlayer(1)
-        val participant = participate(
-            village = village,
-            player = player,
-            charaId = village.setting.chara.dummyCharaId,
-            charaName = dummyCharaName,
-            charaShortName = dummyCharaShortName,
-            charaImageFile = dummyCharaImage,
-            firstRequestSkill = Skill(CDef.Skill.おまかせ),
-            secondRequestSkill = Skill(CDef.Skill.おまかせ),
-            joinMessage = joinMessage,
-            joinPassword = village.setting.joinPassword,
-            isSpectator = false,
-            ipAddress = "dummy"
-        )
+        val participant =
+            participate(
+                village = village,
+                player = player,
+                charaId = village.setting.chara.dummyCharaId,
+                charaName = dummyCharaName,
+                charaShortName = dummyCharaShortName,
+                charaImageFile = dummyCharaImage,
+                firstRequestSkill = Skill(CDef.Skill.おまかせ),
+                secondRequestSkill = Skill(CDef.Skill.おまかせ),
+                joinMessage = joinMessage,
+                joinPassword = village.setting.joinPassword,
+                isSpectator = false,
+                ipAddress = "dummy",
+            )
         if (village.setting.chara.isOriginalCharachip) {
             villageService.updateDummyCharaId(village.id, participant.charaId)
         }
     }
 
-    private fun registerOriginalCharachip(
-        name: String,
-    ): Charachip {
-        return charaService.registerOriginalCharachip(name)
-    }
+    private fun registerOriginalCharachip(name: String): Charachip = charaService.registerOriginalCharachip(name)
 }

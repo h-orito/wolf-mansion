@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class DiscordRepositoryImplTest {
-
     @Autowired
     private lateinit var repository: DiscordRepositoryImpl
 
@@ -15,7 +14,7 @@ internal class DiscordRepositoryImplTest {
         repository.post(
             villageId = 1,
             day = 1,
-            message = " ＠国主\nあれがこうです"
+            message = " ＠国主\nあれがこうです",
         )
     }
 
@@ -24,7 +23,7 @@ internal class DiscordRepositoryImplTest {
         repository.postToWebhook(
             webhookUrl = "hoge",
             villageId = 1,
-            message = "村が開始されました。"
+            message = "村が開始されました。",
         )
     }
 }

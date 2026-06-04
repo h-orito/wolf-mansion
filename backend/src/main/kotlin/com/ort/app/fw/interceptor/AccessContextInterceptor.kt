@@ -1,15 +1,18 @@
 package com.ort.app.fw.interceptor
 
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.dbflute.hook.AccessContext
 import org.springframework.web.servlet.HandlerInterceptor
 import java.time.LocalDateTime
-import jakarta.servlet.http.HttpServletRequest
-import jakarta.servlet.http.HttpServletResponse
 
 class AccessContextInterceptor : HandlerInterceptor {
-
-    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
+    override fun preHandle(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        handler: Any,
+    ): Boolean {
         if (AccessContext.isExistAccessContextOnThread()) {
             // 既に設定されていたら何もしないで次へ
             // (二度呼び出しされたときのために念のため)
@@ -34,7 +37,7 @@ class AccessContextInterceptor : HandlerInterceptor {
         request: HttpServletRequest,
         response: HttpServletResponse,
         handler: Any,
-        ex: Exception?
+        ex: Exception?,
     ) {
         AccessContext.clearAccessContextOnThread()
     }
@@ -42,10 +45,17 @@ class AccessContextInterceptor : HandlerInterceptor {
 
 fun HttpServletRequest.getIpAddress(): String {
     val xForwardedFor = this.getHeader("X-Forwarded-For")
-    return if (xForwardedFor.isNullOrEmpty()) this.remoteAddr
-    else xForwardedFor
+    return if (xForwardedFor.isNullOrEmpty()) {
+        this.remoteAddr
+    } else {
+        xForwardedFor
+    }
 }
 
-fun HttpServletRequest.getRefererQueryString(): String {
-    return this.getHeader("Referer")?.substringAfter("?", "")?.ifBlank { null }?.let { "?$it" } ?: ""
-}
+fun HttpServletRequest.getRefererQueryString(): String =
+    this
+        .getHeader("Referer")
+        ?.substringAfter("?", "")
+        ?.ifBlank {
+            null
+        }?.let { "?$it" } ?: ""

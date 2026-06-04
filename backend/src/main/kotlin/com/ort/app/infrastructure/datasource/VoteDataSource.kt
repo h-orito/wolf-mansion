@@ -10,28 +10,39 @@ import com.ort.dbflute.exentity.Vote as DbVote
 
 @Repository
 class VoteDataSource(
-    private val voteBhv: VoteBhv
+    private val voteBhv: VoteBhv,
 ) : VoteRepository {
-
     override fun findVotes(villageId: Int): Votes {
-        val voteList = voteBhv.selectList {
-            it.query().setVillageId_Equal(villageId)
-        }
+        val voteList =
+            voteBhv.selectList {
+                it.query().setVillageId_Equal(villageId)
+            }
         return mapVotes(voteList)
     }
 
-    override fun updateVote(village: Village, vote: Vote) {
+    override fun updateVote(
+        village: Village,
+        vote: Vote,
+    ) {
         deleteVote(village, vote)
         insertVote(village.id, vote)
     }
 
-    override fun updateDatchangeDifference(villageId: Int, current: Votes, changed: Votes) {
-        changed.list.filterNot { changedVote ->
-            current.list.any { currentVote -> changedVote.day == currentVote.day && changedVote.charaId == currentVote.charaId }
-        }.forEach { insertVote(villageId, it) }
+    override fun updateDatchangeDifference(
+        villageId: Int,
+        current: Votes,
+        changed: Votes,
+    ) {
+        changed.list
+            .filterNot { changedVote ->
+                current.list.any { currentVote -> changedVote.day == currentVote.day && changedVote.charaId == currentVote.charaId }
+            }.forEach { insertVote(villageId, it) }
     }
 
-    private fun deleteVote(village: Village, vote: Vote) {
+    private fun deleteVote(
+        village: Village,
+        vote: Vote,
+    ) {
         voteBhv.queryDelete {
             it.query().setVillageId_Equal(village.id)
             it.query().setDay_Equal(vote.day)
@@ -39,7 +50,10 @@ class VoteDataSource(
         }
     }
 
-    private fun insertVote(villageId: Int, vote: Vote) {
+    private fun insertVote(
+        villageId: Int,
+        vote: Vote,
+    ) {
         val v = DbVote()
         v.villageId = villageId
         v.day = vote.day
@@ -50,6 +64,5 @@ class VoteDataSource(
 
     private fun mapVotes(voteList: List<DbVote>): Votes = Votes(list = voteList.map { mapVote(it) })
 
-    private fun mapVote(vote: DbVote): Vote =
-        Vote(day = vote.day, charaId = vote.charaId, targetCharaId = vote.voteCharaId)
+    private fun mapVote(vote: DbVote): Vote = Vote(day = vote.day, charaId = vote.charaId, targetCharaId = vote.voteCharaId)
 }

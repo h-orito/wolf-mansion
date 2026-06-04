@@ -4,11 +4,10 @@ data class DeadHistory(
     val day: Int,
     // true: 死亡, false: 復活
     val isDead: Boolean,
-    val reason: DeadReason?
+    val reason: DeadReason?,
 ) {
-    fun isSame(other: DeadHistory): Boolean {
-        return day == other.day
-                && isDead == other.isDead
-                && reason?.code == other.reason?.code
-    }
+    fun isSame(other: DeadHistory): Boolean =
+        day == other.day &&
+            isDead == other.isDead &&
+            reason?.code == other.reason?.code
 }

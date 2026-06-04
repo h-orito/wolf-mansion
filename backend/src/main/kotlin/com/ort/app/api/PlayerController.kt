@@ -7,10 +7,10 @@ import com.ort.app.api.view.PlayerRecordsContent
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
-import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.VillageQuery
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.Cookie
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -23,8 +23,6 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import jakarta.servlet.http.Cookie
-import jakarta.servlet.http.HttpServletResponse
 
 @Controller
 class PlayerController(
@@ -32,9 +30,8 @@ class PlayerController(
     private val playerCoordinator: PlayerCoordinator,
     private val charaService: CharaService,
     private val passwordEncoder: PasswordEncoder,
-    private val playerChangePasswordFormValidator: PlayerChangePasswordFormValidator
+    private val playerChangePasswordFormValidator: PlayerChangePasswordFormValidator,
 ) {
-
     companion object {
         private const val COOKIE_NAME_ID_REGISTER = "id_register"
         private val MAX_AGE_ID_REGISTER = 60 * 30 // 30分
@@ -47,13 +44,19 @@ class PlayerController(
     }
 
     @GetMapping("/new-player")
-    private fun index(form: PlayerCreateForm, model: Model): String {
+    private fun index(
+        form: PlayerCreateForm,
+        model: Model,
+    ): String {
         setIndexModel(form, model)
         return "new-player"
     }
 
     @GetMapping("/login")
-    private fun index(form: LoginForm, model: Model): String {
+    private fun index(
+        form: LoginForm,
+        model: Model,
+    ): String {
         if (form.error == true) {
             model.addAttribute("errorMessage", "ユーザIDまたはパスワードが違います")
         }
@@ -69,7 +72,7 @@ class PlayerController(
         result: BindingResult, //
         @CookieValue(name = COOKIE_NAME_ID_REGISTER, required = false) isRecentRegistered: Boolean?, //
         response: HttpServletResponse, //
-        model: Model
+        model: Model,
     ): String {
         if (result.hasErrors()) {
             setIndexModel(form, model)
@@ -101,9 +104,9 @@ class PlayerController(
     // パスワード変更
     @PostMapping("/change-password")
     private fun changePassword(
-        @Validated @ModelAttribute("changePasswordForm") form: PlayerChangePasswordForm,  //
-        result: BindingResult,  //
-        model: Model
+        @Validated @ModelAttribute("changePasswordForm") form: PlayerChangePasswordForm, //
+        result: BindingResult, //
+        model: Model,
     ): String {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return "redirect:/"
         if (result.hasErrors()) {
@@ -116,7 +119,10 @@ class PlayerController(
 
     // ユーザー一覧
     @GetMapping("/user-list")
-    private fun index(form: UserListForm, model: Model): String {
+    private fun index(
+        form: UserListForm,
+        model: Model,
+    ): String {
         val players = playerService.findAllPlayers(pageSize = 30, pageNum = form.pageNum ?: 1)
         val content = PlayerListContent(players)
         model.addAttribute("content", content)
@@ -125,7 +131,10 @@ class PlayerController(
 
     // ユーザ情報
     @GetMapping("/user/{userName}")
-    private fun user(@PathVariable userName: String, model: Model): String {
+    private fun user(
+        @PathVariable userName: String,
+        model: Model,
+    ): String {
         model.addAttribute("userName", userName)
         val player = playerService.findPlayer(userName) ?: return "user"
         val playerRecords = playerCoordinator.findPlayerRecords(player)
@@ -150,7 +159,7 @@ class PlayerController(
     @PostMapping("/user-detail")
     private fun userDetail(
         @Validated @ModelAttribute("userDetailForm") form: UserDetailForm,
-        result: BindingResult
+        result: BindingResult,
     ): String {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return "redirect:/"
         val username = userInfo.username
@@ -161,7 +170,10 @@ class PlayerController(
         return "redirect:/user/${userInfo.username}"
     }
 
-    private fun setIndexModel(form: PlayerCreateForm, model: Model) {
+    private fun setIndexModel(
+        form: PlayerCreateForm,
+        model: Model,
+    ) {
         model.addAttribute("form", form.copy(password = null)) // パスワードは復元しない
         model.addAttribute("noAd", true) // 広告なし
     }

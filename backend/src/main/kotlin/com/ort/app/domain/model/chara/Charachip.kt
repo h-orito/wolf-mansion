@@ -8,8 +8,9 @@ data class Charachip(
     val designer: Designer?,
     val descriptionUrl: String?,
     @JsonProperty("isAvailableChangeName") val isAvailableChangeName: Boolean,
-    val charas: Charas
+    val charas: Charas,
 ) {
-    fun dummyChara(): Chara = charas.list.firstOrNull { !it.defaultJoinMessage.isNullOrBlank() }
-        ?: charas.list.first()
+    fun dummyChara(): Chara =
+        charas.list.firstOrNull { !it.defaultJoinMessage.isNullOrBlank() }
+            ?: charas.list.first()
 }

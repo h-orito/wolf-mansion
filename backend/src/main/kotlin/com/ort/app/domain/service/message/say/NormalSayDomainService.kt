@@ -7,18 +7,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class NormalSayDomainService : SayTypeDomainService {
-
     override fun isViewable(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        day: Int
+        day: Int,
     ): Boolean = true
 
     override fun isSayable(
         village: Village,
         myself: VillageParticipant?,
-        player: Player?
+        player: Player?,
     ): Boolean {
         myself ?: return false
         return myself.isSayableNormalSay(village.status.isEpilogue()) && village.isSayableNormalSay()

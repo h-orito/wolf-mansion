@@ -11,11 +11,15 @@ import com.ort.dbflute.exentity.VillageDay as DbVillageDay
 
 @Repository
 class VillageDayDataSource(
-    private val villageDayBhv: VillageDayBhv
+    private val villageDayBhv: VillageDayBhv,
 ) {
     private val formatter = DateTimeFormatter.ofPattern("uuuuMMddhhmm")
 
-    fun extendDay(id: Int, day: Int, datetime: LocalDateTime) {
+    fun extendDay(
+        id: Int,
+        day: Int,
+        datetime: LocalDateTime,
+    ) {
         val vd = DbVillageDay()
         vd.daychangeDatetime = datetime
         villageDayBhv.queryUpdate(vd) {
@@ -24,7 +28,11 @@ class VillageDayDataSource(
         }
     }
 
-    fun shortenDay(id: Int, day: Int, datetime: LocalDateTime) {
+    fun shortenDay(
+        id: Int,
+        day: Int,
+        datetime: LocalDateTime,
+    ) {
         val vd = DbVillageDay()
         vd.daychangeDatetime = datetime
         villageDayBhv.queryUpdate(vd) {
@@ -33,26 +41,41 @@ class VillageDayDataSource(
         }
     }
 
-    fun insertVillageDays(id: Int, paramVillage: Village) {
+    fun insertVillageDays(
+        id: Int,
+        paramVillage: Village,
+    ) {
         paramVillage.days.list.forEach { insertVillageDay(id, it) }
     }
 
-    fun updateVillageStartDateTime(id: Int, days: VillageDays) = updateVillageDay(id, days.list.first())
+    fun updateVillageStartDateTime(
+        id: Int,
+        days: VillageDays,
+    ) = updateVillageDay(id, days.list.first())
 
-    fun updateDaychangeDifference(villageId: Int, current: VillageDays, changed: VillageDays) {
-        changed.list.filterNot { changedDay ->
-            current.list.any { it.day == changedDay.day }
-        }.forEach { insertVillageDay(villageId, it) }
+    fun updateDaychangeDifference(
+        villageId: Int,
+        current: VillageDays,
+        changed: VillageDays,
+    ) {
+        changed.list
+            .filterNot { changedDay ->
+                current.list.any { it.day == changedDay.day }
+            }.forEach { insertVillageDay(villageId, it) }
 
-        changed.list.filter { changedDay ->
-            current.list.any {
-                it.day == changedDay.day &&
+        changed.list
+            .filter { changedDay ->
+                current.list.any {
+                    it.day == changedDay.day &&
                         it.dayChangeDatetime.format(formatter) != changedDay.dayChangeDatetime.format(formatter)
-            }
-        }.forEach { updateVillageDay(villageId, it) }
+                }
+            }.forEach { updateVillageDay(villageId, it) }
     }
 
-    private fun updateVillageDay(villageId: Int, villageDay: VillageDay) {
+    private fun updateVillageDay(
+        villageId: Int,
+        villageDay: VillageDay,
+    ) {
         val d = DbVillageDay()
         d.villageId = villageId
         d.day = villageDay.day
@@ -60,7 +83,10 @@ class VillageDayDataSource(
         villageDayBhv.update(d)
     }
 
-    private fun insertVillageDay(villageId: Int, villageDay: VillageDay) {
+    private fun insertVillageDay(
+        villageId: Int,
+        villageDay: VillageDay,
+    ) {
         val vd = DbVillageDay()
         vd.villageId = villageId
         vd.day = villageDay.day

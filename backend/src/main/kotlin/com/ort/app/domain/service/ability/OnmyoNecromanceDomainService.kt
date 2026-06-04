@@ -10,27 +10,37 @@ import org.springframework.stereotype.Service
 
 @Service
 class OnmyoNecromanceDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.降霊.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 一度使うと使えない
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else village.participants
-            .filterDead()
-            .filterNotDummy(village.dummyParticipant())
-            .sortedByRoomNumber().list
+        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            village.participants
+                .filterDead()
+                .filterNotDummy(village.dummyParticipant())
+                .sortedByRoomNumber()
+                .list
+        }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 2
 
     override fun getTargetPrefix(): String = "降霊する対象"
+
     override fun getTargetSuffix(): String = "を降霊する"
 }

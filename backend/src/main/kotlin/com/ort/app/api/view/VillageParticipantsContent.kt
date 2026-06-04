@@ -7,18 +7,19 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipantStatus
 
 data class VillageParticipantsContent(
-    val list: List<VillageParticipantContent>
+    val list: List<VillageParticipantContent>,
 ) {
     constructor(
         village: Village,
-        players: Players
+        players: Players,
     ) : this(
-        list = village.allParticipants().sortedByRoomNumber().list.map {
-            VillageParticipantContent(
-                participant = it,
-                player = players.player(it.playerId)
-            )
-        }
+        list =
+            village.allParticipants().sortedByRoomNumber().list.map {
+                VillageParticipantContent(
+                    participant = it,
+                    player = players.player(it.playerId),
+                )
+            },
     )
 
     data class VillageParticipantContent(
@@ -27,29 +28,33 @@ data class VillageParticipantsContent(
         val isSpectator: Boolean,
         val deadStatus: String,
         val skillName: String,
-        val winStatus: String
+        val winStatus: String,
     ) {
         constructor(
             participant: VillageParticipant,
-            player: Player
+            player: Player,
         ) : this(
             name = participant.name(),
             playerName = player.name,
             isSpectator = participant.isSpectator,
             deadStatus = mappingToDeadStatus(participant),
             skillName = mappingToSkillName(participant),
-            winStatus = mappingToWinStatus(participant)
+            winStatus = mappingToWinStatus(participant),
         )
 
         companion object {
             private fun mappingToSkillName(participant: VillageParticipant): String {
                 if (participant.isSpectator) return "見学参加"
-                val skill = participant.skill!!.histories.list.joinToString(separator = " → ") {
-                    if (it.day == 1) it.skill.name else "${it.day}d${it.skill.name}"
-                }
+                val skill =
+                    participant.skill!!.histories.list.joinToString(separator = " → ") {
+                        if (it.day == 1) it.skill.name else "${it.day}d${it.skill.name}"
+                    }
                 val statuses = mappingToStatuses(participant.status)
-                return if (statuses.isEmpty()) skill
-                else "$skill（${statuses.joinToString(separator = "、")}）"
+                return if (statuses.isEmpty()) {
+                    skill
+                } else {
+                    "$skill（${statuses.joinToString(separator = "、")}）"
+                }
             }
 
             private fun mappingToDeadStatus(participant: VillageParticipant): String {
@@ -57,7 +62,7 @@ data class VillageParticipantsContent(
                 if (participant.isAlive()) return "生存"
                 return participant.dead.let {
                     val reason = it.reason!!.getDisplayName(true)
-                    "${it.deadDay}d${reason}"
+                    "${it.deadDay}d$reason"
                 }
             }
 

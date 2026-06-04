@@ -16,57 +16,67 @@ import org.springframework.stereotype.Service
 
 @Service
 class OmniscienceDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.全知)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> {
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else listOf(myself)
-    }
+        votes: Votes,
+    ): List<VillageParticipant> =
+        if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            listOf(myself)
+        }
 
     override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): String? {
-        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
-        else "全知の能力を行使する"
-    }
+        abilities: Abilities,
+    ): String? =
+        if (getSelectingTarget(village, myself, abilities) == null) {
+            "何もしない"
+        } else {
+            "全知の能力を行使する"
+        }
 
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByCharaId(myself.charaId)
             .filterByType(abilityType)
-            .sortedByDay().list.map { "${it.day}日目 全知" }
-    }
+            .sortedByDay()
+            .list
+            .map { "${it.day}日目 全知" }
 
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
         targetCharaId ?: return "${myself.name()}が全知の能力使用を取り消しました。"
         return "${myself.name()}が全知の能力を行使することにしました。"
     }
 
     override fun getTargetPrefix(): String? = "発動させる場合自分を選択してください"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun omniscience(daychange: Daychange): Daychange {
@@ -77,29 +87,33 @@ class OmniscienceDomainService(
             messages = messages.add(createMessageText(village, it))
         }
         return daychange.copy(
-            messages = messages
+            messages = messages,
         )
     }
 
     private fun createMessageText(
         village: Village,
-        myself: VillageParticipant
+        myself: VillageParticipant,
     ): Message {
-        val text = village.participants.filterAlive().list
-            .groupBy { it.skill!!.toCdef() }.entries
-            .sortedBy { it.key.order().toInt() }
-            .joinToString(
-                separator = "、",
-                prefix = "${myself.name()}は、この村の全容を明らかにした。\nこの村には、",
-                postfix = "生存しているようだ。"
-            ) {
-                "${it.key.toModel().name}が${it.value.size}名"
-            }
+        val text =
+            village.participants
+                .filterAlive()
+                .list
+                .groupBy { it.skill!!.toCdef() }
+                .entries
+                .sortedBy { it.key.order().toInt() }
+                .joinToString(
+                    separator = "、",
+                    prefix = "${myself.name()}は、この村の全容を明らかにした。\nこの村には、",
+                    postfix = "生存しているようだ。",
+                ) {
+                    "${it.key.toModel().name}が${it.value.size}名"
+                }
         return messageDomainService.createPrivateAbilityMessage(
             village,
             myself,
             text,
-            CDef.MessageType.能力行使メッセージ.toModel()
+            CDef.MessageType.能力行使メッセージ.toModel(),
         )
     }
 }

@@ -17,6 +17,7 @@ import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
+import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -28,7 +29,6 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import jakarta.servlet.http.HttpServletRequest
 
 @Controller
 class VillageSayController(
@@ -43,9 +43,8 @@ class VillageSayController(
     private val charaService: CharaService,
     private val villageControllerHelper: VillageControllerHelper,
     // servlet
-    private val httpServletRequest: HttpServletRequest
+    private val httpServletRequest: HttpServletRequest,
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     @InitBinder("sayForm")
@@ -69,22 +68,25 @@ class VillageSayController(
         if (result.hasErrors()) return null
         val village = villageService.findVillage(villageId) ?: return null
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()
+            WolfMansionUserInfoUtil
+                .getUserInfo()
                 ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
-            val message = messageCoordinator.confirmToSay(
-                village,
-                myself,
-                sayForm.message!!,
-                sayForm.messageType!!,
-                sayForm.faceType!!,
-                sayForm.convertDisable,
-                sayForm.secretSayTargetCharaId
-            )
+            val message =
+                messageCoordinator.confirmToSay(
+                    village,
+                    myself,
+                    sayForm.message!!,
+                    sayForm.messageType!!,
+                    sayForm.faceType!!,
+                    sayForm.convertDisable,
+                    sayForm.secretSayTargetCharaId,
+                )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = village.setting.chara.let {
-                charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
-            }
+            val charas =
+                village.setting.chara.let {
+                    charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
+                }
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,
@@ -92,7 +94,7 @@ class VillageSayController(
                 fromParticipant = myself,
                 player = player,
                 charas = charas,
-                keywords = randomKeywords
+                keywords = randomKeywords,
             )
         } catch (e: Exception) {
             logger.info(e.message, e)
@@ -103,21 +105,23 @@ class VillageSayController(
     // 発言する
     @PostMapping("/village/{villageId}/say")
     private fun say(
-        @PathVariable villageId: Int,  //
-        @Validated @ModelAttribute("sayForm") sayForm: VillageSayForm,  //
-        request: HttpServletRequest,  //
-        result: BindingResult,  //
-        model: Model
+        @PathVariable villageId: Int, //
+        @Validated @ModelAttribute("sayForm") sayForm: VillageSayForm, //
+        request: HttpServletRequest, //
+        result: BindingResult, //
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         try {
             messageCoordinator.say(
                 village,
@@ -127,7 +131,7 @@ class VillageSayController(
                 sayForm.faceType,
                 sayForm.convertDisable,
                 sayForm.secretSayTargetCharaId,
-                httpServletRequest.getIpAddress()
+                httpServletRequest.getIpAddress(),
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("sayErrorMessage", e.message)
@@ -141,27 +145,32 @@ class VillageSayController(
     @ResponseBody
     private fun actionConfirm(
         @PathVariable villageId: Int,
-        @Validated @ModelAttribute("actionForm") actionForm: VillageActionForm, result: BindingResult, model: Model
+        @Validated @ModelAttribute("actionForm") actionForm: VillageActionForm,
+        result: BindingResult,
+        model: Model,
     ): VillageSayConfirmContent? {
         if (result.hasErrors()) return null
         val village = villageService.findVillage(villageId) ?: return null
         val myself =
-            WolfMansionUserInfoUtil.getUserInfo()
+            WolfMansionUserInfoUtil
+                .getUserInfo()
                 ?.let { villageService.findVillageParticipant(village.id, it.username) }
         try {
-            val message = messageCoordinator.confirmToSay(
-                village,
-                myself,
-                "${actionForm.myself!!}${actionForm.target ?: ""}${actionForm.message!!}",
-                CDef.MessageType.アクション.code(),
-                null,
-                actionForm.convertDisable,
-                null
-            )
+            val message =
+                messageCoordinator.confirmToSay(
+                    village,
+                    myself,
+                    "${actionForm.myself!!}${actionForm.target ?: ""}${actionForm.message!!}",
+                    CDef.MessageType.アクション.code(),
+                    null,
+                    actionForm.convertDisable,
+                    null,
+                )
             val player = playerService.findPlayer(myself!!.playerId)
-            val charas = village.setting.chara.let {
-                charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
-            }
+            val charas =
+                village.setting.chara.let {
+                    charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
+                }
             val randomKeywords = randomKeywordService.findRandomKeywords()
             return VillageSayConfirmContent(
                 village = village,
@@ -169,7 +178,7 @@ class VillageSayController(
                 fromParticipant = myself,
                 player = player,
                 charas = charas,
-                keywords = randomKeywords
+                keywords = randomKeywords,
             )
         } catch (e: Exception) {
             logger.info(e.message, e)
@@ -180,21 +189,23 @@ class VillageSayController(
     // アクション発言する
     @PostMapping("/village/{villageId}/action")
     private fun action(
-        @PathVariable villageId: Int,  //
-        @Validated @ModelAttribute("actionForm") actionForm: VillageActionForm,  //
-        request: HttpServletRequest,  //
-        result: BindingResult,  //
-        model: Model
+        @PathVariable villageId: Int, //
+        @Validated @ModelAttribute("actionForm") actionForm: VillageActionForm, //
+        request: HttpServletRequest, //
+        result: BindingResult, //
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         try {
             messageCoordinator.say(
                 village,
@@ -204,7 +215,7 @@ class VillageSayController(
                 null,
                 actionForm.convertDisable,
                 null,
-                httpServletRequest.getIpAddress()
+                httpServletRequest.getIpAddress(),
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("actionErrorMessage", e.message)

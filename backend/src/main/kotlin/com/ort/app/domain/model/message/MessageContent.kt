@@ -7,7 +7,7 @@ data class MessageContent(
     val num: Int?,
     val text: String,
     val faceTypeCode: String?,
-    val isConvertDisable: Boolean
+    val isConvertDisable: Boolean,
 ) {
     companion object {
         val defaultLineMax: Int = 20
@@ -17,7 +17,7 @@ data class MessageContent(
             messageType: String,
             text: String,
             faceCode: String?,
-            isConvertDisable: Boolean?
+            isConvertDisable: Boolean?,
         ): MessageContent {
             val cdef = checkNotNull(CDef.MessageType.codeOf(messageType))
             return MessageContent(
@@ -25,7 +25,7 @@ data class MessageContent(
                 num = null,
                 text = text.trim(),
                 faceTypeCode = faceCode,
-                isConvertDisable = isConvertDisable ?: false
+                isConvertDisable = isConvertDisable ?: false,
             )
         }
     }

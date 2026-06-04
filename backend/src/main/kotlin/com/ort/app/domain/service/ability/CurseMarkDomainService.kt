@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class CurseMarkDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.呪縛.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String? = "呪縛符を貼り付ける対象"
+
     override fun getTargetSuffix(): String? = "に貼り付ける"
 
     fun curse(daychange: Daychange): Daychange {
@@ -49,13 +55,12 @@ class CurseMarkDomainService(
     private fun createCurseMarkMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${target.name()}に呪縛符を貼り付けた。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

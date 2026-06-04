@@ -3,7 +3,7 @@ package com.ort.app.domain.model.situation.village
 import com.ort.app.domain.model.village.participant.VillageParticipants
 
 data class VillageWholeSituation(
-    val list: List<VillageWholeDetail>
+    val list: List<VillageWholeDetail>,
 )
 
 data class VillageWholeDetail(
@@ -13,5 +13,5 @@ data class VillageWholeDetail(
     val miserable: VillageParticipants,
     val revival: VillageParticipants,
     val suicide: VillageParticipants,
-    var ability: List<String>
+    var ability: List<String>,
 )

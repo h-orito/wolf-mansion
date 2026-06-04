@@ -7,12 +7,12 @@ import org.springframework.validation.Validator
 
 @Component
 class RandomKeywordFormValidator : Validator {
+    override fun supports(clazz: Class<*>): Boolean = RandomKeywordForm::class.java.isAssignableFrom(clazz)
 
-    override fun supports(clazz: Class<*>): Boolean {
-        return RandomKeywordForm::class.java.isAssignableFrom(clazz)
-    }
-
-    override fun validate(target: Any, errors: Errors) {
+    override fun validate(
+        target: Any,
+        errors: Errors,
+    ) {
         if (errors.hasErrors()) return
 
         val form = target as RandomKeywordForm

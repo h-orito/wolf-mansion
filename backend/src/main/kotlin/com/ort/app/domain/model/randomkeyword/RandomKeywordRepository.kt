@@ -1,7 +1,6 @@
 package com.ort.app.domain.model.randomkeyword
 
 interface RandomKeywordRepository {
-
     fun findRandomKeywords(): RandomKeywords
 
     fun findRandomKeyword(id: Int): RandomKeyword?

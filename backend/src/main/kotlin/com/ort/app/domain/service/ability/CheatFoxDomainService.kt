@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class CheatFoxDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.誑かす.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String? = "誑かす対象"
+
     override fun getTargetSuffix(): String? = "を誑かす"
 
     fun cheat(daychange: Daychange): Daychange {
@@ -50,26 +56,24 @@ class CheatFoxDomainService(
     private fun createFoxPossessionMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${target.name()}を誑かし、仲間に引き入れた。",
-            messageType = CDef.MessageType.妖狐メッセージ.toModel()
+            messageType = CDef.MessageType.妖狐メッセージ.toModel(),
         )
-    }
 
     private fun createFoxPossessionedMessage(
         village: Village,
         fox: VillageParticipant,
-        myself: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "あなたは${fox.name()}に誑かされ、妖狐に与するものとなりました。",
-            messageType = CDef.MessageType.妖狐メッセージ.toModel()
+            messageType = CDef.MessageType.妖狐メッセージ.toModel(),
         )
-    }
 }

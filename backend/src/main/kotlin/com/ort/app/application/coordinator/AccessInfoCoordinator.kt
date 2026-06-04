@@ -13,22 +13,25 @@ class AccessInfoCoordinator(
     private val playerService: PlayerService,
     private val slackService: NotificationService,
 ) {
-
     fun registerAccessInfo(
         village: Village,
         myself: VillageParticipant,
-        ipAddress: String
+        ipAddress: String,
     ) {
         villageService.addIpAddress(myself, ipAddress)
 
         // IPアドレスが重複している人がいたら通知
         if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return
 
-        val isContain = village.allParticipants()
-            .filterNotDummy(village.dummyParticipant())
-            .filterNotParticipant(myself)
-            .list.flatMap { it.ipAddresses }.distinct()
-            .contains(ipAddress)
+        val isContain =
+            village
+                .allParticipants()
+                .filterNotDummy(village.dummyParticipant())
+                .filterNotParticipant(myself)
+                .list
+                .flatMap { it.ipAddresses }
+                .distinct()
+                .contains(ipAddress)
         if (isContain) {
             slackService.notifyToDeveloperTextIfNeeded(village, "IPアドレス重複検出: $ipAddress")
         }

@@ -11,5 +11,5 @@ data class VillageSituation(
     val live: VillageParticipantLiveSituation,
     val footstep: VillageFootstepSituation,
     val vote: VillageVoteSituation,
-    val whole: VillageWholeSituation
+    val whole: VillageWholeSituation,
 )

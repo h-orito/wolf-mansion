@@ -37,29 +37,31 @@ class VillageApiController(
     private val footstepDomainService: FootstepDomainService,
     private val voteDomainService: VoteDomainService,
     private val playerBhv: PlayerBhv,
-    private val playerService: PlayerService
+    private val playerService: PlayerService,
 ) {
     @GetMapping("/api/village/{villageId}")
     @ResponseBody
     private fun apiVillage(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): WholeVillageSituationsContent {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val rawFootsteps = footstepService.findFootsteps(villageId)
         val footsteps = footstepDomainService.filterDisplayFootsteps(village, rawFootsteps)
         val rawVotes = voteApplicationService.findVotes(villageId)
         val abilities = abilityService.findAbilities(villageId)
         val votes = voteDomainService.filterDisplayVotes(village, rawVotes, abilities)
-        val charachips = charaService.findCharachips(
-            ids = village.setting.chara.charachipIds,
-            isOriginal = village.setting.chara.isOriginalCharachip
-        )
+        val charachips =
+            charaService.findCharachips(
+                ids = village.setting.chara.charachipIds,
+                isOriginal = village.setting.chara.isOriginalCharachip,
+            )
         return WholeVillageSituationsContent(
             village = village,
             footsteps = footsteps,
             votes = votes,
-            charachips = charachips
+            charachips = charachips,
         )
     }
 
@@ -67,9 +69,10 @@ class VillageApiController(
     @GetMapping("/api/village-list")
     @ResponseBody
     private fun villageList(): VillageListContent {
-        val villages = villageService.findVillages(
-            query = VillageQuery()
-        )
+        val villages =
+            villageService.findVillages(
+                query = VillageQuery(),
+            )
         val charachips = charaService.findCharachips()
         val skills = Skills.all().filterNotSomeone()
         return VillageListContent(villages, charachips, skills)
@@ -77,10 +80,13 @@ class VillageApiController(
 
     @PostMapping("/api/login")
     @ResponseBody
-    private fun index(@RequestBody @Validated body: LoginForm): PlayerView? {
-        val optPl = playerBhv.selectEntity {
-            it.query().setPlayerName_Equal(body.userId)
-        }
+    private fun index(
+        @RequestBody @Validated body: LoginForm,
+    ): PlayerView? {
+        val optPl =
+            playerBhv.selectEntity {
+                it.query().setPlayerName_Equal(body.userId)
+            }
         if (!optPl.isPresent) return null
         val isMatch = BCryptPasswordEncoder().matches(body.password, optPl.get().playerPassword)
         if (!isMatch) return null

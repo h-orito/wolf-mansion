@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class CourtDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.求愛.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String? = "求愛対象"
+
     override fun getTargetSuffix(): String? = "に求愛する"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun court(daychange: Daychange): Daychange {
@@ -48,21 +54,27 @@ class CourtDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createCourtMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createCourtMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}に求愛した。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 
-    private fun createCourtedMessage(village: Village, court: VillageParticipant, myself: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createCourtedMessage(
+        village: Village,
+        court: VillageParticipant,
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${court.name()}に求愛された。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 }

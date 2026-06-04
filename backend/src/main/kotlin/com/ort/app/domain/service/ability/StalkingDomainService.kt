@@ -15,16 +15,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class StalkingDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.ストーキング)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun createSetMessageText(
@@ -32,18 +31,26 @@ class StalkingDomainService(
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
-        return if (targetCharaId == null) "${myself.name()}がストーキング対象をなしに設定しました。"
-        else {
+        return if (targetCharaId == null) {
+            "${myself.name()}がストーキング対象をなしに設定しました。"
+        } else {
             val target = village.participants.chara(targetCharaId)
             return "${myself.name()}がストーキング対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
         }
     }
 
     override fun getTargetPrefix(): String? = "ストーキングする対象"
+
     override fun getTargetSuffix(): String? = "をストーキングする"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun stalking(daychange: Daychange): Daychange {
@@ -64,13 +71,12 @@ class StalkingDomainService(
     private fun createStalkingMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}をストーキングし始めた。\n${target.name()}は${target.skill!!.name}のようだ。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 }

@@ -3,7 +3,7 @@ package com.ort.app.domain.model.village.participant
 data class VillageParticipantNotificationCondition(
     val discordWebhookUrl: String,
     val village: VillageCondition,
-    val message: MessageCondition
+    val message: MessageCondition,
 ) {
     data class VillageCondition(
         /** 村が開始した */
@@ -11,7 +11,7 @@ data class VillageParticipantNotificationCondition(
         /** 日付更新 */
         val dayChange: Boolean,
         /** 村がエピローグを迎えた */
-        val epilogue: Boolean
+        val epilogue: Boolean,
     )
 
     data class MessageCondition(
@@ -22,6 +22,6 @@ data class VillageParticipantNotificationCondition(
         /** アンカー */
         val anchor: Boolean,
         /** キーワード */
-        val keywords: List<String>
+        val keywords: List<String>,
     )
 }

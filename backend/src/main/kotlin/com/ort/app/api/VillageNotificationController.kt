@@ -8,6 +8,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipantNotificati
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -16,54 +17,61 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import jakarta.servlet.http.HttpServletRequest
 
 @Controller
 class VillageNotificationController(
     private val villageControllerHelper: VillageControllerHelper,
     // service
     private val villageService: VillageService,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
 ) {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     // 設定保存
     @PostMapping("/village/{villageId}/notification-setting")
     private fun saveNotification(
-        @PathVariable villageId: Int,  //
-        @Validated @ModelAttribute("notificationForm") notificationForm: VillageNotificationForm,  //
-        request: HttpServletRequest,  //
-        result: BindingResult,  //
-        model: Model
+        @PathVariable villageId: Int, //
+        @Validated @ModelAttribute("notificationForm") notificationForm: VillageNotificationForm, //
+        request: HttpServletRequest, //
+        result: BindingResult, //
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        } ?: throw WolfMansionBusinessException("myself not found.")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            } ?: throw WolfMansionBusinessException("myself not found.")
 
         villageService.registerNotification(
             myself.copy(
-                notification = VillageParticipantNotificationCondition(
-                    discordWebhookUrl = notificationForm.webhookUrl!!,
-                    village = VillageParticipantNotificationCondition.VillageCondition(
-                        start = notificationForm.villageStart ?: false,
-                        dayChange = notificationForm.villageDaychange ?: false,
-                        epilogue = notificationForm.villageEpilogue ?: false
+                notification =
+                    VillageParticipantNotificationCondition(
+                        discordWebhookUrl = notificationForm.webhookUrl!!,
+                        village =
+                            VillageParticipantNotificationCondition.VillageCondition(
+                                start = notificationForm.villageStart ?: false,
+                                dayChange = notificationForm.villageDaychange ?: false,
+                                epilogue = notificationForm.villageEpilogue ?: false,
+                            ),
+                        message =
+                            VillageParticipantNotificationCondition.MessageCondition(
+                                secretSay = notificationForm.secretSay ?: false,
+                                abilitySay = notificationForm.abilitySay ?: false,
+                                anchor = notificationForm.anchorSay ?: false,
+                                keywords =
+                                    notificationForm.keyword
+                                        ?.trim()
+                                        ?.replace("　", " ")
+                                        ?.split(" ") ?: emptyList(),
+                            ),
                     ),
-                    message = VillageParticipantNotificationCondition.MessageCondition(
-                        secretSay = notificationForm.secretSay ?: false,
-                        abilitySay = notificationForm.abilitySay ?: false,
-                        anchor = notificationForm.anchorSay ?: false,
-                        keywords = notificationForm.keyword?.trim()?.replace("　", " ")?.split(" ") ?: emptyList()
-                    )
-                )
-            )
+            ),
         )
         notificationService.notifyTest(notificationForm.webhookUrl, village.id)
         // 最新の日付を表示

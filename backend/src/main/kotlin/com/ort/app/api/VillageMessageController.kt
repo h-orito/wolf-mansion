@@ -38,15 +38,17 @@ class VillageMessageController(
     @ResponseBody
     private fun getDayMessageList(
         @Validated form: VillageGetMessageListForm,
-        result: BindingResult
+        result: BindingResult,
     ): VillageMessageListContent {
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village =
+            villageService.findVillage(form.villageId!!, excludeGone = false)
+                ?: throw WolfMansionBusinessException("village not found.")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            user?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         val myselfPlayer = user?.let { playerService.findPlayer(user.username) }
         // 発言取得
         val query = form.toMessageQuery(village)
@@ -54,12 +56,18 @@ class VillageMessageController(
         val charas =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val players = playerService.findPlayers(village.id)
-        val votes = if (VillageMessageListContent.isDispSuddenlyDeathWarnMessage(village, query.day)) {
-            voteService.findVotes(village.id).filterByDay(village.latestDay())
-        } else Votes(emptyList())
-        val commits = if (VillageMessageListContent.isDispCommitMessage(village, query.day)) {
-            commitService.findCommits(village.id).filterByDay(village.latestDay())
-        } else Commits(emptyList())
+        val votes =
+            if (VillageMessageListContent.isDispSuddenlyDeathWarnMessage(village, query.day)) {
+                voteService.findVotes(village.id).filterByDay(village.latestDay())
+            } else {
+                Votes(emptyList())
+            }
+        val commits =
+            if (VillageMessageListContent.isDispCommitMessage(village, query.day)) {
+                commitService.findCommits(village.id).filterByDay(village.latestDay())
+            } else {
+                Commits(emptyList())
+            }
         val abilities = abilityService.findAbilities(village.id).filterByDay(query.day - 1)
         return VillageMessageListContent(
             messages,
@@ -72,7 +80,7 @@ class VillageMessageController(
             votes,
             commits,
             abilities,
-            query.day
+            query.day,
         )
     }
 
@@ -81,19 +89,21 @@ class VillageMessageController(
     @ResponseBody
     private fun getLatestMessageDatetime(
         @Validated form: VillageGetMessageListForm,
-        result: BindingResult
+        result: BindingResult,
     ): VillageLatestMessageDatetimeContent {
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village =
+            villageService.findVillage(form.villageId!!, excludeGone = false)
+                ?: throw WolfMansionBusinessException("village not found.")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            user?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         val player = user?.let { playerService.findPlayer(it.username) }
         val datetime = messageService.findLatestMessageDatetime(village, myself, player, form.toMessageQuery(village))
         return VillageLatestMessageDatetimeContent(
-            datetime?.format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss")) ?: "0"
+            datetime?.format(DateTimeFormatter.ofPattern("uuuuMMddHHmmss")) ?: "0",
         )
     }
 
@@ -102,21 +112,24 @@ class VillageMessageController(
     @ResponseBody
     private fun getAnchorMessage(
         @Validated form: VillageGetAnchorMessageForm,
-        result: BindingResult
+        result: BindingResult,
     ): VillageAnchorMessageContent {
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(form.villageId!!, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village =
+            villageService.findVillage(form.villageId!!, excludeGone = false)
+                ?: throw WolfMansionBusinessException("village not found.")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            user?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         val player = user?.let { playerService.findPlayer(it.username) }
         // 発言取得
         val message = messageService.findMessage(village, myself, player, form.messageType!!, form.messageNumber!!)
-        val fromPlayer = message?.fromParticipantId?.let {
-            playerService.findPlayer(village.allParticipants().member(it).playerId)
-        }
+        val fromPlayer =
+            message?.fromParticipantId?.let {
+                playerService.findPlayer(village.allParticipants().member(it).playerId)
+            }
         val charas =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val abilities = abilityService.findAbilities(village.id)
@@ -129,21 +142,24 @@ class VillageMessageController(
     private fun villageMessage(
         @PathVariable villageId: Int,
         @Validated form: VillageMessageForm,
-        result: BindingResult
+        result: BindingResult,
     ): VillageAnchorMessagesContent {
         if (result.hasErrors()) throw WolfMansionBusinessException("bad request.")
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village =
+            villageService.findVillage(villageId, excludeGone = false)
+                ?: throw WolfMansionBusinessException("village not found.")
         val user = WolfMansionUserInfoUtil.getUserInfo()
-        val myself = user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            user?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         val player = user?.let { playerService.findPlayer(it.username) }
         // 発言取得
         val anchors = Anchors.of(form.anchors!!)
-        val messages = anchors.list.mapNotNull {
-            messageService.findMessage(village, myself, player, it.messageType, it.messageNumber)
-        }
+        val messages =
+            anchors.list.mapNotNull {
+                messageService.findMessage(village, myself, player, it.messageType, it.messageNumber)
+            }
         val players = playerService.findPlayers(village.id)
         val charas =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
@@ -152,26 +168,26 @@ class VillageMessageController(
     }
 
     data class Anchors(
-        val list: List<Anchor>
+        val list: List<Anchor>,
     ) {
-
         data class Anchor(
             val messageType: String,
-            val messageNumber: Int
+            val messageNumber: Int,
         )
 
         companion object {
             fun of(anchorStr: String): Anchors {
-                val anchors = anchorStr.split("_").mapNotNull {
-                    if (it.isBlank()) return@mapNotNull null
-                    val matcher = Pattern.compile("([nwmflgsMSca])(\\d{1,5})").matcher(it)
-                    if (!matcher.find()) return@mapNotNull null
-                    val type =
-                        MessageDomainService.convertMessageUrlTypeToMessageType(matcher.group(1))?.let { it.code }
-                            ?: return@mapNotNull null
-                    val number = matcher.group(2).toInt()
-                    Anchor(type, number)
-                }
+                val anchors =
+                    anchorStr.split("_").mapNotNull {
+                        if (it.isBlank()) return@mapNotNull null
+                        val matcher = Pattern.compile("([nwmflgsMSca])(\\d{1,5})").matcher(it)
+                        if (!matcher.find()) return@mapNotNull null
+                        val type =
+                            MessageDomainService.convertMessageUrlTypeToMessageType(matcher.group(1))?.let { it.code }
+                                ?: return@mapNotNull null
+                        val number = matcher.group(2).toInt()
+                        Anchor(type, number)
+                    }
                 return Anchors(anchors)
             }
         }
@@ -181,7 +197,7 @@ class VillageMessageController(
     @GetMapping("/village/{villageId}/getParticipants")
     @ResponseBody
     private fun getParticipants(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): VillageParticipantsContent {
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
         if (!village.status.isSettled()) throw WolfMansionBusinessException("invalid village status.")

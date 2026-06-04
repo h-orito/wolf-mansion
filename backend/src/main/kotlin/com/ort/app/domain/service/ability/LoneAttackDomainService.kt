@@ -24,22 +24,28 @@ class LoneAttackDomainService(
     private val attackDomainService: AttackDomainService,
     private val messageDomainService: MessageDomainService,
     private val cohabitDomainService: CohabitDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.単独襲撃)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargetsWithoutMyself(village, myself)
 
     override fun getTargetPrefix(): String? = "単独襲撃対象"
+
     override fun getTargetSuffix(): String? = "を単独襲撃する"
+
     override fun isTargetingAndFootstep(): Boolean = true
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean {
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean {
         // 一匹狼は対象なしが可能、暴狼は不可能
         return myself.skill!!.toCdef() == CDef.Skill.一匹狼
     }
@@ -55,34 +61,43 @@ class LoneAttackDomainService(
         // 一匹狼は対象なし、暴狼は対象あり
         village.participants.filterAlive().filterBySkill(CDef.Skill.暴狼.toModel()).list.forEach {
             val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
+            val ability =
+                Ability(
+                    day = village.latestDay(),
+                    type = abilityType,
+                    charaId = it.charaId,
+                    targetCharaId = target.charaId,
+                )
             abilities = abilities.add(ability)
-            val footstep = Footstep(
-                day = village.latestDay(),
-                charaId = it.charaId,
-                roomNumbers = footstepDomainService.getCandidateList(village, it.charaId, target.charaId).shuffled()
-                    .first()
-            )
+            val footstep =
+                Footstep(
+                    day = village.latestDay(),
+                    charaId = it.charaId,
+                    roomNumbers =
+                        footstepDomainService
+                            .getCandidateList(village, it.charaId, target.charaId)
+                            .shuffled()
+                            .first(),
+                )
             footsteps = footsteps.add(footstep)
         }
 
         return daychange.copy(
             abilities = abilities,
-            footsteps = footsteps
+            footsteps = footsteps,
         )
     }
 
-    fun loneAttack(daychange: Daychange, charas: Charas): Daychange {
+    fun loneAttack(
+        daychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().list.filter { it.skill!!.hasLoneAttackAbility() }.forEach {
-            val ability = daychange.abilities.findYesterday(village, it, abilityType)
-                ?: return@forEach
+            val ability =
+                daychange.abilities.findYesterday(village, it, abilityType)
+                    ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
 
             // 襲撃メッセージ
@@ -112,22 +127,24 @@ class LoneAttackDomainService(
         village: Village,
         myself: VillageParticipant,
         target: VillageParticipant,
-        charas: Charas
+        charas: Charas,
     ): Message {
         val text = "${target.name()}！今日がお前の命日だ！"
         val myselfChara = charas.chara(myself.charaId)
         val faceType =
-            if (hasFaceType(myselfChara)) CDef.FaceType.囁き.toModel()
-            else charas.chara(myself.charaId).defaultImage().faceType
+            if (hasFaceType(myselfChara)) {
+                CDef.FaceType.囁き.toModel()
+            } else {
+                charas.chara(myself.charaId).defaultImage().faceType
+            }
         return messageDomainService.createAttackMessage(
             village,
             myself,
             text,
             faceType,
-            CDef.MessageType.独り言.toModel()
+            CDef.MessageType.独り言.toModel(),
         )
     }
 
-    private fun hasFaceType(chara: Chara): Boolean =
-        chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
+    private fun hasFaceType(chara: Chara): Boolean = chara.images.list.any { it.faceType.toCdef() == CDef.FaceType.囁き }
 }

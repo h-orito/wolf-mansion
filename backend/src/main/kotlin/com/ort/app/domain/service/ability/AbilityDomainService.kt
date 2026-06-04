@@ -87,29 +87,28 @@ class AbilityDomainService(
     private val chikuwaDomainService: ChikuwaDomainService,
     private val tortureDomainService: TortureDomainService,
     private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) {
-
     fun convertToVillageSituation(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
-        day: Int
-    ): VillageWholeSituation {
-        return VillageWholeSituation(
-            list = (2..day).map {
-                VillageWholeDetail(
-                    day = it,
-                    suddenlyDeath = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.突然)),
-                    executed = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.処刑)),
-                    miserable = village.participants.filterExistsMiserableDeadHistory(it),
-                    revival = village.participants.filterExistsReviveHistory(it),
-                    suicide = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.後追)),
-                    ability = mapAbilitySituation(village, myself, abilities, it)
-                )
-            }
+        day: Int,
+    ): VillageWholeSituation =
+        VillageWholeSituation(
+            list =
+                (2..day).map {
+                    VillageWholeDetail(
+                        day = it,
+                        suddenlyDeath = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.突然)),
+                        executed = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.処刑)),
+                        miserable = village.participants.filterExistsMiserableDeadHistory(it),
+                        revival = village.participants.filterExistsReviveHistory(it),
+                        suicide = village.participants.filterExistsDeadHistory(it, DeadReason(CDef.DeadReason.後追)),
+                        ability = mapAbilitySituation(village, myself, abilities, it),
+                    )
+                },
         )
-    }
 
     fun convertToParticipantSituation(
         village: Village,
@@ -117,7 +116,7 @@ class AbilityDomainService(
         abilities: Abilities,
         votes: Votes,
         footsteps: Footsteps,
-        day: Int
+        day: Int,
     ): ParticipantAbilitySituation {
         val abilityType = myself?.skill?.getAbility()
         return ParticipantAbilitySituation(
@@ -141,7 +140,7 @@ class AbilityDomainService(
             listenMasonsList = getListenMasonsList(village, myself),
             targetPrefix = getTargetPrefix(village, myself, day, abilityType),
             targetSuffix = getTargetSuffix(village, myself, day, abilityType),
-            isTargetingAndFootstep = isTargetingAndFootstep(village, myself, day, abilityType)
+            isTargetingAndFootstep = isTargetingAndFootstep(village, myself, day, abilityType),
         )
     }
 
@@ -212,7 +211,7 @@ class AbilityDomainService(
         myself: VillageParticipant,
         attackerCharaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): Message {
         myself.skill ?: throw WolfMansionBusinessException("役職なし")
         if (!canUseAbility(village, myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない状態です")
@@ -221,22 +220,23 @@ class AbilityDomainService(
             messageDomainService.createAbilitySetMessage(
                 village = village,
                 text = text,
-                messageType = MessageType(CDef.MessageType.非公開システムメッセージ)
+                messageType = MessageType(CDef.MessageType.非公開システムメッセージ),
             )
         } else {
             val abilityType = myself.skill.getAbility() ?: throw WolfMansionBusinessException("行使可能な能力がありません")
             if (!canUseDay(myself, village.latestDay())) throw WolfMansionBusinessException("使用できません")
-            val text = detectAbilityTypeService(abilityType).createSetMessageText(
-                village,
-                myself,
-                attackerCharaId,
-                targetCharaId,
-                footstep
-            )
+            val text =
+                detectAbilityTypeService(abilityType).createSetMessageText(
+                    village,
+                    myself,
+                    attackerCharaId,
+                    targetCharaId,
+                    footstep,
+                )
             messageDomainService.createAbilitySetMessage(
                 village = village,
                 text = text,
-                messageType = abilityType.getSetMessageType()
+                messageType = abilityType.getSetMessageType(),
             )
         }
     }
@@ -245,75 +245,93 @@ class AbilityDomainService(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
-        abilityType: AbilityType?
-    ): Boolean {
-        return if (abilityType == null) false
-        else detectAbilityTypeService(abilityType).isAvailableNoTarget(village, myself!!, abilities)
-    }
+        abilityType: AbilityType?,
+    ): Boolean =
+        if (abilityType == null) {
+            false
+        } else {
+            detectAbilityTypeService(abilityType).isAvailableNoTarget(village, myself!!, abilities)
+        }
 
     private fun getSelectingTarget(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
         day: Int,
-        abilityType: AbilityType?
-    ): VillageParticipant? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType == null) null
-        else detectAbilityTypeService(abilityType).getSelectingTarget(village, myself!!, abilities)
-    }
+        abilityType: AbilityType?,
+    ): VillageParticipant? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType == null) {
+            null
+        } else {
+            detectAbilityTypeService(abilityType).getSelectingTarget(village, myself!!, abilities)
+        }
 
     private fun getSelectingAttacker(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
         day: Int,
-        abilityType: AbilityType?
-    ): VillageParticipant? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType?.toCdef() != CDef.AbilityType.襲撃希望) null
-        else attackDomainService.getSelectingAttacker(village, myself!!, abilities)
-    }
+        abilityType: AbilityType?,
+    ): VillageParticipant? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType?.toCdef() != CDef.AbilityType.襲撃希望) {
+            null
+        } else {
+            attackDomainService.getSelectingAttacker(village, myself!!, abilities)
+        }
 
     private fun getSelectingTargetFootstep(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
         day: Int,
-        abilityType: AbilityType?
-    ): String? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType?.toCdef() != CDef.AbilityType.捜査) null
-        else investigateDomainService.getSelectingFootstep(village, myself!!, abilities)
-    }
+        abilityType: AbilityType?,
+    ): String? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType?.toCdef() != CDef.AbilityType.捜査) {
+            null
+        } else {
+            investigateDomainService.getSelectingFootstep(village, myself!!, abilities)
+        }
 
     private fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
         day: Int,
-        abilityType: AbilityType?
-    ): String? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType == null) null
-        else detectAbilityTypeService(abilityType).getSelectingTargetMessage(village, myself!!, abilities)
-    }
+        abilityType: AbilityType?,
+    ): String? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType == null) {
+            null
+        } else {
+            detectAbilityTypeService(abilityType).getSelectingTargetMessage(village, myself!!, abilities)
+        }
 
     private fun getSelectingFootstep(
         village: Village,
         myself: VillageParticipant?,
         footsteps: Footsteps,
         day: Int,
-        abilityType: AbilityType?
-    ): String? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType?.toCdef() == CDef.AbilityType.襲撃希望) {
+        abilityType: AbilityType?,
+    ): String? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType?.toCdef() == CDef.AbilityType.襲撃希望) {
             attackDomainService.getSelectingFootstep(village, myself!!, footsteps)
-        } else footsteps
-            .filterByCharaId(myself!!.charaId)
-            .filterByDay(village.latestDay())
-            .list.firstOrNull()?.roomNumbers
-    }
+        } else {
+            footsteps
+                .filterByCharaId(myself!!.charaId)
+                .filterByDay(village.latestDay())
+                .list
+                .firstOrNull()
+                ?.roomNumbers
+        }
 
     fun getSelectableTargetList(
         village: Village,
@@ -321,12 +339,15 @@ class AbilityDomainService(
         abilities: Abilities,
         votes: Votes,
         day: Int,
-        abilityType: AbilityType?
-    ): List<VillageParticipant> {
-        return if (!canUseAbility(village, myself, day)) listOf()
-        else if (abilityType == null || abilityType.toCdef() == CDef.AbilityType.襲撃希望) listOf()
-        else detectAbilityTypeService(abilityType).getSelectableTargetList(village, myself!!, abilities, votes)
-    }
+        abilityType: AbilityType?,
+    ): List<VillageParticipant> =
+        if (!canUseAbility(village, myself, day)) {
+            listOf()
+        } else if (abilityType == null || abilityType.toCdef() == CDef.AbilityType.襲撃希望) {
+            listOf()
+        } else {
+            detectAbilityTypeService(abilityType).getSelectableTargetList(village, myself!!, abilities, votes)
+        }
 
     fun assertAbility(
         village: Village,
@@ -336,7 +357,7 @@ class AbilityDomainService(
         footstep: String?,
         abilities: Abilities,
         votes: Votes,
-        footsteps: Footsteps
+        footsteps: Footsteps,
     ) {
         myself?.skill ?: throw WolfMansionBusinessException("役職なし")
         if (!canUseAbility(village, myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない状態です")
@@ -353,19 +374,22 @@ class AbilityDomainService(
                 footstep,
                 abilities,
                 footsteps,
-                votes
+                votes,
             ) {
                 footstepDomainService.assertFootstep(
                     village,
                     attackerCharaId ?: myself.charaId,
                     targetCharaId,
-                    footstep
+                    footstep,
                 )
             }
         }
     }
 
-    fun assertGetSelectableFootsteps(village: Village, myself: VillageParticipant) {
+    fun assertGetSelectableFootsteps(
+        village: Village,
+        myself: VillageParticipant,
+    ) {
         if (!isTargetingAndFootstep(village, myself, village.latestDay(), myself.skill?.getAbility())) {
             throw WolfMansionBusinessException("足音候補を取得できる能力ではありません")
         }
@@ -376,29 +400,40 @@ class AbilityDomainService(
         myself: VillageParticipant?,
         footsteps: Footsteps,
         day: Int,
-        abilityType: AbilityType?
-    ): List<String> {
-        return if (!canUseAbility(village, myself, day)) emptyList()
-        else if (abilityType == null) emptyList()
-        else if (abilityType.toCdef() != CDef.AbilityType.捜査) emptyList()
-        else investigateDomainService.getSelectableFootstepList(village, myself!!, footsteps)
-    }
+        abilityType: AbilityType?,
+    ): List<String> =
+        if (!canUseAbility(village, myself, day)) {
+            emptyList()
+        } else if (abilityType == null) {
+            emptyList()
+        } else if (abilityType.toCdef() != CDef.AbilityType.捜査) {
+            emptyList()
+        } else {
+            investigateDomainService.getSelectableFootstepList(village, myself!!, footsteps)
+        }
 
-    private fun canUseAbility(village: Village, myself: VillageParticipant?, day: Int): Boolean =
-        village.canUseAbility(day) && myself?.canUseAbility() == true
+    private fun canUseAbility(
+        village: Village,
+        myself: VillageParticipant?,
+        day: Int,
+    ): Boolean = village.canUseAbility(day) && myself?.canUseAbility() == true
 
-    fun canUseDay(myself: VillageParticipant?, day: Int): Boolean {
+    fun canUseDay(
+        myself: VillageParticipant?,
+        day: Int,
+    ): Boolean {
         val skill = myself?.skill ?: return false
-        return skill.hasDisturbAbility() || skill.getAbility()?.let {
-            detectAbilityTypeService(it).canUseDay(day)
-        } ?: false
+        return skill.hasDisturbAbility() ||
+            skill.getAbility()?.let {
+                detectAbilityTypeService(it).canUseDay(day)
+            } ?: false
     }
 
     private fun getAttackerList(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
-        day: Int
+        day: Int,
     ): List<VillageParticipant> {
         if (!canUseAbility(village, myself, day)) return emptyList()
         if (myself!!.skill == null || !myself.skill!!.hasAttackAbility()) return emptyList()
@@ -411,7 +446,7 @@ class AbilityDomainService(
         abilities: Abilities,
         footsteps: Footsteps,
         day: Int,
-        abilityType: AbilityType?
+        abilityType: AbilityType?,
     ): List<String> {
         return when {
             myself?.skill == null -> emptyList()
@@ -426,80 +461,120 @@ class AbilityDomainService(
         }
     }
 
-    private fun getWolfList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getWolfList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !myself.skill.isViewableWolfCharaName()) return emptyList()
-        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.hasAttackAbility() }
+        return village.participants
+            .sortedByRoomNumber()
+            .list
+            .filter { it.skill!!.hasAttackAbility() }
     }
 
-    private fun getCMadmanList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getCMadmanList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !myself.skill.isSayableWerewolfSay()) return emptyList()
-        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.C国狂人 }
+        return village.participants
+            .sortedByRoomNumber()
+            .list
+            .filter { it.skill!!.toCdef() == CDef.Skill.C国狂人 }
     }
 
-    private fun getFoxList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getFoxList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !isFoxCamp(myself)) return emptyList()
         return village.participants.sortedByRoomNumber().list.filter {
             it.skill!!.isFoxCount()
         }
     }
 
-    private fun isFoxCamp(myself: VillageParticipant): Boolean {
-        return myself.skill!!.camp().isFoxs() || myself.status.isFoxPossessioned()
-    }
+    private fun isFoxCamp(myself: VillageParticipant): Boolean = myself.skill!!.camp().isFoxs() || myself.status.isFoxPossessioned()
 
-    private fun getLoversList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getLoversList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !myself.status.hasLover()) return emptyList()
-        return village.participants.sortedByRoomNumber().list.filter { it.status.hasLover() }
+        return village.participants
+            .sortedByRoomNumber()
+            .list
+            .filter { it.status.hasLover() }
     }
 
-    private fun getMasonsList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getMasonsList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !myself.skill.isViewableSympathizeSay()) return emptyList()
-        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.共鳴者 }
+        return village.participants
+            .sortedByRoomNumber()
+            .list
+            .filter { it.skill!!.toCdef() == CDef.Skill.共鳴者 }
     }
 
-    private fun getListenMasonsList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    private fun getListenMasonsList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (myself?.skill == null || !myself.skill.isViewableSympathizeSay()) return emptyList()
-        return village.participants.sortedByRoomNumber().list.filter { it.skill!!.toCdef() == CDef.Skill.共有者 }
+        return village.participants
+            .sortedByRoomNumber()
+            .list
+            .filter { it.skill!!.toCdef() == CDef.Skill.共有者 }
     }
 
     private fun getTargetPrefix(
         village: Village,
         myself: VillageParticipant?,
         day: Int,
-        abilityType: AbilityType?
-    ): String? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType == null) null
-        else detectAbilityTypeService(abilityType).getTargetPrefix()
-    }
+        abilityType: AbilityType?,
+    ): String? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType == null) {
+            null
+        } else {
+            detectAbilityTypeService(abilityType).getTargetPrefix()
+        }
 
     private fun getTargetSuffix(
         village: Village,
         myself: VillageParticipant?,
         day: Int,
-        abilityType: AbilityType?
-    ): String? {
-        return if (!canUseAbility(village, myself, day)) null
-        else if (abilityType == null) null
-        else detectAbilityTypeService(abilityType).getTargetSuffix()
-    }
+        abilityType: AbilityType?,
+    ): String? =
+        if (!canUseAbility(village, myself, day)) {
+            null
+        } else if (abilityType == null) {
+            null
+        } else {
+            detectAbilityTypeService(abilityType).getTargetSuffix()
+        }
 
     private fun isTargetingAndFootstep(
         village: Village,
         myself: VillageParticipant?,
         day: Int,
-        abilityType: AbilityType?
-    ): Boolean {
-        return if (!canUseAbility(village, myself, day)) false
-        else if (abilityType == null) false
-        else detectAbilityTypeService(abilityType).isTargetingAndFootstep()
-    }
+        abilityType: AbilityType?,
+    ): Boolean =
+        if (!canUseAbility(village, myself, day)) {
+            false
+        } else if (abilityType == null) {
+            false
+        } else {
+            detectAbilityTypeService(abilityType).isTargetingAndFootstep()
+        }
 
     private fun mapAbilitySituation(
         village: Village,
         myself: VillageParticipant?,
         abilities: Abilities,
-        day: Int
+        day: Int,
     ): List<String> {
         if (!spoilerDomainService.isViewableSpoilerContent(village, myself)) return emptyList()
         return abilities.filterByDay(day - 1).list.mapNotNull {
@@ -529,22 +604,27 @@ class AbilityDomainService(
         Skills.openSkills.forEach { cdefSkill ->
             val targets = village.participants.filterBySkill(cdefSkill.toModel()).list
             if (targets.isNotEmpty()) {
-                val text = targets.joinToString(
-                    separator = "、",
-                    postfix = "は${cdefSkill.toModel().name}のようだ。"
-                ) { it.name() }
+                val text =
+                    targets.joinToString(
+                        separator = "、",
+                        postfix = "は${cdefSkill.toModel().name}のようだ。",
+                    ) { it.name() }
                 messages = messages.add(messageDomainService.createOpenSkillMessage(village, text))
             }
         }
 
         // 梟
-        if (village.participants.filterBySkill(Skill(CDef.Skill.梟)).list.isNotEmpty()) {
+        if (village.participants
+                .filterBySkill(Skill(CDef.Skill.梟))
+                .list
+                .isNotEmpty()
+        ) {
             messages =
                 messages.add(
                     messageDomainService.createOpenSkillMessage(
                         daychange.village,
-                        "この村には強力な聴力を持つ者がいるようだ。"
-                    )
+                        "この村には強力な聴力を持つ者がいるようだ。",
+                    ),
                 )
         }
 

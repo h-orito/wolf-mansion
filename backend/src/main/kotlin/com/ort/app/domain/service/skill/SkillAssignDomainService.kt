@@ -14,20 +14,18 @@ import org.springframework.stereotype.Service
 
 @Service
 class SkillAssignDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) {
-
-    fun assign(
-        daychange: Daychange
-    ): Daychange {
+    fun assign(daychange: Daychange): Daychange {
         val skillPersonCountMap = daychange.village.mapToSkillCount()
 
         // 人数により役職構成が切り替わった場合に役職希望を自動で変更する
-        var (village, messages) = updateSkillRequestByOrganization(
-            daychange.village,
-            daychange.messages,
-            skillPersonCountMap
-        )
+        var (village, messages) =
+            updateSkillRequestByOrganization(
+                daychange.village,
+                daychange.messages,
+                skillPersonCountMap,
+            )
 
         // ダミー配役
         village = village.assignParticipantSkill(village.dummyParticipant().id, Skill(CDef.Skill.村人))
@@ -49,49 +47,54 @@ class SkillAssignDomainService(
 
         return daychange.copy(
             village = village,
-            messages = messages
+            messages = messages,
         )
     }
 
     private fun updateSkillRequestByOrganization(
         village: Village,
         messages: Messages,
-        countMap: Map<CDef.Skill, Int>
+        countMap: Map<CDef.Skill, Int>,
     ): Pair<Village, Messages> {
         var msgs = messages.copy()
-        val vil = village.copy(
-            participants = village.participants.copy(
-                list = village.participants.list.map { participant ->
-                    var par = participant.copy()
-                    if (participant.id == village.dummyParticipant().id) return@map participant
-                    if (!CDef.Skill.村人.existsIn(countMap) && CDef.Skill.霊能者.existsIn(countMap)) {
-                        par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
-                    } else if (CDef.Skill.村人.existsIn(countMap) && !CDef.Skill.霊能者.existsIn(countMap)) {
-                        par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
-                    }
-                    par = par.changeRequestSkillByPriority(Skill.madmanPriorityList, countMap)
-                    par = par.changeRequestSkillByPriority(Skill.wolfPriorityList, countMap)
-                    par = par.changeRequestSkillByPriority(Skill.seerPriorityList, countMap)
-                    par = par.upgradeToFirstRequest(countMap)
-                    msgs = msgs.addChangeRequestSkillMessageIfNeeded(participant, par)
-                    par
-                }
+        val vil =
+            village.copy(
+                participants =
+                    village.participants.copy(
+                        list =
+                            village.participants.list.map { participant ->
+                                var par = participant.copy()
+                                if (participant.id == village.dummyParticipant().id) return@map participant
+                                if (!CDef.Skill.村人.existsIn(countMap) && CDef.Skill.霊能者.existsIn(countMap)) {
+                                    par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
+                                } else if (CDef.Skill.村人.existsIn(countMap) && !CDef.Skill.霊能者.existsIn(countMap)) {
+                                    par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
+                                }
+                                par = par.changeRequestSkillByPriority(Skill.madmanPriorityList, countMap)
+                                par = par.changeRequestSkillByPriority(Skill.wolfPriorityList, countMap)
+                                par = par.changeRequestSkillByPriority(Skill.seerPriorityList, countMap)
+                                par = par.upgradeToFirstRequest(countMap)
+                                msgs = msgs.addChangeRequestSkillMessageIfNeeded(participant, par)
+                                par
+                            },
+                    ),
             )
-        )
 
         return vil to msgs
     }
 
     private fun assignFirstSpecifyRequest(
         village: Village,
-        skillPersonCountMap: Map<CDef.Skill, Int>
+        skillPersonCountMap: Map<CDef.Skill, Int>,
     ): Village {
         var participants = village.participants.copy()
         for ((cdefSkill, capacity) in skillPersonCountMap.entries) {
             // この役職を希望していてまだ割り当たってない人
-            val requestPlayerList = participants
-                .filterNotAssignSkill()
-                .filterByFirstRequestSkill(Skill(cdefSkill)).list
+            val requestPlayerList =
+                participants
+                    .filterNotAssignSkill()
+                    .filterByFirstRequestSkill(Skill(cdefSkill))
+                    .list
             // 希望している人がいない
             if (requestPlayerList.isEmpty()) continue
             // 空いている枠数
@@ -111,15 +114,16 @@ class SkillAssignDomainService(
 
     private fun assignFirstRangeRequest(
         village: Village,
-        skillPersonCountMap: Map<CDef.Skill, Int>
+        skillPersonCountMap: Map<CDef.Skill, Int>,
     ): Village {
         var participants = village.participants.copy()
         // 範囲指定している人
         participants
             .filterNotAssignSkill()
-            .list.filter {
-                CDef.Skill.listOfSomeoneSkill().contains(it.requestSkill?.first?.toCdef())
-                        && it.requestSkill?.first?.toCdef() != CDef.Skill.おまかせ
+            .list
+            .filter {
+                CDef.Skill.listOfSomeoneSkill().contains(it.requestSkill?.first?.toCdef()) &&
+                    it.requestSkill?.first?.toCdef() != CDef.Skill.おまかせ
             }.shuffled()
             .forEach {
                 // 役職候補
@@ -138,14 +142,16 @@ class SkillAssignDomainService(
 
     private fun assignSecondSpecifyRequest(
         village: Village,
-        skillPersonCountMap: Map<CDef.Skill, Int>
+        skillPersonCountMap: Map<CDef.Skill, Int>,
     ): Village {
         var participants = village.participants.copy()
         for ((cdefSkill, capacity) in skillPersonCountMap.entries) {
             // この役職を希望していてまだ割り当たってない人
-            val requestPlayerList = participants
-                .filterNotAssignSkill()
-                .filterBySecondRequestSkill(Skill(cdefSkill)).list
+            val requestPlayerList =
+                participants
+                    .filterNotAssignSkill()
+                    .filterBySecondRequestSkill(Skill(cdefSkill))
+                    .list
             // 希望している人がいない
             if (requestPlayerList.isEmpty()) continue
             // 空いている枠数
@@ -165,15 +171,16 @@ class SkillAssignDomainService(
 
     private fun assignSecondRangeRequest(
         village: Village,
-        skillPersonCountMap: Map<CDef.Skill, Int>
+        skillPersonCountMap: Map<CDef.Skill, Int>,
     ): Village {
         var participants = village.participants.copy()
         // 範囲指定している人
         participants
             .filterNotAssignSkill()
-            .list.filter {
-                CDef.Skill.listOfSomeoneSkill().contains(it.requestSkill?.second?.toCdef())
-                        && it.requestSkill?.second?.toCdef() != CDef.Skill.おまかせ
+            .list
+            .filter {
+                CDef.Skill.listOfSomeoneSkill().contains(it.requestSkill?.second?.toCdef()) &&
+                    it.requestSkill?.second?.toCdef() != CDef.Skill.おまかせ
             }.shuffled()
             .forEach {
                 // 役職候補
@@ -190,7 +197,10 @@ class SkillAssignDomainService(
         return village.copy(participants = participants)
     }
 
-    private fun assignOther(village: Village, skillPersonCountMap: Map<CDef.Skill, Int>): Village {
+    private fun assignOther(
+        village: Village,
+        skillPersonCountMap: Map<CDef.Skill, Int>,
+    ): Village {
         var participants = village.participants.copy()
 
         // 役職が決まっていない参加者に
@@ -226,14 +236,21 @@ class SkillAssignDomainService(
         return village.copy(participants = participants)
     }
 
-    private fun addOrganizationMessage(village: Village, countMap: Map<CDef.Skill, Int>): Message {
-        val text = Skills.all().filterNotSomeone().list
-            .filter { countMap.getOrDefault(it.toCdef(), 0) > 0 }
-            .joinToString(
-                separator = "、",
-                prefix = "この館には、",
-                postfix = "いるようだ。"
-            ) { "${it.name}が${countMap[it.toCdef()]}名" }
+    private fun addOrganizationMessage(
+        village: Village,
+        countMap: Map<CDef.Skill, Int>,
+    ): Message {
+        val text =
+            Skills
+                .all()
+                .filterNotSomeone()
+                .list
+                .filter { countMap.getOrDefault(it.toCdef(), 0) > 0 }
+                .joinToString(
+                    separator = "、",
+                    prefix = "この館には、",
+                    postfix = "いるようだ。",
+                ) { "${it.name}が${countMap[it.toCdef()]}名" }
         return messageDomainService.createOrganizationMessage(village, text)
     }
 
@@ -244,19 +261,22 @@ class SkillAssignDomainService(
             else -> countMap.getOrDefault(this, 0) > 0
         }
 
-    private fun VillageParticipant.changeRequestSkillIfNeeded(from: CDef.Skill, to: CDef.Skill): VillageParticipant {
+    private fun VillageParticipant.changeRequestSkillIfNeeded(
+        from: CDef.Skill,
+        to: CDef.Skill,
+    ): VillageParticipant {
         val req = requestSkill!!
         return changeRequestSkill(
             req.copy(
                 first = if (req.first.toCdef() == from) Skill(to) else req.first,
-                second = if (req.second.toCdef() == from) Skill(to) else req.second
-            )
+                second = if (req.second.toCdef() == from) Skill(to) else req.second,
+            ),
         )
     }
 
     private fun VillageParticipant.changeRequestSkillByPriority(
         priorityList: List<CDef.Skill>,
-        countMap: Map<CDef.Skill, Int>
+        countMap: Map<CDef.Skill, Int>,
     ): VillageParticipant {
         val to = priorityList.find { it.existsIn(countMap) } ?: return this
         var par = this.copy()
@@ -281,18 +301,22 @@ class SkillAssignDomainService(
             changeRequestSkill(req.copy(first = req.second, second = Skill(CDef.Skill.おまかせ)))
         } else if (existsFirst && !existsSecond) {
             changeRequestSkill(req.copy(first = req.first, second = Skill(CDef.Skill.おまかせ)))
-        } else this
+        } else {
+            this
+        }
     }
 
     private fun Messages.addChangeRequestSkillMessageIfNeeded(
         before: VillageParticipant,
-        after: VillageParticipant
+        after: VillageParticipant,
     ): Messages {
         val beforeReq = before.requestSkill!!
         val afterReq = after.requestSkill!!
-        if (beforeReq.first.toCdef() == afterReq.first.toCdef()
-            && beforeReq.second.toCdef() == afterReq.second.toCdef()
-        ) return this
+        if (beforeReq.first.toCdef() == afterReq.first.toCdef() &&
+            beforeReq.second.toCdef() == afterReq.second.toCdef()
+        ) {
+            return this
+        }
         return copy().add(messageDomainService.createAutoChangeRequestSkillMessage(before, after))
     }
 }

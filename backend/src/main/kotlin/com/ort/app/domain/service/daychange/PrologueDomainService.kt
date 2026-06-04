@@ -18,21 +18,27 @@ class PrologueDomainService(
     private val messageDomainService: MessageDomainService,
     private val skillAssignDomainService: SkillAssignDomainService,
     private val roomDomainService: RoomDomainService,
-    private val abilityDomainService: AbilityDomainService
+    private val abilityDomainService: AbilityDomainService,
 ) {
-
     fun leaveParticipantIfNeeded(daychange: Daychange): Daychange {
         // 開始まで3日以内の場合のみ、24時間アクセスしていない人を退村させる
         val now = LocalDateTime.now()
-        if (daychange.village.setting.startDatetime.minusDays(3L).isAfter(now)) return daychange
+        if (daychange.village.setting.startDatetime
+                .minusDays(3L)
+                .isAfter(now)
+        ) {
+            return daychange
+        }
 
         val threshold = now.minusDays(1L)
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
 
-        village.allParticipants()
+        village
+            .allParticipants()
             .filterNotDummy(village.dummyParticipant())
-            .list.filter {
+            .list
+            .filter {
                 it.lastAccessDatetime.isBefore(threshold)
             }.forEach {
                 village = village.leaveParticipant(it.id)
@@ -41,7 +47,7 @@ class PrologueDomainService(
 
         return daychange.copy(
             village = village,
-            messages = messages
+            messages = messages,
         )
     }
 
@@ -54,22 +60,27 @@ class PrologueDomainService(
         return if (village.participants.list.size > 1) {
             daychange.copy(
                 village = village.extendPrologue(),
-                messages = daychange.messages.add(messageDomainService.createExtendPrologueMessage())
+                messages = daychange.messages.add(messageDomainService.createExtendPrologueMessage()),
             )
         } else {
             daychange.copy(village = village.cancel())
         }
     }
 
-    fun changeDayIfNeeded(daychange: Daychange, charas: Charas): Daychange {
+    fun changeDayIfNeeded(
+        daychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         if (!shouldChangeDay(daychange.village)) return daychange
         return startVillage(daychange.copy(village = daychange.village.addNewDay()), charas)
     }
 
-    private fun shouldChangeDay(village: Village): Boolean =
-        !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
+    private fun shouldChangeDay(village: Village): Boolean = !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
 
-    private fun startVillage(beforeDaychange: Daychange, charas: Charas): Daychange {
+    private fun startVillage(
+        beforeDaychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         var daychange = beforeDaychange.copy()
         // 開始メッセージ
         daychange = daychange.copy(messages = daychange.messages.add(messageDomainService.createVillageStartMessage()))
@@ -99,47 +110,60 @@ class PrologueDomainService(
 
         // 襲撃役が2名以下の場合は連続襲撃ありにする
         if (!village.setting.rule.isAvailableSameWolfAttack && village.participants.list.count { it.skill!!.hasAttackAbility() } < 3) {
-            village = village.copy(
-                setting = village.setting.copy(
-                    rule = village.setting.rule.copy(
-                        isAvailableSameWolfAttack = true
-                    )
+            village =
+                village.copy(
+                    setting =
+                        village.setting.copy(
+                            rule =
+                                village.setting.rule.copy(
+                                    isAvailableSameWolfAttack = true,
+                                ),
+                        ),
                 )
-            )
-            messages = messages.add(
-                Message.ofSystemMessage(
-                    day = village.latestDay(),
-                    message = "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。"
+            messages =
+                messages.add(
+                    Message.ofSystemMessage(
+                        day = village.latestDay(),
+                        message = "人狼の人数が3名より少ないため、同一人狼による連続襲撃を「可能」に変更します。",
+                    ),
                 )
-            )
         }
 
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun addDummyCharaMessage(daychange: Daychange, charas: Charas): Daychange {
+    private fun addDummyCharaMessage(
+        daychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         val dummyChara = charas.chara(daychange.village.dummyParticipant().charaId)
         val message = daychange.village.setting.chara.dummyDay1Message
         if (message.isNullOrEmpty()) return daychange
         return daychange.copy(
-            messages = daychange.messages.add(
-                messageDomainService.createSayMessage(
-                    village = daychange.village,
-                    myself = daychange.village.dummyParticipant(),
-                    target = null,
-                    messageContent = MessageContent.invoke(
-                        messageType = CDef.MessageType.通常発言.code(),
-                        text = message,
-                        faceCode = dummyChara.defaultImage().faceType.code,
-                        isConvertDisable = false
-                    )
-                )
-            )
+            messages =
+                daychange.messages.add(
+                    messageDomainService.createSayMessage(
+                        village = daychange.village,
+                        myself = daychange.village.dummyParticipant(),
+                        target = null,
+                        messageContent =
+                            MessageContent.invoke(
+                                messageType = CDef.MessageType.通常発言.code(),
+                                text = message,
+                                faceCode = dummyChara.defaultImage().faceType.code,
+                                isConvertDisable = false,
+                            ),
+                    ),
+                ),
         )
     }
 
     private fun addStartTweet(daychange: Daychange): Daychange {
-        if (!daychange.village.setting.joinPassword.isNullOrEmpty()) return daychange
+        if (!daychange.village.setting.joinPassword
+                .isNullOrEmpty()
+        ) {
+            return daychange
+        }
         return daychange.copy(tweets = daychange.tweets + "${daychange.village.name}が開始されました。")
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.web.client.RestTemplate
 
 @Repository
 class MastodonRepository : TootRepository {
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     companion object {
@@ -29,18 +28,21 @@ class MastodonRepository : TootRepository {
     @Value("\${mastodon.oauth.access-token:}")
     private lateinit var accessToken: String
 
-    override fun toot(msg: String, villageId: Int) {
+    override fun toot(
+        msg: String,
+        villageId: Int,
+    ) {
         toot("[WOLF MANSION] $msg\r\n$VILLAGE_URL$villageId")
     }
 
     data class Request(
         val status: String,
-        val visibility: String = "unlisted" // ローカルタイムラインには流さない
+        val visibility: String = "unlisted", // ローカルタイムラインには流さない
     )
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     data class Response(
-        val id: String
+        val id: String,
     )
 
     override fun toot(msg: String) {
@@ -49,9 +51,10 @@ class MastodonRepository : TootRepository {
         val headers = HttpHeaders()
         headers.contentType = MediaType.APPLICATION_JSON
         headers.setBearerAuth(accessToken)
-        val request = Request(
-            status = "[自動通知]$msg"
-        )
+        val request =
+            Request(
+                status = "[自動通知]$msg",
+            )
         val entity = HttpEntity<Request>(request, headers)
         val restTemplate = RestTemplate()
         try {

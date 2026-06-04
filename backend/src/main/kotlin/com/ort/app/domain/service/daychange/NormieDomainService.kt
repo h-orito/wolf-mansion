@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service
 @Service
 class NormieDomainService(
     private val roomDomainService: RoomDomainService,
-    private val cohabitDomainService: CohabitDomainService
+    private val cohabitDomainService: CohabitDomainService,
 ) {
     fun normieBomb(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
@@ -23,7 +23,9 @@ class NormieDomainService(
             .filterDeadDay(village.latestDay())
             .filterMiserable()
             .filterBySkill(CDef.Skill.リア充.toModel())
-            .list.shuffled().forEach { normie ->
+            .list
+            .shuffled()
+            .forEach { normie ->
                 messages = messages.add(createNormieBombMessage(village, normie))
 
                 // 3*3の部屋の人が爆死する
@@ -31,7 +33,8 @@ class NormieDomainService(
                 val deadParticipants = mutableListOf<VillageParticipant>()
                 village.participants
                     .filterAlive()
-                    .list.filter { targetRoomNumberList.contains(it.room!!.number) }
+                    .list
+                    .filter { targetRoomNumberList.contains(it.room!!.number) }
                     .forEach { target ->
                         // 同棲で不在でなければ死亡
                         if (!cohabitDomainService.isAbsence(daychange, target)) {
@@ -52,26 +55,29 @@ class NormieDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createNormieBombMessage(village: Village, normie: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createNormieBombMessage(
+        village: Village,
+        normie: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "リア充の${normie.name()}は、爆発した。"
+            message = "リア充の${normie.name()}は、爆発した。",
         )
-    }
 
     private fun createBombedMessage(
         village: Village,
-        deadParticipants: MutableList<VillageParticipant>
+        deadParticipants: MutableList<VillageParticipant>,
     ): Message {
-        val message = deadParticipants.joinToString(
-            prefix = "リア充の爆発により、",
-            separator = "と",
-            postfix = "が爆死した。"
-        ) { it.name() }
+        val message =
+            deadParticipants.joinToString(
+                prefix = "リア充の爆発により、",
+                separator = "と",
+                postfix = "が爆死した。",
+            ) { it.name() }
         return Message.ofSystemMessage(
             day = village.latestDay(),
             message = message,
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel(),
         )
     }
 }

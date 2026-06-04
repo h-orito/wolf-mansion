@@ -15,14 +15,13 @@ import java.time.LocalDateTime
 @Service
 class MessageService(
     private val messageDomainService: MessageDomainService,
-    private val messageRepository: MessageRepository
+    private val messageRepository: MessageRepository,
 ) {
-
     fun findMeesages(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        query: MessageQuery
+        query: MessageQuery,
     ): Messages {
         messageDomainService.setViewableQuery(village, myself, player, query)
         return messageRepository.findMessages(village, myself, query)
@@ -33,7 +32,7 @@ class MessageService(
         myself: VillageParticipant?,
         player: Player?,
         messageType: String,
-        messageNumber: Int
+        messageNumber: Int,
     ): Message? {
         val cdef = requireNotNull(CDef.MessageType.codeOf(messageType))
         if (!messageDomainService.isViewable(village, myself, player, cdef, village.latestDay())) {
@@ -46,7 +45,7 @@ class MessageService(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        query: MessageQuery
+        query: MessageQuery,
     ): LocalDateTime? {
         messageDomainService.setViewableQuery(village, myself, player, query)
         return messageRepository.findLatestMessageDatetime(myself, query)
@@ -55,12 +54,17 @@ class MessageService(
     fun findParticipantDayMessageCount(
         village: Village,
         day: Int,
-        participant: VillageParticipant
+        participant: VillageParticipant,
     ): Map<CDef.MessageType, Int> = messageRepository.findParticipantDayMessageCount(village, day, participant)
 
-    fun registerMessage(village: Village, message: Message): Message =
-        messageRepository.registerMessage(village, message)
+    fun registerMessage(
+        village: Village,
+        message: Message,
+    ): Message = messageRepository.registerMessage(village, message)
 
-    fun updateDaychangeDifference(village: Village, current: Messages, changed: Messages) =
-        changed.list.drop(current.list.size).forEach { registerMessage(village, it) }
+    fun updateDaychangeDifference(
+        village: Village,
+        current: Messages,
+        changed: Messages,
+    ) = changed.list.drop(current.list.size).forEach { registerMessage(village, it) }
 }

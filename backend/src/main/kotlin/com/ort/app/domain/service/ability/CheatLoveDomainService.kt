@@ -21,38 +21,47 @@ class CheatLoveDomainService(
     private val messageDomainService: MessageDomainService,
     private val footstepDomainService: FootstepDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.浮気.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 陣営変化していたら使用不可能
         if (!myself.camp!!.isLovers()) return emptyList()
         // 一度選んだ人は選べない
-        val pastTargetCharaIds = abilities
-            .filterPastDay(village.latestDay())
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType).list.map { it.targetCharaId }
+        val pastTargetCharaIds =
+            abilities
+                .filterPastDay(village.latestDay())
+                .filterByCharaId(myself.charaId)
+                .filterByType(abilityType)
+                .list
+                .map { it.targetCharaId }
         return village.participants
             .filterAlive()
             .filterNotParticipant(myself)
             .filterNotDummy(village.dummyParticipant())
             .sortedByRoomNumber()
-            .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
+            .list
+            .filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean {
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean {
         // 対象がいないか、陣営変化していたら可能になる
         return !myself.camp!!.isLovers() ||
-                getSelectableTargetList(village, myself, abilities, Votes(emptyList())).isEmpty()
+            getSelectableTargetList(village, myself, abilities, Votes(emptyList())).isEmpty()
     }
 
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "浮気相手"
+
     override fun getTargetSuffix(): String = "に乗り換える"
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
@@ -61,21 +70,27 @@ class CheatLoveDomainService(
         var footsteps = daychange.footsteps.copy()
         if (!canUseDay(village.latestDay())) return daychange
         village.participants.filterAlive().filterBySkill(CDef.Skill.浮気者.toModel()).list.forEach {
-            val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().firstOrNull()
-                ?: return@forEach
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
+            val target =
+                getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().firstOrNull()
+                    ?: return@forEach
+            val ability =
+                Ability(
+                    day = village.latestDay(),
+                    type = abilityType,
+                    charaId = it.charaId,
+                    targetCharaId = target.charaId,
+                )
             abilities = abilities.add(ability)
-            val footstep = Footstep(
-                day = village.latestDay(),
-                charaId = it.charaId,
-                roomNumbers = footstepDomainService.getCandidateList(village, it.charaId, target.charaId).shuffled()
-                    .first()
-            )
+            val footstep =
+                Footstep(
+                    day = village.latestDay(),
+                    charaId = it.charaId,
+                    roomNumbers =
+                        footstepDomainService
+                            .getCandidateList(village, it.charaId, target.charaId)
+                            .shuffled()
+                            .first(),
+                )
             footsteps = footsteps.add(footstep)
         }
         return daychange.copy(abilities = abilities, footsteps = footsteps)
@@ -99,13 +114,12 @@ class CheatLoveDomainService(
     private fun createCheatLoveMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}に浮気した。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 }

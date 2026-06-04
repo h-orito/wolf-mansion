@@ -8,19 +8,20 @@ import org.springframework.stereotype.Service
 
 @Service
 class FootstepApplicationService(
-    private val footstepRepository: FootstepRepository
+    private val footstepRepository: FootstepRepository,
 ) {
-
     fun findFootsteps(villageId: Int): Footsteps = footstepRepository.findFootsteps(villageId)
 
     fun updateFootstep(
         village: Village,
         myself: VillageParticipant,
         footstepParticipant: VillageParticipant,
-        footstep: String?
-    ) =
-        footstepRepository.updateFootstep(village, myself, footstepParticipant.charaId, footstep)
+        footstep: String?,
+    ) = footstepRepository.updateFootstep(village, myself, footstepParticipant.charaId, footstep)
 
-    fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps) =
-        footstepRepository.updateDaychangeDifference(village, current, changed)
+    fun updateDaychangeDifference(
+        village: Village,
+        current: Footsteps,
+        changed: Footsteps,
+    ) = footstepRepository.updateDaychangeDifference(village, current, changed)
 }

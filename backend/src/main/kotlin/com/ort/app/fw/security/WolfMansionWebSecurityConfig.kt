@@ -13,19 +13,23 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 @Configuration
 @EnableWebSecurity
 class WolfMansionWebSecurityConfig {
-
     @Bean
-    fun filterChain(http: HttpSecurity, userInfoService: UserInfoService): SecurityFilterChain {
+    fun filterChain(
+        http: HttpSecurity,
+        userInfoService: UserInfoService,
+    ): SecurityFilterChain {
         // Spring Security 5 互換: BREACH 対策の XOR を無効化 (multipart フォームとの互換性のため)
         val csrfTokenHandler = CsrfTokenRequestAttributeHandler()
         http
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
-                    .requestMatchers("/change-password").fullyAuthenticated()
-                    .anyRequest().permitAll()
-            }
-            .formLogin { form ->
+                    .requestMatchers("/admin/**")
+                    .hasRole("ADMIN")
+                    .requestMatchers("/change-password")
+                    .fullyAuthenticated()
+                    .anyRequest()
+                    .permitAll()
+            }.formLogin { form ->
                 form
                     .loginProcessingUrl("/login")
                     .loginPage("/")
@@ -34,30 +38,26 @@ class WolfMansionWebSecurityConfig {
                     .usernameParameter("userId")
                     .passwordParameter("password")
                     .permitAll()
-            }
-            .logout { logout ->
+            }.logout { logout ->
                 logout
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/")
                     .deleteCookies("JSESSIONID")
                     .invalidateHttpSession(true)
                     .permitAll()
-            }
-            .rememberMe { rm ->
+            }.rememberMe { rm ->
                 rm
                     .userDetailsService(userInfoService)
                     .key("X7kmptSvar")
-            }
-            .csrf { csrf ->
+            }.csrf { csrf ->
                 csrf.csrfTokenRequestHandler(csrfTokenHandler)
                 csrf.ignoringRequestMatchers(
                     "/village/*/confirm",
                     "/village/*/say",
                     "/api/login",
-                    "/village/*/update"
+                    "/village/*/update",
                 )
-            }
-            .authenticationProvider(authenticationProvider(userInfoService))
+            }.authenticationProvider(authenticationProvider(userInfoService))
         return http.build()
     }
 

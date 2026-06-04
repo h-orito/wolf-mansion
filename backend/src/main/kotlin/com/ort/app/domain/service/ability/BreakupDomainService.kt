@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class BreakupDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.破局)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String = "破局させる対象"
+
     override fun getTargetSuffix(): String = "を破局させる"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun breakup(daychange: Daychange): Daychange {
@@ -52,34 +58,46 @@ class BreakupDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createBreakupMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createBreakupMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}を破局させた。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createBreakedupMessage(village: Village, separator: VillageParticipant, myself: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createBreakedupMessage(
+        village: Village,
+        separator: VillageParticipant,
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${separator.name()}に破局させられてしまった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createFailedMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createFailedMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}の破局させようとしたが、${target.name()}は恋をしていなかった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun isFailed(target: VillageParticipant, village: Village): Boolean {
+    private fun isFailed(
+        target: VillageParticipant,
+        village: Village,
+    ): Boolean {
         if (target.isDead()) return true
         // 相方同棲者を除いた恋絆の本数が0の場合は失敗
         val cohabitor = target.getTargetCohabitor(village)

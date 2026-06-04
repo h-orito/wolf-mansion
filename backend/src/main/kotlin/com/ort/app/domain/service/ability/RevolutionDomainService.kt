@@ -14,55 +14,64 @@ import org.springframework.stereotype.Service
 
 @Service
 class RevolutionDomainService : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.革命)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> {
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else listOf(myself)
-    }
+        votes: Votes,
+    ): List<VillageParticipant> =
+        if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            listOf(myself)
+        }
 
     override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): String? {
-        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
-        else "革命を宣言する！"
-    }
+        abilities: Abilities,
+    ): String? =
+        if (getSelectingTarget(village, myself, abilities) == null) {
+            "何もしない"
+        } else {
+            "革命を宣言する！"
+        }
 
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByCharaId(myself.charaId)
             .filterByType(abilityType)
-            .sortedByDay().list.map { "${it.day}日目 革命宣言" }
-    }
+            .sortedByDay()
+            .list
+            .map { "${it.day}日目 革命宣言" }
 
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
         targetCharaId ?: return "${myself.name()}が革命を宣言するのをやめました。"
         return "${myself.name()}が革命を宣言することにしました。"
     }
 
     override fun getTargetPrefix(): String? = "発動させる場合自分を選択してください"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
 
     fun revolution(daychange: Daychange): Daychange {
         val village = daychange.village
@@ -76,11 +85,10 @@ class RevolutionDomainService : AbilityTypeDomainService {
 
     private fun createRevolutionMessage(
         village: Village,
-        revolutionary: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        revolutionary: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${revolutionary.name()}は、革命を宣言した！"
+            message = "${revolutionary.name()}は、革命を宣言した！",
         )
-    }
 }

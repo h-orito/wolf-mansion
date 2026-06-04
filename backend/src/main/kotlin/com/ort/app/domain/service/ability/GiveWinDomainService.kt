@@ -20,67 +20,86 @@ import org.springframework.stereotype.Service
 @Service
 class GiveWinDomainService(
     private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.当選.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 当選者になったことがない人
         return village.participants
             .filterAlive()
             .sortedByRoomNumber()
-            .filterNotDummy(village.dummyParticipant()).list
+            .filterNotDummy(village.dummyParticipant())
+            .list
             .filterNot {
-                it.skill!!.histories.list.any { h -> h.skill.toCdef() == CDef.Skill.当選者 }
+                it.skill!!
+                    .histories.list
+                    .any { h -> h.skill.toCdef() == CDef.Skill.当選者 }
             }.filterNot { Skills.openSkills.contains(it.skill!!.toCdef()) }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean =
-        false
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = false
 
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "当選権利を譲る対象"
+
     override fun getTargetSuffix(): String = "に当選権利を譲る"
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
         var abilities = daychange.abilities.copy()
         var footsteps = daychange.footsteps.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.当選者.toModel()).list
+        village.participants
+            .filterAlive()
+            .filterBySkill(CDef.Skill.当選者.toModel())
+            .list
             .forEach {
                 val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
-                val ability = Ability(
-                    day = village.latestDay(),
-                    type = abilityType,
-                    charaId = it.charaId,
-                    targetCharaId = target.charaId
-                )
+                val ability =
+                    Ability(
+                        day = village.latestDay(),
+                        type = abilityType,
+                        charaId = it.charaId,
+                        targetCharaId = target.charaId,
+                    )
                 abilities = abilities.add(ability)
-                val footstep = Footstep(
-                    day = village.latestDay(),
-                    charaId = it.charaId,
-                    roomNumbers = footstepDomainService.getCandidateList(village, it.charaId, target.charaId).shuffled()
-                        .first()
-                )
+                val footstep =
+                    Footstep(
+                        day = village.latestDay(),
+                        charaId = it.charaId,
+                        roomNumbers =
+                            footstepDomainService
+                                .getCandidateList(village, it.charaId, target.charaId)
+                                .shuffled()
+                                .first(),
+                    )
                 footsteps = footsteps.add(footstep)
             }
 
         return daychange.copy(
             abilities = abilities,
-            footsteps = footsteps
+            footsteps = footsteps,
         )
     }
 
     fun giveWin(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().filterBySkill(CDef.Skill.当選者.toModel()).list.shuffled()
+        village.participants
+            .filterAlive()
+            .filterBySkill(CDef.Skill.当選者.toModel())
+            .list
+            .shuffled()
             .forEach { winner ->
                 val ability = daychange.abilities.findYesterday(village, winner, abilityType) ?: return@forEach
                 val target = village.participants.chara(ability.targetCharaId!!)
@@ -109,32 +128,32 @@ class GiveWinDomainService(
     private fun createGiveWinMessage(
         village: Village,
         winner: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val targetSkill = target.skill!!.toCdef()
-        val text = when {
-            target.isDead() -> "${target.name()}は死亡しているため、${winner.name()}は当選権利を譲れなかった。"
-            targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${winner.name()}は当選権利を譲れなかった。"
-            Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${winner.name()}は当選権利を譲れなかった。"
-            else -> "${winner.name()}は、${target.name()}に当選権利を譲った。"
-        }
+        val text =
+            when {
+                target.isDead() -> "${target.name()}は死亡しているため、${winner.name()}は当選権利を譲れなかった。"
+                targetSkill == CDef.Skill.同棲者 -> "${target.name()}は同棲者のため、${winner.name()}は当選権利を譲れなかった。"
+                Skills.openSkills.contains(targetSkill) -> "${target.name()}は${targetSkill.toModel().name}のため、${winner.name()}は当選権利を譲れなかった。"
+                else -> "${winner.name()}は、${target.name()}に当選権利を譲った。"
+            }
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = winner,
             text = text,
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel(),
         )
     }
 
     private fun createGivenWinMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = target,
             text = "${target.name()}は、当選権利を譲ってもらった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

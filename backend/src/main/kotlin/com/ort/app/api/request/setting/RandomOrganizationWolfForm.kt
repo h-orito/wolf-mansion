@@ -10,7 +10,6 @@ data class RandomOrganizationWolfForm(
     @field:Min(1)
     @field:Max(100)
     var minNum: Int? = null,
-
     /** 最多人数 */
     @field:Min(1)
     @field:Max(100)

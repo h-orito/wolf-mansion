@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class AssassinDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.殺し屋化.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "プロの殺し屋にする対象"
+
     override fun getTargetSuffix(): String = "をプロの殺し屋にする"
 
     fun assassin(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class AssassinDomainService : AbilityTypeDomainService {
 
     private fun createAssassinMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}に、プロとしての意識が芽生えた──────"
+            message = "${target.name()}に、プロとしての意識が芽生えた──────",
         )
-    }
 }

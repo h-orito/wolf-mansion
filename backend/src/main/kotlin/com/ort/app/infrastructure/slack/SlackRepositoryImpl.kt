@@ -12,7 +12,6 @@ import org.springframework.web.client.RestTemplate
 
 @Repository
 class SlackRepositoryImpl : SlackRepository {
-
     companion object {
         private val logger = LoggerFactory.getLogger(SlackRepositoryImpl::class.java)
     }
@@ -20,8 +19,11 @@ class SlackRepositoryImpl : SlackRepository {
     @Value("\${slack.webhook-url:}")
     private lateinit var slackWebhookUrl: String
 
-
-    override fun post(villageId: Int, day: Int, message: String) {
+    override fun post(
+        villageId: Int,
+        day: Int,
+        message: String,
+    ) {
         if (slackWebhookUrl.isEmpty()) return
         try {
             val restTemplate = RestTemplate()

@@ -5,14 +5,14 @@ import com.ort.app.domain.model.village.Villages
 
 data class SkillRecord(
     val skill: Skill,
-    val record: Record
+    val record: Record,
 ) {
     constructor(
         skill: Skill,
         player: Player,
-        villages: Villages
+        villages: Villages,
     ) : this(
         skill = skill,
-        record = Record(player, villages)
+        record = Record(player, villages),
     )
 }

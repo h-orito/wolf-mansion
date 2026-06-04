@@ -7,9 +7,12 @@ import com.ort.dbflute.allcommon.CDef
 
 data class SayRestriction(
     val normalSayRestriction: List<NormalSayRestriction>,
-    val skillSayRestriction: List<SkillSayRestriction>
+    val skillSayRestriction: List<SkillSayRestriction>,
 ) {
-    fun restrict(myself: VillageParticipant, type: CDef.MessageType): Restriction? {
+    fun restrict(
+        myself: VillageParticipant,
+        type: CDef.MessageType,
+    ): Restriction? {
         return if (type == CDef.MessageType.通常発言) {
             myself.skill ?: return null
             normalSayRestriction.find { it.skill.toCdef() == myself.skill.toCdef() }
@@ -25,10 +28,11 @@ data class SayRestriction(
 
         fun remainingCount(
             status: CDef.VillageStatus,
-            latestDayMessageCountMap: Map<CDef.MessageType, Int>?
+            latestDayMessageCountMap: Map<CDef.MessageType, Int>?,
         ): Int? {
-            return if (status == CDef.VillageStatus.募集中 || status == CDef.VillageStatus.エピローグ) count
-            else {
+            return if (status == CDef.VillageStatus.募集中 || status == CDef.VillageStatus.エピローグ) {
+                count
+            } else {
                 val already = latestDayMessageCountMap?.getOrDefault(messageType.toCdef(), 0) ?: 0
                 return count - already
             }
@@ -39,12 +43,12 @@ data class SayRestriction(
         val skill: Skill,
         override val messageType: MessageType,
         override val count: Int,
-        override val length: Int
+        override val length: Int,
     ) : Restriction
 
     data class SkillSayRestriction(
         override val messageType: MessageType,
         override val count: Int,
-        override val length: Int
+        override val length: Int,
     ) : Restriction
 }

@@ -8,11 +8,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class WiseMessageDomainService : MessageTypeDomainService {
-
     override fun isViewable(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        day: Int
+        day: Int,
     ): Boolean = village.isViewableWiseMessage() || myself?.isViewableWiseMessage() ?: false
 }

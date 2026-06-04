@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class AdminDomainService {
-
     fun convertToSituation(
         village: Village,
-        myself: VillageParticipant?
-    ): ParticipantAdminSituation = ParticipantAdminSituation(
-        isAdmin = myself?.isAdmin() ?: false
-    )
+        myself: VillageParticipant?,
+    ): ParticipantAdminSituation =
+        ParticipantAdminSituation(
+            isAdmin = myself?.isAdmin() ?: false,
+        )
 }

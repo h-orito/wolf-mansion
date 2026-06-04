@@ -16,57 +16,67 @@ import org.springframework.stereotype.Service
 
 @Service
 class HotLimitDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.ナマ足)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> {
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else listOf(myself)
-    }
+        votes: Votes,
+    ): List<VillageParticipant> =
+        if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            listOf(myself)
+        }
 
     override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): String? {
-        return if (getSelectingTarget(village, myself, abilities) == null) "何もしない"
-        else "たわわになる"
-    }
+        abilities: Abilities,
+    ): String? =
+        if (getSelectingTarget(village, myself, abilities) == null) {
+            "何もしない"
+        } else {
+            "たわわになる"
+        }
 
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByCharaId(myself.charaId)
             .filterByType(abilityType)
-            .sortedByDay().list.map { "${it.day}日目 たわわになる" }
-    }
+            .sortedByDay()
+            .list
+            .map { "${it.day}日目 たわわになる" }
 
     override fun createSetMessageText(
         village: Village,
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
         targetCharaId ?: return "${myself.name()}がナマ足を出すのをやめました"
         return "${myself.name()}がナマ足を出すことにしました。"
     }
 
     override fun getTargetPrefix(): String = "発動させる場合自分を選択してください"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun charm(daychange: Daychange): Daychange {
@@ -83,12 +93,11 @@ class HotLimitDomainService(
     private fun createCharmMessage(
         village: Village,
         myself: VillageParticipant,
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、出すとこ出してたわわになった。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

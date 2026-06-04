@@ -14,19 +14,20 @@ import org.springframework.stereotype.Service
 @Service
 class DrawerDomainService(
     private val messageDomainService: MessageDomainService,
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) {
     fun littleFinger(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.箪笥.toModel()).list.forEach { drawer ->
             // 通過すると死亡
-            val passedParticipants = footstepDomainService.findPassedParticipants(
-                village = village,
-                footsteps = daychange.footsteps,
-                day = village.latestDay() - 1,
-                roomNumber = drawer.room!!.number
-            )
+            val passedParticipants =
+                footstepDomainService.findPassedParticipants(
+                    village = village,
+                    footsteps = daychange.footsteps,
+                    day = village.latestDay() - 1,
+                    roomNumber = drawer.room!!.number,
+                )
             passedParticipants.filter { it.isAlive() }.forEach { passed ->
                 village = village.zakoKilledParticipant(passed.id)
                 messages = messages.add(createHitMessage(village, passed))
@@ -38,13 +39,12 @@ class DrawerDomainService(
 
     private fun createHitMessage(
         village: Village,
-        passed: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        passed: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = passed,
             text = "${passed.name()}は、箪笥に小指をぶつけ、即死した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

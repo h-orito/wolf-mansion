@@ -17,38 +17,49 @@ import org.springframework.stereotype.Service
 @Service
 class WallPunchDomainService(
     private val roomDomainService: RoomDomainService,
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.壁殴り)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 四方の部屋
-        val candidateRoomNumbers = roomDomainService.detectWasdRoomNumbers(
-            room = myself.room!!,
-            size = village.roomSize!!
-        )
+        val candidateRoomNumbers =
+            roomDomainService.detectWasdRoomNumbers(
+                room = myself.room!!,
+                size = village.roomSize!!,
+            )
         // 過去に殴った部屋は殴れない
-        val pastTargetCharaIds = abilities
-            .filterPastDay(village.latestDay())
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType).list.map { it.targetCharaId }
+        val pastTargetCharaIds =
+            abilities
+                .filterPastDay(village.latestDay())
+                .filterByCharaId(myself.charaId)
+                .filterByType(abilityType)
+                .list
+                .map { it.targetCharaId }
         return village.participants
             .filterAlive()
-            .sortedByRoomNumber().list
+            .sortedByRoomNumber()
+            .list
             .filter { candidateRoomNumbers.contains(it.room!!.number) }
             .filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
     override fun getTargetPrefix(): String? = "壁殴り対象"
+
     override fun getTargetSuffix(): String? = "の部屋の壁を殴る"
+
     override fun canUseDay(day: Int): Boolean = day > 1
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
 
     fun wallPunch(daychange: Daychange): Daychange {
         val village = daychange.village
@@ -67,13 +78,12 @@ class WallPunchDomainService(
     private fun createWallPunchMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}の部屋の壁を殴っている。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

@@ -16,9 +16,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class RevivalDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) {
-
     fun revival(orgDaychange: Daychange): Daychange {
         // 蘇生者、死霊術師、陰陽師、海王者
         var daychange = revivalByResuscitate(orgDaychange)
@@ -40,36 +39,41 @@ class RevivalDomainService(
     fun revivalByResuscitate(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().list.filter {
-            listOf(
-                CDef.Skill.蘇生者,
-                CDef.Skill.死霊術師,
-                CDef.Skill.陰陽師,
-                CDef.Skill.海王者
-            ).contains(it.skill!!.toCdef())
-        }.shuffled().forEach {
-            val abilityType = when (it.skill!!.toCdef()) {
-                CDef.Skill.蘇生者 -> CDef.AbilityType.蘇生.toModel()
-                CDef.Skill.死霊術師 -> CDef.AbilityType.死霊蘇生.toModel()
-                CDef.Skill.陰陽師 -> CDef.AbilityType.降霊.toModel()
-                CDef.Skill.海王者 -> CDef.AbilityType.人魚化.toModel()
-                else -> throw IllegalStateException("想定外の役職です。")
+        village.participants
+            .filterAlive()
+            .list
+            .filter {
+                listOf(
+                    CDef.Skill.蘇生者,
+                    CDef.Skill.死霊術師,
+                    CDef.Skill.陰陽師,
+                    CDef.Skill.海王者,
+                ).contains(it.skill!!.toCdef())
+            }.shuffled()
+            .forEach {
+                val abilityType =
+                    when (it.skill!!.toCdef()) {
+                        CDef.Skill.蘇生者 -> CDef.AbilityType.蘇生.toModel()
+                        CDef.Skill.死霊術師 -> CDef.AbilityType.死霊蘇生.toModel()
+                        CDef.Skill.陰陽師 -> CDef.AbilityType.降霊.toModel()
+                        CDef.Skill.海王者 -> CDef.AbilityType.人魚化.toModel()
+                        else -> throw IllegalStateException("想定外の役職です。")
+                    }
+                val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
+                val target = village.participants.chara(ability.targetCharaId!!)
+                // 蘇生済み/同棲者の場合は失敗
+                if (target.isAlive() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
+                village = village.reviveParticipant(target.id)
+                // 死霊蘇生、降霊、人魚化の場合は役職変化
+                if (abilityType.toCdef() == CDef.AbilityType.死霊蘇生) {
+                    village = village.assignParticipantSkill(target.id, CDef.Skill.黙狼.toModel())
+                } else if (abilityType.toCdef() == CDef.AbilityType.降霊) {
+                    village = village.assignParticipantSkill(target.id, CDef.Skill.妖狐.toModel())
+                } else if (abilityType.toCdef() == CDef.AbilityType.人魚化) {
+                    village = village.assignParticipantSkill(target.id, CDef.Skill.魅惑の人魚.toModel())
+                }
+                messages = messages.add(createRevivalMessage(village, target))
             }
-            val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
-            val target = village.participants.chara(ability.targetCharaId!!)
-            // 蘇生済み/同棲者の場合は失敗
-            if (target.isAlive() || target.skill!!.toCdef() == CDef.Skill.同棲者) return@forEach
-            village = village.reviveParticipant(target.id)
-            // 死霊蘇生、降霊、人魚化の場合は役職変化
-            if (abilityType.toCdef() == CDef.AbilityType.死霊蘇生) {
-                village = village.assignParticipantSkill(target.id, CDef.Skill.黙狼.toModel())
-            } else if (abilityType.toCdef() == CDef.AbilityType.降霊) {
-                village = village.assignParticipantSkill(target.id, CDef.Skill.妖狐.toModel())
-            } else if (abilityType.toCdef() == CDef.AbilityType.人魚化) {
-                village = village.assignParticipantSkill(target.id, CDef.Skill.魅惑の人魚.toModel())
-            }
-            messages = messages.add(createRevivalMessage(village, target))
-        }
 
         return daychange.copy(village = village, messages = messages)
     }
@@ -77,9 +81,11 @@ class RevivalDomainService(
     private fun revivalAbsoluteWolf(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         // 絶対人狼以外の人狼系役職が生存しているか
-        val existsNonAbsoluteAliveWolf = village.participants
-            .filterAlive()
-            .list.any { it.skill!!.hasAttackAbility() && it.skill.toCdef() != CDef.Skill.絶対人狼 }
+        val existsNonAbsoluteAliveWolf =
+            village.participants
+                .filterAlive()
+                .list
+                .any { it.skill!!.hasAttackAbility() && it.skill.toCdef() != CDef.Skill.絶対人狼 }
         if (!existsNonAbsoluteAliveWolf) return daychange
 
         var messages = daychange.messages.copy()
@@ -95,12 +101,13 @@ class RevivalDomainService(
         var messages = daychange.messages.copy()
         village.participants.filterDead().filterBySkill(CDef.Skill.勇者.toModel()).list.forEach {
             // 能力行使済みか
-            val hasAlreadyUse = hasAlreadyUseAbility(
-                village = village,
-                myself = it,
-                abilities = daychange.abilities,
-                abilityType = AbilityType(CDef.AbilityType.世界を救う)
-            )
+            val hasAlreadyUse =
+                hasAlreadyUseAbility(
+                    village = village,
+                    myself = it,
+                    abilities = daychange.abilities,
+                    abilityType = AbilityType(CDef.AbilityType.世界を救う),
+                )
             if (hasAlreadyUse || it.camp!!.toCdef() != CDef.Camp.村人陣営) {
                 return@forEach
             }
@@ -113,18 +120,21 @@ class RevivalDomainService(
     private fun revivalReincarnation(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        village.participants.filterDead().list
+        village.participants
+            .filterDead()
+            .list
             .filter { it.skill?.toCdef() == CDef.Skill.申し子 || it.skill?.toCdef() == CDef.Skill.転生者 }
             .shuffled()
             .forEach {
                 village = village.reviveParticipant(it.id)
-                val skill = if (it.skill?.toCdef() == CDef.Skill.申し子) {
-                    // 村陣営のランダム役職で転生
-                    village.getReincarnationSkill(CDef.Camp.村人陣営.toModel())
-                } else {
-                    // 転生者はランダム役職で転生
-                    village.getReincarnationSkill()
-                }
+                val skill =
+                    if (it.skill?.toCdef() == CDef.Skill.申し子) {
+                        // 村陣営のランダム役職で転生
+                        village.getReincarnationSkill(CDef.Camp.村人陣営.toModel())
+                    } else {
+                        // 転生者はランダム役職で転生
+                        village.getReincarnationSkill()
+                    }
                 village = village.assignParticipantSkill(it.id, skill)
                 messages = messages.add(createRevivalMessage(village, it))
             }
@@ -135,12 +145,16 @@ class RevivalDomainService(
         var village = daychange.village.copy()
 
         // 生存しているパン屋
-        val bakeries = village.participants
-            .filterAlive()
-            .list.filter { it.skill!!.toCdef() == CDef.Skill.パン屋 }
-        val evilBakeries = village.participants
-            .filterAlive()
-            .list.filter { it.skill!!.toCdef() == CDef.Skill.闇パン屋 }
+        val bakeries =
+            village.participants
+                .filterAlive()
+                .list
+                .filter { it.skill!!.toCdef() == CDef.Skill.パン屋 }
+        val evilBakeries =
+            village.participants
+                .filterAlive()
+                .list
+                .filter { it.skill!!.toCdef() == CDef.Skill.闇パン屋 }
 
         if (bakeries.isEmpty() && evilBakeries.isEmpty()) return daychange
 
@@ -171,42 +185,52 @@ class RevivalDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    private fun createRevivalMessage(village: Village, participant: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createRevivalMessage(
+        village: Village,
+        participant: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "不思議なことに、${participant.name()}が生き返った。"
+            message = "不思議なことに、${participant.name()}が生き返った。",
         )
-    }
 
-    private fun createAnpanmanRevivalMessage(village: Village, participant: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createAnpanmanRevivalMessage(
+        village: Village,
+        participant: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "餡麺麭！新しい顔よ！それーっ！\n不思議なことに、${participant.name()}が生き返った。"
+            message = "餡麺麭！新しい顔よ！それーっ！\n不思議なことに、${participant.name()}が生き返った。",
         )
-    }
 
-    private fun createEvilAnpanmanMessage(village: Village, anpanman: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createEvilAnpanmanMessage(
+        village: Village,
+        anpanman: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = anpanman,
             text = "${anpanman.name()}は、闇堕ちした。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createRightAnpanmanMessage(village: Village, anpanman: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createRightAnpanmanMessage(
+        village: Village,
+        anpanman: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = anpanman,
             text = "${anpanman.name()}は、正義の心を取り戻した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createInsuranceReviveMessage(village: Village, participant: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createInsuranceReviveMessage(
+        village: Village,
+        participant: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "今からでも入れる保険があるんですか！？\n不思議なことに、${participant.name()}が生き返った。"
+            message = "今からでも入れる保険があるんですか！？\n不思議なことに、${participant.name()}が生き返った。",
         )
-    }
 }

@@ -34,11 +34,14 @@ class VillageSettingsDataSource(
     private val campAllocationBhv: CampAllocationBhv,
     private val skillAllocationBhv: SkillAllocationBhv,
     private val wolfAllocationBhv: WolfAllocationBhv,
-    private val villageTagBhv: VillageTagBhv
+    private val villageTagBhv: VillageTagBhv,
 ) {
     private val formatter = DateTimeFormatter.ofPattern("uuuuMMddhhmm")
 
-    fun insertVillageSettings(villageId: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+    fun insertVillageSettings(
+        villageId: Int,
+        paramVillage: com.ort.app.domain.model.village.Village,
+    ) {
         val settings = VillageSettings()
         settings.villageId = villageId
         paramVillage.setting.let {
@@ -69,7 +72,10 @@ class VillageSettingsDataSource(
         villageSettingsBhv.insert(settings)
     }
 
-    fun insertVillageCharaGroups(villageId: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+    fun insertVillageCharaGroups(
+        villageId: Int,
+        paramVillage: com.ort.app.domain.model.village.Village,
+    ) {
         if (paramVillage.setting.chara.isOriginalCharachip) return
         paramVillage.setting.chara.charachipIds.forEach {
             val v = VillageCharaGroup()
@@ -79,7 +85,10 @@ class VillageSettingsDataSource(
         }
     }
 
-    fun insertAllocation(id: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+    fun insertAllocation(
+        id: Int,
+        paramVillage: com.ort.app.domain.model.village.Village,
+    ) {
         paramVillage.setting.organize.randomOrganization.let { org ->
             org.campAllocation.forEach { insertCampAllocation(id, it) }
             org.skillAllocation.forEach { insertSkillAllocation(id, it) }
@@ -87,14 +96,20 @@ class VillageSettingsDataSource(
         }
     }
 
-    fun insertMessageRestrict(id: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+    fun insertMessageRestrict(
+        id: Int,
+        paramVillage: com.ort.app.domain.model.village.Village,
+    ) {
         paramVillage.setting.sayRestriction.let { restriction ->
             restriction.normalSayRestriction.forEach { insertNormalSayRestriction(id, it) }
             restriction.skillSayRestriction.forEach { insertSkillSayRestriction(id, it) }
         }
     }
 
-    fun insertVillageTags(id: Int, paramVillage: com.ort.app.domain.model.village.Village) {
+    fun insertVillageTags(
+        id: Int,
+        paramVillage: com.ort.app.domain.model.village.Village,
+    ) {
         paramVillage.setting.tags.list.forEach {
             insertVillageTag(id, it)
         }
@@ -107,18 +122,27 @@ class VillageSettingsDataSource(
         updateVillageTags(village.id, village.setting.tags)
     }
 
-    fun updateDummyCharaId(id: Int, charaId: Int) {
+    fun updateDummyCharaId(
+        id: Int,
+        charaId: Int,
+    ) {
         val s = VillageSettings()
         s.villageId = id
         s.dummyCharaId = charaId
         villageSettingsBhv.update(s)
     }
 
-    fun updateDaychangeDifference(villageId: Int, current: VillageSetting, changed: VillageSetting) {
+    fun updateDaychangeDifference(
+        villageId: Int,
+        current: VillageSetting,
+        changed: VillageSetting,
+    ) {
         // 変更する可能性があるのは開始時間と連続襲撃可能かのみ
-        if (current.startDatetime.format(formatter) == changed.startDatetime.format(formatter)
-            && current.rule.isAvailableSameWolfAttack == changed.rule.isAvailableSameWolfAttack
-        ) return
+        if (current.startDatetime.format(formatter) == changed.startDatetime.format(formatter) &&
+            current.rule.isAvailableSameWolfAttack == changed.rule.isAvailableSameWolfAttack
+        ) {
+            return
+        }
         val setting = VillageSettings()
         setting.villageId = villageId
         setting.startDatetime = changed.startDatetime
@@ -130,50 +154,59 @@ class VillageSettingsDataSource(
         val setting = village.villageSettingsAsOne.get()
         val isOriginalCharaGroup = setting.originalCharaGroupId != null
         return VillageSetting(
-            chara = VillageCharaSetting(
-                isOriginalCharachip = isOriginalCharaGroup,
-                dummyCharaId = setting.dummyCharaId,
-                dummyDay1Message = setting.day1DummyMessage,
-                charachipIds =
-                if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
-                else village.villageCharaGroupList.map { it.charaGroupId }
-            ),
+            chara =
+                VillageCharaSetting(
+                    isOriginalCharachip = isOriginalCharaGroup,
+                    dummyCharaId = setting.dummyCharaId,
+                    dummyDay1Message = setting.day1DummyMessage,
+                    charachipIds =
+                        if (isOriginalCharaGroup) {
+                            listOf(setting.originalCharaGroupId)
+                        } else {
+                            village.villageCharaGroupList.map { it.charaGroupId }
+                        },
+                ),
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,
             dayChangeIntervalSeconds = setting.dayChangeIntervalSeconds,
-            rule = VillageRule(
-                isOpenVote = setting.isOpenVote,
-                isPossibleSkillRequest = setting.isPossibleSkillRequest,
-                isAvailableSpectate = setting.isAvailableSpectate,
-                isCreatorIsProducer = setting.isCreatorProducer,
-                isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
-                isOpenSkillInGrave = setting.isOpenSkillInGrave,
-                isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
-                isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
-                isAvailableCommit = setting.isAvailableCommit,
-                isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize,
-                isReincarnationSkillAll = setting.isReincarnationSkillAll,
-                secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay)
-            ),
+            rule =
+                VillageRule(
+                    isOpenVote = setting.isOpenVote,
+                    isPossibleSkillRequest = setting.isPossibleSkillRequest,
+                    isAvailableSpectate = setting.isAvailableSpectate,
+                    isCreatorIsProducer = setting.isCreatorProducer,
+                    isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
+                    isOpenSkillInGrave = setting.isOpenSkillInGrave,
+                    isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
+                    isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
+                    isAvailableCommit = setting.isAvailableCommit,
+                    isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
+                    isAvailableAction = setting.isAvailableAction,
+                    isRandomOrganization = setting.isRandomOrganize,
+                    isReincarnationSkillAll = setting.isReincarnationSkillAll,
+                    secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay),
+                ),
             joinPassword = setting.joinPassword,
-            organize = VillageOrganize(
-                fixedOrganization = setting.organize,
-                randomOrganization = VillageRandomOrganize(
-                    skillAllocation = emptyList(),
-                    campAllocation = emptyList(),
-                    wolfAllocation = VillageRandomOrganize.WolfAllocation(min = 1, max = null)
-                )
-            ),
-            sayRestriction = SayRestriction(
-                normalSayRestriction = emptyList(),
-                skillSayRestriction = emptyList()
-            ),
-            tags = VillageTags(
-                list = village.villageTagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() }
-            )
+            organize =
+                VillageOrganize(
+                    fixedOrganization = setting.organize,
+                    randomOrganization =
+                        VillageRandomOrganize(
+                            skillAllocation = emptyList(),
+                            campAllocation = emptyList(),
+                            wolfAllocation = VillageRandomOrganize.WolfAllocation(min = 1, max = null),
+                        ),
+                ),
+            sayRestriction =
+                SayRestriction(
+                    normalSayRestriction = emptyList(),
+                    skillSayRestriction = emptyList(),
+                ),
+            tags =
+                VillageTags(
+                    list = village.villageTagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() },
+                ),
         )
     }
 
@@ -186,88 +219,106 @@ class VillageSettingsDataSource(
         val tagList = village.villageTagList
         val isOriginalCharaGroup = setting.originalCharaGroupId != null
         return VillageSetting(
-            chara = VillageCharaSetting(
-                isOriginalCharachip = isOriginalCharaGroup,
-                dummyCharaId = setting.dummyCharaId,
-                dummyDay1Message = setting.day1DummyMessage,
-                charachipIds =
-                if (isOriginalCharaGroup) listOf(setting.originalCharaGroupId)
-                else village.villageCharaGroupList.map { it.charaGroupId }
-            ),
+            chara =
+                VillageCharaSetting(
+                    isOriginalCharachip = isOriginalCharaGroup,
+                    dummyCharaId = setting.dummyCharaId,
+                    dummyDay1Message = setting.day1DummyMessage,
+                    charachipIds =
+                        if (isOriginalCharaGroup) {
+                            listOf(setting.originalCharaGroupId)
+                        } else {
+                            village.villageCharaGroupList.map { it.charaGroupId }
+                        },
+                ),
             personMin = setting.startPersonMinNum,
             personMax = setting.personMaxNum,
             startDatetime = setting.startDatetime,
             dayChangeIntervalSeconds = setting.dayChangeIntervalSeconds,
-            rule = VillageRule(
-                isOpenVote = setting.isOpenVote,
-                isPossibleSkillRequest = setting.isPossibleSkillRequest,
-                isAvailableSpectate = setting.isAvailableSpectate,
-                isCreatorIsProducer = setting.isCreatorProducer,
-                isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
-                isOpenSkillInGrave = setting.isOpenSkillInGrave,
-                isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
-                isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
-                isAvailableCommit = setting.isAvailableCommit,
-                isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
-                isAvailableAction = setting.isAvailableAction,
-                isRandomOrganization = setting.isRandomOrganize,
-                isReincarnationSkillAll = setting.isReincarnationSkillAll,
-                secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay)
-            ),
+            rule =
+                VillageRule(
+                    isOpenVote = setting.isOpenVote,
+                    isPossibleSkillRequest = setting.isPossibleSkillRequest,
+                    isAvailableSpectate = setting.isAvailableSpectate,
+                    isCreatorIsProducer = setting.isCreatorProducer,
+                    isAvailableSameWolfAttack = setting.isAvailableSameWolfAttack,
+                    isOpenSkillInGrave = setting.isOpenSkillInGrave,
+                    isVisibleGraveSpectateMessage = setting.isVisibleGraveSpectateMessage,
+                    isAvailableSuddenlyDeath = setting.isAvailableSuddonlyDeath,
+                    isAvailableCommit = setting.isAvailableCommit,
+                    isAvailableGuardSameTarget = setting.isAvailableGuardSameTarget,
+                    isAvailableAction = setting.isAvailableAction,
+                    isRandomOrganization = setting.isRandomOrganize,
+                    isReincarnationSkillAll = setting.isReincarnationSkillAll,
+                    secretSayRange = SecretSayRange(setting.allowedSecretSayCodeAsAllowedSecretSay),
+                ),
             joinPassword = setting.joinPassword,
-            organize = VillageOrganize(
-                fixedOrganization = setting.organize,
-                randomOrganization = VillageRandomOrganize(
-                    skillAllocation = skillAllocationList.map {
-                        VillageRandomOrganize.SkillAllocation(
-                            skill = Skill(it.skillCodeAsSkill),
-                            min = it.minNum,
-                            max = it.maxNum,
-                            initAllocation = it.allocation,
-                            reincarnationAllocation = it.reincarnationAllocation
-                        )
-                    },
-                    campAllocation = campAllocationList.map {
-                        VillageRandomOrganize.CampAllocation(
-                            camp = Camp(it.campCodeAsCamp),
-                            min = it.minNum,
-                            max = it.maxNum,
-                            initAllocation = it.allocation,
-                            reincarnationAllocation = it.reincarnationAllocation
-                        )
-                    },
-                    wolfAllocation = village.wolfAllocationAsOne.map {
-                        VillageRandomOrganize.WolfAllocation(
-                            min = it.minNum,
-                            max = it.maxNum
-                        )
-                    }.orElse(null)
-                )
-            ),
-            sayRestriction = SayRestriction(
-                normalSayRestriction = normalSayRestrictionList.map {
-                    SayRestriction.NormalSayRestriction(
-                        skill = Skill(it.skillCodeAsSkill),
-                        messageType = MessageType(it.messageTypeCodeAsMessageType),
-                        count = it.messageMaxNum,
-                        length = it.messageMaxLength
-                    )
-                },
-                skillSayRestriction = skillSayRestrictionList.map {
-                    SayRestriction.SkillSayRestriction(
-                        messageType = MessageType(it.messageTypeCodeAsMessageType),
-                        count = it.messageMaxNum,
-                        length = it.messageMaxLength
-                    )
-                }
-            ),
-            tags = VillageTags(
-                list = tagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() }
-            )
+            organize =
+                VillageOrganize(
+                    fixedOrganization = setting.organize,
+                    randomOrganization =
+                        VillageRandomOrganize(
+                            skillAllocation =
+                                skillAllocationList.map {
+                                    VillageRandomOrganize.SkillAllocation(
+                                        skill = Skill(it.skillCodeAsSkill),
+                                        min = it.minNum,
+                                        max = it.maxNum,
+                                        initAllocation = it.allocation,
+                                        reincarnationAllocation = it.reincarnationAllocation,
+                                    )
+                                },
+                            campAllocation =
+                                campAllocationList.map {
+                                    VillageRandomOrganize.CampAllocation(
+                                        camp = Camp(it.campCodeAsCamp),
+                                        min = it.minNum,
+                                        max = it.maxNum,
+                                        initAllocation = it.allocation,
+                                        reincarnationAllocation = it.reincarnationAllocation,
+                                    )
+                                },
+                            wolfAllocation =
+                                village.wolfAllocationAsOne
+                                    .map {
+                                        VillageRandomOrganize.WolfAllocation(
+                                            min = it.minNum,
+                                            max = it.maxNum,
+                                        )
+                                    }.orElse(null),
+                        ),
+                ),
+            sayRestriction =
+                SayRestriction(
+                    normalSayRestriction =
+                        normalSayRestrictionList.map {
+                            SayRestriction.NormalSayRestriction(
+                                skill = Skill(it.skillCodeAsSkill),
+                                messageType = MessageType(it.messageTypeCodeAsMessageType),
+                                count = it.messageMaxNum,
+                                length = it.messageMaxLength,
+                            )
+                        },
+                    skillSayRestriction =
+                        skillSayRestrictionList.map {
+                            SayRestriction.SkillSayRestriction(
+                                messageType = MessageType(it.messageTypeCodeAsMessageType),
+                                count = it.messageMaxNum,
+                                length = it.messageMaxLength,
+                            )
+                        },
+                ),
+            tags =
+                VillageTags(
+                    list = tagList.map { it.villageTagItemCodeAsVillageTagItem.toModel() },
+                ),
         )
     }
 
-    private fun updateVillageSettings(villageId: Int, setting: VillageSetting) {
+    private fun updateVillageSettings(
+        villageId: Int,
+        setting: VillageSetting,
+    ) {
         val s = VillageSettings()
         s.villageId = villageId
         s.startPersonMinNum = setting.personMin
@@ -292,7 +343,10 @@ class VillageSettingsDataSource(
         villageSettingsBhv.update(s)
     }
 
-    private fun updateRestriction(villageId: Int, restriction: SayRestriction) {
+    private fun updateRestriction(
+        villageId: Int,
+        restriction: SayRestriction,
+    ) {
         normalSayRestrictionBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         skillSayRestrictionBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         restriction.normalSayRestriction.forEach { insertNormalSayRestriction(villageId, it) }
@@ -301,7 +355,7 @@ class VillageSettingsDataSource(
 
     private fun insertNormalSayRestriction(
         villageId: Int,
-        restriction: SayRestriction.NormalSayRestriction
+        restriction: SayRestriction.NormalSayRestriction,
     ) {
         val r = NormalSayRestriction()
         r.villageId = villageId
@@ -314,7 +368,7 @@ class VillageSettingsDataSource(
 
     private fun insertSkillSayRestriction(
         villageId: Int,
-        restriction: SayRestriction.SkillSayRestriction
+        restriction: SayRestriction.SkillSayRestriction,
     ) {
         val r = SkillSayRestriction()
         r.villageId = villageId
@@ -324,7 +378,10 @@ class VillageSettingsDataSource(
         skillSayRestrictionBhv.insert(r)
     }
 
-    private fun updateAllocation(villageId: Int, organize: VillageOrganize) {
+    private fun updateAllocation(
+        villageId: Int,
+        organize: VillageOrganize,
+    ) {
         campAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         skillAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
         wolfAllocationBhv.queryDelete { it.query().setVillageId_Equal(villageId) }
@@ -335,7 +392,7 @@ class VillageSettingsDataSource(
 
     private fun insertCampAllocation(
         villageId: Int,
-        campAllocation: VillageRandomOrganize.CampAllocation
+        campAllocation: VillageRandomOrganize.CampAllocation,
     ) {
         val a = CampAllocation()
         a.villageId = villageId
@@ -349,7 +406,7 @@ class VillageSettingsDataSource(
 
     private fun insertSkillAllocation(
         villageId: Int,
-        skillAllocation: VillageRandomOrganize.SkillAllocation
+        skillAllocation: VillageRandomOrganize.SkillAllocation,
     ) {
         val a = SkillAllocation()
         a.villageId = villageId
@@ -363,7 +420,7 @@ class VillageSettingsDataSource(
 
     private fun insertWolfAllocation(
         villageId: Int,
-        wolfAllocation: VillageRandomOrganize.WolfAllocation
+        wolfAllocation: VillageRandomOrganize.WolfAllocation,
     ) {
         val a = WolfAllocation()
         a.villageId = villageId
@@ -372,14 +429,20 @@ class VillageSettingsDataSource(
         wolfAllocationBhv.insert(a)
     }
 
-    private fun updateVillageTags(villageId: Int, tags: VillageTags) {
+    private fun updateVillageTags(
+        villageId: Int,
+        tags: VillageTags,
+    ) {
         villageTagBhv.queryDelete {
             it.query().setVillageId_Equal(villageId)
         }
         tags.list.forEach { insertVillageTag(villageId, it) }
     }
 
-    private fun insertVillageTag(id: Int, tag: VillageTag) {
+    private fun insertVillageTag(
+        id: Int,
+        tag: VillageTag,
+    ) {
         val t = DbVillageTag()
         t.villageId = id
         t.villageTagItemCodeAsVillageTagItem = tag.toCdef()

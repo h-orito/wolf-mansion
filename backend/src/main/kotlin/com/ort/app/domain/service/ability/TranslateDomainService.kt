@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class TranslateDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.翻訳.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "翻訳する対象"
+
     override fun getTargetSuffix(): String? = "の言葉を翻訳する"
 
     fun translate(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class TranslateDomainService : AbilityTypeDomainService {
 
     private fun createRainbowMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}が突然他国の言葉しか話せなくなり、有識者に翻訳してもらうことになった。"
+            message = "${target.name()}が突然他国の言葉しか話せなくなり、有識者に翻訳してもらうことになった。",
         )
-    }
 }

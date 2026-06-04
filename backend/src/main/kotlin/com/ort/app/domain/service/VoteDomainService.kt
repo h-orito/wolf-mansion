@@ -16,93 +16,124 @@ import org.springframework.stereotype.Service
 
 @Service
 class VoteDomainService {
-
     fun convertToVillageSituation(
         village: Village,
         votes: Votes,
         abilities: Abilities,
-        day: Int
+        day: Int,
     ): VillageVoteSituation {
         val hideDays =
-            if (village.status.isSettled()) emptyList()
-            else getHideDays(village, abilities)
+            if (village.status.isSettled()) {
+                emptyList()
+            } else {
+                getHideDays(village, abilities)
+            }
 
         return VillageVoteSituation(
-            list = village.participants
-                .filterNotDummy(village.dummyParticipant())
-                .list.map {
-                    VillageMemberVotes(
-                        participant = it,
-                        voteList = votes
-                            .filterByCharaId(it.charaId)
-                            .filterPastDay(day).list
-                            .filterNot { vote -> hideDays.contains(vote.day) }
-                            .sortedBy { v -> v.day }
-                    )
-                }.sortedByDescending { it.voteList.size }
+            list =
+                village.participants
+                    .filterNotDummy(village.dummyParticipant())
+                    .list
+                    .map {
+                        VillageMemberVotes(
+                            participant = it,
+                            voteList =
+                                votes
+                                    .filterByCharaId(it.charaId)
+                                    .filterPastDay(day)
+                                    .list
+                                    .filterNot { vote -> hideDays.contains(vote.day) }
+                                    .sortedBy { v -> v.day },
+                        )
+                    }.sortedByDescending { it.voteList.size },
         )
     }
 
     fun convertToParticipantSituation(
         village: Village,
         myself: VillageParticipant?,
-        votes: Votes
-    ): ParticipantVoteSituation {
-        return ParticipantVoteSituation(
+        votes: Votes,
+    ): ParticipantVoteSituation =
+        ParticipantVoteSituation(
             canVote = canVote(village, myself),
             targetList = getSelectableTargetList(village, myself),
-            target = getSelectingTarget(village, myself, votes)
+            target = getSelectingTarget(village, myself, votes),
         )
-    }
 
     // 黒箱に隠された日を除去
     // エピローグを迎えていても除去される
-    fun filterDisplayVotes(village: Village, votes: Votes, abilities: Abilities): Votes {
+    fun filterDisplayVotes(
+        village: Village,
+        votes: Votes,
+        abilities: Abilities,
+    ): Votes {
         val hideDays = getHideDays(village, abilities)
-        val list = votes.list
-            .filterNot { hideDays.contains(it.day) }
-            .sortedWith(
-                compareBy<Vote> {
-                    it.day
-                }.thenBy {
-                    village.participants.chara(it.charaId).roomNumberWhen(it.day)
-                }
-            )
+        val list =
+            votes.list
+                .filterNot { hideDays.contains(it.day) }
+                .sortedWith(
+                    compareBy<Vote> {
+                        it.day
+                    }.thenBy {
+                        village.participants.chara(it.charaId).roomNumberWhen(it.day)
+                    },
+                )
         return Votes(list = list)
     }
 
-    private fun getHideDays(village: Village, abilities: Abilities): List<Int> {
-        return abilities
+    private fun getHideDays(
+        village: Village,
+        abilities: Abilities,
+    ): List<Int> =
+        abilities
             .filterPastDay(village.latestDay())
             .filterByType(CDef.AbilityType.隠蔽.toModel())
-            .list.filter {
+            .list
+            .filter {
                 val participant = village.participants.chara(it.charaId)
                 // 能力セットした日に死んでいない
                 // かつ、その翌日に突然死していない
                 participant.isAliveWhen(it.day) &&
-                        participant.dead.histories.list.none { h ->
-                            h.day == it.day + 1 && h.reason?.isSuddenly() ?: false
-                        }
-            }
-            .map { it.day }.distinct()
-    }
+                    participant.dead.histories.list.none { h ->
+                        h.day == it.day + 1 && h.reason?.isSuddenly() ?: false
+                    }
+            }.map { it.day }
+            .distinct()
 
-    private fun canVote(village: Village, myself: VillageParticipant?): Boolean =
-        village.canVote() && myself?.canVote() ?: false
+    private fun canVote(
+        village: Village,
+        myself: VillageParticipant?,
+    ): Boolean = village.canVote() && myself?.canVote() ?: false
 
-    fun getSelectableTargetList(village: Village, myself: VillageParticipant?): List<VillageParticipant> {
+    fun getSelectableTargetList(
+        village: Village,
+        myself: VillageParticipant?,
+    ): List<VillageParticipant> {
         if (!canVote(village, myself)) return listOf()
-        return village.participants.filterAlive().sortedByRoomNumber().list
+        return village.participants
+            .filterAlive()
+            .sortedByRoomNumber()
+            .list
     }
 
-    fun getSelectingTarget(village: Village, myself: VillageParticipant?, votes: Votes): VillageParticipant? {
+    fun getSelectingTarget(
+        village: Village,
+        myself: VillageParticipant?,
+        votes: Votes,
+    ): VillageParticipant? {
         if (!canVote(village, myself)) return null
-        return votes.filterByDay(village.latestDay()).list
+        return votes
+            .filterByDay(village.latestDay())
+            .list
             .find { it.charaId == myself!!.charaId }
             ?.let { village.participants.chara(it.targetCharaId) }
     }
 
-    fun assertVote(village: Village, myself: VillageParticipant, targetCharaId: Int) {
+    fun assertVote(
+        village: Village,
+        myself: VillageParticipant,
+        targetCharaId: Int,
+    ) {
         if (getSelectableTargetList(village, myself).none { it.charaId == targetCharaId }) {
             throw WolfMansionBusinessException("投票できない対象に投票しています")
         }
@@ -112,13 +143,14 @@ class VoteDomainService {
         if (daychange.village.setting.rule.isAvailableSuddenlyDeath) return daychange
         var votes = daychange.votes.copy()
         daychange.village.participants.filterAlive().list.forEach {
-            votes = votes.add(
-                Vote(
-                    day = daychange.village.latestDay(),
-                    charaId = it.charaId,
-                    targetCharaId = it.charaId
+            votes =
+                votes.add(
+                    Vote(
+                        day = daychange.village.latestDay(),
+                        charaId = it.charaId,
+                        targetCharaId = it.charaId,
+                    ),
                 )
-            )
         }
         return daychange.copy(votes = votes)
     }

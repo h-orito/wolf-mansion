@@ -4,13 +4,13 @@ import com.ort.dbflute.allcommon.CDef
 
 data class VillageTag(
     val code: String,
-    val name: String
+    val name: String,
 ) {
     constructor(
-        cdef: CDef.VillageTagItem
+        cdef: CDef.VillageTagItem,
     ) : this(
         code = cdef.code(),
-        name = cdef.alias()
+        name = cdef.alias(),
     )
 
     fun toCdef(): CDef.VillageTagItem = CDef.VillageTagItem.codeOf(code)

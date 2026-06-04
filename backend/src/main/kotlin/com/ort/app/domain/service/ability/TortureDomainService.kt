@@ -15,16 +15,15 @@ import org.springframework.stereotype.Service
 
 @Service
 class TortureDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.拷問)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun createSetMessageText(
@@ -32,19 +31,28 @@ class TortureDomainService(
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
+        footstep: String?,
     ): String {
-        return if (targetCharaId == null) "${myself.name()}が拷問対象をなしに設定しました。"
-        else {
+        return if (targetCharaId == null) {
+            "${myself.name()}が拷問対象をなしに設定しました。"
+        } else {
             val target = village.participants.chara(targetCharaId)
             return "${myself.name()}が拷問対象を${target.name()}に、通過する部屋を${footstep!!}に設定しました。"
         }
     }
 
     override fun getTargetPrefix(): String? = "拷問する対象"
+
     override fun getTargetSuffix(): String? = "を拷問する"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun torture(daychange: Daychange): Daychange {
@@ -69,70 +77,73 @@ class TortureDomainService(
     private fun createTortureMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         // 対象の勝敗判定陣営と同じ陣営の生存者を取得（対象自身と自分を除く）
-        val allies = village.participants.filterAlive()
-            .filterNotParticipant(myself)
-            .filterNotParticipant(target)
-            .list
-            .filter { it.camp?.code == target.camp?.code }
-            .shuffled()
-            .take(2)
+        val allies =
+            village.participants
+                .filterAlive()
+                .filterNotParticipant(myself)
+                .filterNotParticipant(target)
+                .list
+                .filter { it.camp?.code == target.camp?.code }
+                .shuffled()
+                .take(2)
 
-        val text = if (allies.isEmpty()) {
-            "${myself.name()}は、${target.name()}を拷問した。\n${target.name()}の仲間はいないようだ。"
-        } else {
-            val allyNames = allies.joinToString("と") { it.name() }
-            "${myself.name()}は、${target.name()}を拷問した。\n${target.name()}の仲間には、${allyNames}がいるようだ。"
-        }
+        val text =
+            if (allies.isEmpty()) {
+                "${myself.name()}は、${target.name()}を拷問した。\n${target.name()}の仲間はいないようだ。"
+            } else {
+                val allyNames = allies.joinToString("と") { it.name() }
+                "${myself.name()}は、${target.name()}を拷問した。\n${target.name()}の仲間には、${allyNames}がいるようだ。"
+            }
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = text,
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
     }
 
     private fun createTortureFailedMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val text = "${myself.name()}は、${target.name()}を拷問したが、${target.name()}は拷問に屈しなかった。"
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = text,
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
     }
 
     private fun createTorturedFailedMessage(
         village: Village,
         torturer: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val text = "${torturer.name()}があなたを拷問しましたが、あなたは屈しませんでした。"
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = target,
             text = text,
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
     }
 
     private fun createTorturedMessage(
         village: Village,
         torturer: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val text = "あなたは、${torturer.name()}に拷問されました。"
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = target,
             text = text,
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
     }
 }

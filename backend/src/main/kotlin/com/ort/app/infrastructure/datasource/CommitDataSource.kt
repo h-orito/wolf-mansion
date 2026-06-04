@@ -10,15 +10,17 @@ import com.ort.dbflute.exentity.Commit as DbCommit
 
 @Repository
 class CommitDataSource(
-    private val commitBhv: CommitBhv
+    private val commitBhv: CommitBhv,
 ) : CommitRepository {
-
     override fun findCommits(villageId: Int): Commits {
         val list = commitBhv.selectList { it.query().setVillageId_Equal(villageId) }
         return mapCommits(list)
     }
 
-    override fun updateCommit(village: Village, commit: Commit) {
+    override fun updateCommit(
+        village: Village,
+        commit: Commit,
+    ) {
         val exists = findCommit(village.id, commit.day, commit.myselfId)
         if (exists == null) {
             insertCommit(village, commit)
@@ -27,7 +29,10 @@ class CommitDataSource(
         }
     }
 
-    private fun insertCommit(village: Village, commit: Commit) {
+    private fun insertCommit(
+        village: Village,
+        commit: Commit,
+    ) {
         val c = DbCommit()
         c.villageId = village.id
         c.day = commit.day
@@ -35,7 +40,10 @@ class CommitDataSource(
         commitBhv.insert(c)
     }
 
-    private fun deleteCommit(village: Village, commit: Commit) {
+    private fun deleteCommit(
+        village: Village,
+        commit: Commit,
+    ) {
         commitBhv.queryDelete {
             it.query().setVillageId_Equal(village.id)
             it.query().setDay_Equal(commit.day)
@@ -43,18 +51,24 @@ class CommitDataSource(
         }
     }
 
-    private fun findCommit(villageId: Int, day: Int, myselfId: Int): Commit? {
-        return commitBhv.selectEntity {
-            it.query().setVillageId_Equal(villageId)
-            it.query().setDay_Equal(day)
-            it.query().setVillagePlayerId_Equal(myselfId)
-        }.map { mapCommit(it) }.orElse(null)
-    }
+    private fun findCommit(
+        villageId: Int,
+        day: Int,
+        myselfId: Int,
+    ): Commit? =
+        commitBhv
+            .selectEntity {
+                it.query().setVillageId_Equal(villageId)
+                it.query().setDay_Equal(day)
+                it.query().setVillagePlayerId_Equal(myselfId)
+            }.map { mapCommit(it) }
+            .orElse(null)
 
     private fun mapCommits(list: List<DbCommit>): Commits = Commits(list = list.map { mapCommit(it) })
 
-    private fun mapCommit(commit: DbCommit): Commit = Commit(
-        day = commit.day,
-        myselfId = commit.villagePlayerId
-    )
+    private fun mapCommit(commit: DbCommit): Commit =
+        Commit(
+            day = commit.day,
+            myselfId = commit.villagePlayerId,
+        )
 }

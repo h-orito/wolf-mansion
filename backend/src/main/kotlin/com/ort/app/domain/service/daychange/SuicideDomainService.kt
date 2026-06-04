@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service
 @Service
 class SuicideDomainService(
     private val roomDomainService: RoomDomainService,
-    private val suddenlyDeathDomainService: SuddenlyDeathDomainService
+    private val suddenlyDeathDomainService: SuddenlyDeathDomainService,
 ) {
-
     fun suicide(orgDaychange: Daychange): Daychange {
         // 突然死者が蘇生されている可能性があるため、再度突然死させる
         val daychange = suddenlyDeathDomainService.reSuddenlyDeath(orgDaychange)
@@ -25,16 +24,23 @@ class SuicideDomainService(
             val target = findSuicideTarget(village)!!
 
             val loverSuicideTarget = findLoverSuicideTarget(village)
-            messages = if (loverSuicideTarget != null) {
-                val lover = target.getTargetLovers(village).filterDead().list.shuffled().first()
-                messages.add(createLoverSuicideMessage(village, target, lover))
-            } else if (findWallPunchSuicideTarget(village) != null) {
-                messages.add(createWallPuncherSuicideMessage(village, target))
-            } else if (findAnpanmanSuicideTarget(village) != null) {
-                messages.add(createAnpanmanSuicideMessage(village, target))
-            } else {
-                messages.add(createImmoralSuicideMessage(village, target))
-            }
+            messages =
+                if (loverSuicideTarget != null) {
+                    val lover =
+                        target
+                            .getTargetLovers(village)
+                            .filterDead()
+                            .list
+                            .shuffled()
+                            .first()
+                    messages.add(createLoverSuicideMessage(village, target, lover))
+                } else if (findWallPunchSuicideTarget(village) != null) {
+                    messages.add(createWallPuncherSuicideMessage(village, target))
+                } else if (findAnpanmanSuicideTarget(village) != null) {
+                    messages.add(createAnpanmanSuicideMessage(village, target))
+                } else {
+                    messages.add(createImmoralSuicideMessage(village, target))
+                }
             village = village.suicideParticipant(target.id)
         }
 
@@ -54,79 +60,96 @@ class SuicideDomainService(
 
     private fun existsSuicideTarget(village: Village): Boolean = findSuicideTarget(village) != null
 
-    private fun findLoverSuicideTarget(village: Village): VillageParticipant? {
-        return village.participants.filterAlive().list // 自分は生きていて
+    private fun findLoverSuicideTarget(village: Village): VillageParticipant? =
+        village.participants
+            .filterAlive()
+            .list // 自分は生きていて
             .filter { it.status.hasLover() } // 恋人がいて
             .firstOrNull { participant ->
                 // 恋人のいずれかが死亡している
                 participant.getTargetLovers(village).list.any { it.isDead() }
             }
-    }
 
-    private fun findWallPunchSuicideTarget(village: Village): VillageParticipant? {
-        return village.participants
+    private fun findWallPunchSuicideTarget(village: Village): VillageParticipant? =
+        village.participants
             .filterAlive() // 自分は生きていて
-            .filterBySkill(CDef.Skill.壁殴り代行.toModel()).list // 壁殴り代行で
+            .filterBySkill(CDef.Skill.壁殴り代行.toModel())
+            .list // 壁殴り代行で
             .firstOrNull { participant ->
                 // 四方の部屋の人が全員死亡していたら後追い対象
                 val wasdRoomNumbers = roomDomainService.detectWasdRoomNumbers(participant.room!!, village.roomSize!!)
-                village.participants.list.filter { wasdRoomNumbers.contains(it.room!!.number) }.none { it.isAlive() }
+                village.participants.list
+                    .filter { wasdRoomNumbers.contains(it.room!!.number) }
+                    .none { it.isAlive() }
             }
-    }
 
     private fun findAnpanmanSuicideTarget(village: Village): VillageParticipant? {
         // パン屋が全員死亡していたら後追い対象
         if (village.participants.filterAlive().list.any {
                 val skill = it.skill!!.toCdef()
                 skill == CDef.Skill.パン屋 || skill == CDef.Skill.闇パン屋
-            }) return null
+            }
+        ) {
+            return null
+        }
 
         return village.participants
             .filterAlive() // 自分は生きていて
-            .filterBySkill(CDef.Skill.餡麺麭者.toModel()).list // 餡麺麭者
+            .filterBySkill(CDef.Skill.餡麺麭者.toModel())
+            .list // 餡麺麭者
             .firstOrNull()
     }
 
     private fun findImmoralSuicideTarget(village: Village): VillageParticipant? {
         // 妖狐系が生存していたら後追いしない
-        if (village.participants.filterAlive().list.any { it.skill!!.isFoxCount() }) {
+        if (village.participants
+                .filterAlive()
+                .list
+                .any { it.skill!!.isFoxCount() }
+        ) {
             return null
         }
         // 生存している妖狐陣営(＝恋絆のついていない背徳者、狐憑き)が後追い対象
         return village.participants
-            .filterAlive().list
+            .filterAlive()
+            .list
             .firstOrNull { it.camp!!.isFoxs() }
     }
 
     private fun createLoverSuicideMessage(
         village: Village,
         target: VillageParticipant,
-        lover: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        lover: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、絆に引きずられるように${lover.name()}の後を追った。"
+            message = "${target.name()}は、絆に引きずられるように${lover.name()}の後を追った。",
         )
-    }
 
-    private fun createWallPuncherSuicideMessage(village: Village, target: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createWallPuncherSuicideMessage(
+        village: Village,
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、壁殴りを代行する部屋がなくなってしまい、孤独死した。"
+            message = "${target.name()}は、壁殴りを代行する部屋がなくなってしまい、孤独死した。",
         )
-    }
 
-    private fun createAnpanmanSuicideMessage(village: Village, target: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createAnpanmanSuicideMessage(
+        village: Village,
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、新しい顔がもらえなくなってしまい、顔がふやけて衰弱死した。"
+            message = "${target.name()}は、新しい顔がもらえなくなってしまい、顔がふやけて衰弱死した。",
         )
-    }
 
-    private fun createImmoralSuicideMessage(village: Village, target: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createImmoralSuicideMessage(
+        village: Village,
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、妖狐の後を追い、いなくなってしまった。"
+            message = "${target.name()}は、妖狐の後を追い、いなくなってしまった。",
         )
-    }
 }

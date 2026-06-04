@@ -13,13 +13,14 @@ import java.time.LocalDateTime
 @Service
 class EpilogueDomainService(
     private val bombDomainService: BombDomainService,
-    private val loveStealDomainService: LoveStealDomainService
+    private val loveStealDomainService: LoveStealDomainService,
 ) {
-
-    fun transitionToEpilogueIfNeeded(daychange: Daychange): Daychange {
-        return if (daychange.village.isSettled()) epilogue(daychange)
-        else daychange
-    }
+    fun transitionToEpilogueIfNeeded(daychange: Daychange): Daychange =
+        if (daychange.village.isSettled()) {
+            epilogue(daychange)
+        } else {
+            daychange
+        }
 
     private fun epilogue(orgDaychange: Daychange): Daychange {
         // エピローグ遷移
@@ -40,42 +41,42 @@ class EpilogueDomainService(
         return daychange
     }
 
-    private fun judgeParticipantsWin(daychange: Daychange): Daychange =
-        daychange.copy(village = daychange.village.judgeParticipantsWin())
+    private fun judgeParticipantsWin(daychange: Daychange): Daychange = daychange.copy(village = daychange.village.judgeParticipantsWin())
 
     private fun addTransitionEpilogueMessage(daychange: Daychange): Daychange =
         daychange.copy(messages = daychange.messages.add(createEpilogueMessage(daychange)))
 
-    private fun createEpilogueMessage(daychange: Daychange): Message {
-        return Message.ofSystemMessage(
+    private fun createEpilogueMessage(daychange: Daychange): Message =
+        Message.ofSystemMessage(
             day = daychange.village.latestDay(),
-            message = daychange.village.getEpilogueTransitionMessage()
+            message = daychange.village.getEpilogueTransitionMessage(),
         )
-    }
 
     private fun addPlayersMessage(daychange: Daychange): Daychange {
-        val message = Message.ofSystemMessage(
-            day = daychange.village.latestDay(),
-            message = "読み込み中..",
-            messageType = CDef.MessageType.参加者一覧.toModel()
-        )
+        val message =
+            Message.ofSystemMessage(
+                day = daychange.village.latestDay(),
+                message = "読み込み中..",
+                messageType = CDef.MessageType.参加者一覧.toModel(),
+            )
         return daychange.copy(messages = daychange.messages.add(message))
     }
 
-    private fun addTweetIfNeeded(daychange: Daychange): Daychange {
-        return if (!daychange.village.setting.joinPassword.isNullOrEmpty()) daychange
-        else daychange.copy(tweets = daychange.tweets + "${daychange.village.name}がエピローグを迎えました。")
-    }
+    private fun addTweetIfNeeded(daychange: Daychange): Daychange =
+        if (!daychange.village.setting.joinPassword
+                .isNullOrEmpty()
+        ) {
+            daychange
+        } else {
+            daychange.copy(tweets = daychange.tweets + "${daychange.village.name}がエピローグを迎えました。")
+        }
 
     fun changeDayIfNeeded(daychange: Daychange): Daychange {
         if (!shouldChangeDay(daychange.village)) return daychange
         return changeDay(daychange.copy(village = daychange.village.addNewDay()))
     }
 
-    private fun changeDay(daychange: Daychange): Daychange {
-        return daychange.copy(village = daychange.village.toFinished())
-    }
+    private fun changeDay(daychange: Daychange): Daychange = daychange.copy(village = daychange.village.toFinished())
 
-    private fun shouldChangeDay(village: Village): Boolean =
-        !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
+    private fun shouldChangeDay(village: Village): Boolean = !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
 }

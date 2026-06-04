@@ -19,9 +19,8 @@ class DaychangeCoordinator(
     private val daychangeDomainService: DaychangeDomainService,
     private val charaService: CharaService,
     private val messageService: MessageService,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
 ) {
-
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun changeDayIfNeeded(village: Village) {
         val votes = voteService.findVotes(village.id)
@@ -33,19 +32,22 @@ class DaychangeCoordinator(
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
 
         var daychange = Daychange(village, abilities, votes, footsteps, players)
-        daychange = daychangeDomainService.leaveParticipantIfNeeded(daychange).let {
-            updateIfNeeded(daychange, it)
-            it.copy(
-                village = it.village.copy(
-                    participants = it.village.participants.filterNotGone(),
-                    spectators = it.village.spectators.filterNotGone()
+        daychange =
+            daychangeDomainService.leaveParticipantIfNeeded(daychange).let {
+                updateIfNeeded(daychange, it)
+                it.copy(
+                    village =
+                        it.village.copy(
+                            participants = it.village.participants.filterNotGone(),
+                            spectators = it.village.spectators.filterNotGone(),
+                        ),
                 )
-            )
-        }
-        daychange = daychangeDomainService.cancelOrExtendPrologueIfNeeded(daychange).let {
-            updateIfNeeded(daychange, it)
-            it
-        }
+            }
+        daychange =
+            daychangeDomainService.cancelOrExtendPrologueIfNeeded(daychange).let {
+                updateIfNeeded(daychange, it)
+                it
+            }
         if (daychange.village.status.isCanceled()) return
         daychangeDomainService.changeDayIfNeeded(daychange, commits, charas).also {
             updateIfNeeded(daychange, it)
@@ -53,12 +55,18 @@ class DaychangeCoordinator(
         }
     }
 
-    private fun updateIfNeeded(current: Daychange, changed: Daychange) {
+    private fun updateIfNeeded(
+        current: Daychange,
+        changed: Daychange,
+    ) {
         if (changed.isSame(current)) return
         update(current, changed)
     }
 
-    private fun update(current: Daychange, changed: Daychange) {
+    private fun update(
+        current: Daychange,
+        changed: Daychange,
+    ) {
         villageService.updateDaychangeDifference(current.village, changed.village)
         voteService.updateDaychangeDifference(changed.village.id, current.votes, changed.votes)
         abilityService.updateDaychangeDifference(changed.village, current.abilities, changed.abilities)
@@ -68,7 +76,10 @@ class DaychangeCoordinator(
         notificationService.notifyDaychange(changed.village.id, changed.tweets)
     }
 
-    private fun notifyIfNeeded(current: Daychange, changed: Daychange) {
+    private fun notifyIfNeeded(
+        current: Daychange,
+        changed: Daychange,
+    ) {
         if (current.village.status.isPrologue() && changed.village.status.isProgress()) {
             notificationService.notifyVillageStartToCustomerIfNeeded(changed.village)
         } else if (current.village.status.isProgress() && changed.village.status.isEpilogue()) {

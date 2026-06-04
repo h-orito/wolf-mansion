@@ -1,8 +1,7 @@
 package com.ort
 
 class WolfMansionTest {
-
-//    @Before
+    //    @Before
 //    fun setUp() {
 //        // set access context
 //        setAccessContext()
@@ -23,5 +22,4 @@ class WolfMansionTest {
 //        context.accessUser = accessUser
 //        AccessContext.setAccessContextOnThread(context)
 //    }
-
 }

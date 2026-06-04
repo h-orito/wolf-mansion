@@ -15,16 +15,15 @@ import org.springframework.stereotype.Service
 @Service
 class ForceReincarnationDomainService(
     private val cohabitDomainService: CohabitDomainService,
-    private val roomDomainService: RoomDomainService
+    private val roomDomainService: RoomDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.強制転生.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 一度でも使用していたら使えない
         if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) return emptyList()
@@ -33,14 +32,23 @@ class ForceReincarnationDomainService(
         return village.participants
             .filterAlive()
             .filterNotParticipant(myself)
-            .sortedByRoomNumber().list
+            .sortedByRoomNumber()
+            .list
             .filter { roomList.contains(it.room!!.number) }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
+
     override fun getTargetPrefix(): String = "強制転生させる対象"
+
     override fun getTargetSuffix(): String? = "を強制転生させる"
 
     fun forceReincarnation(orgDaychange: Daychange): Daychange {
@@ -57,7 +65,7 @@ class ForceReincarnationDomainService(
 
     fun forceReincarnationTarget(
         daychange: Daychange,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Daychange {
         // 既に死亡している場合は転生しない
         if (target.isDead()) return daychange
@@ -82,11 +90,10 @@ class ForceReincarnationDomainService(
 
     private fun createForceReincarnationMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}の部屋に異世界転生トラックが突っ込んだ。\n${target.name()}は、転生してしまった。"
+            message = "${target.name()}の部屋に異世界転生トラックが突っ込んだ。\n${target.name()}は、転生してしまった。",
         )
-    }
 }

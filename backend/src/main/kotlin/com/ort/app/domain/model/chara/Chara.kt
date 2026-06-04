@@ -10,27 +10,32 @@ data class Chara(
     val defaultJoinMessage: String?,
     val defaultFirstdayMessage: String?,
     val size: CharaSize,
-    val images: CharaImages
+    val images: CharaImages,
 ) {
-    fun defaultImage(): CharaImage = images.list
-        .firstOrNull { it.faceType.toCdef() == CDef.FaceType.通常 }
-        ?: images.list.first()
+    fun defaultImage(): CharaImage =
+        images.list
+            .firstOrNull { it.faceType.toCdef() == CDef.FaceType.通常 }
+            ?: images.list.first()
 
     fun detectDefaultFaceTypeCode(messageType: MessageType): String {
         val expected = messageTypeFaceTypeMap[messageType.toCdef()] ?: CDef.FaceType.通常
-        return images.list.find { it.faceType.toCdef() == expected }?.faceType?.code ?: defaultImage().faceType.code
+        return images.list
+            .find { it.faceType.toCdef() == expected }
+            ?.faceType
+            ?.code ?: defaultImage().faceType.code
     }
 
     companion object {
-        private val messageTypeFaceTypeMap = mapOf(
-            CDef.MessageType.通常発言 to CDef.FaceType.通常,
-            CDef.MessageType.人狼の囁き to CDef.FaceType.囁き,
-            CDef.MessageType.共鳴発言 to CDef.FaceType.共鳴,
-            CDef.MessageType.独り言 to CDef.FaceType.独り言,
-            CDef.MessageType.死者の呻き to CDef.FaceType.墓下,
-            CDef.MessageType.見学発言 to CDef.FaceType.通常,
-            CDef.MessageType.恋人発言 to CDef.FaceType.秘話,
-            CDef.MessageType.秘話 to CDef.FaceType.秘話
-        )
+        private val messageTypeFaceTypeMap =
+            mapOf(
+                CDef.MessageType.通常発言 to CDef.FaceType.通常,
+                CDef.MessageType.人狼の囁き to CDef.FaceType.囁き,
+                CDef.MessageType.共鳴発言 to CDef.FaceType.共鳴,
+                CDef.MessageType.独り言 to CDef.FaceType.独り言,
+                CDef.MessageType.死者の呻き to CDef.FaceType.墓下,
+                CDef.MessageType.見学発言 to CDef.FaceType.通常,
+                CDef.MessageType.恋人発言 to CDef.FaceType.秘話,
+                CDef.MessageType.秘話 to CDef.FaceType.秘話,
+            )
     }
 }

@@ -19,28 +19,27 @@ import org.springframework.stereotype.Service
 @Service
 class InvestigateDomainService(
     private val footstepDomainService: FootstepDomainService,
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.捜査)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = emptyList()
 
     override fun getSelectingTarget(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
     ): VillageParticipant? = null
 
     override fun getSelectingTargetMessage(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
+        abilities: Abilities,
     ): String? {
         val target = getSelectingFootstep(village, myself, abilities) ?: return "なし"
         return "$target を調査する"
@@ -51,14 +50,15 @@ class InvestigateDomainService(
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByCharaId(myself.charaId)
             .filterByType(abilityType)
-            .sortedByDay().list.map { "${it.day}日目 ${it.targetFootstep} を調査する" }
-    }
+            .sortedByDay()
+            .list
+            .map { "${it.day}日目 ${it.targetFootstep} を調査する" }
 
     override fun assertAbility(
         village: Village,
@@ -69,7 +69,7 @@ class InvestigateDomainService(
         abilities: Abilities,
         footsteps: Footsteps,
         votes: Votes,
-        defaultFootstepAsserter: () -> Unit
+        defaultFootstepAsserter: () -> Unit,
     ) {
         // 足音
         if (getSelectableFootstepList(village, myself, footsteps).none { it == footstep }) {
@@ -82,46 +82,49 @@ class InvestigateDomainService(
         myself: VillageParticipant,
         charaId: Int?,
         targetCharaId: Int?,
-        footstep: String?
-    ): String {
-        return "${myself.name()}が調査する部屋を${footstep!!}に設定しました。"
-    }
+        footstep: String?,
+    ): String = "${myself.name()}が調査する部屋を${footstep!!}に設定しました。"
 
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun getSelectableFootstepList(
         village: Village,
         myself: VillageParticipant,
-        footsteps: Footsteps
+        footsteps: Footsteps,
     ): List<String> = footstepDomainService.getDisplayFootstepList(village, footsteps, village.latestDay())
 
     fun getSelectingFootstep(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): String? {
-        return abilities
+        abilities: Abilities,
+    ): String? =
+        abilities
             .filterByDay(village.latestDay())
             .filterByType(abilityType)
-            .filterByCharaId(myself.charaId).list.firstOrNull()?.targetFootstep
-    }
+            .filterByCharaId(myself.charaId)
+            .list
+            .firstOrNull()
+            ?.targetFootstep
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
         val village = daychange.village
         var abilities = daychange.abilities.copy()
         if (!canUseDay(village.latestDay())) return daychange
-        village.participants.filterAlive().list
+        village.participants
+            .filterAlive()
+            .list
             .filter { it.skill!!.getAbility()?.toCdef() == abilityType.toCdef() }
             .forEach {
                 val target =
                     getSelectableFootstepList(village, it, daychange.footsteps).shuffled().firstOrNull()
                         ?: return@forEach
-                val ability = Ability(
-                    day = village.latestDay(),
-                    type = abilityType,
-                    charaId = it.charaId,
-                    targetFootstep = target
-                )
+                val ability =
+                    Ability(
+                        day = village.latestDay(),
+                        type = abilityType,
+                        charaId = it.charaId,
+                        targetFootstep = target,
+                    )
                 abilities = abilities.add(ability)
             }
         return daychange.copy(abilities = abilities)
@@ -130,7 +133,9 @@ class InvestigateDomainService(
     fun investigate(daychange: Daychange): Daychange {
         var village = daychange.village
         var messages = daychange.messages.copy()
-        village.participants.filterAlive().list
+        village.participants
+            .filterAlive()
+            .list
             .filter { it.skill!!.getAbility()?.toCdef() == abilityType.toCdef() }
             .forEach {
                 val ability = daychange.abilities.findYesterday(village, it, abilityType) ?: return@forEach
@@ -140,7 +145,7 @@ class InvestigateDomainService(
                         village,
                         village.latestDay() - 2,
                         targetFootstep,
-                        daychange.footsteps
+                        daychange.footsteps,
                     )
                 messages =
                     messages.add(createInvestigateResultMessage(village, it, targetFootstep, footstepParticipant))
@@ -158,27 +163,32 @@ class InvestigateDomainService(
         village: Village,
         myself: VillageParticipant,
         targetFootstep: String,
-        footstepParticipant: VillageParticipant
+        footstepParticipant: VillageParticipant,
     ): Message {
         val skill = myself.skill?.toCdef()
         val result =
-            if (skill == CDef.Skill.探偵 || skill == CDef.Skill.闇探偵) footstepParticipant.skill!!.name
-            else footstepParticipant.name()
+            if (skill == CDef.Skill.探偵 || skill == CDef.Skill.闇探偵) {
+                footstepParticipant.skill!!.name
+            } else {
+                footstepParticipant.name()
+            }
         val text = "${myself.name()}は、昨日響いた足音${targetFootstep}について調査した。\n${targetFootstep}の足音を響かせたのは${result}のようだ。"
         return messageDomainService.createPrivateAbilityMessage(
             village,
             myself,
             text,
-            CDef.MessageType.足音調査結果.toModel()
+            CDef.MessageType.足音調査結果.toModel(),
         )
     }
 
-    private fun createCounterDevineKilledMessage(village: Village, myself: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createCounterDevineKilledMessage(
+        village: Village,
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village,
             myself,
             "${myself.name()}は、足跡に残った臭さのあまり、即死した。",
-            CDef.MessageType.能力行使メッセージ.toModel()
+            CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }
