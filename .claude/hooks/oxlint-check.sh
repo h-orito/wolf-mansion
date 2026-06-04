@@ -61,6 +61,8 @@ OXFMT="./node_modules/.bin/oxfmt"
 # バイナリが無い (未 install 等) 場合は何もしない
 [[ -x "$OXLINT" && -x "$OXFMT" ]] || exit 0
 
+strip() { sed 's/\x1b\[[0-9;]*m//g'; }
+
 # oxlint は JS/TS 系のみ対象。CSS は oxfmt のみで検査する
 case "$REL_PATH" in
   *.css) LINT_APPLICABLE=0 ;;
@@ -95,8 +97,15 @@ if [[ "$LINT_RC" -eq 0 && "$FMT_RC" -eq 0 ]]; then
   exit 0
 fi
 
-# 違反内容を整形 (ANSI 除去)
-strip() { sed 's/\x1b\[[0-9;]*m//g'; }
+# ツールエラー (exit >= 2) は lint 違反と区別し、リトライにカウントしない
+if [[ "$LINT_RC" -ge 2 || "$FMT_RC" -ge 2 ]]; then
+  ERR=""
+  [[ "$LINT_RC" -ge 2 ]] && ERR+="oxlint (exit $LINT_RC):"$'\n'"$(echo "$LINT_OUT" | strip | head -15)"$'\n'
+  [[ "$FMT_RC" -ge 2 ]] && ERR+="oxfmt (exit $FMT_RC):"$'\n'"$(echo "$FMT_OUT" | strip | head -15)"$'\n'
+  jq -n --arg err "$ERR" '{"hookSpecificOutput": {"hookEventName": "PostToolUse", "additionalContext": ("frontend lint hook: ツール実行エラー (lint 違反ではありません)。環境/設定を確認してください。\n\n" + $err)}}'
+  exit 0
+fi
+
 MSG=""
 [[ "$LINT_RC" -ne 0 ]] && MSG+="[oxlint]"$'\n'"$(echo "$LINT_OUT" | strip | head -30)"$'\n'
 [[ "$FMT_RC" -ne 0 ]] && MSG+="[oxfmt --check] このファイルは未フォーマットです。pnpm format で整形してください。"$'\n'

@@ -1,87 +1,40 @@
-# Welcome to React Router!
+# wolf-mansion frontend
 
-A modern, production-ready template for building full-stack React applications using React Router.
+人狼ゲーム「wolf-mansion」のフロントエンド。monorepo の `frontend/`。
+React Router v7 (framework mode, SSR) + Vite + TailwindCSS v4 + TypeScript。
+backend (REST API) は `../backend`。移行計画は [`../doc/migration/04-frontend.md`](../doc/migration/04-frontend.md)。
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
+## 必要ランタイム
 
-## Features
+- Node.js 22 系 / pnpm 10 系（`packageManager` 固定）
 
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
+## セットアップ & 開発
 
-## Getting Started
-
-### Installation
-
-Install the dependencies:
+いずれも `frontend/` で実行する:
 
 ```bash
-npm install
+pnpm install        # 依存インストール (.npmrc: ignore-scripts=true / サプライチェーン対策)
+
+pnpm dev            # 開発サーバ (Vite + HMR)、http://localhost:5173
+pnpm build          # 本番ビルド (SSR: build/client + build/server)
+pnpm start          # ビルド成果物を react-router-serve で起動
+
+pnpm typecheck      # react-router typegen + tsc
+pnpm lint           # oxlint
+pnpm format         # oxfmt --write（整形）
+pnpm format:check   # oxfmt --check
 ```
 
-### Development
+## 技術スタック
 
-Start the development server with HMR:
+- **ルーティング / SSR**: React Router v7（framework mode、`react-router.config.ts` で `ssr: true`）
+- **ビルド**: Vite + `@tailwindcss/vite`（Tailwind CSS v4）
+- **server state**: `@tanstack/react-query`（`app/root.tsx` で `QueryClientProvider` を配線）
+- **UI state**: `zustand` / **フォーム**: `react-hook-form` + `zod` / **アイコン**: `@heroicons/react`
+- **lint/format**: oxlint + oxfmt（`.oxlintrc.json` / `.oxfmtrc.json`）
 
-```bash
-npm run dev
-```
+## メモ
 
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
-
----
-
-Built with ❤️ using React Router.
+- バージョンは pnpm の `minimumReleaseAge`（14 日）制約に従う。react-router 系は現状 `7.15.1` 固定（7.16 が制約を満たし次第 v8 future flags と共に更新予定）。
+- 本番コンテナ（`Dockerfile`）は cutover（Step 11）で `node:22-bookworm` + pnpm multistage として用意する（[`../doc/migration/06-infra-deploy.md`](../doc/migration/06-infra-deploy.md)）。
+- OpenAPI → TS 型生成（`gen:api`）は backend の SpringDoc 整備後に追加する。
