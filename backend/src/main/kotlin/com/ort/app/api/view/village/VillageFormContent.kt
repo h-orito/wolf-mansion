@@ -28,14 +28,14 @@ data class VillageFormContent(
     /** 能力行使 */
     val ability: VillageAbilityFormContent,
     /** 投票 */
-    val vote: VillageVoteFormContent
+    val vote: VillageVoteFormContent,
 ) {
     constructor(
         village: Village,
         myself: VillageParticipant?,
         situation: ParticipantSituation,
         day: Int,
-        charachips: Charachips
+        charachips: Charachips,
     ) : this(
         participate = VillageParticipateFormContent(village, myself, situation),
         commit = VillageCommitFormContent(situation),
@@ -44,7 +44,7 @@ data class VillageFormContent(
         changeName = VillageChangeNameFormContent(situation),
         memo = VillageMemoFormContent(situation),
         ability = VillageAbilityFormContent(village, myself, situation, day),
-        vote = VillageVoteFormContent(situation)
+        vote = VillageVoteFormContent(situation),
     )
 
     data class VillageParticipateFormContent(
@@ -63,28 +63,31 @@ data class VillageFormContent(
         /** 参戦フォームで選択するキャラクターリスト */
         val selectableCharaList: List<VillageCharaContent>,
         /** 参戦フォームで選択する希望役職リスト */
-        val selectableSkillList: List<VillageSkillContent>
+        val selectableSkillList: List<VillageSkillContent>,
     ) {
         constructor(
             village: Village,
             myself: VillageParticipant?,
-            situation: ParticipantSituation
+            situation: ParticipantSituation,
         ) : this(
             isDispParticipateForm = situation.participate.isAvailableParticipate || situation.participate.isAvailableSpectate,
             isDispSwitchParticipateForm = situation.participate.isAvailableSwitchParticipate,
             isDispChangeRequestSkillForm = situation.skillRequest.isAvailableSkillRequest,
-            isDispChangeRequestNgMessage = village.status.isPrologue() && myself != null &&
+            isDispChangeRequestNgMessage =
+                village.status.isPrologue() &&
+                    myself != null &&
                     !myself.isSpectator &&
                     !village.setting.rule.isPossibleSkillRequest,
             isDispLeaveVillageForm = situation.participate.isAvailableLeave,
-            selectableCharachipList = situation.participate.selectableCharachipList.map {
-                OptionContent(
-                    it.name,
-                    it.id.toString()
-                )
-            },
+            selectableCharachipList =
+                situation.participate.selectableCharachipList.map {
+                    OptionContent(
+                        it.name,
+                        it.id.toString(),
+                    )
+                },
             selectableCharaList = situation.participate.selectableCharaList.map { VillageCharaContent(it) },
-            selectableSkillList = situation.skillRequest.selectableSkillList.map { VillageSkillContent(it) }
+            selectableSkillList = situation.skillRequest.selectableSkillList.map { VillageSkillContent(it) },
         )
 
         data class VillageCharaContent(
@@ -94,7 +97,7 @@ data class VillageFormContent(
             val url: String,
             val width: Int,
             val height: Int,
-                val canChangeName: Boolean,
+            val canChangeName: Boolean,
         ) {
             constructor(chara: Chara, charachip: Charachip) : this(
                 id = chara.id,
@@ -103,23 +106,23 @@ data class VillageFormContent(
                 url = chara.defaultImage().url,
                 width = chara.size.width,
                 height = chara.size.height,
-                canChangeName = charachip.isAvailableChangeName
+                canChangeName = charachip.isAvailableChangeName,
             )
 
             constructor(chara: Chara) : this(
-                    id = chara.id,
-                    name = chara.name,
-                    shortName = chara.shortName,
-                    url = chara.defaultImage().url,
-                    width = chara.size.width,
-                    height = chara.size.height,
-                    canChangeName = false
+                id = chara.id,
+                name = chara.name,
+                shortName = chara.shortName,
+                url = chara.defaultImage().url,
+                width = chara.size.width,
+                height = chara.size.height,
+                canChangeName = false,
             )
         }
 
         data class VillageSkillContent(
             val code: String,
-            val name: String
+            val name: String,
         ) {
             constructor(skill: Skill) : this(code = skill.code, name = skill.name)
         }
@@ -127,7 +130,7 @@ data class VillageFormContent(
 
     data class VillageCommitFormContent(
         /** コミットフォームを表示するか */
-        val isDispCommitForm: Boolean
+        val isDispCommitForm: Boolean,
     ) {
         constructor(situation: ParticipantSituation) : this(isDispCommitForm = situation.commit.isAvailableCommit)
     }
@@ -160,7 +163,7 @@ data class VillageFormContent(
         /** 選択可能な表情区分 */
         val charaImageList: List<CharaImage>,
         /** 秘話相手 */
-        val secretSayTargetList: List<SecretSayTarget>
+        val secretSayTargetList: List<SecretSayTarget>,
     ) {
         constructor(myself: VillageParticipant?, situation: ParticipantSituation, charachips: Charachips) : this(
             isDispSayForm = situation.say.isAvailableSay,
@@ -176,9 +179,11 @@ data class VillageFormContent(
             isAvailableAction = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.アクション },
             restrict = SayRestrictContent(myself, situation),
             charaImageList = situation.say.selectableCharaImageList,
-            secretSayTargetList = situation.say.selectableMessageTypeList
-                .firstOrNull { it.messageType.toCdef() == CDef.MessageType.秘話 }?.targetList
-                ?.map { SecretSayTarget(it, charachips) } ?: emptyList()
+            secretSayTargetList =
+                situation.say.selectableMessageTypeList
+                    .firstOrNull { it.messageType.toCdef() == CDef.MessageType.秘話 }
+                    ?.targetList
+                    ?.map { SecretSayTarget(it, charachips) } ?: emptyList(),
         )
 
         data class SecretSayTarget(
@@ -186,14 +191,14 @@ data class VillageFormContent(
             val value: String,
             val url: String,
             val width: Int,
-            val height: Int
+            val height: Int,
         ) {
             constructor(participant: VillageParticipant, charachips: Charachips) : this(
                 name = participant.name(),
                 value = participant.charaId.toString(),
                 url = charachips.chara(participant.charaId).defaultImage().url,
                 width = charachips.chara(participant.charaId).size.width,
-                height = charachips.chara(participant.charaId).size.height
+                height = charachips.chara(participant.charaId).size.height,
             )
         }
     }
@@ -202,29 +207,34 @@ data class VillageFormContent(
         /** アクションフォームを表示するか */
         val isDispActionForm: Boolean,
         /** target */
-        var targetList: List<OptionContent>
+        var targetList: List<OptionContent>,
     ) {
         constructor(
             village: Village,
             myself: VillageParticipant?,
-            situation: ParticipantSituation
+            situation: ParticipantSituation,
         ) : this(
             isDispActionForm = situation.say.selectableMessageTypeList.any { it.messageType.toCdef() == CDef.MessageType.アクション },
-            targetList = village.allParticipants().sortedByRoomNumber().list.filterNot { it.id == myself?.id }
-                .map { OptionContent(name = it.name(), value = it.name()) }
+            targetList =
+                village
+                    .allParticipants()
+                    .sortedByRoomNumber()
+                    .list
+                    .filterNot { it.id == myself?.id }
+                    .map { OptionContent(name = it.name(), value = it.name()) },
         )
     }
 
     data class VillageChangeNameFormContent(
         /** 名前変更フォームを表示するか */
-        val isDispChangeNameForm: Boolean
+        val isDispChangeNameForm: Boolean,
     ) {
         constructor(situation: ParticipantSituation) : this(isDispChangeNameForm = situation.rp.isAvailableChangeName)
     }
 
     data class VillageMemoFormContent(
         /** 簡易メモフォームを表示するか */
-        val isDispMemoForm: Boolean
+        val isDispMemoForm: Boolean,
     ) {
         constructor(situation: ParticipantSituation) : this(isDispMemoForm = situation.rp.isAvailableMemo)
     }
@@ -255,13 +265,13 @@ data class VillageFormContent(
         /** 対象選択して足音を残す役職か */
         val isTargetingAndFootstep: Boolean,
         /** 付与されているステータス */
-        val statusList: List<VillagePlayerStatusContent>
+        val statusList: List<VillagePlayerStatusContent>,
     ) {
         constructor(
             village: Village,
             myself: VillageParticipant?,
             situation: ParticipantSituation,
-            day: Int
+            day: Int,
         ) : this(
             abilityTargetList = mapAbilityTargetList(situation.ability),
             attackerList = situation.ability.attackerList.map { OptionContent(it) },
@@ -275,21 +285,25 @@ data class VillageFormContent(
             targetPrefixMessage = situation.ability.targetPrefix,
             targetSuffixMessage = situation.ability.targetSuffix,
             isTargetingAndFootstep = situation.ability.isTargetingAndFootstep,
-            statusList = mapStatusList(village, myself, day)
+            statusList = mapStatusList(village, myself, day),
         )
 
         companion object {
-            private fun mapAbilityTargetList(ability: ParticipantAbilitySituation): List<OptionContent> {
-                return if (ability.targetFootstepList.isNotEmpty()) {
+            private fun mapAbilityTargetList(ability: ParticipantAbilitySituation): List<OptionContent> =
+                if (ability.targetFootstepList.isNotEmpty()) {
                     ability.targetFootstepList.map { OptionContent(it, it) }
                 } else {
                     if (ability.isAvailableNoTarget) {
                         listOf(OptionContent(name = "なし", value = "")) + ability.targetList.map { OptionContent(it) }
-                    } else ability.targetList.map { OptionContent(it) }
+                    } else {
+                        ability.targetList.map { OptionContent(it) }
+                    }
                 }
-            }
 
-            private fun mapLoversCharaNameList(village: Village, loversList: List<VillageParticipant>): String {
+            private fun mapLoversCharaNameList(
+                village: Village,
+                loversList: List<VillageParticipant>,
+            ): String {
                 val list = mutableListOf<String>()
                 loversList.forEach { lover ->
                     lover.status.loverIdList.forEach { targetId ->
@@ -301,80 +315,91 @@ data class VillageFormContent(
                 return list.joinToString(
                     prefix = "この村で恋に落ちているのは\n",
                     separator = "\n",
-                    postfix = "\nです。"
+                    postfix = "\nです。",
                 )
             }
 
             private fun mapStatusList(
                 village: Village,
                 myself: VillageParticipant?,
-                day: Int
+                day: Int,
             ): List<VillagePlayerStatusContent> {
                 myself ?: return emptyList()
                 if (!village.canUseAbility(day) || !myself.canUseAbility()) return emptyList()
                 // 恋絆
-                val loversStatusList = myself.status.loverIdList.map {
-                    VillagePlayerStatusContent(
-                        statusCode = CDef.VillagePlayerStatusType.後追い.code(),
-                        message = "あなたは${village.participants.member(it).name()}に恋しています。"
-                    )
-                }
+                val loversStatusList =
+                    myself.status.loverIdList.map {
+                        VillagePlayerStatusContent(
+                            statusCode = CDef.VillagePlayerStatusType.後追い.code(),
+                            message = "あなたは${village.participants.member(it).name()}に恋しています。",
+                        )
+                    }
                 // 狐憑き
-                val foxPossessionedStatusList = if (myself.status.isFoxPossessioned()) {
-                    listOf(
-                        VillagePlayerStatusContent(
-                            statusCode = CDef.VillagePlayerStatusType.狐憑き.code(),
-                            message = "あなたは妖狐に与するものとなりました。"
+                val foxPossessionedStatusList =
+                    if (myself.status.isFoxPossessioned()) {
+                        listOf(
+                            VillagePlayerStatusContent(
+                                statusCode = CDef.VillagePlayerStatusType.狐憑き.code(),
+                                message = "あなたは妖狐に与するものとなりました。",
+                            ),
                         )
-                    )
-                } else emptyList()
+                    } else {
+                        emptyList()
+                    }
                 // 狂気
-                val insanedList = if (myself.status.isInsaned()) {
-                    listOf(
-                        VillagePlayerStatusContent(
-                            statusCode = CDef.VillagePlayerStatusType.狂気.code(),
-                            message = "あなたは狂気を宿しています。"
+                val insanedList =
+                    if (myself.status.isInsaned()) {
+                        listOf(
+                            VillagePlayerStatusContent(
+                                statusCode = CDef.VillagePlayerStatusType.狂気.code(),
+                                message = "あなたは狂気を宿しています。",
+                            ),
                         )
-                    )
-                } else emptyList()
+                    } else {
+                        emptyList()
+                    }
                 // 信念
-                val persuadedList = if (myself.status.isPersuaded()) {
-                    listOf(
-                        VillagePlayerStatusContent(
-                            statusCode = CDef.VillagePlayerStatusType.信念.code(),
-                            message = "あなたは平和を望んでいます。"
+                val persuadedList =
+                    if (myself.status.isPersuaded()) {
+                        listOf(
+                            VillagePlayerStatusContent(
+                                statusCode = CDef.VillagePlayerStatusType.信念.code(),
+                                message = "あなたは平和を望んでいます。",
+                            ),
                         )
-                    )
-                } else emptyList()
+                    } else {
+                        emptyList()
+                    }
                 // 保険
-                val insuranceStatusList = myself.status.insuranceIdList.firstOrNull()?.let {
-                    listOf(
-                        VillagePlayerStatusContent(
-                            statusCode = CDef.VillagePlayerStatusType.保険.code(),
-                            message = "あなたは保険を勧められました。"
+                val insuranceStatusList =
+                    myself.status.insuranceIdList.firstOrNull()?.let {
+                        listOf(
+                            VillagePlayerStatusContent(
+                                statusCode = CDef.VillagePlayerStatusType.保険.code(),
+                                message = "あなたは保険を勧められました。",
+                            ),
                         )
-                    )
-                } ?: emptyList()
+                    } ?: emptyList()
                 return loversStatusList +
-                        foxPossessionedStatusList +
-                        insanedList +
-                        persuadedList +
-                        insuranceStatusList
+                    foxPossessionedStatusList +
+                    insanedList +
+                    persuadedList +
+                    insuranceStatusList
             }
         }
 
         data class VillagePlayerStatusContent(
             val statusCode: String,
-            val message: String
+            val message: String,
         )
     }
 
     data class VillageVoteFormContent(
         /** 投票対象リスト */
-        val voteTargetList: List<OptionContent>
+        val voteTargetList: List<OptionContent>,
     ) {
         constructor(situation: ParticipantSituation) : this(
-            voteTargetList = situation.vote.targetList.map { OptionContent(it) }
+            voteTargetList = situation.vote.targetList.map { OptionContent(it) },
         )
     }
 
@@ -396,11 +421,11 @@ data class VillageFormContent(
         var telepathyLength: Int? = null,
         var actionCount: Int? = null,
         var actionLeftCount: Int? = null,
-        var actionLength: Int? = null
+        var actionLength: Int? = null,
     ) {
         constructor(
             myself: VillageParticipant?,
-            situation: ParticipantSituation
+            situation: ParticipantSituation,
         ) : this() {
             if (myself?.isAdmin() == true) return
             situation.say.selectableMessageTypeList.filter { it.restrict.isRestricted }.forEach {

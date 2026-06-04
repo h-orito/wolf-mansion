@@ -16,35 +16,36 @@ data class Daychange(
     val messages: Messages,
     val players: Players,
     val tweets: List<String>,
-    val guarded: List<VillageParticipant>
+    val guarded: List<VillageParticipant>,
 ) {
     constructor(
         village: Village,
         abilities: Abilities,
         votes: Votes,
         footsteps: Footsteps,
-        players: Players
+        players: Players,
     ) : this(
-        village = village.copy(
-            participants = village.participants.filterNotGone(),
-            spectators = village.spectators.filterNotGone()
-        ),
+        village =
+            village.copy(
+                participants = village.participants.filterNotGone(),
+                spectators = village.spectators.filterNotGone(),
+            ),
         abilities = abilities,
         votes = votes,
         footsteps = footsteps,
         messages = Messages(emptyList()),
         players = players,
         tweets = emptyList(),
-        guarded = emptyList()
+        guarded = emptyList(),
     )
 
     fun isChanged(other: Daychange): Boolean = !isSame(other)
 
     fun isSame(other: Daychange): Boolean =
-        village.isSame(other.village)
-                && abilities.isSame(other.abilities)
-                && votes.isSame(other.votes)
-                && footsteps.isSame(other.footsteps)
-                && messages.isSame(other.messages)
-                && players.isSame(other.players)
+        village.isSame(other.village) &&
+            abilities.isSame(other.abilities) &&
+            votes.isSame(other.votes) &&
+            footsteps.isSame(other.footsteps) &&
+            messages.isSame(other.messages) &&
+            players.isSame(other.players)
 }

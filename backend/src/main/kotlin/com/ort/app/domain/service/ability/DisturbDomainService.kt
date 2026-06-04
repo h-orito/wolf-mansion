@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class DisturbDomainService(
-    private val footstepDomainService: FootstepDomainService
+    private val footstepDomainService: FootstepDomainService,
 ) {
-
-    fun assertAbility(village: Village, footstep: String?) {
+    fun assertAbility(
+        village: Village,
+        footstep: String?,
+    ) {
         footstepDomainService.assertDisturbFootstep(village, footstep)
     }
 
@@ -21,34 +23,42 @@ class DisturbDomainService(
         village: Village,
         myself: VillageParticipant,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return footsteps
+        day: Int,
+    ): List<String> =
+        footsteps
             .filterByCharaId(myself.charaId)
             .filterPastDay(day)
             .sortedByDay()
-            .list.map {
+            .list
+            .map {
                 val footstep =
-                    if (it.roomNumbers.isEmpty() || it.roomNumbers == "なし") "徘徊しない"
-                    else "${it.roomNumbers}を徘徊する"
+                    if (it.roomNumbers.isEmpty() || it.roomNumbers == "なし") {
+                        "徘徊しない"
+                    } else {
+                        "${it.roomNumbers}を徘徊する"
+                    }
                 "${it.day}日目 $footstep"
             }
-    }
 
-    fun createSetMessageText(village: Village, myself: VillageParticipant, footstep: String): String {
-        return "${myself.name()}が通過する部屋を${footstep}に設定しました。"
-    }
+    fun createSetMessageText(
+        village: Village,
+        myself: VillageParticipant,
+        footstep: String,
+    ): String = "${myself.name()}が通過する部屋を${footstep}に設定しました。"
 
     fun addDefaultFootsteps(daychange: Daychange): Daychange {
         var footsteps = daychange.footsteps.copy()
-        daychange.village.participants.filterAlive().list
+        daychange.village.participants
+            .filterAlive()
+            .list
             .filter { it.skill!!.hasDisturbAbility() }
             .forEach {
-                val footstep = Footstep(
-                    day = daychange.village.latestDay(),
-                    charaId = it.charaId,
-                    roomNumbers = "なし"
-                )
+                val footstep =
+                    Footstep(
+                        day = daychange.village.latestDay(),
+                        charaId = it.charaId,
+                        roomNumbers = "なし",
+                    )
                 footsteps = footsteps.add(footstep)
             }
         return daychange.copy(footsteps = footsteps)

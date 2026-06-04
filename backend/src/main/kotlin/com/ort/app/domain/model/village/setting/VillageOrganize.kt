@@ -7,10 +7,11 @@ import com.ort.dbflute.allcommon.CDef
 
 data class VillageOrganize(
     val fixedOrganization: String,
-    val randomOrganization: VillageRandomOrganize
+    val randomOrganization: VillageRandomOrganize,
 ) {
     companion object {
-        val defaultFixedOrganization = """
+        val defaultFixedOrganization =
+            """
             村狼狼賢導村村村
             村狼狼賢導村村村村
             村狼狼狂賢導村村村村
@@ -24,31 +25,40 @@ data class VillageOrganize(
             村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊共共
             村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊共共
             村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共
-        """.trimIndent()
+            """.trimIndent()
     }
 
     fun allRequestableSkillList(): List<Skill> {
-        val skillList = fixedOrganization.split("\n")
-            .flatMap { it.split("") }
-            .distinct()
-            .mapNotNull { Skill.byShortName(it) }
+        val skillList =
+            fixedOrganization
+                .split("\n")
+                .flatMap { it.split("") }
+                .distinct()
+                .mapNotNull { Skill.byShortName(it) }
         val someoneList = Skills.someones().list
         return skillList + someoneList
     }
 
-    fun mapToSkillCount(isRandom: Boolean, participantsCount: Int): Map<CDef.Skill, Int> {
-        return if (isRandom) randomOrganization.mapToSkillCount(participantsCount)
-        else {
-            val org = checkNotNull(
-                fixedOrganization.replace("\r\n", "\n").split("\n").find { it.length == participantsCount })
-            Skills.all().filterNotSomeone().list.map { skill ->
-                val count = org.chunked(1).count { char -> char == skill.shortName }
-                skill.toCdef() to count
-            }.toMap()
+    fun mapToSkillCount(
+        isRandom: Boolean,
+        participantsCount: Int,
+    ): Map<CDef.Skill, Int> =
+        if (isRandom) {
+            randomOrganization.mapToSkillCount(participantsCount)
+        } else {
+            val org =
+                checkNotNull(
+                    fixedOrganization.replace("\r\n", "\n").split("\n").find { it.length == participantsCount },
+                )
+            Skills
+                .all()
+                .filterNotSomeone()
+                .list
+                .map { skill ->
+                    val count = org.chunked(1).count { char -> char == skill.shortName }
+                    skill.toCdef() to count
+                }.toMap()
         }
-    }
 
-    fun getReincarnationSkill(camp: Camp?): Skill? {
-        return randomOrganization.getReincarnationSkill(camp)
-    }
+    fun getReincarnationSkill(camp: Camp?): Skill? = randomOrganization.getReincarnationSkill(camp)
 }

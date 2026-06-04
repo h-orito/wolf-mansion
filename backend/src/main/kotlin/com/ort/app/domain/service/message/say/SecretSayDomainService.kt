@@ -7,22 +7,23 @@ import org.springframework.stereotype.Service
 
 @Service
 class SecretSayDomainService : SayTypeDomainService {
-
     override fun isViewable(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        day: Int
-    ): Boolean =
-        village.isViewableSecretSay(player) || myself?.isViewableSecretSay() ?: false
+        day: Int,
+    ): Boolean = village.isViewableSecretSay(player) || myself?.isViewableSecretSay() ?: false
 
     override fun isSayable(
         village: Village,
         myself: VillageParticipant?,
-        player: Player?
-    ): Boolean {
-        return if (myself?.isAdmin() == true) true
-        else if (village.isCreator(player)) true
-        else village.isSayableSecretSay() && myself?.isSayableSecretSay() ?: false
-    }
+        player: Player?,
+    ): Boolean =
+        if (myself?.isAdmin() == true) {
+            true
+        } else if (village.isCreator(player)) {
+            true
+        } else {
+            village.isSayableSecretSay() && myself?.isSayableSecretSay() ?: false
+        }
 }

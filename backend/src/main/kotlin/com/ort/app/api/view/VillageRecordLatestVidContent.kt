@@ -1,3 +1,5 @@
 package com.ort.app.api.view
 
-data class VillageRecordLatestVidContent(val vid: Int)
+data class VillageRecordLatestVidContent(
+    val vid: Int,
+)

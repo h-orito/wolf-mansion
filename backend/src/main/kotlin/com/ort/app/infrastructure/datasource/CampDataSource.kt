@@ -12,13 +12,13 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class CampDataSource(
-    private val campBhv: CampBhv
+    private val campBhv: CampBhv,
 ) : CampRepository {
-
     override fun findCampSkills(): List<CampSkill> {
-        val campList = campBhv.selectList { cb: CampCB ->
-            cb.query().addOrderBy_CampCode_Asc()
-        }
+        val campList =
+            campBhv.selectList { cb: CampCB ->
+                cb.query().addOrderBy_CampCode_Asc()
+            }
         campBhv.loadSkill(campList) { skillCB: SkillCB ->
             skillCB.query().addOrderBy_DispOrder_Asc()
             skillCB.query().setSkillCode_NotInScope_AsSkill(CDef.Skill.listOfSomeoneSkill())
@@ -26,7 +26,7 @@ class CampDataSource(
         return campList.map {
             CampSkill(
                 camp = Camp(it.campCodeAsCamp),
-                skillList = it.skillList.map { Skill(it.skillCodeAsSkill) }
+                skillList = it.skillList.map { Skill(it.skillCodeAsSkill) },
             )
         }
     }

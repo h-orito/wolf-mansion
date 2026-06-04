@@ -13,15 +13,14 @@ import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class SkillController(
-    val villageService: VillageService
+    val villageService: VillageService,
 ) {
-
     @GetMapping("/skill")
     private fun index(model: Model): String {
         model.addAttribute("content", SkillContent())
         model.addAttribute(
             "villageList",
-            villageService.findVillages(VillageQuery(isRandomOrg = false)).list.reversed()
+            villageService.findVillages(VillageQuery(isRandomOrg = false)).list.reversed(),
         )
         return "skill"
     }
@@ -30,8 +29,11 @@ class SkillController(
     @ResponseBody
     private fun index(form: SkillForm): List<String> {
         var tagSkills =
-            if (form.tags.isNullOrBlank()) Skills.all().list
-            else SkillTag.of(form.tags!!.split(",")).flatMap { it.getSkillList() }.distinct()
+            if (form.tags.isNullOrBlank()) {
+                Skills.all().list
+            } else {
+                SkillTag.of(form.tags!!.split(",")).flatMap { it.getSkillList() }.distinct()
+            }
         // 村IDが指定されている場合はその村の役職で絞る
         if (form.villageId != null) {
             villageService.findVillage(form.villageId!!)?.let { village ->
@@ -51,15 +53,21 @@ class SkillController(
         if (village.setting.rule.isRandomOrganization) return this
         return when {
             village.status.isPrologue() || village.status.isCanceled() -> {
-                this.filter { village.setting.organize.allRequestableSkillList().any { s -> it.code == s.code } }
+                this.filter {
+                    village.setting.organize
+                        .allRequestableSkillList()
+                        .any { s -> it.code == s.code }
+                }
             }
 
             else -> {
-                val organizationSkillCodes = village.setting.organize.fixedOrganization
-                    .replace("\r\n", "\n").split("\n")
-                    .first { it.length == village.participants.count }
-                    .map { Skill.byShortName(it.toString())!!.code }
-                    .distinct()
+                val organizationSkillCodes =
+                    village.setting.organize.fixedOrganization
+                        .replace("\r\n", "\n")
+                        .split("\n")
+                        .first { it.length == village.participants.count }
+                        .map { Skill.byShortName(it.toString())!!.code }
+                        .distinct()
                 this.filter { organizationSkillCodes.contains(it.code) }
             }
         }

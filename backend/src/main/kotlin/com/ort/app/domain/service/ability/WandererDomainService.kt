@@ -15,34 +15,45 @@ import org.springframework.stereotype.Service
 
 @Service
 class WandererDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.風来護衛)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 一度守った人は守れない
-        val pastTargetCharaIds = abilities
-            .filterPastDay(village.latestDay())
-            .filterByCharaId(myself.charaId)
-            .filterByType(abilityType).list.map { it.targetCharaId }
+        val pastTargetCharaIds =
+            abilities
+                .filterPastDay(village.latestDay())
+                .filterByCharaId(myself.charaId)
+                .filterByType(abilityType)
+                .list
+                .map { it.targetCharaId }
         return village.participants
             .filterAlive()
             .filterNotParticipant(myself)
             .sortedByRoomNumber()
-            .list.filterNot { pastTargetCharaIds.contains(it.charaId) }
+            .list
+            .filterNot { pastTargetCharaIds.contains(it.charaId) }
     }
 
     override fun getTargetPrefix(): String? = "護衛対象"
+
     override fun getTargetSuffix(): String? = "を護衛する"
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
 
     fun wandererGuard(daychange: Daychange): Daychange {
         val village = daychange.village
@@ -58,12 +69,15 @@ class WandererDomainService(
         return daychange.copy(village = village, messages = messages, guarded = guarded)
     }
 
-    private fun createGuardMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createGuardMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}を護衛している。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

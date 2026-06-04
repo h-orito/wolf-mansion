@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class SpoilerDomainService {
-
-    fun isViewableSpoilerContent(village: Village, myself: VillageParticipant?): Boolean {
-        return village.isViewableSpoilerContent() ||
-                myself?.isViewableSpoilerContent(village.setting.rule.isOpenSkillInGrave) == true
-    }
+    fun isViewableSpoilerContent(
+        village: Village,
+        myself: VillageParticipant?,
+    ): Boolean =
+        village.isViewableSpoilerContent() ||
+            myself?.isViewableSpoilerContent(village.setting.rule.isOpenSkillInGrave) == true
 }

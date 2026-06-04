@@ -6,29 +6,31 @@ import com.ort.dbflute.allcommon.CDef
 import java.time.LocalDateTime
 
 interface MessageRepository {
-
     fun findMessages(
         village: Village,
         myself: VillageParticipant?,
-        query: MessageQuery
+        query: MessageQuery,
     ): Messages
 
     fun findMessage(
         village: Village,
         messageType: CDef.MessageType,
-        messageNumber: Int
+        messageNumber: Int,
     ): Message?
 
     fun findLatestMessageDatetime(
         myself: VillageParticipant?,
-        query: MessageQuery
+        query: MessageQuery,
     ): LocalDateTime?
 
     fun findParticipantDayMessageCount(
         village: Village,
         day: Int,
-        participant: VillageParticipant
+        participant: VillageParticipant,
     ): Map<CDef.MessageType, Int>
 
-    fun registerMessage(village: Village, message: Message): Message
+    fun registerMessage(
+        village: Village,
+        message: Message,
+    ): Message
 }

@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 internal class TranslateRepositoryImplTest {
-
     @Autowired
     private lateinit var repository: TranslateRepositoryImpl
 

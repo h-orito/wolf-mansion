@@ -9,6 +9,7 @@ import com.ort.app.application.service.VillageService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.InitBinder
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
-import jakarta.servlet.http.HttpServletRequest
 
 @Controller
 class VillageRpController(
@@ -26,9 +26,8 @@ class VillageRpController(
     private val villageService: VillageService,
     private val charaService: CharaService,
     private val villageCoordinator: VillageCoordinator,
-    private val villageControllerHelper: VillageControllerHelper
+    private val villageControllerHelper: VillageControllerHelper,
 ) {
-
     @InitBinder("faceTypeForm")
     fun initBinder(binder: WebDataBinder) {
         binder.addValidators(villageFaceTypeFormValidator)
@@ -42,19 +41,21 @@ class VillageRpController(
     private fun changeName(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeNameForm") changeNameForm: VillageChangeNameForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         try {
             villageCoordinator.changeName(village, myself, changeNameForm.name!!, changeNameForm.shortName!!)
         } catch (e: WolfMansionBusinessException) {
@@ -71,19 +72,21 @@ class VillageRpController(
     private fun memo(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeNameForm") memoForm: VillageMemoForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         try {
             villageService.changeMemo(myself, memoForm.memo!!)
         } catch (e: WolfMansionBusinessException) {
@@ -100,24 +103,26 @@ class VillageRpController(
     private fun faceType(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("faceTypeModifyForm") faceTypeModifyForm: VillageFaceTypeModifyForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(faceTypeModifyForm = faceTypeModifyForm)
+                VillageForms(faceTypeModifyForm = faceTypeModifyForm),
             )
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        } ?: throw WolfMansionBusinessException("ログインしてください")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            } ?: throw WolfMansionBusinessException("ログインしてください")
         try {
             faceTypeModifyForm.faceTypeList!!.forEach {
                 charaService.updateOriginalCharaImage(it.code!!, it.name!!, it.display!!)
@@ -136,30 +141,33 @@ class VillageRpController(
     private fun faceType(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("faceTypeForm") faceTypeForm: VillageFaceTypeForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (result.hasErrors()) {
             villageControllerHelper.setIndexModel(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(faceTypeForm = faceTypeForm)
+                VillageForms(faceTypeForm = faceTypeForm),
             )
             return "village"
         }
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        } ?: throw WolfMansionBusinessException("ログインしてください")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            } ?: throw WolfMansionBusinessException("ログインしてください")
         try {
             charaService.registerOriginalCharaImage(
-                village.setting.chara.charachipIds.first(),
+                village.setting.chara.charachipIds
+                    .first(),
                 myself.charaId,
                 faceTypeForm.faceTypeName!!,
-                faceTypeForm.image!!
+                faceTypeForm.image!!,
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("faceTypeErrorMessage", e.message)

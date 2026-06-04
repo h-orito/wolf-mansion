@@ -5,5 +5,5 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 data class ParticipantVoteSituation(
     val canVote: Boolean,
     val targetList: List<VillageParticipant>,
-    val target: VillageParticipant?
+    val target: VillageParticipant?,
 )

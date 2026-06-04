@@ -30,60 +30,57 @@ data class VillageParticipantStatus(
 
     fun isDisrespectful(): Boolean = disrespectfulList.isNotEmpty()
 
-    fun isSame(other: VillageParticipantStatus): Boolean {
-        return loverIdList.size == other.loverIdList.size
-                && foxPossessionedIdList.size == other.foxPossessionedIdList.size
-                && insanedIdList.size == other.insanedIdList.size
-                && persuadedIdList.size == other.persuadedIdList.size
-                && insuranceIdList.size == other.insuranceIdList.size
-                && disrespectfulList.size == other.disrespectfulList.size
-                && loverIdList.all { other.loverIdList.contains(it) }
-                && foxPossessionedIdList.all { other.foxPossessionedIdList.contains(it) }
-                && insanedIdList.all { other.insanedIdList.contains(it) }
-                && persuadedIdList.all { other.persuadedIdList.contains(it) }
-                && insuranceIdList.all { other.insuranceIdList.contains(it) }
-                && disrespectfulList.all { other.disrespectfulList.contains(it) }
-                && hasCurseMark == other.hasCurseMark
-                && hasCounterCurseMark == other.hasCounterCurseMark
-                && hasTelekinesis == other.hasTelekinesis
-    }
+    fun isSame(other: VillageParticipantStatus): Boolean =
+        loverIdList.size == other.loverIdList.size &&
+            foxPossessionedIdList.size == other.foxPossessionedIdList.size &&
+            insanedIdList.size == other.insanedIdList.size &&
+            persuadedIdList.size == other.persuadedIdList.size &&
+            insuranceIdList.size == other.insuranceIdList.size &&
+            disrespectfulList.size == other.disrespectfulList.size &&
+            loverIdList.all { other.loverIdList.contains(it) } &&
+            foxPossessionedIdList.all { other.foxPossessionedIdList.contains(it) } &&
+            insanedIdList.all { other.insanedIdList.contains(it) } &&
+            persuadedIdList.all { other.persuadedIdList.contains(it) } &&
+            insuranceIdList.all { other.insuranceIdList.contains(it) } &&
+            disrespectfulList.all { other.disrespectfulList.contains(it) } &&
+            hasCurseMark == other.hasCurseMark &&
+            hasCounterCurseMark == other.hasCounterCurseMark &&
+            hasTelekinesis == other.hasTelekinesis
 
-    fun addLover(id: Int): VillageParticipantStatus {
-        return copy(loverIdList = (loverIdList + id).distinct())
-    }
+    fun addLover(id: Int): VillageParticipantStatus = copy(loverIdList = (loverIdList + id).distinct())
 
-    fun breakup(excludeParticipant: VillageParticipant?): VillageParticipantStatus {
-        return if (excludeParticipant != null) {
+    fun breakup(excludeParticipant: VillageParticipant?): VillageParticipantStatus =
+        if (excludeParticipant != null) {
             copy(loverIdList = listOf(excludeParticipant.id))
         } else {
             copy(loverIdList = emptyList())
         }
-    }
 
-    fun loveSteal(stealerId: Int, excludeParticipant: VillageParticipant?): VillageParticipantStatus {
-        return if (excludeParticipant != null) {
+    fun loveSteal(
+        stealerId: Int,
+        excludeParticipant: VillageParticipant?,
+    ): VillageParticipantStatus =
+        if (excludeParticipant != null) {
             copy(loverIdList = listOf(stealerId, excludeParticipant.id))
         } else {
             copy(loverIdList = listOf(stealerId))
         }
-    }
 
     fun foxPossessioned(
         fromParticipantId: Int,
-        excludeParticipant: VillageParticipant?
+        excludeParticipant: VillageParticipant?,
     ): VillageParticipantStatus {
         // 破局させた上で狐憑きを付与
         return this.breakup(excludeParticipant).copy(
-            foxPossessionedIdList = (foxPossessionedIdList + fromParticipantId).distinct()
+            foxPossessionedIdList = (foxPossessionedIdList + fromParticipantId).distinct(),
         )
     }
 
-    private fun clearFoxposessioned(): VillageParticipantStatus =
-        copy(foxPossessionedIdList = emptyList())
+    private fun clearFoxposessioned(): VillageParticipantStatus = copy(foxPossessionedIdList = emptyList())
 
     fun insaned(
         fromParticipantId: Int,
-        excludeParticipant: VillageParticipant?
+        excludeParticipant: VillageParticipant?,
     ): VillageParticipantStatus {
         // 恋絆、狐憑きを削除して狂気を付与
         return this
@@ -94,7 +91,10 @@ data class VillageParticipantStatus(
 
     private fun clearInsaned(): VillageParticipantStatus = copy(insanedIdList = emptyList())
 
-    fun persuaded(fromParticipantId: Int, excludeParticipant: VillageParticipant?): VillageParticipantStatus {
+    fun persuaded(
+        fromParticipantId: Int,
+        excludeParticipant: VillageParticipant?,
+    ): VillageParticipantStatus {
         // 恋絆、狐憑き、狂気を削除して信念を付与
         return this
             .breakup(excludeParticipant)
@@ -103,9 +103,7 @@ data class VillageParticipantStatus(
             .copy(persuadedIdList = (persuadedIdList + fromParticipantId).distinct())
     }
 
-    fun insurance(participantId: Int): VillageParticipantStatus {
-        return copy(insuranceIdList = (insuranceIdList + participantId).distinct())
-    }
+    fun insurance(participantId: Int): VillageParticipantStatus = copy(insuranceIdList = (insuranceIdList + participantId).distinct())
 
     fun useInsurance(): VillageParticipantStatus = copy(insuranceIdList = emptyList())
 

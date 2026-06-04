@@ -6,14 +6,14 @@ data class DeadView(
     val isDead: Boolean,
     val deadDay: Int?,
     val reason: DeadReasonView?,
-    val histories: DeadHistoriesView
+    val histories: DeadHistoriesView,
 ) {
     constructor(
-        org: Dead
-    ): this(
+        org: Dead,
+    ) : this(
         isDead = org.isDead,
         deadDay = org.deadDay,
-        reason = org.reason?.let { DeadReasonView.of(it)},
-        histories = DeadHistoriesView(org.histories)
+        reason = org.reason?.let { DeadReasonView.of(it) },
+        histories = DeadHistoriesView(org.histories),
     )
 }

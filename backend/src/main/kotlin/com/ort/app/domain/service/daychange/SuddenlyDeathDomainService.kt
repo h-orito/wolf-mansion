@@ -6,9 +6,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class SuddenlyDeathDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) {
-
     fun deadIfNeeded(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         // 1日目は投票がない
@@ -22,8 +21,13 @@ class SuddenlyDeathDomainService(
         // 前日に投票していない人が対象
         daychange.village.participants
             .filterNotDummy(village.dummyParticipant())
-            .filterAlive().list.filter { member ->
-                daychange.votes.filterByDay(village.latestDay() - 1).list.none { it.charaId == member.charaId }
+            .filterAlive()
+            .list
+            .filter { member ->
+                daychange.votes
+                    .filterByDay(village.latestDay() - 1)
+                    .list
+                    .none { it.charaId == member.charaId }
             }.forEach {
                 // 突然死
                 village = village.suddenlyDeathParticipant(it.id)
@@ -32,14 +36,14 @@ class SuddenlyDeathDomainService(
                 // 突然死メッセージ
                 messages =
                     messages.add(
-                        messageDomainService.createSuddenlyDeathMessage(village, it)
+                        messageDomainService.createSuddenlyDeathMessage(village, it),
                     )
             }
 
         return daychange.copy(
             village = village,
             messages = messages,
-            players = players
+            players = players,
         )
     }
 
@@ -47,7 +51,9 @@ class SuddenlyDeathDomainService(
     fun reSuddenlyDeath(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
-        daychange.village.participants.filterAlive().list
+        daychange.village.participants
+            .filterAlive()
+            .list
             .filter { it.dead.existsSuddenly() }
             .forEach {
                 // 突然死
@@ -55,12 +61,12 @@ class SuddenlyDeathDomainService(
                 // 突然死メッセージ
                 messages =
                     messages.add(
-                        messageDomainService.createSuddenlyDeathMessage(village, it)
+                        messageDomainService.createSuddenlyDeathMessage(village, it),
                     )
             }
         return daychange.copy(
             village = village,
-            messages = messages
+            messages = messages,
         )
     }
 }

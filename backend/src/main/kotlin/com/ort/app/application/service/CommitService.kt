@@ -8,10 +8,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class CommitService(
-    private val commitRepository: CommitRepository
+    private val commitRepository: CommitRepository,
 ) {
-
     fun findCommits(villageId: Int): Commits = commitRepository.findCommits(villageId)
 
-    fun setCommit(village: Village, commit: Commit) = commitRepository.updateCommit(village, commit)
+    fun setCommit(
+        village: Village,
+        commit: Commit,
+    ) = commitRepository.updateCommit(village, commit)
 }

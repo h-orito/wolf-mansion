@@ -19,31 +19,39 @@ import org.springframework.stereotype.Service
 @Service
 class GuardDomainService(
     private val footstepDomainService: FootstepDomainService,
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.護衛)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         val day = village.latestDay()
-        val targets = village.participants
-            .filterAlive()
-            .filterNotParticipant(myself)
-            .sortedByRoomNumber()
+        val targets =
+            village.participants
+                .filterAlive()
+                .filterNotParticipant(myself)
+                .sortedByRoomNumber()
         if (village.setting.rule.isAvailableGuardSameTarget) return targets.list
         val yesterdayAbility =
-            abilities.filterByType(abilityType).filterByCharaId(myself.charaId).filterByDay(day - 1).list.firstOrNull()
+            abilities
+                .filterByType(abilityType)
+                .filterByCharaId(myself.charaId)
+                .filterByDay(day - 1)
+                .list
+                .firstOrNull()
         return targets.list.filterNot { it.charaId == yesterdayAbility?.targetCharaId }
     }
 
     override fun getTargetPrefix(): String? = "護衛対象"
+
     override fun getTargetSuffix(): String? = "を護衛する"
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
@@ -53,24 +61,29 @@ class GuardDomainService(
         var footsteps = daychange.footsteps.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.狩人.toModel()).list.forEach {
             val target = getSelectableTargetList(village, it, abilities, daychange.votes).shuffled().first()
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
+            val ability =
+                Ability(
+                    day = village.latestDay(),
+                    type = abilityType,
+                    charaId = it.charaId,
+                    targetCharaId = target.charaId,
+                )
             abilities = abilities.add(ability)
-            val footstep = Footstep(
-                day = village.latestDay(),
-                charaId = it.charaId,
-                roomNumbers = footstepDomainService.getCandidateList(village, it.charaId, target.charaId).shuffled()
-                    .first()
-            )
+            val footstep =
+                Footstep(
+                    day = village.latestDay(),
+                    charaId = it.charaId,
+                    roomNumbers =
+                        footstepDomainService
+                            .getCandidateList(village, it.charaId, target.charaId)
+                            .shuffled()
+                            .first(),
+                )
             footsteps = footsteps.add(footstep)
         }
         return daychange.copy(
             abilities = abilities,
-            footsteps = footsteps
+            footsteps = footsteps,
         )
     }
 
@@ -88,12 +101,15 @@ class GuardDomainService(
         return daychange.copy(village = village, messages = messages, guarded = guarded)
     }
 
-    private fun createGuardMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    private fun createGuardMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}を護衛している。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

@@ -33,17 +33,20 @@ class VillageController(
     @GetMapping("/village-list")
     private fun villageListIndex(
         @ModelAttribute("form") form: VillageListForm,
-        model: Model
+        model: Model,
     ): String {
-        val villages = villageService.findVillages(
-            query = VillageQuery(
-                charachipIds = form.charachipIds ?: emptyList(),
-                skills = form.skillCodes?.let { skillCodes ->
-                    skillCodes.map { code -> CDef.Skill.codeOf(code).toModel() }
-                } ?: emptyList(),
-                isRandomOrg = form.random
+        val villages =
+            villageService.findVillages(
+                query =
+                    VillageQuery(
+                        charachipIds = form.charachipIds ?: emptyList(),
+                        skills =
+                            form.skillCodes?.let { skillCodes ->
+                                skillCodes.map { code -> CDef.Skill.codeOf(code).toModel() }
+                            } ?: emptyList(),
+                        isRandomOrg = form.random,
+                    ),
             )
-        )
         val charachips = charaService.findCharachips()
         val skills = Skills.all().filterNotSomeone()
         model.addAttribute("content", VillageListContent(villages, charachips, skills))
@@ -54,13 +57,16 @@ class VillageController(
     @GetMapping("/village/{villageId}")
     private fun villageIndex(
         @PathVariable villageId: Int,
-        model: Model
+        model: Model,
     ): String {
         // 最新の日付を表示
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
-        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+        if (village.setting.tags.list
+                .any { it.toCdef() == CDef.VillageTagItem.R18 }
+        ) {
             model.addAttribute("noAd", true)
         }
         return "village"
@@ -71,12 +77,15 @@ class VillageController(
     private fun villageDayIndex(
         @PathVariable villageId: Int,
         @PathVariable day: Int,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         villageControllerHelper.setIndexModel(village, day, model, VillageForms())
-        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+        if (village.setting.tags.list
+                .any { it.toCdef() == CDef.VillageTagItem.R18 }
+        ) {
             model.addAttribute("noAd", true)
         }
         return "village"
@@ -87,13 +96,16 @@ class VillageController(
     private fun villageMessage(
         @PathVariable villageId: Int,
         @ModelAttribute("form") form: VillageMessageForm,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         // いったん表示して後からAPIでメッセージ取得しにくるので、そのまま渡す
         villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
-        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+        if (village.setting.tags.list
+                .any { it.toCdef() == CDef.VillageTagItem.R18 }
+        ) {
             model.addAttribute("noAd", true)
         }
         return "village-message"
@@ -104,16 +116,19 @@ class VillageController(
     private fun scrap(
         @PathVariable villageId: Int,
         @ModelAttribute("form") form: VillageMessageForm,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
 //        if (!village.status.isSettled()) {
 //            throw WolfMansionBusinessException("village not settled.")
 //        }
         // いったん表示して後からAPIでメッセージ取得しにくるので、そのまま渡す
         villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
-        if (village.setting.tags.list.any { it.toCdef() == CDef.VillageTagItem.R18 }) {
+        if (village.setting.tags.list
+                .any { it.toCdef() == CDef.VillageTagItem.R18 }
+        ) {
             model.addAttribute("noAd", true)
         }
         return "scrap"
@@ -123,21 +138,23 @@ class VillageController(
     @PostMapping("/village/{villageId}/update")
     @ResponseBody
     private fun villageUpdate(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): VillageUpdateResponse {
-        val village = villageService.findVillage(villageId, excludeGone = false)
-            ?: throw WolfMansionBusinessException("village not found.")
+        val village =
+            villageService.findVillage(villageId, excludeGone = false)
+                ?: throw WolfMansionBusinessException("village not found.")
         val user = WolfMansionUserInfoUtil.getUserInfo()
         // 最終アクセス日時を更新
-        user?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }?.let { villageService.updateLastAccessDatetime(it) }
+        user
+            ?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }?.let { villageService.updateLastAccessDatetime(it) }
         // 更新時間が過ぎていたら日付更新
         daychangeCoordinator.changeDayIfNeeded(village)
 
         return VillageUpdateResponse(
             login = user != null,
-            latestDay = village.latestDay()
+            latestDay = village.latestDay(),
         )
     }
 

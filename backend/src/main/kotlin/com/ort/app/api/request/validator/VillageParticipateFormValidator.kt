@@ -1,18 +1,18 @@
 package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.VillageParticipateForm
-import com.ort.app.application.service.VillageService
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
 
 @Component
 class VillageParticipateFormValidator : Validator {
-
     override fun supports(clazz: Class<*>): Boolean = VillageParticipateForm::class.java.isAssignableFrom(clazz)
 
-    override fun validate(target: Any, errors: Errors) {
+    override fun validate(
+        target: Any,
+        errors: Errors,
+    ) {
         if (errors.hasErrors()) return
 
         val form = target as VillageParticipateForm
@@ -21,7 +21,10 @@ class VillageParticipateFormValidator : Validator {
         validateChara(errors, form)
     }
 
-    private fun validateMessage(errors: Errors, form: VillageParticipateForm) {
+    private fun validateMessage(
+        errors: Errors,
+        form: VillageParticipateForm,
+    ) {
         val message = form.joinMessage!!.trim()
 
         val length = message.length
@@ -36,7 +39,10 @@ class VillageParticipateFormValidator : Validator {
         }
     }
 
-    private fun validateChara(errors: Errors, form: VillageParticipateForm) {
+    private fun validateChara(
+        errors: Errors,
+        form: VillageParticipateForm,
+    ) {
         if (!form.charaName.isNullOrBlank()) {
             if (form.charaName.length !in 1..40) {
                 errors.rejectValue("charaName", "VillageParticipateForm.validator.charaName")

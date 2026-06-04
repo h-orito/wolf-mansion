@@ -2,7 +2,7 @@ package com.ort.app.domain.model.village.room
 
 data class RoomSize(
     val width: Int,
-    val height: Int
+    val height: Int,
 ) {
     companion object {
         fun invoke(personNum: Int): RoomSize {
@@ -83,47 +83,66 @@ data class RoomSize(
         }
 
         // 999人まではこれで対応できるはず
-        private fun createLeftTopExcludes(width: Int): List<Int> = listOf(
-            1, 2, width + 1, 3, width + 2, width * 2 + 1, 4, width + 3, width * 2 + 2, width * 3 + 1
-        )
+        private fun createLeftTopExcludes(width: Int): List<Int> =
+            listOf(
+                1,
+                2,
+                width + 1,
+                3,
+                width + 2,
+                width * 2 + 1,
+                4,
+                width + 3,
+                width * 2 + 2,
+                width * 3 + 1,
+            )
 
-        private fun createRightTopExcludes(width: Int): List<Int> = listOf(
-            width,
-            width - 1,
-            width * 2,
-            width - 2,
-            width * 2 - 1,
-            width * 3,
-            width - 3,
-            width * 2 - 2,
-            width * 3 - 1,
-            width * 4
-        )
+        private fun createRightTopExcludes(width: Int): List<Int> =
+            listOf(
+                width,
+                width - 1,
+                width * 2,
+                width - 2,
+                width * 2 - 1,
+                width * 3,
+                width - 3,
+                width * 2 - 2,
+                width * 3 - 1,
+                width * 4,
+            )
 
-        private fun createLeftBottomExcludes(width: Int, height: Int): List<Int> = listOf(
-            width * (height - 1) + 1,
-            width * (height - 1) + 2,
-            width * (height - 2) + 1,
-            width * (height - 1) + 3,
-            width * (height - 2) + 2,
-            width * (height - 3) + 1,
-            width * (height - 1) + 4,
-            width * (height - 2) + 3,
-            width * (height - 3) + 2,
-            width * (height - 4) + 1
-        )
+        private fun createLeftBottomExcludes(
+            width: Int,
+            height: Int,
+        ): List<Int> =
+            listOf(
+                width * (height - 1) + 1,
+                width * (height - 1) + 2,
+                width * (height - 2) + 1,
+                width * (height - 1) + 3,
+                width * (height - 2) + 2,
+                width * (height - 3) + 1,
+                width * (height - 1) + 4,
+                width * (height - 2) + 3,
+                width * (height - 3) + 2,
+                width * (height - 4) + 1,
+            )
 
-        private fun createRightBottomExcludes(width: Int, height: Int): List<Int> = listOf(
-            width * height,
-            width * height - 1,
-            width * (height - 1),
-            width * height - 2,
-            width * (height - 1) - 1,
-            width * (height - 2),
-            width * height - 3,
-            width * (height - 1) - 2,
-            width * (height - 2) - 1,
-            width * (height - 3)
-        )
+        private fun createRightBottomExcludes(
+            width: Int,
+            height: Int,
+        ): List<Int> =
+            listOf(
+                width * height,
+                width * height - 1,
+                width * (height - 1),
+                width * height - 2,
+                width * (height - 1) - 1,
+                width * (height - 2),
+                width * height - 3,
+                width * (height - 1) - 2,
+                width * (height - 2) - 1,
+                width * (height - 3),
+            )
     }
 }

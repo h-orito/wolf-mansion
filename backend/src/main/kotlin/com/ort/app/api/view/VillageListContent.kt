@@ -10,16 +10,16 @@ import com.ort.app.domain.model.village.Villages
 data class VillageListContent(
     val villageList: List<VillageListVillage>,
     val charachipList: List<CharachipContent>,
-    val skillList: List<SkillContent>
+    val skillList: List<SkillContent>,
 ) {
     constructor(
         villages: Villages,
         charachips: Charachips,
-        skills: Skills
+        skills: Skills,
     ) : this(
         villageList = villages.list.reversed().map { VillageListVillage(it) },
         charachipList = charachips.list.map { CharachipContent(it) },
-        skillList = skills.list.map { SkillContent(it) }
+        skillList = skills.list.map { SkillContent(it) },
     )
 
     data class VillageListVillage(
@@ -27,14 +27,14 @@ data class VillageListContent(
         val villageNumber: String,
         val villageName: String,
         val participateNum: String,
-        val status: String
+        val status: String,
     ) {
         constructor(village: Village) : this(
             villageId = village.id,
             villageNumber = village.id.toString().padStart(4, '0'),
             villageName = village.name,
             participateNum = mapParticipateNum(village),
-            status = village.status.name
+            status = village.status.name,
         )
 
         companion object {
@@ -52,25 +52,25 @@ data class VillageListContent(
 
     data class CharachipContent(
         val id: Int,
-        val name: String
+        val name: String,
     ) {
         constructor(
-            charachip: Charachip
+            charachip: Charachip,
         ) : this(
             id = charachip.id,
-            name = charachip.name
+            name = charachip.name,
         )
     }
 
     data class SkillContent(
         val code: String,
-        val name: String
+        val name: String,
     ) {
         constructor(
-            skill: Skill
+            skill: Skill,
         ) : this(
             code = skill.code,
-            name = skill.name
+            name = skill.name,
         )
     }
 }

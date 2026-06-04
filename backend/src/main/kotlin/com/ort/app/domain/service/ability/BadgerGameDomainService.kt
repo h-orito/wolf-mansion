@@ -14,21 +14,27 @@ import org.springframework.stereotype.Service
 class BadgerGameDomainService(
     private val seduceDomainService: SeduceDomainService,
     private val attackDomainService: AttackDomainService,
-    private val cohabitDomainService: CohabitDomainService
+    private val cohabitDomainService: CohabitDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.美人局)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String? = "誘惑して脅す対象"
+
     override fun getTargetSuffix(): String? = "を誘惑して脅す"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun badgerGame(daychange: Daychange): Daychange {
@@ -50,11 +56,13 @@ class BadgerGameDomainService(
     fun badgerGameAttack(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.美人局.toModel()).list.forEach {
-            val ability = daychange.abilities
-                .filterByDay(village.latestDay() - 2) // 2日前
-                .filterByType(abilityType)
-                .filterByCharaId(it.charaId)
-                .list.firstOrNull() ?: return@forEach
+            val ability =
+                daychange.abilities
+                    .filterByDay(village.latestDay() - 2) // 2日前
+                    .filterByType(abilityType)
+                    .filterByCharaId(it.charaId)
+                    .list
+                    .firstOrNull() ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
 
             if (!attackDomainService.isAttackSuccess(daychange, target)) return@forEach

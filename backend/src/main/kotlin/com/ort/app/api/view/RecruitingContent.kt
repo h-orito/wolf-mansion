@@ -7,11 +7,10 @@ import java.time.format.DateTimeFormatter
 
 data class RecruitingContent(
     /** 村リスト  */
-    val villageList: List<RecruitingVillage>
+    val villageList: List<RecruitingVillage>,
 ) {
-
     constructor(villages: Villages, charachips: Charachips) : this(
-        villageList = villages.list.map { RecruitingVillage(it, charachips) }
+        villageList = villages.list.map { RecruitingVillage(it, charachips) },
     )
 
     data class RecruitingVillage(
@@ -36,7 +35,7 @@ data class RecruitingContent(
         /** 状態  */
         val status: String,
         /** URL  */
-        val url: String
+        val url: String,
     ) {
         constructor(village: Village, charachips: Charachips) : this(
             villageId = village.id,
@@ -44,13 +43,21 @@ data class RecruitingContent(
             villageName = village.name,
             participateNum = convertToParticipateNum(village),
             spectateNum = village.spectators.count.toString(),
-            daychangeDatetime = village.days.latestDay().dayChangeDatetime.format(DateTimeFormatter.ofPattern("HH:mm")),
+            daychangeDatetime =
+                village.days
+                    .latestDay()
+                    .dayChangeDatetime
+                    .format(DateTimeFormatter.ofPattern("HH:mm")),
             daychangeInterval = convertToDaychangeInterval(village),
-            charaset = charachips.list.filter { village.setting.chara.charachipIds.contains(it.id) }
-                .joinToString(separator = "、") { it.name },
+            charaset =
+                charachips.list
+                    .filter {
+                        village.setting.chara.charachipIds
+                            .contains(it.id)
+                    }.joinToString(separator = "、") { it.name },
             restrict = "",
             status = village.status.name,
-            url = "https://wolfort.net/wolf-mansion/village/${village.id}"
+            url = "https://wolfort.net/wolf-mansion/village/${village.id}",
         )
 
         companion object {
@@ -68,7 +75,9 @@ data class RecruitingContent(
                 val seconds = village.setting.dayChangeIntervalSeconds
                 return if (seconds >= 3600) {
                     (seconds / 3600).toString() + "h"
-                } else (seconds / 60).toString() + "m"
+                } else {
+                    (seconds / 60).toString() + "m"
+                }
             }
         }
     }

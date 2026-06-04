@@ -21,10 +21,8 @@ import kotlin.test.assertNotNull
 
 @SpringBootTest
 internal class RoomDomainServiceTest {
-
     @Autowired
     lateinit var service: RoomDomainService
-
 
     @Test
     fun test_convertToSituation() {
@@ -42,48 +40,68 @@ internal class RoomDomainServiceTest {
     @Test
     fun test_assign() {
         // when
-        val org = Daychange(
-            village = createPrologueVillage(),
-            abilities = Abilities(emptyList()),
-            votes = Votes(emptyList()),
-            footsteps = Footsteps(emptyList()),
-            players = Players(emptyList())
-        )
+        val org =
+            Daychange(
+                village = createPrologueVillage(),
+                abilities = Abilities(emptyList()),
+                votes = Votes(emptyList()),
+                footsteps = Footsteps(emptyList()),
+                players = Players(emptyList()),
+            )
 
         // act
         val daychange = service.assign(org)
 
         // then
-        daychange.village.participants.list.forEach { assertNotNull(it.room) }
+        daychange.village.participants.list
+            .forEach { assertNotNull(it.room) }
         assertEquals(
-            daychange.messages.list.first().content.type.code,
-            CDef.MessageType.公開システムメッセージ.toModel().code
+            daychange.messages.list
+                .first()
+                .content.type.code,
+            CDef.MessageType.公開システムメッセージ
+                .toModel()
+                .code,
         )
     }
 
     @Test
     fun test_reAssign() {
         // when
-        val org = Daychange(
-            village = createDay1Village(),
-            abilities = Abilities(emptyList()),
-            votes = Votes(emptyList()),
-            footsteps = Footsteps(emptyList()),
-            players = Players(emptyList())
-        )
+        val org =
+            Daychange(
+                village = createDay1Village(),
+                abilities = Abilities(emptyList()),
+                votes = Votes(emptyList()),
+                footsteps = Footsteps(emptyList()),
+                players = Players(emptyList()),
+            )
 
         // act
-        val daychange = service.reAssign(org, org.village.participants.list.first())
+        val daychange =
+            service.reAssign(
+                org,
+                org.village.participants.list
+                    .first(),
+            )
 
         // then
         daychange.village.participants.list.forEach {
             assertNotNull(it.room)
-            assertEquals(it.room!!.histories.list.size, 2)
+            assertEquals(
+                it.room!!
+                    .histories.list.size,
+                2,
+            )
         }
 
         assertEquals(
-            daychange.messages.list.first().content.type.code,
-            CDef.MessageType.公開システムメッセージ.toModel().code
+            daychange.messages.list
+                .first()
+                .content.type.code,
+            CDef.MessageType.公開システムメッセージ
+                .toModel()
+                .code,
         )
     }
 

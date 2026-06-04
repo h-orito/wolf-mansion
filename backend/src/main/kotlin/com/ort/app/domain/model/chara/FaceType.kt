@@ -4,7 +4,7 @@ import com.ort.dbflute.allcommon.CDef
 
 data class FaceType(
     val code: String,
-    val name: String
+    val name: String,
 ) {
     constructor(cdef: CDef.FaceType) : this(code = cdef.code(), name = cdef.alias())
 

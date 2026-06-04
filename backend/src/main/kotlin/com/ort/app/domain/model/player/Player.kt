@@ -14,7 +14,7 @@ data class Player(
     val participateProgressVillageIdList: List<Int> = listOf(),
     val participateFinishedVillageIdList: List<Int> = listOf(),
     val createProgressVillageIdList: List<Int> = listOf(),
-    val createFinishedVillageIdList: List<Int> = listOf()
+    val createFinishedVillageIdList: List<Int> = listOf(),
 ) {
     fun isAvailableCreateVillage(): Boolean {
         if (authority.toCdef() == CDef.Authority.管理者) return true
@@ -37,13 +37,11 @@ data class Player(
         }
     }
 
-    fun isSame(other: Player): Boolean {
-        return id == other.id
-                && isRestrictedParticipation == other.isRestrictedParticipation
-    }
+    fun isSame(other: Player): Boolean =
+        id == other.id &&
+            isRestrictedParticipation == other.isRestrictedParticipation
 
     fun restrictParticipation(): Player = copy(isRestrictedParticipation = true)
 }
 
 fun Player?.canCreateVillage(): Boolean = this?.isAvailableCreateVillage() ?: false
-

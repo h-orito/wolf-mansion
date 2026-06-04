@@ -1,7 +1,7 @@
 package com.ort.app.api.request
 
-import org.hibernate.validator.constraints.Length
 import jakarta.validation.constraints.NotNull
+import org.hibernate.validator.constraints.Length
 
 data class VillageNotificationForm(
     @field:NotNull
@@ -14,5 +14,5 @@ data class VillageNotificationForm(
     val abilitySay: Boolean? = null,
     val anchorSay: Boolean? = null,
     @field:Length(max = 30)
-    val keyword: String? = null
+    val keyword: String? = null,
 )

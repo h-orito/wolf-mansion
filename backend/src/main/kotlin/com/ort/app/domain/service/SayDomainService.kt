@@ -30,17 +30,17 @@ class SayDomainService(
     private val secretSayDomainService: SecretSayDomainService,
     private val actionSayDomainService: ActionSayDomainService,
 ) {
-
-    private val defaultMessageTypeOrder = listOf(
-        CDef.MessageType.恋人発言,
-        CDef.MessageType.念話,
-        CDef.MessageType.人狼の囁き,
-        CDef.MessageType.共鳴発言,
-        CDef.MessageType.独り言,
-        CDef.MessageType.通常発言,
-        CDef.MessageType.死者の呻き,
-        CDef.MessageType.見学発言
-    )
+    private val defaultMessageTypeOrder =
+        listOf(
+            CDef.MessageType.恋人発言,
+            CDef.MessageType.念話,
+            CDef.MessageType.人狼の囁き,
+            CDef.MessageType.共鳴発言,
+            CDef.MessageType.独り言,
+            CDef.MessageType.通常発言,
+            CDef.MessageType.死者の呻き,
+            CDef.MessageType.見学発言,
+        )
 
     fun convertToSituation(
         village: Village,
@@ -49,7 +49,7 @@ class SayDomainService(
         charachips: Charachips,
         day: Int,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>?,
-        creatorPlayerId: Int
+        creatorPlayerId: Int,
     ): ParticipantSaySituation {
         val selectableMessageTypeList =
             getSelectableMessageTypeList(village, myself, player, latestDayMessageCountMap, day, creatorPlayerId)
@@ -57,10 +57,11 @@ class SayDomainService(
             isAvailableSay = isAvailableSay(village, myself, day),
             selectableMessageTypeList = selectableMessageTypeList,
             selectableCharaImageList = getSelectableFaceTypeList(myself, charachips),
-            defaultMessageType = detectDefaultMessageType(
-                isAvailableSay(village, myself, day),
-                selectableMessageTypeList
-            )
+            defaultMessageType =
+                detectDefaultMessageType(
+                    isAvailableSay(village, myself, day),
+                    selectableMessageTypeList,
+                ),
         )
     }
 
@@ -70,7 +71,7 @@ class SayDomainService(
         player: Player,
         chara: Chara,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>,
-        messageContent: MessageContent
+        messageContent: MessageContent,
     ) {
         if (!isAvailableSay(village, myself, village.latestDay())) throw WolfMansionBusinessException("発言できません")
         // 発言種別ごとのチェック
@@ -83,7 +84,11 @@ class SayDomainService(
         assertMessageRestrict(village, myself, messageContent, latestDayMessageCountMap)
     }
 
-    private fun isAvailableSay(village: Village, myself: VillageParticipant?, day: Int): Boolean {
+    private fun isAvailableSay(
+        village: Village,
+        myself: VillageParticipant?,
+        day: Int,
+    ): Boolean {
         myself ?: return false
         return village.canSay(day) && myself.isAvailableSay(village.status.isEpilogue())
     }
@@ -94,54 +99,64 @@ class SayDomainService(
         player: Player?,
         latestDayMessageCountMap: Map<CDef.MessageType, Int>?,
         day: Int,
-        creatorPlayerId: Int
+        creatorPlayerId: Int,
     ): List<ParticipantSayMessageTypeSituation> {
         if (!isAvailableSay(village, myself, day)) return listOf()
         return MessageType.sayTypeList
             .filter { detectSayTypeService(it).isSayable(village, myself!!, player) }
             .map {
                 val restrict =
-                    if (village.status.isProgress()) village.setting.sayRestriction.restrict(myself!!, it)
-                    else null
+                    if (village.status.isProgress()) {
+                        village.setting.sayRestriction.restrict(myself!!, it)
+                    } else {
+                        null
+                    }
                 ParticipantSayMessageTypeSituation(
                     messageType = MessageType(it),
-                    restrict = ParticipantSayRestrictSituation(
-                        isRestricted = restrict != null,
-                        maxCount = restrict?.count,
-                        remainingCount = restrict?.remainingCount(
-                            village.status.toCdef(),
-                            latestDayMessageCountMap
+                    restrict =
+                        ParticipantSayRestrictSituation(
+                            isRestricted = restrict != null,
+                            maxCount = restrict?.count,
+                            remainingCount =
+                                restrict?.remainingCount(
+                                    village.status.toCdef(),
+                                    latestDayMessageCountMap,
+                                ),
+                            maxLength = restrict?.length ?: MessageContent.defaultLengthMax,
+                            maxLine = MessageContent.defaultLineMax,
                         ),
-                        maxLength = restrict?.length ?: MessageContent.defaultLengthMax,
-                        maxLine = MessageContent.defaultLineMax
-                    ),
-                    targetList = getSecretSayTargetList(it, village, creatorPlayerId, myself!!, player!!)
+                    targetList = getSecretSayTargetList(it, village, creatorPlayerId, myself!!, player!!),
                 )
             }
     }
 
-    private fun getSelectableFaceTypeList(myself: VillageParticipant?, charachips: Charachips): List<CharaImage> {
+    private fun getSelectableFaceTypeList(
+        myself: VillageParticipant?,
+        charachips: Charachips,
+    ): List<CharaImage> {
         myself ?: return listOf()
         return charachips.list
             .flatMap { it.charas.list }
-            .first { it.id == myself.charaId }.images.list
+            .first { it.id == myself.charaId }
+            .images.list
             .filter { it.isDisplay }
     }
 
     private fun detectDefaultMessageType(
         availableSay: Boolean,
-        selectableMessageTypeList: List<ParticipantSayMessageTypeSituation>
+        selectableMessageTypeList: List<ParticipantSayMessageTypeSituation>,
     ): MessageType? {
         if (!availableSay || selectableMessageTypeList.isEmpty()) return null
         val selectableMessageTypeCdefList = selectableMessageTypeList.map { it.messageType.toCdef() }
 
-        return defaultMessageTypeOrder.firstOrNull { cdefMessageType ->
-            selectableMessageTypeCdefList.contains(cdefMessageType)
-        }?.let { MessageType(it) }
+        return defaultMessageTypeOrder
+            .firstOrNull { cdefMessageType ->
+                selectableMessageTypeCdefList.contains(cdefMessageType)
+            }?.let { MessageType(it) }
     }
 
-    fun detectSayTypeService(type: CDef.MessageType): SayTypeDomainService {
-        return when (type) {
+    fun detectSayTypeService(type: CDef.MessageType): SayTypeDomainService =
+        when (type) {
             CDef.MessageType.通常発言 -> normalSayDomainService
             CDef.MessageType.共鳴発言 -> sympathizeSayDomainService
             CDef.MessageType.人狼の囁き -> werewolfSayDomainService
@@ -154,7 +169,6 @@ class SayDomainService(
             CDef.MessageType.アクション -> actionSayDomainService
             else -> throw IllegalStateException("service not found.")
         }
-    }
 
     private fun getSecretSayTargetList(
         messageType: CDef.MessageType,
@@ -164,27 +178,47 @@ class SayDomainService(
         player: Player,
     ): List<VillageParticipant> {
         if (messageType != CDef.MessageType.秘話) return emptyList()
-        val base = village.allParticipants().sortedByRoomNumber().list.filter { it.id != myself.id }
+        val base =
+            village
+                .allParticipants()
+                .sortedByRoomNumber()
+                .list
+                .filter { it.id != myself.id }
         // 管理者および村建ては全員
-        return if (myself.isAdmin() || village.isCreator(player)) base
-        // 全員秘話可能
-        else if (village.setting.rule.secretSayRange.canSayAll()) base
-        // 村建てとのみ
-        else if (village.setting.rule.secretSayRange.canOnlyCreator()) base.filter { it.playerId == creatorPlayerId }
-        // 秘話なし
-        else emptyList()
+        return if (myself.isAdmin() || village.isCreator(player)) {
+            base
+        } // 全員秘話可能
+        else if (village.setting.rule.secretSayRange
+                .canSayAll()
+        ) {
+            base
+        } // 村建てとのみ
+        else if (village.setting.rule.secretSayRange
+                .canOnlyCreator()
+        ) {
+            base.filter { it.playerId == creatorPlayerId }
+        } // 秘話なし
+        else {
+            emptyList()
+        }
     }
 
-    private fun isSelectableFaceType(chara: Chara, messageContent: MessageContent): Boolean =
+    private fun isSelectableFaceType(
+        chara: Chara,
+        messageContent: MessageContent,
+    ): Boolean =
         // アクションは表情不要
-        if (messageContent.type.toCdef() == CDef.MessageType.アクション) true
-        else chara.images.findByFaceType(messageContent.faceTypeCode!!) != null
+        if (messageContent.type.toCdef() == CDef.MessageType.アクション) {
+            true
+        } else {
+            chara.images.findByFaceType(messageContent.faceTypeCode!!) != null
+        }
 
     private fun assertMessageRestrict(
         village: Village,
         myself: VillageParticipant,
         messageContent: MessageContent,
-        latestDayMessageCountMap: Map<CDef.MessageType, Int>
+        latestDayMessageCountMap: Map<CDef.MessageType, Int>,
     ) {
         if (!village.status.isProgress()) return
         if (myself.isAdmin()) return
@@ -193,9 +227,11 @@ class SayDomainService(
         if (remainingCount(
                 village,
                 restrict,
-                latestDayMessageCountMap
+                latestDayMessageCountMap,
             ) <= 0
-        ) throw WolfMansionBusinessException("発言残り回数が0回です")
+        ) {
+            throw WolfMansionBusinessException("発言残り回数が0回です")
+        }
         // 行数
         val text = messageContent.text.replace("\r\n", "\n")
         val lineMax = if (messageContent.type.toCdef() == CDef.MessageType.村建て発言) 40 else 20
@@ -209,7 +245,7 @@ class SayDomainService(
     private fun remainingCount(
         village: Village,
         restrict: SayRestriction.Restriction,
-        latestDayMessageCountMap: Map<CDef.MessageType, Int>
+        latestDayMessageCountMap: Map<CDef.MessageType, Int>,
     ): Int {
         if (village.status.isPrologue() || village.status.isEpilogue()) return restrict.count
         return restrict.count - latestDayMessageCountMap.getOrDefault(restrict.messageType.toCdef(), 0)

@@ -11,10 +11,10 @@ data class VillageSettingView(
     val organize: VillageOrganize,
 ) {
     constructor(
-        org: VillageSetting
+        org: VillageSetting,
     ) : this(
         chara = org.chara,
         rule = org.rule,
-        organize = org.organize
+        organize = org.organize,
     )
 }

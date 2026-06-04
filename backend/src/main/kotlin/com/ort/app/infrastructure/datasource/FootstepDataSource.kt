@@ -13,13 +13,13 @@ import com.ort.dbflute.exentity.Footstep as DbFootstep
 @Repository
 class FootstepDataSource(
     private val footstepBhv: FootstepBhv,
-    private val abilityDomainService: AbilityDomainService
+    private val abilityDomainService: AbilityDomainService,
 ) : FootstepRepository {
-
     override fun findFootsteps(villageId: Int): Footsteps {
-        val list = footstepBhv.selectList {
-            it.query().setVillageId_Equal(villageId)
-        }
+        val list =
+            footstepBhv.selectList {
+                it.query().setVillageId_Equal(villageId)
+            }
         return mapFootsteps(list)
     }
 
@@ -27,7 +27,7 @@ class FootstepDataSource(
         village: Village,
         myself: VillageParticipant,
         charaId: Int?,
-        footstep: String?
+        footstep: String?,
     ) {
         if (!myself.skill!!.hasDisturbAbility() &&
             !abilityDomainService.detectAbilityTypeService(myself.skill.getAbility()!!).isTargetingAndFootstep()
@@ -38,25 +38,35 @@ class FootstepDataSource(
         insertFootstep(village.id, village.latestDay(), myself.charaId, charaId ?: myself.charaId, footstep ?: "なし")
     }
 
-    override fun updateDaychangeDifference(village: Village, current: Footsteps, changed: Footsteps) {
-        changed.list.filterNot { changedFootstep ->
-            current.list.any { currentFootstep ->
-                currentFootstep.day == changedFootstep.day
-                        && currentFootstep.registerCharaId == changedFootstep.registerCharaId
-                        && currentFootstep.charaId == changedFootstep.charaId
-            }
-        }.forEach { insertFootstep(village.id, it.day, it.registerCharaId, it.charaId, it.roomNumbers) }
+    override fun updateDaychangeDifference(
+        village: Village,
+        current: Footsteps,
+        changed: Footsteps,
+    ) {
+        changed.list
+            .filterNot { changedFootstep ->
+                current.list.any { currentFootstep ->
+                    currentFootstep.day == changedFootstep.day &&
+                        currentFootstep.registerCharaId == changedFootstep.registerCharaId &&
+                        currentFootstep.charaId == changedFootstep.charaId
+                }
+            }.forEach { insertFootstep(village.id, it.day, it.registerCharaId, it.charaId, it.roomNumbers) }
 
-        current.list.filterNot { currentFootstep ->
-            changed.list.any { changedFootstep ->
-                currentFootstep.day == changedFootstep.day
-                        && currentFootstep.registerCharaId == changedFootstep.registerCharaId
-                        && currentFootstep.charaId == changedFootstep.charaId
-            }
-        }.forEach { deleteFootstep(village.id, it.day, it.registerCharaId) }
+        current.list
+            .filterNot { currentFootstep ->
+                changed.list.any { changedFootstep ->
+                    currentFootstep.day == changedFootstep.day &&
+                        currentFootstep.registerCharaId == changedFootstep.registerCharaId &&
+                        currentFootstep.charaId == changedFootstep.charaId
+                }
+            }.forEach { deleteFootstep(village.id, it.day, it.registerCharaId) }
     }
 
-    private fun deleteFootstep(villageId: Int, day: Int, registerCharaId: Int) {
+    private fun deleteFootstep(
+        villageId: Int,
+        day: Int,
+        registerCharaId: Int,
+    ) {
         footstepBhv.queryDelete {
             it.query().setVillageId_Equal(villageId)
             it.query().setDay_Equal(day)
@@ -69,7 +79,7 @@ class FootstepDataSource(
         day: Int,
         registerCharaId: Int,
         charaId: Int,
-        footstep: String
+        footstep: String,
     ) {
         val f = DbFootstep()
         f.villageId = villageId
@@ -87,6 +97,6 @@ class FootstepDataSource(
             day = footstep.day,
             registerCharaId = footstep.registerCharaId,
             charaId = footstep.charaId,
-            roomNumbers = footstep.footstepRoomNumbers
+            roomNumbers = footstep.footstepRoomNumbers,
         )
 }

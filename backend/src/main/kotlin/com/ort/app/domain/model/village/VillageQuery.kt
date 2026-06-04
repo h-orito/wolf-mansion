@@ -7,5 +7,5 @@ data class VillageQuery(
     val statuses: List<VillageStatus> = emptyList(),
     val charachipIds: List<Int> = emptyList(),
     val skills: List<Skill> = emptyList(),
-    val isRandomOrg: Boolean? = null
+    val isRandomOrg: Boolean? = null,
 )

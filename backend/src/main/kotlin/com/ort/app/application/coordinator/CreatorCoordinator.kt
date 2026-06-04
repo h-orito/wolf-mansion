@@ -14,19 +14,25 @@ class CreatorCoordinator(
     private val villageService: VillageService,
     private val playerService: PlayerService,
     private val messageDomainService: MessageDomainService,
-    private val notificationService: NotificationService
+    private val notificationService: NotificationService,
 ) {
-
-    fun isCreator(userName: String?, villageId: Int): Boolean {
+    fun isCreator(
+        userName: String?,
+        villageId: Int,
+    ): Boolean {
         userName ?: return false
         val player = playerService.findPlayer(userName) ?: return false
         return player.id == 1 ||
-                (player.createProgressVillageIdList + player.createFinishedVillageIdList).contains(villageId)
+            (player.createProgressVillageIdList + player.createFinishedVillageIdList).contains(villageId)
     }
 
-    fun kick(villageId: Int, charaId: Int) {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+    fun kick(
+        villageId: Int,
+        charaId: Int,
+    ) {
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val target = village.allParticipants(excludeDummy = true).chara(charaId)
         // 退村させる
         villageService.leave(target)
@@ -34,46 +40,61 @@ class CreatorCoordinator(
         messageCoordinator.registerMessage(villageId, messageDomainService.createLeaveMessage(target))
     }
 
-    fun say(villageId: Int, text: String, isConvertDisable: Boolean) {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
-        val message = messageCoordinator.registerMessage(
-            villageId,
-            messageDomainService.createCreatorMessage(village, text, isConvertDisable)
-        )
+    fun say(
+        villageId: Int,
+        text: String,
+        isConvertDisable: Boolean,
+    ) {
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val message =
+            messageCoordinator.registerMessage(
+                villageId,
+                messageDomainService.createCreatorMessage(village, text, isConvertDisable),
+            )
         // notification
         val players = playerService.findPlayers(villageId)
         notificationService.notifyReceiveMessageToCustomerIfNeeded(village, players, message)
     }
 
     fun cancel(villageId: Int) {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (!village.canCancel()) throw WolfMansionBusinessException("プロローグ中でなければ廃村できません")
         villageService.cancel(villageId)
     }
 
     fun extendEpilogue(villageId: Int) {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (!village.canExtendEpilogue()) throw WolfMansionBusinessException("エピローグ中でなければ延長できません")
         // エピローグを1日延長する
         villageService.extendDay(
             villageId,
             village.days.latestDay().day,
-            village.days.latestDay().dayChangeDatetime.plusDays(1L)
+            village.days
+                .latestDay()
+                .dayChangeDatetime
+                .plusDays(1L),
         )
     }
 
     fun shortenEpilogue(villageId: Int) {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         if (!village.canShortenEpilogue()) throw WolfMansionBusinessException("エピローグ中でなければ短縮できません")
         // エピローグを1日短縮する
         villageService.shortenDay(
             villageId,
             village.days.latestDay().day,
-            village.days.latestDay().dayChangeDatetime.minusDays(1L)
+            village.days
+                .latestDay()
+                .dayChangeDatetime
+                .minusDays(1L),
         )
     }
 

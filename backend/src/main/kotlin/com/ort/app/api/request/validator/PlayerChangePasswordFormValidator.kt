@@ -7,12 +7,12 @@ import org.springframework.validation.Validator
 
 @Component
 class PlayerChangePasswordFormValidator : Validator {
+    override fun supports(clazz: Class<*>): Boolean = PlayerChangePasswordForm::class.java.isAssignableFrom(clazz)
 
-    override fun supports(clazz: Class<*>): Boolean {
-        return PlayerChangePasswordForm::class.java.isAssignableFrom(clazz)
-    }
-
-    override fun validate(target: Any, errors: Errors) {
+    override fun validate(
+        target: Any,
+        errors: Errors,
+    ) {
         if (errors.hasErrors()) {
             // 既にエラーがある場合はチェックしない
             return

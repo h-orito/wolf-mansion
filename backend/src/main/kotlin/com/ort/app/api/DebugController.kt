@@ -26,9 +26,8 @@ class DebugController(
     private val playerService: PlayerService,
     private val charaService: CharaService,
     private val daychangeCoordinator: DaychangeCoordinator,
-    private val villageCoordinator: VillageCoordinator
+    private val villageCoordinator: VillageCoordinator,
 ) {
-
     @Value("\${app.debug:}")
     private lateinit var debug: String
 
@@ -36,20 +35,37 @@ class DebugController(
     @PostMapping("/village/{villageId}/allparticipate")
     private fun allparticipate(
         @PathVariable villageId: Int,
-        participateForm: VillageParticipateForm
+        participateForm: VillageParticipateForm,
     ): String {
         if (!debug.toBoolean()) return "redirect:/village/$villageId#bottom"
 
         // 参戦していないキャラを人数分探す
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
-        val charas = charaService.findCharas(village.setting.chara.charachipIds.first(), false)
-        val charaList = charas.list.filterNot { c -> village.participants.list.any { it.charaId == c.id } }
-            .take(participateForm.personNumber!!)
+        val charas =
+            charaService.findCharas(
+                village.setting.chara.charachipIds
+                    .first(),
+                false,
+            )
+        val charaList =
+            charas.list
+                .filterNot { c -> village.participants.list.any { it.charaId == c.id } }
+                .take(participateForm.personNumber!!)
         for (i in charaList.indices) {
             val playerId = i + 2
             // 希望役職をランダムに取得
-            val randomSkill = Skills.all().list.shuffled().first()
-            val randomSkill2 = Skills.all().list.shuffled().first()
+            val randomSkill =
+                Skills
+                    .all()
+                    .list
+                    .shuffled()
+                    .first()
+            val randomSkill2 =
+                Skills
+                    .all()
+                    .list
+                    .shuffled()
+                    .first()
             // 入村
             val player = playerService.findPlayer(playerId)
             villageCoordinator.participate(
@@ -64,7 +80,7 @@ class DebugController(
                 joinMessage = "テストアカウントによる入村です。",
                 joinPassword = village.setting.joinPassword,
                 isSpectator = false,
-                ipAddress = "test account $i"
+                ipAddress = "test account $i",
             )
         }
         return "redirect:/village/$villageId#bottom"
@@ -72,15 +88,19 @@ class DebugController(
 
     // 管理者機能：時間を進める
     @PostMapping("/village/{villageId}/dayChange")
-    private fun daychange(@PathVariable villageId: Int): String {
+    private fun daychange(
+        @PathVariable villageId: Int,
+    ): String {
         if (!debug.toBoolean()) return "redirect:/village/$villageId#bottom"
 
         // 最新の日付の更新日時を今にする
-        val latestDay = villageDayBhv.selectEntity { cb: VillageDayCB ->
-            cb.query().setVillageId_Equal(villageId)
-            cb.query().addOrderBy_Day_Desc()
-            cb.fetchFirst(1)
-        }.get()
+        val latestDay =
+            villageDayBhv
+                .selectEntity { cb: VillageDayCB ->
+                    cb.query().setVillageId_Equal(villageId)
+                    cb.query().addOrderBy_Day_Desc()
+                    cb.fetchFirst(1)
+                }.get()
         val villageDay = VillageDay()
         villageDay.daychangeDatetime = LocalDateTime.now().minusSeconds(1L)
         villageDayBhv.queryUpdate(villageDay) { cb: VillageDayCB ->

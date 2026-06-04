@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class ClownDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.道化.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "道化にする対象"
+
     override fun getTargetSuffix(): String = "を道化にする"
 
     fun clowning(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class ClownDomainService : AbilityTypeDomainService {
 
     private fun createClowningMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、道化を演じたくなった。"
+            message = "${target.name()}は、道化を演じたくなった。",
         )
-    }
 }

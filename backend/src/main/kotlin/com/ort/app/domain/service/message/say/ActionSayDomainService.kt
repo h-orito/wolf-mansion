@@ -7,18 +7,16 @@ import org.springframework.stereotype.Service
 
 @Service
 class ActionSayDomainService : SayTypeDomainService {
-
     override fun isViewable(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
-        day: Int
+        day: Int,
     ): Boolean = true
 
     override fun isSayable(
         village: Village,
         myself: VillageParticipant?,
-        player: Player?
-    ): Boolean =
-        myself?.isAdmin() ?: false || village.isSayableActionSay()
+        player: Player?,
+    ): Boolean = myself?.isAdmin() ?: false || village.isSayableActionSay()
 }

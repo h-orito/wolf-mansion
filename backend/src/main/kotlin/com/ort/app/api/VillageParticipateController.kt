@@ -16,6 +16,7 @@ import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.interceptor.getRefererQueryString
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
 import com.ort.dbflute.allcommon.CDef
+import jakarta.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -27,7 +28,6 @@ import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.ResponseBody
-import jakarta.servlet.http.HttpServletRequest
 
 @Controller
 class VillageParticipateController(
@@ -40,9 +40,8 @@ class VillageParticipateController(
     private val charaService: CharaService,
     private val playerService: PlayerService,
     // servlet
-    private val httpServletRequest: HttpServletRequest
+    private val httpServletRequest: HttpServletRequest,
 ) {
-
     @InitBinder("participateForm")
     fun initBinder(binder: WebDataBinder) {
         binder.addValidators(villageParticipateFormValidator)
@@ -53,19 +52,20 @@ class VillageParticipateController(
     private fun confirmParticipate(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model //
+        model: Model, //
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
         if (result.hasErrors() || player == null) {
             villageControllerHelper.setIndexModel(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(participateForm = participateForm)
+                VillageForms(participateForm = participateForm),
             )
             return "village"
         }
@@ -78,7 +78,7 @@ class VillageParticipateController(
                 participateForm.charaShortName,
                 participateForm.charaImageFile,
                 participateForm.joinPassword,
-                participateForm.spectator == true
+                participateForm.spectator == true,
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("participateErrorMessage", e.message)
@@ -86,14 +86,15 @@ class VillageParticipateController(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(participateForm = participateForm)
+                VillageForms(participateForm = participateForm),
             )
             return "village"
         }
 
         if (!village.setting.chara.isOriginalCharachip) {
-            val chara = charaService.findChara(participateForm.charaId!!, false)
-                ?: throw WolfMansionBusinessException("chara not found.")
+            val chara =
+                charaService.findChara(participateForm.charaId!!, false)
+                    ?: throw WolfMansionBusinessException("chara not found.")
             model.addAttribute("characterImgUrl", chara.defaultImage().url)
             model.addAttribute("characterImgWidth", chara.size.width)
             model.addAttribute("characterImgHeight", chara.size.height)
@@ -113,28 +114,31 @@ class VillageParticipateController(
     private fun participate(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("participateForm") participateForm: VillageParticipateForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
         val player = WolfMansionUserInfoUtil.getUserInfo()?.let { playerService.findPlayer(it.username) }
         if (result.hasErrors() || player == null) {
             villageControllerHelper.setIndexModel(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(participateForm = participateForm)
+                VillageForms(participateForm = participateForm),
             )
             return "village"
         }
-        val first = participateForm.requestedSkill?.let {
-            CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
-        } ?: Skill(CDef.Skill.おまかせ)
-        val second = participateForm.secondRequestedSkill?.let {
-            CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
-        } ?: Skill(CDef.Skill.おまかせ)
+        val first =
+            participateForm.requestedSkill?.let {
+                CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
+            } ?: Skill(CDef.Skill.おまかせ)
+        val second =
+            participateForm.secondRequestedSkill?.let {
+                CDef.Skill.codeOf(it)?.let { cdef -> Skill(cdef) }
+            } ?: Skill(CDef.Skill.おまかせ)
 
         try {
             if (village.setting.chara.isOriginalCharachip && participateForm.charaImageFile == null) {
@@ -152,7 +156,7 @@ class VillageParticipateController(
                 participateForm.joinMessage!!,
                 participateForm.joinPassword,
                 participateForm.spectator == true,
-                httpServletRequest.getIpAddress()
+                httpServletRequest.getIpAddress(),
             )
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("participateErrorMessage", e.message)
@@ -160,7 +164,7 @@ class VillageParticipateController(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms(participateForm = participateForm)
+                VillageForms(participateForm = participateForm),
             )
             return "village"
         }
@@ -172,20 +176,22 @@ class VillageParticipateController(
     @PostMapping("/village/{villageId}/switch-participate")
     private fun switchParticipate(
         @PathVariable villageId: Int,
-        request: HttpServletRequest,  //
-        model: Model
+        request: HttpServletRequest, //
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         if (myself == null) {
             villageControllerHelper.setIndexModel(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms()
+                VillageForms(),
             )
             return "village"
         }
@@ -198,7 +204,7 @@ class VillageParticipateController(
                 village,
                 village.latestDay(),
                 model,
-                VillageForms()
+                VillageForms(),
             )
             return "village"
         }
@@ -211,23 +217,27 @@ class VillageParticipateController(
     private fun changeSkill(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("changeRequestSkill") changeRequestSkillForm: VillageChangeRequestSkillForm,
-        request: HttpServletRequest,  //
+        request: HttpServletRequest, //
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         if (result.hasErrors() || myself == null) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
         }
-        val first = CDef.Skill.codeOf(changeRequestSkillForm.requestedSkill!!)?.let { cdef -> Skill(cdef) }
-            ?: throw WolfMansionBusinessException("skill not found.")
-        val second = CDef.Skill.codeOf(changeRequestSkillForm.secondRequestedSkill!!)?.let { cdef -> Skill(cdef) }
-            ?: throw WolfMansionBusinessException("skill not found.")
+        val first =
+            CDef.Skill.codeOf(changeRequestSkillForm.requestedSkill!!)?.let { cdef -> Skill(cdef) }
+                ?: throw WolfMansionBusinessException("skill not found.")
+        val second =
+            CDef.Skill.codeOf(changeRequestSkillForm.secondRequestedSkill!!)?.let { cdef -> Skill(cdef) }
+                ?: throw WolfMansionBusinessException("skill not found.")
         try {
             villageCoordinator.changeRequestSkill(village, myself, first, second)
         } catch (e: WolfMansionBusinessException) {
@@ -241,14 +251,16 @@ class VillageParticipateController(
     @PostMapping("/village/{villageId}/leave")
     private fun leave(
         @PathVariable villageId: Int,
-        request: HttpServletRequest,  //
-        model: Model
+        request: HttpServletRequest, //
+        model: Model,
     ): String {
-        val village = villageService.findVillage(villageId)
-            ?: throw WolfMansionBusinessException("village not found. id: $villageId")
-        val myself = WolfMansionUserInfoUtil.getUserInfo()?.let {
-            villageService.findVillageParticipant(village.id, it.username)
-        }
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw WolfMansionBusinessException("village not found. id: $villageId")
+        val myself =
+            WolfMansionUserInfoUtil.getUserInfo()?.let {
+                villageService.findVillageParticipant(village.id, it.username)
+            }
         if (myself == null) {
             villageControllerHelper.setIndexModel(village, village.latestDay(), model, VillageForms())
             return "village"
@@ -266,13 +278,16 @@ class VillageParticipateController(
     @ResponseBody
     private fun getSelectableCharaList(
         @PathVariable villageId: Int,
-        form: GetSelectableCharaListForm
+        form: GetSelectableCharaListForm,
     ): List<VillageFormContent.VillageParticipateFormContent.VillageCharaContent> {
-        val charachip = charaService.findCharachips(listOf(form.charachipId), false).list.firstOrNull()
+        val charachip =
+            charaService.findCharachips(listOf(form.charachipId), false).list.firstOrNull()
                 ?: throw WolfMansionBusinessException("charachip not found.")
         val charas = villageCoordinator.findSelectableCharaList(villageId, form.charachipId)
         return charas.map { VillageFormContent.VillageParticipateFormContent.VillageCharaContent(it, charachip) }
     }
 
-    data class GetSelectableCharaListForm(val charachipId: Int = 0)
+    data class GetSelectableCharaListForm(
+        val charachipId: Int = 0,
+    )
 }

@@ -29,7 +29,7 @@ data class VillageParticipant(
     val lastAccessDatetime: LocalDateTime,
     val memo: String?,
     val ipAddresses: List<String>,
-    val notification: VillageParticipantNotificationCondition?
+    val notification: VillageParticipantNotificationCondition?,
 ) {
     fun name(): String = "[${shortName()}] ${charaName.name}"
 
@@ -40,7 +40,9 @@ data class VillageParticipant(
         return if (room != null) {
             val roomNumber = room.number.toString().padStart(2, '0')
             "$roomNumber$shortName"
-        } else shortName
+        } else {
+            shortName
+        }
     }
 
     // 部屋移動があった場合は移動後の部屋が取得される
@@ -49,7 +51,9 @@ data class VillageParticipant(
         return if (room != null) {
             val roomNumber = roomNumberWhen(day).toString().padStart(2, '0')
             "$roomNumber$shortName"
-        } else shortName
+        } else {
+            shortName
+        }
     }
 
     fun roomNumberWhen(day: Int): Int? = room?.numberWhen(day)
@@ -57,12 +61,15 @@ data class VillageParticipant(
     fun skillWhen(day: Int): Skill? = skill?.skillWhen(day)
 
     fun isDead(): Boolean = dead.isDead
+
     fun isDeadWhen(day: Int): Boolean = dead.isDeadWhen(day)
 
     fun isAlive(): Boolean = !isDead()
+
     fun isAliveWhen(day: Int): Boolean = !isDeadWhen(day)
 
     fun isAdmin(): Boolean = playerId == 1
+
     fun hasBigEar(): Boolean = skill?.toCdef() == CDef.Skill.梟
 
     fun isAvailableRequestSkill(): Boolean = !isSpectator
@@ -77,31 +84,35 @@ data class VillageParticipant(
     }
 
     fun isViewableGraveSay(): Boolean = isAdmin() || isSpectator || (isDead() && !dead.reason!!.isSuddenly())
+
     fun isSayableGraveSay(): Boolean {
         if (isAdmin()) return true
         return isDead() && !isSpectator && !dead.reason!!.isSuddenly()
     }
 
     fun isViewableMonologueSay(): Boolean = isAdmin()
+
     fun isSayableMonologueSay(): Boolean = true
 
     fun isViewableSpectateSay(): Boolean = isAdmin() || isSpectator || (isDead() && !dead.reason!!.isSuddenly())
+
     fun isSayableSpectateSay(): Boolean = isAdmin() || isSpectator
 
     fun isViewableWerewolfSay(): Boolean = isAdmin() || skill?.isViewableWerewolfSay() ?: false
+
     fun isSayableWerewolfSay(): Boolean {
         if (isAdmin()) return true
         return isAlive() && skill?.isSayableWerewolfSay() ?: false
     }
 
     fun isViewableSympathizeSay(): Boolean = isAdmin() || skill?.isViewableSympathizeSay() ?: false
+
     fun isSayableSympathizeSay(): Boolean {
         if (isAdmin()) return true
         return isAlive() && skill?.isSayableSympathizeSay() ?: false
     }
 
-    fun isViewableTelepathy(): Boolean =
-        isAdmin() || status.isFoxPossessioned() || skill?.isViewableTelepathy() ?: false
+    fun isViewableTelepathy(): Boolean = isAdmin() || status.isFoxPossessioned() || skill?.isViewableTelepathy() ?: false
 
     fun isSayableTelepathy(): Boolean {
         if (isAdmin()) return true
@@ -109,25 +120,33 @@ data class VillageParticipant(
     }
 
     fun isViewableLoversSay(): Boolean = isAdmin() || status.hasLover() || skill?.isViewableLoversSay() ?: false
+
     fun isSayableLoversSay(): Boolean = isAdmin() || (isAlive() && status.hasLover())
 
     fun isViewableSecretSay(): Boolean = isAdmin()
+
     fun isSayableSecretSay(): Boolean = true
 
     fun isViewablePsychicMessage(): Boolean = isAdmin() || skill?.isViewablePsychicMessage() ?: false
-    fun isViewableGuruMessage(): Boolean = isAdmin() || skill?.isViewableGuruMessage() ?: false
-    fun isViewableAttackMessage(): Boolean = isAdmin() || skill?.isViewableAttackMessage() ?: false
-    fun isViewableCoronerMessage(): Boolean = isAdmin() || skill?.isViewableCoronerMessage() ?: false
-    fun isViewableDivineMessage(): Boolean = isAdmin() || skill?.isViewableDivineMessage() ?: false
-    fun isViewableWiseMessage(): Boolean = isAdmin() || skill?.isViewableWiseMessage() ?: false
-    fun isViewableInvestigateMessage(): Boolean = isAdmin() || skill?.isViewableInvestigateMessage() ?: false
-    fun isViewableLoversMessage(): Boolean =
-        isAdmin() || (status.hasLover() || skill?.isViewableLoversMessage() ?: false)
 
-    fun isViewableFoxMessage(): Boolean =
-        isAdmin() || status.isFoxPossessioned() || skill?.isViewableFoxMessage() ?: false
+    fun isViewableGuruMessage(): Boolean = isAdmin() || skill?.isViewableGuruMessage() ?: false
+
+    fun isViewableAttackMessage(): Boolean = isAdmin() || skill?.isViewableAttackMessage() ?: false
+
+    fun isViewableCoronerMessage(): Boolean = isAdmin() || skill?.isViewableCoronerMessage() ?: false
+
+    fun isViewableDivineMessage(): Boolean = isAdmin() || skill?.isViewableDivineMessage() ?: false
+
+    fun isViewableWiseMessage(): Boolean = isAdmin() || skill?.isViewableWiseMessage() ?: false
+
+    fun isViewableInvestigateMessage(): Boolean = isAdmin() || skill?.isViewableInvestigateMessage() ?: false
+
+    fun isViewableLoversMessage(): Boolean = isAdmin() || (status.hasLover() || skill?.isViewableLoversMessage() ?: false)
+
+    fun isViewableFoxMessage(): Boolean = isAdmin() || status.isFoxPossessioned() || skill?.isViewableFoxMessage() ?: false
 
     fun isViewablePrivateSystemMessage(): Boolean = isAdmin()
+
     fun isViewablePrivateAbilityMessage(): Boolean = isAdmin()
 
     fun canUseAbility(): Boolean = isAlive() && !isSpectator
@@ -135,114 +154,146 @@ data class VillageParticipant(
     fun canVote(): Boolean = isAlive() && !isSpectator
 
     fun canChangeName(isEpilogue: Boolean): Boolean = !dead.isDead || !dead.reason!!.isSuddenly() || isEpilogue
+
     fun canAddImage(): Boolean = true
 
     fun isViewableSpoilerContent(isOpenSkillInGrave: Boolean): Boolean = isOpenSkillInGrave && (isDead() || isSpectator)
 
-    fun getTargetCohabitor(village: Village): VillageParticipant? {
-        return getTargetLovers(village).filterBySkill(Skill(CDef.Skill.同棲者)).list.firstOrNull()
-    }
+    fun getTargetCohabitor(village: Village): VillageParticipant? =
+        getTargetLovers(village).filterBySkill(Skill(CDef.Skill.同棲者)).list.firstOrNull()
 
     fun getTargetLovers(village: Village): VillageParticipants {
         val list = village.participants.list.filter { status.loverIdList.contains(it.id) }
         return VillageParticipants(count = list.size, list = list)
     }
 
-    fun isSame(other: VillageParticipant): Boolean {
-        return skill?.code == other.skill?.code
-                && room.isSameRoom(other.room)
-                && requestSkill?.first?.code == other.requestSkill?.first?.code
-                && status.isSame(other.status)
-                && dead.isSame(other.dead)
-                && isGone == other.isGone
-                && isWin == other.isWin
-                && camp?.code == other.camp?.code
-    }
+    fun isSame(other: VillageParticipant): Boolean =
+        skill?.code == other.skill?.code &&
+            room.isSameRoom(other.room) &&
+            requestSkill?.first?.code == other.requestSkill?.first?.code &&
+            status.isSame(other.status) &&
+            dead.isSame(other.dead) &&
+            isGone == other.isGone &&
+            isWin == other.isWin &&
+            camp?.code == other.camp?.code
 
     fun gone(): VillageParticipant = copy(isGone = true)
 
-    fun assignSkill(skill: Skill, day: Int): VillageParticipant = copy(
-        skill = if (this.skill == null) {
-            skill.copy(histories = SkillHistories(list = listOf(SkillHistory(skill = skill, day = day))))
-        } else {
-            this.skill.assignSkill(skill, day)
-        },
-        camp = getCurrentWinCamp(status, skill)
-    )
-
-    fun assignRoom(roomNumber: Int, day: Int): VillageParticipant {
-        return copy(
-            room = this.room?.reAssign(roomNumber, day) ?: Room(roomNumber, day)
+    fun assignSkill(
+        skill: Skill,
+        day: Int,
+    ): VillageParticipant =
+        copy(
+            skill =
+                if (this.skill == null) {
+                    skill.copy(histories = SkillHistories(list = listOf(SkillHistory(skill = skill, day = day))))
+                } else {
+                    this.skill.assignSkill(skill, day)
+                },
+            camp = getCurrentWinCamp(status, skill),
         )
-    }
+
+    fun assignRoom(
+        roomNumber: Int,
+        day: Int,
+    ): VillageParticipant =
+        copy(
+            room = this.room?.reAssign(roomNumber, day) ?: Room(roomNumber, day),
+        )
 
     fun changeRequestSkill(requestSkill: RequestSkill) = copy(requestSkill = requestSkill)
 
     fun isDeadByDivine(): Boolean = skill?.isDeadByDivine() ?: false || status.hasCurseMark
+
     fun isCounterKillByDivine(): Boolean = skill?.isCounterDeadByDivine() ?: false || status.hasCounterCurseMark
 
     fun suddenlyDeath(day: Int): VillageParticipant = copy(dead = dead.suddenlyDeath(day), status = status.respect())
+
     fun execute(day: Int): VillageParticipant = copy(dead = dead.execute(day), status = status.respect())
-    fun divineKill(day: Int): VillageParticipant = copy(
-        dead = dead.divineKill(day),
-        status = status.respect().clearCurseMark()
-    )
+
+    fun divineKill(day: Int): VillageParticipant =
+        copy(
+            dead = dead.divineKill(day),
+            status = status.respect().clearCurseMark(),
+        )
 
     fun attacked(day: Int): VillageParticipant = copy(dead = dead.attacked(day), status = status.respect())
+
     fun trapKill(day: Int): VillageParticipant = copy(dead = dead.trapKill(day), status = status.respect())
+
     fun bombKill(day: Int): VillageParticipant = copy(dead = dead.bombKill(day), status = status.respect())
+
     fun zakoKilled(day: Int): VillageParticipant = copy(dead = dead.zakoKilled(day), status = status.respect())
+
     fun suicide(day: Int): VillageParticipant = copy(dead = dead.suicide(day), status = status.respect())
+
     fun revive(day: Int): VillageParticipant = copy(dead = dead.revive(day))
-    fun forceReincarnation(day: Int, skill: Skill): VillageParticipant =
-        assignSkill(skill, day).copy(dead = dead.forceReincarnation(day), status = status.respect())
+
+    fun forceReincarnation(
+        day: Int,
+        skill: Skill,
+    ): VillageParticipant = assignSkill(skill, day).copy(dead = dead.forceReincarnation(day), status = status.respect())
 
     fun addLover(id: Int): VillageParticipant = copy(status = status.addLover(id))
-    fun foxPossessioned(village: Village, fromParticipantId: Int): VillageParticipant {
+
+    fun foxPossessioned(
+        village: Village,
+        fromParticipantId: Int,
+    ): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
         val newStatus = status.foxPossessioned(fromParticipantId, cohabitor)
         return copy(
             status = newStatus,
-            camp = getCurrentWinCamp(newStatus, skill)
+            camp = getCurrentWinCamp(newStatus, skill),
         )
     }
 
-    fun insaned(village: Village, fromParticipantId: Int): VillageParticipant {
+    fun insaned(
+        village: Village,
+        fromParticipantId: Int,
+    ): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
         val newStatus = status.insaned(fromParticipantId, cohabitor)
         return copy(
             status = newStatus,
-            camp = getCurrentWinCamp(newStatus, skill)
+            camp = getCurrentWinCamp(newStatus, skill),
         )
     }
 
-    fun persuaded(village: Village, fromParticipantId: Int): VillageParticipant {
+    fun persuaded(
+        village: Village,
+        fromParticipantId: Int,
+    ): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
         val newStatus = status.persuaded(fromParticipantId, cohabitor)
         return copy(
             status = newStatus,
-            camp = getCurrentWinCamp(newStatus, skill)
+            camp = getCurrentWinCamp(newStatus, skill),
         )
     }
 
     fun court(participantId: Int): VillageParticipant = love(participantId)
+
     fun courted(participantId: Int): VillageParticipant = love(participantId)
+
     fun stalking(participantId: Int): VillageParticipant = love(participantId)
-    fun cheatLove(village: Village, participantId: Int): VillageParticipant {
+
+    fun cheatLove(
+        village: Village,
+        participantId: Int,
+    ): VillageParticipant {
         // 恋絆を解除して新たに恋をする
         return breakup(village).love(participantId)
     }
 
     fun seduced(participantId: Int): VillageParticipant = love(participantId)
 
-    fun insurance(participantId: Int): VillageParticipant =
-        copy(status = status.insurance(participantId))
+    fun insurance(participantId: Int): VillageParticipant = copy(status = status.insurance(participantId))
 
-    fun disrespect(fromParticipantId: Int): VillageParticipant =
-        copy(status = status.disrespect(fromParticipantId))
+    fun disrespect(fromParticipantId: Int): VillageParticipant = copy(status = status.disrespect(fromParticipantId))
 
     fun breakup(village: Village): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いて恋絆を解除する
@@ -250,17 +301,20 @@ data class VillageParticipant(
         val newStatus = status.breakup(cohabitor)
         return copy(
             status = newStatus,
-            camp = getCurrentWinCamp(newStatus, skill)
+            camp = getCurrentWinCamp(newStatus, skill),
         )
     }
 
-    fun stealLove(stealerId: Int, village: Village): VillageParticipant {
+    fun stealLove(
+        stealerId: Int,
+        village: Village,
+    ): VillageParticipant {
         // 自分が同棲者の場合は同棲者を除いた恋絆が解除される
         val cohabitor = if (skill!!.toCdef() == CDef.Skill.同棲者) getTargetCohabitor(village) else null
         val newStatus = status.loveSteal(stealerId, cohabitor)
         return copy(
             status = newStatus,
-            camp = getCurrentWinCamp(newStatus, skill)
+            camp = getCurrentWinCamp(newStatus, skill),
         )
     }
 
@@ -278,34 +332,44 @@ data class VillageParticipant(
 
     fun clearTelekinesis(): VillageParticipant = copy(status = status.clearTelekinesis())
 
-    fun judgeWin(winCamp: Camp): VillageParticipant = copy(
-        isWin = when {
-            // 突然死したことがあったら必ず敗北
-            dead.existsSuddenly() -> false
-            // ババは必ず敗北
-            skill!!.toCdef() == CDef.Skill.ババ -> false
-            // 当選者は必ず勝利
-            skill.toCdef() == CDef.Skill.当選者 -> true
-            // 愉快犯陣営は生存していれば勝利
-            camp!!.isCriminals() -> isAlive()
-            // 勝敗判定陣営が一致していたら勝利
-            else -> winCamp.toCdef() == camp.toCdef()
+    fun judgeWin(winCamp: Camp): VillageParticipant =
+        copy(
+            isWin =
+                when {
+                    // 突然死したことがあったら必ず敗北
+                    dead.existsSuddenly() -> false
+                    // ババは必ず敗北
+                    skill!!.toCdef() == CDef.Skill.ババ -> false
+                    // 当選者は必ず勝利
+                    skill.toCdef() == CDef.Skill.当選者 -> true
+                    // 愉快犯陣営は生存していれば勝利
+                    camp!!.isCriminals() -> isAlive()
+                    // 勝敗判定陣営が一致していたら勝利
+                    else -> winCamp.toCdef() == camp.toCdef()
+                },
+        )
+
+    private fun love(participantId: Int): VillageParticipant =
+        copy(
+            status = status.addLover(participantId),
+            camp = CDef.Camp.恋人陣営.toModel(),
+        )
+
+    private fun Room?.isSameRoom(other: Room?): Boolean =
+        if (this == null && other == null) {
+            true
+        } else if (this == null) {
+            false
+        } else if (other == null) {
+            false
+        } else {
+            this.isSame(other)
         }
-    )
 
-    private fun love(participantId: Int): VillageParticipant = copy(
-        status = status.addLover(participantId),
-        camp = CDef.Camp.恋人陣営.toModel()
-    )
-
-    private fun Room?.isSameRoom(other: Room?): Boolean {
-        return if (this == null && other == null) true
-        else if (this == null) false
-        else if (other == null) false
-        else this.isSame(other)
-    }
-
-    private fun getCurrentWinCamp(currentStatus: VillageParticipantStatus, currentSkill: Skill): Camp =
+    private fun getCurrentWinCamp(
+        currentStatus: VillageParticipantStatus,
+        currentSkill: Skill,
+    ): Camp =
         when {
             currentStatus.hasLover() -> CDef.Camp.恋人陣営.toModel()
             currentStatus.isFoxPossessioned() -> CDef.Camp.狐陣営.toModel()

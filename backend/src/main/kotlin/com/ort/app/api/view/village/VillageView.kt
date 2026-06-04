@@ -18,7 +18,7 @@ data class VillageView(
 ) {
     constructor(
         org: Village,
-        participantIdToChara: Map<Int, Chara>
+        participantIdToChara: Map<Int, Chara>,
     ) : this(
         id = org.id,
         name = org.name,

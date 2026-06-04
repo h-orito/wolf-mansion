@@ -11,7 +11,7 @@ data class VillageSayConfirmContent(
     /** 発言 */
     val message: VillageMessageContent,
     /** ランダムキーワード(カンマ区切り) */
-    val randomKeywords: String
+    val randomKeywords: String,
 ) {
     constructor(
         village: Village,
@@ -19,21 +19,22 @@ data class VillageSayConfirmContent(
         fromParticipant: VillageParticipant?,
         player: Player?,
         charas: Charas,
-        keywords: RandomKeywords
+        keywords: RandomKeywords,
     ) : this(
-        message = VillageMessageContent(
-            village = village,
-            myself = null,
-            myselfPlayer = null,
-            message = message,
-            fromParticipant = fromParticipant,
-            player = player,
-            charas = charas,
-            hasBigEar = false,
-            isRainbow = false,
-            isLoud = false,
-            isLatestDay = false
-        ),
-        randomKeywords = keywords.list.joinToString(",") { it.keyword }
+        message =
+            VillageMessageContent(
+                village = village,
+                myself = null,
+                myselfPlayer = null,
+                message = message,
+                fromParticipant = fromParticipant,
+                player = player,
+                charas = charas,
+                hasBigEar = false,
+                isRainbow = false,
+                isLoud = false,
+                isLatestDay = false,
+            ),
+        randomKeywords = keywords.list.joinToString(",") { it.keyword },
     )
 }

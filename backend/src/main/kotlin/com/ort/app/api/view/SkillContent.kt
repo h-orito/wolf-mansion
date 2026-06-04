@@ -9,35 +9,40 @@ import java.util.*
 
 data class SkillContent(
     val campList: List<CampContent>,
-    val tagList: List<String>
+    val tagList: List<String>,
 ) {
-
     data class CampContent(
         val code: String,
         val name: String,
-        val skillList: List<SkillContent>
+        val skillList: List<SkillContent>,
     ) {
         constructor(camp: Camp) : this(
             code = camp.code.lowercase(),
             name = camp.name,
-            skillList = Skills.all().filterNotSomeone().filterByCamp(camp.toCdef()).list.map { SkillContent(it) }
+            skillList =
+                Skills
+                    .all()
+                    .filterNotSomeone()
+                    .filterByCamp(camp.toCdef())
+                    .list
+                    .map { SkillContent(it) },
         )
     }
 
     data class SkillContent(
         val code: String,
-        val name: String
+        val name: String,
     ) {
         constructor(
-            skill: Skill
+            skill: Skill,
         ) : this(
             code = skill.code.toLowerCase(),
-            name = skill.name
+            name = skill.name,
         )
     }
 
     constructor() : this(
         campList = Camps.all().list.map { CampContent(it) },
-        tagList = SkillTag.values().map { it.name }
+        tagList = SkillTag.values().map { it.name },
     )
 }

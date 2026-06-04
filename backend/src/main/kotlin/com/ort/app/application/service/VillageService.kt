@@ -15,52 +15,58 @@ import java.time.LocalDateTime
 
 @Service
 class VillageService(
-    private val villageRepository: VillageRepository
+    private val villageRepository: VillageRepository,
 ) {
     // ------------------------
     // village
-    fun findLatestVillageId(
-        statusList: List<VillageStatus>
-    ): Int = villageRepository.findLatestVillageId(statusList)
+    fun findLatestVillageId(statusList: List<VillageStatus>): Int = villageRepository.findLatestVillageId(statusList)
 
-    fun findVillages(
-        query: VillageQuery
-    ): Villages = villageRepository.findVillages(query)
+    fun findVillages(query: VillageQuery): Villages = villageRepository.findVillages(query)
 
     fun findVillage(
         villageId: Int,
-        excludeGone: Boolean = true
+        excludeGone: Boolean = true,
     ): Village? = villageRepository.findVillage(villageId, excludeGone)
 
     fun registerVillage(paramVillage: Village): Village = villageRepository.registerVillage(paramVillage)
 
     fun cancel(villageId: Int) = villageRepository.updateStatus(villageId, VillageStatus(CDef.VillageStatus.廃村))
 
-    fun extendDay(villageId: Int, day: Int, datetime: LocalDateTime) =
-        villageRepository.extendDay(villageId, day, datetime)
+    fun extendDay(
+        villageId: Int,
+        day: Int,
+        datetime: LocalDateTime,
+    ) = villageRepository.extendDay(villageId, day, datetime)
 
-    fun shortenDay(villageId: Int, day: Int, datetime: LocalDateTime) =
-        villageRepository.shortenDay(villageId, day, datetime)
+    fun shortenDay(
+        villageId: Int,
+        day: Int,
+        datetime: LocalDateTime,
+    ) = villageRepository.shortenDay(villageId, day, datetime)
 
     fun updateSetting(village: Village) = villageRepository.updateSetting(village)
 
-    fun updateDummyCharaId(id: Int, charaId: Int) = villageRepository.updateDummyCharaId(id, charaId)
+    fun updateDummyCharaId(
+        id: Int,
+        charaId: Int,
+    ) = villageRepository.updateDummyCharaId(id, charaId)
 
     // ------------------------
     // participant
     fun findVillageParticipant(
         villageId: Int,
         username: String,
-        excludeGone: Boolean = true
-    ): VillageParticipant? = villageRepository.findVillageParticipant(
-        villageId = villageId,
-        userName = username,
-        excludeGone = excludeGone
-    )
+        excludeGone: Boolean = true,
+    ): VillageParticipant? =
+        villageRepository.findVillageParticipant(
+            villageId = villageId,
+            userName = username,
+            excludeGone = excludeGone,
+        )
 
     fun findVillageParticipant(
         id: Int,
-        excludeGone: Boolean = true
+        excludeGone: Boolean = true,
     ): VillageParticipant? = villageRepository.findVillageParticipant(id, excludeGone)
 
     fun participate(
@@ -71,7 +77,7 @@ class VillageService(
         charaShortName: String,
         firstRequestSkill: Skill,
         secondRequestSkill: Skill,
-        isSpectator: Boolean
+        isSpectator: Boolean,
     ): VillageParticipant =
         villageRepository.participate(
             villageId = villageId,
@@ -81,42 +87,55 @@ class VillageService(
             charaShortName = charaShortName,
             firstRequestSkill = firstRequestSkill,
             secondRequestSkill = secondRequestSkill,
-            spectator = isSpectator
+            spectator = isSpectator,
         )
 
-    fun switchParticipate(villageId: Int, participantId: Int, isSpectator: Boolean) =
-        villageRepository.switchParticipate(villageId, participantId, isSpectator)
+    fun switchParticipate(
+        villageId: Int,
+        participantId: Int,
+        isSpectator: Boolean,
+    ) = villageRepository.switchParticipate(villageId, participantId, isSpectator)
 
     fun leave(participant: VillageParticipant) = villageRepository.leave(participant)
 
-    fun changeParticipantName(participant: VillageParticipant, name: String, shortName: String) =
-        villageRepository.changeParticipantName(participant, name, shortName)
+    fun changeParticipantName(
+        participant: VillageParticipant,
+        name: String,
+        shortName: String,
+    ) = villageRepository.changeParticipantName(participant, name, shortName)
 
-    fun changeRequestSkill(myself: VillageParticipant, first: Skill, second: Skill) {
+    fun changeRequestSkill(
+        myself: VillageParticipant,
+        first: Skill,
+        second: Skill,
+    ) {
         villageRepository.changeRequestSkill(myself, first, second)
     }
 
     fun changeMemo(
         participant: VillageParticipant?,
-        memo: String
+        memo: String,
     ) {
         participant ?: throw WolfMansionBusinessException("ログインしてください")
         villageRepository.changeMemo(participant, memo)
     }
 
-    fun updateLastAccessDatetime(participant: VillageParticipant) =
-        villageRepository.updateLastAccessDatetime(participant)
+    fun updateLastAccessDatetime(participant: VillageParticipant) = villageRepository.updateLastAccessDatetime(participant)
 
-    fun updateDaychangeDifference(current: Village, changed: Village) {
+    fun updateDaychangeDifference(
+        current: Village,
+        changed: Village,
+    ) {
         if (current.isSame(changed)) return
         villageRepository.updateDaychangeDifference(current, changed)
     }
 
-    fun addIpAddress(participant: VillageParticipant, ipAddress: String) =
-        villageRepository.addIpAddress(participant, ipAddress)
+    fun addIpAddress(
+        participant: VillageParticipant,
+        ipAddress: String,
+    ) = villageRepository.addIpAddress(participant, ipAddress)
 
     fun registerNotification(participant: VillageParticipant) {
-
         villageRepository.registerNotificationSetting(participant)
     }
 }

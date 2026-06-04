@@ -1,8 +1,10 @@
 package com.ort.app.domain.model.player
 
 interface PlayerRepository {
-
-    fun findPlayers(pageSize: Int, pageNum: Int): Players
+    fun findPlayers(
+        pageSize: Int,
+        pageNum: Int,
+    ): Players
 
     fun findPlayers(villageIdList: List<Int>): Players
 
@@ -12,11 +14,24 @@ interface PlayerRepository {
 
     fun findPlayer(id: Int): Player
 
-    fun registerPlayer(userName: String, password: String): Player
+    fun registerPlayer(
+        userName: String,
+        password: String,
+    ): Player
 
-    fun updatePassword(userName: String, password: String)
+    fun updatePassword(
+        userName: String,
+        password: String,
+    )
 
-    fun updateDetail(userName: String, twitterUserName: String?, introduction: String?)
+    fun updateDetail(
+        userName: String,
+        twitterUserName: String?,
+        introduction: String?,
+    )
 
-    fun updateDifference(current: Players, changed: Players)
+    fun updateDifference(
+        current: Players,
+        changed: Players,
+    )
 }

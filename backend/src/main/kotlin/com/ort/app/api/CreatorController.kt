@@ -42,9 +42,8 @@ class CreatorController(
     private val creatorCoordinator: CreatorCoordinator,
     private val villageService: VillageService,
     private val randomKeywordService: RandomKeywordService,
-    private val charaService: CharaService
+    private val charaService: CharaService,
 ) {
-
     @InitBinder("creatorSayForm")
     fun initBinder(binder: WebDataBinder) {
         binder.addValidators(villageSayFormValidator)
@@ -60,7 +59,10 @@ class CreatorController(
     //                                                                             =======
     // 村設定変更
     @GetMapping("/village/{villageId}/settings")
-    private fun settingsIndex(@PathVariable villageId: Int, model: Model): String {
+    private fun settingsIndex(
+        @PathVariable villageId: Int,
+        model: Model,
+    ): String {
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
         }
@@ -77,7 +79,7 @@ class CreatorController(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("settingsForm") form: VillageSettingForm,
         bindingResult: BindingResult,
-        model: Model
+        model: Model,
     ): String {
         val village = villageService.findVillage(villageId) ?: throw WolfMansionBusinessException("village not found.")
         val charachips =
@@ -108,7 +110,7 @@ class CreatorController(
     @PostMapping("/village/{villageId}/kick")
     private fun kick(
         @PathVariable villageId: Int,
-        kickForm: VillageKickForm
+        kickForm: VillageKickForm,
     ): String {
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
@@ -124,7 +126,7 @@ class CreatorController(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("creatorSayForm") creatorSayForm: VillageSayForm,
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
         val village = villageService.findVillage(villageId) ?: return "redirect:/village/$villageId#bottom"
         if (result.hasErrors()) {
@@ -147,7 +149,7 @@ class CreatorController(
         @PathVariable villageId: Int,
         @Validated @ModelAttribute("creatorSayForm") creatorSayForm: VillageSayForm,
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
         val village = villageService.findVillage(villageId) ?: return "redirect:/village/$villageId#bottom"
         if (result.hasErrors()) {
@@ -165,7 +167,7 @@ class CreatorController(
     // 村建て機能：廃村
     @PostMapping("/village/{villageId}/cancel")
     private fun cancel(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): String {
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
@@ -177,7 +179,7 @@ class CreatorController(
     // 村建て機能：エピローグ延長
     @PostMapping("/village/{villageId}/extend-epilogue")
     private fun extend(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): String {
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
@@ -189,7 +191,7 @@ class CreatorController(
     // 村建て機能：エピローグ短縮
     @PostMapping("/village/{villageId}/shorten-epilogue")
     private fun shorten(
-        @PathVariable villageId: Int
+        @PathVariable villageId: Int,
     ): String {
         if (!creatorCoordinator.isCreator(WolfMansionUserInfoUtil.getUserInfo()?.username, villageId)) {
             return "redirect:/village/$villageId#bottom"
@@ -202,111 +204,139 @@ class CreatorController(
         village: Village,
         charachips: Charachips,
         model: Model,
-        form: VillageSettingForm? = null
+        form: VillageSettingForm? = null,
     ) {
         model.addAttribute("content", VillageSettingsContent(village, charachips))
         model.addAttribute("skillListStr", Skills.getSkillListStr())
         model.addAttribute("nowYear", LocalDate.now().year)
         model.addAttribute(
             "settingsForm",
-            form ?: VillageSettingForm(village)
+            form ?: VillageSettingForm(village),
         )
     }
 
-    private fun merge(village: Village, form: VillageSettingForm): Village {
-        val startDatetime = LocalDateTime.of(
-            form.startYear!!,
-            form.startMonth!!,
-            form.startDay!!,
-            form.startHour!!,
-            form.startMinute!!
-        )
+    private fun merge(
+        village: Village,
+        form: VillageSettingForm,
+    ): Village {
+        val startDatetime =
+            LocalDateTime.of(
+                form.startYear!!,
+                form.startMonth!!,
+                form.startDay!!,
+                form.startHour!!,
+                form.startMinute!!,
+            )
         val welcome =
-            if (form.welcomeRange.isNullOrBlank()) emptyList()
-            else listOf(CDef.VillageTagItem.codeOf(form.welcomeRange).toModel())
+            if (form.welcomeRange.isNullOrBlank()) {
+                emptyList()
+            } else {
+                listOf(CDef.VillageTagItem.codeOf(form.welcomeRange).toModel())
+            }
         val age =
-            if (form.ageLimit.isNullOrBlank()) emptyList()
-            else listOf(CDef.VillageTagItem.codeOf(form.ageLimit).toModel())
+            if (form.ageLimit.isNullOrBlank()) {
+                emptyList()
+            } else {
+                listOf(CDef.VillageTagItem.codeOf(form.ageLimit).toModel())
+            }
         return village.copy(
             name = form.villageName!!,
-            days = village.days.copy(
-                list = village.days.list.map {
-                    if (it.day == 0) it.copy(dayChangeDatetime = startDatetime)
-                    else it.copy()
-                }
-            ),
-            setting = village.setting.copy(
-                chara = village.setting.chara.copy(
-                    dummyDay1Message = form.dummyDay1Message,
+            days =
+                village.days.copy(
+                    list =
+                        village.days.list.map {
+                            if (it.day == 0) {
+                                it.copy(dayChangeDatetime = startDatetime)
+                            } else {
+                                it.copy()
+                            }
+                        },
                 ),
-                personMin = form.startPersonMinNum!!,
-                personMax = form.personMaxNum!!,
-                dayChangeIntervalSeconds = form.dayChangeIntervalHours!! * 3600 + form.dayChangeIntervalMinutes!! * 60 + form.dayChangeIntervalSeconds!!,
-                startDatetime = startDatetime,
-                rule = village.setting.rule.copy(
-                    isOpenVote = form.openVote!!,
-                    isAvailableSameWolfAttack = form.availableSameWolfAttack!!,
-                    isOpenSkillInGrave = form.openSkillInGrave!!,
-                    isVisibleGraveSpectateMessage = form.visibleGraveSpectateMessage!!,
-                    isAvailableSpectate = form.availableSpectate!!,
-                    isAvailableSuddenlyDeath = form.availableSuddonlyDeath!!,
-                    isAvailableCommit = form.availableCommit!!,
-                    isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
-                    isAvailableAction = form.availableAction!!,
-                    isRandomOrganization = form.randomOrganization!!,
-                    isReincarnationSkillAll = form.reincarnationSkillAll!!,
-                    secretSayRange = SecretSayRange(CDef.AllowedSecretSay.codeOf(form.allowedSecretSayCode!!))
+            setting =
+                village.setting.copy(
+                    chara =
+                        village.setting.chara.copy(
+                            dummyDay1Message = form.dummyDay1Message,
+                        ),
+                    personMin = form.startPersonMinNum!!,
+                    personMax = form.personMaxNum!!,
+                    dayChangeIntervalSeconds =
+                        form.dayChangeIntervalHours!! * 3600 + form.dayChangeIntervalMinutes!! * 60 + form.dayChangeIntervalSeconds!!,
+                    startDatetime = startDatetime,
+                    rule =
+                        village.setting.rule.copy(
+                            isOpenVote = form.openVote!!,
+                            isAvailableSameWolfAttack = form.availableSameWolfAttack!!,
+                            isOpenSkillInGrave = form.openSkillInGrave!!,
+                            isVisibleGraveSpectateMessage = form.visibleGraveSpectateMessage!!,
+                            isAvailableSpectate = form.availableSpectate!!,
+                            isAvailableSuddenlyDeath = form.availableSuddonlyDeath!!,
+                            isAvailableCommit = form.availableCommit!!,
+                            isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
+                            isAvailableAction = form.availableAction!!,
+                            isRandomOrganization = form.randomOrganization!!,
+                            isReincarnationSkillAll = form.reincarnationSkillAll!!,
+                            secretSayRange = SecretSayRange(CDef.AllowedSecretSay.codeOf(form.allowedSecretSayCode!!)),
+                        ),
+                    organize =
+                        VillageOrganize(
+                            fixedOrganization = form.organization.orEmpty(),
+                            randomOrganization =
+                                VillageRandomOrganize(
+                                    campAllocation =
+                                        form.campAllocationList?.map {
+                                            VillageRandomOrganize.CampAllocation(
+                                                camp = Camp(CDef.Camp.codeOf(it.campCode)),
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                                initAllocation = it.allocation!!,
+                                                reincarnationAllocation = it.reincarnationAllocation!!,
+                                            )
+                                        } ?: emptyList(),
+                                    skillAllocation =
+                                        form.campAllocationList?.flatMap { it.skillAllocation!! }?.map {
+                                            VillageRandomOrganize.SkillAllocation(
+                                                skill = Skill(CDef.Skill.codeOf(it.skillCode)),
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                                initAllocation = it.allocation!!,
+                                                reincarnationAllocation = it.reincarnationAllocation!!,
+                                            )
+                                        } ?: emptyList(),
+                                    wolfAllocation =
+                                        form.wolfAllocation?.let {
+                                            VillageRandomOrganize.WolfAllocation(
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                            )
+                                        },
+                                ),
+                        ),
+                    joinPassword = form.joinPassword,
+                    sayRestriction =
+                        SayRestriction(
+                            normalSayRestriction =
+                                form.sayRestrictList!!.filter { it.restrict!! }.map {
+                                    SayRestriction.NormalSayRestriction(
+                                        skill = Skill(CDef.Skill.codeOf(it.skillCode)),
+                                        messageType = MessageType(CDef.MessageType.通常発言),
+                                        count = it.count!!,
+                                        length = it.length!!,
+                                    )
+                                },
+                            skillSayRestriction =
+                                (form.skillSayRestrictList!! + form.rpSayRestrictList!!)
+                                    .filter { it.restrict!! }
+                                    .map {
+                                        SayRestriction.SkillSayRestriction(
+                                            messageType = MessageType(CDef.MessageType.codeOf(it.messageTypeCode)),
+                                            count = it.count!!,
+                                            length = it.length!!,
+                                        )
+                                    },
+                        ),
+                    tags = VillageTags(list = welcome + age),
                 ),
-                organize = VillageOrganize(
-                    fixedOrganization = form.organization.orEmpty(),
-                    randomOrganization = VillageRandomOrganize(
-                        campAllocation = form.campAllocationList?.map {
-                            VillageRandomOrganize.CampAllocation(
-                                camp = Camp(CDef.Camp.codeOf(it.campCode)),
-                                min = it.minNum!!,
-                                max = it.maxNum,
-                                initAllocation = it.allocation!!,
-                                reincarnationAllocation = it.reincarnationAllocation!!
-                            )
-                        } ?: emptyList(),
-                        skillAllocation = form.campAllocationList?.flatMap { it.skillAllocation!! }?.map {
-                            VillageRandomOrganize.SkillAllocation(
-                                skill = Skill(CDef.Skill.codeOf(it.skillCode)),
-                                min = it.minNum!!,
-                                max = it.maxNum,
-                                initAllocation = it.allocation!!,
-                                reincarnationAllocation = it.reincarnationAllocation!!
-                            )
-                        } ?: emptyList(),
-                        wolfAllocation = form.wolfAllocation?.let {
-                            VillageRandomOrganize.WolfAllocation(
-                                min = it.minNum!!,
-                                max = it.maxNum
-                            )
-                        }
-                    )
-                ),
-                joinPassword = form.joinPassword,
-                sayRestriction = SayRestriction(
-                    normalSayRestriction = form.sayRestrictList!!.filter { it.restrict!! }.map {
-                        SayRestriction.NormalSayRestriction(
-                            skill = Skill(CDef.Skill.codeOf(it.skillCode)),
-                            messageType = MessageType(CDef.MessageType.通常発言),
-                            count = it.count!!,
-                            length = it.length!!
-                        )
-                    },
-                    skillSayRestriction = (form.skillSayRestrictList!! + form.rpSayRestrictList!!).filter { it.restrict!! }
-                        .map {
-                            SayRestriction.SkillSayRestriction(
-                                messageType = MessageType(CDef.MessageType.codeOf(it.messageTypeCode)),
-                                count = it.count!!,
-                                length = it.length!!
-                            )
-                        }
-                ),
-                tags = VillageTags(list = welcome + age)
-            )
         )
     }
 }

@@ -10,28 +10,44 @@ import org.springframework.stereotype.Service
 
 @Service
 class PoseidonDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.人魚化.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> {
         // 生存者が10名いないと使えない
-        if (village.participants.filterAlive().list.size < 10) return emptyList()
+        if (village.participants
+                .filterAlive()
+                .list.size < 10
+        ) {
+            return emptyList()
+        }
         // 一度使うと使えない
-        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) emptyList()
-        else village.participants
-            .filterDead()
-            .filterNotDummy(village.dummyParticipant())
-            .sortedByRoomNumber().list
+        return if (hasAlreadyUseAbility(village, myself, abilities, abilityType)) {
+            emptyList()
+        } else {
+            village.participants
+                .filterDead()
+                .filterNotDummy(village.dummyParticipant())
+                .sortedByRoomNumber()
+                .list
+        }
     }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 2
+
     override fun getTargetPrefix(): String = "人魚化蘇生する対象"
+
     override fun getTargetSuffix(): String? = "を人魚化蘇生する"
 }

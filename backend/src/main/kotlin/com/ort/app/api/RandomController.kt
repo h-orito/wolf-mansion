@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping
 @Controller
 class RandomController(
     private val randomKeywordService: RandomKeywordService,
-    private val randomKeywordFormValidator: RandomKeywordFormValidator
+    private val randomKeywordFormValidator: RandomKeywordFormValidator,
 ) {
     @InitBinder("randomKeywordForm")
     fun initBinder(binder: WebDataBinder) {
@@ -44,19 +44,24 @@ class RandomController(
 
     @PostMapping("/new-random-keyword")
     private fun registerRandomKeyword(
-        @Validated @ModelAttribute("randomKeywordForm") form: RandomKeywordForm,  //
-        result: BindingResult,  //
-        model: Model
+        @Validated @ModelAttribute("randomKeywordForm") form: RandomKeywordForm, //
+        result: BindingResult, //
+        model: Model,
     ): String {
         if (result.hasErrors()) {
             model.addAttribute("randomKeywordForm", form)
             return "new-random-keyword"
         }
-        val keyword = RandomKeyword(
-            id = 0, // dummy
-            keyword = form.keyword!!,
-            contents = form.message!!.trim().split("\r\n").map { RandomContent(it) }
-        )
+        val keyword =
+            RandomKeyword(
+                id = 0, // dummy
+                keyword = form.keyword!!,
+                contents =
+                    form.message!!
+                        .trim()
+                        .split("\r\n")
+                        .map { RandomContent(it) },
+            )
         try {
             randomKeywordService.registerRandomKeyword(keyword)
         } catch (e: WolfMansionBusinessException) {
@@ -68,20 +73,22 @@ class RandomController(
     }
 
     @GetMapping("/random-keyword/{keywordId}")
-    private fun randomKeywordIndex(@PathVariable keywordId: Int, model: Model): String {
+    private fun randomKeywordIndex(
+        @PathVariable keywordId: Int,
+        model: Model,
+    ): String {
         val keyword = randomKeywordService.findRandomKeyword(keywordId) ?: return "random-message"
-        val form = RandomKeywordForm(
-            keyword = keyword.keyword,
-            message = keyword.contents.joinToString("\n") { it.message }
-        )
+        val form =
+            RandomKeywordForm(
+                keyword = keyword.keyword,
+                message = keyword.contents.joinToString("\n") { it.message },
+            )
         model.addAttribute("randomKeywordForm", form)
         return "random-keyword"
     }
 
     @PostMapping("/delete-random-keyword")
-    private fun deleteRandomKeyword(
-        form: RandomKeywordForm
-    ): String {
+    private fun deleteRandomKeyword(form: RandomKeywordForm): String {
         randomKeywordService.deleteRandomKeyword(form.keyword!!)
         return "redirect:/random-message"
     }
@@ -90,17 +97,22 @@ class RandomController(
     private fun updateRandomKeyword(
         @Validated @ModelAttribute("randomKeywordForm") form: RandomKeywordForm,
         result: BindingResult,
-        model: Model
+        model: Model,
     ): String {
         if (result.hasErrors()) {
             model.addAttribute("randomKeywordForm", form)
             return "random-keyword"
         }
-        val keyword = RandomKeyword(
-            id = 0, // dummy
-            keyword = form.keyword!!,
-            contents = form.message!!.trim().split("\r\n").map { RandomContent(it) }
-        )
+        val keyword =
+            RandomKeyword(
+                id = 0, // dummy
+                keyword = form.keyword!!,
+                contents =
+                    form.message!!
+                        .trim()
+                        .split("\r\n")
+                        .map { RandomContent(it) },
+            )
         randomKeywordService.updateRandomKeyword(keyword)
         return "redirect:/random-message"
     }

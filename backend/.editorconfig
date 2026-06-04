@@ -1,0 +1,18 @@
+# monorepo の backend スコープ用 EditorConfig。root=true で親方向の探索を止め、
+# backend/ 配下の Kotlin にこの設定を限定する (frontend は別ツールチェイン)。
+root = true
+
+[*.{kt,kts}]
+# --- 自動整形できず、既存コードの意図的な規約と衝突するルールを無効化 ---
+# Japanese enum entries (例: SkillTag) は valueOf / CDef で「名前」一致でマップされる。
+# ASCII へリネームすると挙動が壊れるため無効化。
+ktlint_standard_enum-entry-name-case = disabled
+# companion の const val を camelCase で運用する既存規約 (例: diceRegex)。
+# SCREAMING_SNAKE へのリネームは参照更新を伴う churn になるため無効化。
+ktlint_standard_property-naming = disabled
+# IntelliJ 既定が import をワイルドカードに畳むため、enforce すると IDE と競合。
+ktlint_standard_no-wildcard-imports = disabled
+# コメント位置系ルール: 修正は移行で撤去予定の legacy コードのコメントを
+# 動かすだけで、品質メリットが薄いため無効化。
+ktlint_standard_no-consecutive-comments = disabled
+ktlint_standard_if-else-wrapping = disabled

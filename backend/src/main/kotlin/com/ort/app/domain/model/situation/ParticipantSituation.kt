@@ -19,5 +19,5 @@ data class ParticipantSituation(
     val ability: ParticipantAbilitySituation,
     val vote: ParticipantVoteSituation,
     val admin: ParticipantAdminSituation,
-    val creator: ParticipantCreatorSituation
+    val creator: ParticipantCreatorSituation,
 )

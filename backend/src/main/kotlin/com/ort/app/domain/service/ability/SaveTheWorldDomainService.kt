@@ -17,30 +17,38 @@ import org.springframework.stereotype.Service
 class SaveTheWorldDomainService(
     private val messageDomainService: MessageDomainService,
     private val attackDomainService: AttackDomainService,
-    private val cohabitDomainService: CohabitDomainService
+    private val cohabitDomainService: CohabitDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.世界を救う)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String? = "討伐対象"
+
     override fun getTargetSuffix(): String? = "を討伐する"
+
     override fun isTargetingAndFootstep(): Boolean = true
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun saveTheWorld(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.勇者.toModel()).list.shuffled().forEach {
-            val ability = daychange.abilities.findYesterday(village, it, abilityType)
-                ?: return@forEach
+            val ability =
+                daychange.abilities.findYesterday(village, it, abilityType)
+                    ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
 
             // 討伐メッセージ
@@ -64,20 +72,21 @@ class SaveTheWorldDomainService(
     private fun createAttackMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}を討伐した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createSuicideMessage(village: Village, myself: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createSuicideMessage(
+        village: Village,
+        myself: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
             message = "${myself.name()}は、役目を終え、自害した。",
         )
-    }
 }

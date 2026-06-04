@@ -14,22 +14,21 @@ data class VillageRule(
     val isAvailableAction: Boolean,
     val isRandomOrganization: Boolean,
     val isReincarnationSkillAll: Boolean,
-    val secretSayRange: SecretSayRange
+    val secretSayRange: SecretSayRange,
 ) {
-    fun isSame(other: VillageRule): Boolean {
-        return isOpenVote == other.isOpenVote
-                && isPossibleSkillRequest == other.isPossibleSkillRequest
-                && isAvailableSpectate == other.isAvailableSpectate
-                && isCreatorIsProducer == other.isCreatorIsProducer
-                && isAvailableSameWolfAttack == other.isAvailableSameWolfAttack
-                && isOpenSkillInGrave == other.isOpenSkillInGrave
-                && isVisibleGraveSpectateMessage == other.isVisibleGraveSpectateMessage
-                && isAvailableSuddenlyDeath == other.isAvailableSuddenlyDeath
-                && isAvailableCommit == other.isAvailableCommit
-                && isAvailableGuardSameTarget == other.isAvailableGuardSameTarget
-                && isAvailableAction == other.isAvailableAction
-                && isRandomOrganization == other.isRandomOrganization
-                && isReincarnationSkillAll == other.isReincarnationSkillAll
-                && secretSayRange.code == other.secretSayRange.code
-    }
+    fun isSame(other: VillageRule): Boolean =
+        isOpenVote == other.isOpenVote &&
+            isPossibleSkillRequest == other.isPossibleSkillRequest &&
+            isAvailableSpectate == other.isAvailableSpectate &&
+            isCreatorIsProducer == other.isCreatorIsProducer &&
+            isAvailableSameWolfAttack == other.isAvailableSameWolfAttack &&
+            isOpenSkillInGrave == other.isOpenSkillInGrave &&
+            isVisibleGraveSpectateMessage == other.isVisibleGraveSpectateMessage &&
+            isAvailableSuddenlyDeath == other.isAvailableSuddenlyDeath &&
+            isAvailableCommit == other.isAvailableCommit &&
+            isAvailableGuardSameTarget == other.isAvailableGuardSameTarget &&
+            isAvailableAction == other.isAvailableAction &&
+            isRandomOrganization == other.isRandomOrganization &&
+            isReincarnationSkillAll == other.isReincarnationSkillAll &&
+            secretSayRange.code == other.secretSayRange.code
 }

@@ -17,52 +17,50 @@ import org.springframework.stereotype.Service
 
 @Service
 class CohabitDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.同棲.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> {
-        return listOf(myself, myself.getTargetCohabitor(village)!!)
-    }
+        votes: Votes,
+    ): List<VillageParticipant> = listOf(myself, myself.getTargetCohabitor(village)!!)
 
     override fun getSelectingTarget(
         village: Village,
         myself: VillageParticipant,
-        abilities: Abilities
-    ): VillageParticipant? {
-        return abilities
+        abilities: Abilities,
+    ): VillageParticipant? =
+        abilities
             .filterByDay(village.latestDay())
             .filterByType(abilityType)
-            .list.firstOrNull { it.charaId == myself.charaId || it.charaId == myself.getTargetCohabitor(village)!!.charaId }
+            .list
+            .firstOrNull { it.charaId == myself.charaId || it.charaId == myself.getTargetCohabitor(village)!!.charaId }
             ?.let { village.participants.chara(it.targetCharaId!!) }
-    }
 
     override fun getHistories(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
         footsteps: Footsteps,
-        day: Int
-    ): List<String> {
-        return abilities
+        day: Int,
+    ): List<String> =
+        abilities
             .filterPastDay(day)
             .filterByType(abilityType)
-            .sortedByDay().list
+            .sortedByDay()
+            .list
             .filter { it.charaId == myself.charaId || it.charaId == myself.getTargetCohabitor(village)!!.charaId }
             .map {
                 val abilityDay = it.day
                 val target = village.participants.chara(it.targetCharaId!!)
                 "${abilityDay}日目 ${target.nameWhen(abilityDay)} ${getTargetSuffix()}"
             }
-    }
 
     override fun getTargetPrefix(): String? = "今晩の滞在先"
+
     override fun getTargetSuffix(): String? = "の部屋で過ごす"
 
     fun addDefaultAbilities(daychange: Daychange): Daychange {
@@ -72,19 +70,20 @@ class CohabitDomainService(
         village.participants.filterAlive().filterBySkill(CDef.Skill.同棲者.toModel()).list.forEach {
             val target = it.getTargetCohabitor(village)!!
             if (cohabitorIds.contains(it.id) || cohabitorIds.contains(target.id)) return@forEach
-            val ability = Ability(
-                day = village.latestDay(),
-                type = abilityType,
-                charaId = it.charaId,
-                targetCharaId = target.charaId
-            )
+            val ability =
+                Ability(
+                    day = village.latestDay(),
+                    type = abilityType,
+                    charaId = it.charaId,
+                    targetCharaId = target.charaId,
+                )
             abilities = abilities.add(ability)
             cohabitorIds.add(it.id)
             cohabitorIds.add(target.id)
         }
 
         return daychange.copy(
-            abilities = abilities
+            abilities = abilities,
         )
     }
 
@@ -102,33 +101,46 @@ class CohabitDomainService(
     }
 
     // 同棲によりtargetの部屋に不在か
-    fun isAbsence(daychange: Daychange, target: VillageParticipant): Boolean {
+    fun isAbsence(
+        daychange: Daychange,
+        target: VillageParticipant,
+    ): Boolean {
         // 同棲により不在、かつ両方生存
         val ability = daychange.abilities.findYesterday(daychange.village, target, abilityType) ?: return false
-        return daychange.village.participants.chara(ability.targetCharaId!!).isAlive()
-                && target.isAlive()
+        return daychange.village.participants
+            .chara(ability.targetCharaId!!)
+            .isAlive() &&
+            target.isAlive()
     }
 
     // 同棲によりtargetと同じ部屋にいるか
-    fun isCohabiting(daychange: Daychange, target: VillageParticipant): Boolean {
-        val ability = daychange.abilities.filterByDay(daychange.village.latestDay() - 1)
-            .filterByType(CDef.AbilityType.同棲.toModel())
-            .list.find { it.targetCharaId == target.charaId } ?: return false
-        return daychange.village.participants.chara(ability.charaId).isAlive()
-                && target.isAlive()
+    fun isCohabiting(
+        daychange: Daychange,
+        target: VillageParticipant,
+    ): Boolean {
+        val ability =
+            daychange.abilities
+                .filterByDay(daychange.village.latestDay() - 1)
+                .filterByType(CDef.AbilityType.同棲.toModel())
+                .list
+                .find { it.targetCharaId == target.charaId } ?: return false
+        return daychange.village.participants
+            .chara(ability.charaId)
+            .isAlive() &&
+            target.isAlive()
     }
 
     private fun createCohabitMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
+        target: VillageParticipant,
     ): Message {
         val text = "${myself.name()}は、${target.name()}の部屋で過ごすことにした。"
         return messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = text,
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel(),
         )
     }
 }

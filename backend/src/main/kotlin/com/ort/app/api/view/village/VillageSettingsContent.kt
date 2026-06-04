@@ -76,12 +76,15 @@ data class VillageSettingsContent(
     /** 募集範囲 */
     val welcomeRange: String?,
     /** 年齢制限 */
-    val ageLimit: String
+    val ageLimit: String,
 ) {
     constructor(village: Village, charachips: Charachips) : this(
         startPersonMinNum = village.setting.personMin,
         personMaxNum = village.setting.personMax,
-        startDatetime = village.days.list.first().dayChangeDatetime,
+        startDatetime =
+            village.days.list
+                .first()
+                .dayChangeDatetime,
         dayChangeInterval = mapDayChangeInterval(village.setting),
         voteType = if (village.setting.rule.isOpenVote) "記名投票" else "無記名投票",
         skillRequestType = if (village.setting.rule.isPossibleSkillRequest) "有効" else "無効",
@@ -104,19 +107,26 @@ data class VillageSettingsContent(
         organization = mapOrganization(village),
         campAllocationList = mapCampAllocationList(village),
         wolfAllocation =
-        if (village.setting.rule.isRandomOrganization) RandomWolfOrganization(village.setting.organize.randomOrganization.wolfAllocation!!)
-        else null,
+            if (village.setting.rule.isRandomOrganization) {
+                RandomWolfOrganization(village.setting.organize.randomOrganization.wolfAllocation!!)
+            } else {
+                null
+            },
         isRandomOrganization = village.setting.rule.isRandomOrganization,
         sayRestrictList = mapSayRestrictList(village),
         skillSayRestrictList = mapSkillSayRestrictList(village),
         rpSayRestrictList = mapRpSayRestrictList(village),
         createPlayerName = village.createPlayerName,
-        welcomeRange = village.setting.tags.list.find {
-            it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内
-        }?.name,
-        ageLimit = village.setting.tags.list.find {
-            it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18
-        }?.name ?: "全年齢"
+        welcomeRange =
+            village.setting.tags.list
+                .find {
+                    it.toCdef() == CDef.VillageTagItem.誰歓 || it.toCdef() == CDef.VillageTagItem.身内
+                }?.name,
+        ageLimit =
+            village.setting.tags.list
+                .find {
+                    it.toCdef() == CDef.VillageTagItem.R15 || it.toCdef() == CDef.VillageTagItem.R18
+                }?.name ?: "全年齢",
     )
 
     companion object {
@@ -128,23 +138,30 @@ data class VillageSettingsContent(
             return "$hour$minute$second"
         }
 
-        private fun mapOrganization(village: Village): String {
-            return if (village.status.isPrologue() || village.status.isCanceled()) {
-                village.setting.organize.fixedOrganization.replace("\r\n", "\n").split("\n")
+        private fun mapOrganization(village: Village): String =
+            if (village.status.isPrologue() || village.status.isCanceled()) {
+                village.setting.organize.fixedOrganization
+                    .replace("\r\n", "\n")
+                    .split("\n")
                     .joinToString("\n") { "${it.length.toString().padStart(2, '0')}人: $it" }
-            } else if (village.setting.rule.isRandomOrganization) ""
-            else {
+            } else if (village.setting.rule.isRandomOrganization) {
+                ""
+            } else {
                 val count = village.participants.count
-                val org = village.setting.organize.fixedOrganization.replace("\r\n", "\n").split("\n")
-                    .first { it.length == count }
+                val org =
+                    village.setting.organize.fixedOrganization
+                        .replace("\r\n", "\n")
+                        .split("\n")
+                        .first { it.length == count }
                 "${count.toString().padStart(2, '0')}人: $org"
             }
-        }
 
         private fun mapCampAllocationList(village: Village): List<RandomCampOrganization> {
             val campAllocationList = village.setting.organize.randomOrganization.campAllocation
             val skillAllocationList = village.setting.organize.randomOrganization.skillAllocation
-            return Camps.all().list
+            return Camps
+                .all()
+                .list
                 .filter { camp -> campAllocationList.any { it.camp.code == camp.code } }
                 .map { camp ->
                     val campAllocation = campAllocationList.first { it.camp.code == camp.code }
@@ -153,7 +170,10 @@ data class VillageSettingsContent(
         }
 
         private fun mapSayRestrictList(village: Village): List<SayRestriction> =
-            Skills.all().filterNotSomeone().list
+            Skills
+                .all()
+                .filterNotSomeone()
+                .list
                 .map { SayRestriction(it, village) }
                 .filter { it.isRestrict }
 
@@ -163,8 +183,7 @@ data class VillageSettingsContent(
                 MessageType(CDef.MessageType.共鳴発言),
                 MessageType(CDef.MessageType.恋人発言),
                 MessageType(CDef.MessageType.念話),
-            )
-                .map { SkillSayRestriction(it, village) }
+            ).map { SkillSayRestriction(it, village) }
                 .filter { it.isRestrict }
 
         private fun mapRpSayRestrictList(village: Village): List<RpSayRestriction> =
@@ -173,13 +192,13 @@ data class VillageSettingsContent(
 
     data class CharachipContent(
         val id: Int,
-        val name: String
+        val name: String,
     ) {
         constructor(
-            charachip: Charachip
+            charachip: Charachip,
         ) : this(
             id = charachip.id,
-            name = charachip.name
+            name = charachip.name,
         )
     }
 
@@ -197,11 +216,11 @@ data class VillageSettingsContent(
         /** 転生配分 */
         val reincarnationAllocation: Int,
         /** 役職ごとの配分 */
-        val skillAllocation: List<RandomSkillOrganization>
+        val skillAllocation: List<RandomSkillOrganization>,
     ) {
         constructor(
             campAllocation: VillageRandomOrganize.CampAllocation,
-            skillAllocationList: List<VillageRandomOrganize.SkillAllocation>
+            skillAllocationList: List<VillageRandomOrganize.SkillAllocation>,
         ) : this(
             campCode = campAllocation.camp.code,
             campName = campAllocation.camp.name,
@@ -209,11 +228,15 @@ data class VillageSettingsContent(
             maxNum = campAllocation.max,
             allocation = campAllocation.initAllocation,
             reincarnationAllocation = campAllocation.reincarnationAllocation,
-            skillAllocation = Skills.all().filterNotSomeone()
-                .filterByCamp(campAllocation.camp.toCdef()).list
-                .mapNotNull { skill ->
-                    skillAllocationList.firstOrNull { it.skill.code == skill.code }?.let { RandomSkillOrganization(it) }
-                }
+            skillAllocation =
+                Skills
+                    .all()
+                    .filterNotSomeone()
+                    .filterByCamp(campAllocation.camp.toCdef())
+                    .list
+                    .mapNotNull { skill ->
+                        skillAllocationList.firstOrNull { it.skill.code == skill.code }?.let { RandomSkillOrganization(it) }
+                    },
         )
 
         data class RandomSkillOrganization(
@@ -228,7 +251,7 @@ data class VillageSettingsContent(
             /** 配分 */
             val allocation: Int,
             /** 転生配分 */
-            val reincarnationAllocation: Int
+            val reincarnationAllocation: Int,
         ) {
             constructor(skillAllocation: VillageRandomOrganize.SkillAllocation) : this(
                 skillCode = skillAllocation.skill.code,
@@ -236,7 +259,7 @@ data class VillageSettingsContent(
                 minNum = skillAllocation.min,
                 maxNum = skillAllocation.max,
                 allocation = skillAllocation.initAllocation,
-                reincarnationAllocation = skillAllocation.reincarnationAllocation
+                reincarnationAllocation = skillAllocation.reincarnationAllocation,
             )
         }
     }
@@ -249,7 +272,7 @@ data class VillageSettingsContent(
     ) {
         constructor(wolfAllocation: VillageRandomOrganize.WolfAllocation) : this(
             minNum = wolfAllocation.min,
-            maxNum = wolfAllocation.max
+            maxNum = wolfAllocation.max,
         )
     }
 
@@ -263,14 +286,14 @@ data class VillageSettingsContent(
         /** 発言回数 */
         var count: Int?,
         /** 文字数 */
-        var length: Int?
+        var length: Int?,
     ) {
         constructor(skill: Skill, village: Village) : this(
             skillName = skill.name,
             skillCode = skill.code,
             isRestrict = false,
             count = null,
-            length = null
+            length = null,
         ) {
             village.setting.sayRestriction.normalSayRestriction.find { it.skill.code == skill.code }?.let {
                 isRestrict = true
@@ -290,16 +313,17 @@ data class VillageSettingsContent(
         /** 発言回数 */
         var count: Int?,
         /** 文字数 */
-        var length: Int?
+        var length: Int?,
     ) {
         constructor(messageType: MessageType, village: Village) : this(
             messageTypeName = messageType.name,
             messageTypeCode = messageType.code,
             isRestrict = false,
             count = null,
-            length = null
+            length = null,
         ) {
-            village.setting.sayRestriction.skillSayRestriction.find { it.messageType.code == messageType.code }
+            village.setting.sayRestriction.skillSayRestriction
+                .find { it.messageType.code == messageType.code }
                 ?.let {
                     isRestrict = true
                     count = it.count
@@ -318,16 +342,17 @@ data class VillageSettingsContent(
         /** 発言回数 */
         var count: Int?,
         /** 文字数 */
-        var length: Int?
+        var length: Int?,
     ) {
         constructor(messageType: MessageType, village: Village) : this(
             messageTypeName = messageType.name,
             messageTypeCode = messageType.code,
             isRestrict = false,
             count = null,
-            length = null
+            length = null,
         ) {
-            village.setting.sayRestriction.skillSayRestriction.find { it.messageType.code == messageType.code }
+            village.setting.sayRestriction.skillSayRestriction
+                .find { it.messageType.code == messageType.code }
                 ?.let {
                     isRestrict = true
                     count = it.count

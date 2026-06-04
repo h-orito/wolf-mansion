@@ -23,27 +23,28 @@ data class VillageSetting(
     val joinPassword: String?,
     val organize: VillageOrganize,
     val sayRestriction: SayRestriction,
-    val tags: VillageTags
+    val tags: VillageTags,
 ) {
-    fun allRequestableSkillList(): List<Skill> {
-        return if (rule.isRandomOrganization) Skills.requestables().list
-        else organize.allRequestableSkillList()
-    }
+    fun allRequestableSkillList(): List<Skill> =
+        if (rule.isRandomOrganization) {
+            Skills.requestables().list
+        } else {
+            organize.allRequestableSkillList()
+        }
 
-    fun findRestrict(myself: VillageParticipant, type: MessageType): SayRestriction.Restriction? =
-        sayRestriction.restrict(myself, type.toCdef())
+    fun findRestrict(
+        myself: VillageParticipant,
+        type: MessageType,
+    ): SayRestriction.Restriction? = sayRestriction.restrict(myself, type.toCdef())
 
-    fun isSame(other: VillageSetting): Boolean {
-        return startDatetime == other.startDatetime
-                && rule.isSame(other.rule)
-    }
+    fun isSame(other: VillageSetting): Boolean =
+        startDatetime == other.startDatetime &&
+            rule.isSame(other.rule)
 
     fun extendPrologue(): VillageSetting = copy(startDatetime = startDatetime.plusDays(1L))
 
     fun mapToSkillCount(participantsCount: Int): Map<CDef.Skill, Int> =
         organize.mapToSkillCount(rule.isRandomOrganization, participantsCount)
 
-    fun getReincarnationSkillByRandom(camp: Camp?): Skill? {
-        return organize.getReincarnationSkill(camp)
-    }
+    fun getReincarnationSkillByRandom(camp: Camp?): Skill? = organize.getReincarnationSkill(camp)
 }

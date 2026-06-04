@@ -12,7 +12,7 @@ data class WholeVillageSituationsContent(
     val village: VillageView,
     val participantIdToChara: Map<Int, Chara>,
     val charaIdToParticipantId: Map<Int, Int>,
-    val days: List<VillageDaySituation>
+    val days: List<VillageDaySituation>,
 ) {
     constructor(
         village: Village,
@@ -20,17 +20,19 @@ data class WholeVillageSituationsContent(
         footsteps: Footsteps,
         // 黒箱などが反映された状態
         votes: Votes,
-        charachips: Charachips
+        charachips: Charachips,
     ) : this(
-        village = VillageView(
-            village,
-            village.participants.list.associate { it.id to charachips.chara(it.charaId) }
-        ),
+        village =
+            VillageView(
+                village,
+                village.participants.list.associate { it.id to charachips.chara(it.charaId) },
+            ),
         participantIdToChara = village.participants.list.associate { it.id to charachips.chara(it.charaId) },
         charaIdToParticipantId = village.participants.list.associate { it.charaId to it.id },
-        days = village.days.list.map {
-            VillageDaySituation(village, it.day, footsteps, votes)
-        }
+        days =
+            village.days.list.map {
+                VillageDaySituation(village, it.day, footsteps, votes)
+            },
     )
 
     data class VillageDaySituation(
@@ -38,19 +40,24 @@ data class WholeVillageSituationsContent(
         val rooms: List<VillageDayRoom>,
         val footsteps: List<String>,
         // 前日に投票して当日に処刑された分の投票
-        val votes: List<Vote>
+        val votes: List<Vote>,
     ) {
         constructor(
             village: Village,
             day: Int,
             footsteps: Footsteps,
-            votes: Votes
+            votes: Votes,
         ) : this(
             day = day,
             rooms = convertToVillageDayRoom(village, day),
             // 事前処理で1日ずれている
-            footsteps = footsteps.filterByDay(day).list.map { it.roomNumbers }.sorted(),
-            votes = votes.filterByDay(day - 1).list
+            footsteps =
+                footsteps
+                    .filterByDay(day)
+                    .list
+                    .map { it.roomNumbers }
+                    .sorted(),
+            votes = votes.filterByDay(day - 1).list,
         )
 
         companion object {
@@ -70,7 +77,7 @@ data class WholeVillageSituationsContent(
                         participantId = participant?.id,
                         isDead = participant?.isDeadWhen(day),
                         deadDay = participant?.dead?.deadDayWhen(day),
-                        deadReason = participant?.dead?.deadReasonWhen(day)?.let { DeadReasonView.of(it) }
+                        deadReason = participant?.dead?.deadReasonWhen(day)?.let { DeadReasonView.of(it) },
                     )
                 }
             }
@@ -85,7 +92,7 @@ data class WholeVillageSituationsContent(
             val participantId: Int?,
             val isDead: Boolean?,
             val deadDay: Int?,
-            val deadReason: DeadReasonView?
+            val deadReason: DeadReasonView?,
         )
     }
 }

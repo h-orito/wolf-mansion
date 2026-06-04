@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserInfoService(
-    private val playerBhv: PlayerBhv
+    private val playerBhv: PlayerBhv,
 ) : UserDetailsService {
-
     @Throws(UsernameNotFoundException::class)
     override fun loadUserByUsername(username: String?): UserDetails? {
         if (username.isNullOrEmpty()) {
             throw UsernameNotFoundException("Username is empty")
         }
-        val optPlayer = playerBhv.selectEntity { cb: PlayerCB ->
-            cb.query().setPlayerName_Equal(username)
-        }
+        val optPlayer =
+            playerBhv.selectEntity { cb: PlayerCB ->
+                cb.query().setPlayerName_Equal(username)
+            }
         if (!optPlayer.isPresent) {
             throw UsernameNotFoundException("User not found for name: $username")
         }

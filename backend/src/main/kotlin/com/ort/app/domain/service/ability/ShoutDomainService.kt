@@ -13,19 +13,25 @@ import org.springframework.stereotype.Service
 
 @Service
 class ShoutDomainService : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.叫び.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getAliveTargets(village)
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String = "叫ばせる対象"
+
     override fun getTargetSuffix(): String? = "を叫ばせる"
 
     fun shout(daychange: Daychange): Daychange {
@@ -42,11 +48,10 @@ class ShoutDomainService : AbilityTypeDomainService {
 
     private fun createShoutMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return Message.ofSystemMessage(
+        target: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
-            message = "${target.name()}は、叫ばずにはいられない！"
+            message = "${target.name()}は、叫ばずにはいられない！",
         )
-    }
 }

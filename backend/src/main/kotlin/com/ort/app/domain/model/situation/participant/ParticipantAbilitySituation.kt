@@ -29,5 +29,5 @@ data class ParticipantAbilitySituation(
     val listenMasonsList: List<VillageParticipant> = emptyList(),
     val targetPrefix: String? = null,
     val targetSuffix: String? = null,
-    val isTargetingAndFootstep: Boolean = false
+    val isTargetingAndFootstep: Boolean = false,
 )

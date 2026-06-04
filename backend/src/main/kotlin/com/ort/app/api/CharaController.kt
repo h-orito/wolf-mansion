@@ -18,9 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class CharaController(
     private val charaService: CharaService,
-    private val villageService: VillageService
+    private val villageService: VillageService,
 ) {
-
     @GetMapping("/chara-group")
     private fun charaGroups(model: Model): String {
         val charachips = charaService.findCharachips()
@@ -30,9 +29,13 @@ class CharaController(
     }
 
     @GetMapping("/chara-group/{charaGroupId}")
-    private fun charaGroup(@PathVariable charaGroupId: Int, model: Model): String {
-        val charachip = charaService.findCharachip(charaGroupId, false)
-            ?: throw WolfMansionBusinessException("charachip not found. $charaGroupId")
+    private fun charaGroup(
+        @PathVariable charaGroupId: Int,
+        model: Model,
+    ): String {
+        val charachip =
+            charaService.findCharachip(charaGroupId, false)
+                ?: throw WolfMansionBusinessException("charachip not found. $charaGroupId")
         val content = CharaGroupContent(charachip)
         model.addAttribute("content", content)
         return "chara"
@@ -44,20 +47,26 @@ class CharaController(
         val charas = charaService.findCharachips(form.charaGroupId!!, false).charas()
         return charas.list.map {
             it.copy(
-                images = it.images.copy(
-                    list = it.images.list.filter { it.faceType.toCdef() == CDef.FaceType.通常 }
-                )
+                images =
+                    it.images.copy(
+                        list = it.images.list.filter { it.faceType.toCdef() == CDef.FaceType.通常 },
+                    ),
             )
         }
     }
 
     @GetMapping("/getFaceImgUrl/{villageId}/{faceTypeCode}")
     @ResponseBody
-    private fun getFaceImgUrl(@PathVariable villageId: Int, @PathVariable faceTypeCode: String): String? {
+    private fun getFaceImgUrl(
+        @PathVariable villageId: Int,
+        @PathVariable faceTypeCode: String,
+    ): String? {
         val userInfo = WolfMansionUserInfoUtil.getUserInfo() ?: return null
         val participant = villageService.findVillageParticipant(villageId, userInfo.username) ?: return null
         val village = villageService.findVillage(villageId) ?: return null
         val chara = charaService.findChara(participant.charaId, village.setting.chara.isOriginalCharachip) ?: return null
-        return chara.images.list.firstOrNull { it.faceType.code == faceTypeCode }?.url
+        return chara.images.list
+            .firstOrNull { it.faceType.code == faceTypeCode }
+            ?.url
     }
 }

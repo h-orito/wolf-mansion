@@ -1,8 +1,8 @@
 package com.ort.app.api.request
 
-import org.hibernate.validator.constraints.Length
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
+import org.hibernate.validator.constraints.Length
 
 data class PlayerChangePasswordForm(
     /** 変更後パスワード  */
@@ -10,10 +10,9 @@ data class PlayerChangePasswordForm(
     @field:Length(min = 3, max = 12)
     @field:Pattern(regexp = "[a-zA-Z0-9]*")
     val password: String? = null,
-
     /** 変更後確認パスワード  */
     @field:NotNull
     @field:Length(min = 3, max = 12)
     @field:Pattern(regexp = "[a-zA-Z0-9]*")
-    val confirmPassword: String? = null
+    val confirmPassword: String? = null,
 )

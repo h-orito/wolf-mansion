@@ -1,6 +1,5 @@
 package com.ort.app.api.view
 
-import com.ort.app.api.view.village.VillageRoomAssignedRow
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.village.room.RoomSize
@@ -22,7 +21,7 @@ data class CharaGroupContent(
     val roomAssignedRowList: List<RoomAssignedRow>,
 ) {
     constructor(
-        charachip: Charachip
+        charachip: Charachip,
     ) : this(
         charaGroupId = charachip.id,
         charaGroupName = charachip.name,
@@ -30,7 +29,7 @@ data class CharaGroupContent(
         descriptionUrl = charachip.descriptionUrl!!,
         charaList = charachip.charas.list.map { CharaGroupChara(it) },
         isAvailableChangeName = charachip.isAvailableChangeName,
-        roomAssignedRowList = mapRoomAssign(charachip)
+        roomAssignedRowList = mapRoomAssign(charachip),
     )
 
     data class CharaGroupChara(
@@ -45,17 +44,17 @@ data class CharaGroupContent(
         /** キャラ画像横幅  */
         val charaImgWidth: Int,
         /** キャラ画像縦幅  */
-        val charaImgHeight: Int
+        val charaImgHeight: Int,
     ) {
         constructor(
-            chara: Chara
+            chara: Chara,
         ) : this(
             charaId = chara.id,
             charaName = chara.name,
             charaShortName = chara.shortName,
             charaImgUrlList = chara.images.list.map { it.url },
             charaImgWidth = chara.size.width,
-            charaImgHeight = chara.size.height
+            charaImgHeight = chara.size.height,
         )
     }
 
@@ -63,9 +62,11 @@ data class CharaGroupContent(
         private fun mapRoomAssign(charachip: Charachip): List<RoomAssignedRow> {
             val roomSize = RoomSize.invoke(charachip.charas.list.size)
             val roomNumbers = RoomSize.getRoomNumbers(charachip.charas.list.size)
-            val roomNumberToChara = roomNumbers.mapIndexed { index, number ->
-                number to charachip.charas.list[index]
-            }.toMap()
+            val roomNumberToChara =
+                roomNumbers
+                    .mapIndexed { index, number ->
+                        number to charachip.charas.list[index]
+                    }.toMap()
             return List(roomSize.height) { columnIndex ->
                 RoomAssignedRow.of(charachip, roomSize, roomNumberToChara, columnIndex)
             }
@@ -73,23 +74,29 @@ data class CharaGroupContent(
     }
 
     data class RoomAssignedRow(
-        var roomAssignedList: List<RoomAssigned>
+        var roomAssignedList: List<RoomAssigned>,
     ) {
-
         companion object {
             fun of(
                 charachip: Charachip,
                 roomSize: RoomSize,
                 roomNumberToChara: Map<Int, Chara>,
-                columnIndex: Int
+                columnIndex: Int,
             ): RoomAssignedRow {
-                val maxWidth = charachip.charas.list.maxByOrNull { it.size.width }!!.size.width
-                val maxHeight = charachip.charas.list.maxByOrNull { it.size.height }!!.size.height
+                val maxWidth =
+                    charachip.charas.list
+                        .maxByOrNull { it.size.width }!!
+                        .size.width
+                val maxHeight =
+                    charachip.charas.list
+                        .maxByOrNull { it.size.height }!!
+                        .size.height
                 return RoomAssignedRow(
-                    roomAssignedList = List(roomSize.width) { rowIndex ->
-                        val roomNumber = roomSize.width * columnIndex + rowIndex + 1
-                        RoomAssigned(roomNumber, roomNumberToChara[roomNumber], maxWidth, maxHeight)
-                    }
+                    roomAssignedList =
+                        List(roomSize.width) { rowIndex ->
+                            val roomNumber = roomSize.width * columnIndex + rowIndex + 1
+                            RoomAssigned(roomNumber, roomNumberToChara[roomNumber], maxWidth, maxHeight)
+                        },
                 )
             }
         }
@@ -116,8 +123,8 @@ data class CharaGroupContent(
                 roomNumber: Int,
                 chara: Chara?,
                 maxWidth: Int?,
-                maxHeight: Int?
-            ): this(
+                maxHeight: Int?,
+            ) : this(
                 roomNumber = roomNumber.toString().padStart(2, '0'),
                 charaName = chara?.name,
                 charaShortName = chara?.shortName,
@@ -125,7 +132,7 @@ data class CharaGroupContent(
                 charaImgWidth = chara?.size?.width,
                 charaImgHeight = chara?.size?.height,
                 maxWidth = maxWidth,
-                maxHeight = maxHeight
+                maxHeight = maxHeight,
             )
         }
     }

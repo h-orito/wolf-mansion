@@ -133,15 +133,21 @@ class ProgressDomainService(
     private val executeDomainService: ExecuteDomainService,
     private val resentDomainService: ResentDomainService,
     private val footstepDomainService: FootstepDomainService,
-    private val skillChangeDomainService: SkillChangeDomainService
+    private val skillChangeDomainService: SkillChangeDomainService,
 ) {
-
-    fun changeDayIfNeeded(daychange: Daychange, commits: Commits, charas: Charas): Daychange {
+    fun changeDayIfNeeded(
+        daychange: Daychange,
+        commits: Commits,
+        charas: Charas,
+    ): Daychange {
         if (!shouldChangeDay(daychange.village, commits)) return daychange
         return changeDay(daychange.copy(village = daychange.village.addNewDay()), charas)
     }
 
-    fun changeDay(beforeDaychange: Daychange, charas: Charas): Daychange {
+    fun changeDay(
+        beforeDaychange: Daychange,
+        charas: Charas,
+    ): Daychange {
         // 虹塗り
         var daychange = rainbowDomainService.rainbow(beforeDaychange)
         // 拡声
@@ -288,18 +294,26 @@ class ProgressDomainService(
         return daychange
     }
 
-    private fun shouldChangeDay(village: Village, commits: Commits): Boolean =
-        !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
-                || isAllLivingPlayerCommitted(village, commits)
+    private fun shouldChangeDay(
+        village: Village,
+        commits: Commits,
+    ): Boolean =
+        !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime) ||
+            isAllLivingPlayerCommitted(village, commits)
 
     // 全員コミットしている
-    private fun isAllLivingPlayerCommitted(village: Village, commits: Commits): Boolean {
+    private fun isAllLivingPlayerCommitted(
+        village: Village,
+        commits: Commits,
+    ): Boolean {
         if (!village.setting.rule.isAvailableCommit) return false
         // 全員コミットしているか
         val commitNum: Int = commits.filterByDay(village.latestDay()).list.size
-        val livingPersonNum = village.participants
-            .filterAlive()
-            .filterNotDummy(village.dummyParticipant()).list.size
+        val livingPersonNum =
+            village.participants
+                .filterAlive()
+                .filterNotDummy(village.dummyParticipant())
+                .list.size
         return commitNum >= livingPersonNum
     }
 
@@ -307,40 +321,44 @@ class ProgressDomainService(
         if (daychange.village.latestDay() != 2) return daychange
         val text = daychange.village.getDay2Message()
         return daychange.copy(
-            messages = daychange.messages.add(
-                Message.ofSystemMessage(
-                    day = daychange.village.latestDay(),
-                    message = text
-                )
-            )
+            messages =
+                daychange.messages.add(
+                    Message.ofSystemMessage(
+                        day = daychange.village.latestDay(),
+                        message = text,
+                    ),
+                ),
         )
     }
 
     private fun addAlivePlayersMessage(daychange: Daychange): Daychange {
         val text = daychange.village.getAliveParticipantsMessage()
         return daychange.copy(
-            messages = daychange.messages.add(
-                Message.ofSystemMessage(
-                    day = daychange.village.latestDay(),
-                    message = text
-                )
-            )
+            messages =
+                daychange.messages.add(
+                    Message.ofSystemMessage(
+                        day = daychange.village.latestDay(),
+                        message = text,
+                    ),
+                ),
         )
     }
 
     private fun addFootstepsMessage(daychange: Daychange): Daychange {
-        val text = footstepDomainService.getDisplayFootstepString(
-            daychange.village,
-            daychange.footsteps,
-            daychange.village.latestDay()
-        )
-        return daychange.copy(
-            messages = daychange.messages.add(
-                Message.ofSystemMessage(
-                    day = daychange.village.latestDay(),
-                    message = text
-                )
+        val text =
+            footstepDomainService.getDisplayFootstepString(
+                daychange.village,
+                daychange.footsteps,
+                daychange.village.latestDay(),
             )
+        return daychange.copy(
+            messages =
+                daychange.messages.add(
+                    Message.ofSystemMessage(
+                        day = daychange.village.latestDay(),
+                        message = text,
+                    ),
+                ),
         )
     }
 }

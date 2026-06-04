@@ -7,5 +7,5 @@ data class ParticipantSaySituation(
     val isAvailableSay: Boolean,
     val selectableMessageTypeList: List<ParticipantSayMessageTypeSituation> = listOf(),
     val selectableCharaImageList: List<CharaImage>,
-    val defaultMessageType: MessageType?
+    val defaultMessageType: MessageType?,
 )

@@ -16,30 +16,38 @@ import org.springframework.stereotype.Service
 @Service
 class HuntingDomainService(
     private val messageDomainService: MessageDomainService,
-    private val cohabitDomainService: CohabitDomainService
+    private val cohabitDomainService: CohabitDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.狩猟)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String? = "狩猟対象"
+
     override fun getTargetSuffix(): String? = "を狩猟する"
+
     override fun isTargetingAndFootstep(): Boolean = true
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun canUseDay(day: Int): Boolean = day > 1
 
     fun hunting(daychange: Daychange): Daychange {
         var village = daychange.village.copy()
         var messages = daychange.messages.copy()
         village.participants.filterAlive().filterBySkill(CDef.Skill.マタギ.toModel()).list.shuffled().forEach {
-            val ability = daychange.abilities.findYesterday(village, it, abilityType)
-                ?: return@forEach
+            val ability =
+                daychange.abilities.findYesterday(village, it, abilityType)
+                    ?: return@forEach
             val target = village.participants.chara(ability.targetCharaId!!)
             // 狩猟メッセージ
             messages = messages.add(createAttackMessage(village, it, target))
@@ -66,25 +74,29 @@ class HuntingDomainService(
     private fun createAttackMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は猟銃を構え、${target.name()}に向かって発砲した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
-    private fun createSuicideMessage(village: Village, myself: VillageParticipant): Message {
-        return Message.ofSystemMessage(
+    private fun createSuicideMessage(
+        village: Village,
+        myself: VillageParticipant,
+    ): Message =
+        Message.ofSystemMessage(
             day = village.latestDay(),
             message = "${myself.name()}は、獣でない者に発砲したことに責任を感じ、自身に発砲した。",
-            messageType = CDef.MessageType.非公開システムメッセージ.toModel()
+            messageType = CDef.MessageType.非公開システムメッセージ.toModel(),
         )
-    }
 
-    fun isAttackSuccess(daychange: Daychange, target: VillageParticipant): Boolean {
+    fun isAttackSuccess(
+        daychange: Daychange,
+        target: VillageParticipant,
+    ): Boolean {
         // 既に死亡している
         if (target.isDead()) return false
         // 護衛されている
@@ -95,11 +107,10 @@ class HuntingDomainService(
         return true
     }
 
-    private fun isBeast(target: VillageParticipant): Boolean {
-        return target.skill!!.let {
+    private fun isBeast(target: VillageParticipant): Boolean =
+        target.skill!!.let {
             it.hasAttackAbility() ||
-                    it.isFoxCount() ||
-                    it.hasLoneAttackAbility()
+                it.isFoxCount() ||
+                it.hasLoneAttackAbility()
         }
-    }
 }

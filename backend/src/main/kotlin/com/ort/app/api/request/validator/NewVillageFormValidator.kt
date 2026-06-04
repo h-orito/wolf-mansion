@@ -13,12 +13,13 @@ import java.time.LocalDateTime
 
 @Component
 class NewVillageFormValidator : Validator {
+    override fun supports(clazz: Class<*>): Boolean =
+        Unit::class.java.isAssignableFrom(clazz) || NewVillageForm::class.java.isAssignableFrom(clazz)
 
-    override fun supports(clazz: Class<*>): Boolean {
-        return Unit::class.java.isAssignableFrom(clazz) || NewVillageForm::class.java.isAssignableFrom(clazz)
-    }
-
-    override fun validate(target: Any, errors: Errors) {
+    override fun validate(
+        target: Any,
+        errors: Errors,
+    ) {
         if (errors.hasErrors()) return
 
         val form = target as NewVillageForm
@@ -29,7 +30,8 @@ class NewVillageFormValidator : Validator {
         }
 
         // 1分 <= 更新間隔 <= 48時間　に収まらない
-        val intervalSeconds = form.dayChangeIntervalHours!! * 60 * 60 +
+        val intervalSeconds =
+            form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
         if (intervalSeconds !in 60..72 * 60 * 60) {
@@ -38,13 +40,14 @@ class NewVillageFormValidator : Validator {
 
         // 開始日時が過去や存在しない日付
         try {
-            val startDateTime = LocalDateTime.of(
-                form.startYear!!,
-                form.startMonth!!,
-                form.startDay!!,
-                form.startHour!!,
-                form.startMinute!!
-            )
+            val startDateTime =
+                LocalDateTime.of(
+                    form.startYear!!,
+                    form.startMonth!!,
+                    form.startDay!!,
+                    form.startHour!!,
+                    form.startMinute!!,
+                )
             if (startDateTime.isBefore(LocalDateTime.now())) {
                 errors.rejectValue("startYear", "NewVillageForm.validator.startYear")
             }
@@ -85,7 +88,11 @@ class NewVillageFormValidator : Validator {
         validateRpSayRestrict(errors, form)
     }
 
-    private fun validateMessage(errors: Errors, message: String, field: String) {
+    private fun validateMessage(
+        errors: Errors,
+        message: String,
+        field: String,
+    ) {
         // 改行数＋それ以外の文字が400文字以上
         val length = message.length
         val lineSeparatorNum = message.split("\r\n").size - 1
@@ -100,7 +107,10 @@ class NewVillageFormValidator : Validator {
     }
 
     // オリジナル画像
-    private fun validateOriginalImage(errors: Errors, form: NewVillageForm) {
+    private fun validateOriginalImage(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
         val shouldOriginalImage = form.shouldOriginalImage ?: false
         if (!shouldOriginalImage) return
         val file = form.dummyCharaImageFile ?: return
@@ -109,7 +119,10 @@ class NewVillageFormValidator : Validator {
         }
     }
 
-    private fun validateOrganization(errors: Errors, form: NewVillageForm) {
+    private fun validateOrganization(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
         if (form.randomOrganization!!) {
             validateRandomOrganization(errors, form)
         } else {
@@ -117,29 +130,37 @@ class NewVillageFormValidator : Validator {
         }
     }
 
-    private fun validateRandomOrganization(errors: Errors, form: NewVillageForm) {
+    private fun validateRandomOrganization(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
         // 未入力があったらチェックしない
         val campAllocationList = form.campAllocationList ?: return
         val wolfAllocation = form.wolfAllocation ?: return
         val startPersonMin = form.startPersonMinNum!!
 
         // 村人は最低一人必要
-        val villagerSkillOrg = campAllocationList
-            .first { CDef.Camp.codeOf(it.campCode) == CDef.Camp.村人陣営 }
-            .skillAllocation!!
-            .first { CDef.Skill.codeOf(it.skillCode) == CDef.Skill.村人 }
+        val villagerSkillOrg =
+            campAllocationList
+                .first { CDef.Camp.codeOf(it.campCode) == CDef.Camp.村人陣営 }
+                .skillAllocation!!
+                .first { CDef.Skill.codeOf(it.skillCode) == CDef.Skill.村人 }
         if (villagerSkillOrg.minNum!! <= 0) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.novillager")
             return
         }
 
         // 初期配役に含められない役職の最少最多が0より多い
-        val existsNotOrganizableSkillNotMinMaxZero = campAllocationList.any {
-            it.skillAllocation!!.any {
-                !CDef.Skill.codeOf(it.skillCode).toModel().isRequestable()
-                        && (it.minNum != 0 || it.maxNum != 0)
+        val existsNotOrganizableSkillNotMinMaxZero =
+            campAllocationList.any {
+                it.skillAllocation!!.any {
+                    !CDef.Skill
+                        .codeOf(it.skillCode)
+                        .toModel()
+                        .isRequestable() &&
+                        (it.minNum != 0 || it.maxNum != 0)
+                }
             }
-        }
         if (existsNotOrganizableSkillNotMinMaxZero) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.cantorganize")
             return
@@ -153,22 +174,26 @@ class NewVillageFormValidator : Validator {
         }
 
         // 役職の最低人数の合計が村の最低人数よりも多かったらNG
-        val skillMinSum = campAllocationList
-            .flatMap { it.skillAllocation!!.map { skill -> skill.minNum!! } }
-            .sum()
+        val skillMinSum =
+            campAllocationList
+                .flatMap { it.skillAllocation!!.map { skill -> skill.minNum!! } }
+                .sum()
         if (startPersonMin < skillMinSum) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmin")
             return
         }
 
         // 狼系の最低人数が村の最低人数の半数を超えたらNG
-        val wolfMinSum = campAllocationList.filter {
-            CDef.Camp.codeOf(it.campCode) == CDef.Camp.人狼陣営
-        }.flatMap {
-            it.skillAllocation!!.filter { skill ->
-                CDef.Skill.codeOf(skill.skillCode).isWolfCount
-            }.map { skill -> skill.minNum!! }
-        }.sum()
+        val wolfMinSum =
+            campAllocationList
+                .filter {
+                    CDef.Camp.codeOf(it.campCode) == CDef.Camp.人狼陣営
+                }.flatMap {
+                    it.skillAllocation!!
+                        .filter { skill ->
+                            CDef.Skill.codeOf(skill.skillCode).isWolfCount
+                        }.map { skill -> skill.minNum!! }
+                }.sum()
         if (startPersonMin <= wolfMinSum * 2 || startPersonMin <= wolfAllocation.minNum!!) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.wolfmin")
             return
@@ -189,7 +214,8 @@ class NewVillageFormValidator : Validator {
                 val min = it.minNum!!
                 val max = it.maxNum
                 max != null && max < min
-            }) {
+            }
+        ) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmingtmax")
             return
         }
@@ -199,7 +225,8 @@ class NewVillageFormValidator : Validator {
                     val max = skill.maxNum
                     max != null && max < min
                 }
-            }) {
+            }
+        ) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.skillmingtmax")
             return
         }
@@ -209,7 +236,8 @@ class NewVillageFormValidator : Validator {
                 val maxNum = it.maxNum
                 val minSum = it.skillAllocation!!.map { skill -> skill.minNum!! }.sum()
                 maxNum != null && maxNum < minSum
-            }) {
+            }
+        ) {
             errors.rejectValue("campAllocationList", "NewVillageForm.validator.campAllocationList.campmaxltskillminsum")
             return
         }
@@ -219,7 +247,7 @@ class NewVillageFormValidator : Validator {
         if (campAllocationList.none { it.reincarnationAllocation!! > 0 }) {
             errors.rejectValue(
                 "campAllocationList",
-                "NewVillageForm.validator.campAllocationList.reincarnationAllocationAllZero"
+                "NewVillageForm.validator.campAllocationList.reincarnationAllocationAllZero",
             )
             return
         }
@@ -227,16 +255,20 @@ class NewVillageFormValidator : Validator {
         // 陣営配分があるのに役職配分がすべて0
         if (campAllocationList.any { camp ->
                 camp.reincarnationAllocation!! > 0 && camp.skillAllocation!!.all { it.reincarnationAllocation == 0 }
-            }) {
+            }
+        ) {
             errors.rejectValue(
                 "campAllocationList",
-                "NewVillageForm.validator.campAllocationList.reincarnationAllocationButSkillAllocationAllZero"
+                "NewVillageForm.validator.campAllocationList.reincarnationAllocationButSkillAllocationAllZero",
             )
             return
         }
     }
 
-    private fun validateFixOrganization(errors: Errors, form: NewVillageForm) {
+    private fun validateFixOrganization(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
         val organization = form.organization
         // 未入力
         if (organization.isNullOrBlank()) {
@@ -256,8 +288,10 @@ class NewVillageFormValidator : Validator {
             }
             if (organizationList.count { orgStr: String -> orgStr.length == num } > 1) {
                 errors.rejectValue(
-                    "organization", "NewVillageForm.validator.organization.duplicate",
-                    arrayOf<Any>(num), null
+                    "organization",
+                    "NewVillageForm.validator.organization.duplicate",
+                    arrayOf<Any>(num),
+                    null,
                 )
                 return
             }
@@ -275,7 +309,7 @@ class NewVillageFormValidator : Validator {
                         "organization",
                         "NewVillageForm.validator.organization.noexistskill",
                         arrayOf(personNum, shortName),
-                        null
+                        null,
                     )
                     return
                 }
@@ -287,7 +321,11 @@ class NewVillageFormValidator : Validator {
         }
     }
 
-    private fun isInvalidOrganizationSkillPersonNum(errors: Errors, org: String, personNum: Int): Boolean {
+    private fun isInvalidOrganizationSkillPersonNum(
+        errors: Errors,
+        org: String,
+        personNum: Int,
+    ): Boolean {
         val skillPersonNumMap = Skill.convertToSkillPersonNumMap(org)
         // 村人がいない
         if (skillPersonNumMap[CDef.Skill.村人]!! < 1) {
@@ -295,7 +333,7 @@ class NewVillageFormValidator : Validator {
                 "organization",
                 "NewVillageForm.validator.organization.noexistvillager",
                 arrayOf<Any>(personNum),
-                null
+                null,
             )
             return true
         }
@@ -306,7 +344,7 @@ class NewVillageFormValidator : Validator {
                 "organization",
                 "NewVillageForm.validator.organization.noexistwerewolf",
                 arrayOf<Any>(personNum),
-                null
+                null,
             )
             return true
         }
@@ -316,7 +354,7 @@ class NewVillageFormValidator : Validator {
                 "organization",
                 "NewVillageForm.validator.organization.werewolfwin",
                 arrayOf<Any>(personNum),
-                null
+                null,
             )
             return true
         }
@@ -328,7 +366,7 @@ class NewVillageFormValidator : Validator {
                 "organization",
                 "NewVillageForm.validator.organization.loversodd",
                 arrayOf<Any>(personNum),
-                null
+                null,
             )
             return true
         }
@@ -337,7 +375,7 @@ class NewVillageFormValidator : Validator {
                 "organization",
                 "NewVillageForm.validator.organization.cohabiterodd",
                 arrayOf<Any>(personNum),
-                null
+                null,
             )
             return true
         }
@@ -345,37 +383,52 @@ class NewVillageFormValidator : Validator {
         return false
     }
 
-    private fun validateSayRestrict(errors: Errors, form: NewVillageForm) {
-        val isCountInvalid: Boolean = form.sayRestrictList!!.any {
-            it.restrict == true && (it.count == null || it.count!! !in 0..100)
-        }
-        val isLengthInvalid: Boolean = form.sayRestrictList!!.any {
-            it.restrict == true && (it.length == null || it.length!! !in 0..400)
-        }
+    private fun validateSayRestrict(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
+        val isCountInvalid: Boolean =
+            form.sayRestrictList!!.any {
+                it.restrict == true && (it.count == null || it.count!! !in 0..100)
+            }
+        val isLengthInvalid: Boolean =
+            form.sayRestrictList!!.any {
+                it.restrict == true && (it.length == null || it.length!! !in 0..400)
+            }
         if (isCountInvalid || isLengthInvalid) {
             errors.rejectValue("sayRestrictList", "NewVillageForm.validator.sayRestrictList", arrayOf(), null)
         }
     }
 
-    private fun validateSkillSayRestrict(errors: Errors, form: NewVillageForm) {
-        val isCountInvalid: Boolean = form.skillSayRestrictList!!.any {
-            it.restrict == true && (it.count == null || it.count!! !in 0..100)
-        }
-        val isLengthInvalid: Boolean = form.skillSayRestrictList!!.any {
-            it.restrict == true && (it.length == null || it.length!! !in 0..400)
-        }
+    private fun validateSkillSayRestrict(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
+        val isCountInvalid: Boolean =
+            form.skillSayRestrictList!!.any {
+                it.restrict == true && (it.count == null || it.count!! !in 0..100)
+            }
+        val isLengthInvalid: Boolean =
+            form.skillSayRestrictList!!.any {
+                it.restrict == true && (it.length == null || it.length!! !in 0..400)
+            }
         if (isCountInvalid || isLengthInvalid) {
             errors.rejectValue("skillSayRestrictList", "NewVillageForm.validator.sayRestrictList", arrayOf(), null)
         }
     }
 
-    private fun validateRpSayRestrict(errors: Errors, form: NewVillageForm) {
-        val isCountInvalid: Boolean = form.rpSayRestrictList!!.any {
-            it.restrict == true && (it.count == null || it.count!! !in 0..100)
-        }
-        val isLengthInvalid: Boolean = form.rpSayRestrictList!!.any {
-            it.restrict == true && (it.length == null || it.length!! !in 0..400)
-        }
+    private fun validateRpSayRestrict(
+        errors: Errors,
+        form: NewVillageForm,
+    ) {
+        val isCountInvalid: Boolean =
+            form.rpSayRestrictList!!.any {
+                it.restrict == true && (it.count == null || it.count!! !in 0..100)
+            }
+        val isLengthInvalid: Boolean =
+            form.rpSayRestrictList!!.any {
+                it.restrict == true && (it.length == null || it.length!! !in 0..400)
+            }
         if (isCountInvalid || isLengthInvalid) {
             errors.rejectValue("rpSayRestrictList", "NewVillageForm.validator.sayRestrictList", arrayOf(), null)
         }

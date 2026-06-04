@@ -6,5 +6,5 @@ data class ParticipantCreatorSituation(
     val isAvailableCancelVillage: Boolean,
     val isAvailableKick: Boolean,
     val isAvailableModifySetting: Boolean,
-    val isAvailableExtendEpilogue: Boolean
+    val isAvailableExtendEpilogue: Boolean,
 )

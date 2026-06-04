@@ -15,23 +15,30 @@ import org.springframework.stereotype.Service
 
 @Service
 class TelekinesisDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = CDef.AbilityType.念力付与.toModel()
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
-    ): List<VillageParticipant> = getAliveTargets(village).filter {
-        it.skill!!.isFoxCount()
-    }
+        votes: Votes,
+    ): List<VillageParticipant> =
+        getAliveTargets(village).filter {
+            it.skill!!.isFoxCount()
+        }
 
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
+
     override fun getTargetPrefix(): String? = "念力を付与する対象"
+
     override fun getTargetSuffix(): String? = "に念力を付与する"
 
     fun telekinesis(daychange: Daychange): Daychange {
@@ -57,25 +64,23 @@ class TelekinesisDomainService(
     private fun createTelekinesisMessage(
         village: Village,
         myself: VillageParticipant,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${target.name()}に念力を付与した。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 
     private fun createTelekinesisGivenMessage(
         village: Village,
-        target: VillageParticipant
-    ): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = target,
             text = "あなたは、念力を付与された。",
-            messageType = CDef.MessageType.能力行使メッセージ.toModel()
+            messageType = CDef.MessageType.能力行使メッセージ.toModel(),
         )
-    }
 }

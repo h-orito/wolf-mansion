@@ -19,28 +19,33 @@ data class PlayerRecordsContent(
     /** 参加した村  */
     val participateVillageList: List<PlayerParticipateVillage>,
     /** 見学した村  */
-    val spectateVillageList: List<PlayerParticipateVillage>
+    val spectateVillageList: List<PlayerParticipateVillage>,
 ) {
     constructor(
         playerRecords: PlayerRecords,
         charas: Charas,
         originalCharas: Charas,
         twitterUserName: String?,
-        introduction: String?
+        introduction: String?,
     ) : this(
         twitterUserName = twitterUserName,
         introduction = introduction,
         wholeStats = PlayerRecord(playerRecords.wholeRecord),
         campStatsList = playerRecords.campRecordList.map { PlayerCampRecord(it) },
-        skillStatsList = playerRecords.skillRecordList
-            .map { PlayerSkillRecord(it) }
-            .filter { it.stats.participateNum > 0 },
-        participateVillageList = playerRecords.participateVillageList.filterNot {
-            it.participant.isSpectator
-        }.map { PlayerParticipateVillage(it, charas, originalCharas) },
-        spectateVillageList = playerRecords.participateVillageList.filter {
-            it.participant.isSpectator
-        }.map { PlayerParticipateVillage(it, charas, originalCharas) }
+        skillStatsList =
+            playerRecords.skillRecordList
+                .map { PlayerSkillRecord(it) }
+                .filter { it.stats.participateNum > 0 },
+        participateVillageList =
+            playerRecords.participateVillageList
+                .filterNot {
+                    it.participant.isSpectator
+                }.map { PlayerParticipateVillage(it, charas, originalCharas) },
+        spectateVillageList =
+            playerRecords.participateVillageList
+                .filter {
+                    it.participant.isSpectator
+                }.map { PlayerParticipateVillage(it, charas, originalCharas) },
     )
 
     data class PlayerRecord(
@@ -49,14 +54,14 @@ data class PlayerRecordsContent(
         /** 勝利数  */
         val winNum: Int,
         /** 勝率  */
-        val winRate: Float
+        val winRate: Float,
     ) {
         constructor(
-            record: Record
+            record: Record,
         ) : this(
             participateNum = record.participateCount,
             winNum = record.winCount,
-            winRate = record.winRate
+            winRate = record.winRate,
         )
     }
 
@@ -64,13 +69,13 @@ data class PlayerRecordsContent(
         /** 陣営名  */
         val campName: String,
         /** 戦績 */
-        val stats: PlayerRecord
+        val stats: PlayerRecord,
     ) {
         constructor(
-            campRecord: CampRecord
+            campRecord: CampRecord,
         ) : this(
             campName = campRecord.camp.name,
-            stats = PlayerRecord(campRecord.record)
+            stats = PlayerRecord(campRecord.record),
         )
     }
 
@@ -78,13 +83,13 @@ data class PlayerRecordsContent(
         /** 役職名  */
         val skillName: String,
         /** 戦績 */
-        val stats: PlayerRecord
+        val stats: PlayerRecord,
     ) {
         constructor(
-            skillRecord: SkillRecord
+            skillRecord: SkillRecord,
         ) : this(
             skillName = skillRecord.skill.name,
-            stats = PlayerRecord(skillRecord.record)
+            stats = PlayerRecord(skillRecord.record),
         )
     }
 
@@ -108,12 +113,12 @@ data class PlayerRecordsContent(
         /** 陣営名  */
         val campName: String,
         /** 勝敗  */
-        val winStatus: String
+        val winStatus: String,
     ) {
         constructor(
             participateVillage: ParticipateVillage,
             charas: Charas,
-            originalCharas: Charas
+            originalCharas: Charas,
         ) : this(
             villageId = participateVillage.village.id,
             villageName = participateVillage.village.name,
@@ -121,10 +126,19 @@ data class PlayerRecordsContent(
             characterImgUrl = getChara(participateVillage, charas, originalCharas).defaultImage().url,
             characterImgWidth = getChara(participateVillage, charas, originalCharas).size.width,
             characterImgHeight = getChara(participateVillage, charas, originalCharas).size.height,
-            skillName = participateVillage.participant.skill?.name.orEmpty(),
+            skillName =
+                participateVillage.participant.skill
+                    ?.name
+                    .orEmpty(),
             liveStatus = convertToLiveStatus(participateVillage.participant).orEmpty(),
-            campName = participateVillage.participant.camp?.name.orEmpty(),
-            winStatus = participateVillage.participant.isWin?.let { if (it) "勝利" else "敗北" }.orEmpty()
+            campName =
+                participateVillage.participant.camp
+                    ?.name
+                    .orEmpty(),
+            winStatus =
+                participateVillage.participant.isWin
+                    ?.let { if (it) "勝利" else "敗北" }
+                    .orEmpty(),
         )
 
         companion object {
@@ -133,19 +147,24 @@ data class PlayerRecordsContent(
                 if (!participant.dead.isDead) return "生存"
                 val deadDay = participant.dead.deadDay!!
                 val reason = participant.dead.reason!!.name
-                return if (reason.endsWith("死")) "${deadDay}d $reason"
-                else "${deadDay}d ${reason}死"
+                return if (reason.endsWith("死")) {
+                    "${deadDay}d $reason"
+                } else {
+                    "${deadDay}d ${reason}死"
+                }
             }
 
             private fun getChara(
                 participateVillage: ParticipateVillage,
                 charas: Charas,
-                originalCharas: Charas
+                originalCharas: Charas,
             ): Chara {
                 val charaId = participateVillage.participant.charaId
                 return if (participateVillage.village.setting.chara.isOriginalCharachip) {
                     originalCharas.chara(charaId)
-                } else charas.chara(charaId)
+                } else {
+                    charas.chara(charaId)
+                }
             }
         }
     }

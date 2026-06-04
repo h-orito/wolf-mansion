@@ -10,20 +10,19 @@ data class PlayerListContent(
     val currentPageNum: Int,
     val pageNumList: List<Int>,
 ) {
-
     data class PlayerContent(
-        val name: String
+        val name: String,
     )
 
     constructor(
-        players: Players
+        players: Players,
     ) : this(
         players = players.list.map { PlayerContent(name = it.name) },
         allPageCount = players.allPageCount,
         isExistNextPage = players.isExistNextPage,
         isExistPrePage = players.isExistPrePage,
         currentPageNum = players.currentPageNum,
-        pageNumList = mapPageNumList(players)
+        pageNumList = mapPageNumList(players),
     )
 
     companion object {

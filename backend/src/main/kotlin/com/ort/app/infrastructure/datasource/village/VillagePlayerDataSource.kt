@@ -46,18 +46,19 @@ class VillagePlayerDataSource(
     private val villagePlayerDeadHistoryBhv: VillagePlayerDeadHistoryBhv,
     private val villagePlayerSkillHistoryBhv: VillagePlayerSkillHistoryBhv,
     private val villagePlayerAccessInfoBhv: VillagePlayerAccessInfoBhv,
-    private val villagePlayerNotificationBhv: VillagePlayerNotificationBhv
+    private val villagePlayerNotificationBhv: VillagePlayerNotificationBhv,
 ) {
     fun findVillageParticipant(
         id: Int,
-        excludeGone: Boolean
+        excludeGone: Boolean,
     ): VillageParticipant? {
-        val optVillagePlayer = villagePlayerBhv.selectEntity {
-            it.setupSelect_Player()
-            it.setupSelect_VillagePlayerNotificationAsOne()
-            it.query().setVillagePlayerId_Equal(id)
-            if (excludeGone) it.query().setIsGone_Equal_False()
-        }
+        val optVillagePlayer =
+            villagePlayerBhv.selectEntity {
+                it.setupSelect_Player()
+                it.setupSelect_VillagePlayerNotificationAsOne()
+                it.query().setVillagePlayerId_Equal(id)
+                if (excludeGone) it.query().setIsGone_Equal_False()
+            }
         if (!optVillagePlayer.isPresent) return null
         val villagePlayer = optVillagePlayer.get()
         villagePlayerBhv.load(villagePlayer) { withNestedVillagePlayer(it) }
@@ -67,15 +68,16 @@ class VillagePlayerDataSource(
     fun findVillageParticipant(
         villageId: Int,
         userName: String,
-        excludeGone: Boolean
+        excludeGone: Boolean,
     ): VillageParticipant? {
-        val optVillagePlayer = villagePlayerBhv.selectEntity {
-            it.setupSelect_Player()
-            it.setupSelect_VillagePlayerNotificationAsOne()
-            it.query().setVillageId_Equal(villageId)
-            it.query().queryPlayer().setPlayerName_Equal(userName)
-            if (excludeGone) it.query().setIsGone_Equal_False()
-        }
+        val optVillagePlayer =
+            villagePlayerBhv.selectEntity {
+                it.setupSelect_Player()
+                it.setupSelect_VillagePlayerNotificationAsOne()
+                it.query().setVillageId_Equal(villageId)
+                it.query().queryPlayer().setPlayerName_Equal(userName)
+                if (excludeGone) it.query().setIsGone_Equal_False()
+            }
         if (!optVillagePlayer.isPresent) return null
         val villagePlayer = optVillagePlayer.get()
         villagePlayerBhv.load(villagePlayer) { withNestedVillagePlayer(it) }
@@ -108,7 +110,7 @@ class VillagePlayerDataSource(
         charaShortName: String,
         spectator: Boolean,
         firstRequestSkill: Skill,
-        secondRequestSkill: Skill
+        secondRequestSkill: Skill,
     ): VillagePlayer {
         val vPlayer = VillagePlayer()
         vPlayer.villageId = villageId
@@ -126,7 +128,10 @@ class VillagePlayerDataSource(
         return vPlayer
     }
 
-    fun insertVillagePlayerAccessInfo(villagePlayerId: Int, ipAddress: String) {
+    fun insertVillagePlayerAccessInfo(
+        villagePlayerId: Int,
+        ipAddress: String,
+    ) {
         if (villagePlayerAccessInfoBhv.selectByUniqueOf(villagePlayerId, ipAddress).isPresent) return
         val access = VillagePlayerAccessInfo()
         access.villagePlayerId = villagePlayerId
@@ -143,7 +148,7 @@ class VillagePlayerDataSource(
     fun changeParticipantName(
         participant: VillageParticipant,
         name: String,
-        shortName: String
+        shortName: String,
     ) {
         val vPlayer = VillagePlayer()
         vPlayer.charaName = name
@@ -151,14 +156,21 @@ class VillagePlayerDataSource(
         update(participant.id, vPlayer)
     }
 
-    fun changeRequestSkill(participant: VillageParticipant, first: Skill, second: Skill) {
+    fun changeRequestSkill(
+        participant: VillageParticipant,
+        first: Skill,
+        second: Skill,
+    ) {
         val vPlayer = VillagePlayer()
         vPlayer.requestSkillCodeAsSkill = first.toCdef()
         vPlayer.secondRequestSkillCodeAsSkill = second.toCdef()
         update(participant.id, vPlayer)
     }
 
-    fun changeMemo(participant: VillageParticipant, memo: String) {
+    fun changeMemo(
+        participant: VillageParticipant,
+        memo: String,
+    ) {
         val vPlayer = VillagePlayer()
         vPlayer.memo = memo
         update(participant.id, vPlayer)
@@ -170,7 +182,11 @@ class VillagePlayerDataSource(
         update(participant.id, vPlayer)
     }
 
-    fun updateIsSpectator(villageId: Int, participantId: Int, spectator: Boolean) {
+    fun updateIsSpectator(
+        villageId: Int,
+        participantId: Int,
+        spectator: Boolean,
+    ) {
         val vPlayer = VillagePlayer()
         vPlayer.isSpectator = spectator
         vPlayer.requestSkillCodeAsSkill = CDef.Skill.おまかせ
@@ -178,7 +194,10 @@ class VillagePlayerDataSource(
         update(participantId, vPlayer)
     }
 
-    fun updateDaychangeDifference(current: VillageParticipants, changed: VillageParticipants) {
+    fun updateDaychangeDifference(
+        current: VillageParticipants,
+        changed: VillageParticipants,
+    ) {
         if (current.isSame(changed)) return
         // 基本的に追加削除はないはずなので更新のみ行う
         changed.list.forEach { changedParticipant ->
@@ -188,22 +207,22 @@ class VillagePlayerDataSource(
                 updateVillagePlayerStatusDaychangeDifference(
                     changedParticipant.id,
                     currentParticipant.status,
-                    changedParticipant.status
+                    changedParticipant.status,
                 )
                 updateRoomHistoryDaychangeDifference(
                     changedParticipant.id,
                     currentParticipant.room?.histories,
-                    changedParticipant.room?.histories
+                    changedParticipant.room?.histories,
                 )
                 updateDeadHistoryDaychangeDifference(
                     changedParticipant.id,
                     currentParticipant.dead.histories,
-                    changedParticipant.dead.histories
+                    changedParticipant.dead.histories,
                 )
                 updateSkillHistoryDaychangeDifference(
                     changedParticipant.id,
                     currentParticipant.skill?.histories,
-                    changedParticipant.skill?.histories
+                    changedParticipant.skill?.histories,
                 )
             }
         }
@@ -211,18 +230,20 @@ class VillagePlayerDataSource(
 
     private fun updateVillagePlayerDaychangeDifference(
         current: VillageParticipant,
-        changed: VillageParticipant
+        changed: VillageParticipant,
     ) {
-        if (current.skill?.code == changed.skill?.code
-            && current.requestSkill?.first?.code == changed.requestSkill?.first?.code
-            && current.requestSkill?.second?.code == changed.requestSkill?.second?.code
-            && current.room?.number == changed.room?.number
-            && current.dead.isDead == changed.dead.isDead
-            && current.dead.deadDay == changed.dead.deadDay
-            && current.isGone == changed.isGone
-            && current.isWin == changed.isWin
-            && current.camp?.code == changed.camp?.code
-        ) return
+        if (current.skill?.code == changed.skill?.code &&
+            current.requestSkill?.first?.code == changed.requestSkill?.first?.code &&
+            current.requestSkill?.second?.code == changed.requestSkill?.second?.code &&
+            current.room?.number == changed.room?.number &&
+            current.dead.isDead == changed.dead.isDead &&
+            current.dead.deadDay == changed.dead.deadDay &&
+            current.isGone == changed.isGone &&
+            current.isWin == changed.isWin &&
+            current.camp?.code == changed.camp?.code
+        ) {
+            return
+        }
         val vPlayer = VillagePlayer()
         vPlayer.skillCodeAsSkill = changed.skill?.toCdef()
         vPlayer.requestSkillCodeAsSkill = changed.requestSkill?.first?.toCdef()
@@ -237,26 +258,34 @@ class VillagePlayerDataSource(
         update(changed.id, vPlayer)
     }
 
-    private fun update(id: Int, villagePlayer: VillagePlayer) =
-        villagePlayerBhv.queryUpdate(villagePlayer) { it.query().setVillagePlayerId_Equal(id) }
+    private fun update(
+        id: Int,
+        villagePlayer: VillagePlayer,
+    ) = villagePlayerBhv.queryUpdate(villagePlayer) { it.query().setVillagePlayerId_Equal(id) }
 
     private fun updateVillagePlayerStatusDaychangeDifference(
         participantId: Int,
         current: VillageParticipantStatus,
-        changed: VillageParticipantStatus
+        changed: VillageParticipantStatus,
     ) {
         // 削除
-        current.loverIdList.filterNot { changed.loverIdList.contains(it) }
+        current.loverIdList
+            .filterNot { changed.loverIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
-        current.foxPossessionedIdList.filterNot { changed.foxPossessionedIdList.contains(it) }
+        current.foxPossessionedIdList
+            .filterNot { changed.foxPossessionedIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狐憑き) }
-        current.insanedIdList.filterNot { changed.insanedIdList.contains(it) }
+        current.insanedIdList
+            .filterNot { changed.insanedIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
-        current.persuadedIdList.filterNot { changed.persuadedIdList.contains(it) }
+        current.persuadedIdList
+            .filterNot { changed.persuadedIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
-        current.insuranceIdList.filterNot { changed.insuranceIdList.contains(it) }
+        current.insuranceIdList
+            .filterNot { changed.insuranceIdList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
-        current.disrespectfulList.filterNot { changed.disrespectfulList.contains(it) }
+        current.disrespectfulList
+            .filterNot { changed.disrespectfulList.contains(it) }
             .forEach { deleteVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
         if (current.hasCurseMark && !changed.hasCurseMark) {
             deleteVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.呪縛符)
@@ -269,17 +298,23 @@ class VillagePlayerDataSource(
         }
 
         // 追加
-        changed.loverIdList.filterNot { current.loverIdList.contains(it) }
+        changed.loverIdList
+            .filterNot { current.loverIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(participantId, it, CDef.VillagePlayerStatusType.後追い) }
-        changed.foxPossessionedIdList.filterNot { current.foxPossessionedIdList.contains(it) }
+        changed.foxPossessionedIdList
+            .filterNot { current.foxPossessionedIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狐憑き) }
-        changed.insanedIdList.filterNot { current.insanedIdList.contains(it) }
+        changed.insanedIdList
+            .filterNot { current.insanedIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.狂気) }
-        changed.persuadedIdList.filterNot { current.persuadedIdList.contains(it) }
+        changed.persuadedIdList
+            .filterNot { current.persuadedIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.信念) }
-        changed.insuranceIdList.filterNot { current.insuranceIdList.contains(it) }
+        changed.insuranceIdList
+            .filterNot { current.insuranceIdList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.保険) }
-        changed.disrespectfulList.filterNot { current.disrespectfulList.contains(it) }
+        changed.disrespectfulList
+            .filterNot { current.disrespectfulList.contains(it) }
             .forEach { insertVillagePlayerStatus(it, participantId, CDef.VillagePlayerStatusType.不敬) }
         if (!current.hasCurseMark && changed.hasCurseMark) {
             insertVillagePlayerStatus(participantId, null, CDef.VillagePlayerStatusType.呪縛符)
@@ -292,7 +327,11 @@ class VillagePlayerDataSource(
         }
     }
 
-    private fun insertVillagePlayerStatus(from: Int, to: Int?, type: CDef.VillagePlayerStatusType) {
+    private fun insertVillagePlayerStatus(
+        from: Int,
+        to: Int?,
+        type: CDef.VillagePlayerStatusType,
+    ) {
         val status = VillagePlayerStatus()
         status.villagePlayerId = from
         status.toVillagePlayerId = to
@@ -300,7 +339,11 @@ class VillagePlayerDataSource(
         villagePlayerStatusBhv.insert(status)
     }
 
-    private fun deleteVillagePlayerStatus(from: Int, to: Int?, type: CDef.VillagePlayerStatusType) {
+    private fun deleteVillagePlayerStatus(
+        from: Int,
+        to: Int?,
+        type: CDef.VillagePlayerStatusType,
+    ) {
         villagePlayerStatusBhv.queryDelete {
             it.query().setVillagePlayerId_Equal(from)
             to?.let { to ->
@@ -313,14 +356,17 @@ class VillagePlayerDataSource(
     private fun updateRoomHistoryDaychangeDifference(
         participantId: Int,
         current: RoomHistories?,
-        changed: RoomHistories?
+        changed: RoomHistories?,
     ) {
         val currentList = current?.list ?: emptyList()
         val changedList = changed?.list ?: emptyList()
         changedList.drop(currentList.size).forEach { insertRoomHistory(participantId, it) }
     }
 
-    private fun insertRoomHistory(participantId: Int, history: RoomHistory) {
+    private fun insertRoomHistory(
+        participantId: Int,
+        history: RoomHistory,
+    ) {
         val h = VillagePlayerRoomHistory()
         h.villagePlayerId = participantId
         h.day = history.day
@@ -331,12 +377,15 @@ class VillagePlayerDataSource(
     private fun updateDeadHistoryDaychangeDifference(
         participantId: Int,
         current: DeadHistories,
-        changed: DeadHistories
+        changed: DeadHistories,
     ) {
         changed.list.drop(current.list.size).forEach { insertDeadHistory(participantId, it) }
     }
 
-    private fun insertDeadHistory(participantId: Int, history: DeadHistory) {
+    private fun insertDeadHistory(
+        participantId: Int,
+        history: DeadHistory,
+    ) {
         val h = VillagePlayerDeadHistory()
         h.villagePlayerId = participantId
         h.day = history.day
@@ -348,14 +397,17 @@ class VillagePlayerDataSource(
     private fun updateSkillHistoryDaychangeDifference(
         participantId: Int,
         current: SkillHistories?,
-        changed: SkillHistories?
+        changed: SkillHistories?,
     ) {
         val currentList = current?.list ?: emptyList()
         val changedList = changed?.list ?: emptyList()
         changedList.drop(currentList.size).forEach { insertSkillHistory(participantId, it) }
     }
 
-    private fun insertSkillHistory(id: Int, history: SkillHistory) {
+    private fun insertSkillHistory(
+        id: Int,
+        history: SkillHistory,
+    ) {
         val h = VillagePlayerSkillHistory()
         h.villagePlayerId = id
         h.day = history.day
@@ -365,7 +417,7 @@ class VillagePlayerDataSource(
 
     fun updateVillagePlayerNotification(
         participantId: Int,
-        notification: VillageParticipantNotificationCondition
+        notification: VillageParticipantNotificationCondition,
     ) {
         villagePlayerNotificationBhv.queryDelete { it.query().setVillagePlayerId_Equal(participantId) }
         val n = VillagePlayerNotification()
@@ -377,10 +429,14 @@ class VillagePlayerDataSource(
         n.receiveSecretSay = notification.message.secretSay
         n.receiveAbilitySay = notification.message.abilitySay
         n.receiveAnchorSay = notification.message.anchor
-        n.keyword = notification.message.keywords.let {
-            if (it.isEmpty()) null
-            else it.joinToString(separator = " ")
-        }
+        n.keyword =
+            notification.message.keywords.let {
+                if (it.isEmpty()) {
+                    null
+                } else {
+                    it.joinToString(separator = " ")
+                }
+            }
         villagePlayerNotificationBhv.insert(n)
     }
 
@@ -388,7 +444,7 @@ class VillagePlayerDataSource(
         val participantList = villagePlayerList.filterNot { it.isSpectator }
         return VillageParticipants(
             count = participantList.size,
-            list = participantList.map { mapSimpleVillageParticipant(it) }
+            list = participantList.map { mapSimpleVillageParticipant(it) },
         )
     }
 
@@ -396,7 +452,7 @@ class VillagePlayerDataSource(
         val participantList = villagePlayerList.filterNot { it.isSpectator }
         return VillageParticipants(
             count = participantList.size,
-            list = participantList.map { mapVillageParticipant(it) }
+            list = participantList.map { mapVillageParticipant(it) },
         )
     }
 
@@ -404,7 +460,7 @@ class VillagePlayerDataSource(
         val spectatorList = villagePlayerList.filter { it.isSpectator }
         return VillageParticipants(
             count = spectatorList.size,
-            list = spectatorList.map { mapSimpleVillageParticipant(it) }
+            list = spectatorList.map { mapSimpleVillageParticipant(it) },
         )
     }
 
@@ -412,37 +468,43 @@ class VillagePlayerDataSource(
         val spectatorList = villagePlayerList.filter { it.isSpectator }
         return VillageParticipants(
             count = spectatorList.size,
-            list = spectatorList.map { mapVillageParticipant(it) }
+            list = spectatorList.map { mapVillageParticipant(it) },
         )
     }
 
-    private fun mapSimpleVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant {
-        return VillageParticipant(
+    private fun mapSimpleVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant =
+        VillageParticipant(
             id = villagePlayer.villagePlayerId,
-            charaName = VillageParticipantName(
-                name = villagePlayer.charaName,
-                shortName = villagePlayer.charaShortName
-            ),
+            charaName =
+                VillageParticipantName(
+                    name = villagePlayer.charaName,
+                    shortName = villagePlayer.charaShortName,
+                ),
             playerId = villagePlayer.playerId,
             charaId = villagePlayer.charaId,
             skill = if (villagePlayer.skillCode.isNullOrBlank()) null else Skill(villagePlayer.skillCodeAsSkill),
-            requestSkill = if (villagePlayer.requestSkillCode.isNullOrBlank()) null
-            else RequestSkill(
-                first = Skill(villagePlayer.requestSkillCodeAsSkill),
-                second = Skill(villagePlayer.secondRequestSkillCodeAsSkill)
-            ),
+            requestSkill =
+                if (villagePlayer.requestSkillCode.isNullOrBlank()) {
+                    null
+                } else {
+                    RequestSkill(
+                        first = Skill(villagePlayer.requestSkillCodeAsSkill),
+                        second = Skill(villagePlayer.secondRequestSkillCodeAsSkill),
+                    )
+                },
             room = null, // simple
-            status = VillageParticipantStatus( // simple
-                loverIdList = emptyList(),
-                foxPossessionedIdList = emptyList(),
-                insanedIdList = emptyList(),
-                persuadedIdList = emptyList(),
-                insuranceIdList = emptyList(),
-                disrespectfulList = emptyList(),
-                hasCurseMark = false,
-                hasCounterCurseMark = false,
-                hasTelekinesis = false
-            ),
+            status =
+                VillageParticipantStatus( // simple
+                    loverIdList = emptyList(),
+                    foxPossessionedIdList = emptyList(),
+                    insanedIdList = emptyList(),
+                    persuadedIdList = emptyList(),
+                    insuranceIdList = emptyList(),
+                    disrespectfulList = emptyList(),
+                    hasCurseMark = false,
+                    hasCounterCurseMark = false,
+                    hasTelekinesis = false,
+                ),
             dead = mapSimpleDead(villagePlayer),
             isSpectator = villagePlayer.isSpectator,
             isGone = villagePlayer.isGone,
@@ -451,25 +513,29 @@ class VillagePlayerDataSource(
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
             memo = villagePlayer.memo,
             ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress },
-            notification = null
+            notification = null,
         )
-    }
 
-    fun mapVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant {
-        return VillageParticipant(
+    fun mapVillageParticipant(villagePlayer: VillagePlayer): VillageParticipant =
+        VillageParticipant(
             id = villagePlayer.villagePlayerId,
-            charaName = VillageParticipantName(
-                name = villagePlayer.charaName,
-                shortName = villagePlayer.charaShortName
-            ),
+            charaName =
+                VillageParticipantName(
+                    name = villagePlayer.charaName,
+                    shortName = villagePlayer.charaShortName,
+                ),
             playerId = villagePlayer.playerId,
             charaId = villagePlayer.charaId,
             skill = if (villagePlayer.skillCode.isNullOrBlank()) null else mapSkill(villagePlayer),
-            requestSkill = if (villagePlayer.requestSkillCode.isNullOrBlank()) null
-            else RequestSkill(
-                first = Skill(villagePlayer.requestSkillCodeAsSkill),
-                second = Skill(villagePlayer.secondRequestSkillCodeAsSkill)
-            ),
+            requestSkill =
+                if (villagePlayer.requestSkillCode.isNullOrBlank()) {
+                    null
+                } else {
+                    RequestSkill(
+                        first = Skill(villagePlayer.requestSkillCodeAsSkill),
+                        second = Skill(villagePlayer.secondRequestSkillCodeAsSkill),
+                    )
+                },
             room = if (villagePlayer.roomNumber == null) null else mapRoom(villagePlayer),
             status = mapVillageParticipantStatus(villagePlayer),
             dead = mapDead(villagePlayer),
@@ -480,80 +546,84 @@ class VillagePlayerDataSource(
             lastAccessDatetime = villagePlayer.lastAccessDatetime,
             memo = villagePlayer.memo,
             ipAddresses = villagePlayer.villagePlayerAccessInfoList.map { it.ipAddress },
-            notification = mapNotification(villagePlayer)
+            notification = mapNotification(villagePlayer),
         )
-    }
 
-    private fun mapNotification(villagePlayer: VillagePlayer): VillageParticipantNotificationCondition? {
-        return villagePlayer.villagePlayerNotificationAsOne.map {
-            VillageParticipantNotificationCondition(
-                discordWebhookUrl = it.discordWebhookUrl,
-                village = VillageParticipantNotificationCondition.VillageCondition(
-                    start = it.villageStart,
-                    dayChange = it.villageDaychange,
-                    epilogue = it.villageEpilogue
-                ),
-                message = VillageParticipantNotificationCondition.MessageCondition(
-                    secretSay = it.receiveSecretSay,
-                    abilitySay = it.receiveAbilitySay,
-                    anchor = it.receiveAnchorSay,
-                    keywords = it.keyword?.split(" ") ?: emptyList()
+    private fun mapNotification(villagePlayer: VillagePlayer): VillageParticipantNotificationCondition? =
+        villagePlayer.villagePlayerNotificationAsOne
+            .map {
+                VillageParticipantNotificationCondition(
+                    discordWebhookUrl = it.discordWebhookUrl,
+                    village =
+                        VillageParticipantNotificationCondition.VillageCondition(
+                            start = it.villageStart,
+                            dayChange = it.villageDaychange,
+                            epilogue = it.villageEpilogue,
+                        ),
+                    message =
+                        VillageParticipantNotificationCondition.MessageCondition(
+                            secretSay = it.receiveSecretSay,
+                            abilitySay = it.receiveAbilitySay,
+                            anchor = it.receiveAnchorSay,
+                            keywords = it.keyword?.split(" ") ?: emptyList(),
+                        ),
                 )
-            )
-        }.orElse(null)
-    }
+            }.orElse(null)
 
-    private fun mapSkill(villagePlayer: VillagePlayer): Skill {
-        return villagePlayer.skillCodeAsSkill.toModel().copy(
-            histories = SkillHistories(
-                list = villagePlayer.villagePlayerSkillHistoryList.map {
-                    SkillHistory(
-                        skill = it.skillCodeAsSkill.toModel(),
-                        day = it.day
-                    )
-                }
-            )
+    private fun mapSkill(villagePlayer: VillagePlayer): Skill =
+        villagePlayer.skillCodeAsSkill.toModel().copy(
+            histories =
+                SkillHistories(
+                    list =
+                        villagePlayer.villagePlayerSkillHistoryList.map {
+                            SkillHistory(
+                                skill = it.skillCodeAsSkill.toModel(),
+                                day = it.day,
+                            )
+                        },
+                ),
         )
-    }
 
-    private fun mapSimpleDead(villagePlayer: VillagePlayer): Dead {
-        return Dead(
+    private fun mapSimpleDead(villagePlayer: VillagePlayer): Dead =
+        Dead(
             isDead = villagePlayer.isDead,
             deadDay = villagePlayer.deadDay,
             reason = if (villagePlayer.deadReasonCode.isNullOrBlank()) null else DeadReason(villagePlayer.deadReasonCodeAsDeadReason),
-            histories = DeadHistories( // simple
-                list = emptyList()
-            )
+            histories =
+                DeadHistories( // simple
+                    list = emptyList(),
+                ),
         )
-    }
 
-    private fun mapDead(villagePlayer: VillagePlayer): Dead {
-        return Dead(
+    private fun mapDead(villagePlayer: VillagePlayer): Dead =
+        Dead(
             isDead = villagePlayer.isDead,
             deadDay = villagePlayer.deadDay,
             reason = if (villagePlayer.deadReasonCode.isNullOrBlank()) null else DeadReason(villagePlayer.deadReasonCodeAsDeadReason),
-            histories = DeadHistories(
-                list = villagePlayer.villagePlayerDeadHistoryList.map {
-                    DeadHistory(
-                        day = it.day,
-                        isDead = it.isDead,
-                        reason = if (it.deadReasonCode.isNullOrBlank()) null else DeadReason(it.deadReasonCodeAsDeadReason)
-                    )
-                }
-            )
+            histories =
+                DeadHistories(
+                    list =
+                        villagePlayer.villagePlayerDeadHistoryList.map {
+                            DeadHistory(
+                                day = it.day,
+                                isDead = it.isDead,
+                                reason = if (it.deadReasonCode.isNullOrBlank()) null else DeadReason(it.deadReasonCodeAsDeadReason),
+                            )
+                        },
+                ),
         )
-    }
 
-    private fun mapRoom(villagePlayer: VillagePlayer): Room {
-        return Room(
+    private fun mapRoom(villagePlayer: VillagePlayer): Room =
+        Room(
             number = villagePlayer.roomNumber,
-            histories = RoomHistories(
-                list = villagePlayer.villagePlayerRoomHistoryList.map {
-                    RoomHistory(day = it.day, number = it.roomNumber)
-                }
-            )
+            histories =
+                RoomHistories(
+                    list =
+                        villagePlayer.villagePlayerRoomHistoryList.map {
+                            RoomHistory(day = it.day, number = it.roomNumber)
+                        },
+                ),
         )
-    }
 
     private fun mapVillageParticipantStatus(villagePlayer: VillagePlayer): VillageParticipantStatus {
         // 自分からのステータス
@@ -563,15 +633,17 @@ class VillagePlayerDataSource(
 
         return VillageParticipantStatus(
             loverIdList = statusList.filter { it.isVillagePlayerStatusCode後追い }.map { it.toVillagePlayerId },
-            foxPossessionedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狐憑き }
-                .map { it.villagePlayerId },
+            foxPossessionedIdList =
+                toStatusList
+                    .filter { it.isVillagePlayerStatusCode狐憑き }
+                    .map { it.villagePlayerId },
             insanedIdList = toStatusList.filter { it.isVillagePlayerStatusCode狂気 }.map { it.villagePlayerId },
             persuadedIdList = toStatusList.filter { it.isVillagePlayerStatusCode信念 }.map { it.villagePlayerId },
             insuranceIdList = toStatusList.filter { it.isVillagePlayerStatusCode保険 }.map { it.villagePlayerId },
             disrespectfulList = toStatusList.filter { it.isVillagePlayerStatusCode不敬 }.map { it.villagePlayerId },
             hasCurseMark = statusList.any { it.isVillagePlayerStatusCode呪縛符 },
             hasCounterCurseMark = statusList.any { it.isVillagePlayerStatusCode反呪符 },
-            hasTelekinesis = statusList.any { it.isVillagePlayerStatusCode念力 }
+            hasTelekinesis = statusList.any { it.isVillagePlayerStatusCode念力 },
         )
     }
 }

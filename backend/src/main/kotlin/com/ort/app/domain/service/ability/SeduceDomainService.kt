@@ -15,21 +15,27 @@ import org.springframework.stereotype.Service
 
 @Service
 class SeduceDomainService(
-    private val messageDomainService: MessageDomainService
+    private val messageDomainService: MessageDomainService,
 ) : AbilityTypeDomainService {
-
     override val abilityType = AbilityType(CDef.AbilityType.誘惑)
 
     override fun getSelectableTargetList(
         village: Village,
         myself: VillageParticipant,
         abilities: Abilities,
-        votes: Votes
+        votes: Votes,
     ): List<VillageParticipant> = getOnlyOneTimeAliveTargets(village, myself, abilities, abilityType)
 
     override fun getTargetPrefix(): String? = "誘惑する対象"
+
     override fun getTargetSuffix(): String? = "を誘惑する"
-    override fun isAvailableNoTarget(village: Village, myself: VillageParticipant, abilities: Abilities): Boolean = true
+
+    override fun isAvailableNoTarget(
+        village: Village,
+        myself: VillageParticipant,
+        abilities: Abilities,
+    ): Boolean = true
+
     override fun isTargetingAndFootstep(): Boolean = true
 
     fun seduce(daychange: Daychange): Daychange {
@@ -48,21 +54,27 @@ class SeduceDomainService(
         return daychange.copy(village = village, messages = messages)
     }
 
-    fun createSeduceMessage(village: Village, myself: VillageParticipant, target: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    fun createSeduceMessage(
+        village: Village,
+        myself: VillageParticipant,
+        target: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は、${target.name()}を誘惑した。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 
-    fun createSeducedMessage(village: Village, jorogumo: VillageParticipant, myself: VillageParticipant): Message {
-        return messageDomainService.createPrivateAbilityMessage(
+    fun createSeducedMessage(
+        village: Village,
+        jorogumo: VillageParticipant,
+        myself: VillageParticipant,
+    ): Message =
+        messageDomainService.createPrivateAbilityMessage(
             village = village,
             myself = myself,
             text = "${myself.name()}は${jorogumo.name()}に誘惑され、恋をしてしまった。",
-            messageType = CDef.MessageType.恋人メッセージ.toModel()
+            messageType = CDef.MessageType.恋人メッセージ.toModel(),
         )
-    }
 }

@@ -6,5 +6,5 @@ data class VillageGetAttackTargetListForm(
     @field:NotNull
     val villageId: Int? = null,
     @field:NotNull
-    val charaId: Int? = null
+    val charaId: Int? = null,
 )
