@@ -44,13 +44,15 @@ STATE_FILE="$STATE_DIR/$FILE_HASH"
 
 FAIL_COUNT=0
 [[ -f "$STATE_FILE" ]] && FAIL_COUNT=$(cat "$STATE_FILE")
+# state ファイルが数値でない場合に算術評価で異常終了しないようガード
+[[ "$FAIL_COUNT" =~ ^[0-9]+$ ]] || FAIL_COUNT=0
 
 # 対象ソースセットの check タスクを特定
 if [[ "$REL_PATH" == src/main/* ]]; then
   GRADLE_TASK="ktlintMainSourceSetCheck"
 elif [[ "$REL_PATH" == src/test/* ]]; then
   GRADLE_TASK="ktlintTestSourceSetCheck"
-elif [[ "$FILE_PATH" == *.kts ]]; then
+elif [[ "$REL_PATH" == *.kts ]]; then
   GRADLE_TASK="ktlintKotlinScriptCheck"
 else
   rm -f "$STATE_FILE"
@@ -78,7 +80,7 @@ fi
 
 # 違反あり → レポートから内容を取得
 REPORT_DIR="build/reports/ktlint/${GRADLE_TASK}"
-REPORT_FILE=$(find "$REPORT_DIR" -name '*.txt' 2>/dev/null | head -1)
+REPORT_FILE=$(find "$REPORT_DIR" -maxdepth 1 -name '*.txt' 2>/dev/null | head -1)
 
 VIOLATIONS=""
 if [[ -n "$REPORT_FILE" && -f "$REPORT_FILE" ]]; then

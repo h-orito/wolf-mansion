@@ -1,3 +1,5 @@
+# monorepo の backend スコープ用 EditorConfig。root=true で親方向の探索を止め、
+# backend/ 配下の Kotlin にこの設定を限定する (frontend は別ツールチェイン)。
 root = true
 
 [*.{kt,kts}]
