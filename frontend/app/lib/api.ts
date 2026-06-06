@@ -13,6 +13,15 @@
 const API_BASE = import.meta.env.VITE_API_BASE ?? "/wolf-mansion";
 
 /**
+ * backend (現行 context-path) 配下の URL を作る。移行中の **未移行 SSR ページ** へのリンクや、
+ * backend が配信する **静的アセット** (画像等) に使う。dev は Vite proxy が同パスを backend へ転送する。
+ * React に移行済みの画面は react-router の `<Link>` を使うこと (この関数は使わない)。
+ */
+export function legacyUrl(path: string): string {
+  return `${API_BASE}${path}`;
+}
+
+/**
  * ProblemDetail の `error` コード (UI 分岐に使う)。backend の RestApiExceptionHandler /
  * JwtAuthenticationEntryPoint が返しうる全コード。`ApiError.code` は network 由来のため型は
  * `string` のままにし、この union はドキュメント兼参照用に公開する。

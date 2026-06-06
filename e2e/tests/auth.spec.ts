@@ -36,10 +36,9 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.fill("#password", PASSWORD);
   await page.getByRole("button", { name: /登録/ }).click();
 
-  // 成功でトップへ。ようこそ表示にログイン名 (= userId) が出る。
+  // 成功でトップへ。トップ画像のユーザID 表示にログイン名 (= userId) が出る。
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByText("ようこそ")).toBeVisible();
-  await expect(page.getByText(userId)).toBeVisible();
+  await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 
   // --- マイページで me 情報を確認 ---
   await page.getByRole("link", { name: "マイページ" }).click();
@@ -59,8 +58,7 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.getByRole("button", { name: "ログイン" }).click();
 
   await expect(page).toHaveURL(/\/$/);
-  await expect(page.getByText("ようこそ")).toBeVisible();
-  await expect(page.getByText(userId)).toBeVisible();
+  await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 });
 
 test("未ログインで保護ルートに来ると /login にリダイレクトされる", async ({ page }) => {

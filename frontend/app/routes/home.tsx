@@ -1,39 +1,239 @@
-import { Link } from "react-router";
+import {
+  ArrowRightStartOnRectangleIcon,
+  BookOpenIcon,
+  InformationCircleIcon,
+  ListBulletIcon,
+  LockClosedIcon,
+  MegaphoneIcon,
+  PencilIcon,
+  PlusIcon,
+  QuestionMarkCircleIcon,
+  UserIcon,
+  WrenchIcon,
+} from "@heroicons/react/24/outline";
+import { useQueryClient } from "@tanstack/react-query";
 
-import { useMe } from "~/features/auth/useMe";
+import { Footer } from "~/components/layout/Footer";
+import { logout } from "~/features/auth/api";
+import { useInvalidateMe, useMe } from "~/features/auth/useMe";
+import type { VillageSummary } from "~/features/home/api";
+import { MenuSection, TileAnchor, TileButton, TileRoute } from "~/features/home/MenuTile";
+import { HOME_QUERY_KEY, useHome } from "~/features/home/useHome";
+import { legacyUrl } from "~/lib/api";
 import type { Route } from "./+types/home";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "人狼の館" }, { name: "description", content: "人狼ゲーム「人狼の館」" }];
+  const description =
+    "WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】 の2つを使って推理・説得する 「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。";
+  return [
+    { title: "WOLF MANSION 〜人狼館の事件簿村〜" },
+    { name: "description", content: description },
+    { property: "og:site_name", content: "WOLF MANSION" },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://wolfort.net/wolf-mansion/" },
+    { property: "og:title", content: "WOLF MANSION" },
+    { property: "og:description", content: description },
+    { property: "og:image", content: "https://wolfort.net/wolf-mansion/app/images/ogp-top.png" },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@ort_dev" },
+  ];
 }
 
 export default function Home() {
-  const { me, isLoading } = useMe();
+  const { me } = useMe();
+  const { data } = useHome();
+  const invalidateMe = useInvalidateMe();
+  const queryClient = useQueryClient();
+
+  const onLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      // 公開ページなので遷移は不要。me と home (canCreateVillage) を取り直して未ログインへ収束させる。
+      await invalidateMe();
+      await queryClient.invalidateQueries({ queryKey: HOME_QUERY_KEY });
+    }
+  };
+
+  const villages = data?.villages ?? [];
+  const canCreateVillage = data?.canCreateVillage ?? false;
 
   return (
-    <main className="mx-auto max-w-md p-6">
-      <h1 className="mb-6 text-2xl font-bold">人狼の館</h1>
-      {isLoading ? (
-        <p className="text-gray-500">読み込み中...</p>
-      ) : me ? (
-        <div className="space-y-2">
-          <p>
-            ようこそ、<span className="font-medium">{me.name}</span> さん
-          </p>
-          <Link to="/mypage" className="text-blue-600 hover:underline">
-            マイページ
-          </Link>
+    <div className="mx-auto max-w-5xl">
+      {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
+      <div className="relative mb-4">
+        <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
+        <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
+          <span className="text-wm-danger">W</span>OLF
+          <br />
+          <span className="text-wm-danger">M</span>ANSION
+        </span>
+        {me && <span className="absolute bottom-1 right-5 text-white">ユーザID: {me.name}</span>}
+      </div>
+
+      {/* サイト紹介 + ナビ */}
+      <section className="mb-4 bg-wm-band p-4 text-center text-white">
+        <h2 className="mb-2 text-base font-bold">状況のみで推理・説得する、新しい人狼</h2>
+        <p className="mb-4 leading-relaxed break-words">
+          WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】
+          の2つを使って推理・説得する 「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+        </p>
+        <div className="grid grid-cols-3">
+          <TileAnchor
+            href={legacyUrl("/about")}
+            icon={InformationCircleIcon}
+            jp="本サイトは"
+            en="About"
+          />
+          <TileAnchor
+            href={legacyUrl("/intro")}
+            icon={QuestionMarkCircleIcon}
+            jp="人狼館の事件簿村"
+            en="Introduction"
+          />
+          <TileAnchor
+            href={legacyUrl("/announce")}
+            icon={MegaphoneIcon}
+            jp="お知らせ"
+            en="Announce"
+          />
+          <TileAnchor href={legacyUrl("/rule")} icon={BookOpenIcon} jp="ルール" en="Rule" />
+          <TileAnchor
+            href={legacyUrl("/faq")}
+            icon={QuestionMarkCircleIcon}
+            jp="よくある質問"
+            en="FAQ"
+          />
+          <TileAnchor href={legacyUrl("/skill")} icon={BookOpenIcon} jp="役職一覧" en="Skill" />
         </div>
-      ) : (
-        <div className="space-x-4">
-          <Link to="/login" className="text-blue-600 hover:underline">
-            ログイン
-          </Link>
-          <Link to="/signup" className="text-blue-600 hover:underline">
-            新規登録
-          </Link>
+      </section>
+
+      {/* 登録/ログイン */}
+      <MenuSection title="登録/ログイン">
+        {me ? (
+          <div className="grid grid-cols-3">
+            <TileRoute to="/mypage" icon={UserIcon} jp="マイページ" en="My Page" />
+            <TileRoute
+              to="/change-password"
+              icon={WrenchIcon}
+              jp="パスワード変更"
+              en="Change Password"
+            />
+            <TileButton
+              onClick={onLogout}
+              icon={ArrowRightStartOnRectangleIcon}
+              jp="ログアウト"
+              en="Logout"
+            />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2">
+            <TileRoute to="/signup" icon={PencilIcon} jp="ID登録" en="Register" />
+            <TileRoute to="/login" icon={LockClosedIcon} jp="ログイン" en="Login" />
+          </div>
+        )}
+      </MenuSection>
+
+      {/* 開催中の村 */}
+      <MenuSection title="開催中の村">
+        <div className="overflow-x-auto bg-wm-tile">
+          <table className="w-full border-collapse text-white">
+            <tbody>
+              {villages.map((v) => (
+                <VillageRow key={v.villageId} village={v} />
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
-    </main>
+      </MenuSection>
+
+      {/* 村一覧/村作成 + ユーザー (PC では横並び) */}
+      <div className="flex flex-col sm:flex-row sm:gap-4">
+        <div className="sm:flex-1">
+          <MenuSection title="村一覧/村作成">
+            <div className={me && canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
+              <TileAnchor
+                href={legacyUrl("/village-list")}
+                icon={ListBulletIcon}
+                jp="村一覧"
+                en="Village list"
+              />
+              {me && canCreateVillage && (
+                <TileAnchor
+                  href={legacyUrl("/new-village")}
+                  icon={PlusIcon}
+                  jp="村を建てる"
+                  en="Create Village"
+                />
+              )}
+            </div>
+          </MenuSection>
+        </div>
+        <div className="sm:flex-1">
+          <MenuSection title="ユーザー">
+            <TileAnchor
+              href={legacyUrl("/user-list")}
+              icon={ListBulletIcon}
+              jp="一覧"
+              en="User list"
+            />
+          </MenuSection>
+        </div>
+      </div>
+
+      {/* キャラチップ */}
+      <MenuSection title="キャラチップ">
+        <TileAnchor
+          href={legacyUrl("/chara-group")}
+          icon={ListBulletIcon}
+          jp="一覧"
+          en="Character list"
+        />
+      </MenuSection>
+
+      <Footer />
+    </div>
+  );
+}
+
+function VillageRow({ village }: { village: VillageSummary }) {
+  const url = legacyUrl(`/village/${village.villageId}`);
+  const cell = "border border-wm-band p-0";
+  const link = "block p-1 text-white no-underline hover:text-wm-accent";
+  return (
+    <tr className="border border-wm-band hover:bg-wm-tile-hover">
+      <td className={cell}>
+        <a href={url} className={link}>
+          {village.villageNumber}
+        </a>
+      </td>
+      <td className={`${cell} text-left`}>
+        <a href={url} className={link}>
+          {village.tags.map((tag) => (
+            <span
+              key={tag.name}
+              className={`mr-1 rounded border px-1 ${
+                tag.level === "danger"
+                  ? "border-wm-danger text-wm-danger"
+                  : "border-wm-accent text-wm-accent"
+              }`}
+            >
+              {tag.name}
+            </span>
+          ))}
+          {village.villageName}
+        </a>
+      </td>
+      <td className={cell}>
+        <a href={url} className={link}>
+          {village.participateNum}
+        </a>
+      </td>
+      <td className={cell}>
+        <a href={url} className={link}>
+          {village.status}
+        </a>
+      </td>
+    </tr>
   );
 }

@@ -4,6 +4,24 @@
   --font-sans:
     "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
     "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* WOLF MANSION ブランド配色 (既存 bootstrap-override.css 由来。`:8091` 忠実再現用トークン) */
+  --color-wm-band: #333333; /* メニュー帯・タイル枠 */
+  --color-wm-tile: #0b162a; /* タイル背景 */
+  --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
+  --color-wm-accent: #0ce3ac; /* アクセント (hover 文字・枠 / 誰歓タグ) */
+  --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤 */
+}
+
+/* 既存ロゴフォント (top-layout の font-anima)。移行中は backend 配信の woff を context-path 経由で参照する */
+@font-face {
+  font-family: "anima";
+  src: url("/wolf-mansion/app/font/anima-regular.woff") format("woff");
+  font-display: swap;
+}
+
+.font-anima {
+  font-family: "anima";
 }
 
 html,

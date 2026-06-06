@@ -83,6 +83,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/home": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["home"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/me": {
     parameters: {
       query?: never;
@@ -120,6 +136,23 @@ export interface components {
     LoginRequest: {
       userId: string | null;
       password: string | null;
+    };
+    HomeResponse: {
+      villages: components["schemas"]["VillageSummary"][];
+      canCreateVillage: boolean;
+    };
+    Tag: {
+      level: string;
+      name: string;
+    };
+    VillageSummary: {
+      /** Format: int32 */
+      villageId: number;
+      villageNumber: string;
+      villageName: string;
+      participateNum: string;
+      status: string;
+      tags: components["schemas"]["Tag"][];
     };
   };
   responses: never;
@@ -240,6 +273,26 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["MeResponse"];
+        };
+      };
+    };
+  };
+  home: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["HomeResponse"];
         };
       };
     };

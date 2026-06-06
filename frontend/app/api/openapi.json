@@ -141,6 +141,24 @@
         }
       }
     },
+    "/api/v1/home": {
+      "get": {
+        "tags": ["home-controller"],
+        "operationId": "home",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/HomeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/me": {
       "get": {
         "tags": ["auth-controller"],
@@ -228,6 +246,68 @@
           }
         },
         "required": ["password", "userId"]
+      },
+      "HomeResponse": {
+        "type": "object",
+        "properties": {
+          "villages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageSummary"
+            }
+          },
+          "canCreateVillage": {
+            "type": "boolean"
+          }
+        },
+        "required": ["canCreateVillage", "villages"]
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["level", "name"]
+      },
+      "VillageSummary": {
+        "type": "object",
+        "properties": {
+          "villageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "villageNumber": {
+            "type": "string"
+          },
+          "villageName": {
+            "type": "string"
+          },
+          "participateNum": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Tag"
+            }
+          }
+        },
+        "required": [
+          "participateNum",
+          "status",
+          "tags",
+          "villageId",
+          "villageName",
+          "villageNumber"
+        ]
       }
     }
   }

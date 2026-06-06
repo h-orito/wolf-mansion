@@ -42,6 +42,9 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/auth/refresh",
                         "/api/v1/auth/logout",
                     ).permitAll()
+                    // 公開ランディング (開催中の村一覧)。token があれば principal は populate され canCreateVillage 判定に使う
+                    .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/home")
+                    .permitAll()
                     .anyRequest()
                     .authenticated()
             }.exceptionHandling { it.authenticationEntryPoint(jwtAuthenticationEntryPoint) }
