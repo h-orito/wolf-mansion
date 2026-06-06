@@ -56,6 +56,9 @@ export default defineConfig({
       url: BASE_URL,
       reuseExistingServer: !isCI,
       timeout: 120_000,
+      // Vite proxy (/wolf-mansion → backend) の転送先を e2e 用 backend ポートに向ける。
+      // 既定は frontend/vite.config.ts の 8089。
+      env: { BACKEND_ORIGIN: `http://localhost:${BACKEND_PORT}` },
     },
   ],
 });
