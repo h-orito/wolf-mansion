@@ -10,7 +10,9 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "format": "oxfmt --write",
-    "format:check": "oxfmt --check"
+    "format:check": "oxfmt --check",
+    "gen:api": "node scripts/gen-api.mjs && oxfmt --write app/api",
+    "check:api": "pnpm gen:api && git add -N app/api && git diff --exit-code -- app/api"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",

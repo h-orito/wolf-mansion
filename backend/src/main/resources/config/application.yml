@@ -67,3 +67,8 @@ login-rate-limit:
   max-per-account: 5
   # IP 単位の失敗上限。共有 NAT を許容しつつ bulk を抑止
   max-per-ip: 30
+
+# OpenAPI (SpringDoc)。frontend の TS 型生成 (pnpm gen:api) が /v3/api-docs を取得する
+springdoc:
+  # 新 REST 面 (/api/v1/**) のみを spec に含める。旧 SSR Controller / 公開 API (/api/login 等) は対象外
+  paths-to-match: /api/v1/**

@@ -1,3 +1,4 @@
+import type { components } from "~/api/types";
 import { apiFetch } from "~/lib/api";
 
 /**
@@ -5,12 +6,8 @@ import { apiFetch } from "~/lib/api";
  * すべて CSR 専用。Cookie は backend が HttpOnly で発行/破棄する。
  */
 
-/** `/api/v1/auth/me` 等が返す最小プレイヤー情報。 */
-export type MeResponse = {
-  playerId: number;
-  name: string;
-  authorities: string[];
-};
+/** `/api/v1/auth/me` 等が返す最小プレイヤー情報 (OpenAPI 生成型・Step 3.4)。 */
+export type MeResponse = components["schemas"]["MeResponse"];
 
 const AUTH_BASE = "/api/v1/auth";
 

@@ -1,0 +1,80 @@
+name: api-drift
+
+# OpenAPI (backend) → TS 型/定数 (frontend) の追随漏れを検知する。
+# backend を起動して /v3/api-docs を取得し直し、frontend の生成物 (app/api/*) を再生成 → 差分があれば fail。
+# 差分が出たら frontend で `pnpm gen:api` を実行して commit すれば解消する。
+on:
+  pull_request:
+    branches: [feature/monorepo]
+    paths:
+      - backend/**
+      - frontend/app/api/**
+      - frontend/package.json
+      - frontend/scripts/**
+      - .github/workflows/api-drift.yml
+
+jobs:
+  drift:
+    runs-on: ubuntu-24.04
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          # backend の application.yml 既定に合わせる (空 DB で OK — spec 生成にテーブルは不要)
+          MYSQL_DATABASE: werewolf_mansiondb
+          MYSQL_USER: wmansion
+          MYSQL_PASSWORD: wmans10n
+        ports:
+          - 4306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -uroot -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Enable pnpm (corepack)
+        run: corepack enable
+
+      - name: Install frontend deps
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Regenerate API artifacts & check drift
+        run: |
+          set -euo pipefail
+          # backend 起動 (空 DB に接続。spec 取得のみなのでテーブルは不要)
+          (cd backend && ./gradlew bootRun > /tmp/backend.log 2>&1 &)
+          echo "waiting for backend /v3/api-docs ..."
+          ready=
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8089/wolf-mansion/v3/api-docs || true)
+            if [ "$code" = "200" ]; then ready=1; echo "backend ready after $((i*5))s"; break; fi
+            sleep 5
+          done
+          if [ -z "$ready" ]; then
+            echo "::error::backend が起動しませんでした"; tail -n 100 /tmp/backend.log; exit 1
+          fi
+          # 生成物を作り直す
+          (cd frontend && BACKEND_ORIGIN=http://localhost:8089 pnpm gen:api)
+          # commit 済みと差分があれば fail。git diff は tracked のみ見るため、未追跡の
+          # 新規生成物も拾えるよう intent-to-add してから比較する
+          git add -N frontend/app/api
+          if ! git diff --exit-code -- frontend/app/api; then
+            echo "::error::OpenAPI 生成物が古いです。frontend で 'pnpm gen:api' を実行して commit してください。"
+            exit 1
+          fi
+          echo "no drift 🎉"

@@ -1,26 +1,32 @@
 import { z } from "zod";
+import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_PATTERN,
+  SIGNUP_USER_ID_MAX_LENGTH,
+  SIGNUP_USER_ID_MIN_LENGTH,
+  SIGNUP_USER_ID_PATTERN,
+} from "~/api/constants";
 
 /**
- * 認証フォームの入力スキーマ (Step 3.3)。
+ * 認証フォームの入力スキーマ (Step 3.3 / 3.4)。
  *
- * パスワードポリシー / userId 制約は backend と一致させる:
- * - PasswordPolicy (`backend/.../fw/security/PasswordPolicy.kt`): 3〜60 文字 / 印字可能 ASCII
- * - signup userId (`SignupRequest`): 3〜12 文字 / 1 文字目英字 + 英数 - _
- *
- * NOTE: これらの定数の **正式な共有は Step 3.4 (OpenAPI→TS)** で行う。ここでは暫定で手書きする。
+ * パスワードポリシー / userId 制約は backend の OpenAPI spec 由来の生成定数 (`~/api/constants`) を使う。
+ * 定数の単一ソースは backend (`PasswordPolicy` / `SignupRequest`) で、`pnpm gen:api` で同期される。
+ * spec の pattern は非アンカーなので、Bean Validation (matches) と揃えるためここで `^…$` を付与する。
  */
 
-export const PASSWORD_MIN_LENGTH = 3;
-export const PASSWORD_MAX_LENGTH = 60;
-/** 印字可能 ASCII (0x21–0x7E) のみ。backend PasswordPolicy.PATTERN と等価。 */
-const PASSWORD_PATTERN = /^[\x21-\x7E]+$/;
+const passwordRegex = new RegExp(`^${PASSWORD_PATTERN}$`);
+const userIdRegex = new RegExp(`^${SIGNUP_USER_ID_PATTERN}$`);
+
 const PASSWORD_MESSAGE = `パスワードは ${PASSWORD_MIN_LENGTH}〜${PASSWORD_MAX_LENGTH} 文字の半角英数記号で入力してください`;
+const USER_ID_LENGTH_MESSAGE = `IDは ${SIGNUP_USER_ID_MIN_LENGTH}〜${SIGNUP_USER_ID_MAX_LENGTH} 文字で入力してください`;
 
 const password = z
   .string()
   .min(PASSWORD_MIN_LENGTH, PASSWORD_MESSAGE)
   .max(PASSWORD_MAX_LENGTH, PASSWORD_MESSAGE)
-  .regex(PASSWORD_PATTERN, PASSWORD_MESSAGE);
+  .regex(passwordRegex, PASSWORD_MESSAGE);
 
 /** login は backend が password 形式を検証しない (緩和後ポリシー) ので、空でないことだけ見る。 */
 export const loginSchema = z.object({
@@ -31,12 +37,9 @@ export const loginSchema = z.object({
 export const signupSchema = z.object({
   userId: z
     .string()
-    .min(3, "IDは 3〜12 文字で入力してください")
-    .max(12, "IDは 3〜12 文字で入力してください")
-    .regex(
-      /^[a-zA-Z][a-zA-Z0-9\-_]*$/,
-      "IDは英字で始まり、英数字・ハイフン・アンダーバーのみ使えます",
-    ),
+    .min(SIGNUP_USER_ID_MIN_LENGTH, USER_ID_LENGTH_MESSAGE)
+    .max(SIGNUP_USER_ID_MAX_LENGTH, USER_ID_LENGTH_MESSAGE)
+    .regex(userIdRegex, "IDは英字で始まり、英数字・ハイフン・アンダーバーのみ使えます"),
   password,
 });
 
