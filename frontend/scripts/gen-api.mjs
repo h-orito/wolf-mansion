@@ -72,7 +72,12 @@ async function main() {
   const spec = await fetchSpec();
   await mkdir(apiDir, { recursive: true });
 
-  // 1. spec をそのまま保存 (drift 検知の基準)
+  // SpringDoc は server URL をリクエスト由来 (host:port + context-path) で動的に埋め込むため、
+  // 生成元のポート (8089 / e2e 18089 / CI) によって `servers` が揺れて drift の温床になる。
+  // frontend は相対 base (VITE_API_BASE) で叩くので server URL は不要 → 除去してポート非依存にする。
+  delete spec.servers;
+
+  // 1. spec を保存 (drift 検知の基準)
   await writeFile(resolve(apiDir, "openapi.json"), `${JSON.stringify(spec, null, 2)}\n`);
 
   // 2. 型生成
