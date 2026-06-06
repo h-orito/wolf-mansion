@@ -71,3 +71,8 @@ login-rate-limit:
   window-minutes: 15
   max-per-account: 5
   max-per-ip: 30
+
+# OpenAPI spec は本番に公開しない (型生成は dev / CI でのみ実施)
+springdoc:
+  api-docs:
+    enabled: false
