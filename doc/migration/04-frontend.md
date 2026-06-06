@@ -17,7 +17,8 @@
 - **UI/UX を変更するのは、ユーザーが明示的に指示した箇所のみ**。実装者 (Claude 含む) の判断で勝手に「改善」しない
 - 各画面 md に UI/UX の変更を書く場合は **「ユーザー指示による変更」であることを明記**する。指示のない変更提案・改善案は書かない
 - 実装上やむを得ない置換 (例: Bootstrap collapse → React state、Handlebars → React component、Cookie → localStorage) は、**挙動・見た目が同一である限り UI/UX 変更ではない** (現状踏襲とみなす)
-- デザインのモダナイズは cutover 後の別フェーズ (Step 13)。本移行では行わない
+- **忠実再現は各画面を移行する step で行う** (cutover 後にまとめて直すのではない)。`:8091` 基準の見た目・`<title>` / OGP / `<head>` メタ・共通ヘッダーまで、その画面の step 内で一致させる ([08-step-plan.md](08-step-plan.md) の「忠実再現は各画面 step で行う」)
+- デザインのモダナイズ (見た目の刷新) は cutover 後の別フェーズ (Step 12)。本移行では行わない
 - 視覚比較 (`screens/*` の「視覚比較」) は既存 `:8091` を一次基準にし、差異が出たら **既存に合わせる**
 
 > 現状 docs に記載のある UI/UX 変更 (例: [new-village.md](screens/new-village.md) の確認モーダル化、[village-admin.md](screens/village/village-admin.md) の参加プレイヤー一覧インライン化) は **すべてユーザー指示によるもの**。各 md にその旨を明記している。
@@ -125,7 +126,7 @@
 
 ## デザイントークン抽出 (Step 2 で theme 化と同時)
 
-- **Step 0 では実施しない** (専用の `design-tokens.md` は作らない)。デザインを詰めるのは cutover 後 (Step 13) の原則に沿い、トークンの抽出は **Step 2 (frontend 雛形/初期設計) で Tailwind v4 theme を組む際に同時に行う**
+- **Step 0 では実施しない** (専用の `design-tokens.md` は作らない)。各画面の忠実再現は移行 step で行うが、**後続のモダナイズ (Step 12) で token 値の差し替えだけで刷新できる構造**にするため、トークンの抽出は **Step 2 (frontend 雛形/初期設計) で Tailwind v4 theme を組む際に同時に行う**
 - **Step 2**: 既存 CSS / Thymeleaf から token を抽出しつつ、そのまま Tailwind v4 の theme (CSS variables) に落とし込む
   - 抽出対象: 主要色 (役職別カラー / 陣営別カラー / 状態色) / 余白 / 角丸 / フォントサイズ / シャドウ など
   - Tailwind v4 の `@theme` ブロックで CSS variables として定義
