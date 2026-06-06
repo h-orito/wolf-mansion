@@ -24,7 +24,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| _(現在 open な Issue なし)_ | 次は step-3.4 (OpenAPI→TS 型生成)。`/add-issue` で起票する | - | - |
+| _(現在 open な Issue なし)_ | Step 3 完了 🎉。次は context-path rename (別サブ step) か Step 4 (画面別 REST 化) | - | - |
 
 > **Step 0・1・2 完了** 🎉 — Step 1 は `.java-version` 21 化 / README 整備 (PR #46)。
 > **Step 2 (monorepo 化) は 4 サブ step すべて完了**: 2.1 backend/ 移動 (PR #47 ✅) / 2.2 ktlint+hook+per-dir .gitignore (PR #48 ✅) / 2.3 frontend 雛形 (PR #49 ✅) / 2.4 e2e 雛形 (PR #50 ✅)。次は **Step 3 (認証 REST 化)**。
@@ -45,7 +45,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 | step-0 | 現状把握 (画面/JS/API/ユースケース調査 + ドキュメント化) | **完了** (ユーザーレビュー込み) |
 | step-1 | 環境整備 (.java-version, README, skill 採番) | **完了** (PR #46) |
 | step-2 | monorepo 化 (backend/ frontend/ e2e/、ktlint、hooks) | **完了** (2.1 移動 #47 ✅ / 2.2 ktlint+hook+gitignore #48 ✅ / 2.3 frontend #49 ✅ / 2.4 e2e #50 ✅) |
-| step-3 | 認証 REST 化 (JWT, /api/v1/auth/*) | 進行中 (3.0 DBFlute再生成+REFRESH_TOKEN ✅ #51 / 3.1 JWT基盤 ✅ #52 / 3.2 signup・password+レート制限 ✅ #53 / 3.3 frontend認証フロー+e2e ✅ #54 / 次: 3.4 OpenAPI→TS) |
+| step-3 | 認証 REST 化 (JWT, /api/v1/auth/*) | **完了** (3.0 DBFlute再生成+REFRESH_TOKEN ✅ #51 / 3.1 JWT基盤 ✅ #52 / 3.2 signup・password+レート制限 ✅ #53 / 3.3 frontend認証フロー+e2e ✅ #54 / 3.4 OpenAPI→TS型生成+CI drift ✅ #55) |
 | step-4+ | 画面別 REST 化 (ホーム→情報系→ランダム→新規村→村画面→プロフィール) | 未着手 |
 
 ## frontend テスト基盤メモ
