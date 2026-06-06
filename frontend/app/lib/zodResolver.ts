@@ -1,4 +1,4 @@
-import type { FieldErrors, FieldValues, Resolver } from "react-hook-form";
+import type { FieldError, FieldErrors, FieldValues, Resolver } from "react-hook-form";
 import type { ZodType } from "zod";
 
 /**
@@ -14,7 +14,10 @@ export function zodResolver<T extends FieldValues>(schema: ZodType<T>): Resolver
     if (result.success) {
       return { values: result.data, errors: {} };
     }
-    const errors: Record<string, { type: string; message: string }> = {};
+    // RHF のリゾルバ契約: 失敗時は values を空オブジェクトにし、errors にフィールド別エラーを返す。
+    // zod の issue path から動的にフィールド名を引くため FieldErrors<T> を直接は組めず、
+    // ここだけ型アサーションする (@hookform/resolvers も同様の構造)。
+    const errors: Partial<Record<string, FieldError>> = {};
     for (const issue of result.error.issues) {
       // フラットフォーム前提: 先頭パス要素をフィールド名とし、最初の 1 件のみ採用する。
       const key = String(issue.path[0] ?? "root");

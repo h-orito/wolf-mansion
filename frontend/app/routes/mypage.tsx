@@ -3,8 +3,8 @@ import { Link, useNavigate } from "react-router";
 
 import { logout } from "~/features/auth/api";
 import { RequireAuth } from "~/features/auth/RequireAuth";
-import { useMe, useSetMe } from "~/features/auth/useMe";
-import { buttonClass } from "~/features/auth/ui";
+import { useInvalidateMe, useMe } from "~/features/auth/useMe";
+import { buttonClass, formErrorClass } from "~/features/auth/ui";
 import type { Route } from "./+types/mypage";
 
 export function meta(_: Route.MetaArgs) {
@@ -14,17 +14,29 @@ export function meta(_: Route.MetaArgs) {
 function MyPageContent() {
   const { me } = useMe();
   const navigate = useNavigate();
-  const setMe = useSetMe();
+  const invalidateMe = useInvalidateMe();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
 
   const onLogout = async () => {
     setLoggingOut(true);
+    setLogoutError(null);
     try {
       await logout();
-    } finally {
-      // logout API が失敗しても UI 上はログアウト扱いにする (Cookie 失効はベストエフォート)。
-      setMe(null);
+      // 先に home へ遷移してから me を無効化する。この画面は RequireAuth 配下なので、
+      // 遷移前に me を null にすると RequireAuth が /login へリダイレクトしてしまい、
+      // navigate("/") と競合してナビゲーションが揺れる。cache は null にせず invalidate し、
+      // 遷移後の再取得 (401→null) で未ログインへ収束させる (refetch 中も旧データを保持するため
+      // RequireAuth は誤発火しない)。
       navigate("/", { replace: true });
+      await invalidateMe();
+    } catch {
+      // ログアウト失敗時はセッション (Cookie) がまだ生きている可能性がある。
+      // 楽観的に未ログイン扱いにせず、me を取り直してサーバ実態に合わせ、エラーを表示する。
+      await invalidateMe();
+      setLogoutError("ログアウトに失敗しました。時間をおいて再試行してください。");
+    } finally {
+      setLoggingOut(false);
     }
   };
 
@@ -46,6 +58,7 @@ function MyPageContent() {
         </div>
       </dl>
       <div className="space-y-3">
+        {logoutError && <p className={formErrorClass}>{logoutError}</p>}
         <Link to="/change-password" className="block text-sm text-blue-600 hover:underline">
           パスワードを変更する
         </Link>

@@ -13,8 +13,12 @@ import { expect, test } from "@playwright/test";
 // userId 制約: 3〜12 文字 / 英字始まり / 英数 - _ (backend SignupRequest)。
 function uniqueUserId(): string {
   const stamp = Date.now().toString(36).slice(-7);
-  const rand = Math.floor(Math.random() * 36).toString(36);
-  return `e${stamp}${rand}`; // 例: "e3k9f2a1x" (9 文字)
+  // fullyParallel で同一 ms に開始したテスト同士の衝突 (= 紛らわしい 400) を避けるため
+  // 乱数サフィックスを 2 文字に広げる。"e" + 7 + 2 = 10 文字 (上限 12 内)。
+  const rand = Math.floor(Math.random() * 36 ** 2)
+    .toString(36)
+    .padStart(2, "0");
+  return `e${stamp}${rand}`; // 例: "e3k9f2a1xz" (10 文字)
 }
 
 const PASSWORD = "test1234!";

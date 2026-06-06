@@ -52,3 +52,12 @@ export function useSetMe(): (me: MeResponse | null) => void {
   const queryClient = useQueryClient();
   return (me) => queryClient.setQueryData(ME_QUERY_KEY, me);
 }
+
+/**
+ * me キャッシュを無効化し、次の参照でサーバから取り直させる。
+ * 楽観更新が当てにならない場面 (ログアウト失敗時など) でサーバ実態に合わせるのに使う。
+ */
+export function useInvalidateMe(): () => Promise<void> {
+  const queryClient = useQueryClient();
+  return () => queryClient.invalidateQueries({ queryKey: ME_QUERY_KEY });
+}
