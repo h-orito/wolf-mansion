@@ -48,6 +48,13 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 | step-3 | 認証 REST 化 (JWT, /api/v1/auth/*) | 進行中 (3.0 DBFlute再生成+REFRESH_TOKEN ✅ #51 / 3.1 JWT基盤 ✅ #52 / 3.2 signup・password+レート制限 ✅ #53 / 次: 3.3 frontend認証フロー+e2e) |
 | step-4+ | 画面別 REST 化 (ホーム→情報系→ランダム→新規村→村画面→プロフィール) | 未着手 |
 
+## frontend テスト基盤メモ
+
+- **vitest を導入する場合は `4.1.6` 以上を使用する**。
+  - 理由: `4.1.6` 未満には RCE 脆弱性 **CVE-2026-47429** がある。
+  - 参考: https://ai-heartland.com/security/vitest-rce-cve-2026-47429/
+  - `package.json` で `"vitest": "^4.1.6"` のように固定し、古い系列に巻き戻らないよう注意する。
+
 ## 作業フロー
 
 project-local の `/ship-issue` / `/add-issue` skill が標準化済み (`.claude/skills/`)。
