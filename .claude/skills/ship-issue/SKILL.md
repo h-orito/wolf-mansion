@@ -65,6 +65,9 @@ gh pr create --base feature/monorepo --title "<conventional commit>" --body "...
 
 - **main には push しない / merge しない**。すべて feature/monorepo 上
 - **PR マージは必ずユーザー確認** (branch protection は無いが手順で担保)
-- **PR 作成後は必ず pr-reviewer** (実装意図は渡さない)
-- レビュー指摘 (must/should-fix) は省略せず反映、`.reviews/PR-<番号>.md` に出力
+- **PR 作成後は pr-review-toolkit:code-reviewer でreview and fix** (実装意図は渡さない)
+  - pr-review-toolkit:code-reviewer → 修正 を3回繰り返す
+    - should以上は必ず修正する
+  - レビュー指摘 (must/should-fix) は省略せず反映、`.reviews/PR-<番号>.md` に出力
+  - 指摘事項、修正内容、修正しなかった内容をユーザーに報告する
 - プロジェクト固有ルールは `.issues/HANDOFF.md` / `CLAUDE.md` / `doc/migration/` を最優先
