@@ -70,7 +70,9 @@ jobs:
           fi
           # 生成物を作り直す
           (cd frontend && BACKEND_ORIGIN=http://localhost:8089 pnpm gen:api)
-          # commit 済みと差分があれば fail
+          # commit 済みと差分があれば fail。git diff は tracked のみ見るため、未追跡の
+          # 新規生成物も拾えるよう intent-to-add してから比較する
+          git add -N frontend/app/api
           if ! git diff --exit-code -- frontend/app/api; then
             echo "::error::OpenAPI 生成物が古いです。frontend で 'pnpm gen:api' を実行して commit してください。"
             exit 1

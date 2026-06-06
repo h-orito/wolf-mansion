@@ -50,6 +50,26 @@ function extractConstants(spec) {
   const password = signup.password ?? {};
   const userId = signup.userId ?? {};
 
+  // backend を制約の単一ソースにするのが目的なので、ソース欠落は黙って `undefined` 定数を吐かず loud に落とす
+  // (SpringDoc の回帰や @Size/@Pattern 取り違えで frontend バリデーションが無効化されるのを防ぐ)。
+  const required = {
+    "SignupRequest.password.minLength": password.minLength,
+    "SignupRequest.password.maxLength": password.maxLength,
+    "SignupRequest.password.pattern": password.pattern,
+    "SignupRequest.userId.minLength": userId.minLength,
+    "SignupRequest.userId.maxLength": userId.maxLength,
+    "SignupRequest.userId.pattern": userId.pattern,
+  };
+  const missing = Object.entries(required)
+    .filter(([, v]) => v === undefined)
+    .map(([k]) => k);
+  if (missing.length > 0) {
+    throw new Error(
+      `OpenAPI spec に必須の制約が見つかりません: ${missing.join(", ")}. ` +
+        "backend の @Size/@Pattern (PasswordPolicy / SignupRequest) を確認してください。",
+    );
+  }
+
   /** @param {string} name @param {unknown} value */
   const line = (name, value) => `export const ${name} = ${JSON.stringify(value)};`;
 
