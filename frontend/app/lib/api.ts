@@ -12,9 +12,14 @@
 // 末尾スラッシュは付けない (path 側を `/api/...` で始める)。
 const API_BASE = import.meta.env.VITE_API_BASE ?? "/wolf-mansion";
 
-/** ProblemDetail の `error` コード。UI 分岐に使う。 */
+/**
+ * ProblemDetail の `error` コード (UI 分岐に使う)。backend の RestApiExceptionHandler /
+ * JwtAuthenticationEntryPoint が返しうる全コード。`ApiError.code` は network 由来のため型は
+ * `string` のままにし、この union はドキュメント兼参照用に公開する。
+ */
 export type ApiErrorCode =
   | "authentication_failed"
+  | "unauthorized"
   | "too_many_requests"
   | "business_error"
   | "validation_error"
