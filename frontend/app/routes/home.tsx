@@ -159,14 +159,14 @@ export default function Home() {
       <div className="flex flex-col sm:flex-row sm:gap-4">
         <div className="sm:flex-1">
           <MenuSection title="村一覧/村作成">
-            <div className={me && canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
+            <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
               <TileAnchor
                 href={legacyUrl("/village-list")}
                 icon={ListBulletIcon}
                 jp="村一覧"
                 en="Village list"
               />
-              {me && canCreateVillage && (
+              {canCreateVillage && (
                 <TileAnchor
                   href={legacyUrl("/new-village")}
                   icon={PlusIcon}
