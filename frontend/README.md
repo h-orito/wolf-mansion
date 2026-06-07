@@ -33,6 +33,21 @@ pnpm format:check   # oxfmt --check
 - **UI state**: `zustand` / **フォーム**: `react-hook-form` + `zod` / **アイコン**: `@heroicons/react`
 - **lint/format**: oxlint + oxfmt（`.oxlintrc.json` / `.oxfmtrc.json`）
 
+## ディレクトリ構成 / 設計方針
+
+`app/` 配下は **画面軸（`routes/`）と機能軸（`features/`）を分離**する。React Router は config ルーティング
+（`app/routes.ts` に明示宣言）なので、`routes/` フォルダ名に魔法はなく、**`routes.ts` に登録したファイルだけがルート**になる。
+
+- **`routes/` = 画面（colocation）**: ルート本体と、**その画面専用**の補助 component / logic を同じ場所に置く。
+  専用ファイルを持つ画面はフォルダにする（ルート本体は `route.tsx`、`routes.ts` では `index("routes/home/route.tsx")` のように指定）。
+  専用ファイルが無い小さな画面は単一ファイル（`routes/login.tsx`）でよい。
+  例: `routes/home/{route.tsx, MenuTile.tsx}`
+- **`features/<domain>/` = 機能（ドメイン）**: **複数画面で共有する**ドメインの api / hook / 型 / schema / UI を置く。
+  画面専用のものはここに置かず、`routes/` 側にコロケートする。
+  - **`features/villages/`（複数形）= 村一覧ドメイン**: 一覧取得・行整形・status フィルタ等（トップ + 村一覧で共有）
+  - **`features/village/`（単数形）= 村詳細ドメイン**: 今後追加。ability / message / participant / setting … とサブディレクトリで分割していく
+  - 共有レイアウト等の汎用 UI は `app/components/`、汎用ユーティリティは `app/lib/`
+
 ## メモ
 
 - バージョンは pnpm の `minimumReleaseAge`（14 日）制約に従う。react-router 系は現状 `7.15.1` 固定（7.16 が制約を満たし次第 v8 future flags と共に更新予定）。

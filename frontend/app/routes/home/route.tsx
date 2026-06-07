@@ -15,12 +15,12 @@ import {
 import { Footer } from "~/components/layout/Footer";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
-import { MenuSection, TileAnchor, TileButton, TileRoute } from "~/features/home/MenuTile";
-import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/village/api";
-import { participateNumLabel, villageListTags, villageNumber } from "~/features/village/format";
-import { useVillages } from "~/features/village/useVillages";
+import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/villages/api";
+import { participateNumLabel, villageListTags, villageNumber } from "~/features/villages/format";
+import { useVillages } from "~/features/villages/useVillages";
 import { legacyUrl } from "~/lib/api";
-import type { Route } from "./+types/home";
+import { MenuSection, TileAnchor, TileButton, TileRoute } from "./MenuTile";
+import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
   const description =
