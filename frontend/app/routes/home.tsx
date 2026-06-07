@@ -32,7 +32,12 @@ export function meta(_: Route.MetaArgs) {
     { property: "og:url", content: "https://wolfort.net/wolf-mansion/" },
     { property: "og:title", content: "WOLF MANSION" },
     { property: "og:description", content: description },
-    { property: "og:image", content: "https://wolfort.net/wolf-mansion/app/images/ogp-top.png" },
+    // OGP 画像は本文のトップ画像と同じく backend (/wolf-mansion-api) 配信の静的アセット。
+    // 静的アセットを frontend へ移管する Step 10/11 で /wolf-mansion 側へ更新する (08-step-plan 繰り越し事項)。
+    {
+      property: "og:image",
+      content: "https://wolfort.net/wolf-mansion-api/app/images/ogp-top.png",
+    },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: "@ort_dev" },
   ];

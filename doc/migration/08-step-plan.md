@@ -231,6 +231,9 @@ wolf-mansion で最も機能密度が高い画面。**8.1 (ベース) を最初�
   new-player / change-password 等は非表示にする挙動は実装済み
 - **認証画面 (login/signup/mypage/change-password) の忠実再現** (step-3.3 が旧方針で実装): `.issues/step-3.6-auth-ui-restore.md`
   で別 step 化済み (本一覧にも転記)
+- **静的アセットの frontend 移管に伴う OGP 画像 path 更新** (step-4.1): context-path rename で backend が `/wolf-mansion-api`
+  配信になったため、現状 OGP の `og:image` 等は `/wolf-mansion-api/app/images/...` を指す。**Step 10/11 で静的アセットを
+  frontend へ移す際に `/wolf-mansion/...` へ更新**する (本文画像 `legacyUrl` も同様に frontend 参照へ切替)
 
 ## 未確定事項
 
