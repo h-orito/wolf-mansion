@@ -160,6 +160,13 @@ export default function Home() {
         <MenuSection title="開催中の村">
           <div className="overflow-x-auto bg-wm-tile">
             <table className="w-full border-collapse text-white">
+              {/* 既存 :8091 の列幅 (Bootstrap3 grid): 村番号 col-1=8.33% / 村名=残り / 参加人数・状態 col-2=16.67%。 */}
+              <colgroup>
+                <col className="w-[8.333%]" />
+                <col />
+                <col className="w-[16.667%]" />
+                <col className="w-[16.667%]" />
+              </colgroup>
               <tbody>
                 {villages.map((v) => (
                   <VillageRow key={v.id} village={v} />
