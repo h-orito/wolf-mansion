@@ -68,15 +68,20 @@ export default function Home() {
     <div className="min-h-screen bg-wm-base text-xs">
       {/* 既存 Bootstrap3 .container と同じレスポンシブ最大幅 (768→750 / 992→970 / 1200→1170)。 */}
       <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
-        {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
-        <div className="relative mb-[15px]">
-          <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
-          <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
-            <span className="text-wm-danger">W</span>OLF
-            <br />
-            <span className="text-wm-danger">M</span>ANSION
-          </span>
-          {me && <span className="absolute bottom-1 right-5 text-white">ユーザID: {me.name}</span>}
+        {/* トップ画像 + ロゴ + (ログイン中) ユーザID。
+            既存はトップ画像も col の 15px padding で帯と同じ幅 (横 15px インセット) になる。 */}
+        <div className="mb-[15px] px-[15px]">
+          <div className="relative">
+            <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
+            <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
+              <span className="text-wm-danger">W</span>OLF
+              <br />
+              <span className="text-wm-danger">M</span>ANSION
+            </span>
+            {me && (
+              <span className="absolute right-5 bottom-1 text-white">ユーザID: {me.name}</span>
+            )}
+          </div>
         </div>
 
         {/* サイト紹介 + ナビ (見出し・説明は 100px 高の中央行。:8091 再現) */}
