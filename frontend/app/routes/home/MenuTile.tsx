@@ -8,15 +8,17 @@ import { Link } from "react-router";
 
 type IconType = ComponentType<{ className?: string }>;
 
+// 既存 (:8091 .top-menu-selectable-inner) に合わせ、中央寄せではなく上揃え (padding-top 15px) にする。
+// アイコン → 日本語 → 英語 が縦に等間隔 (約 10px) で並び、下部に余白が残る配置。
 const tileClass =
-  "flex min-h-[100px] flex-col items-center justify-center gap-1 border border-wm-band bg-wm-tile p-2 text-center text-white no-underline transition-colors hover:border-wm-accent hover:bg-wm-tile-hover hover:text-wm-accent disabled:opacity-60 disabled:hover:border-wm-band disabled:hover:bg-wm-tile disabled:hover:text-white";
+  "flex min-h-[100px] flex-col items-center border border-wm-band bg-wm-tile pt-[15px] text-center text-white no-underline transition-colors hover:border-wm-accent hover:bg-wm-tile-hover hover:text-wm-accent disabled:opacity-60 disabled:hover:border-wm-band disabled:hover:bg-wm-tile disabled:hover:text-white";
 
 function TileInner({ icon: Icon, jp, en }: { icon: IconType; jp: string; en: string }) {
-  // 既存 (:8091) に合わせる: アイコン 12px、日本語ラベル 13px、英語ラベル 12px。
+  // 既存 (:8091) に合わせる: アイコン 12px、日本語ラベル 13px (上下 margin 10px)、英語ラベル 12px。
   return (
     <>
       <Icon className="h-3 w-3" />
-      <span className="text-[13px]">{jp}</span>
+      <span className="my-[10px] text-[13px] leading-[14px]">{jp}</span>
       <span className="text-xs">{en}</span>
     </>
   );
