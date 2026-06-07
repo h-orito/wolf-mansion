@@ -1,4 +1,4 @@
-package com.ort.app.api.home.response
+package com.ort.app.api.village.response
 
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.Villages
@@ -6,22 +6,14 @@ import com.ort.app.domain.model.village.setting.VillageTags
 import com.ort.dbflute.allcommon.CDef
 
 /**
- * ホーム (`GET /api/v1/home`) のレスポンス。SSR の `IndexContent` 相当 (開催中の村 + 村作成可否)。
- * 整形ロジックは `IndexContent.IndexVillage` を踏襲する (april ネタのデッドフィールドは移植しない)。
+ * 村一覧 (`GET /api/v1/villages`) のレスポンス。
+ * 一覧の整形ロジックは旧 `IndexContent.IndexVillage` を踏襲する (april ネタのデッドフィールドは持たない)。
+ * トップページ・村一覧画面など複数画面で共有する (画面固有 API にはしない)。
  */
-data class HomeResponse(
-    /** 開催中 (未終了) の村一覧 */
+data class VillageListResponse(
     val villages: List<VillageSummary>,
-    /** ログインユーザーが村を作成できるか (匿名は false)。「村を建てる」タイルの出し分けに使う */
-    val canCreateVillage: Boolean,
 ) {
-    constructor(
-        villages: Villages,
-        canCreateVillage: Boolean,
-    ) : this(
-        villages = villages.list.map { VillageSummary(it) },
-        canCreateVillage = canCreateVillage,
-    )
+    constructor(villages: Villages) : this(villages = villages.list.map { VillageSummary(it) })
 
     data class VillageSummary(
         /** 村ID (遷移キー) */
@@ -32,14 +24,12 @@ data class HomeResponse(
         val villageName: String,
         /** 人数 (整形済み文字列) */
         val participateNum: String,
-        /** 状態 (募集中/進行中/エピローグ) */
+        /** 状態 (募集中/進行中/エピローグ/終了/廃村) */
         val status: String,
         /** タグ */
         val tags: List<Tag>,
     ) {
-        constructor(
-            village: Village,
-        ) : this(
+        constructor(village: Village) : this(
             villageId = village.id,
             villageNumber = village.id.toString().padStart(4, '0'),
             villageName = village.name,

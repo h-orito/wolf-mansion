@@ -11,14 +11,13 @@ import {
   UserIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline";
-import { useQueryClient } from "@tanstack/react-query";
 
 import { Footer } from "~/components/layout/Footer";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
-import type { VillageSummary } from "~/features/home/api";
 import { MenuSection, TileAnchor, TileButton, TileRoute } from "~/features/home/MenuTile";
-import { HOME_QUERY_KEY, useHome } from "~/features/home/useHome";
+import type { VillageSummary } from "~/features/village/api";
+import { useVillages } from "~/features/village/useVillages";
 import { legacyUrl } from "~/lib/api";
 import type { Route } from "./+types/home";
 
@@ -41,22 +40,22 @@ export function meta(_: Route.MetaArgs) {
 
 export default function Home() {
   const { me } = useMe();
-  const { data } = useHome();
+  // トップは未終了 (募集中/進行中/エピローグ) の村を表示。村一覧 API を status で絞って共有利用する。
+  const { data: villageData } = useVillages("notFinished");
   const invalidateMe = useInvalidateMe();
-  const queryClient = useQueryClient();
 
   const onLogout = async () => {
     try {
       await logout();
     } finally {
-      // 公開ページなので遷移は不要。me と home (canCreateVillage) を取り直して未ログインへ収束させる。
+      // 公開ページなので遷移は不要。me を取り直して未ログインへ収束させる (canCreateVillage も me 由来)。
       await invalidateMe();
-      await queryClient.invalidateQueries({ queryKey: HOME_QUERY_KEY });
     }
   };
 
-  const villages = data?.villages ?? [];
-  const canCreateVillage = data?.canCreateVillage ?? false;
+  const villages = villageData?.villages ?? [];
+  // 村作成可否はプレイヤーの情報 (me 由来)。匿名は false。
+  const canCreateVillage = me?.canCreateVillage ?? false;
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -75,8 +74,12 @@ export default function Home() {
       <section className="mb-4 bg-wm-band p-4 text-center text-white">
         <h2 className="mb-2 text-base font-bold">状況のみで推理・説得する、新しい人狼</h2>
         <p className="mb-4 leading-relaxed break-words">
-          WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】
-          の2つを使って推理・説得する 「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+          WOLF MANSIONでは、
+          <br className="hidden sm:inline" />
+          占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+          <br className="hidden sm:inline" />
+          【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
+          「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
         </p>
         <div className="grid grid-cols-3">
           <TileAnchor

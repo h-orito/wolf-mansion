@@ -27,7 +27,8 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   const userId = uniqueUserId();
 
   // --- signup (自動ログイン) ---
-  await page.goto("/signup");
+  // baseURL は `…/wolf-mansion/`。相対 goto で /wolf-mansion/signup を開く。
+  await page.goto("signup");
   // フルページロード直後はまだ hydration 前で、submit がネイティブ GET 送信になりうる。
   // JS のロード完了 (= hydration 完了) を待ってからフォーム操作する。
   // 以降の遷移は SPA (client) なので待ち不要。
@@ -37,7 +38,7 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.getByRole("button", { name: /登録/ }).click();
 
   // 成功でトップへ。トップ画像のユーザID 表示にログイン名 (= userId) が出る。
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/wolf-mansion$/);
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 
   // --- マイページで me 情報を確認 ---
@@ -47,7 +48,7 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
 
   // --- logout ---
   await page.getByRole("button", { name: /ログアウト/ }).click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/wolf-mansion$/);
   await expect(page.getByRole("link", { name: "ログイン" })).toBeVisible();
 
   // --- 同じ ID で login ---
@@ -57,13 +58,13 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.fill("#password", PASSWORD);
   await page.getByRole("button", { name: "ログイン" }).click();
 
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/wolf-mansion$/);
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 });
 
 test("未ログインで保護ルートに来ると /login にリダイレクトされる", async ({ page }) => {
   // 新規コンテキスト (Cookie なし) で保護ルートへ直接アクセス。
-  await page.goto("/mypage");
+  await page.goto("mypage");
 
   // RequireAuth が returnTo 付きで /login へ飛ばす。
   await expect(page).toHaveURL(/\/login\?returnTo=/);

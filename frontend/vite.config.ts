@@ -3,12 +3,15 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 // dev クロスオリジン吸収: CORS を入れず Vite proxy で backend に転送する (Step 3.3 / 03-auth.md)。
-// rewrite しない: backend が発行する cookie の Path=/wolf-mansion(/...) とブラウザ可視パスを
+// frontend は `/wolf-mansion` (base)、backend は `/wolf-mansion-api` (proxy) でパスが分離している。
+// rewrite しない: backend が発行する cookie の Path=/wolf-mansion-api(/...) とブラウザ可視パスを
 // 一致させ、access/refresh/id_register cookie を確実にブラウザへ届かせるため。
 // 本番は frontend(/wolf-mansion) と backend(/wolf-mansion-api) が同一オリジンなので proxy は dev のみ。
 const BACKEND_ORIGIN = process.env.BACKEND_ORIGIN ?? "http://localhost:8089";
 
 export default defineConfig({
+  // frontend を `/wolf-mansion` 配下で配信 (RR の basename と一致させる。末尾スラッシュ無し)。
+  base: "/wolf-mansion",
   plugins: [tailwindcss(), reactRouter()],
   resolve: {
     tsconfigPaths: true,
@@ -22,7 +25,9 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/wolf-mansion": {
+      // backend (REST / 静的アセット / 未移行 SSR ページ) は `/wolf-mansion-api` 配下。
+      // frontend の `/wolf-mansion` とは衝突しない。
+      "/wolf-mansion-api": {
         target: BACKEND_ORIGIN,
         changeOrigin: true,
       },

@@ -141,17 +141,27 @@
         }
       }
     },
-    "/api/v1/home": {
+    "/api/v1/villages": {
       "get": {
-        "tags": ["home-controller"],
-        "operationId": "home",
+        "tags": ["village-rest-controller"],
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/HomeResponse"
+                  "$ref": "#/components/schemas/VillageListResponse"
                 }
               }
             }
@@ -213,9 +223,12 @@
             "items": {
               "type": "string"
             }
+          },
+          "canCreateVillage": {
+            "type": "boolean"
           }
         },
-        "required": ["authorities", "name", "playerId"]
+        "required": ["authorities", "canCreateVillage", "name", "playerId"]
       },
       "PasswordChangeRequest": {
         "type": "object",
@@ -247,21 +260,6 @@
         },
         "required": ["password", "userId"]
       },
-      "HomeResponse": {
-        "type": "object",
-        "properties": {
-          "villages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageSummary"
-            }
-          },
-          "canCreateVillage": {
-            "type": "boolean"
-          }
-        },
-        "required": ["canCreateVillage", "villages"]
-      },
       "Tag": {
         "type": "object",
         "properties": {
@@ -273,6 +271,18 @@
           }
         },
         "required": ["level", "name"]
+      },
+      "VillageListResponse": {
+        "type": "object",
+        "properties": {
+          "villages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageSummary"
+            }
+          }
+        },
+        "required": ["villages"]
       },
       "VillageSummary": {
         "type": "object",

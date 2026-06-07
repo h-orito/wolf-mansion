@@ -13,7 +13,9 @@ import { defineConfig, devices } from "@playwright/test";
 // 通常起動 (backend 8089 / frontend 5173) と衝突しない e2e 専用ポート (05-e2e.md で確定)
 const BACKEND_PORT = 18089;
 const FRONTEND_PORT = 15173;
-const BASE_URL = `http://localhost:${FRONTEND_PORT}`;
+// frontend は `/wolf-mansion` 配下で配信されるため baseURL も同パスを含める (末尾スラッシュ必須:
+// テストの相対 goto("signup") 等が `/wolf-mansion/signup` に解決されるようにする)。
+const BASE_URL = `http://localhost:${FRONTEND_PORT}/wolf-mansion/`;
 
 // CI では走らせない方針だが、誤起動時に環境変数で識別できるよう一応参照する
 const isCI = !!process.env.CI;
@@ -41,10 +43,10 @@ export default defineConfig({
   webServer: [
     {
       // backend: application.yml デフォルト (ローカル MySQL 4306 / あいのり DB) を
-      // 別ポートで起動。context-path は /wolf-mansion 据置。
+      // 別ポートで起動。context-path は /wolf-mansion-api。
       command: `./gradlew bootRun --args='--server.port=${BACKEND_PORT}'`,
       cwd: "../backend",
-      url: `http://localhost:${BACKEND_PORT}/wolf-mansion/`,
+      url: `http://localhost:${BACKEND_PORT}/wolf-mansion-api/`,
       // ローカルで既に起動済みの backend があれば使い回す
       reuseExistingServer: !isCI,
       // Spring Boot + DBFlute 初期化に時間がかかるため長めに
@@ -56,7 +58,7 @@ export default defineConfig({
       url: BASE_URL,
       reuseExistingServer: !isCI,
       timeout: 120_000,
-      // Vite proxy (/wolf-mansion → backend) の転送先を e2e 用 backend ポートに向ける。
+      // Vite proxy (/wolf-mansion-api → backend) の転送先を e2e 用 backend ポートに向ける。
       // 既定は frontend/vite.config.ts の 8089。
       env: { BACKEND_ORIGIN: `http://localhost:${BACKEND_PORT}` },
     },

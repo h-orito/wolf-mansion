@@ -2,18 +2,18 @@
  * REST API クライアント (CSR 専用 / Step 3.3)。
  *
  * - 常に JSON。`credentials: "include"` で HttpOnly Cookie (access/refresh) を送る。
- * - base path は env で切替 (既定 `/wolf-mansion` = 現行 context-path)。dev は Vite proxy
- *   が同パスを backend へ転送する (vite.config.ts)。
+ * - base path は env で切替 (既定 `/wolf-mansion-api` = backend context-path)。dev は Vite proxy
+ *   が同パスを backend へ転送する (vite.config.ts)。frontend 自体は `/wolf-mansion` 配下。
  * - backend のエラーは ProblemDetail (RFC7807) `{type,title,status,detail,error}`。
  *   これを解析し {@link ApiError} を throw する。`error` はコード文字列。
  * - SSR では呼ばない (認証は CSR 境界。03-auth.md)。Cookie が無い SSR fetch は無意味。
  */
 
 // 末尾スラッシュは付けない (path 側を `/api/...` で始める)。
-const API_BASE = import.meta.env.VITE_API_BASE ?? "/wolf-mansion";
+const API_BASE = import.meta.env.VITE_API_BASE ?? "/wolf-mansion-api";
 
 /**
- * backend (現行 context-path) 配下の URL を作る。移行中の **未移行 SSR ページ** へのリンクや、
+ * backend (context-path `/wolf-mansion-api`) 配下の URL を作る。移行中の **未移行 SSR ページ** へのリンクや、
  * backend が配信する **静的アセット** (画像等) に使う。dev は Vite proxy が同パスを backend へ転送する。
  * React に移行済みの画面は react-router の `<Link>` を使うこと (この関数は使わない)。
  */

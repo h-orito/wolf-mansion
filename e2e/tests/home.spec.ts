@@ -20,7 +20,8 @@ function uniqueUserId(): string {
 const PASSWORD = "test1234!";
 
 test("匿名: ナビ/登録ログインタイルと開催中の村セクションが表示される", async ({ page }) => {
-  await page.goto("/");
+  // baseURL は `…/wolf-mansion/`。相対 goto でトップ (/wolf-mansion/) を開く。
+  await page.goto("");
 
   // 共通ナビタイル (未移行 SSR への導線)
   await expect(page.getByRole("link", { name: "About" })).toBeVisible();
@@ -47,13 +48,13 @@ test("ログイン後: マイページ/ログアウトタイルに切り替わ�
   const userId = uniqueUserId();
 
   // signup で自動ログイン → トップへ
-  await page.goto("/signup");
+  await page.goto("signup");
   await page.waitForLoadState("networkidle");
   await page.fill("#userId", userId);
   await page.fill("#password", PASSWORD);
   await page.getByRole("button", { name: /登録/ }).click();
 
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/wolf-mansion$/);
   // トップ画像にユーザID、ログイン専用タイル
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
   await expect(page.getByRole("link", { name: "マイページ" })).toBeVisible();

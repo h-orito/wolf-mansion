@@ -61,7 +61,7 @@ jobs:
           echo "waiting for backend /v3/api-docs ..."
           ready=
           for i in $(seq 1 60); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8089/wolf-mansion/v3/api-docs || true)
+            code=$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8089/wolf-mansion-api/v3/api-docs || true)
             if [ "$code" = "200" ]; then ready=1; echo "backend ready after $((i*5))s"; break; fi
             sleep 5
           done

@@ -13,10 +13,10 @@
   --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤 */
 }
 
-/* 既存ロゴフォント (top-layout の font-anima)。移行中は backend 配信の woff を context-path 経由で参照する */
+/* 既存ロゴフォント (top-layout の font-anima)。移行中は backend (/wolf-mansion-api) 配信の woff を参照する */
 @font-face {
   font-family: "anima";
-  src: url("/wolf-mansion/app/font/anima-regular.woff") format("woff");
+  src: url("/wolf-mansion-api/app/font/anima-regular.woff") format("woff");
   font-display: swap;
 }
 

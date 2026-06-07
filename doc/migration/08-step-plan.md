@@ -220,6 +220,18 @@ wolf-mansion で最も機能密度が高い画面。**8.1 (ベース) を最初�
 
 - **Step 12: 視覚モダナイズ** — デザイントークン + 共通コンポーネントの差し替えで見た目を刷新 ([04-frontend.md](04-frontend.md))。移行中は各画面 step で忠実再現済みのため、本 step は「現状再現の精度合わせ」ではなく純粋な刷新作業
 
+## 繰り越し事項 (移行中に先送りした実装)
+
+各画面 step で意図的にプレースホルダー化・後回しにした実装を、忘れないようここに集約する
+(個別 issue は完了で削除されるため、恒久的な追跡先を docs に置く)。
+
+- **フッターの Google AdSense 本結線** (step-4.1 でプレースホルダー化): 現状 `frontend/app/components/layout/Footer.tsx` は
+  広告枠をダミー表示にしている (script 連携なし)。既存は `ca-pub-0917187897820609` / slot `1022209690` の adsbygoogle。
+  **Step 11 (cutover) で本番ドメイン確定後に本結線**するか、Step 12 (モダナイズ) で扱う。`noAd` フラグで
+  new-player / change-password 等は非表示にする挙動は実装済み
+- **認証画面 (login/signup/mypage/change-password) の忠実再現** (step-3.3 が旧方針で実装): `.issues/step-3.6-auth-ui-restore.md`
+  で別 step 化済み (本一覧にも転記)
+
 ## 未確定事項
 
 - [x] Step 0 のドキュメント完成度 (合格基準) の定義 — `screens/README.md` 12-24 に 8 項目で定義済み
