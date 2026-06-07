@@ -11,6 +11,27 @@
 - heroicons (アイコン)
 - **react-hook-form + zod** (フォーム / バリデーション)
 
+## ディレクトリ構成 / 設計方針 (確定)
+
+`app/` 配下は **画面軸 (`routes/`) と機能軸 (`features/`) を分離**する。React Router は config ルーティング
+(`app/routes.ts` に明示宣言) を採用しており、`routes/` というフォルダ名自体に魔法はない。
+**`routes.ts` に登録したファイルだけがルート**になり、それ以外は通常のモジュールとして自由に同居できる
+(ファイルベースルーティングのような「置いただけでルート化」事故が起きない)。
+
+- **`routes/` = 画面 (colocation・確定)**
+  - ルート本体と、**その画面専用**の補助 component / logic / hook を同じ場所に置く (React Router 推奨の colocation)
+  - 専用ファイルを持つ画面は**フォルダ**にし、ルート本体を `route.tsx` とする (`routes.ts` では `index("routes/home/route.tsx")` のように指定)。`+types` import は `./+types/route`
+  - 専用ファイルが無い小さな画面は**単一ファイル**でよい (`routes/login.tsx`)
+  - 例: `routes/home/{route.tsx, MenuTile.tsx}`
+- **`features/<domain>/` = 機能 (ドメイン)・確定**
+  - **複数画面で共有する**ドメインの api / hook / 型 / schema / UI を置く。1 画面でしか使わないものはここに置かず `routes/` 側にコロケートする
+  - village は規模が大きいので**用途で分割する** (backend の `domain/model/village/*` の粒度感に対応):
+    - **`features/villages/` (複数形) = 村一覧ドメイン**: 一覧取得・行整形・status フィルタ等 (トップ + 村一覧画面で共有)
+    - **`features/village/` (単数形) = 村詳細ドメイン**: 村詳細移行時に追加。ability / message / participant / setting … とサブディレクトリで分割していく
+- **`app/components/`** = 画面横断の汎用 UI (レイアウト・モーダル等)、**`app/lib/`** = 汎用ユーティリティ (fetch ラッパ等)
+
+> 同方針は [`../../frontend/README.md`](../../frontend/README.md) の「ディレクトリ構成 / 設計方針」にも記載。
+
 ## UI/UX 現状維持原則 (確定・最重要)
 
 - **既存の UI/UX は完成度が高い。移行では現状を忠実に踏襲し、レイアウト・操作フロー・インタラクション・見た目を変えない**
