@@ -63,143 +63,147 @@ export default function Home() {
   const canCreateVillage = me?.canCreateVillage ?? false;
 
   return (
-    <div className="mx-auto max-w-5xl">
-      {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
-      <div className="relative mb-4">
-        <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
-        <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
-          <span className="text-wm-danger">W</span>OLF
-          <br />
-          <span className="text-wm-danger">M</span>ANSION
-        </span>
-        {me && <span className="absolute bottom-1 right-5 text-white">ユーザID: {me.name}</span>}
-      </div>
-
-      {/* サイト紹介 + ナビ */}
-      <section className="mb-4 bg-wm-band p-4 text-center text-white">
-        <h2 className="mb-2 text-base font-bold">状況のみで推理・説得する、新しい人狼</h2>
-        <p className="mb-4 leading-relaxed break-words">
-          WOLF MANSIONでは、
-          <br className="hidden sm:inline" />
-          占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
-          <br className="hidden sm:inline" />
-          【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
-          「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
-        </p>
-        <div className="grid grid-cols-3">
-          <TileAnchor
-            href={legacyUrl("/about")}
-            icon={InformationCircleIcon}
-            jp="本サイトは"
-            en="About"
-          />
-          <TileAnchor
-            href={legacyUrl("/intro")}
-            icon={QuestionMarkCircleIcon}
-            jp="人狼館の事件簿村"
-            en="Introduction"
-          />
-          <TileAnchor
-            href={legacyUrl("/announce")}
-            icon={MegaphoneIcon}
-            jp="お知らせ"
-            en="Announce"
-          />
-          <TileAnchor href={legacyUrl("/rule")} icon={BookOpenIcon} jp="ルール" en="Rule" />
-          <TileAnchor
-            href={legacyUrl("/faq")}
-            icon={QuestionMarkCircleIcon}
-            jp="よくある質問"
-            en="FAQ"
-          />
-          <TileAnchor href={legacyUrl("/skill")} icon={BookOpenIcon} jp="役職一覧" en="Skill" />
+    // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する。
+    // body 自体は変えない (旧方針で作った認証画面 (明色) を壊さないため。認証画面は step-3.6 で忠実再現)。
+    <div className="min-h-screen bg-wm-base">
+      <div className="mx-auto max-w-5xl">
+        {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
+        <div className="relative mb-4">
+          <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
+          <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
+            <span className="text-wm-danger">W</span>OLF
+            <br />
+            <span className="text-wm-danger">M</span>ANSION
+          </span>
+          {me && <span className="absolute bottom-1 right-5 text-white">ユーザID: {me.name}</span>}
         </div>
-      </section>
 
-      {/* 登録/ログイン */}
-      <MenuSection title="登録/ログイン">
-        {me ? (
+        {/* サイト紹介 + ナビ */}
+        <section className="mb-4 bg-wm-band p-4 text-center text-white">
+          <h2 className="mb-2 text-base font-bold">状況のみで推理・説得する、新しい人狼</h2>
+          <p className="mb-4 leading-relaxed break-words">
+            WOLF MANSIONでは、
+            <br className="hidden sm:inline" />
+            占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+            <br className="hidden sm:inline" />
+            【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
+            「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+          </p>
           <div className="grid grid-cols-3">
-            <TileRoute to="/mypage" icon={UserIcon} jp="マイページ" en="My Page" />
-            <TileRoute
-              to="/change-password"
-              icon={WrenchIcon}
-              jp="パスワード変更"
-              en="Change Password"
-            />
-            <TileButton
-              onClick={onLogout}
-              icon={ArrowRightStartOnRectangleIcon}
-              jp="ログアウト"
-              en="Logout"
-            />
-          </div>
-        ) : (
-          <div className="grid grid-cols-2">
-            <TileRoute to="/signup" icon={PencilIcon} jp="ID登録" en="Register" />
-            <TileRoute to="/login" icon={LockClosedIcon} jp="ログイン" en="Login" />
-          </div>
-        )}
-      </MenuSection>
-
-      {/* 開催中の村 */}
-      <MenuSection title="開催中の村">
-        <div className="overflow-x-auto bg-wm-tile">
-          <table className="w-full border-collapse text-white">
-            <tbody>
-              {villages.map((v) => (
-                <VillageRow key={v.villageId} village={v} />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </MenuSection>
-
-      {/* 村一覧/村作成 + ユーザー (PC では横並び) */}
-      <div className="flex flex-col sm:flex-row sm:gap-4">
-        <div className="sm:flex-1">
-          <MenuSection title="村一覧/村作成">
-            <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
-              <TileAnchor
-                href={legacyUrl("/village-list")}
-                icon={ListBulletIcon}
-                jp="村一覧"
-                en="Village list"
-              />
-              {canCreateVillage && (
-                <TileAnchor
-                  href={legacyUrl("/new-village")}
-                  icon={PlusIcon}
-                  jp="村を建てる"
-                  en="Create Village"
-                />
-              )}
-            </div>
-          </MenuSection>
-        </div>
-        <div className="sm:flex-1">
-          <MenuSection title="ユーザー">
             <TileAnchor
-              href={legacyUrl("/user-list")}
-              icon={ListBulletIcon}
-              jp="一覧"
-              en="User list"
+              href={legacyUrl("/about")}
+              icon={InformationCircleIcon}
+              jp="本サイトは"
+              en="About"
             />
-          </MenuSection>
+            <TileAnchor
+              href={legacyUrl("/intro")}
+              icon={QuestionMarkCircleIcon}
+              jp="人狼館の事件簿村"
+              en="Introduction"
+            />
+            <TileAnchor
+              href={legacyUrl("/announce")}
+              icon={MegaphoneIcon}
+              jp="お知らせ"
+              en="Announce"
+            />
+            <TileAnchor href={legacyUrl("/rule")} icon={BookOpenIcon} jp="ルール" en="Rule" />
+            <TileAnchor
+              href={legacyUrl("/faq")}
+              icon={QuestionMarkCircleIcon}
+              jp="よくある質問"
+              en="FAQ"
+            />
+            <TileAnchor href={legacyUrl("/skill")} icon={BookOpenIcon} jp="役職一覧" en="Skill" />
+          </div>
+        </section>
+
+        {/* 登録/ログイン */}
+        <MenuSection title="登録/ログイン">
+          {me ? (
+            <div className="grid grid-cols-3">
+              <TileRoute to="/mypage" icon={UserIcon} jp="マイページ" en="My Page" />
+              <TileRoute
+                to="/change-password"
+                icon={WrenchIcon}
+                jp="パスワード変更"
+                en="Change Password"
+              />
+              <TileButton
+                onClick={onLogout}
+                icon={ArrowRightStartOnRectangleIcon}
+                jp="ログアウト"
+                en="Logout"
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2">
+              <TileRoute to="/signup" icon={PencilIcon} jp="ID登録" en="Register" />
+              <TileRoute to="/login" icon={LockClosedIcon} jp="ログイン" en="Login" />
+            </div>
+          )}
+        </MenuSection>
+
+        {/* 開催中の村 */}
+        <MenuSection title="開催中の村">
+          <div className="overflow-x-auto bg-wm-tile">
+            <table className="w-full border-collapse text-white">
+              <tbody>
+                {villages.map((v) => (
+                  <VillageRow key={v.villageId} village={v} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </MenuSection>
+
+        {/* 村一覧/村作成 + ユーザー (PC では横並び) */}
+        <div className="flex flex-col sm:flex-row sm:gap-4">
+          <div className="sm:flex-1">
+            <MenuSection title="村一覧/村作成">
+              <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
+                <TileAnchor
+                  href={legacyUrl("/village-list")}
+                  icon={ListBulletIcon}
+                  jp="村一覧"
+                  en="Village list"
+                />
+                {canCreateVillage && (
+                  <TileAnchor
+                    href={legacyUrl("/new-village")}
+                    icon={PlusIcon}
+                    jp="村を建てる"
+                    en="Create Village"
+                  />
+                )}
+              </div>
+            </MenuSection>
+          </div>
+          <div className="sm:flex-1">
+            <MenuSection title="ユーザー">
+              <TileAnchor
+                href={legacyUrl("/user-list")}
+                icon={ListBulletIcon}
+                jp="一覧"
+                en="User list"
+              />
+            </MenuSection>
+          </div>
         </div>
+
+        {/* キャラチップ */}
+        <MenuSection title="キャラチップ">
+          <TileAnchor
+            href={legacyUrl("/chara-group")}
+            icon={ListBulletIcon}
+            jp="一覧"
+            en="Character list"
+          />
+        </MenuSection>
+
+        <Footer />
       </div>
-
-      {/* キャラチップ */}
-      <MenuSection title="キャラチップ">
-        <TileAnchor
-          href={legacyUrl("/chara-group")}
-          icon={ListBulletIcon}
-          jp="一覧"
-          en="Character list"
-        />
-      </MenuSection>
-
-      <Footer />
     </div>
   );
 }

@@ -6,6 +6,7 @@
     "Segoe UI Symbol", "Noto Color Emoji";
 
   /* WOLF MANSION ブランド配色 (既存 bootstrap-override.css 由来。`:8091` 忠実再現用トークン) */
+  --color-wm-base: #222222; /* ページ全体の地色 (既存 body 背景) */
   --color-wm-band: #333333; /* メニュー帯・タイル枠 */
   --color-wm-tile: #0b162a; /* タイル背景 */
   --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
