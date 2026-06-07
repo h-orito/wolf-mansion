@@ -260,7 +260,65 @@
         },
         "required": ["password", "userId"]
       },
-      "Tag": {
+      "SimpleVillageView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "statusName": {
+            "type": "string"
+          },
+          "isPrologue": {
+            "type": "boolean"
+          },
+          "participantCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "spectatorCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxPersonCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageTag"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "isPrologue",
+          "maxPersonCount",
+          "name",
+          "participantCount",
+          "spectatorCount",
+          "statusName",
+          "tags"
+        ]
+      },
+      "VillageListResponse": {
+        "type": "object",
+        "properties": {
+          "villages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleVillageView"
+            }
+          }
+        },
+        "required": ["villages"]
+      },
+      "VillageTag": {
         "type": "object",
         "properties": {
           "level": {
@@ -271,53 +329,6 @@
           }
         },
         "required": ["level", "name"]
-      },
-      "VillageListResponse": {
-        "type": "object",
-        "properties": {
-          "villages": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageSummary"
-            }
-          }
-        },
-        "required": ["villages"]
-      },
-      "VillageSummary": {
-        "type": "object",
-        "properties": {
-          "villageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "villageNumber": {
-            "type": "string"
-          },
-          "villageName": {
-            "type": "string"
-          },
-          "participateNum": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          }
-        },
-        "required": [
-          "participateNum",
-          "status",
-          "tags",
-          "villageId",
-          "villageName",
-          "villageNumber"
-        ]
       }
     }
   }

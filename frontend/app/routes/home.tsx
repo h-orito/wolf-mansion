@@ -16,7 +16,8 @@ import { Footer } from "~/components/layout/Footer";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { MenuSection, TileAnchor, TileButton, TileRoute } from "~/features/home/MenuTile";
-import type { VillageSummary } from "~/features/village/api";
+import type { SimpleVillageView } from "~/features/village/api";
+import { participateNumLabel, villageNumber } from "~/features/village/format";
 import { useVillages } from "~/features/village/useVillages";
 import { legacyUrl } from "~/lib/api";
 import type { Route } from "./+types/home";
@@ -161,7 +162,7 @@ export default function Home() {
             <table className="w-full border-collapse text-white">
               <tbody>
                 {villages.map((v) => (
-                  <VillageRow key={v.villageId} village={v} />
+                  <VillageRow key={v.id} village={v} />
                 ))}
               </tbody>
             </table>
@@ -218,8 +219,8 @@ export default function Home() {
   );
 }
 
-function VillageRow({ village }: { village: VillageSummary }) {
-  const url = legacyUrl(`/village/${village.villageId}`);
+function VillageRow({ village }: { village: SimpleVillageView }) {
+  const url = legacyUrl(`/village/${village.id}`);
   // 既存 (:8091) は番号/人数/状態が中央寄せ、村名のみ左寄せ (`.top-menu-inner` の text-align:center + td.text-left)。
   const cell = "border border-wm-band p-0";
   const link = "block p-[5px] text-white no-underline hover:text-wm-accent";
@@ -227,7 +228,7 @@ function VillageRow({ village }: { village: VillageSummary }) {
     <tr className="border border-wm-band hover:bg-wm-tile-hover">
       <td className={`${cell} text-center`}>
         <a href={url} className={link}>
-          {village.villageNumber}
+          {villageNumber(village.id)}
         </a>
       </td>
       <td className={`${cell} text-left`}>
@@ -244,17 +245,17 @@ function VillageRow({ village }: { village: VillageSummary }) {
               {tag.name}
             </span>
           ))}
-          {village.villageName}
+          {village.name}
         </a>
       </td>
       <td className={`${cell} text-center`}>
         <a href={url} className={link}>
-          {village.participateNum}
+          {participateNumLabel(village)}
         </a>
       </td>
       <td className={`${cell} text-center`}>
         <a href={url} className={link}>
-          {village.status}
+          {village.statusName}
         </a>
       </td>
     </tr>

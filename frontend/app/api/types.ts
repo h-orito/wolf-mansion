@@ -138,21 +138,26 @@ export interface components {
       userId: string | null;
       password: string | null;
     };
-    Tag: {
-      level: string;
+    SimpleVillageView: {
+      /** Format: int32 */
+      id: number;
       name: string;
+      statusName: string;
+      isPrologue: boolean;
+      /** Format: int32 */
+      participantCount: number;
+      /** Format: int32 */
+      spectatorCount: number;
+      /** Format: int32 */
+      maxPersonCount: number;
+      tags: components["schemas"]["VillageTag"][];
     };
     VillageListResponse: {
-      villages: components["schemas"]["VillageSummary"][];
+      villages: components["schemas"]["SimpleVillageView"][];
     };
-    VillageSummary: {
-      /** Format: int32 */
-      villageId: number;
-      villageNumber: string;
-      villageName: string;
-      participateNum: string;
-      status: string;
-      tags: components["schemas"]["Tag"][];
+    VillageTag: {
+      level: string;
+      name: string;
     };
   };
   responses: never;

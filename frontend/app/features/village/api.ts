@@ -3,7 +3,8 @@ import { apiFetch } from "~/lib/api";
 
 /** 村一覧 (`GET /api/v1/villages`) の型 (OpenAPI 生成型・Step 4.1)。 */
 export type VillageListResponse = components["schemas"]["VillageListResponse"];
-export type VillageSummary = components["schemas"]["VillageSummary"];
+/** 一覧用の軽量ビュー (生データ。表示整形は画面側)。 */
+export type SimpleVillageView = components["schemas"]["SimpleVillageView"];
 
 /** 村の状態フィルタ。backend `VillageRestController` の status と一致。 */
 export type VillageStatusFilter = "all" | "notFinished" | "finished";
