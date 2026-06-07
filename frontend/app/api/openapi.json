@@ -151,7 +151,10 @@
             "in": "query",
             "required": false,
             "schema": {
-              "type": "string"
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
             }
           }
         ],
@@ -260,31 +263,14 @@
         },
         "required": ["password", "userId"]
       },
-      "SimpleVillageView": {
+      "Setting": {
         "type": "object",
         "properties": {
-          "id": {
+          "personMin": {
             "type": "integer",
             "format": "int32"
           },
-          "name": {
-            "type": "string"
-          },
-          "statusName": {
-            "type": "string"
-          },
-          "isPrologue": {
-            "type": "boolean"
-          },
-          "participantCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "spectatorCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxPersonCount": {
+          "personMax": {
             "type": "integer",
             "format": "int32"
           },
@@ -295,16 +281,34 @@
             }
           }
         },
-        "required": [
-          "id",
-          "isPrologue",
-          "maxPersonCount",
-          "name",
-          "participantCount",
-          "spectatorCount",
-          "statusName",
-          "tags"
-        ]
+        "required": ["personMax", "personMin", "tags"]
+      },
+      "SimpleVillageView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VillageStatus"
+          },
+          "participantCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "spectatorCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "setting": {
+            "$ref": "#/components/schemas/Setting"
+          }
+        },
+        "required": ["id", "name", "participantCount", "setting", "spectatorCount", "status"]
       },
       "VillageListResponse": {
         "type": "object",
@@ -318,17 +322,64 @@
         },
         "required": ["villages"]
       },
+      "VillageStatus": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isPrologue": {
+            "type": "boolean"
+          },
+          "isCanceled": {
+            "type": "boolean"
+          },
+          "isSettled": {
+            "type": "boolean"
+          },
+          "isProgress": {
+            "type": "boolean"
+          },
+          "isEpilogue": {
+            "type": "boolean"
+          },
+          "isNotFinished": {
+            "type": "boolean"
+          },
+          "isSettleOrCanceled": {
+            "type": "boolean"
+          },
+          "isFinished": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "isCanceled",
+          "isEpilogue",
+          "isFinished",
+          "isNotFinished",
+          "isProgress",
+          "isPrologue",
+          "isSettleOrCanceled",
+          "isSettled",
+          "name"
+        ]
+      },
       "VillageTag": {
         "type": "object",
         "properties": {
-          "level": {
+          "code": {
             "type": "string"
           },
           "name": {
             "type": "string"
           }
         },
-        "required": ["level", "name"]
+        "required": ["code", "name"]
       }
     }
   }

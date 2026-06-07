@@ -138,25 +138,41 @@ export interface components {
       userId: string | null;
       password: string | null;
     };
+    Setting: {
+      /** Format: int32 */
+      personMin: number;
+      /** Format: int32 */
+      personMax: number;
+      tags: components["schemas"]["VillageTag"][];
+    };
     SimpleVillageView: {
       /** Format: int32 */
       id: number;
       name: string;
-      statusName: string;
-      isPrologue: boolean;
+      status: components["schemas"]["VillageStatus"];
       /** Format: int32 */
       participantCount: number;
       /** Format: int32 */
       spectatorCount: number;
-      /** Format: int32 */
-      maxPersonCount: number;
-      tags: components["schemas"]["VillageTag"][];
+      setting: components["schemas"]["Setting"];
     };
     VillageListResponse: {
       villages: components["schemas"]["SimpleVillageView"][];
     };
+    VillageStatus: {
+      code: string;
+      name: string;
+      isPrologue: boolean;
+      isCanceled: boolean;
+      isSettled: boolean;
+      isProgress: boolean;
+      isEpilogue: boolean;
+      isNotFinished: boolean;
+      isSettleOrCanceled: boolean;
+      isFinished: boolean;
+    };
     VillageTag: {
-      level: string;
+      code: string;
       name: string;
     };
   };
@@ -285,7 +301,7 @@ export interface operations {
   list: {
     parameters: {
       query?: {
-        status?: string;
+        status?: string[];
       };
       header?: never;
       path?: never;

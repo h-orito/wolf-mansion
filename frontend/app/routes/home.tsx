@@ -16,8 +16,8 @@ import { Footer } from "~/components/layout/Footer";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { MenuSection, TileAnchor, TileButton, TileRoute } from "~/features/home/MenuTile";
-import type { SimpleVillageView } from "~/features/village/api";
-import { participateNumLabel, villageNumber } from "~/features/village/format";
+import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/village/api";
+import { participateNumLabel, villageListTags, villageNumber } from "~/features/village/format";
 import { useVillages } from "~/features/village/useVillages";
 import { legacyUrl } from "~/lib/api";
 import type { Route } from "./+types/home";
@@ -46,8 +46,8 @@ export function meta(_: Route.MetaArgs) {
 
 export default function Home() {
   const { me } = useMe();
-  // トップは未終了 (募集中/進行中/エピローグ) の村を表示。村一覧 API を status で絞って共有利用する。
-  const { data: villageData } = useVillages("notFinished");
+  // トップは未終了 (募集中/進行中/エピローグ) の村を表示。村一覧 API を status code で絞って共有利用する。
+  const { data: villageData } = useVillages(NOT_FINISHED_STATUSES);
   const invalidateMe = useInvalidateMe();
 
   const onLogout = async () => {
@@ -233,13 +233,11 @@ function VillageRow({ village }: { village: SimpleVillageView }) {
       </td>
       <td className={`${cell} text-left`}>
         <a href={url} className={link}>
-          {village.tags.map((tag) => (
+          {villageListTags(village).map((tag) => (
             <span
               key={tag.name}
               className={`mr-1 rounded border px-1 ${
-                tag.level === "danger"
-                  ? "border-wm-danger text-wm-danger"
-                  : "border-wm-accent text-wm-accent"
+                tag.danger ? "border-wm-danger text-wm-danger" : "border-wm-accent text-wm-accent"
               }`}
             >
               {tag.name}
@@ -255,7 +253,7 @@ function VillageRow({ village }: { village: SimpleVillageView }) {
       </td>
       <td className={`${cell} text-center`}>
         <a href={url} className={link}>
-          {village.statusName}
+          {village.status.name}
         </a>
       </td>
     </tr>
