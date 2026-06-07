@@ -66,9 +66,10 @@ export default function Home() {
     // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する。
     // body 自体は変えない (旧方針で作った認証画面 (明色) を壊さないため。認証画面は step-3.6 で忠実再現)。
     <div className="min-h-screen bg-wm-base text-xs">
-      <div className="mx-auto max-w-5xl">
+      {/* 既存 Bootstrap3 .container と同じレスポンシブ最大幅 (768→750 / 992→970 / 1200→1170)。 */}
+      <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
-        <div className="relative mb-4">
+        <div className="relative mb-[15px]">
           <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
           <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
             <span className="text-wm-danger">W</span>OLF
@@ -78,17 +79,21 @@ export default function Home() {
           {me && <span className="absolute bottom-1 right-5 text-white">ユーザID: {me.name}</span>}
         </div>
 
-        {/* サイト紹介 + ナビ */}
-        <section className="mb-4 bg-wm-band p-4 text-center text-white">
-          <h2 className="mb-2 text-[15px] font-normal">状況のみで推理・説得する、新しい人狼</h2>
-          <p className="mb-4 leading-relaxed break-words">
-            WOLF MANSIONでは、
-            <br className="hidden sm:inline" />
-            占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
-            <br className="hidden sm:inline" />
-            【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
-            「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
-          </p>
+        {/* サイト紹介 + ナビ (見出し・説明は 100px 高の中央行。:8091 再現) */}
+        <section className="bg-wm-band bg-clip-content p-[15px] text-center text-white">
+          <div className="flex min-h-[100px] items-center justify-center">
+            <h2 className="text-[15px] font-normal">状況のみで推理・説得する、新しい人狼</h2>
+          </div>
+          <div className="flex min-h-[100px] items-center justify-center px-10">
+            <p className="leading-relaxed break-words">
+              WOLF MANSIONでは、
+              <br className="hidden sm:inline" />
+              占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+              <br className="hidden sm:inline" />
+              【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
+              「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+            </p>
+          </div>
           <div className="grid grid-cols-3">
             <TileAnchor
               href={legacyUrl("/about")}
@@ -159,7 +164,7 @@ export default function Home() {
         </MenuSection>
 
         {/* 村一覧/村作成 + ユーザー (PC では横並び) */}
-        <div className="flex flex-col sm:flex-row sm:gap-4">
+        <div className="flex flex-col sm:flex-row">
           <div className="sm:flex-1">
             <MenuSection title="村一覧/村作成">
               <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>

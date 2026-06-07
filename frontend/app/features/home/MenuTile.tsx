@@ -81,11 +81,17 @@ export function TileButton({
   );
 }
 
-/** 暗色帯のメニューセクション (既存 `top-menu` 帯)。白見出し + 中身。 */
+/**
+ * 暗色帯のメニューセクション (既存 `top-menu` 帯)。
+ * 既存再現: `bg-clip-content` + 15px padding で #333 帯を地色(#222)から 15px インセット
+ * (帯の周囲・帯同士の間に #222 フレーム/隙間ができる)。見出しは 100px 高の中央寄せ行。
+ */
 export function MenuSection({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="mb-4 bg-wm-band p-4">
-      <h2 className="mb-3 text-center text-[15px] font-normal text-white">{title}</h2>
+    <section className="bg-wm-band bg-clip-content p-[15px]">
+      <div className="flex min-h-[100px] items-center justify-center">
+        <h2 className="text-center text-[15px] font-normal text-white">{title}</h2>
+      </div>
       {children}
     </section>
   );
