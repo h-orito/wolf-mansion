@@ -6,6 +6,7 @@ import com.ort.app.api.auth.request.SignupRequest
 import com.ort.app.api.auth.response.MeResponse
 import com.ort.app.application.coordinator.AuthCoordinator
 import com.ort.app.application.coordinator.AuthTokens
+import com.ort.app.application.service.PlayerService
 import com.ort.app.fw.exception.WolfMansionAuthException
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getIpAddress
@@ -29,7 +30,11 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val authCoordinator: AuthCoordinator,
     private val authCookieFactory: AuthCookieFactory,
+    private val playerService: PlayerService,
 ) {
+    /** principal からプレイヤーを引いて MeResponse を組み立てる (canCreateVillage 込み)。 */
+    private fun toMeResponse(principal: JwtPrincipal): MeResponse = MeResponse(principal, playerService.findPlayer(principal.name))
+
     /** ID / パスワードで認証し、access + refresh Cookie をセットする。失敗は 401、レート制限超過は 429。 */
     @PostMapping("/login")
     fun login(
@@ -39,7 +44,7 @@ class AuthController(
     ): MeResponse {
         val tokens = authCoordinator.login(request.userId!!, request.password!!, httpRequest.getIpAddress())
         writeAuthCookies(response, tokens)
-        return MeResponse(tokens.principal)
+        return toMeResponse(tokens.principal)
     }
 
     /**
@@ -55,7 +60,7 @@ class AuthController(
         val tokens = authCoordinator.signup(request.userId!!, request.password!!, recentlyRegistered == true)
         writeAuthCookies(response, tokens)
         response.addHeader(HttpHeaders.SET_COOKIE, authCookieFactory.idRegisterCookie().toString())
-        return MeResponse(tokens.principal)
+        return toMeResponse(tokens.principal)
     }
 
     /** ログイン中ユーザー自身のパスワード変更 (認証必須)。確認用不一致は 400。 */
@@ -81,7 +86,7 @@ class AuthController(
         if (refreshToken.isNullOrBlank()) throw WolfMansionAuthException("リフレッシュトークンがありません")
         val tokens = authCoordinator.refresh(refreshToken)
         writeAuthCookies(response, tokens)
-        return MeResponse(tokens.principal)
+        return toMeResponse(tokens.principal)
     }
 
     /** 両 Cookie を消去し、DB 側の refresh token も失効させる。 */
@@ -102,7 +107,7 @@ class AuthController(
         @AuthenticationPrincipal principal: JwtPrincipal?,
     ): MeResponse {
         val authenticated = principal ?: throw WolfMansionAuthException("認証が必要です")
-        return MeResponse(authenticated)
+        return toMeResponse(authenticated)
     }
 
     private fun writeAuthCookies(

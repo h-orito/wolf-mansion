@@ -141,6 +141,37 @@
         }
       }
     },
+    "/api/v1/villages": {
+      "get": {
+        "tags": ["village-rest-controller"],
+        "operationId": "list",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/me": {
       "get": {
         "tags": ["auth-controller"],
@@ -195,9 +226,12 @@
             "items": {
               "type": "string"
             }
+          },
+          "canCreateVillage": {
+            "type": "boolean"
           }
         },
-        "required": ["authorities", "name", "playerId"]
+        "required": ["authorities", "canCreateVillage", "name", "playerId"]
       },
       "PasswordChangeRequest": {
         "type": "object",
@@ -228,6 +262,124 @@
           }
         },
         "required": ["password", "userId"]
+      },
+      "Setting": {
+        "type": "object",
+        "properties": {
+          "personMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageTag"
+            }
+          }
+        },
+        "required": ["personMax", "personMin", "tags"]
+      },
+      "SimpleVillageView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VillageStatus"
+          },
+          "participantCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "spectatorCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "setting": {
+            "$ref": "#/components/schemas/Setting"
+          }
+        },
+        "required": ["id", "name", "participantCount", "setting", "spectatorCount", "status"]
+      },
+      "VillageListResponse": {
+        "type": "object",
+        "properties": {
+          "villages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleVillageView"
+            }
+          }
+        },
+        "required": ["villages"]
+      },
+      "VillageStatus": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isPrologue": {
+            "type": "boolean"
+          },
+          "isCanceled": {
+            "type": "boolean"
+          },
+          "isSettled": {
+            "type": "boolean"
+          },
+          "isProgress": {
+            "type": "boolean"
+          },
+          "isEpilogue": {
+            "type": "boolean"
+          },
+          "isNotFinished": {
+            "type": "boolean"
+          },
+          "isSettleOrCanceled": {
+            "type": "boolean"
+          },
+          "isFinished": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "isCanceled",
+          "isEpilogue",
+          "isFinished",
+          "isNotFinished",
+          "isProgress",
+          "isPrologue",
+          "isSettleOrCanceled",
+          "isSettled",
+          "name"
+        ]
+      },
+      "VillageTag": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
       }
     }
   }

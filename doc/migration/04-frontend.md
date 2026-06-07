@@ -11,13 +11,35 @@
 - heroicons (アイコン)
 - **react-hook-form + zod** (フォーム / バリデーション)
 
+## ディレクトリ構成 / 設計方針 (確定)
+
+`app/` 配下は **画面軸 (`routes/`) と機能軸 (`features/`) を分離**する。React Router は config ルーティング
+(`app/routes.ts` に明示宣言) を採用しており、`routes/` というフォルダ名自体に魔法はない。
+**`routes.ts` に登録したファイルだけがルート**になり、それ以外は通常のモジュールとして自由に同居できる
+(ファイルベースルーティングのような「置いただけでルート化」事故が起きない)。
+
+- **`routes/` = 画面 (colocation・確定)**
+  - ルート本体と、**その画面専用**の補助 component / logic / hook を同じ場所に置く (React Router 推奨の colocation)
+  - 専用ファイルを持つ画面は**フォルダ**にし、ルート本体を `route.tsx` とする (`routes.ts` では `index("routes/home/route.tsx")` のように指定)。`+types` import は `./+types/route`
+  - 専用ファイルが無い小さな画面は**単一ファイル**でよい (`routes/login.tsx`)
+  - 例: `routes/home/{route.tsx, MenuTile.tsx}`
+- **`features/<domain>/` = 機能 (ドメイン)・確定**
+  - **複数画面で共有する**ドメインの api / hook / 型 / schema / UI を置く。1 画面でしか使わないものはここに置かず `routes/` 側にコロケートする
+  - village は規模が大きいので**用途で分割する** (backend の `domain/model/village/*` の粒度感に対応):
+    - **`features/villages/` (複数形) = 村一覧ドメイン**: 一覧取得・行整形・status フィルタ等 (トップ + 村一覧画面で共有)
+    - **`features/village/` (単数形) = 村詳細ドメイン**: 村詳細移行時に追加。ability / message / participant / setting … とサブディレクトリで分割していく
+- **`app/components/`** = 画面横断の汎用 UI (レイアウト・モーダル等)、**`app/lib/`** = 汎用ユーティリティ (fetch ラッパ等)
+
+> 同方針は [`../../frontend/README.md`](../../frontend/README.md) の「ディレクトリ構成 / 設計方針」にも記載。
+
 ## UI/UX 現状維持原則 (確定・最重要)
 
 - **既存の UI/UX は完成度が高い。移行では現状を忠実に踏襲し、レイアウト・操作フロー・インタラクション・見た目を変えない**
 - **UI/UX を変更するのは、ユーザーが明示的に指示した箇所のみ**。実装者 (Claude 含む) の判断で勝手に「改善」しない
 - 各画面 md に UI/UX の変更を書く場合は **「ユーザー指示による変更」であることを明記**する。指示のない変更提案・改善案は書かない
 - 実装上やむを得ない置換 (例: Bootstrap collapse → React state、Handlebars → React component、Cookie → localStorage) は、**挙動・見た目が同一である限り UI/UX 変更ではない** (現状踏襲とみなす)
-- デザインのモダナイズは cutover 後の別フェーズ (Step 13)。本移行では行わない
+- **忠実再現は各画面を移行する step で行う** (cutover 後にまとめて直すのではない)。`:8091` 基準の見た目・`<title>` / OGP / `<head>` メタ・共通ヘッダーまで、その画面の step 内で一致させる ([08-step-plan.md](08-step-plan.md) の「忠実再現は各画面 step で行う」)
+- デザインのモダナイズ (見た目の刷新) は cutover 後の別フェーズ (Step 12)。本移行では行わない
 - 視覚比較 (`screens/*` の「視覚比較」) は既存 `:8091` を一次基準にし、差異が出たら **既存に合わせる**
 
 > 現状 docs に記載のある UI/UX 変更 (例: [new-village.md](screens/new-village.md) の確認モーダル化、[village-admin.md](screens/village/village-admin.md) の参加プレイヤー一覧インライン化) は **すべてユーザー指示によるもの**。各 md にその旨を明記している。
@@ -125,7 +147,7 @@
 
 ## デザイントークン抽出 (Step 2 で theme 化と同時)
 
-- **Step 0 では実施しない** (専用の `design-tokens.md` は作らない)。デザインを詰めるのは cutover 後 (Step 13) の原則に沿い、トークンの抽出は **Step 2 (frontend 雛形/初期設計) で Tailwind v4 theme を組む際に同時に行う**
+- **Step 0 では実施しない** (専用の `design-tokens.md` は作らない)。各画面の忠実再現は移行 step で行うが、**後続のモダナイズ (Step 12) で token 値の差し替えだけで刷新できる構造**にするため、トークンの抽出は **Step 2 (frontend 雛形/初期設計) で Tailwind v4 theme を組む際に同時に行う**
 - **Step 2**: 既存 CSS / Thymeleaf から token を抽出しつつ、そのまま Tailwind v4 の theme (CSS variables) に落とし込む
   - 抽出対象: 主要色 (役職別カラー / 陣営別カラー / 状態色) / 余白 / 角丸 / フォントサイズ / シャドウ など
   - Tailwind v4 の `@theme` ブロックで CSS variables として定義

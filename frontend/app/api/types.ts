@@ -83,6 +83,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/me": {
     parameters: {
       query?: never;
@@ -112,6 +128,7 @@ export interface components {
       playerId: number;
       name: string;
       authorities: string[];
+      canCreateVillage: boolean;
     };
     PasswordChangeRequest: {
       password: string | null;
@@ -120,6 +137,43 @@ export interface components {
     LoginRequest: {
       userId: string | null;
       password: string | null;
+    };
+    Setting: {
+      /** Format: int32 */
+      personMin: number;
+      /** Format: int32 */
+      personMax: number;
+      tags: components["schemas"]["VillageTag"][];
+    };
+    SimpleVillageView: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      status: components["schemas"]["VillageStatus"];
+      /** Format: int32 */
+      participantCount: number;
+      /** Format: int32 */
+      spectatorCount: number;
+      setting: components["schemas"]["Setting"];
+    };
+    VillageListResponse: {
+      villages: components["schemas"]["SimpleVillageView"][];
+    };
+    VillageStatus: {
+      code: string;
+      name: string;
+      isPrologue: boolean;
+      isCanceled: boolean;
+      isSettled: boolean;
+      isProgress: boolean;
+      isEpilogue: boolean;
+      isNotFinished: boolean;
+      isSettleOrCanceled: boolean;
+      isFinished: boolean;
+    };
+    VillageTag: {
+      code: string;
+      name: string;
     };
   };
   responses: never;
@@ -240,6 +294,28 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["MeResponse"];
+        };
+      };
+    };
+  };
+  list: {
+    parameters: {
+      query?: {
+        status?: string[];
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageListResponse"];
         };
       };
     };

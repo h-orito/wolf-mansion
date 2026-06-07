@@ -35,7 +35,7 @@ class PlayerController(
     companion object {
         private const val COOKIE_NAME_ID_REGISTER = "id_register"
         private val MAX_AGE_ID_REGISTER = 60 * 30 // 30分
-        private val PATH_ID_REGISTER = "/wolf-mansion/"
+        private val PATH_ID_REGISTER = "/wolf-mansion-api/"
     }
 
     @InitBinder("changePasswordForm")

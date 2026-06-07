@@ -14,7 +14,7 @@ spring:
 
 server:
   servlet:
-    contextPath: /wolf-mansion
+    contextPath: /wolf-mansion-api
     session:
       timeout: 86400
   port: 8089

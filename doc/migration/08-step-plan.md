@@ -206,13 +206,34 @@ wolf-mansion で最も機能密度が高い画面。**8.1 (ベース) を最初�
 - **依存**: Step 10
 - **動作確認**: 本番で全画面動作 / 公開 API 互換 / ロールバック手順の確認
 
-### Step 12-13: 後続フェーズ (本移行スコープ外・cutover 後)
+### 忠実再現は各画面 step で行う (方針・最重要)
 
-本移行 (Step 0-11) は **UI/UX 現状維持**が原則。見た目に関わる作業は cutover 後の別フェーズで実施:
+> **方針変更 (ユーザー指示)**: 当初は「移行中は機能優先で近似 → cutover 後の Step 12 で一括忠実復元」としていたが、**二度手間で非効率**なため廃止。**各画面を移行するその step で `:8091` 基準の見た目を忠実に再現する**方針に変更した。
 
-- **Step 12: 元画面の忠実復元** — 移行中に近似で済ませた箇所を `:8091` 基準で細部まで一致させる
-  - **画面ごとの `<title>` / OGP (og:title・og:description・og:image 等) / `<head>` メタ / 共通ヘッダー (ナビ・ロゴ) も明示的に復元対象に含める**。移行中は機能優先で仮の title (例: Step 3.3 のログイン/トップ) を置いているため、各画面で `:8091` 基準の文言・メタを復元する
-- **Step 13: 視覚モダナイズ** — デザイントークン + 共通コンポーネントの差し替えで見た目を刷新 ([04-frontend.md](04-frontend.md))
+- 各画面 step (Step 4 以降) の成果物は、**レイアウト・色・余白・細部・`<title>` / OGP (og:title・og:description・og:image 等) / `<head>` メタ / 共通ヘッダー (ナビ・ロゴ) を含めて `:8091` 基準で忠実に再現**したものとする (「近似で済ませて後で直す」はしない)
+- 各 step の「動作確認」に **`:8091` とのスクショ/DOM 比較で見た目が一致すること**を含める
+- 実装上やむを得ない置換 (Bootstrap collapse → React state 等) は挙動・見た目が同一なら現状踏襲とみなす ([04-frontend.md](04-frontend.md) の UI/UX 現状維持原則)
+
+### Step 12: 視覚モダナイズ (本移行スコープ外・cutover 後)
+
+本移行 (Step 0-11) は **UI/UX 現状維持** (= 既存の見た目を忠実再現し、モダナイズはしない) が原則。見た目の刷新は cutover 後の別フェーズで実施:
+
+- **Step 12: 視覚モダナイズ** — デザイントークン + 共通コンポーネントの差し替えで見た目を刷新 ([04-frontend.md](04-frontend.md))。移行中は各画面 step で忠実再現済みのため、本 step は「現状再現の精度合わせ」ではなく純粋な刷新作業
+
+## 繰り越し事項 (移行中に先送りした実装)
+
+各画面 step で意図的にプレースホルダー化・後回しにした実装を、忘れないようここに集約する
+(個別 issue は完了で削除されるため、恒久的な追跡先を docs に置く)。
+
+- **フッターの Google AdSense 本結線** (step-4.1 でプレースホルダー化): 現状 `frontend/app/components/layout/Footer.tsx` は
+  広告枠をダミー表示にしている (script 連携なし)。既存は `ca-pub-0917187897820609` / slot `1022209690` の adsbygoogle。
+  **Step 11 (cutover) で本番ドメイン確定後に本結線**するか、Step 12 (モダナイズ) で扱う。`noAd` フラグで
+  new-player / change-password 等は非表示にする挙動は実装済み
+- **認証画面 (login/signup/mypage/change-password) の忠実再現** (step-3.3 が旧方針で実装): `.issues/step-3.6-auth-ui-restore.md`
+  で別 step 化済み (本一覧にも転記)
+- **静的アセットの frontend 移管に伴う OGP 画像 path 更新** (step-4.1): context-path rename で backend が `/wolf-mansion-api`
+  配信になったため、現状 OGP の `og:image` 等は `/wolf-mansion-api/app/images/...` を指す。**Step 10/11 で静的アセットを
+  frontend へ移す際に `/wolf-mansion/...` へ更新**する (本文画像 `legacyUrl` も同様に frontend 参照へ切替)
 
 ## 未確定事項
 

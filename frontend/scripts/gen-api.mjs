@@ -8,11 +8,11 @@
  *   - constants.ts … request schema の制約 (minLength/maxLength/pattern) 由来の共有定数
  *
  * すべて生成物。手動編集しないこと (再生成で上書きされる)。
- * 実行前に backend を起動しておく (既定 http://localhost:8089/wolf-mansion)。
+ * 実行前に backend を起動しておく (既定 http://localhost:8089/wolf-mansion-api)。
  *
  * env:
  *   BACKEND_ORIGIN … backend オリジン (既定 http://localhost:8089)。CI は別ポートを渡す
- *   VITE_API_BASE  … context-path (既定 /wolf-mansion)
+ *   VITE_API_BASE  … backend context-path (既定 /wolf-mansion-api)
  *   OPENAPI_URL    … spec URL を直接指定 (上記 2 つを上書き)
  */
 import { mkdir, writeFile } from "node:fs/promises";
@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 import openapiTS, { astToString } from "openapi-typescript";
 
 const BACKEND_ORIGIN = process.env.BACKEND_ORIGIN ?? "http://localhost:8089";
-const API_BASE = process.env.VITE_API_BASE ?? "/wolf-mansion";
+const API_BASE = process.env.VITE_API_BASE ?? "/wolf-mansion-api";
 const SPEC_URL = process.env.OPENAPI_URL ?? `${BACKEND_ORIGIN}${API_BASE}/v3/api-docs`;
 
 const apiDir = resolve(dirname(fileURLToPath(import.meta.url)), "../app/api");
