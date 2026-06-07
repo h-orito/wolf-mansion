@@ -7,14 +7,14 @@ import { Modal } from "~/components/ui/Modal";
  * 連絡先 / 投げ銭モーダル / プライバシーポリシーモーダル (10条本文)。
  * AdSense は **プレースホルダー** (script 連携は Step 11 / モダナイズで本結線。`noAd` で出し分け)。
  *
- * 配色は `:8091` 準拠: フッター本文は白文字 + リンクはアクセント teal (#0ce3ac)。モーダルは白ダイアログで
- * 投げ銭の各導線は btn-success 相当の緑ボタン (#00bc8c)。
+ * 配色は `:8091` 準拠: フッター本文は白文字 + リンクはアクセント teal (#0ce3ac)。モーダルはダークダイアログ
+ * (#303030 / 白文字) で、本文リンクもアクセント teal、投げ銭の各導線は btn-success 相当の緑ボタン (#00bc8c)。
  */
 
 // フッター (暗色地) 上のリンク = アクセント teal。
 const footerLink = "text-wm-accent hover:underline";
-// 白モーダル上の inline リンク。
-const modalLink = "text-blue-700 hover:underline";
+// モーダル (暗色地) 上の inline リンク = アクセント teal (既存 modal body link #0ce3ac)。
+const modalLink = "text-wm-accent hover:underline";
 // 投げ銭モーダルの導線ボタン (既存 btn-sm btn-success)。
 const successBtn =
   "inline-block rounded bg-[#00bc8c] px-3 py-1 text-[13px] text-white hover:opacity-90";
@@ -97,7 +97,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-gray-200" />
+      <hr className="border-[#464545]" />
       <section>
         <h4 className="font-bold">Amazonギフト券（Eメールタイプ）を送る</h4>
         <ul className="list-disc pl-5">
@@ -117,7 +117,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-gray-200" />
+      <hr className="border-[#464545]" />
       <section>
         <h4 className="font-bold">Amazonアソシエイト経由で買い物をする</h4>
         <ul className="list-disc pl-5">
@@ -131,7 +131,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-gray-200" />
+      <hr className="border-[#464545]" />
       <section>
         <h4 className="font-bold">Pixiv Fanbox</h4>
         <div className="text-right">
@@ -140,7 +140,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-gray-200" />
+      <hr className="border-[#464545]" />
       <section>
         <h4 className="font-bold">補足</h4>
         <ul className="list-disc pl-5">
