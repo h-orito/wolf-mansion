@@ -25,7 +25,9 @@ export function Modal({
       onClick={onClose}
     >
       <div
-        className="my-8 w-full max-w-lg rounded bg-white p-4 shadow-lg dark:bg-gray-900"
+        // 白ダイアログ + 暗い文字を明示する (Footer の text-white を継承して白地に白文字に
+        // なるのを防ぐ)。既存 (bootstrap modal) は白背景 + 暗色文字。
+        className="my-8 w-full max-w-lg rounded bg-white p-4 text-gray-900 shadow-lg dark:bg-gray-900 dark:text-gray-100"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-3 flex items-center justify-between border-b border-gray-200 pb-2 dark:border-gray-700">

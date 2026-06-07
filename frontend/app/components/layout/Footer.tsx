@@ -24,7 +24,8 @@ export function Footer({ noAd = false }: { noAd?: boolean }) {
   const [policyOpen, setPolicyOpen] = useState(false);
 
   return (
-    <footer className="mt-4 w-full text-white">
+    // 既存はフッターも col の 15px padding で本文・広告が帯/トップ画像と同幅 (940px) になる。
+    <footer className="mt-4 w-full px-[15px] text-white">
       {!noAd && (
         // TODO(step-11/modernize): Google AdSense (ca-pub-0917187897820609 / slot 1022209690) の本結線。
         // 移行中はレイアウト確保のためのプレースホルダーのみ。
