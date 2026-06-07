@@ -220,11 +220,12 @@ export default function Home() {
 
 function VillageRow({ village }: { village: VillageSummary }) {
   const url = legacyUrl(`/village/${village.villageId}`);
+  // 既存 (:8091) は番号/人数/状態が中央寄せ、村名のみ左寄せ (`.top-menu-inner` の text-align:center + td.text-left)。
   const cell = "border border-wm-band p-0";
-  const link = "block p-1 text-white no-underline hover:text-wm-accent";
+  const link = "block p-[5px] text-white no-underline hover:text-wm-accent";
   return (
     <tr className="border border-wm-band hover:bg-wm-tile-hover">
-      <td className={cell}>
+      <td className={`${cell} text-center`}>
         <a href={url} className={link}>
           {village.villageNumber}
         </a>
@@ -246,12 +247,12 @@ function VillageRow({ village }: { village: VillageSummary }) {
           {village.villageName}
         </a>
       </td>
-      <td className={cell}>
+      <td className={`${cell} text-center`}>
         <a href={url} className={link}>
           {village.participateNum}
         </a>
       </td>
-      <td className={cell}>
+      <td className={`${cell} text-center`}>
         <a href={url} className={link}>
           {village.status}
         </a>
