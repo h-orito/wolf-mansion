@@ -28,7 +28,9 @@ import { zodResolver } from "~/lib/zodResolver";
 import type { Route } from "./+types/signup";
 
 export function meta(_: Route.MetaArgs) {
-  return siteMeta("ID登録");
+  // 見出し (AuthLayout title) と揃える。`:8091` は title=「ID登録」/ 見出し=「ID作成」で割れているが、
+  // 画面内で文言を統一する方を優先する。
+  return siteMeta("ID作成");
 }
 
 export default function Signup() {
