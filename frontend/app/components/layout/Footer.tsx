@@ -6,49 +6,53 @@ import { Modal } from "~/components/ui/Modal";
  * 共通フッター (Step 4.1)。SSR `layout/footer::footer` のフル移植。
  * 連絡先 / 投げ銭モーダル / プライバシーポリシーモーダル (10条本文)。
  * AdSense は **プレースホルダー** (script 連携は Step 11 / モダナイズで本結線。`noAd` で出し分け)。
+ *
+ * 配色は `:8091` 準拠: フッター本文は白文字 + リンクはアクセント teal (#0ce3ac)。モーダルは白ダイアログで
+ * 投げ銭の各導線は btn-success 相当の緑ボタン (#00bc8c)。
  */
+
+// フッター (暗色地) 上のリンク = アクセント teal。
+const footerLink = "text-wm-accent hover:underline";
+// 白モーダル上の inline リンク。
+const modalLink = "text-blue-700 hover:underline";
+// 投げ銭モーダルの導線ボタン (既存 btn-sm btn-success)。
+const successBtn =
+  "inline-block rounded bg-[#00bc8c] px-3 py-1 text-[13px] text-white hover:opacity-90";
+
 export function Footer({ noAd = false }: { noAd?: boolean }) {
   const [kampaOpen, setKampaOpen] = useState(false);
   const [policyOpen, setPolicyOpen] = useState(false);
 
   return (
-    <footer className="mt-4 w-full">
+    <footer className="mt-4 w-full text-white">
       {!noAd && (
-        // TODO(step-11/12): Google AdSense (ca-pub-0917187897820609 / slot 1022209690) の本結線。
+        // TODO(step-11/modernize): Google AdSense (ca-pub-0917187897820609 / slot 1022209690) の本結線。
         // 移行中はレイアウト確保のためのプレースホルダーのみ。
-        <div className="my-4 min-h-[90px] border border-dashed border-gray-300 p-2 text-center text-xs text-gray-400 dark:border-gray-700">
+        <div className="my-4 min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
           広告（移行中はプレースホルダー）
         </div>
       )}
 
-      <hr className="my-3 border-gray-200 dark:border-gray-700" />
-      <p className="text-sm text-gray-600 dark:text-gray-400">
+      <hr className="my-3 border-wm-band" />
+      <p>
         要望、改善提案、不具合報告はTwitter
         <a
           href="https://twitter.com/ort_dev"
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 hover:underline"
+          className={footerLink}
         >
           @ort_dev
         </a>
         までお願いします。
         <br />
         投げ銭いただける方は
-        <button
-          type="button"
-          onClick={() => setKampaOpen(true)}
-          className="text-blue-600 hover:underline"
-        >
+        <button type="button" onClick={() => setKampaOpen(true)} className={footerLink}>
           こちら
         </button>
         からお願いします。
         <br />
-        <button
-          type="button"
-          onClick={() => setPolicyOpen(true)}
-          className="text-blue-600 hover:underline"
-        >
+        <button type="button" onClick={() => setPolicyOpen(true)} className={footerLink}>
           プライバシーポリシー
         </button>
         <br />© 2018- ort（
@@ -56,7 +60,7 @@ export function Footer({ noAd = false }: { noAd?: boolean }) {
           href="https://github.com/h-orito/wolf-mansion"
           target="_blank"
           rel="noreferrer"
-          className="text-blue-600 hover:underline"
+          className={footerLink}
         >
           Github
         </a>
@@ -86,13 +90,13 @@ function KampaContent() {
             href="https://www.amazon.jp/hz/wishlist/ls/1KZSJAJS1ETW4?ref_=wl_share"
             target="_blank"
             rel="noreferrer"
-            className="text-blue-600 hover:underline"
+            className={successBtn}
           >
             Amazonほしいものリストから送る
           </a>
         </div>
       </section>
-      <hr className="border-gray-200 dark:border-gray-700" />
+      <hr className="border-gray-200" />
       <section>
         <h4 className="font-bold">Amazonギフト券（Eメールタイプ）を送る</h4>
         <ul className="list-disc pl-5">
@@ -106,13 +110,13 @@ function KampaContent() {
             href="https://www.amazon.co.jp/dp/B004N3APGO"
             target="_blank"
             rel="noreferrer"
-            className="text-blue-600 hover:underline"
+            className={successBtn}
           >
             Amazonギフト券（Eメールタイプ）を送る
           </a>
         </div>
       </section>
-      <hr className="border-gray-200 dark:border-gray-700" />
+      <hr className="border-gray-200" />
       <section>
         <h4 className="font-bold">Amazonアソシエイト経由で買い物をする</h4>
         <ul className="list-disc pl-5">
@@ -121,31 +125,21 @@ function KampaContent() {
           </li>
         </ul>
         <div className="text-right">
-          <a
-            href="https://amzn.to/48auG7Q"
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-600 hover:underline"
-          >
+          <a href="https://amzn.to/48auG7Q" target="_blank" rel="noreferrer" className={successBtn}>
             Amazonを開く
           </a>
         </div>
       </section>
-      <hr className="border-gray-200 dark:border-gray-700" />
+      <hr className="border-gray-200" />
       <section>
         <h4 className="font-bold">Pixiv Fanbox</h4>
         <div className="text-right">
-          <a
-            href="https://ort.fanbox.cc/"
-            target="_blank"
-            rel="noreferrer"
-            className="text-blue-600 hover:underline"
-          >
+          <a href="https://ort.fanbox.cc/" target="_blank" rel="noreferrer" className={successBtn}>
             Pixiv Fanboxを開く
           </a>
         </div>
       </section>
-      <hr className="border-gray-200 dark:border-gray-700" />
+      <hr className="border-gray-200" />
       <section>
         <h4 className="font-bold">補足</h4>
         <ul className="list-disc pl-5">
@@ -155,7 +149,7 @@ function KampaContent() {
               href="https://twitter.com/ort_dev"
               target="_blank"
               rel="noreferrer"
-              className="text-blue-600 hover:underline"
+              className={modalLink}
             >
               @ort_dev
             </a>

@@ -65,7 +65,7 @@ export default function Home() {
   return (
     // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する。
     // body 自体は変えない (旧方針で作った認証画面 (明色) を壊さないため。認証画面は step-3.6 で忠実再現)。
-    <div className="min-h-screen bg-wm-base">
+    <div className="min-h-screen bg-wm-base text-xs">
       <div className="mx-auto max-w-5xl">
         {/* トップ画像 + ロゴ + (ログイン中) ユーザID */}
         <div className="relative mb-4">
@@ -80,7 +80,7 @@ export default function Home() {
 
         {/* サイト紹介 + ナビ */}
         <section className="mb-4 bg-wm-band p-4 text-center text-white">
-          <h2 className="mb-2 text-base font-bold">状況のみで推理・説得する、新しい人狼</h2>
+          <h2 className="mb-2 text-[15px] font-normal">状況のみで推理・説得する、新しい人狼</h2>
           <p className="mb-4 leading-relaxed break-words">
             WOLF MANSIONでは、
             <br className="hidden sm:inline" />

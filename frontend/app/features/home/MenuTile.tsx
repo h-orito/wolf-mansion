@@ -12,11 +12,12 @@ const tileClass =
   "flex min-h-[100px] flex-col items-center justify-center gap-1 border border-wm-band bg-wm-tile p-2 text-center text-white no-underline transition-colors hover:border-wm-accent hover:bg-wm-tile-hover hover:text-wm-accent disabled:opacity-60 disabled:hover:border-wm-band disabled:hover:bg-wm-tile disabled:hover:text-white";
 
 function TileInner({ icon: Icon, jp, en }: { icon: IconType; jp: string; en: string }) {
+  // 既存 (:8091) に合わせる: アイコン 12px、日本語ラベル 13px、英語ラベル 12px。
   return (
     <>
-      <Icon className="h-6 w-6" />
-      <span className="text-xs">{jp}</span>
-      <span className="text-sm">{en}</span>
+      <Icon className="h-3 w-3" />
+      <span className="text-[13px]">{jp}</span>
+      <span className="text-xs">{en}</span>
     </>
   );
 }
@@ -84,7 +85,7 @@ export function TileButton({
 export function MenuSection({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="mb-4 bg-wm-band p-4">
-      <h2 className="mb-3 text-center text-base font-bold text-white">{title}</h2>
+      <h2 className="mb-3 text-center text-[15px] font-normal text-white">{title}</h2>
       {children}
     </section>
   );
