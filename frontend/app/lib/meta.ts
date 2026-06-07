@@ -1,10 +1,8 @@
 /**
- * サブページ共通の `<head>` メタ生成 (SSR `layout/layout.html` の OGP 相当)。
+ * サブページ共通の `<head>` メタ生成 (`layout/layout.html` の OGP 相当)。
  *
- * タイトルは `:8091` の title-pattern `$LAYOUT_TITLE | $CONTENT_TITLE` に揃え
- * 「WOLF MANSION | <ページ名>」とする。OGP はサイト共通値 (layout.html を踏襲)。
- * OGP 画像は移行中 backend (/wolf-mansion-api) 配信の静的アセット (home の meta と同方針。
- * 静的アセット移管 (Step 10/11) で /wolf-mansion 側へ更新する)。
+ * タイトルは title-pattern「WOLF MANSION | <ページ名>」。OGP はサイト共通値。
+ * OGP 画像は frontend (/wolf-mansion) 配信の public/app/images の静的アセット (本番の絶対 URL)。
  */
 
 const SITE_DESCRIPTION =
@@ -20,7 +18,7 @@ export function siteMeta(pageTitle: string, description: string = SITE_DESCRIPTI
     { property: "og:description", content: description },
     {
       property: "og:image",
-      content: "https://wolfort.net/wolf-mansion-api/app/images/ogp-top.png",
+      content: "https://wolfort.net/wolf-mansion/app/images/ogp-top.png",
     },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: "@ort_dev" },

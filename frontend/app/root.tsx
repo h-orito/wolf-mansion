@@ -10,14 +10,12 @@ import {
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
-import { legacyUrl } from "~/lib/api";
+import { assetUrl } from "~/lib/api";
 import type { Route } from "./+types/root";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [
-  // favicon は移行中のため backend (/wolf-mansion-api) 配信の静的アセットを使う。
-  // 静的アセットを frontend へ移管する Step 10/11 で /wolf-mansion 側へ更新する (08-step-plan 繰り越し事項)。
-  { rel: "shortcut icon", href: legacyUrl("/app/images/favicon.ico") },
+  { rel: "shortcut icon", href: assetUrl("/app/images/favicon.ico") },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

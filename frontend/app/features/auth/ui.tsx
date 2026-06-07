@@ -4,11 +4,9 @@ import { Footer } from "~/components/layout/Footer";
 import { Header } from "~/components/layout/Header";
 
 /**
- * 認証画面の共通 UI (step-3.6 で `:8091` 基準に忠実再現)。
- *
- * 旧 3.3 の素朴な明色カードを置き換え、ブランドのダークテーマ (#222 地・白文字) + 共通ヘッダー
- * (small バナー) + 共通フッターで構成する。フォームは既存 Bootstrap `.form-horizontal`
- * (ラベル左 / 入力右、緑の pull-right 送信ボタン) を再現する。挙動 (zod / returnTo / RequireAuth) は不変。
+ * 認証画面の共通 UI。ブランドのダークテーマ (#222 地・白文字) + 共通ヘッダー (small バナー) +
+ * 共通フッターで構成する。フォームは Bootstrap `.form-horizontal` (ラベル左 / 入力右、緑の
+ * pull-right 送信ボタン) を `:8091` 基準で再現する。
  */
 
 // `.form-control` 相当: 白地・薄枠・高さ30px・12px。ダーク地で見えるよう入力欄のみ明色にする。

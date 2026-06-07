@@ -35,7 +35,7 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.waitForLoadState("networkidle");
   await page.fill("#userId", userId);
   await page.fill("#password", PASSWORD);
-  // signup ボタンは `:8091` の new-player.html に合わせ「作成」(step-3.6 で忠実再現)。
+  // signup ボタンは `:8091` の new-player.html に合わせ「作成」。
   await page.getByRole("button", { name: "作成" }).click();
 
   // 成功でトップへ。トップ画像のユーザID 表示にログイン名 (= userId) が出る。
@@ -45,8 +45,8 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   // --- マイページで me 情報を確認 ---
   await page.getByRole("link", { name: "マイページ" }).click();
   await expect(page).toHaveURL(/\/mypage$/);
-  // step-3.6 で共通ヘッダーを追加したため、マイページにもヘッダーの「ユーザID: <id>」が出る。
-  // (情報欄の <dd> も userId 単体を含むため、ヘッダー側の一意な文言で確認する。)
+  // 共通ヘッダーがマイページにも「ユーザID: <id>」を出す。情報欄の <dd> も userId 単体を含むため、
+  // ヘッダー側の一意な文言で確認する。
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 
   // --- logout ---
