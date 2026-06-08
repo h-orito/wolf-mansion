@@ -33,11 +33,12 @@ export function MessageBubble({
   );
 
   return (
-    <div className="mb-0 w-full">
+    <div className="mb-[20px] w-full">
       <div className="flex">
         {isLeft && charaImg}
         <div
-          className={`min-h-[77px] flex-1 rounded-[5px] border p-[9px] font-sans text-[1em] break-words ${typeStyles[type]} ${isLeft ? "ml-[5px]" : "mr-[5px]"}`}
+          className={`min-h-[77px] flex-1 rounded-[5px] border p-[9px] break-words ${typeStyles[type]} ${isLeft ? "ml-[5px]" : "mr-[5px]"}`}
+          style={{ fontFamily: "sans-serif" }}
         >
           {children}
         </div>

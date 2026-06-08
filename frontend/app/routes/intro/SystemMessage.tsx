@@ -16,9 +16,10 @@ export function SystemMessage({
   children: ReactNode;
 }) {
   return (
-    <div className="w-full">
+    <div className="mb-[20px] w-full">
       <div
-        className={`rounded-[5px] border p-[9px] font-sans text-[1em] break-words ${typeStyles[type]}`}
+        className={`rounded-[5px] border p-[9px] break-words ${typeStyles[type]}`}
+        style={{ fontFamily: "sans-serif" }}
       >
         {children}
       </div>
