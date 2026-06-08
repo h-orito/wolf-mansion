@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * 村一覧 (`/village-list`) e2e (Step 4.2)。
+ * 村一覧 (`/village-list`) e2e。
  *
  * - 公開画面。全村 (終了/廃村含む) の一覧 + 検索 (キャラセット/役職/編成) を提供する。
  * - DB はローカル開発環境とあいのり (リセットしない)。村行の検証は行が存在する場合のみ行う。
