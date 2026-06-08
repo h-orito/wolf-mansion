@@ -32,7 +32,8 @@ export const FINISHED_STATUSES = [VillageStatusCode.completed, VillageStatusCode
  * 村一覧の絞り込み条件。すべて省略可 (省略時はその軸で絞らない)。
  * - `statuses`: village_status の code 配列 (トップ = 未終了)。
  * - `charachips`: キャラセット (CharaGroup) の id 配列。
- * - `skills`: 役職 (CDef.Skill) の code 配列。**status とは排他**で、backend は skill 指定時に進行中を除外する。
+ * - `skills`: 役職 (CDef.Skill) の code 配列。**status とは排他**で、backend は skill 指定時にエピローグ以降
+ *   (募集中・進行中を除く) のみを対象にする。
  * - `random`: 編成。`true`=闇鍋 / `false`=固定 / 省略=両方。
  */
 export type VillageFilter = {

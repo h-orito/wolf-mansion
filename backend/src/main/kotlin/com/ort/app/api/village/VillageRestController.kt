@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RestController
  *
  * 注: 役職 (skill) 絞り込みは既存ドメイン挙動 (`VillageRepository.findVillages`) を踏襲する。
  * status と skill は**排他**で、両方指定すると status が優先され skill は無視される。また skill 単独指定時は
- * 役職ネタバレ防止のため**進行中を除く村**のみが対象になる (村一覧画面は status を送らず charachip/skill/random を送る)。
+ * 役職ネタバレ防止のため**エピローグ以降の村** (募集中・進行中を除く = エピローグ/終了/廃村) のみが対象になる
+ * (村一覧画面は status を送らず charachip/skill/random を送る)。
  */
 @RestController
 @RequestMapping("/api/v1/villages")
@@ -30,7 +31,7 @@ class VillageRestController(
      * @param status village_status の code 配列 (`?status=IN_PREPARATION&status=IN_PROGRESS` のように指定)。
      *   省略時は全件。トップは未終了 (IN_PREPARATION/IN_PROGRESS/EPILOGUE) を指定して取得する。
      * @param charachip キャラセット (CharaGroup) の id 配列。指定したキャラセットを含む村に絞る。
-     * @param skill 役職 (CDef.Skill) の code 配列。指定した役職を含む村に絞る (status とは排他・進行中は対象外)。
+     * @param skill 役職 (CDef.Skill) の code 配列。指定した役職を含む村に絞る (status とは排他・エピローグ以降のみ)。
      * @param random 編成。`true`=闇鍋 / `false`=固定 / 省略=両方。
      */
     @GetMapping
