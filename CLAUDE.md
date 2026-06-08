@@ -89,6 +89,10 @@ mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ�
 - テンプレートは`backend/src/main/resources/templates/`にThymeleaf HTML
 - 静的ファイルは`backend/src/main/resources/static/`
 
+### リンクの規約（最重要・再発防止）
+
+- **未移行画面へのリンクも SPA URL（react-router `<Link>` / `<LinkButton>`）を使う**。`legacyUrl` + `<a>` は「SPA ルート化の予定が無い」ページだけに限定する。`/rule` `/practice` `/skill` 等、今後 Step 5+ で移行予定のページは**現時点で未実装でも SPA URL を指す**（一時的に 404 になっても構わない）。
+
 ### コメント・実装の規約（重要・レビュー指摘の再発防止）
 
 - **コメントに移行 step 番号を書かない**（`(Step 4)` `step-4.1 で…` 等）。step は Issue / git 履歴で追う。コードのコメントは恒久的に正しい説明だけにする。
@@ -96,4 +100,3 @@ mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ�
 - **その場しのぎ（inline・重複）の実装をしない**。ボタン・フォーム行・ラジオ・パネル・見出しなどの UI 部品は `frontend/app/components/ui/` に再利用可能なコンポーネントとして作り、画面側はそれを組み合わせる。
 - **GET の検索系パラメータは個別 `@RequestParam` で受けず、`XxxRequest` クラスでまとめて受ける**。ドメインクエリへの変換（`toQuery()` 等）もその Request クラスに閉じ込め、Controller は薄く保つ。
 - **一覧の並び順・絞り込み・ページングは API 側で指定可能にする**（frontend で `reverse()` 等の整形をしない）。
-- **未移行画面へのリンクも、可能なら移行後の SPA URL（react-router の `<Link>`）を指す**。SSR への `legacyUrl` フォールバックは、対応する SPA ルートの予定が無いものに限る。

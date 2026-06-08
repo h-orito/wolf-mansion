@@ -1,9 +1,10 @@
 import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import { Link, type LinkProps } from "react-router";
 
-const successStyle = "rounded bg-[#00bc8c] px-3 py-[5px] text-white hover:opacity-90";
+const successStyle =
+  "rounded-[3px] border-2 border-[#00bc8c] bg-[#00bc8c] px-[9px] py-[6px] text-white hover:opacity-90";
 const defaultStyle =
-  "rounded border border-gray-400 bg-wm-band px-3 py-[5px] text-white hover:opacity-90";
+  "rounded-[3px] border-2 border-[#464545] bg-[#464545] px-[9px] py-[6px] text-white hover:opacity-90";
 
 /** 主アクション用のボタン (緑系)。送信・実行ボタンに使う。 */
 export function Button({

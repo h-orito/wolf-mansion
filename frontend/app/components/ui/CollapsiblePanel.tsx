@@ -22,7 +22,7 @@ export function CollapsiblePanel({
           aria-expanded={open}
           aria-controls={bodyId}
           onClick={() => setOpen((v) => !v)}
-          className="text-[15px] text-white hover:underline"
+          className="cursor-pointer text-[15px] text-white hover:underline"
         >
           {title}
         </button>

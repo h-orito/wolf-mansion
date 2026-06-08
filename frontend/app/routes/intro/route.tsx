@@ -1,7 +1,9 @@
-import { AnchorButton, LinkButton } from "~/components/ui/Button";
+import { Link } from "react-router";
+
+import { LinkButton } from "~/components/ui/Button";
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
-import { assetUrl, legacyUrl } from "~/lib/api";
+import { assetUrl } from "~/lib/api";
 import { MessageBubble } from "./MessageBubble";
 import { SystemMessage } from "./SystemMessage";
 import type { Route } from "./+types/route";
@@ -38,9 +40,9 @@ export default function Intro() {
           </li>
           <li>
             詳細なルールは
-            <a href={legacyUrl("/rule")} className="text-wm-accent hover:underline">
+            <Link to="/rule" className="text-wm-accent hover:underline">
               ルール
-            </a>
+            </Link>
             に記載しています。
           </li>
         </ul>
@@ -576,7 +578,7 @@ function SectionEnding() {
         <LinkButton to="/" variant="default">
           サイトトップへ
         </LinkButton>
-        <AnchorButton href={legacyUrl("/practice")}>練習問題へ</AnchorButton>
+        <LinkButton to="/practice">練習問題へ</LinkButton>
       </div>
     </div>
   );
