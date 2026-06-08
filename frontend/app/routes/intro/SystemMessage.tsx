@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 type SystemMessageType = "public-system" | "private-system" | "creator";
 
 const typeStyles: Record<SystemMessageType, string> = {
@@ -6,13 +8,20 @@ const typeStyles: Record<SystemMessageType, string> = {
   creator: "border-[#00bc8c] text-[#00bc8c]",
 };
 
-export function SystemMessage({ type, message }: { type: SystemMessageType; message: string }) {
+export function SystemMessage({
+  type,
+  children,
+}: {
+  type: SystemMessageType;
+  children: ReactNode;
+}) {
   return (
     <div className="w-full">
       <div
         className={`rounded-[5px] border p-[9px] font-sans text-[1em] break-words ${typeStyles[type]}`}
-        dangerouslySetInnerHTML={{ __html: message }}
-      />
+      >
+        {children}
+      </div>
     </div>
   );
 }

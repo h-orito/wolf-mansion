@@ -1,4 +1,8 @@
+import type { ReactNode } from "react";
+
 type MessageType = "message-normal" | "message-werewolf" | "message-grave";
+
+const CHARA_IMAGE_BASE = "https://wolfort.dev/wmansion/1";
 
 const typeStyles: Record<MessageType, string> = {
   "message-normal": "bg-white text-[#555555] border-[#e3e3e3]",
@@ -8,20 +12,22 @@ const typeStyles: Record<MessageType, string> = {
 
 export function MessageBubble({
   type,
-  message,
+  children,
   chara,
   isLeft,
 }: {
   type: MessageType;
-  message: string;
+  children: ReactNode;
   chara: string;
   isLeft: boolean;
 }) {
   const charaImg = (
     <div
       className="h-[77px] w-[50px] shrink-0 bg-no-repeat"
+      role="img"
+      aria-label={chara}
       style={{
-        backgroundImage: `url('https://wolfort.dev/wmansion/1/${chara}.png')`,
+        backgroundImage: `url('${CHARA_IMAGE_BASE}/${chara}.png')`,
       }}
     />
   );
@@ -32,8 +38,9 @@ export function MessageBubble({
         {isLeft && charaImg}
         <div
           className={`min-h-[77px] flex-1 rounded-[5px] border p-[9px] font-sans text-[1em] break-words ${typeStyles[type]} ${isLeft ? "ml-[5px]" : "mr-[5px]"}`}
-          dangerouslySetInnerHTML={{ __html: message }}
-        />
+        >
+          {children}
+        </div>
         {!isLeft && charaImg}
       </div>
     </div>
