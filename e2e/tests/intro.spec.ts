@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 /**
- * イントロ (`/intro`) e2e (Step 4.3)。
+ * イントロ (`/intro`) e2e。
  *
  * 静的ページの smoke テスト。見出し・セクション・画像・ナビリンクの存在を確認する。
  */
