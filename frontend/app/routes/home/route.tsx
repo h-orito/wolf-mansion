@@ -106,8 +106,8 @@ export default function Home() {
               jp="本サイトは"
               en="About"
             />
-            <TileAnchor
-              href={legacyUrl("/intro")}
+            <TileRoute
+              to="/intro"
               icon={QuestionMarkCircleIcon}
               jp="人狼館の事件簿村"
               en="Introduction"
