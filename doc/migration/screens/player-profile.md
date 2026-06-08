@@ -78,3 +78,9 @@
 - 「本人判定」は現状 `WolfMansionUserInfoUtil.getUserInfo()?.username == userName`。移行後は `useMe` の player 名と照合 (CSR)
 - REST 化: `GET /api/v1/players/{name}` (戦績含む詳細) + `PUT /api/v1/players/me/detail` 等に整理。`/api/v1/auth/me` は最小情報のみなので、戦績はこの players リソースに分離 ([03-auth.md](../03-auth.md))
 - 自己紹介の改行は現状テンプレートで `\r\n|\r|\n` 分割表示 → React では `white-space: pre-wrap` 等で対応
+
+### follow-up: `/mypage` をこの画面に統合する (step-3.6 で確定・Step 9 で対応)
+
+- step-3.6 時点の `/mypage` (`frontend/app/routes/mypage.tsx`) は、3.3 由来の暫定画面でプレイヤーID/名前/権限の最小表示 + パスワード変更導線 + ログアウトのみ。
+- **方針 (ユーザー指示)**: `/mypage` は最終的に `/user/{自分の名前}` (本画面) にアクセスしたときと**同じ動作**にする (= 自分のプロフィール/戦績を表示し、本人なら自己紹介編集ができる)。
+- 本画面を REST 化する **Step 9 (プロフィール系)** で対応する。`/mypage` は `/user/{me.name}` への誘導 (リダイレクト or 同一コンポーネント再利用) に寄せ、暫定の最小マイページは置き換える。パスワード変更導線・ログアウトの配置は移行時に再整理する。

@@ -42,7 +42,9 @@ function MyPageContent() {
   };
 
   return (
-    // `:8091` に対応する画面はないため、認証画面と同じダークテーマ + 共通ヘッダー/フッターで構成する。
+    // 認証画面と同じダークテーマ + 共通ヘッダー/フッターで構成する暫定マイページ。
+    // TODO(Step 9): `/user/{me.name}` (プロフィール/戦績) と同じ動作に統合する
+    // (doc/migration/screens/player-profile.md の follow-up)。
     <AuthLayout title="マイページ">
       <dl className="mb-6 space-y-2">
         <div className="flex gap-2">
