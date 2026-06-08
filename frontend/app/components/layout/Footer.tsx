@@ -12,7 +12,7 @@ import { Modal } from "~/components/ui/Modal";
  */
 
 // フッター (暗色地) 上のリンク = アクセント teal。
-const footerLink = "text-wm-accent hover:underline";
+const footerLink = "cursor-pointer text-wm-accent hover:underline";
 // モーダル (暗色地) 上の inline リンク = アクセント teal (既存 modal body link #0ce3ac)。
 const modalLink = "text-wm-accent hover:underline";
 // 投げ銭モーダルの導線ボタン (既存 btn-sm btn-success)。
