@@ -13,12 +13,21 @@
 const API_BASE = import.meta.env.VITE_API_BASE ?? "/wolf-mansion-api";
 
 /**
- * backend (context-path `/wolf-mansion-api`) 配下の URL を作る。移行中の **未移行 SSR ページ** へのリンクや、
- * backend が配信する **静的アセット** (画像等) に使う。dev は Vite proxy が同パスを backend へ転送する。
- * React に移行済みの画面は react-router の `<Link>` を使うこと (この関数は使わない)。
+ * backend (context-path `/wolf-mansion-api`) 配下の URL を作る。移行中の **未移行 SSR ページ** へのリンクに使う。
+ * dev は Vite proxy が同パスを backend へ転送する。React に移行済みの画面は react-router の `<Link>` を使う。
  */
 export function legacyUrl(path: string): string {
   return `${API_BASE}${path}`;
+}
+
+/**
+ * frontend (`/wolf-mansion`) が配信する静的アセット (`public/` 配下) の URL を作る。
+ * `path` は先頭スラッシュ始まり (例: `/app/images/top.jpg`)。`import.meta.env.BASE_URL` は
+ * Vite の `base` (末尾スラッシュ付き) なので重複を除いて連結する。
+ */
+export function assetUrl(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return `${base}${path}`;
 }
 
 /**

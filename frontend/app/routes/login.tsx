@@ -6,19 +6,23 @@ import { login } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { safeReturnTo } from "~/features/auth/returnTo";
 import { type LoginInput, loginSchema } from "~/features/auth/schema";
-import { useSetMe } from "~/features/auth/useMe";
 import {
-  AuthCard,
+  AuthLayout,
   buttonClass,
   fieldErrorClass,
+  FormActions,
+  FormRow,
   formErrorClass,
   inputClass,
+  linkClass,
 } from "~/features/auth/ui";
+import { useSetMe } from "~/features/auth/useMe";
+import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
 import type { Route } from "./+types/login";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "ログイン | 人狼の館" }];
+  return siteMeta("ログイン");
 }
 
 export default function Login() {
@@ -45,13 +49,10 @@ export default function Login() {
   });
 
   return (
-    <AuthCard title="ログイン">
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        {formError && <p className={formErrorClass}>{formError}</p>}
-        <div>
-          <label htmlFor="userId" className="mb-1 block text-sm">
-            ID
-          </label>
+    <AuthLayout title="ログイン">
+      <form onSubmit={onSubmit} noValidate>
+        {formError && <span className={formErrorClass}>{formError}</span>}
+        <FormRow label="ユーザID" htmlFor="userId">
           <input
             id="userId"
             autoComplete="username"
@@ -59,11 +60,8 @@ export default function Login() {
             {...register("userId")}
           />
           {errors.userId && <p className={fieldErrorClass}>{errors.userId.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="password" className="mb-1 block text-sm">
-            パスワード
-          </label>
+        </FormRow>
+        <FormRow label="パスワード" htmlFor="password">
           <input
             id="password"
             type="password"
@@ -72,17 +70,19 @@ export default function Login() {
             {...register("password")}
           />
           {errors.password && <p className={fieldErrorClass}>{errors.password.message}</p>}
-        </div>
-        <button type="submit" disabled={isSubmitting} className={buttonClass}>
-          {isSubmitting ? "ログイン中..." : "ログイン"}
-        </button>
+        </FormRow>
+        <FormActions>
+          <button type="submit" disabled={isSubmitting} className={buttonClass}>
+            {isSubmitting ? "ログイン中..." : "ログイン"}
+          </button>
+        </FormActions>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4">
         アカウントが無い場合は{" "}
-        <Link to="/signup" className="text-blue-600 hover:underline">
+        <Link to="/signup" className={linkClass}>
           新規登録
         </Link>
       </p>
-    </AuthCard>
+    </AuthLayout>
   );
 }

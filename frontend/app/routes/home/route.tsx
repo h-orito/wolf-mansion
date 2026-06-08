@@ -18,7 +18,7 @@ import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/villages/api";
 import { participateNumLabel, villageListTags, villageNumber } from "~/features/villages/format";
 import { useVillages } from "~/features/villages/useVillages";
-import { legacyUrl } from "~/lib/api";
+import { assetUrl, legacyUrl } from "~/lib/api";
 import { MenuSection, TileAnchor, TileButton, TileRoute } from "./MenuTile";
 import type { Route } from "./+types/route";
 
@@ -33,11 +33,10 @@ export function meta(_: Route.MetaArgs) {
     { property: "og:url", content: "https://wolfort.net/wolf-mansion/" },
     { property: "og:title", content: "WOLF MANSION" },
     { property: "og:description", content: description },
-    // OGP 画像は本文のトップ画像と同じく backend (/wolf-mansion-api) 配信の静的アセット。
-    // 静的アセットを frontend へ移管する Step 10/11 で /wolf-mansion 側へ更新する (08-step-plan 繰り越し事項)。
+    // OGP 画像は frontend (/wolf-mansion) 配信の public/app/images の静的アセット (本番の絶対 URL)。
     {
       property: "og:image",
-      content: "https://wolfort.net/wolf-mansion-api/app/images/ogp-top.png",
+      content: "https://wolfort.net/wolf-mansion/app/images/ogp-top.png",
     },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: "@ort_dev" },
@@ -73,7 +72,7 @@ export default function Home() {
             既存はトップ画像も col の 15px padding で帯と同じ幅 (横 15px インセット) になる。 */}
         <div className="mb-[15px] px-[15px]">
           <div className="relative">
-            <img src={legacyUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
+            <img src={assetUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
             <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
               <span className="text-wm-danger">W</span>OLF
               <br />

@@ -52,7 +52,8 @@ test("ログイン後: マイページ/ログアウトタイルに切り替わ�
   await page.waitForLoadState("networkidle");
   await page.fill("#userId", userId);
   await page.fill("#password", PASSWORD);
-  await page.getByRole("button", { name: /登録/ }).click();
+  // signup ボタンは `:8091` の new-player.html に合わせ「作成」。
+  await page.getByRole("button", { name: "作成" }).click();
 
   await expect(page).toHaveURL(/\/wolf-mansion$/);
   // トップ画像にユーザID、ログイン専用タイル

@@ -2,23 +2,35 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
+import {
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
+  SIGNUP_USER_ID_MAX_LENGTH,
+  SIGNUP_USER_ID_MIN_LENGTH,
+} from "~/api/constants";
 import { signup } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { safeReturnTo } from "~/features/auth/returnTo";
 import { type SignupInput, signupSchema } from "~/features/auth/schema";
-import { useSetMe } from "~/features/auth/useMe";
 import {
-  AuthCard,
+  AuthLayout,
   buttonClass,
   fieldErrorClass,
+  FormActions,
+  FormRow,
   formErrorClass,
   inputClass,
+  linkClass,
 } from "~/features/auth/ui";
+import { useSetMe } from "~/features/auth/useMe";
+import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
 import type { Route } from "./+types/signup";
 
 export function meta(_: Route.MetaArgs) {
-  return [{ title: "新規登録 | 人狼の館" }];
+  // 見出し (AuthLayout title) と揃える。`:8091` は title=「ID登録」/ 見出し=「ID作成」で割れているが、
+  // 画面内で文言を統一する方を優先する。
+  return siteMeta("ID作成");
 }
 
 export default function Signup() {
@@ -46,26 +58,28 @@ export default function Signup() {
   });
 
   return (
-    <AuthCard title="新規登録">
-      <form onSubmit={onSubmit} className="space-y-4" noValidate>
-        {formError && <p className={formErrorClass}>{formError}</p>}
-        <div>
-          <label htmlFor="userId" className="mb-1 block text-sm">
-            ID
-          </label>
+    <AuthLayout title="ID作成">
+      {/* 既存 new-player.html の説明文。文字数等は実ポリシー (生成定数) に合わせる (緩和後: パスワードは最大60字)。 */}
+      <p className="mb-4">
+        使用したいIDとパスワードを入力してください。
+        <br />
+        IDは{SIGNUP_USER_ID_MIN_LENGTH}〜{SIGNUP_USER_ID_MAX_LENGTH}
+        文字で、1文字目は英字、以降は英数字・ハイフン・アンダーバーが使用可能です。
+        <br />
+        パスワードは{PASSWORD_MIN_LENGTH}〜{PASSWORD_MAX_LENGTH}文字の半角英数記号が使用可能です。
+      </p>
+      <form onSubmit={onSubmit} noValidate>
+        {formError && <span className={formErrorClass}>{formError}</span>}
+        <FormRow label="ユーザID" htmlFor="userId">
           <input
             id="userId"
             autoComplete="username"
             className={inputClass}
             {...register("userId")}
           />
-          <p className="mt-1 text-xs text-gray-500">3〜12 文字 / 英字始まり・英数 - _</p>
           {errors.userId && <p className={fieldErrorClass}>{errors.userId.message}</p>}
-        </div>
-        <div>
-          <label htmlFor="password" className="mb-1 block text-sm">
-            パスワード
-          </label>
+        </FormRow>
+        <FormRow label="パスワード" htmlFor="password">
           <input
             id="password"
             type="password"
@@ -73,19 +87,20 @@ export default function Signup() {
             className={inputClass}
             {...register("password")}
           />
-          <p className="mt-1 text-xs text-gray-500">3〜60 文字 / 半角英数記号</p>
           {errors.password && <p className={fieldErrorClass}>{errors.password.message}</p>}
-        </div>
-        <button type="submit" disabled={isSubmitting} className={buttonClass}>
-          {isSubmitting ? "登録中..." : "登録してはじめる"}
-        </button>
+        </FormRow>
+        <FormActions>
+          <button type="submit" disabled={isSubmitting} className={buttonClass}>
+            {isSubmitting ? "作成中..." : "作成"}
+          </button>
+        </FormActions>
       </form>
-      <p className="mt-4 text-sm">
+      <p className="mt-4">
         既にアカウントがある場合は{" "}
-        <Link to="/login" className="text-blue-600 hover:underline">
+        <Link to="/login" className={linkClass}>
           ログイン
         </Link>
       </p>
-    </AuthCard>
+    </AuthLayout>
   );
 }
