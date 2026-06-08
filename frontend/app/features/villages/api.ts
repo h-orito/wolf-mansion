@@ -1,10 +1,14 @@
 import type { components } from "~/api/types";
 import { apiFetch } from "~/lib/api";
 
-/** 村一覧 (`GET /api/v1/villages`) の型 (OpenAPI 生成型・Step 4.1)。 */
+/** 村一覧 (`GET /api/v1/villages`) の型。 */
 export type VillageListResponse = components["schemas"]["VillageListResponse"];
 /** 一覧用の軽量ビュー (ドメイン構造に近い生データ。表示整形は画面側)。 */
 export type SimpleVillageView = components["schemas"]["SimpleVillageView"];
+/** キャラセットの軽量ビュー (`GET /api/v1/charachips`)。 */
+export type SimpleCharachipView = components["schemas"]["SimpleCharachipView"];
+/** 役職の軽量ビュー (`GET /api/v1/skills`)。 */
+export type SimpleSkillView = components["schemas"]["SimpleSkillView"];
 
 /**
  * village_status の code (CDef.VillageStatus と一致)。
@@ -57,18 +61,16 @@ export function fetchVillages(filter: VillageFilter = {}): Promise<VillageListRe
   return apiFetch<VillageListResponse>(`/api/v1/villages${query ? `?${query}` : ""}`);
 }
 
-/**
- * 村一覧画面の検索候補 (キャラセット一覧 / 役職一覧)。
- * 既存の凍結公開 API `GET /api/village-list` を proxy 経由で流用する (新規エンドポイントは作らない)。
- * 同 API は村一覧 (`villageList`) も返すが、ここでは候補 (charachipList/skillList) のみ使う。
- * 旧 SSR 由来で OpenAPI (v1 面) には含まれないため型は手書きする。
- */
-export type VillageSearchCandidates = {
-  charachipList: { id: number; name: string }[];
-  skillList: { code: string; name: string }[];
-};
+/** キャラセット一覧を取得する (公開・村一覧の絞り込み候補などで使う)。 */
+export function fetchCharachips(): Promise<SimpleCharachipView[]> {
+  return apiFetch<components["schemas"]["CharachipListResponse"]>("/api/v1/charachips").then(
+    (r) => r.charachips,
+  );
+}
 
-/** 検索候補を取得する (公開)。 */
-export function fetchVillageSearchCandidates(): Promise<VillageSearchCandidates> {
-  return apiFetch<VillageSearchCandidates>("/api/village-list");
+/** 役職一覧を取得する (公開・村一覧の絞り込み候補などで使う)。 */
+export function fetchSkills(): Promise<SimpleSkillView[]> {
+  return apiFetch<components["schemas"]["SkillListResponse"]>("/api/v1/skills").then(
+    (r) => r.skills,
+  );
 }

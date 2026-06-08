@@ -8,16 +8,15 @@ import {
   SIGNUP_USER_ID_MAX_LENGTH,
   SIGNUP_USER_ID_MIN_LENGTH,
 } from "~/api/constants";
+import { Button } from "~/components/ui/Button";
+import { FormActions, FormRow } from "~/components/ui/Form";
 import { signup } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { safeReturnTo } from "~/features/auth/returnTo";
 import { type SignupInput, signupSchema } from "~/features/auth/schema";
 import {
   AuthLayout,
-  buttonClass,
   fieldErrorClass,
-  FormActions,
-  FormRow,
   formErrorClass,
   inputClass,
   linkClass,
@@ -90,9 +89,9 @@ export default function Signup() {
           {errors.password && <p className={fieldErrorClass}>{errors.password.message}</p>}
         </FormRow>
         <FormActions>
-          <button type="submit" disabled={isSubmitting} className={buttonClass}>
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "作成中..." : "作成"}
-          </button>
+          </Button>
         </FormActions>
       </form>
       <p className="mt-4">

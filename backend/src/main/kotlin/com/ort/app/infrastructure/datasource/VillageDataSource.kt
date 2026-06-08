@@ -68,7 +68,11 @@ class VillageDataSource(
                 query.isRandomOrg?.let { isRandomOrg ->
                     it.query().queryVillageSettingsAsOne().setIsRandomOrganize_Equal(isRandomOrg)
                 }
-                it.query().addOrderBy_VillageId_Asc()
+                if (query.isDescending) {
+                    it.query().addOrderBy_VillageId_Desc()
+                } else {
+                    it.query().addOrderBy_VillageId_Asc()
+                }
             }
         villageBhv.load(villageList) { loader ->
             loader.loadVillageCharaGroup { it.addOrderBy_PK_Asc() }

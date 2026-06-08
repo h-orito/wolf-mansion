@@ -27,16 +27,16 @@ test("村一覧: 検索パネルを開くとキャラセット/役職/編成が�
 
   await expect(page.getByLabel("キャラセット")).toBeVisible();
   await expect(page.getByLabel("役職")).toBeVisible();
-  await expect(page.getByRole("button", { name: "両方", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "闇鍋", exact: true })).toBeVisible();
-  await expect(page.getByRole("button", { name: "固定", exact: true })).toBeVisible();
+  await expect(page.getByRole("radio", { name: "両方", exact: true })).toBeVisible();
+  await expect(page.getByRole("radio", { name: "闇鍋", exact: true })).toBeVisible();
+  await expect(page.getByRole("radio", { name: "固定", exact: true })).toBeVisible();
 });
 
 test("村一覧: 編成で絞り込むと URL の searchParams が更新される", async ({ page }) => {
   await page.goto("village-list");
 
   await page.getByRole("button", { name: "検索", expanded: false }).click();
-  await page.getByRole("button", { name: "闇鍋", exact: true }).click();
+  await page.getByRole("radio", { name: "闇鍋", exact: true }).click();
   // フォーム送信ボタン (「検索」) を押す。トグル (同名・type=button) と区別するため type=submit を指定。
   await page.locator('form button[type="submit"]').click();
 

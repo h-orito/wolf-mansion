@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 
+import { Button } from "~/components/ui/Button";
 import { logout } from "~/features/auth/api";
 import { RequireAuth } from "~/features/auth/RequireAuth";
-import { AuthLayout, buttonClass, formErrorClass, linkClass } from "~/features/auth/ui";
+import { AuthLayout, formErrorClass, linkClass } from "~/features/auth/ui";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/mypage";
@@ -67,9 +68,9 @@ function MyPageContent() {
             パスワードを変更する
           </Link>
         </p>
-        <button type="button" onClick={onLogout} disabled={loggingOut} className={buttonClass}>
+        <Button type="button" onClick={onLogout} disabled={loggingOut}>
           {loggingOut ? "ログアウト中..." : "ログアウト"}
-        </button>
+        </Button>
       </div>
     </AuthLayout>
   );

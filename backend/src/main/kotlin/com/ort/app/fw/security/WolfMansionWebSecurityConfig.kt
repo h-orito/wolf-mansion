@@ -42,9 +42,13 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/auth/refresh",
                         "/api/v1/auth/logout",
                     ).permitAll()
-                    // 村一覧は公開情報 (トップページ・村一覧画面で共有)
-                    .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/v1/villages")
-                    .permitAll()
+                    // 村一覧・キャラセット一覧・役職一覧は公開情報 (一覧表示や絞り込み候補で共有)
+                    .requestMatchers(
+                        org.springframework.http.HttpMethod.GET,
+                        "/api/v1/villages",
+                        "/api/v1/charachips",
+                        "/api/v1/skills",
+                    ).permitAll()
                     .anyRequest()
                     .authenticated()
             }.exceptionHandling { it.authenticationEntryPoint(jwtAuthenticationEntryPoint) }

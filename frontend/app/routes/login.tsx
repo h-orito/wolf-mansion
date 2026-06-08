@@ -2,16 +2,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
+import { Button } from "~/components/ui/Button";
+import { FormActions, FormRow } from "~/components/ui/Form";
 import { login } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { safeReturnTo } from "~/features/auth/returnTo";
 import { type LoginInput, loginSchema } from "~/features/auth/schema";
 import {
   AuthLayout,
-  buttonClass,
   fieldErrorClass,
-  FormActions,
-  FormRow,
   formErrorClass,
   inputClass,
   linkClass,
@@ -72,9 +71,9 @@ export default function Login() {
           {errors.password && <p className={fieldErrorClass}>{errors.password.message}</p>}
         </FormRow>
         <FormActions>
-          <button type="submit" disabled={isSubmitting} className={buttonClass}>
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "ログイン中..." : "ログイン"}
-          </button>
+          </Button>
         </FormActions>
       </form>
       <p className="mt-4">
