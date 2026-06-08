@@ -1,7 +1,7 @@
 import type { SimpleVillageView } from "./api";
 
 /**
- * 村一覧の表示整形 (既存 :8091 の IndexContent 相当)。
+ * 村一覧の表示整形。
  * backend はドメイン構造に近い生データ ([SimpleVillageView]) を返すので、表示文字列の組み立ては画面側のここで行う。
  */
 
@@ -24,7 +24,7 @@ export function participateNumLabel(village: SimpleVillageView): string {
 }
 
 /**
- * 村一覧画面の参加人数表示 (:8091 `VillageListContent.mapParticipateNum` 相当)。
+ * 村一覧画面の参加人数表示。
  * トップ ([participateNumLabel]) と違い、募集中でも定員 (`/max`) は出さない。
  * - 見学あり: `参加 (見学)人`
  * - 見学なし: `参加人`

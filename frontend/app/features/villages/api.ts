@@ -45,6 +45,8 @@ export type VillageFilter = {
   charachips?: number[];
   skills?: string[];
   random?: boolean | null;
+  /** 村ID の並び順。未指定なら API 既定 (降順=新しい村が先)。 */
+  order?: "asc" | "desc";
 };
 
 /**
@@ -57,6 +59,7 @@ export function fetchVillages(filter: VillageFilter = {}): Promise<VillageListRe
   (filter.charachips ?? []).forEach((c) => params.append("charachip", String(c)));
   (filter.skills ?? []).forEach((s) => params.append("skill", s));
   if (filter.random != null) params.append("random", String(filter.random));
+  if (filter.order != null) params.append("order", filter.order);
   const query = params.toString();
   return apiFetch<VillageListResponse>(`/api/v1/villages${query ? `?${query}` : ""}`);
 }
