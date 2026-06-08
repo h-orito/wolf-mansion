@@ -1,12 +1,11 @@
 import type { ReactNode } from "react";
 
-import { Footer } from "~/components/layout/Footer";
-import { Header } from "~/components/layout/Header";
+import { PageLayout } from "~/components/layout/PageLayout";
 
 /**
- * 認証画面の共通 UI。ブランドのダークテーマ (#222 地・白文字) + 共通ヘッダー (small バナー) +
- * 共通フッターで構成する。フォームは Bootstrap `.form-horizontal` (ラベル左 / 入力右、緑の
- * pull-right 送信ボタン) を `:8091` 基準で再現する。
+ * 認証画面の共通 UI。共通レイアウトシェル ([PageLayout]) に見出し + フォームを載せる。
+ * フォームは Bootstrap `.form-horizontal` (ラベル左 / 入力右、緑の pull-right 送信ボタン) を
+ * `:8091` 基準で再現する。
  */
 
 // `.form-control` 相当: 白地・薄枠・高さ30px・12px。ダーク地で見えるよう入力欄のみ明色にする。
@@ -22,22 +21,16 @@ export const fieldErrorClass = "mt-1 text-red-400";
 // フォーム全体のエラー (`.text-danger` 相当)。
 export const formErrorClass = "mb-2 block text-red-400";
 
-/** 認証画面の外枠: ダーク地 (#222) + container 幅 + 共通ヘッダー + 共通フッター。 */
+/** 認証画面の外枠: 共通レイアウトシェル + 見出し (`<h1 class="h4">` 相当)。 */
 export function AuthLayout({ title, children }: { title: string; children: ReactNode }) {
   return (
-    // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する (home と同方針)。
-    <div className="min-h-screen bg-wm-base text-xs text-white">
-      {/* 既存 Bootstrap3 .container と同じレスポンシブ最大幅 (768→750 / 992→970 / 1200→1170)。 */}
-      <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
-        <Header />
-        <div className="px-[15px]">
-          {/* 既存 `<h1 class="h4">` (約18px) 相当。 */}
-          <h1 className="mt-5 mb-2.5 text-[18px] font-medium">{title}</h1>
-          {children}
-        </div>
-        <Footer />
+    <PageLayout>
+      <div className="px-[15px]">
+        {/* 既存 `<h1 class="h4">` (約18px) 相当。 */}
+        <h1 className="mt-5 mb-2.5 text-[18px] font-medium">{title}</h1>
+        {children}
       </div>
-    </div>
+    </PageLayout>
   );
 }
 

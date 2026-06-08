@@ -23,6 +23,17 @@ export function participateNumLabel(village: SimpleVillageView): string {
     : `${village.participantCount}${spectator}人`;
 }
 
+/**
+ * 村一覧画面の参加人数表示 (:8091 `VillageListContent.mapParticipateNum` 相当)。
+ * トップ ([participateNumLabel]) と違い、募集中でも定員 (`/max`) は出さない。
+ * - 見学あり: `参加 (見学)人`
+ * - 見学なし: `参加人`
+ */
+export function villageListParticipateNum(village: SimpleVillageView): string {
+  const spectator = village.spectatorCount > 0 ? ` (${village.spectatorCount})` : "";
+  return `${village.participantCount}${spectator}人`;
+}
+
 /** 村タグ (village_tag_item) の code。backend はタグを生データで返すので、絞り込み・色付けは画面側で行う。 */
 const TAG_R15 = "R15";
 const TAG_R18 = "R18";

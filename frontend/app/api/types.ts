@@ -302,6 +302,9 @@ export interface operations {
     parameters: {
       query?: {
         status?: string[];
+        charachip?: number[];
+        skill?: string[];
+        random?: boolean;
       };
       header?: never;
       path?: never;

@@ -29,10 +29,45 @@ export const NOT_FINISHED_STATUSES = [
 export const FINISHED_STATUSES = [VillageStatusCode.completed, VillageStatusCode.canceled];
 
 /**
- * 村一覧を取得する (公開)。
- * @param statuses village_status の code 配列。省略・空配列なら全件。
+ * 村一覧の絞り込み条件。すべて省略可 (省略時はその軸で絞らない)。
+ * - `statuses`: village_status の code 配列 (トップ = 未終了)。
+ * - `charachips`: キャラセット (CharaGroup) の id 配列。
+ * - `skills`: 役職 (CDef.Skill) の code 配列。**status とは排他**で、backend は skill 指定時に進行中を除外する。
+ * - `random`: 編成。`true`=闇鍋 / `false`=固定 / 省略=両方。
  */
-export function fetchVillages(statuses: string[] = []): Promise<VillageListResponse> {
-  const query = statuses.map((s) => `status=${encodeURIComponent(s)}`).join("&");
+export type VillageFilter = {
+  statuses?: string[];
+  charachips?: number[];
+  skills?: string[];
+  random?: boolean | null;
+};
+
+/**
+ * 村一覧を取得する (公開)。
+ * @param filter 絞り込み条件。省略 (空オブジェクト) なら全件。
+ */
+export function fetchVillages(filter: VillageFilter = {}): Promise<VillageListResponse> {
+  const params = new URLSearchParams();
+  (filter.statuses ?? []).forEach((s) => params.append("status", s));
+  (filter.charachips ?? []).forEach((c) => params.append("charachip", String(c)));
+  (filter.skills ?? []).forEach((s) => params.append("skill", s));
+  if (filter.random != null) params.append("random", String(filter.random));
+  const query = params.toString();
   return apiFetch<VillageListResponse>(`/api/v1/villages${query ? `?${query}` : ""}`);
+}
+
+/**
+ * 村一覧画面の検索候補 (キャラセット一覧 / 役職一覧)。
+ * 既存の凍結公開 API `GET /api/village-list` を proxy 経由で流用する (新規エンドポイントは作らない)。
+ * 同 API は村一覧 (`villageList`) も返すが、ここでは候補 (charachipList/skillList) のみ使う。
+ * 旧 SSR 由来で OpenAPI (v1 面) には含まれないため型は手書きする。
+ */
+export type VillageSearchCandidates = {
+  charachipList: { id: number; name: string }[];
+  skillList: { code: string; name: string }[];
+};
+
+/** 検索候補を取得する (公開)。 */
+export function fetchVillageSearchCandidates(): Promise<VillageSearchCandidates> {
+  return apiFetch<VillageSearchCandidates>("/api/village-list");
 }
