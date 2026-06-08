@@ -16,6 +16,10 @@ export function useVillages(filter: VillageFilter = {}) {
   return useQuery({
     queryKey: [VILLAGES_QUERY_KEY, filter],
     queryFn: () => fetchVillages(filter),
+    // backend は村番号の昇順で返すが、legacy (:8091) はトップ・村一覧とも新しい村を上に表示する
+    // (IndexContent / VillageListContent がいずれも `reversed()`)。表示整形は frontend 責務なので
+    // ここで降順 (新しい村が上) にする。元配列は破壊しない。
+    select: (data) => ({ ...data, villages: [...data.villages].reverse() }),
     retry: false,
   });
 }

@@ -53,7 +53,10 @@ export default function VillageList() {
         {/* 既存 `<h1 class="h4">` (19px・weight 400) 相当。 */}
         <h1 className="my-[10px] text-[19px] font-normal">村一覧</h1>
 
+        {/* URL (searchParams) が絞り込みの正本。URL が変わったら remount してドラフトを再同期し、
+            検索後はパネルを畳む (legacy の GET submit → ページ再読込で collapse 既定=閉 に戻る挙動を踏襲)。 */}
         <SearchPanel
+          key={searchParams.toString()}
           candidates={candidates}
           initial={{ charachips: filter.charachips, skills: filter.skills, random: filter.random }}
           onSearch={onSearch}

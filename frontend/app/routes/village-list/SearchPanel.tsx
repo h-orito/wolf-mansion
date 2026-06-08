@@ -41,6 +41,7 @@ export function SearchPanel({
         <button
           type="button"
           aria-expanded={open}
+          aria-controls="village-search-form"
           onClick={() => setOpen((v) => !v)}
           className="text-[15px] text-white hover:underline"
         >
@@ -48,7 +49,7 @@ export function SearchPanel({
         </button>
       </div>
       {open && (
-        <form onSubmit={onSubmit} className="p-[15px]">
+        <form id="village-search-form" onSubmit={onSubmit} className="p-[15px]">
           <FormRow label="キャラセット">
             <select
               multiple
