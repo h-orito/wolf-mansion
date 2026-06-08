@@ -2,16 +2,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
+import { Button } from "~/components/ui/Button";
+import { FormActions, FormRow } from "~/components/ui/Form";
 import { changePassword } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { RequireAuth } from "~/features/auth/RequireAuth";
 import { type ChangePasswordInput, changePasswordSchema } from "~/features/auth/schema";
 import {
   AuthLayout,
-  buttonClass,
   fieldErrorClass,
-  FormActions,
-  FormRow,
   formErrorClass,
   inputClass,
   linkClass,
@@ -79,10 +78,9 @@ function ChangePasswordForm() {
           )}
         </FormRow>
         <FormActions>
-          {/* 既存 :8091 はボタン文言が "ログイン" (明らかな legacy のコピペ誤り) のため、意味の通る "変更する" にする。 */}
-          <button type="submit" disabled={isSubmitting} className={buttonClass}>
+          <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? "変更中..." : "変更する"}
-          </button>
+          </Button>
         </FormActions>
       </form>
       <p className="mt-4">

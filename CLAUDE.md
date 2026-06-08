@@ -88,3 +88,12 @@ mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ�
 - ゲーム内テキスト（ステータスメッセージ、役職名など）は日本語
 - テンプレートは`backend/src/main/resources/templates/`にThymeleaf HTML
 - 静的ファイルは`backend/src/main/resources/static/`
+
+### コメント・実装の規約（重要・レビュー指摘の再発防止）
+
+- **コメントに移行 step 番号を書かない**（`(Step 4)` `step-4.1 で…` 等）。step は Issue / git 履歴で追う。コードのコメントは恒久的に正しい説明だけにする。
+- **「既存を再現する」旨のコメントを書かない**（``:8091` 基準で再現` `既存 `<h1 class="h4">` 相当` `legacy の◯◯相当` 等）。見た目の再現は **コンポーネント（Button / Heading / Panel / FormRow など）や CSS class の単位**に閉じ込め、その primitive を使い回す。レイアウト（`AuthLayout` 等）の単位で個々の見出し・ボタンを再現するのは誤り。コメントは「なぜそうするか（非自明な理由）」だけを書く。
+- **その場しのぎ（inline・重複）の実装をしない**。ボタン・フォーム行・ラジオ・パネル・見出しなどの UI 部品は `frontend/app/components/ui/` に再利用可能なコンポーネントとして作り、画面側はそれを組み合わせる。
+- **GET の検索系パラメータは個別 `@RequestParam` で受けず、`XxxRequest` クラスでまとめて受ける**。ドメインクエリへの変換（`toQuery()` 等）もその Request クラスに閉じ込め、Controller は薄く保つ。
+- **一覧の並び順・絞り込み・ページングは API 側で指定可能にする**（frontend で `reverse()` 等の整形をしない）。
+- **未移行画面へのリンクも、可能なら移行後の SPA URL（react-router の `<Link>`）を指す**。SSR への `legacyUrl` フォールバックは、対応する SPA ルートの予定が無いものに限る。

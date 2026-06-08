@@ -45,8 +45,8 @@ export function meta(_: Route.MetaArgs) {
 
 export default function Home() {
   const { me } = useMe();
-  // トップは未終了 (募集中/進行中/エピローグ) の村を表示。村一覧 API を status code で絞って共有利用する。
-  const { data: villageData } = useVillages(NOT_FINISHED_STATUSES);
+  // トップは未終了 (募集中/進行中/エピローグ) の村を村ID 昇順で表示する。村一覧 API を共有利用する。
+  const { data: villageData } = useVillages({ statuses: NOT_FINISHED_STATUSES, order: "asc" });
   const invalidateMe = useInvalidateMe();
 
   const onLogout = async () => {
@@ -180,12 +180,7 @@ export default function Home() {
           <div className="sm:flex-1">
             <MenuSection title="村一覧/村作成">
               <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
-                <TileAnchor
-                  href={legacyUrl("/village-list")}
-                  icon={ListBulletIcon}
-                  jp="村一覧"
-                  en="Village list"
-                />
+                <TileRoute to="/village-list" icon={ListBulletIcon} jp="村一覧" en="Village list" />
                 {canCreateVillage && (
                   <TileAnchor
                     href={legacyUrl("/new-village")}

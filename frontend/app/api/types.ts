@@ -99,6 +99,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/skills": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list_1"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/charachips": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list_2"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/me": {
     parameters: {
       query?: never;
@@ -173,6 +205,22 @@ export interface components {
     };
     VillageTag: {
       code: string;
+      name: string;
+    };
+    SimpleSkillView: {
+      code: string;
+      name: string;
+      shortName: string;
+    };
+    SkillListResponse: {
+      skills: components["schemas"]["SimpleSkillView"][];
+    };
+    CharachipListResponse: {
+      charachips: components["schemas"]["SimpleCharachipView"][];
+    };
+    SimpleCharachipView: {
+      /** Format: int32 */
+      id: number;
       name: string;
     };
   };
@@ -302,6 +350,10 @@ export interface operations {
     parameters: {
       query?: {
         status?: string[];
+        charachip?: number[];
+        skill?: string[];
+        random?: boolean;
+        order?: string;
       };
       header?: never;
       path?: never;
@@ -316,6 +368,46 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageListResponse"];
+        };
+      };
+    };
+  };
+  list_1: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SkillListResponse"];
+        };
+      };
+    };
+  };
+  list_2: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["CharachipListResponse"];
         };
       };
     };

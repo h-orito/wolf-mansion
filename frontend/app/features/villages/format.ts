@@ -1,7 +1,7 @@
 import type { SimpleVillageView } from "./api";
 
 /**
- * 村一覧の表示整形 (既存 :8091 の IndexContent 相当)。
+ * 村一覧の表示整形。
  * backend はドメイン構造に近い生データ ([SimpleVillageView]) を返すので、表示文字列の組み立ては画面側のここで行う。
  */
 
@@ -21,6 +21,17 @@ export function participateNumLabel(village: SimpleVillageView): string {
   return village.status.isPrologue
     ? `${village.participantCount}/${village.setting.personMax}${spectator}人`
     : `${village.participantCount}${spectator}人`;
+}
+
+/**
+ * 村一覧画面の参加人数表示。
+ * トップ ([participateNumLabel]) と違い、募集中でも定員 (`/max`) は出さない。
+ * - 見学あり: `参加 (見学)人`
+ * - 見学なし: `参加人`
+ */
+export function villageListParticipateNum(village: SimpleVillageView): string {
+  const spectator = village.spectatorCount > 0 ? ` (${village.spectatorCount})` : "";
+  return `${village.participantCount}${spectator}人`;
 }
 
 /** 村タグ (village_tag_item) の code。backend はタグを生データで返すので、絞り込み・色付けは画面側で行う。 */
