@@ -4,8 +4,8 @@ import { LinkButton } from "~/components/ui/Button";
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { assetUrl } from "~/lib/api";
-import { MessageBubble } from "./MessageBubble";
-import { SystemMessage } from "./SystemMessage";
+import { MessageBubble } from "~/components/ui/MessageBubble";
+import { SystemMessage } from "~/components/ui/SystemMessage";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
