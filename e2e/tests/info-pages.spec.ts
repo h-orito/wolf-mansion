@@ -50,10 +50,14 @@ test("practice ページが表示され、答えを開閉できる", async ({ pa
   const answer = page.getByText("・導師でも結果発表以外の推理発言はしてはいけません。");
   await expect(answer).toBeHidden();
 
+  // 「答えを開く」ボタンは 3 問とも同名のため第1問のものを位置で特定する
   const toggle = page.getByRole("button", { name: "答えを開く" }).first();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "true");
   await expect(answer).toBeVisible();
   await toggle.click();
+  await expect(toggle).toHaveAttribute("aria-expanded", "false");
   await expect(answer).toBeHidden();
 });
 

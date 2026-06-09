@@ -7,6 +7,7 @@
  * 内部リンク (`th:href="@{...}"`) は { to, text } セグメントとして保持し、
  * 画面側で SPA リンクとして描画する。
  */
+import { execFileSync } from "node:child_process";
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -122,4 +123,9 @@ export interface Release {
 export const releases: Release[] = `;
 
 writeFileSync(outPath, banner + JSON.stringify(releases, null, 2) + ";\n");
+// commit 済み生成物と diff が出ないよう、生成のたびにリポジトリの整形を通す
+execFileSync("pnpm", ["exec", "oxfmt", "--write", outPath], {
+  cwd: resolve(__dirname, ".."),
+  stdio: "inherit",
+});
 console.log(`generated ${outPath} (${releases.length} releases)`);
