@@ -100,31 +100,16 @@ export default function Home() {
             </p>
           </div>
           <div className="grid grid-cols-3">
-            <TileAnchor
-              href={legacyUrl("/about")}
-              icon={InformationCircleIcon}
-              jp="本サイトは"
-              en="About"
-            />
+            <TileRoute to="/about" icon={InformationCircleIcon} jp="本サイトは" en="About" />
             <TileRoute
               to="/intro"
               icon={QuestionMarkCircleIcon}
               jp="人狼館の事件簿村"
               en="Introduction"
             />
-            <TileAnchor
-              href={legacyUrl("/announce")}
-              icon={MegaphoneIcon}
-              jp="お知らせ"
-              en="Announce"
-            />
+            <TileRoute to="/announce" icon={MegaphoneIcon} jp="お知らせ" en="Announce" />
             <TileRoute to="/rule" icon={BookOpenIcon} jp="ルール" en="Rule" />
-            <TileAnchor
-              href={legacyUrl("/faq")}
-              icon={QuestionMarkCircleIcon}
-              jp="よくある質問"
-              en="FAQ"
-            />
+            <TileRoute to="/faq" icon={QuestionMarkCircleIcon} jp="よくある質問" en="FAQ" />
             <TileRoute to="/skill" icon={BookOpenIcon} jp="役職一覧" en="Skill" />
           </div>
         </section>
@@ -206,12 +191,7 @@ export default function Home() {
 
         {/* キャラチップ */}
         <MenuSection title="キャラチップ">
-          <TileAnchor
-            href={legacyUrl("/chara-group")}
-            icon={ListBulletIcon}
-            jp="一覧"
-            en="Character list"
-          />
+          <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
         </MenuSection>
 
         <Footer />

@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 import { Heading, SubHeading } from "~/components/ui/Heading";
+import { Divider } from "~/components/ui/Divider";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { type SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
@@ -55,7 +56,7 @@ export default function RulePage() {
 
         <TableOfContents campGroups={campGroups} />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading id="basic">人狼の基本ルール</SubHeading>
         <ul className="mb-[10.5px] list-disc pl-[40px]">
           <li>
@@ -63,15 +64,15 @@ export default function RulePage() {
           </li>
         </ul>
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>人狼館の事件簿村ルール</SubHeading>
         <MansionSection />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>詳細ルール</SubHeading>
         <DetailSection />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>役職詳細</SubHeading>
         <p className="mb-[10.5px]">
           役職検索は
@@ -81,32 +82,28 @@ export default function RulePage() {
         </p>
         <SkillDetailSection campGroups={campGroups} />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>占霊判定、勝敗時のカウント</SubHeading>
         <JudgeSection judges={judges} />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>ステータス</SubHeading>
         <StatusSection />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>陣営・勝敗</SubHeading>
         <CampSection campGroups={campGroups} />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>人数と部屋サイズ</SubHeading>
         <RoomSection />
 
-        <SectionDivider />
+        <Divider />
         <SubHeading>その他</SubHeading>
         <OtherSection />
       </div>
     </PageLayout>
   );
-}
-
-function SectionDivider() {
-  return <hr className="my-[21px] border-[#464545]" />;
 }
 
 function TableOfContents({ campGroups }: { campGroups: CampGroup[] }) {
