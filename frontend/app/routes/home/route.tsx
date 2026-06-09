@@ -191,12 +191,7 @@ export default function Home() {
 
         {/* キャラチップ */}
         <MenuSection title="キャラチップ">
-          <TileAnchor
-            href={legacyUrl("/chara-group")}
-            icon={ListBulletIcon}
-            jp="一覧"
-            en="Character list"
-          />
+          <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
         </MenuSection>
 
         <Footer />

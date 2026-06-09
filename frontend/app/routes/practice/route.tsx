@@ -250,11 +250,7 @@ function AnswerCollapse({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
     <div>
-      <Button
-        className="text-[13px]"
-        aria-expanded={open}
-        onClick={() => setOpen((prev) => !prev)}
-      >
+      <Button className="text-[13px]" aria-expanded={open} onClick={() => setOpen((prev) => !prev)}>
         答えを開く
       </Button>
       {open && (
