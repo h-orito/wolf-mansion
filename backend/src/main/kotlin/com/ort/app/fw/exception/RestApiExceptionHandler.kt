@@ -7,6 +7,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.server.ResponseStatusException
 
 /**
  * REST API (`@RestController`) 専用の例外ハンドラ。エラーを ProblemDetail (RFC 7807) に統一する。
@@ -36,6 +37,10 @@ class RestApiExceptionHandler {
                 .ifBlank { "入力内容が不正です" }
         return problem(HttpStatus.BAD_REQUEST, detail, "validation_error")
     }
+
+    @ExceptionHandler(ResponseStatusException::class)
+    fun handleResponseStatus(e: ResponseStatusException): ProblemDetail =
+        problem(HttpStatus.valueOf(e.statusCode.value()), e.reason ?: e.message, "business_error")
 
     @ExceptionHandler(Exception::class)
     fun handleOther(e: Exception): ProblemDetail {

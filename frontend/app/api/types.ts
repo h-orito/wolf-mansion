@@ -163,6 +163,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/charachips/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["detail"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/me": {
     parameters: {
       query?: never;
@@ -276,6 +292,59 @@ export interface components {
       /** Format: int32 */
       id: number;
       name: string;
+      designerName: string;
+      /** Format: int32 */
+      charaNum: number;
+      dummyImgUrl: string;
+      /** Format: int32 */
+      dummyImgWidth: number;
+      /** Format: int32 */
+      dummyImgHeight: number;
+    };
+    CharaView: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      shortName: string;
+      imageUrls: string[];
+      /** Format: int32 */
+      width: number;
+      /** Format: int32 */
+      height: number;
+    };
+    CharachipDetailResponse: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      designerName: string;
+      descriptionUrl?: string | null;
+      isAvailableChangeName: boolean;
+      charas: components["schemas"]["CharaView"][];
+      roomAssignment: components["schemas"]["RoomAssignmentView"];
+    };
+    RoomAssignmentCellView: {
+      roomNumber: string;
+      charaName?: string | null;
+      charaShortName?: string | null;
+      charaImgUrl?: string | null;
+      /** Format: int32 */
+      charaImgWidth?: number | null;
+      /** Format: int32 */
+      charaImgHeight?: number | null;
+    };
+    RoomAssignmentRowView: {
+      cells: components["schemas"]["RoomAssignmentCellView"][];
+    };
+    RoomAssignmentView: {
+      /** Format: int32 */
+      width: number;
+      /** Format: int32 */
+      height: number;
+      /** Format: int32 */
+      maxCharaWidth: number;
+      /** Format: int32 */
+      maxCharaHeight: number;
+      rows: components["schemas"]["RoomAssignmentRowView"][];
     };
   };
   responses: never;
@@ -506,6 +575,28 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["CharachipListResponse"];
+        };
+      };
+    };
+  };
+  detail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["CharachipDetailResponse"];
         };
       };
     };
