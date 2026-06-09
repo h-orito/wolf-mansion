@@ -131,6 +131,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/rule/judges": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["judges"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/charachips": {
     parameters: {
       query?: never;
@@ -237,6 +253,20 @@ export interface components {
     };
     SkillSearchResponse: {
       skillCodes: string[];
+    };
+    JudgeListResponse: {
+      judges: components["schemas"]["JudgeView"][];
+    };
+    JudgeSkillView: {
+      code: string;
+      name: string;
+    };
+    JudgeView: {
+      skills: components["schemas"]["JudgeSkillView"][];
+      divineResultWolf: boolean;
+      psychicResultWolf: boolean;
+      noDeadByAttack: boolean;
+      count: string;
     };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];
@@ -435,6 +465,26 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["SkillSearchResponse"];
+        };
+      };
+    };
+  };
+  judges: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["JudgeListResponse"];
         };
       };
     };

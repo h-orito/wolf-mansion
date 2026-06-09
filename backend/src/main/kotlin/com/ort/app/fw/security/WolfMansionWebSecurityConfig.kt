@@ -42,13 +42,14 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/auth/refresh",
                         "/api/v1/auth/logout",
                     ).permitAll()
-                    // 村一覧・キャラセット一覧・役職一覧は公開情報 (一覧表示や絞り込み候補で共有)
+                    // 村一覧・キャラセット一覧・役職一覧・ルール情報は公開情報
                     .requestMatchers(
                         org.springframework.http.HttpMethod.GET,
                         "/api/v1/villages",
                         "/api/v1/charachips",
                         "/api/v1/skills",
                         "/api/v1/skills/search",
+                        "/api/v1/rule/judges",
                     ).permitAll()
                     .anyRequest()
                     .authenticated()

@@ -118,7 +118,7 @@ export default function Home() {
               jp="お知らせ"
               en="Announce"
             />
-            <TileAnchor href={legacyUrl("/rule")} icon={BookOpenIcon} jp="ルール" en="Rule" />
+            <TileRoute to="/rule" icon={BookOpenIcon} jp="ルール" en="Rule" />
             <TileAnchor
               href={legacyUrl("/faq")}
               icon={QuestionMarkCircleIcon}

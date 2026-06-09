@@ -7,11 +7,7 @@ description: ローカル `.issues/step-<N>(.M)-<slug>.md` を新規作成する
 
 このプロジェクトは monorepo 移行作業中で、Issue を **階層番号方式** (`step-<N>(.M)-<slug>.md`) で管理する。
 
-**まずグローバル版 (`~/.claude/skills/add-issue/SKILL.md`) を読み、流れの骨格を把握すること。** その上で、以下の差分のみ上書きする。差分に書かれていない手順 (bootstrap / ヒアリング / slug 生成 / テンプレ流用 / 完了報告) はグローバル版に従う。
-
-## 差分
-
-### 採番 (グローバル §2 を置き換え)
+## 採番
 
 ファイル名は `step-<N>(.M)-<slug>.md`。番号は **自動採番しない**。どの step に属するかを文脈から決める:
 
@@ -25,7 +21,7 @@ description: ローカル `.issues/step-<N>(.M)-<slug>.md` を新規作成する
 ls .issues/ | grep -E '^step-[0-9]'
 ```
 
-### frontmatter
+## frontmatter
 
 ```yaml
 ---
@@ -36,12 +32,17 @@ status: open
 ---
 ```
 
-### 標準セクション (グローバル §4 を踏襲しつつ追加)
+## 標準セクション
 
-グローバルの標準セクションに加え、本プロジェクトでは **「動作確認」セクションを必須**とする (07-workflow.md の方針)。
-backend は `./gradlew` 系 (monorepo 化後は `./gradlew -p backend` 系)、frontend は `pnpm dev`、確認 URL / 操作 / 期待表示を step 固有に書く。
+Issue ファイルには以下のセクションを含める:
 
-### README 追記 (グローバル §5)
+- **目的**: なぜこの step が必要か
+- **成果物**: マージ時点で何ができている状態か
+- **作業内容**: 主要タスク
+- **動作確認** (必須): backend は `./gradlew` 系、frontend は `pnpm dev`、確認 URL / 操作 / 期待表示を step 固有に書く
+- **依存**: 先行 step
+
+## README 追記
 
 `.issues/README.md` の一覧表の `#` 列には `step-N(.M)` を入れる:
 

@@ -1,0 +1,107 @@
+import { SkillMessage } from "~/routes/skill/SkillMessage";
+import { assetUrl } from "~/lib/api";
+
+export function MansionSection() {
+  return (
+    <ul id="mansion" className="mb-[10.5px] list-disc pl-[40px]">
+      <li>
+        <strong className="text-[#d9534f]">
+          全員に見える発言での推理発言、まとめ行為、CO禁止です。（グレラン村）
+        </strong>
+        <ul className="list-disc pl-[20px]">
+          <li>役職持ち、騙り含め全てのCOおよび結果報告が禁止となります。</li>
+        </ul>
+      </li>
+      <li>
+        <strong className="text-[#d9534f]">
+          ただし、導師と探偵のみCOおよび能力行使結果を白ログで報告することができます。（結果騙りもOKとします。）
+        </strong>
+        <ul className="list-disc pl-[20px]">
+          <li>導師と探偵も白ログでの推理やまとめ行為は禁止です。</li>
+          <li>当然ながら、役職者騙りも禁止です。</li>
+          <li>墓下と地上で会話ができる村設定の場合は、死亡後のCO及び結果の報告は禁止です。</li>
+          <li>
+            転生などによりCO可能役職になったり、そうでなくなったりした場合、現在の役職における結果のみ報告可能とします。
+            <ul className="list-disc pl-[20px]">詳細は、役職変化の項目を参照してください。</ul>
+          </li>
+          <li>
+            これらの禁止行為は通常村でのルールとなります。村ごとに定めたルールがある場合はそちらが優先されます。
+          </li>
+        </ul>
+      </li>
+      <li>
+        1日目になると、各参加者に碁盤の目のように並んだ部屋のいずれかが割り振られます。
+        <ul className="list-disc pl-[20px]">
+          <li>
+            <img src={assetUrl("/app/images/rule/rule01.png")} width={200} alt="部屋配置例" />
+          </li>
+        </ul>
+      </li>
+      <li>
+        以下の能力を発動すると、「通過した部屋」に足音が響き、翌日朝に纏めて報告されます。
+        <ul className="list-disc pl-[20px]">
+          <li>占い師系役職による占い</li>
+          <li>人狼系役職による襲撃</li>
+          <li>狩人による護衛</li>
+          <li>狂人系役職、妖狐による徘徊（任意）</li>
+        </ul>
+        <div className="my-[5px]">
+          <SkillMessage
+            messageType="message-public-system"
+            content={
+              "館の大広間に集まった村人達は、昨晩聞こえた足音について確認した。\n\n部屋12、部屋17、部屋18で足音が聞こえた...。\n部屋06、部屋07で足音が聞こえた...。"
+            }
+          />
+        </div>
+      </li>
+      <li>
+        部屋移動と響く足音について、以下のルールがあります。
+        <ul className="list-disc pl-[20px]">
+          <li>
+            行動対象に向かって縦横の最短距離で移動し、通過する部屋に足音が響きます。
+            <ul className="list-disc pl-[20px]">
+              <li>
+                曲がる必要がある場合は1回曲がる経路のうちどちらかを選択できます。（つまり、経路は必ずL字か直線になります。）
+              </li>
+              <li>部屋が隣接している場合は足音は響きません。</li>
+              <li>生存者のいない部屋は足音が響きません。</li>
+            </ul>
+          </li>
+          <li>
+            人狼は襲撃者を選択することができます。
+            <br />
+            ただし、設定で同一人狼による連続襲撃が不可となっている村では、人狼が複数生存している場合、連続で同じ人狼が襲撃することはできません。
+          </li>
+          <li>
+            狂人系役職、妖狐は自分の部屋からに限らず、どの部屋からどの部屋まで徘徊するか自由に選択できます。
+            <ul className="list-disc pl-[20px]">
+              <li>ただし、直線上にしか徘徊することはできません。</li>
+              <li>通過した部屋だけでなく、徘徊した部屋全てに足音が響きます。</li>
+            </ul>
+          </li>
+          <li>狂人系役職、妖狐は「徘徊しない」こともできます。</li>
+          <li>翌日足音が報告される順番はランダムで、部屋番号は若い順です。</li>
+          <li>翌日に能力者、襲撃担当者が死亡していてもセットした通りに足音が響きます。</li>
+        </ul>
+      </li>
+      <li>
+        あなた自身が勝利することを目指してください。
+        <ul className="list-disc pl-[20px]">
+          <li>
+            勝利条件は
+            <a href="#personal-wincondition" className="text-wm-accent hover:underline">
+              個人ごとの勝敗判定
+            </a>
+            を参照してください。
+          </li>
+          <li>
+            役職編成次第ですが、陣営が変化する、または能動的に変えられる場合があるため、それらも考慮して勝利を目指してください。
+          </li>
+          <li>
+            状況によっては現在の所属陣営を裏切ることが自身の勝利を目指す上で最善である可能性もあります。
+          </li>
+        </ul>
+      </li>
+    </ul>
+  );
+}
