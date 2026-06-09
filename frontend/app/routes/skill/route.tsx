@@ -2,11 +2,8 @@ import { useMemo, useState } from "react";
 
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
-import {
-  skillDescriptions,
-  type CampDescriptions,
-  type SkillDescription,
-} from "~/features/skills/descriptions";
+import { type SimpleSkillView } from "~/features/skills/api";
+import { skillDescriptions } from "~/features/skills/descriptions";
 import { useSkillList, useSkillSearch } from "~/features/skills/useSkillList";
 import { useVillages } from "~/features/villages/useVillages";
 import { siteMeta } from "~/lib/meta";
@@ -17,6 +14,25 @@ import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
   return siteMeta("役職一覧");
+}
+
+type CampGroup = {
+  campCode: string;
+  campName: string;
+  skills: SimpleSkillView[];
+};
+
+function groupByCamp(skills: SimpleSkillView[]): CampGroup[] {
+  const map = new Map<string, CampGroup>();
+  for (const skill of skills) {
+    let group = map.get(skill.campCode);
+    if (!group) {
+      group = { campCode: skill.campCode, campName: skill.campName, skills: [] };
+      map.set(skill.campCode, group);
+    }
+    group.skills.push(skill);
+  }
+  return Array.from(map.values());
 }
 
 export default function SkillList() {
@@ -45,6 +61,7 @@ export default function SkillList() {
   }, [hasFilter, searchResult]);
 
   const allTags = skillData?.tags ?? [];
+  const campGroups = useMemo(() => groupByCamp(skillData?.skills ?? []), [skillData]);
   const villages = villageData?.villages ?? [];
 
   return (
@@ -54,41 +71,44 @@ export default function SkillList() {
 
         <SearchPanel allTags={allTags} villages={villages} onSearch={setSearchValue} />
 
-        <CampMenu descriptions={skillDescriptions} visibleCodes={visibleCodes} />
+        <CampMenu campGroups={campGroups} visibleCodes={visibleCodes} />
 
         <hr className="my-[21px] border-[#464545]" />
         <SubHeading>役職詳細</SubHeading>
 
-        <SkillDetailList descriptions={skillDescriptions} visibleCodes={visibleCodes} />
+        <SkillDetailList campGroups={campGroups} visibleCodes={visibleCodes} />
       </div>
     </PageLayout>
   );
 }
 
 function CampMenu({
-  descriptions,
+  campGroups,
   visibleCodes,
 }: {
-  descriptions: CampDescriptions[];
+  campGroups: CampGroup[];
   visibleCodes: Set<string> | null;
 }) {
   return (
     <div className="rounded bg-[#303030] px-[5px] pt-[5px] pb-[15px]">
-      {descriptions.map((camp) => {
-        const visibleSkills = camp.skills.filter(
-          (s) => visibleCodes === null || visibleCodes.has(s.code.toUpperCase()),
+      {campGroups.map((camp) => {
+        const visible = camp.skills.filter(
+          (s) => visibleCodes === null || visibleCodes.has(s.code),
         );
-        if (visibleSkills.length === 0) return null;
+        if (visible.length === 0) return null;
         return (
-          <div key={camp.id}>
-            <p className="mb-[5px]">{camp.name}</p>
+          <div key={camp.campCode}>
+            <p className="mb-[5px]">{camp.campName}</p>
             <div className="mb-[10px]">
-              {visibleSkills.map((skill, i) => (
+              {visible.map((skill, i) => (
                 <span key={skill.code}>
-                  <a href={`#${skill.code}`} className="text-wm-accent hover:underline">
+                  <a
+                    href={`#${skill.code.toLowerCase()}`}
+                    className="text-wm-accent hover:underline"
+                  >
                     {skill.name}
                   </a>
-                  {i < visibleSkills.length - 1 && <span> / </span>}
+                  {i < visible.length - 1 && <span> / </span>}
                 </span>
               ))}
             </div>
@@ -100,24 +120,24 @@ function CampMenu({
 }
 
 function SkillDetailList({
-  descriptions,
+  campGroups,
   visibleCodes,
 }: {
-  descriptions: CampDescriptions[];
+  campGroups: CampGroup[];
   visibleCodes: Set<string> | null;
 }) {
   return (
     <ul className="mb-[10.5px] list-disc pl-[20px]">
-      {descriptions.map((camp) => {
-        const visibleSkills = camp.skills.filter(
-          (s) => visibleCodes === null || visibleCodes.has(s.code.toUpperCase()),
+      {campGroups.map((camp) => {
+        const visible = camp.skills.filter(
+          (s) => visibleCodes === null || visibleCodes.has(s.code),
         );
-        if (visibleSkills.length === 0) return null;
+        if (visible.length === 0) return null;
         return (
-          <li key={camp.id} id={camp.id} className="mb-[10px]">
-            <h5 className="my-[10.5px] text-[15px]">{camp.name}</h5>
+          <li key={camp.campCode} className="mb-[10px]">
+            <h5 className="my-[10.5px] text-[15px]">{camp.campName}</h5>
             <ul className="list-disc pl-[20px]">
-              {visibleSkills.map((skill) => (
+              {visible.map((skill) => (
                 <SkillItem key={skill.code} skill={skill} />
               ))}
             </ul>
@@ -128,12 +148,13 @@ function SkillDetailList({
   );
 }
 
-function SkillItem({ skill }: { skill: SkillDescription }) {
+function SkillItem({ skill }: { skill: SimpleSkillView }) {
+  const items = skillDescriptions[skill.code.toLowerCase()] ?? [];
   return (
-    <li id={skill.code} className="mb-[10px]">
+    <li id={skill.code.toLowerCase()} className="mb-[10px]">
       【{skill.shortName}】{skill.name}
       <ul className="list-disc pl-[20px] leading-[17.14px]">
-        {skill.items.map((item, i) =>
+        {items.map((item, i) =>
           item.type === "message" ? (
             <li key={i}>
               <SkillMessage messageType={item.messageType} content={item.content} />
