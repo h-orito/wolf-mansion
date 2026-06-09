@@ -38,7 +38,7 @@ export function MessageBubble({
       <div className="flex">
         {isLeft && charaImg}
         <div
-          className={`min-h-[77px] flex-1 rounded-[5px] border p-[9px] break-words ${typeStyles[type]} ${isLeft ? "ml-[5px]" : "mr-[5px]"}`}
+          className={`ml-[5px] min-h-[77px] flex-1 rounded-[5px] border p-[9px] break-words ${typeStyles[type]}`}
           style={{ fontFamily: "sans-serif" }}
         >
           {children}
