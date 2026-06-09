@@ -44,7 +44,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を占い、人間か人狼かを知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を占い、人間か人狼かを知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -67,7 +67,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。 [02長]村長 ヴァルターは人間のようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。\n[02長]村長 ヴァルターは人間のようだ。",
           },
         ],
       },
@@ -79,7 +79,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を占い、その人の役職を知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を占い、その人の役職を知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -102,7 +102,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。 [02長]村長 ヴァルターは智狼のようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。\n[02長]村長 ヴァルターは智狼のようだ。",
           },
         ],
       },
@@ -114,7 +114,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を指定して占い、その人の部屋を中心とした3x3の部屋にいる人の役職構成を知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を指定して占い、その人の部屋を中心とした3x3の部屋にいる人の役職構成を知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -147,7 +147,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターのあたりを占った。 このあたりには、村人が1名、占い師が2名、人狼が3名、共有者が2名、妖狐が1名いるようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターのあたりを占った。\nこのあたりには、村人が1名、占い師が2名、人狼が3名、共有者が2名、妖狐が1名いるようだ。",
           },
         ],
       },
@@ -159,7 +159,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を占い、恋をしているかを知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を占い、恋をしているかを知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -169,7 +169,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "対象が恋絆を持っていなく、恋をされているだけの場合は恋をしていない判定となります（例. ストーカーにストーキングされている）。",
+              "対象が恋絆を持っていなく、恋をされているだけの場合は恋をしていない判定となります（例.\nストーカーにストーキングされている）。",
           },
           {
             type: "text",
@@ -192,7 +192,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。 [02長]村長 ヴァルターは恋をしているようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。\n[02長]村長 ヴァルターは恋をしているようだ。",
           },
         ],
       },
@@ -204,7 +204,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を指定して占い、その人の部屋を中心とした3x3の部屋にいる人の勝敗判定陣営構成を知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を指定して占い、その人の部屋を中心とした3x3の部屋にいる人の勝敗判定陣営構成を知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -232,7 +232,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターのあたりを占った。 このあたりには、村人陣営に与する者が1名、人狼陣営に与する者が2名、狐陣営に与する者が1名、恋人陣営に与する者が5名いるようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターのあたりを占った。\nこのあたりには、村人陣営に与する者が1名、人狼陣営に与する者が2名、狐陣営に与する者が1名、恋人陣営に与する者が5名いるようだ。",
           },
         ],
       },
@@ -244,7 +244,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "2日目以降、毎晩死者一人を占い、その人の役職を知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "2日目以降、毎晩死者一人を占い、その人の役職を知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -266,7 +266,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。 [02長]村長 ヴァルターは賢者のようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。\n[02長]村長 ヴァルターは賢者のようだ。",
           },
         ],
       },
@@ -278,7 +278,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩一人を占い、役職の所属する陣営と、現在の勝敗判定陣営が異なるかを知ることができます。 占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩一人を占い、役職の所属する陣営と、現在の勝敗判定陣営が異なるかを知ることができます。\n占うと、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -311,7 +311,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-seer",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。 [02長]村長 ヴァルターは陣営変化しているようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを占った。\n[02長]村長 ヴァルターは陣営変化しているようだ。",
           },
         ],
       },
@@ -323,7 +323,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "毎晩自分以外の一人を人狼の襲撃から守ることができます。 護衛すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "毎晩自分以外の一人を人狼の襲撃から守ることができます。\n護衛すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -397,7 +397,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "例. 2日目に響いた足音のうち1つを選んでセットすると、3日目朝にどの役職が鳴らした足音かを知ることができます。",
+              "例.\n2日目に響いた足音のうち1つを選んでセットすると、3日目朝にどの役職が鳴らした足音かを知ることができます。",
           },
           {
             type: "text",
@@ -420,7 +420,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "例. 人狼、狂人の足音がどちらも12,13で12,13を調査対象とした場合、片方の調査結果だけが得られます。（=結果は人狼or狂人となります）",
+              "例.\n人狼、狂人の足音がどちらも12,13で12,13を調査対象とした場合、片方の調査結果だけが得られます。（=結果は人狼or狂人となります）",
           },
           {
             type: "text",
@@ -438,7 +438,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-investigate",
             content:
-              "[01楽]楽天家 ゲルトは、昨日響いた足音01,02,03について調査した。 01,02,03の足音を響かせたのは呪狼のようだ。",
+              "[01楽]楽天家 ゲルトは、昨日響いた足音01,02,03について調査した。\n01,02,03の足音を響かせたのは呪狼のようだ。",
           },
         ],
       },
@@ -455,7 +455,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "例. 2日目に響いた足音のうち1つを選んでセットすると、3日目朝に誰が鳴らした足音かを知ることができます。",
+              "例.\n2日目に響いた足音のうち1つを選んでセットすると、3日目朝に誰が鳴らした足音かを知ることができます。",
           },
           {
             type: "text",
@@ -465,7 +465,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-investigate",
             content:
-              "[01楽]楽天家 ゲルトは、昨日響いた足音01,02,03について調査した。 01,02,03の足音を響かせたのは[02長]村長 ヴァルターのようだ。",
+              "[01楽]楽天家 ゲルトは、昨日響いた足音01,02,03について調査した。\n01,02,03の足音を響かせたのは[02長]村長 ヴァルターのようだ。",
           },
         ],
       },
@@ -929,7 +929,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "止まるんじゃねぇぞ... （AA略） [01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを指差した。",
+              "止まるんじゃねぇぞ...\n（AA略）\n[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを指差した。",
           },
         ],
       },
@@ -967,12 +967,12 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "message",
             messageType: "message-private-ability",
-            content: "[01楽] 楽天家 ゲルトは、[02長] 村長 ヴァルターに保険を勧めた。",
+            content: "[01楽] 楽天家 ゲルトは、[02長] 村長\nヴァルターに保険を勧めた。",
           },
           {
             type: "message",
             messageType: "message-private-ability",
-            content: "あなたは、[01楽] 楽天家 ゲルトに保険を勧められた。",
+            content: "あなたは、[01楽] 楽天家\nゲルトに保険を勧められた。",
           },
         ],
       },
@@ -1018,24 +1018,24 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター [02長]村長 ヴァルター → [02長]村長 ヴァルター [03娘]村娘 パメラ → [02長]村長 ヴァルター [04旅]旅人 ニコラス → [02長]村長 ヴァルター",
+              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター\n[02長]村長 ヴァルター → [02長]村長 ヴァルター\n[03娘]村娘 パメラ → [02長]村長 ヴァルター\n[04旅]旅人 ニコラス → [02長]村長 ヴァルター",
           },
           {
             type: "message",
             messageType: "message-public-system",
             content:
-              "[02長]村長 ヴァルター、1票 [02長]村長 ヴァルターは村人達の手により処刑された。",
+              "[02長]村長 ヴァルター、1票\n[02長]村長 ヴァルターは村人達の手により処刑された。",
           },
           {
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター [02長]村長 ヴァルター → [02長]村長 ヴァルター [03娘]村娘 パメラ → [02長]村長 ヴァルター",
+              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター\n[02長]村長 ヴァルター → [02長]村長 ヴァルター\n[03娘]村娘 パメラ → [02長]村長 ヴァルター",
           },
           {
             type: "message",
             messageType: "message-public-system",
-            content: "[02長]村長 ヴァルター、0票 本日は処刑が行われなかった。",
+            content: "[02長]村長 ヴァルター、0票\n本日は処刑が行われなかった。",
           },
         ],
       },
@@ -1057,13 +1057,13 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター [02長]村長 ヴァルター → [02長]村長 ヴァルター [03娘]村娘 パメラ → [03娘]村娘 パメラ [04旅]旅人 ニコラス → [03娘]村娘 パメラ",
+              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター\n[02長]村長 ヴァルター → [02長]村長 ヴァルター\n[03娘]村娘 パメラ → [03娘]村娘 パメラ\n[04旅]旅人 ニコラス → [03娘]村娘 パメラ",
           },
           {
             type: "message",
             messageType: "message-public-system",
             content:
-              "[02長]村長 ヴァルター、3票 [03娘]村娘 パメラ、2票 [02長]村長 ヴァルターは村人達の手により処刑された。",
+              "[02長]村長 ヴァルター、3票\n[03娘]村娘 パメラ、2票\n[02長]村長 ヴァルターは村人達の手により処刑された。",
           },
         ],
       },
@@ -1182,7 +1182,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-system",
             content:
-              "[01楽]楽天家 ゲルトは、この村の全容を明らかにした。 この村には、村人が1名、導師が1名、風来狩人が2名、妄想癖が1名、全知者が1名、呪狼が2名、智狼が1名生存しているようだ。",
+              "[01楽]楽天家 ゲルトは、この村の全容を明らかにした。\nこの村には、村人が1名、導師が1名、風来狩人が2名、妄想癖が1名、全知者が1名、呪狼が2名、智狼が1名生存しているようだ。",
           },
         ],
       },
@@ -1218,7 +1218,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "餡麺麭！新しい顔よ！それーっ！ 不思議なことに、[01楽]楽天家 ゲルトが生き返った。",
+              "餡麺麭！新しい顔よ！それーっ！\n不思議なことに、[01楽]楽天家 ゲルトが生き返った。",
           },
           {
             type: "message",
@@ -1360,7 +1360,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "2日目以降に1回だけ、1人を指定して拷問し、生存している仲間の位置（勝敗判定陣営が同じ人）を2人まで知ることができます。 拷問すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "2日目以降に1回だけ、1人を指定して拷問し、生存している仲間の位置（勝敗判定陣営が同じ人）を2人まで知ることができます。\n拷問すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -1399,7 +1399,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-ability",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを拷問した。 [02長]村長 ヴァルターの仲間には、[03農]農夫 モーリッツと[05樵]木こり トーマスがいるようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを拷問した。\n[02長]村長 ヴァルターの仲間には、[03農]農夫 モーリッツと[05樵]木こり トーマスがいるようだ。",
           },
           {
             type: "message",
@@ -1433,7 +1433,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "人狼系役職とC国狂人同士にしか聞こえない会話が可能です。 また、毎晩一人を襲撃することができます。 襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "人狼系役職とC国狂人同士にしか聞こえない会話が可能です。\nまた、毎晩一人を襲撃することができます。\n襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -1592,7 +1592,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1627,7 +1627,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1662,7 +1662,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1696,7 +1696,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1734,7 +1734,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1768,7 +1768,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者がこの役職で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が人狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1813,7 +1813,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "襲撃者が静狼で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が呪狼に変化します。 対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
+              "襲撃者が静狼で、護衛もしくは襲撃耐性により襲撃が失敗した場合、襲撃者が呪狼に変化します。\n対象が襲撃時点で死亡していたり、護衛なしで同棲者の能力による不在での失敗の場合は変化しません。",
           },
           {
             type: "text",
@@ -1996,7 +1996,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "2日目以降、毎晩一人を襲撃することができます。 襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "2日目以降、毎晩一人を襲撃することができます。\n襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -2198,19 +2198,19 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-system",
             content:
-              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター [02長]村長 ヴァルター → [02長]村長 ヴァルター [03娘]村娘 パメラ → [03娘]村娘 パメラ [04旅]旅人 ニコラス → [03娘]村娘 パメラ",
+              "[01楽]楽天家 ゲルト → [02長]村長 ヴァルター\n[02長]村長 ヴァルター → [02長]村長 ヴァルター\n[03娘]村娘 パメラ → [03娘]村娘 パメラ\n[04旅]旅人 ニコラス → [03娘]村娘 パメラ",
           },
           {
             type: "message",
             messageType: "message-private-system",
             content:
-              "[02長]村長 ヴァルター、2票 [03娘]村娘 パメラ、2票 [02長]村長 ヴァルターは村人達の手により処刑された。",
+              "[02長]村長 ヴァルター、2票\n[03娘]村娘 パメラ、2票\n[02長]村長 ヴァルターは村人達の手により処刑された。",
           },
           {
             type: "message",
             messageType: "message-public-system",
             content:
-              "何者かに投票箱を隠されてしまったようだ。 [02長]村長 ヴァルターは村人達の手により処刑された。",
+              "何者かに投票箱を隠されてしまったようだ。\n[02長]村長 ヴァルターは村人達の手により処刑された。",
           },
         ],
       },
@@ -2222,7 +2222,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "1回だけ、自分に投票したことがある人から1名を選び、殴打することができます。 殴打すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "1回だけ、自分に投票したことがある人から1名を選び、殴打することができます。\n殴打すると、自分の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -2280,7 +2280,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-system",
             content:
-              "[01楽]楽天家 ゲルトは、自分に投票した村人の素性を調べた。 投票してきたのは、村人が1名、占い師が2名、人狼が3名、共鳴者が2名、妖狐が1名のようだ。",
+              "[01楽]楽天家 ゲルトは、自分に投票した村人の素性を調べた。\n投票してきたのは、村人が1名、占い師が2名、人狼が3名、共鳴者が2名、妖狐が1名のようだ。",
           },
         ],
       },
@@ -2304,7 +2304,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "他者から対象への恋絆は消去されません。 例. 恋絆は以下のようになります。",
+            content: "他者から対象への恋絆は消去されません。\n例. 恋絆は以下のようになります。",
           },
           {
             type: "text",
@@ -2317,7 +2317,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "以下に当てはまる場合、失敗となり、対象には能力を使用した旨が通知されません。（再使用もできません） 対象が死亡していた場合",
+              "以下に当てはまる場合、失敗となり、対象には能力を使用した旨が通知されません。（再使用もできません）\n対象が死亡していた場合",
           },
           {
             type: "text",
@@ -2345,7 +2345,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-ability",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを破局させようとしたが、[02長]村長 ヴァルターは恋をしていなかった。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターを破局させようとしたが、[02長]村長\nヴァルターは恋をしていなかった。",
           },
         ],
       },
@@ -2670,7 +2670,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-private-lover",
             content:
-              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターをストーキングし始めた。 [02長]村長 ヴァルターは導師のようだ。",
+              "[01楽]楽天家 ゲルトは、[02長]村長 ヴァルターをストーキングし始めた。\n[02長]村長 ヴァルターは導師のようだ。",
           },
         ],
       },
@@ -3543,7 +3543,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "進行中のみ、発言抽出が特殊仕様となります。 発言種別について、共鳴発言、囁き、念話、恋人発言のいずれかを選択し、かつ全員を表示（もしくは全員を未選択）にすると、共鳴発言、囁き、念話、恋人発言全てを選択したものとして抽出が行われます（どの発言種別であったか判明してしまうのを防止するため）。",
+              "進行中のみ、発言抽出が特殊仕様となります。\n発言種別について、共鳴発言、囁き、念話、恋人発言のいずれかを選択し、かつ全員を表示（もしくは全員を未選択）にすると、共鳴発言、囁き、念話、恋人発言全てを選択したものとして抽出が行われます（どの発言種別であったか判明してしまうのを防止するため）。",
           },
           {
             type: "text",
@@ -3580,7 +3580,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルトは突然「フルーツバスケット！」と叫んだ。 なんと、全員の部屋がシャッフルされてしまった。 （以下略）",
+              "[01楽]楽天家 ゲルトは突然「フルーツバスケット！」と叫んだ。\nなんと、全員の部屋がシャッフルされてしまった。\n（以下略）",
           },
         ],
       },
@@ -3592,7 +3592,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "2日目以降、毎晩一人を襲撃することができます。 襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
+              "2日目以降、毎晩一人を襲撃することができます。\n襲撃すると、襲撃者の部屋から対象の部屋に向かう際通過した部屋に足音が響きます。",
           },
           {
             type: "text",
@@ -3925,7 +3925,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "以下に当てはまる場合、転生せず、メッセージも表示されません。 対象が死亡していた場合",
+              "以下に当てはまる場合、転生せず、メッセージも表示されません。\n対象が死亡していた場合",
           },
           {
             type: "text",
@@ -3973,7 +3973,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルトの部屋に異世界転生トラックが突っ込んだ。 [01楽]楽天家 ゲルトは、転生してしまった。",
+              "[01楽]楽天家 ゲルトの部屋に異世界転生トラックが突っ込んだ。\n[01楽]楽天家 ゲルトは、転生してしまった。",
           },
         ],
       },
@@ -4017,7 +4017,7 @@ export const skillDescriptions: CampDescriptions[] = [
             type: "message",
             messageType: "message-public-system",
             content:
-              "[01楽]楽天家 ゲルトの部屋に異世界転生トラックが突っ込んだ。 [01楽]楽天家 ゲルトは、転生してしまった。",
+              "[01楽]楽天家 ゲルトの部屋に異世界転生トラックが突っ込んだ。\n[01楽]楽天家 ゲルトは、転生してしまった。",
           },
         ],
       },
@@ -4042,7 +4042,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "選べる対象は、ダミー以外かつ一度もババになったことがない生存者です。 他のババおよびそのババと役職交換してババになった人も選べません。",
+              "選べる対象は、ダミー以外かつ一度もババになったことがない生存者です。\n他のババおよびそのババと役職交換してババになった人も選べません。",
           },
           {
             type: "text",
@@ -4055,7 +4055,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "以下に当てはまる場合、役職交換に失敗します。 対象が死亡していた場合",
+            content: "以下に当てはまる場合、役職交換に失敗します。\n対象が死亡していた場合",
           },
           {
             type: "text",
@@ -4068,7 +4068,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "役職交換に成功しても、結果として自分がババになっている可能性があります。 例. 複数のババが同じ対象と役職交換した結果、ババとババの交換になった",
+              "役職交換に成功しても、結果として自分がババになっている可能性があります。\n例. 複数のババが同じ対象と役職交換した結果、ババとババの交換になった",
           },
           {
             type: "text",
@@ -4101,7 +4101,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "選べる対象は、下記を除く生存者です。 ダミー",
+            content: "選べる対象は、下記を除く生存者です。\nダミー",
           },
           {
             type: "text",
@@ -4127,7 +4127,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "以下に当てはまる場合、役職交換に失敗します。 対象が死亡していた",
+            content: "以下に当てはまる場合、役職交換に失敗します。\n対象が死亡していた",
           },
           {
             type: "text",
@@ -4140,7 +4140,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "役職交換に成功しても、結果として自分が当選者になっている可能性があります。 例. 複数の当選者が同じ対象と役職交換した結果、当選者と当選者の交換になった",
+              "役職交換に成功しても、結果として自分が当選者になっている可能性があります。\n例. 複数の当選者が同じ対象と役職交換した結果、当選者と当選者の交換になった",
           },
           {
             type: "text",
@@ -4173,7 +4173,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "他者から対象への恋絆は消去されません。 例. 恋絆は以下のようになります。",
+            content: "他者から対象への恋絆は消去されません。\n例. 恋絆は以下のようになります。",
           },
           {
             type: "text",
@@ -4190,7 +4190,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "以下に当てはまる場合、失敗となり、自分への恋絆は付与されません。（再使用もできません） 対象が死亡していた場合",
+              "以下に当てはまる場合、失敗となり、自分への恋絆は付与されません。（再使用もできません）\n対象が死亡していた場合",
           },
           {
             type: "text",
@@ -4365,7 +4365,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "村人陣営 直感者：導師の勝敗判定陣営版",
+            content: "村人陣営\n直感者：導師の勝敗判定陣営版",
           },
           {
             type: "text",
@@ -4471,7 +4471,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "人狼陣営 鋭狼：襲撃失敗時に襲撃対象の役職を知ることができる",
+            content: "人狼陣営\n鋭狼：襲撃失敗時に襲撃対象の役職を知ることができる",
           },
           {
             type: "text",
@@ -4545,7 +4545,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "恋人陣営 居候：毎晩滞在先を選べる。同棲者とほぼ同じ。",
+            content: "恋人陣営\n居候：毎晩滞在先を選べる。同棲者とほぼ同じ。",
           },
           {
             type: "text",
@@ -4559,7 +4559,7 @@ export const skillDescriptions: CampDescriptions[] = [
           {
             type: "text",
             content:
-              "妖狐陣営 妲己：死亡時に指定した対象の役職で転生できる。転生時に狐憑き状態になる",
+              "妖狐陣営\n妲己：死亡時に指定した対象の役職で転生できる。転生時に狐憑き状態になる",
           },
           {
             type: "text",
@@ -4599,7 +4599,7 @@ export const skillDescriptions: CampDescriptions[] = [
           },
           {
             type: "text",
-            content: "愉快犯陣営 風見鶏：2日に1回、対象と同じ勝敗判定陣営になれる",
+            content: "愉快犯陣営\n風見鶏：2日に1回、対象と同じ勝敗判定陣営になれる",
           },
           {
             type: "text",

@@ -55,15 +55,19 @@ for (let i = 0; i < campHeaders.length; i++) {
         const msgType = msgMatch[1];
         const msgText = msgMatch[2]
           .replace(/<br\s*\/?>/g, "\n")
-          .replace(/\s+/g, " ")
-          .trim();
+          .split("\n")
+          .map((l) => l.replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .join("\n");
         items.push({ type: "message", messageType: msgType, content: msgText });
       } else {
         const text = content
           .replace(/<br\s*\/?>/g, "\n")
           .replace(/<[^>]+>/g, "")
-          .replace(/\s+/g, " ")
-          .trim();
+          .split("\n")
+          .map((l) => l.replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .join("\n");
         if (text) {
           items.push({ type: "text", content: text });
         }

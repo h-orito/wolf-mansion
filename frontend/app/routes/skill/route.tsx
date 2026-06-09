@@ -107,15 +107,15 @@ function SkillDetailList({
   visibleCodes: Set<string> | null;
 }) {
   return (
-    <ul className="list-disc pl-[20px]">
+    <ul className="mb-[10.5px] list-disc pl-[20px]">
       {descriptions.map((camp) => {
         const visibleSkills = camp.skills.filter(
           (s) => visibleCodes === null || visibleCodes.has(s.code.toUpperCase()),
         );
         if (visibleSkills.length === 0) return null;
         return (
-          <li key={camp.id} id={camp.id}>
-            <h5 className="text-[15px]">{camp.name}</h5>
+          <li key={camp.id} id={camp.id} className="mb-[10px]">
+            <h5 className="my-[10.5px] text-[15px]">{camp.name}</h5>
             <ul className="list-disc pl-[20px]">
               {visibleSkills.map((skill) => (
                 <SkillItem key={skill.code} skill={skill} />
