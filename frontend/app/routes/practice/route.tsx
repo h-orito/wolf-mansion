@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from "react";
 
 import { Button, LinkButton } from "~/components/ui/Button";
+import { Divider } from "~/components/ui/Divider";
 import { SubHeading } from "~/components/ui/Heading";
 import { MessageBubble } from "~/components/ui/MessageBubble";
 import { SystemMessage } from "~/components/ui/SystemMessage";
@@ -22,7 +23,7 @@ export default function Practice() {
             ルール紹介へ戻る
           </LinkButton>
 
-          <SectionDivider />
+          <Divider />
           <div className="space-y-5">
             <MessageBubble type="message-normal" chara="jimuzon" isLeft={false}>
               では練習問題をやってみましょう。
@@ -34,7 +35,7 @@ export default function Practice() {
             </MessageBubble>
           </div>
 
-          <SectionDivider />
+          <Divider />
           <div className="space-y-5">
             <SystemMessage type="creator">
               第1問
@@ -69,7 +70,7 @@ export default function Practice() {
             </AnswerCollapse>
           </div>
 
-          <SectionDivider />
+          <Divider />
           <div className="space-y-5">
             <SystemMessage type="creator">
               第2問
@@ -135,7 +136,7 @@ export default function Practice() {
             </AnswerCollapse>
           </div>
 
-          <SectionDivider />
+          <Divider />
           <div className="space-y-5">
             <SystemMessage type="creator">
               第3問
@@ -208,7 +209,7 @@ export default function Practice() {
             </AnswerCollapse>
           </div>
 
-          <SectionDivider />
+          <Divider />
           <div className="space-y-5">
             <SubHeading>おわり</SubHeading>
             <MessageBubble type="message-normal" chara="jimuzon" isLeft={false}>
@@ -239,10 +240,6 @@ export default function Practice() {
       </div>
     </PageLayout>
   );
-}
-
-function SectionDivider() {
-  return <hr className="my-[10px] border-wm-band" />;
 }
 
 /** 「答えを開く」ボタンで解答の表示/非表示を切り替える。 */

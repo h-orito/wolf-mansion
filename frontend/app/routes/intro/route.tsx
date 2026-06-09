@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 
 import { LinkButton } from "~/components/ui/Button";
+import { Divider } from "~/components/ui/Divider";
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { assetUrl } from "~/lib/api";
@@ -48,30 +49,26 @@ export default function Intro() {
         </ul>
 
         <div className="sm:w-1/2">
-          <SectionDivider />
+          <Divider />
           <SectionOpening />
-          <SectionDivider />
+          <Divider />
           <SectionNoCo />
-          <SectionDivider />
+          <Divider />
           <SectionFootstepBasic />
-          <SectionDivider />
+          <Divider />
           <SectionAdjacentRoom />
-          <SectionDivider />
+          <Divider />
           <SectionEmptyRoom />
-          <SectionDivider />
+          <Divider />
           <SectionDeadAbilityUser />
-          <SectionDivider />
+          <Divider />
           <SectionMadmanFox />
-          <SectionDivider />
+          <Divider />
           <SectionEnding />
         </div>
       </div>
     </PageLayout>
   );
-}
-
-function SectionDivider() {
-  return <hr className="my-[10px] border-wm-band" />;
 }
 
 function SectionOpening() {

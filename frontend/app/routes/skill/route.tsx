@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 
+import { Divider } from "~/components/ui/Divider";
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { type SimpleSkillView } from "~/features/skills/api";
@@ -73,7 +74,7 @@ export default function SkillList() {
 
         <CampMenu campGroups={campGroups} visibleCodes={visibleCodes} />
 
-        <hr className="my-[21px] border-[#464545]" />
+        <Divider />
         <SubHeading>役職詳細</SubHeading>
 
         <SkillDetailList campGroups={campGroups} visibleCodes={visibleCodes} />
