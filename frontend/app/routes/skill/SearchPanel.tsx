@@ -56,7 +56,7 @@ export function SearchPanel({
                 <button
                   type="button"
                   onClick={() => toggleTag(tag)}
-                  className={`cursor-pointer rounded-[3px] px-[10px] py-[10px] text-[9px] text-white ${
+                  className={`cursor-pointer rounded-[3px] px-[10px] py-[10px] text-[9px] leading-[9px] text-white ${
                     selectedTags.includes(tag) ? "bg-[#00bc8c]" : "bg-[#464545]"
                   }`}
                 >

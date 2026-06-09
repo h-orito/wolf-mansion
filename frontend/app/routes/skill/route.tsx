@@ -135,7 +135,7 @@ function SkillItem({ skill }: { skill: SkillDescription }) {
       <ul className="list-disc pl-[20px]">
         {skill.items.map((item, i) =>
           item.type === "message" ? (
-            <li key={i} className="list-none">
+            <li key={i}>
               <SkillMessage messageType={item.messageType} content={item.content} />
             </li>
           ) : (
