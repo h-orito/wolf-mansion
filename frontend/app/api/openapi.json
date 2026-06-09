@@ -277,6 +277,24 @@
         }
       }
     },
+    "/api/v1/rule/judges": {
+      "get": {
+        "tags": ["rule-rest-controller"],
+        "operationId": "judges",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JudgeListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/charachips": {
       "get": {
         "tags": ["charachip-rest-controller"],
@@ -560,6 +578,61 @@
           }
         },
         "required": ["skillCodes"]
+      },
+      "JudgeListResponse": {
+        "type": "object",
+        "properties": {
+          "judges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JudgeView"
+            }
+          }
+        },
+        "required": ["judges"]
+      },
+      "JudgeSkillView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
+      },
+      "JudgeView": {
+        "type": "object",
+        "properties": {
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JudgeSkillView"
+            }
+          },
+          "divineResultWolf": {
+            "type": "boolean"
+          },
+          "psychicResultWolf": {
+            "type": "boolean"
+          },
+          "noDeadByAttack": {
+            "type": "boolean"
+          },
+          "countType": {
+            "type": "string",
+            "enum": ["HUMAN", "WOLF", "NO_COUNT"]
+          }
+        },
+        "required": [
+          "countType",
+          "divineResultWolf",
+          "noDeadByAttack",
+          "psychicResultWolf",
+          "skills"
+        ]
       },
       "CharachipListResponse": {
         "type": "object",

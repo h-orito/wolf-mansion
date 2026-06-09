@@ -6,6 +6,10 @@ export function Heading({ children }: { children: ReactNode }) {
 }
 
 /** セクション見出し (h2)。 */
-export function SubHeading({ children }: { children: ReactNode }) {
-  return <h2 className="text-[15px] font-bold">{children}</h2>;
+export function SubHeading({ children, id }: { children: ReactNode; id?: string }) {
+  return (
+    <h2 id={id} className="text-[15px] font-bold">
+      {children}
+    </h2>
+  );
 }

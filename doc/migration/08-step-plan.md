@@ -235,10 +235,10 @@ wolf-mansion で最も機能密度が高い画面。**8.1 (ベース) を最初�
 - **静的アセットの frontend 移管に伴う OGP 画像 path 更新** (step-4.1): context-path rename で backend が `/wolf-mansion-api`
   配信になったため、現状 OGP の `og:image` 等は `/wolf-mansion-api/app/images/...` を指す。**Step 10/11 で静的アセットを
   frontend へ移す際に `/wolf-mansion/...` へ更新**する (本文画像 `legacyUrl` も同様に frontend 参照へ切替)
-- **役職一覧・ルールページのメッセージ表示を村メッセージコンポーネントに差し替え** (step-5.1 で暫定実装):
-  `routes/skill/SkillMessage.tsx` は色分け枠線のみの簡易表示。通常発言・人狼発言・恋人発言等の
+- **役職一覧・ルールページのメッセージ表示を村メッセージコンポーネントに差し替え** (step-5.1 で暫定実装、step-5.2 でルールページにも適用):
+  `components/ui/SkillMessage.tsx` は色分け枠線のみの簡易表示。通常発言・人狼発言・恋人発言等の
   完全な見た目 (キャラ名・メッセージ種別ごとの体裁) は **Step 8.2 (メッセージ表示)** で村メッセージコンポーネントを
-  実装した後、それを流用して差し替える。ルールページ (step-5.2) の `rule/skill.html` フラグメント共有も同タイミング
+  実装した後、それを流用して差し替える。対象: 役職一覧 (`/skill`) + ルールページ (`/rule`) の役職詳細・発言種別見本・ステータス例
 
 ## 未確定事項
 
