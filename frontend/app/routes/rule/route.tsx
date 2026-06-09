@@ -4,7 +4,7 @@ import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { type SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
-import { skillDescriptions } from "~/features/skills/descriptions";
+import { skillDescriptions, unimplementedSkills } from "~/features/skills/descriptions";
 import type { JudgeView } from "~/features/rule/api";
 import { useJudges } from "~/features/rule/useJudges";
 import { SkillMessage } from "~/components/ui/SkillMessage";
@@ -263,12 +263,7 @@ function SkillDetailSection({ campGroups }: { campGroups: CampGroup[] }) {
           </ul>
         </li>
       ))}
-      <li id="skill-plan" className="mb-[10px]">
-        <h5 className="my-[10.5px] text-[15px]">未実装役職</h5>
-        <ul className="list-disc pl-[20px]">
-          <li>未実装の役職は今後追加される可能性があります。</li>
-        </ul>
-      </li>
+      <UnimplementedSkills />
     </ul>
   );
 }
@@ -299,6 +294,33 @@ function SkillItem({ skill }: { skill: SimpleSkillView }) {
     </li>
   );
 }
+
+function UnimplementedSkills() {
+  return (
+    <li id="skill-plan" className="mb-[10px]">
+      <h5 className="my-[10.5px] text-[15px]">未実装役職</h5>
+      <ul className="list-disc pl-[20px]">
+        <li>実装する保証はありませんが案として。役職名も仮です。</li>
+        {unimplementedSkills.map((camp) => (
+          <li key={camp.name}>
+            {camp.name}
+            <ul className="list-disc pl-[20px]">
+              {camp.skills.map((skill) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+    </li>
+  );
+}
+
+const COUNT_TYPE_LABELS: Record<string, string> = {
+  HUMAN: "人間",
+  WOLF: "人狼",
+  NO_COUNT: "カウントしない",
+};
 
 function JudgeSection({ judges }: { judges: JudgeView[] }) {
   return (
@@ -344,9 +366,9 @@ function JudgeSection({ judges }: { judges: JudgeView[] }) {
                 {judge.noDeadByAttack ? "死亡しない" : "なし"}
               </td>
               <td
-                className={`p-[5px] align-middle ${judge.count === "人狼" ? "text-[#d9534f]" : judge.count === "カウントしない" ? "text-[#f0ad4e]" : ""}`}
+                className={`p-[5px] align-middle ${judge.countType === "WOLF" ? "text-[#d9534f]" : judge.countType === "NO_COUNT" ? "text-[#f0ad4e]" : ""}`}
               >
-                {judge.count}
+                {COUNT_TYPE_LABELS[judge.countType]}
               </td>
             </tr>
           ))}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 
 import { SkillMessage } from "~/components/ui/SkillMessage";
@@ -140,13 +141,11 @@ function MessageDecorate() {
           [[netabare]]文字列[[/netabare]]で文字を黒背景で隠し、クリックで表示できる状態にします。
           <ul className="list-disc pl-[20px]">
             <li>
-              [[netabare]]文字列[[/netabare]] →{" "}
-              <span className="cursor-pointer bg-black text-black hover:text-white">文字列</span>
+              [[netabare]]文字列[[/netabare]] → <Netabare>文字列</Netabare>
             </li>
             <li>cwでも同じ効果になります。</li>
             <li>
-              [[cw]]文字列[[/cw]] →{" "}
-              <span className="cursor-pointer bg-black text-black hover:text-white">文字列</span>
+              [[cw]]文字列[[/cw]] → <Netabare>文字列</Netabare>
             </li>
           </ul>
         </li>
@@ -154,8 +153,7 @@ function MessageDecorate() {
           [[tp]]文字列[[/tp]]で文字を透明背景で隠し、クリックで表示できる状態にします。
           <ul className="list-disc pl-[20px]">
             <li>
-              [[tp]]文字列[[/tp]] →{" "}
-              <span className="cursor-pointer text-transparent hover:text-white">文字列</span>
+              [[tp]]文字列[[/tp]] → <Transparency>文字列</Transparency>
             </li>
           </ul>
         </li>
@@ -309,5 +307,29 @@ function CallOwner() {
         <li>もしくは、twitterで話しかけるとそれなりの速度で反応します。</li>
       </ul>
     </li>
+  );
+}
+
+function Netabare({ children }: { children: React.ReactNode }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <span
+      className={`cursor-pointer bg-black ${revealed ? "text-white" : "text-black"}`}
+      onClick={() => setRevealed(!revealed)}
+    >
+      {children}
+    </span>
+  );
+}
+
+function Transparency({ children }: { children: React.ReactNode }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <span
+      className={`cursor-pointer ${revealed ? "text-white" : "text-transparent"}`}
+      onClick={() => setRevealed(!revealed)}
+    >
+      {children}
+    </span>
   );
 }

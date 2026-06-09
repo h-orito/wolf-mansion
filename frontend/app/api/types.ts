@@ -266,7 +266,8 @@ export interface components {
       divineResultWolf: boolean;
       psychicResultWolf: boolean;
       noDeadByAttack: boolean;
-      count: string;
+      /** @enum {string} */
+      countType: "HUMAN" | "WOLF" | "NO_COUNT";
     };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];

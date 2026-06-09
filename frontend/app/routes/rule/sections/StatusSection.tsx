@@ -176,8 +176,8 @@ export function StatusSection() {
 
 function StatusAlert({ text }: { text: string }) {
   return (
-    <div className="my-[5px] rounded border border-[#f0ad4e] bg-[#333] p-[9px] text-[12px]">
-      <ul className="list-disc pl-[20px]">
+    <div className="my-[5px] mb-[10px] rounded border border-[#00bc8c] p-[5px] text-[12px] text-[#00bc8c]">
+      <ul className="list-none pl-[20px]">
         <li>{text}</li>
       </ul>
     </div>

@@ -621,11 +621,18 @@
           "noDeadByAttack": {
             "type": "boolean"
           },
-          "count": {
-            "type": "string"
+          "countType": {
+            "type": "string",
+            "enum": ["HUMAN", "WOLF", "NO_COUNT"]
           }
         },
-        "required": ["count", "divineResultWolf", "noDeadByAttack", "psychicResultWolf", "skills"]
+        "required": [
+          "countType",
+          "divineResultWolf",
+          "noDeadByAttack",
+          "psychicResultWolf",
+          "skills"
+        ]
       },
       "CharachipListResponse": {
         "type": "object",

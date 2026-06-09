@@ -3,6 +3,14 @@ package com.ort.app.api.rule.response
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 
+enum class CountType(
+    val label: String,
+) {
+    HUMAN("人間"),
+    WOLF("人狼"),
+    NO_COUNT("カウントしない"),
+}
+
 data class JudgeListResponse(
     val judges: List<JudgeView>,
 ) {
@@ -12,7 +20,7 @@ data class JudgeListResponse(
                 .flatMap { divineResultWolf ->
                     listOf(false, true).flatMap { psychicResultWolf ->
                         listOf(false, true).flatMap { noDeadByAttack ->
-                            listOf("人間", "人狼", "カウントしない").map { count ->
+                            CountType.entries.map { countType ->
                                 JudgeView(
                                     skills =
                                         Skills
@@ -23,17 +31,16 @@ data class JudgeListResponse(
                                                 it.isDivineResultWolf() == divineResultWolf &&
                                                     it.isPsychicResultWolf() == psychicResultWolf &&
                                                     it.isNoDeadByAttack() == noDeadByAttack &&
-                                                    when (count) {
-                                                        "人間" -> !it.isWolfCount() && !it.isNoCount()
-                                                        "人狼" -> it.isWolfCount() && !it.isNoCount()
-                                                        "カウントしない" -> it.isNoCount()
-                                                        else -> false
+                                                    when (countType) {
+                                                        CountType.HUMAN -> !it.isWolfCount() && !it.isNoCount()
+                                                        CountType.WOLF -> it.isWolfCount() && !it.isNoCount()
+                                                        CountType.NO_COUNT -> it.isNoCount()
                                                     }
                                             }.map { JudgeSkillView(it) },
                                     divineResultWolf = divineResultWolf,
                                     psychicResultWolf = psychicResultWolf,
                                     noDeadByAttack = noDeadByAttack,
-                                    count = count,
+                                    countType = countType,
                                 )
                             }
                         }
@@ -47,7 +54,7 @@ data class JudgeView(
     val divineResultWolf: Boolean,
     val psychicResultWolf: Boolean,
     val noDeadByAttack: Boolean,
-    val count: String,
+    val countType: CountType,
 )
 
 data class JudgeSkillView(
