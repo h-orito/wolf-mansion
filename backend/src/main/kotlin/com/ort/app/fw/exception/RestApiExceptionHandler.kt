@@ -39,8 +39,15 @@ class RestApiExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException::class)
-    fun handleResponseStatus(e: ResponseStatusException): ProblemDetail =
-        problem(HttpStatus.valueOf(e.statusCode.value()), e.reason ?: e.message, "business_error")
+    fun handleResponseStatus(e: ResponseStatusException): ProblemDetail {
+        val status = HttpStatus.valueOf(e.statusCode.value())
+        val error =
+            when (status) {
+                HttpStatus.NOT_FOUND -> "not_found"
+                else -> "business_error"
+            }
+        return problem(status, e.reason ?: e.message, error)
+    }
 
     @ExceptionHandler(Exception::class)
     fun handleOther(e: Exception): ProblemDetail {

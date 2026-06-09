@@ -32,8 +32,8 @@ data class CharachipDetailResponse(
                 roomNumbers
                     .mapIndexed { index, number -> number to charachip.charas.list[index] }
                     .toMap()
-            val maxWidth = charachip.charas.list.maxOf { it.size.width }
-            val maxHeight = charachip.charas.list.maxOf { it.size.height }
+            val maxWidth = charachip.charas.list.maxOfOrNull { it.size.width } ?: 0
+            val maxHeight = charachip.charas.list.maxOfOrNull { it.size.height } ?: 0
             val rows =
                 List(roomSize.height) { rowIndex ->
                     RoomAssignmentRowView(

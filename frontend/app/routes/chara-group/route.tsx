@@ -1,7 +1,5 @@
-import { Link } from "react-router";
-
 import { Heading } from "~/components/ui/Heading";
-import { ExternalLink } from "~/components/ui/TextLink";
+import { ExternalLink, TextLink } from "~/components/ui/TextLink";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { useCharachipList } from "~/features/charachips/useCharachips";
 import { siteMeta } from "~/lib/meta";
@@ -38,12 +36,7 @@ export default function CharaGroupList() {
                 {charachips.map((chip) => (
                   <tr key={chip.id}>
                     <td className="border border-[#464545] p-[5px] align-middle">
-                      <Link
-                        to={`/chara-group/${chip.id}`}
-                        className="text-[#0ce3ac] hover:underline"
-                      >
-                        {chip.name}
-                      </Link>
+                      <TextLink to={`/chara-group/${chip.id}`}>{chip.name}</TextLink>
                     </td>
                     <td className="border border-[#464545] p-[5px] align-middle">
                       {chip.designerName}

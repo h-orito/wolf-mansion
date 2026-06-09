@@ -14,6 +14,21 @@ export function meta(_: Route.MetaArgs) {
 export default function CharaGroupDetail() {
   const { id } = useParams();
   const charachipId = Number(id);
+
+  if (!id || Number.isNaN(charachipId)) {
+    return (
+      <PageLayout>
+        <div className="px-[15px] pb-[10px]">
+          <Heading>キャラチップが見つかりません</Heading>
+        </div>
+      </PageLayout>
+    );
+  }
+
+  return <CharaGroupDetailContent charachipId={charachipId} />;
+}
+
+function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
   const { data: detail, error } = useCharachipDetail(charachipId);
 
   if (error) {
