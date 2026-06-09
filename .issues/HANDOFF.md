@@ -5,7 +5,7 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 5 (情報・静的ページ) 続行** — **step-5.2 (ルール) ✅ (#61)**、step-5.1 (役職一覧) ✅ (#60)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 5 (情報・静的ページ) 続行** — **step-5.3 (情報ページ群) ✅ (#62)**、step-5.2 (ルール) ✅ (#61)、step-5.1 (役職一覧) ✅ (#60)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
   - **step-3.0 完了 ✅ (#51)**: DBFlute を tracking 中の engine 1.3.1 へ**全再生成** (旧 engine 製のコミット済み生成コードを 1.3.1 スタイル `DBDef.of`/簡素 Javadoc に統一、版差ドリフト解消) + **REFRESH_TOKEN テーブル追加** (PLAYER への FK=RESTRICT、`IX_REFRESH_TOKEN_EXPIRES` 索引、共通カラム準拠)。JWT の generate ノイズ (162 ファイル) を auth コードから分離するため独立 PR にした
   - **step-3.1 完了 ✅ (#52)**: backend JWT 認証基盤 + `/api/v1/auth/{login,refresh,logout,me}`。`WolfMansionWebSecurityConfig` を 2 チェーン化 (`/api/v1/**` stateless JWT @Order(1) + 既存 session @Order(2) 温存)。`JwtTokenProvider`(HS256 明示)/`JwtAuthenticationFilter`(access Cookie→SecurityContext)/`JwtAuthenticationEntryPoint`(401 ProblemDetail)/`AuthCookieFactory`(access Path=/ 15分・refresh Path=`<ctx>/api/v1/auth` 14日・HttpOnly/SameSite=Lax/Secure は `jwt.cookie-secure` 連動)。refresh は不透明乱数+DB は SHA-256 ハッシュのみ、使い捨て rotation + 漏洩検知(使用済み再提示で当該プレイヤー全失効、`noRollbackFor` で失効をコミット)。ProblemDetail を `@RestControllerAdvice(annotations=[RestController])` で統一(SSR 非干渉)。期限切れ refresh は login/refresh 時に掃除。単体 13 + curl 回帰 + security-review クリア
   - **step-3.2 完了 ✅ (#53)**: signup(`POST /api/v1/auth/signup` 匿名・自動ログイン) / change-password(`POST /api/v1/auth/password` 認証必須・確認一致) の REST 化 + ログインレート制限。パスワードポリシー緩和は `fw/security/PasswordPolicy`(3〜60字・`[\x21-\x7E]+`)で共有。`id_register` cooldown Cookie は `AuthCookieFactory.idRegisterCookie`(Path=`<ctx>/api/v1/auth`)。**レート制限は DB 採用**: `LOGIN_FAILURE` テーブル(FKなし)+ `LoginRateLimiter`(domain/service/auth)で 2軸(account 5/IP 30・window 15分、`login-rate-limit.*` で調整可)、超過 429(`WolfMansionTooManyRequestsException`→`RestApiExceptionHandler`)。掃除はオポチュニスティック(失敗記録時に窓外削除+成功時アカウント単位 reset)で有界。**閾値到達で管理者 Discord 通知**(`DiscordRepository.postToMaster`、村非依存・短タイムアウト・ベストエフォート、キー×窓ごと概ね1回)。**`getIpAddress` を CF-Connecting-IP 優先に統一修正**(XFF 詐称でレート制限/access-info を回避させない、`AccessContextInterceptor`)。signup の IP volumetric 制限はアプリ層では行わず Cloudflare edge + cookie cooldown に委譲(根拠コメント明記)。`login` は `recordFailure` をコミットさせるため `noRollbackFor=[WolfMansionAuthException, WolfMansionTooManyRequestsException]`。単体 40(LoginRateLimiterTest 7 + AuthCoordinatorTest 14)+ curl 回帰(CF-IP キー実証含む)+ pr-reviewer 2巡(6指摘全反映)クリア
@@ -48,7 +48,13 @@
     - **フォント**: Inter を除去し system sans-serif に (既存 `:8091` と一致)
     - ホームの `/rule` リンクを legacyUrl → SPA URL に変更。rule01.png を frontend/public に移管
     - e2e 3件追加 (全18件 green)
-  - **次の候補**: **Step 5.3 (情報ページ群)** → 5.4 キャラチップ → 5.5 エイプリル。08-step-plan.md 参照
+  - **step-5.3 完了 ✅ (#62)**: 情報ページ群 (`/about` `/faq` `/practice` `/announce`) React 化。完全静的・backend 変更なし。
+    - **announce はデータ駆動**: `frontend/scripts/extract-announce-releases.mjs` で announce.html から `routes/announce/releases.ts` (156 エントリ、`ReleaseSegment[]` でテキスト/内部リンクを保持) を生成。スクリプトは生成後に oxfmt を実行し再生成 diff ゼロ (冪等)。新しいお知らせは releases.ts 先頭に手で追記する運用
+    - **components/ui 拡充**: `MessageBubble` / `SystemMessage` を intro 配下→`components/ui/` に昇格 (practice と共有、`message-monologue` 追加・余白を原本どおり `ml-[5px]` 固定に修正)。`TextLink` / `ExternalLink` (本文中リンク)、`Divider` (セクション区切り hr、4ルートの重複を統一・原本実測 `my-[21px]` `#464545`。intro/practice の旧 `my-[10px] #333` はユーザー指摘で発覚) を新設。`Heading` に `as="h2"` 追加
+    - **`:8091` computed style 実測合わせ**: ul は `pl-[20px]`・ネストは `list-[circle]`・FAQ 段落 `mb-[10.5px]`・`.faq .icon` (青 #3498db / 赤 #e74c3c の 20px 円)
+    - ホームの About / Announce / FAQ / **キャラチップ一覧** タイルを legacyUrl → SPA URL に変更 (キャラチップは Step 5.4 移行予定のためリンク規約どおり。5.4 まで一時 404)
+    - practice の解答トグルは `aria-expanded` 付き (レビュー指摘)。e2e 5件追加 (全23件 green)
+  - **次の候補**: **Step 5.4 (キャラチップ一覧・詳細)** → 5.5 エイプリル。08-step-plan.md 参照
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -59,7 +65,7 @@
   - DBFlute エンジン本体は Java 8 で動作 (`_project.sh` が `/usr/libexec/java_home -v 1.8` を設定)。エンジンは `mydbflute/dbflute-1.3.1` (git tracked)
 - **Step 2 サブ step**: 2.1 移動+Jib (✅ #47) / 2.2 ktlint+hook+gitignore (✅ #48) / 2.3 frontend 雛形 (✅ #49) / 2.4 e2e 雛形 (✅ #50)。**context-path `/wolf-mansion-api` は別サブ step に切り出し**済 (PlayerController の id_register Cookie path と結合のため `/wolf-mansion` 据置、Step 3 前後で実施)
 - **git 状態**:
-  - ブランチ = `feature/monorepo`。HEAD = `48a51fce` (= step-5.2 #61)。作業ツリー clean、origin と同期
+  - ブランチ = `feature/monorepo`。HEAD = `ee5dead4` (= step-5.3 #62)。作業ツリー clean、origin と同期
   - **構成**: `backend/` (Spring Boot/Kotlin、自己完結 Gradle) / `frontend/` (RR v7 SSR) / `e2e/` (Playwright、ローカル専用) / root は doc・設定のみ
   - **backend**: ktlint 導入済 (`backend/build.gradle.kts` plugin + `.editorconfig` で 5 ルール無効化)。context-path は `/wolf-mansion` 据置。`cd backend && ./gradlew ...`、bootRun は 8089。**JDK 21 (jenv): root + `backend/.java-version`=21 + jenv global=21**
   - **e2e**: Playwright (`@playwright/test` 1.60.0 pin、minimumReleaseAge 14日制約) + pnpm (独立プロジェクト)。`playwright.config.ts` の webServer が backend **18089** / frontend **15173** を別ポート自動起動 (通常 8089/5173 と並走可)、baseURL=frontend。smoke + **auth.spec (3.3 で追加: signup→me→logout→login + 未認証リダイレクト)**。frontend webServer に `BACKEND_ORIGIN=…:18089` を注入し Vite proxy の転送先を e2e backend に向ける。本格 authoring は Step 8+/scenarios。CI 非実行。`cd e2e && pnpm install && pnpm run install:browsers && pnpm test`。**注意: e2e は provision 済み DB が前提** (空 docker DB だと `VILLAGE doesn't exist` 等で 500)
@@ -86,9 +92,9 @@
 
 ## 次にやること
 
-**Step 5 続行** — 5.1 役職一覧 ✅ (#60)、5.2 ルール ✅ (#61)。次は **Step 5.3 (情報ページ群)**。
+**Step 5 続行** — 5.1 役職一覧 ✅ (#60)、5.2 ルール ✅ (#61)、5.3 情報ページ群 ✅ (#62)。次は **Step 5.4 (キャラチップ一覧・詳細)**。
 
-- **(次) Step 5.3 (情報ページ群)**: About / FAQ / 練習問題 / お知らせ → 5.4 キャラチップ (**`GET /api/v1/charachips` 流用可**) → 5.5 エイプリル。08-step-plan.md 参照。`/add-issue` 起票 → `/ship-issue`
+- **(次) Step 5.4 (キャラチップ一覧・詳細)**: `/chara-group` `/chara-group/{id}` (**`GET /api/v1/charachips` 流用可**、対象 md: charachip-list / charachip-detail) → 5.5 エイプリル。08-step-plan.md 参照。`/add-issue` 起票 → `/ship-issue`。**home と announce のキャラチップリンクは SPA URL 済みのため、5.4 完了までは 404 (リンク規約どおりの意図的な状態)**
 - **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **UI コンポーネント (step-4.2 で確立・以降必須)**: 画面実装前に **`components/ui/`** (Button / Heading / Form(FormRow,FormActions) / CollapsiblePanel / MultiSelect / ButtonRadioGroup) を確認/拡張してから組む。inline・重複の「その場しのぎ」禁止。新規フォーム/ボタン/見出しはここに足す
 - **リンク規約 (step-4.3 で CLAUDE.md 昇格・最重要)**: **未移行でも移行予定のあるページは SPA URL** (`<Link>` / `<LinkButton>`)。`legacyUrl` + `<a>` は SPA 化予定が無いページのみ。レビューで誤って legacyUrl に戻されたため独立セクションに昇格した
