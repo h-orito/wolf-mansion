@@ -9,7 +9,7 @@ import { useVillages } from "~/features/villages/useVillages";
 import { siteMeta } from "~/lib/meta";
 
 import { SearchPanel, type SearchValue } from "./SearchPanel";
-import { SkillMessage } from "./SkillMessage";
+import { SkillMessage } from "~/components/ui/SkillMessage";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {

@@ -7,7 +7,7 @@ import { useSkillList } from "~/features/skills/useSkillList";
 import { skillDescriptions } from "~/features/skills/descriptions";
 import type { JudgeView } from "~/features/rule/api";
 import { useJudges } from "~/features/rule/useJudges";
-import { SkillMessage } from "~/routes/skill/SkillMessage";
+import { SkillMessage } from "~/components/ui/SkillMessage";
 import { siteMeta } from "~/lib/meta";
 
 import { MansionSection } from "./sections/MansionSection";

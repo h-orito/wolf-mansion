@@ -1,4 +1,4 @@
-import { SkillMessage } from "~/routes/skill/SkillMessage";
+import { SkillMessage } from "~/components/ui/SkillMessage";
 
 export function StatusSection() {
   return (
