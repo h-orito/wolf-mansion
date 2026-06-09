@@ -229,6 +229,54 @@
         }
       }
     },
+    "/api/v1/skills/search": {
+      "get": {
+        "tags": ["skill-rest-controller"],
+        "operationId": "search",
+        "parameters": [
+          {
+            "name": "tags",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "villageId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillSearchResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/charachips": {
       "get": {
         "tags": ["charachip-rest-controller"],
@@ -467,9 +515,21 @@
           },
           "shortName": {
             "type": "string"
+          },
+          "campCode": {
+            "type": "string"
+          },
+          "campName": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
-        "required": ["code", "name", "shortName"]
+        "required": ["campCode", "campName", "code", "name", "shortName", "tags"]
       },
       "SkillListResponse": {
         "type": "object",
@@ -479,9 +539,27 @@
             "items": {
               "$ref": "#/components/schemas/SimpleSkillView"
             }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         },
-        "required": ["skills"]
+        "required": ["skills", "tags"]
+      },
+      "SkillSearchResponse": {
+        "type": "object",
+        "properties": {
+          "skillCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["skillCodes"]
       },
       "CharachipListResponse": {
         "type": "object",

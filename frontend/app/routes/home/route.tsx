@@ -125,7 +125,7 @@ export default function Home() {
               jp="よくある質問"
               en="FAQ"
             />
-            <TileAnchor href={legacyUrl("/skill")} icon={BookOpenIcon} jp="役職一覧" en="Skill" />
+            <TileRoute to="/skill" icon={BookOpenIcon} jp="役職一覧" en="Skill" />
           </div>
         </section>
 
