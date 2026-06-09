@@ -5,6 +5,7 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { type SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
 import { skillDescriptions } from "~/features/skills/descriptions";
+import type { JudgeView } from "~/features/rule/api";
 import { useJudges } from "~/features/rule/useJudges";
 import { SkillMessage } from "~/routes/skill/SkillMessage";
 import { siteMeta } from "~/lib/meta";
@@ -21,7 +22,7 @@ export function meta(_: Route.MetaArgs) {
   return siteMeta("ルール");
 }
 
-type CampGroup = {
+export type CampGroup = {
   campCode: string;
   campName: string;
   skills: SimpleSkillView[];
@@ -299,15 +300,7 @@ function SkillItem({ skill }: { skill: SimpleSkillView }) {
   );
 }
 
-type JudgeViewType = {
-  skills: { code: string; name: string }[];
-  divineResultWolf: boolean;
-  psychicResultWolf: boolean;
-  noDeadByAttack: boolean;
-  count: string;
-};
-
-function JudgeSection({ judges }: { judges: JudgeViewType[] }) {
+function JudgeSection({ judges }: { judges: JudgeView[] }) {
   return (
     <div id="judge" className="overflow-x-auto">
       <table className="w-full border-collapse text-[12px]">

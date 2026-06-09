@@ -1,8 +1,4 @@
-type CampGroup = {
-  campCode: string;
-  campName: string;
-  skills: { code: string; name: string }[];
-};
+import type { CampGroup } from "../route";
 
 export function CampSection({ campGroups }: { campGroups: CampGroup[] }) {
   return (
