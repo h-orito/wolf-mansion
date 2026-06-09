@@ -57,12 +57,15 @@ class SkillRestController(
             }
 
             else -> {
-                val organizationSkillCodes =
+                val line =
                     village.setting.organize.fixedOrganization
                         .replace("\r\n", "\n")
                         .split("\n")
-                        .first { it.length == village.participants.count }
-                        .map { Skill.byShortName(it.toString())!!.code }
+                        .find { it.length == village.participants.count }
+                        ?: return skills
+                val organizationSkillCodes =
+                    line
+                        .mapNotNull { Skill.byShortName(it.toString())?.code }
                         .distinct()
                 skills.filter { organizationSkillCodes.contains(it.code) }
             }
