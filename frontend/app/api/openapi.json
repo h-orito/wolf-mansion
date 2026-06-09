@@ -295,6 +295,35 @@
         }
       }
     },
+    "/api/v1/rooms": {
+      "get": {
+        "tags": ["room-rest-controller"],
+        "operationId": "roomAssignment",
+        "parameters": [
+          {
+            "name": "personNum",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomAssignmentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/charachips": {
       "get": {
         "tags": ["charachip-rest-controller"],
@@ -334,7 +363,7 @@
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/CharachipDetailResponse"
+                  "$ref": "#/components/schemas/Charachip"
                 }
               }
             }
@@ -663,6 +692,27 @@
           "skills"
         ]
       },
+      "RoomAssignmentResponse": {
+        "type": "object",
+        "properties": {
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomNumbers": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "required": ["height", "roomNumbers", "width"]
+      },
       "CharachipListResponse": {
         "type": "object",
         "properties": {
@@ -714,7 +764,7 @@
           "name"
         ]
       },
-      "CharaView": {
+      "Chara": {
         "type": "object",
         "properties": {
           "id": {
@@ -727,12 +777,51 @@
           "shortName": {
             "type": "string"
           },
-          "imageUrls": {
+          "defaultJoinMessage": {
+            "type": ["string", "null"]
+          },
+          "defaultFirstdayMessage": {
+            "type": ["string", "null"]
+          },
+          "size": {
+            "$ref": "#/components/schemas/CharaSize"
+          },
+          "images": {
+            "$ref": "#/components/schemas/CharaImages"
+          }
+        },
+        "required": ["id", "images", "name", "shortName", "size"]
+      },
+      "CharaImage": {
+        "type": "object",
+        "properties": {
+          "faceType": {
+            "$ref": "#/components/schemas/FaceType"
+          },
+          "url": {
+            "type": "string"
+          },
+          "isDisplay": {
+            "type": "boolean"
+          }
+        },
+        "required": ["faceType", "isDisplay", "url"]
+      },
+      "CharaImages": {
+        "type": "object",
+        "properties": {
+          "list": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/CharaImage"
             }
-          },
+          }
+        },
+        "required": ["list"]
+      },
+      "CharaSize": {
+        "type": "object",
+        "properties": {
           "width": {
             "type": "integer",
             "format": "int32"
@@ -742,9 +831,9 @@
             "format": "int32"
           }
         },
-        "required": ["height", "id", "imageUrls", "name", "shortName", "width"]
+        "required": ["height", "width"]
       },
-      "CharachipDetailResponse": {
+      "Charachip": {
         "type": "object",
         "properties": {
           "id": {
@@ -754,8 +843,15 @@
           "name": {
             "type": "string"
           },
-          "designerName": {
-            "type": "string"
+          "designer": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Designer"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "descriptionUrl": {
             "type": ["string", "null"]
@@ -764,89 +860,47 @@
             "type": "boolean"
           },
           "charas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CharaView"
-            }
-          },
-          "roomAssignment": {
-            "$ref": "#/components/schemas/RoomAssignmentView"
+            "$ref": "#/components/schemas/Charas"
           }
         },
-        "required": [
-          "charas",
-          "designerName",
-          "id",
-          "isAvailableChangeName",
-          "name",
-          "roomAssignment"
-        ]
+        "required": ["charas", "id", "isAvailableChangeName", "name"]
       },
-      "RoomAssignmentCellView": {
+      "Charas": {
         "type": "object",
         "properties": {
-          "roomNumber": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Chara"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "Designer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "FaceType": {
+        "type": "object",
+        "properties": {
+          "code": {
             "type": "string"
           },
-          "charaName": {
-            "type": ["string", "null"]
-          },
-          "charaShortName": {
-            "type": ["string", "null"]
-          },
-          "charaImgUrl": {
-            "type": ["string", "null"]
-          },
-          "charaImgWidth": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "charaImgHeight": {
-            "type": ["integer", "null"],
-            "format": "int32"
+          "name": {
+            "type": "string"
           }
         },
-        "required": ["roomNumber"]
-      },
-      "RoomAssignmentRowView": {
-        "type": "object",
-        "properties": {
-          "cells": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoomAssignmentCellView"
-            }
-          }
-        },
-        "required": ["cells"]
-      },
-      "RoomAssignmentView": {
-        "type": "object",
-        "properties": {
-          "width": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "height": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxCharaWidth": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxCharaHeight": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "rows": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoomAssignmentRowView"
-            }
-          }
-        },
-        "required": ["height", "maxCharaHeight", "maxCharaWidth", "rows", "width"]
+        "required": ["code", "name"]
       }
     }
   }

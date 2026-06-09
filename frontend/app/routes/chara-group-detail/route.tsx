@@ -1,10 +1,12 @@
+import { useMemo } from "react";
+import { useParams } from "react-router";
+
 import { Heading } from "~/components/ui/Heading";
 import { ExternalLink } from "~/components/ui/TextLink";
 import { PageLayout } from "~/components/layout/PageLayout";
-import { useCharachipDetail } from "~/features/charachips/useCharachips";
+import type { Chara, RoomAssignmentResponse } from "~/features/charachips/api";
+import { useCharachipDetail, useRoomAssignment } from "~/features/charachips/useCharachips";
 import { siteMeta } from "~/lib/meta";
-import { useParams } from "react-router";
-import type { RoomAssignmentCellView } from "~/features/charachips/api";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
@@ -29,7 +31,9 @@ export default function CharaGroupDetail() {
 }
 
 function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
-  const { data: detail, error } = useCharachipDetail(charachipId);
+  const { data: charachip, error } = useCharachipDetail(charachipId);
+  const personNum = charachip?.charas.list.length ?? 0;
+  const { data: roomData } = useRoomAssignment(personNum, personNum > 0);
 
   if (error) {
     return (
@@ -41,7 +45,7 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
     );
   }
 
-  if (!detail) {
+  if (!charachip) {
     return (
       <PageLayout>
         <div className="px-[15px] pb-[10px]" />
@@ -52,28 +56,28 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
   return (
     <PageLayout>
       <div className="px-[15px] pb-[10px]">
-        <Heading>キャラチップ: {detail.name}</Heading>
+        <Heading>キャラチップ: {charachip.name}</Heading>
         <div className="mb-[10px]">
-          <p>作者: {detail.designerName}様</p>
-          <p>肩書・名称変更: {detail.isAvailableChangeName ? "可能" : "不可"}</p>
-          {detail.descriptionUrl && (
-            <ExternalLink href={detail.descriptionUrl}>作者様HP</ExternalLink>
+          <p>作者: {charachip.designer?.name ?? ""}様</p>
+          <p>肩書・名称変更: {charachip.isAvailableChangeName ? "可能" : "不可"}</p>
+          {charachip.descriptionUrl && (
+            <ExternalLink href={charachip.descriptionUrl}>作者様HP</ExternalLink>
           )}
         </div>
 
         <div className="flex flex-wrap">
-          {detail.charas.map((chara) => (
+          {charachip.charas.list.map((chara) => (
             <div
               key={chara.id}
               className="box-border w-full border border-[#464545] p-[5px] min-[768px]:w-1/2"
             >
               <span className="block text-center">
-                {chara.imageUrls.map((url, i) => (
+                {chara.images.list.map((img, i) => (
                   <img
                     key={i}
-                    src={url}
-                    width={chara.width}
-                    height={chara.height}
+                    src={img.url}
+                    width={chara.size.width}
+                    height={chara.size.height}
                     alt={chara.name}
                     className="inline-block"
                   />
@@ -86,59 +90,77 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
           ))}
         </div>
 
-        <div className="mt-[20px] overflow-x-auto">
-          <Heading as="h2">部屋割り例</Heading>
-          <RoomAssignmentTable
-            rows={detail.roomAssignment.rows}
-            maxCharaWidth={detail.roomAssignment.maxCharaWidth}
-            maxCharaHeight={detail.roomAssignment.maxCharaHeight}
-          />
-        </div>
+        {roomData && (
+          <div className="mt-[20px] overflow-x-auto">
+            <Heading as="h2">部屋割り例</Heading>
+            <RoomAssignmentTable charas={charachip.charas.list} roomData={roomData} />
+          </div>
+        )}
       </div>
     </PageLayout>
   );
 }
 
 function RoomAssignmentTable({
-  rows,
-  maxCharaWidth,
-  maxCharaHeight,
+  charas,
+  roomData,
 }: {
-  rows: { cells: RoomAssignmentCellView[] }[];
-  maxCharaWidth: number;
-  maxCharaHeight: number;
+  charas: Chara[];
+  roomData: RoomAssignmentResponse;
 }) {
+  const { grid, maxWidth, maxHeight } = useMemo(() => {
+    const roomNumberToChara = new Map<number, Chara>();
+    roomData.roomNumbers.forEach((num, i) => {
+      if (i < charas.length) roomNumberToChara.set(num, charas[i]);
+    });
+    const mw = charas.reduce((max, c) => Math.max(max, c.size.width), 0);
+    const mh = charas.reduce((max, c) => Math.max(max, c.size.height), 0);
+    const rows = Array.from({ length: roomData.height }, (_, rowIdx) =>
+      Array.from({ length: roomData.width }, (_, colIdx) => {
+        const roomNumber = roomData.width * rowIdx + colIdx + 1;
+        const chara = roomNumberToChara.get(roomNumber);
+        return { roomNumber, chara };
+      }),
+    );
+    return { grid: rows, maxWidth: mw, maxHeight: mh };
+  }, [charas, roomData]);
+
   return (
     <table className="border-collapse text-xs">
       <tbody>
-        {rows.map((row, rowIndex) => (
+        {grid.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            {row.cells.map((cell, cellIndex) => (
-              <td
-                key={cellIndex}
-                className="relative border border-[#464545] p-0 text-center align-middle"
-                style={{
-                  width: `${maxCharaWidth}px`,
-                  minWidth: `${maxCharaWidth}px`,
-                  height: `${maxCharaHeight}px`,
-                }}
-              >
-                <div
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat"
-                  title={cell.charaName ?? undefined}
+            {row.map((cell) => {
+              const defaultImg =
+                cell.chara?.images.list.find((img) => img.faceType.code === "NORMAL") ??
+                cell.chara?.images.list[0];
+              return (
+                <td
+                  key={cell.roomNumber}
+                  className="relative border border-[#464545] p-0 text-center align-middle"
                   style={{
-                    width: `${cell.charaImgWidth ?? maxCharaWidth}px`,
-                    height: `${cell.charaImgHeight ?? maxCharaHeight}px`,
-                    backgroundImage: cell.charaImgUrl ? `url('${cell.charaImgUrl}')` : undefined,
+                    width: `${maxWidth}px`,
+                    minWidth: `${maxWidth}px`,
+                    height: `${maxHeight}px`,
                   }}
-                />
-                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-80">
-                  <span className="whitespace-nowrap bg-[#222222]">
-                    {cell.roomNumber} {cell.charaShortName ?? ""}
-                  </span>
-                </div>
-              </td>
-            ))}
+                >
+                  <div
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-contain bg-center bg-no-repeat"
+                    title={cell.chara?.name ?? undefined}
+                    style={{
+                      width: `${cell.chara?.size.width ?? maxWidth}px`,
+                      height: `${cell.chara?.size.height ?? maxHeight}px`,
+                      backgroundImage: defaultImg ? `url('${defaultImg.url}')` : undefined,
+                    }}
+                  />
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-80">
+                    <span className="whitespace-nowrap bg-[#222222]">
+                      {String(cell.roomNumber).padStart(2, "0")} {cell.chara?.shortName ?? ""}
+                    </span>
+                  </div>
+                </td>
+              );
+            })}
           </tr>
         ))}
       </tbody>
