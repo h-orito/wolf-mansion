@@ -48,6 +48,7 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/villages",
                         "/api/v1/charachips",
                         "/api/v1/skills",
+                        "/api/v1/skills/search",
                     ).permitAll()
                     .anyRequest()
                     .authenticated()

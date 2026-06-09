@@ -115,6 +115,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/skills/search": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["search"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/charachips": {
     parameters: {
       query?: never;
@@ -211,9 +227,16 @@ export interface components {
       code: string;
       name: string;
       shortName: string;
+      campCode: string;
+      campName: string;
+      tags: string[];
     };
     SkillListResponse: {
       skills: components["schemas"]["SimpleSkillView"][];
+      tags: string[];
+    };
+    SkillSearchResponse: {
+      skillCodes: string[];
     };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];
@@ -388,6 +411,30 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["SkillListResponse"];
+        };
+      };
+    };
+  };
+  search: {
+    parameters: {
+      query?: {
+        tags?: string[];
+        name?: string;
+        villageId?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["SkillSearchResponse"];
         };
       };
     };
