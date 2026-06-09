@@ -5,7 +5,7 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 4 (画面別 REST 化) 完了 🎉** — step-4.1 (ホーム) ✅ (#56) / step-3.6 (認証画面忠実再現) ✅ (#57) / step-4.2 (村一覧画面) ✅ (#58) / **step-4.3 (intro) ✅ (#59)**。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 5 (情報・静的ページ) 続行** — **step-5.2 (ルール) ✅ (#61)**、step-5.1 (役職一覧) ✅ (#60)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
   - **step-3.0 完了 ✅ (#51)**: DBFlute を tracking 中の engine 1.3.1 へ**全再生成** (旧 engine 製のコミット済み生成コードを 1.3.1 スタイル `DBDef.of`/簡素 Javadoc に統一、版差ドリフト解消) + **REFRESH_TOKEN テーブル追加** (PLAYER への FK=RESTRICT、`IX_REFRESH_TOKEN_EXPIRES` 索引、共通カラム準拠)。JWT の generate ノイズ (162 ファイル) を auth コードから分離するため独立 PR にした
   - **step-3.1 完了 ✅ (#52)**: backend JWT 認証基盤 + `/api/v1/auth/{login,refresh,logout,me}`。`WolfMansionWebSecurityConfig` を 2 チェーン化 (`/api/v1/**` stateless JWT @Order(1) + 既存 session @Order(2) 温存)。`JwtTokenProvider`(HS256 明示)/`JwtAuthenticationFilter`(access Cookie→SecurityContext)/`JwtAuthenticationEntryPoint`(401 ProblemDetail)/`AuthCookieFactory`(access Path=/ 15分・refresh Path=`<ctx>/api/v1/auth` 14日・HttpOnly/SameSite=Lax/Secure は `jwt.cookie-secure` 連動)。refresh は不透明乱数+DB は SHA-256 ハッシュのみ、使い捨て rotation + 漏洩検知(使用済み再提示で当該プレイヤー全失効、`noRollbackFor` で失効をコミット)。ProblemDetail を `@RestControllerAdvice(annotations=[RestController])` で統一(SSR 非干渉)。期限切れ refresh は login/refresh 時に掃除。単体 13 + curl 回帰 + security-review クリア
   - **step-3.2 完了 ✅ (#53)**: signup(`POST /api/v1/auth/signup` 匿名・自動ログイン) / change-password(`POST /api/v1/auth/password` 認証必須・確認一致) の REST 化 + ログインレート制限。パスワードポリシー緩和は `fw/security/PasswordPolicy`(3〜60字・`[\x21-\x7E]+`)で共有。`id_register` cooldown Cookie は `AuthCookieFactory.idRegisterCookie`(Path=`<ctx>/api/v1/auth`)。**レート制限は DB 採用**: `LOGIN_FAILURE` テーブル(FKなし)+ `LoginRateLimiter`(domain/service/auth)で 2軸(account 5/IP 30・window 15分、`login-rate-limit.*` で調整可)、超過 429(`WolfMansionTooManyRequestsException`→`RestApiExceptionHandler`)。掃除はオポチュニスティック(失敗記録時に窓外削除+成功時アカウント単位 reset)で有界。**閾値到達で管理者 Discord 通知**(`DiscordRepository.postToMaster`、村非依存・短タイムアウト・ベストエフォート、キー×窓ごと概ね1回)。**`getIpAddress` を CF-Connecting-IP 優先に統一修正**(XFF 詐称でレート制限/access-info を回避させない、`AccessContextInterceptor`)。signup の IP volumetric 制限はアプリ層では行わず Cloudflare edge + cookie cooldown に委譲(根拠コメント明記)。`login` は `recordFailure` をコミットさせるため `noRollbackFor=[WolfMansionAuthException, WolfMansionTooManyRequestsException]`。単体 40(LoginRateLimiterTest 7 + AuthCoordinatorTest 14)+ curl 回帰(CF-IP キー実証含む)+ pr-reviewer 2巡(6指摘全反映)クリア
@@ -36,7 +36,19 @@
     - **既存改善**: Footer のモーダル開閉ボタンに `cursor-pointer` 追加 / CollapsiblePanel ヘッダーに `cursor-pointer` 追加
     - intro 画像 (intro01〜04.png) を `frontend/public/app/images/intro/` に移管。ホームの intro リンクを `legacyUrl` → RR `<Link>` に変更
     - 検証: frontend typecheck・lint・format・build green / e2e 全12件 green (intro 2件追加)
-  - **次の候補**: **Step 5 (情報・静的ページ)** — 5.1 役職一覧 (**`GET /api/v1/skills` 流用可**) → 5.2 ルール → 5.3 情報ページ群 → 5.4 キャラチップ → 5.5 エイプリル。08-step-plan.md 参照
+  - **step-5.1 完了 ✅ (#60)**: 役職一覧画面 (`/skill`) React 化。
+    - **backend**: `SimpleSkillView` に `campCode`/`campName`/`tags` を追加。`GET /api/v1/skills/search` (タグ/名前/村で絞り込み) 新設。`SkillSearchRequest` + `SkillSearchResponse`
+    - **frontend**: `/skill` ルート。API の `SimpleSkillView` で陣営別グルーピング・名前表示。説明文は `descriptions.ts` (rule/skill.html から自動生成した `Record<code, DescriptionItem[]>`)。検索パネル (タグトグル/名前/村選択)、12種メッセージボックス (暫定色分け枠線。完全な見た目は Step 8.2 で村メッセージコンポーネント実装後に差し替え → 08-step-plan.md 繰り越し事項)
+    - ホームの `/skill` リンクを legacyUrl → SPA URL に変更
+    - e2e 3件追加 (全15件 green)
+  - **step-5.2 完了 ✅ (#61)**: ルールページ (`/rule`) React 化。
+    - **backend**: `GET /api/v1/rule/judges` 新設。`CountType` enum (`HUMAN`/`WOLF`/`NO_COUNT`)。`JudgeListResponse` は全役職を `groupBy` で1回走査して分類
+    - **frontend**: `/rule` ルート。目次 (TOC) + 8 セクション (基本/事件簿村/詳細/役職詳細/占霊判定/ステータス/陣営・勝敗/部屋サイズ/その他)。役職詳細は `descriptions.ts` (step-5.1 パターン) を再利用。未実装役職も extraction スクリプトで自動抽出
+    - **SkillMessage を `components/ui/` に昇格** (skill/rule 2ルートで共有)。通常/囁き/共鳴/恋人/念話/梟/墓下/見学/村建ての色定義を追加
+    - **フォント**: Inter を除去し system sans-serif に (既存 `:8091` と一致)
+    - ホームの `/rule` リンクを legacyUrl → SPA URL に変更。rule01.png を frontend/public に移管
+    - e2e 3件追加 (全18件 green)
+  - **次の候補**: **Step 5.3 (情報ページ群)** → 5.4 キャラチップ → 5.5 エイプリル。08-step-plan.md 参照
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -47,7 +59,7 @@
   - DBFlute エンジン本体は Java 8 で動作 (`_project.sh` が `/usr/libexec/java_home -v 1.8` を設定)。エンジンは `mydbflute/dbflute-1.3.1` (git tracked)
 - **Step 2 サブ step**: 2.1 移動+Jib (✅ #47) / 2.2 ktlint+hook+gitignore (✅ #48) / 2.3 frontend 雛形 (✅ #49) / 2.4 e2e 雛形 (✅ #50)。**context-path `/wolf-mansion-api` は別サブ step に切り出し**済 (PlayerController の id_register Cookie path と結合のため `/wolf-mansion` 据置、Step 3 前後で実施)
 - **git 状態**:
-  - ブランチ = `feature/monorepo`。HEAD = `03a287a5` (= step-4.3 #59)。作業ツリー clean、origin と同期
+  - ブランチ = `feature/monorepo`。HEAD = `48a51fce` (= step-5.2 #61)。作業ツリー clean、origin と同期
   - **構成**: `backend/` (Spring Boot/Kotlin、自己完結 Gradle) / `frontend/` (RR v7 SSR) / `e2e/` (Playwright、ローカル専用) / root は doc・設定のみ
   - **backend**: ktlint 導入済 (`backend/build.gradle.kts` plugin + `.editorconfig` で 5 ルール無効化)。context-path は `/wolf-mansion` 据置。`cd backend && ./gradlew ...`、bootRun は 8089。**JDK 21 (jenv): root + `backend/.java-version`=21 + jenv global=21**
   - **e2e**: Playwright (`@playwright/test` 1.60.0 pin、minimumReleaseAge 14日制約) + pnpm (独立プロジェクト)。`playwright.config.ts` の webServer が backend **18089** / frontend **15173** を別ポート自動起動 (通常 8089/5173 と並走可)、baseURL=frontend。smoke + **auth.spec (3.3 で追加: signup→me→logout→login + 未認証リダイレクト)**。frontend webServer に `BACKEND_ORIGIN=…:18089` を注入し Vite proxy の転送先を e2e backend に向ける。本格 authoring は Step 8+/scenarios。CI 非実行。`cd e2e && pnpm install && pnpm run install:browsers && pnpm test`。**注意: e2e は provision 済み DB が前提** (空 docker DB だと `VILLAGE doesn't exist` 等で 500)
@@ -74,9 +86,10 @@
 
 ## 次にやること
 
-**Step 4 完了 🎉** (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。次は **Step 5 (情報・静的ページ)**。
+**Step 5 続行** — 5.1 役職一覧 ✅ (#60)、5.2 ルール ✅ (#61)。次は **Step 5.3 (情報ページ群)**。
 
-- **(次) Step 5 (情報・静的ページ)**: 5.1 役職一覧 (**`GET /api/v1/skills` 流用可**) → 5.2 ルール → 5.3 情報ページ群 → 5.4 キャラチップ (**`GET /api/v1/charachips` 流用可**) → 5.5 エイプリル。08-step-plan.md 参照。`/add-issue` 起票 → `/ship-issue`
+- **(次) Step 5.3 (情報ページ群)**: About / FAQ / 練習問題 / お知らせ → 5.4 キャラチップ (**`GET /api/v1/charachips` 流用可**) → 5.5 エイプリル。08-step-plan.md 参照。`/add-issue` 起票 → `/ship-issue`
+- **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **UI コンポーネント (step-4.2 で確立・以降必須)**: 画面実装前に **`components/ui/`** (Button / Heading / Form(FormRow,FormActions) / CollapsiblePanel / MultiSelect / ButtonRadioGroup) を確認/拡張してから組む。inline・重複の「その場しのぎ」禁止。新規フォーム/ボタン/見出しはここに足す
 - **リンク規約 (step-4.3 で CLAUDE.md 昇格・最重要)**: **未移行でも移行予定のあるページは SPA URL** (`<Link>` / `<LinkButton>`)。`legacyUrl` + `<a>` は SPA 化予定が無いページのみ。レビューで誤って legacyUrl に戻されたため独立セクションに昇格した
 - **コメント規約 (step-4.2 で CLAUDE.md 明文化・厳守)**: コメントに **step 番号・「既存再現 (`:8091`/`相当`/`legacy`)」を書かない**。GET 検索は **Request クラス + `toQuery()`**。一覧の並び順/絞り込みは **API 側**で指定 (frontend で `reverse()` しない)
