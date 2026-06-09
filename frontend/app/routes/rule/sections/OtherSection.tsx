@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link } from "react-router";
 
 import { SkillMessage } from "~/components/ui/SkillMessage";
@@ -311,11 +310,14 @@ function CallOwner() {
 }
 
 function Netabare({ children }: { children: React.ReactNode }) {
-  const [revealed, setRevealed] = useState(false);
   return (
     <span
-      className={`cursor-pointer bg-black ${revealed ? "text-white" : "text-black"}`}
-      onClick={() => setRevealed(!revealed)}
+      className="cursor-pointer bg-black text-black"
+      onClick={(e) => {
+        e.currentTarget.classList.remove("text-black");
+        e.currentTarget.classList.add("text-white");
+        e.currentTarget.style.cursor = "auto";
+      }}
     >
       {children}
     </span>
@@ -323,11 +325,14 @@ function Netabare({ children }: { children: React.ReactNode }) {
 }
 
 function Transparency({ children }: { children: React.ReactNode }) {
-  const [revealed, setRevealed] = useState(false);
   return (
     <span
-      className={`cursor-pointer ${revealed ? "text-white" : "text-transparent"}`}
-      onClick={() => setRevealed(!revealed)}
+      className="cursor-pointer text-transparent"
+      onClick={(e) => {
+        e.currentTarget.classList.remove("text-transparent");
+        e.currentTarget.classList.add("text-white");
+        e.currentTarget.style.cursor = "auto";
+      }}
     >
       {children}
     </span>
