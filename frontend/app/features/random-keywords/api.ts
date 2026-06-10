@@ -3,8 +3,10 @@ import { apiFetch } from "~/lib/api";
 
 export type RandomKeyword = components["schemas"]["RandomKeyword"];
 
-export function fetchRandomKeywords(): Promise<RandomKeyword[]> {
-  return apiFetch<components["schemas"]["RandomKeywords"]>("/api/v1/random-keywords").then(
+/** 一覧取得。`q` はキーワード/変換後文字列の部分一致 (API 側絞り込み)。 */
+export function fetchRandomKeywords(q?: string): Promise<RandomKeyword[]> {
+  const query = q ? `?${new URLSearchParams({ q })}` : "";
+  return apiFetch<components["schemas"]["RandomKeywords"]>(`/api/v1/random-keywords${query}`).then(
     (r) => r.list,
   );
 }

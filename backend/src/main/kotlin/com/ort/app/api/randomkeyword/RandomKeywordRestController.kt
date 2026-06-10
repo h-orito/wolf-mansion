@@ -1,10 +1,12 @@
 package com.ort.app.api.randomkeyword
 
 import com.ort.app.api.randomkeyword.request.RandomKeywordRegisterRequest
+import com.ort.app.api.randomkeyword.request.RandomKeywordSearchRequest
 import com.ort.app.api.randomkeyword.request.RandomKeywordUpdateRequest
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.domain.model.randomkeyword.RandomKeyword
 import com.ort.app.domain.model.randomkeyword.RandomKeywords
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -28,7 +30,9 @@ class RandomKeywordRestController(
     private val randomKeywordService: RandomKeywordService,
 ) {
     @GetMapping
-    fun list(): RandomKeywords = randomKeywordService.findRandomKeywords()
+    fun list(
+        @ParameterObject request: RandomKeywordSearchRequest,
+    ): RandomKeywords = randomKeywordService.findRandomKeywords(request.q)
 
     @GetMapping("/{id}")
     fun detail(

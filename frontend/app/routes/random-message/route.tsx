@@ -19,13 +19,6 @@ const VISIBLE_LINES = 5;
 const thClass = "border border-[#464545] p-[5px] text-left align-bottom";
 const cellClass = "border border-[#464545] p-[5px]";
 
-function matches(keyword: RandomKeyword, term: string): boolean {
-  return (
-    `[[${keyword.keyword}]]`.includes(term) ||
-    keyword.contents.some((content) => content.message.includes(term))
-  );
-}
-
 /** 変換後文字列セル。先頭 5 行のみ表示し、残りは「全て表示」で展開する。 */
 function ContentCell({ keyword }: { keyword: RandomKeyword }) {
   const [expanded, setExpanded] = useState(false);
@@ -67,11 +60,9 @@ async function copyKeyword(keyword: string) {
 }
 
 export default function RandomMessage() {
-  const { data: keywords } = useRandomKeywords();
   const [searchText, setSearchText] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-
-  const filtered = keywords?.filter((k) => searchTerm.length === 0 || matches(k, searchTerm));
+  const { data: keywords } = useRandomKeywords(searchTerm);
 
   return (
     <PageLayout>
@@ -97,14 +88,14 @@ export default function RandomMessage() {
               </tr>
             </thead>
             <tbody>
-              {keywords && keywords.length === 0 && (
+              {searchTerm === "" && keywords && keywords.length === 0 && (
                 <tr>
-                  <td className={cellClass} colSpan={2}>
+                  <td className={cellClass} colSpan={3}>
                     登録されているキーワードがありません。
                   </td>
                 </tr>
               )}
-              {filtered?.map((keyword) => (
+              {keywords?.map((keyword) => (
                 <tr key={keyword.id}>
                   <td className={`${cellClass} align-middle`}>[[{keyword.keyword}]]</td>
                   <ContentCell keyword={keyword} />

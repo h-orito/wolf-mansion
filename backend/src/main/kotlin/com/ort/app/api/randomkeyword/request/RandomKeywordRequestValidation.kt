@@ -16,8 +16,7 @@ object RandomKeywordPolicy {
 }
 
 /**
- * アノテーションで表現できない検証 (SSR の RandomKeywordFormValidator と同じ規則)。
- * 違反は [WolfMansionBusinessException] (= 400 business_error)。
+ * アノテーションで表現できない検証。違反は [WolfMansionBusinessException] (= 400 business_error)。
  */
 internal fun validateKeyword(keyword: String) {
     if (keyword.contains("or") || keyword.contains("who")) {

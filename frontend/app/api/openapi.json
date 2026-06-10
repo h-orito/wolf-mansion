@@ -95,6 +95,16 @@
       "get": {
         "tags": ["random-keyword-rest-controller"],
         "operationId": "list",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
