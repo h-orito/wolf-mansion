@@ -25,6 +25,17 @@
   font-family: "anima";
 }
 
+/* AA (アスキーアート) 表示用フォント (font-aahub)。public/app/font の woff2 を参照する。 */
+@font-face {
+  font-family: "aahub_light";
+  src: url("/wolf-mansion/app/font/aahub_light.woff2") format("woff2");
+  font-display: swap;
+}
+
+.font-aahub {
+  font-family: "aahub_light";
+}
+
 html,
 body {
   @apply bg-white dark:bg-gray-950;
