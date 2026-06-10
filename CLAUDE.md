@@ -70,6 +70,14 @@ fw/             → フレームワーク基盤（Security, Interceptor, Config,
 - **Daychangeパターン**: 日付更新処理は`Daychange`データクラスに村の全状態を集約し、イミュータブルにcopyしながら処理を進行。`DaychangeCoordinator` → `DaychangeDomainService` → `PrologueDomainService`/`ProgressDomainService`/`EpilogueDomainService`の順に委譲
 - **Abilityサービス**: 各役職の能力は`domain/service/ability/`配下に1能力1クラスで分離（60以上の能力サービスが存在）
 
+### REST API 設計方針（最重要）
+
+Clean Architecture + DDD に基づき、**画面専用の API やレスポンスを作らない**。
+
+- **可能な限りドメインモデルをそのまま返す**。隠すべき情報がないドメインオブジェクトは専用の Response DTO を作らず直接シリアライズする
+- **Response DTO を作ってよいケース**: (1) 認可マスクにより隠すべき情報がある場合、(2) 大量取得で不要な情報を削ぎ落とす場合（一覧 API 等）
+- **複数のドメイン情報が必要な画面では、個別の API を叩いて frontend で組み立てる**
+
 ### DBFlute（自動生成コード）
 
 `backend/src/main/java/com/ort/dbflute/` 配下はDBFluteによる自動生成Javaコード。手動編集不可（`exbhv/`と`exentity/`のみカスタマイズ可能）。スキーマ定義は`backend/dbflute_wolf_mansiondb/`にある。
