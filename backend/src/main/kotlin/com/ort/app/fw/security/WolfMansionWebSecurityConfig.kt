@@ -42,7 +42,8 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/auth/refresh",
                         "/api/v1/auth/logout",
                     ).permitAll()
-                    // 村一覧・キャラセット一覧・役職一覧・ルール情報は公開情報
+                    // 村一覧・キャラセット一覧・役職一覧・ルール情報・ランダムキーワードの閲覧は公開情報
+                    // (ランダムキーワードの書き込み系はログイン必須のため GET のみ)
                     .requestMatchers(
                         org.springframework.http.HttpMethod.GET,
                         "/api/v1/villages",
@@ -52,6 +53,8 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/skills",
                         "/api/v1/skills/search",
                         "/api/v1/rule/judges",
+                        "/api/v1/random-keywords",
+                        "/api/v1/random-keywords/{id}",
                     ).permitAll()
                     .anyRequest()
                     .authenticated()

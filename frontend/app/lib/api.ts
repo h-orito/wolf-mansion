@@ -76,7 +76,7 @@ async function toApiError(response: Response): Promise<ApiError> {
 }
 
 type ApiFetchOptions = {
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PUT" | "DELETE";
   /** JSON シリアライズして body にする。GET では指定しない。 */
   body?: unknown;
 };

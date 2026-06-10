@@ -3,6 +3,38 @@
  * 元: backend の OpenAPI spec (/v3/api-docs)。再生成すると上書きされます。
  */
 export interface paths {
+  "/api/v1/random-keywords/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["detail"];
+    put: operations["update"];
+    post?: never;
+    delete: operations["delete"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/random-keywords": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list"];
+    put?: never;
+    post: operations["register"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/auth/signup": {
     parameters: {
       query?: never;
@@ -90,7 +122,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["list"];
+    get: operations["list_1"];
     put?: never;
     post?: never;
     delete?: never;
@@ -106,7 +138,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["list_1"];
+    get: operations["list_2"];
     put?: never;
     post?: never;
     delete?: never;
@@ -170,7 +202,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["list_2"];
+    get: operations["list_3"];
     put?: never;
     post?: never;
     delete?: never;
@@ -186,7 +218,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["detail"];
+    get: operations["detail_1"];
     put?: never;
     post?: never;
     delete?: never;
@@ -215,6 +247,22 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    RandomKeywordUpdateRequest: {
+      messages: string[] | null;
+    };
+    RandomContent: {
+      message: string;
+    };
+    RandomKeyword: {
+      /** Format: int32 */
+      id: number;
+      keyword: string;
+      contents: components["schemas"]["RandomContent"][];
+    };
+    RandomKeywordRegisterRequest: {
+      keyword: string | null;
+      messages: string[] | null;
+    };
     SignupRequest: {
       userId: string | null;
       password: string | null;
@@ -308,6 +356,9 @@ export interface components {
       height: number;
       roomNumbers: number[];
     };
+    RandomKeywords: {
+      list: components["schemas"]["RandomKeyword"][];
+    };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];
     };
@@ -378,6 +429,118 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+  detail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["RandomKeyword"];
+        };
+      };
+    };
+  };
+  update: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RandomKeywordUpdateRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["RandomKeyword"];
+        };
+      };
+    };
+  };
+  delete: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  list: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["RandomKeywords"];
+        };
+      };
+    };
+  };
+  register: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["RandomKeywordRegisterRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["RandomKeyword"];
+        };
+      };
+    };
+  };
   signup: {
     parameters: {
       query?: never;
@@ -492,7 +655,7 @@ export interface operations {
       };
     };
   };
-  list: {
+  list_1: {
     parameters: {
       query?: {
         status?: string[];
@@ -518,7 +681,7 @@ export interface operations {
       };
     };
   };
-  list_1: {
+  list_2: {
     parameters: {
       query?: never;
       header?: never;
@@ -604,7 +767,7 @@ export interface operations {
       };
     };
   };
-  list_2: {
+  list_3: {
     parameters: {
       query?: never;
       header?: never;
@@ -624,7 +787,7 @@ export interface operations {
       };
     };
   };
-  detail: {
+  detail_1: {
     parameters: {
       query?: never;
       header?: never;

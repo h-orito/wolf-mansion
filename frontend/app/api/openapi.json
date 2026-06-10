@@ -5,6 +5,136 @@
     "version": "v0"
   },
   "paths": {
+    "/api/v1/random-keywords/{id}": {
+      "get": {
+        "tags": ["random-keyword-rest-controller"],
+        "operationId": "detail",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeyword"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["random-keyword-rest-controller"],
+        "operationId": "update",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RandomKeywordUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeyword"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["random-keyword-rest-controller"],
+        "operationId": "delete",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/v1/random-keywords": {
+      "get": {
+        "tags": ["random-keyword-rest-controller"],
+        "operationId": "list",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeywords"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["random-keyword-rest-controller"],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RandomKeywordRegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeyword"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/auth/signup": {
       "post": {
         "tags": ["auth-controller"],
@@ -144,7 +274,7 @@
     "/api/v1/villages": {
       "get": {
         "tags": ["village-rest-controller"],
-        "operationId": "list",
+        "operationId": "list_1",
         "parameters": [
           {
             "name": "status",
@@ -214,7 +344,7 @@
     "/api/v1/skills": {
       "get": {
         "tags": ["skill-rest-controller"],
-        "operationId": "list_1",
+        "operationId": "list_2",
         "responses": {
           "200": {
             "description": "OK",
@@ -327,7 +457,7 @@
     "/api/v1/charachips": {
       "get": {
         "tags": ["charachip-rest-controller"],
-        "operationId": "list_2",
+        "operationId": "list_3",
         "responses": {
           "200": {
             "description": "OK",
@@ -345,7 +475,7 @@
     "/api/v1/charachips/{id}": {
       "get": {
         "tags": ["charachip-rest-controller"],
-        "operationId": "detail",
+        "operationId": "detail_1",
         "parameters": [
           {
             "name": "id",
@@ -392,6 +522,70 @@
   },
   "components": {
     "schemas": {
+      "RandomKeywordUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "messages": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "string",
+              "maxLength": 20,
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        },
+        "required": ["messages"]
+      },
+      "RandomContent": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "RandomKeyword": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keyword": {
+            "type": "string"
+          },
+          "contents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RandomContent"
+            }
+          }
+        },
+        "required": ["contents", "id", "keyword"]
+      },
+      "RandomKeywordRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": ["string", "null"],
+            "maxLength": 10,
+            "minLength": 3,
+            "pattern": "[a-zA-Z]*"
+          },
+          "messages": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "string",
+              "maxLength": 20,
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        },
+        "required": ["keyword", "messages"]
+      },
       "SignupRequest": {
         "type": "object",
         "properties": {
@@ -712,6 +906,18 @@
           }
         },
         "required": ["height", "roomNumbers", "width"]
+      },
+      "RandomKeywords": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RandomKeyword"
+            }
+          }
+        },
+        "required": ["list"]
       },
       "CharachipListResponse": {
         "type": "object",
