@@ -12,6 +12,19 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/06/11 以下を変更しました。"],
+    items: [
+      [
+        "エイプリルフール企画をアーカイブページに移動: ",
+        { to: "/archives/april-20250401", text: "2025/04/01" },
+        " / ",
+        { to: "/archives/april-20250402", text: "2025/04/02" },
+        " / ",
+        { to: "/archives/april-20260401", text: "2026/04/01" },
+      ],
+    ],
+  },
+  {
     lead: ["2026/03/13 以下を変更しました。"],
     items: [
       [
