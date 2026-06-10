@@ -132,6 +132,9 @@ export default function RandomKeywordEdit({ params }: Route.ComponentProps) {
             </LinkButton>
           </div>
         )}
+        {error && !isNotFound && (
+          <p className={formErrorClass}>{randomKeywordErrorMessage(error)}</p>
+        )}
         {keyword && <EditForm keyword={keyword} />}
       </div>
     </PageLayout>
