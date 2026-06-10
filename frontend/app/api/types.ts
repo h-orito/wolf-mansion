@@ -147,6 +147,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/rooms": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["roomAssignment"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/charachips": {
     parameters: {
       query?: never;
@@ -155,6 +171,22 @@ export interface paths {
       cookie?: never;
     };
     get: operations["list_2"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/charachips/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["detail"];
     put?: never;
     post?: never;
     delete?: never;
@@ -269,12 +301,72 @@ export interface components {
       /** @enum {string} */
       countType: "HUMAN" | "WOLF" | "NO_COUNT";
     };
+    RoomAssignmentResponse: {
+      /** Format: int32 */
+      width: number;
+      /** Format: int32 */
+      height: number;
+      roomNumbers: number[];
+    };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];
     };
     SimpleCharachipView: {
       /** Format: int32 */
       id: number;
+      name: string;
+      designerName: string;
+      /** Format: int32 */
+      charaNum: number;
+      dummyImgUrl: string;
+      /** Format: int32 */
+      dummyImgWidth: number;
+      /** Format: int32 */
+      dummyImgHeight: number;
+    };
+    Chara: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      shortName: string;
+      defaultJoinMessage?: string | null;
+      defaultFirstdayMessage?: string | null;
+      size: components["schemas"]["CharaSize"];
+      images: components["schemas"]["CharaImages"];
+    };
+    CharaImage: {
+      faceType: components["schemas"]["FaceType"];
+      url: string;
+      isDisplay: boolean;
+    };
+    CharaImages: {
+      list: components["schemas"]["CharaImage"][];
+    };
+    CharaSize: {
+      /** Format: int32 */
+      width: number;
+      /** Format: int32 */
+      height: number;
+    };
+    Charachip: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      designer?: components["schemas"]["Designer"] | null;
+      descriptionUrl?: string | null;
+      isAvailableChangeName: boolean;
+      charas: components["schemas"]["Charas"];
+    };
+    Charas: {
+      list: components["schemas"]["Chara"][];
+    };
+    Designer: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+    };
+    FaceType: {
+      code: string;
       name: string;
     };
   };
@@ -490,6 +582,28 @@ export interface operations {
       };
     };
   };
+  roomAssignment: {
+    parameters: {
+      query: {
+        personNum: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["RoomAssignmentResponse"];
+        };
+      };
+    };
+  };
   list_2: {
     parameters: {
       query?: never;
@@ -506,6 +620,28 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["CharachipListResponse"];
+        };
+      };
+    };
+  };
+  detail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["Charachip"];
         };
       };
     };

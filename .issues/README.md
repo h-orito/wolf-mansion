@@ -24,7 +24,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| (現在 open な Issue なし) | | | |
+| step-5.4 | キャラチップ一覧・詳細画面 React 化 (/chara-group) | feat | open |
 
 > **Step 0・1・2 完了** 🎉 — Step 1 は `.java-version` 21 化 / README 整備 (PR #46)。
 > **Step 2 (monorepo 化) は 4 サブ step すべて完了**: 2.1 backend/ 移動 (PR #47 ✅) / 2.2 ktlint+hook+per-dir .gitignore (PR #48 ✅) / 2.3 frontend 雛形 (PR #49 ✅) / 2.4 e2e 雛形 (PR #50 ✅)。次は **Step 3 (認証 REST 化)**。

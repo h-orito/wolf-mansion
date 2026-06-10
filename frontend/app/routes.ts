@@ -10,6 +10,8 @@ export default [
   route("village-list", "routes/village-list/route.tsx"),
   route("skill", "routes/skill/route.tsx"),
   route("rule", "routes/rule/route.tsx"),
+  route("chara-group", "routes/chara-group/route.tsx"),
+  route("chara-group/:id", "routes/chara-group-detail/route.tsx"),
   route("login", "routes/login.tsx"),
   route("signup", "routes/signup.tsx"),
   route("mypage", "routes/mypage.tsx"),

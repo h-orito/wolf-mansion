@@ -39,6 +39,7 @@ export type ApiErrorCode =
   | "authentication_failed"
   | "unauthorized"
   | "too_many_requests"
+  | "not_found"
   | "business_error"
   | "validation_error"
   | "internal_error";

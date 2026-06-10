@@ -47,6 +47,8 @@ class WolfMansionWebSecurityConfig {
                         org.springframework.http.HttpMethod.GET,
                         "/api/v1/villages",
                         "/api/v1/charachips",
+                        "/api/v1/charachips/{id}",
+                        "/api/v1/rooms",
                         "/api/v1/skills",
                         "/api/v1/skills/search",
                         "/api/v1/rule/judges",
