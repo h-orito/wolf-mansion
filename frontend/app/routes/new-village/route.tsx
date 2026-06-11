@@ -12,6 +12,7 @@ import { useSkillList } from "~/features/skills/useSkillList";
 import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
 import { BasicSection } from "./BasicSection";
+import { CharachipSection } from "./CharachipSection";
 import { DetailRuleSection } from "./DetailRuleSection";
 import { RequiredAfterCreationMark } from "./fields";
 import { RelativesSection, RpSection, SpecialRuleSection, SpectateSection } from "./OtherSections";
@@ -69,6 +70,7 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
         <FormProvider {...form}>
           <form noValidate>
             <BasicSection nowYear={nowYear} />
+            <CharachipSection />
             <DetailRuleSection skills={skills} defaultCamps={defaultCamps} />
             <SpectateSection />
             <RelativesSection />
