@@ -195,3 +195,28 @@ test("クライアント検証エラーが表示される", async ({ page }) => 
   await page.locator("#joinPassword").blur();
   await expect(page.getByText("入村パスワードは3文字以上12文字以内にしてください")).toBeVisible();
 });
+
+test("確認画面へ→確認モーダル→作成で村作成 API を叩く", async ({ page }) => {
+  await signupAndGotoNewVillage(page);
+
+  await page.fill("#villageName", "e2e確認用テスト村");
+  await page.getByRole("button", { name: "確認画面へ" }).click();
+
+  // 確認モーダルが開き、設定一覧と作成ボタンが表示される
+  const modal = page.getByRole("dialog", { name: "村作成確認" });
+  await expect(modal).toBeVisible();
+  await expect(modal.getByText("e2e確認用テスト村")).toBeVisible();
+  await expect(modal.getByText("基本設定")).toBeVisible();
+  await expect(modal.getByText("キャラチップ設定")).toBeVisible();
+
+  // 作成を実行する。新規 signup ユーザーは終了村への参加が無く村建て不可のため、
+  // backend の業務エラー (400) がモーダルに表示される (DB を汚さず作成 API 接続を検証できる)。
+  await modal.getByRole("button", { name: "作成" }).click();
+  await expect(
+    page.getByText("村建てした村の決着がつくまでは村を建てられません。"),
+  ).toBeVisible();
+
+  // 「戻る」でモーダルを閉じてフォームに戻れる
+  await modal.getByRole("button", { name: "戻る" }).click();
+  await expect(modal).not.toBeVisible();
+});

@@ -1,5 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 import { Button } from "~/components/ui/Button";
 import { Divider } from "~/components/ui/Divider";
@@ -9,10 +10,14 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { RequireAuth } from "~/features/auth/RequireAuth";
 import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
+import { createVillage } from "~/features/villages/api";
+import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
 import { BasicSection } from "./BasicSection";
 import { CharachipSection } from "./CharachipSection";
+import { ConfirmModal } from "./ConfirmModal";
+import { toCreateRequest } from "./createRequest";
 import { DetailRuleSection } from "./DetailRuleSection";
 import { RequiredAfterCreationMark } from "./fields";
 import { RelativesSection, RpSection, SpecialRuleSection, SpectateSection } from "./OtherSections";
@@ -49,6 +54,7 @@ function NewVillagePage() {
 }
 
 function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
+  const navigate = useNavigate();
   const [defaultValues, nowYear] = useMemo(() => {
     const now = new Date();
     return [createDefaultValues(skills, now), now.getFullYear()] as const;
@@ -60,6 +66,48 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
     mode: "onTouched",
   });
 
+  const [confirmValues, setConfirmValues] = useState<NewVillageFormInput | null>(null);
+  const [originalImageFile, setOriginalImageFile] = useState<File | null>(null);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+
+  // オリジナル画像のプレビュー URL。選び直したら古い URL を破棄する
+  const originalImageUrl = useMemo(
+    () => (originalImageFile ? URL.createObjectURL(originalImageFile) : null),
+    [originalImageFile],
+  );
+  useEffect(() => {
+    return () => {
+      if (originalImageUrl) URL.revokeObjectURL(originalImageUrl);
+    };
+  }, [originalImageUrl]);
+
+  const openConfirm = form.handleSubmit((values) => {
+    setCreateError(null);
+    setConfirmValues(values);
+  });
+
+  const create = async () => {
+    if (!confirmValues) return;
+    setCreating(true);
+    setCreateError(null);
+    try {
+      const village = await createVillage(
+        toCreateRequest(confirmValues),
+        confirmValues.shouldOriginalImage ? originalImageFile : null,
+      );
+      navigate(`/village/${village.id}`);
+    } catch (e) {
+      setCreateError(
+        e instanceof ApiError
+          ? e.detail
+          : "村の作成に失敗しました。時間をおいて再度お試しください。",
+      );
+    } finally {
+      setCreating(false);
+    }
+  };
+
   return (
     <PageLayout>
       <div className="px-[15px] pb-[10px]">
@@ -68,9 +116,13 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
           <RequiredAfterCreationMark /> のついている項目は村作成後に変更できません。
         </p>
         <FormProvider {...form}>
-          <form noValidate>
+          <form noValidate onSubmit={openConfirm}>
             <BasicSection nowYear={nowYear} />
-            <CharachipSection />
+            <CharachipSection
+              originalImageFile={originalImageFile}
+              originalImageUrl={originalImageUrl}
+              onSelectOriginalImage={setOriginalImageFile}
+            />
             <DetailRuleSection skills={skills} defaultCamps={defaultCamps} />
             <SpectateSection />
             <RelativesSection />
@@ -78,12 +130,20 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
             <RpSection />
             <Divider />
             <FormActions>
-              {/* 確認モーダル → 作成は未実装。実装まで押せないようにしておく */}
-              <Button type="submit" disabled>
-                確認画面へ
-              </Button>
+              <Button type="submit">確認画面へ</Button>
             </FormActions>
           </form>
+          <ConfirmModal
+            open={confirmValues !== null}
+            values={confirmValues}
+            originalImageUrl={originalImageUrl}
+            creating={creating}
+            errorMessage={createError}
+            onBack={() => {
+              setConfirmValues(null);
+            }}
+            onCreate={create}
+          />
         </FormProvider>
       </div>
     </PageLayout>

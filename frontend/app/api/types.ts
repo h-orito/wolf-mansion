@@ -19,7 +19,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/random-keywords": {
+  "/api/v1/villages": {
     parameters: {
       query?: never;
       header?: never;
@@ -27,6 +27,22 @@ export interface paths {
       cookie?: never;
     };
     get: operations["list"];
+    put?: never;
+    post: operations["create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/random-keywords": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list_1"];
     put?: never;
     post: operations["register"];
     delete?: never;
@@ -109,22 +125,6 @@ export interface paths {
     get?: never;
     put?: never;
     post: operations["login"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/villages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["list_1"];
-    put?: never;
-    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -258,6 +258,109 @@ export interface components {
       id: number;
       keyword: string;
       contents: components["schemas"]["RandomContent"][];
+    };
+    CampAllocation: {
+      campCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+      skillAllocation: components["schemas"]["SkillAllocation"][] | null;
+    };
+    MessageTypeSayRestrict: {
+      messageTypeCode: string | null;
+      restrict: boolean | null;
+      /** Format: int32 */
+      length?: number | null;
+      /** Format: int32 */
+      count?: number | null;
+    };
+    SkillAllocation: {
+      skillCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+    };
+    SkillSayRestrict: {
+      skillCode: string | null;
+      restrict: boolean | null;
+      /** Format: int32 */
+      length?: number | null;
+      /** Format: int32 */
+      count?: number | null;
+    };
+    VillageCreateRequest: {
+      villageName: string | null;
+      welcomeRange?: string | null;
+      /** Format: int32 */
+      startPersonMinNum: number | null;
+      /** Format: int32 */
+      personMaxNum: number | null;
+      /** Format: int32 */
+      dayChangeIntervalHours: number | null;
+      /** Format: int32 */
+      dayChangeIntervalMinutes: number | null;
+      /** Format: int32 */
+      dayChangeIntervalSeconds: number | null;
+      /** Format: int32 */
+      startYear: number | null;
+      /** Format: int32 */
+      startMonth: number | null;
+      /** Format: int32 */
+      startDay: number | null;
+      /** Format: int32 */
+      startHour: number | null;
+      /** Format: int32 */
+      startMinute: number | null;
+      shouldOriginalImage: boolean | null;
+      characterSetId: number[] | null;
+      /** Format: int32 */
+      dummyCharaId?: number | null;
+      dummyCharaName: string | null;
+      dummyCharaShortName: string | null;
+      dummyJoinMessage: string | null;
+      dummyDay1Message?: string | null;
+      joinPassword?: string | null;
+      openVote: boolean | null;
+      possibleSkillRequest: boolean | null;
+      availableSameWolfAttack: boolean | null;
+      availableGuardSameTarget: boolean | null;
+      reincarnationSkillAll: boolean | null;
+      availableSuddonlyDeath: boolean | null;
+      availableCommit: boolean | null;
+      availableSpectate: boolean | null;
+      creatorIsProducer: boolean | null;
+      openSkillInGrave: boolean | null;
+      visibleGraveSpectateMessage: boolean | null;
+      availableAction: boolean | null;
+      randomOrganization: boolean | null;
+      organization?: string | null;
+      campAllocationList?: components["schemas"]["CampAllocation"][] | null;
+      wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+      allowedSecretSayCode: string | null;
+      sayRestrictList: components["schemas"]["SkillSayRestrict"][] | null;
+      skillSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
+      rpSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
+      ageLimit?: string | null;
+    };
+    WolfAllocation: {
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+    };
+    VillageCreateResponse: {
+      /** Format: int32 */
+      id: number;
     };
     RandomKeywordRegisterRequest: {
       keyword: string | null;
@@ -502,6 +605,60 @@ export interface operations {
   list: {
     parameters: {
       query?: {
+        status?: string[];
+        charachip?: number[];
+        skill?: string[];
+        random?: boolean;
+        order?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageListResponse"];
+        };
+      };
+    };
+  };
+  create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          request: components["schemas"]["VillageCreateRequest"];
+          /** Format: binary */
+          dummyCharaImage?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageCreateResponse"];
+        };
+      };
+    };
+  };
+  list_1: {
+    parameters: {
+      query?: {
         q?: string;
       };
       header?: never;
@@ -655,32 +812,6 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["MeResponse"];
-        };
-      };
-    };
-  };
-  list_1: {
-    parameters: {
-      query?: {
-        status?: string[];
-        charachip?: number[];
-        skill?: string[];
-        random?: boolean;
-        order?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "*/*": components["schemas"]["VillageListResponse"];
         };
       };
     };
