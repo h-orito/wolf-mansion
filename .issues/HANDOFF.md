@@ -5,7 +5,15 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 7.4 (確認モーダル→村作成) 完了 ✅ (#69)**。Step 7.3 (キャラチップ選択) 完了 (#68)。Step 7.2 (発言制限設定) 完了 (#67)。Step 7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 7 (新規村作成) 全完了 🎉 — 7.5 (流用 divert) 完了 ✅ (#70)**。7.4 (確認モーダル→村作成) 完了 (#69)。7.3 (キャラチップ選択) 完了 (#68)。7.2 (発言制限設定) 完了 (#67)。7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+  - **step-7.5 完了 ✅ (#70)**: 設定流用 (divert) REST + React 化。`/new-village` 最上部に設定流用セクション (終了村セレクト + 流用ボタン)
+    - **backend**: `GET /api/v1/villages/{id}/setting` 新設 (permitAll、404=not_found)。`VillageSettingView` はドメイン `VillageSetting` から **joinPassword のみ除外**して直返し。流用候補一覧は既存 `GET /api/v1/villages?status=...&order=asc` 流用
+    - **spec スキーマ名衝突の実バグを修正 (今後の REST 化で要注意)**: ネスト DTO とドメインのネスト型が**単純名衝突すると SpringDoc が片方の定義で上書き**する (response スキーマが request の形になっていた)。`VillageCreateRequest` のネスト DTO に `@Schema(name = "VillageCreateRequestXxx")` を付与して解消。**新 DTO 追加時は既存スキーマ名との単純名衝突に注意**
+    - **spec の決定性を確保 (api-drift 誤検知の根治・重要)**: (1) Kotlin の `isXxx()` 由来プロパティはリフレクション列挙順 (JVM ごとに不定) で spec に並ぶ → `springdoc.writer-with-order-by-keys: true` でキー順固定。(2) `Skill ⇄ SkillHistories ⇄ SkillHistory` の自己参照サイクルは SpringDoc が $ref を張れず解決順依存の退化ノードを出す → `WolfMansionOpenApiConfig` の OpenApiCustomizer で `Skill.histories` を spec から除去しサイクルを断つ (シリアライズ不変)。**ドメイン直返しで自己参照サイクルを持つ型を spec に載せる場合は同様の対処が要る**
+    - **frontend**: `divert.ts` = `NewVillageForm.override` の忠実な移植 (流用しない項目=村名/開始日時/入村パスワード/役職希望/ダミーキャラ名・略称・発言は既定値に戻る。欠落行は発言制限=無制限/配分=min0・max なし・出現割合0・転生50)。`CharachipSection` に **`charaSyncKey`** を追加し、流用 reset 後のダミーキャラ由来項目 (画像・名前・略称・既定発言) を confirm なしで再同期 + 部分読み込み中の誤補正を isLoading ガードで防止
+    - **意図的な legacy 差異**: legacy はロード時に先頭キャラ (ゲルト) の既定発言が残留する quirk (選択ダミーキャラが別キャラでもゲルトの発言が入る) → React 版は選択キャラの既定発言のみ自動入力
+    - **共有 DB に村 ID 4「流用動作確認用の村」(CANCEL) を残置**: 動作確認用に master で作成→廃村化したもの。**e2e の流用テストが利用** (流用候補ゼロの DB では skip する作り)。ローカル `master`/`testuser` は ROLE_ADMIN で常に村建て可 (ただし creatorIsProducer=true はダミー参加が player 1=master のため作成不可)
+    - e2e 1 件追加 (全 **46 件** green)。`:8091` 突合で全項目一致確認。pr-reviewer 3巡 (1巡目 should 0 / CI fail 対応 / 2巡目 should 1 反映 / 3巡目 should 0 で打ち切り、`.reviews/PR-70.md`)
   - **step-7.4 完了 ✅ (#69)**: 確認モーダル→村作成 REST 化。`/new-village` で実際に村が作れる ("確認画面へ" 有効化)
     - **backend**: `POST /api/v1/villages` (**multipart/form-data**、要認証) 新設。JSON part (`VillageCreateRequest`) + オリジナルダミー画像 part (`dummyCharaImage`、任意)。検証は **SSR と共通の `NewVillageFormValidator` を `toForm()` 変換後に流用** (重複実装しない)。フィールドエラーは `WolfMansionValidationException` → ProblemDetail の **`fieldErrors`** (`MethodArgumentNotValidException` 側も統一)。作成は既存 `VillageCoordinator.registerVillage` 流用
     - **作成 API は `VillageCreateResponse` (id のみ) を返す** (raw `Village` は `VillageSetting.joinPassword` 等のマスク対象を平文露出するため。REST API 設計方針: マスク要なら Response DTO。pr-reviewer 3巡目 should)。これにより `Village` ドメイン型は OpenAPI 応答スキーマから外れた
@@ -103,7 +111,7 @@
     - **PageLayout に `header` オプション** (アーカイブはバナー無しページ)、**`siteMeta()` のページ名省略対応** (省略時はサイト共通タイトル「WOLF MANSION 〜人狼館の事件簿村〜」)
     - **announce にお知らせ追記** (releases.ts 先頭に手追記の運用どおり、3 ページへのリンク付き)
     - **検証**: `:8091` とスレ本文 `innerText` を空白正規化比較で**完全一致** (2 ページとも)。e2e 3件追加 (全30件 green)。pr-reviewer 2巡 must/should 0 件 (**指摘 0 件の巡があれば打ち切ってよい運用に ship-issue skill を更新**)
-  - **次の候補**: **Step 7.5 (流用 divert)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 ✅ / 7.3 キャラチップ選択 ✅ / 7.4 確認モーダル→作成 ✅ / 7.5 流用。08-step-plan.md 参照
+  - **次の候補**: **Step 8 (村画面・最重量)**。19 サブ step (8.1〜8.19) に分割済み (08-step-plan.md の表参照)。Step 7 は全サブ step 完了 (7.1〜7.5 ✅)
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -114,7 +122,7 @@
   - DBFlute エンジン本体は Java 8 で動作 (`_project.sh` が `/usr/libexec/java_home -v 1.8` を設定)。エンジンは `mydbflute/dbflute-1.3.1` (git tracked)
 - **Step 2 サブ step**: 2.1 移動+Jib (✅ #47) / 2.2 ktlint+hook+gitignore (✅ #48) / 2.3 frontend 雛形 (✅ #49) / 2.4 e2e 雛形 (✅ #50)。**context-path `/wolf-mansion-api` は別サブ step に切り出し**済 (PlayerController の id_register Cookie path と結合のため `/wolf-mansion` 据置、Step 3 前後で実施)
 - **git 状態**:
-  - ブランチ = `feature/monorepo`。HEAD = `d6048afd` (= step-7.1 #66)。作業ツリー clean、origin と同期
+  - ブランチ = `feature/monorepo`。HEAD = `ff109a6d` (= step-7.5 #70) + 後片付け commit。作業ツリー clean、origin と同期
   - **構成**: `backend/` (Spring Boot/Kotlin、自己完結 Gradle) / `frontend/` (RR v7 SSR) / `e2e/` (Playwright、ローカル専用) / root は doc・設定のみ
   - **backend**: ktlint 導入済 (`backend/build.gradle.kts` plugin + `.editorconfig` で 5 ルール無効化)。context-path は `/wolf-mansion` 据置。`cd backend && ./gradlew ...`、bootRun は 8089。**JDK 21 (jenv): root + `backend/.java-version`=21 + jenv global=21**
   - **e2e**: Playwright (`@playwright/test` 1.60.0 pin、minimumReleaseAge 14日制約) + pnpm (独立プロジェクト)。`playwright.config.ts` の webServer が backend **18089** / frontend **15173** を別ポート自動起動 (通常 8089/5173 と並走可)、baseURL=frontend。smoke + **auth.spec (3.3 で追加: signup→me→logout→login + 未認証リダイレクト)**。frontend webServer に `BACKEND_ORIGIN=…:18089` を注入し Vite proxy の転送先を e2e backend に向ける。本格 authoring は Step 8+/scenarios。CI 非実行。`cd e2e && pnpm install && pnpm run install:browsers && pnpm test`。**注意: e2e は provision 済み DB が前提** (空 docker DB だと `VILLAGE doesn't exist` 等で 500)
@@ -141,10 +149,11 @@
 
 ## 次にやること
 
-**Step 7.4 (確認モーダル→村作成) 完了 ✅ (#69)** — 次は **Step 7.5 (流用 divert)** で Step 7 完了。
+**Step 7 (新規村作成) 全完了 🎉 (7.5 #70 で完結)** — 次は **Step 8 (村画面)**。
 
-- **(次) Step 7.5 (流用 divert)**: 既存の終了村の設定を流用して新規村フォームに流し込む機能。SSR `new-village/divert/{villageId}` (`NewVillageController.divert` + `NewVillageForm.override(village)`) + `new-village.js` の `#divert-btn`/`#divert-village` 参照。frontend は村選択 → `GET /api/v1/villages/{id}` 等で設定取得 → `form.reset()` で流し込み。**注意 (PR-66/PR-67)**: 闇鍋テーブル・発言制限テーブルは「ラベル=静的 prop / 値=フォーム state」分離構造。`reset()` で値だけ流し込んでもラベルは静的 prop のまま (キャラ名/陣営名/役職名/発言種別名は別途解決が要る)。流用元村の設定取得 API が必要なら新設 (村詳細はマスク対象を含むため Response DTO 検討)。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
-- **Step 7 完了後の申し送り**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状 7.4 e2e は業務エラーパスのみで DB 非汚染)
+- **(次) Step 8 (村画面)**: 最重量。08-step-plan.md の表で **19 サブ step (8.1〜8.19)** に分割済み。`VillageControllerHelper` の `ParticipantSituation`/`VillageSituation` 二層駆動を村取得 API のマスク基盤に据える (village-base.md / usecases/mask.md が正本)。`/add-issue` で 8.1 を起票 → `/ship-issue`
+- **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
+- **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
 - **認証付き CRUD パターン (step-6 で確立・以降踏襲)**: write 系 REST は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系ページ = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導。mutation 後は `useInvalidateXxx` → `navigate`。**コレクション要素の制約は型引数 `@Size` でなくコード検証** (実行時に効かない。spec へは `@ArraySchema` で出す)。**複数テーブル書き込みは service に `@Transactional`**
 - **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **REST API 設計方針 (step-5.4 で確定・以降必須)**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 [`doc/migration/01-overview.md`](../doc/migration/01-overview.md)「REST API 設計方針」
