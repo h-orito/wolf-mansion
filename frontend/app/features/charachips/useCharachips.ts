@@ -20,7 +20,7 @@ export function useCharachipDetail(id: number) {
   });
 }
 
-/** 複数キャラチップの詳細をまとめて取得し、キャラ一覧を id の並び順に結合する。 */
+/** 複数キャラチップの詳細をまとめて取得し、ids の並び順に各キャラ一覧を連結する。 */
 export function useCharachipDetails(ids: number[]) {
   return useQueries({
     queries: ids.map((id) => ({

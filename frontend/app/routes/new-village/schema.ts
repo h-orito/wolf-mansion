@@ -37,7 +37,13 @@ const SAY_RESTRICT_MESSAGE = "発言制限は0~400 * 0~100 で設定してくだ
 const DUMMY_CHARA_NAME_MESSAGE = "ダミーキャラ名は1文字以上40文字以下で入力してください";
 const DUMMY_CHARA_SHORT_NAME_MESSAGE = "ダミーキャラ名略称は1文字で入力してください";
 const DUMMY_MESSAGE_MESSAGE = "発言内容は1文字以上400文字以内にしてください";
+const DUMMY_MESSAGE_LINE_MESSAGE = "発言内容は20行以内にしてください";
 const CHARACTER_SET_MESSAGE = "キャラセットを1つ以上選択してください";
+
+/** 発言の行数上限 (正本は backend `validateMessage` の 20 行制限)。 */
+const MESSAGE_MAX_LINES = 20;
+
+const withinMaxLines = (value: string) => value.split("\n").length <= MESSAGE_MAX_LINES;
 
 /** 発言制限の上限 (1回あたりの文字数 / 1日あたりの回数)。 */
 export const SAY_RESTRICT_LENGTH_MAX = 400;
@@ -149,8 +155,15 @@ export const newVillageSchema = z
       .string()
       .min(1, DUMMY_CHARA_SHORT_NAME_MESSAGE)
       .max(1, DUMMY_CHARA_SHORT_NAME_MESSAGE),
-    dummyJoinMessage: z.string().min(1, DUMMY_MESSAGE_MESSAGE).max(400, DUMMY_MESSAGE_MESSAGE),
-    dummyDay1Message: z.string().max(400, DUMMY_MESSAGE_MESSAGE),
+    dummyJoinMessage: z
+      .string()
+      .min(1, DUMMY_MESSAGE_MESSAGE)
+      .max(400, DUMMY_MESSAGE_MESSAGE)
+      .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
+    dummyDay1Message: z
+      .string()
+      .max(400, DUMMY_MESSAGE_MESSAGE)
+      .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
     openVote: z.boolean(),
     possibleSkillRequest: z.boolean(),
     availableSameWolfAttack: z.boolean(),

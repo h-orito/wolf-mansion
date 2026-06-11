@@ -23,7 +23,7 @@ export function CharachipSection() {
   });
   const dummyCharaId = useWatch<NewVillageFormInput, "dummyCharaId">({ name: "dummyCharaId" });
   const { data: charachips } = useCharachipList();
-  const { charas } = useCharachipDetails(shouldOriginalImage ? [] : characterSetId);
+  const { charas, isLoading } = useCharachipDetails(shouldOriginalImage ? [] : characterSetId);
   // キャラセットをユーザーが変更した直後の候補確定を、初期表示時の候補確定と区別する
   // (ユーザー変更時のみ既定発言の上書きを confirm で確認する)
   const manualChangeRef = useRef(false);
@@ -144,7 +144,7 @@ export function CharachipSection() {
                     if (chara) applyDummyChara(chara, true);
                   }}
                 >
-                  {charas.length === 0 && <option value="">読み込み中</option>}
+                  {isLoading && <option value="">読み込み中</option>}
                   {charas.map((c) => (
                     <option key={c.id} value={c.id}>
                       {c.name}
