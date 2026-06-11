@@ -326,6 +326,8 @@ export interface components {
       campCode: string;
       campName: string;
       tags: string[];
+      requestable: boolean;
+      revivable: boolean;
     };
     SkillListResponse: {
       skills: components["schemas"]["SimpleSkillView"][];

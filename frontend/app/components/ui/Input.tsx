@@ -13,3 +13,6 @@ export const inlineInputClass = `h-[30px] ${baseClass}`;
 
 /** 複数行テキスト入力。 */
 export const textareaClass = `w-full ${baseClass}`;
+
+/** セレクトボックス (フォーム行いっぱいに広げる)。 */
+export const selectClass = `h-[30px] w-full ${baseClass}`;

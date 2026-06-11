@@ -23,7 +23,7 @@ export function FormRow({
   labelWidth = "narrow",
   children,
 }: {
-  label: string;
+  label: ReactNode;
   htmlFor?: string;
   labelWidth?: LabelWidth;
   children: ReactNode;

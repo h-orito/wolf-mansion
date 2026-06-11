@@ -26,6 +26,10 @@ data class SimpleSkillView(
     val campCode: String,
     val campName: String,
     val tags: List<String>,
+    /** 編成・役職希望に含められるか */
+    val requestable: Boolean,
+    /** 転生先の候補になるか */
+    val revivable: Boolean,
 ) {
     constructor(skill: Skill) : this(
         code = skill.code,
@@ -34,5 +38,7 @@ data class SimpleSkillView(
         campCode = skill.camp().code,
         campName = skill.camp().name,
         tags = SkillTag.entries.filter { tag -> tag.getSkillList().any { it.code == skill.code } }.map { it.name },
+        requestable = skill.isRequestable(),
+        revivable = skill.isRevivable(),
     )
 }

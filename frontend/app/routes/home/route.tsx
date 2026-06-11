@@ -167,8 +167,8 @@ export default function Home() {
               <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
                 <TileRoute to="/village-list" icon={ListBulletIcon} jp="村一覧" en="Village list" />
                 {canCreateVillage && (
-                  <TileAnchor
-                    href={legacyUrl("/new-village")}
+                  <TileRoute
+                    to="/new-village"
                     icon={PlusIcon}
                     jp="村を建てる"
                     en="Create Village"
