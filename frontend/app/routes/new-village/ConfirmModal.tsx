@@ -179,7 +179,10 @@ function ReadOnlyCampRows({ camp }: { camp: NewVillageFormInput["campAllocationL
   );
 }
 
-/** 村作成の確認モーダル。設定一覧と発言プレビューを表示し、「作成」で API へ送信する。 */
+/**
+ * 村作成の確認モーダル。設定一覧と発言プレビューを表示し、「作成」で API へ送信する。
+ * オリジナル画像の入力は元フォーム側で行うため、ここでは画像行は出さずプレビューにのみ反映する。
+ */
 export function ConfirmModal({
   open,
   values,
@@ -213,7 +216,7 @@ export function ConfirmModal({
   const startDateTime = `${values.startYear}/${pad2(values.startMonth)}/${pad2(values.startDay)} ${pad2(values.startHour)}:${pad2(values.startMinute)}`;
 
   return (
-    <Modal open={open} onClose={onBack} title="村作成確認" size="wide">
+    <Modal open={open} onClose={creating ? () => {} : onBack} title="村作成確認" size="wide">
       <table className={tableClass}>
         <tbody>
           <SectionRow title="基本設定" />

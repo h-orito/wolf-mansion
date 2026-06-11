@@ -203,8 +203,10 @@ data class VillageCreateRequest(
     )
 
     /**
-     * コード値の存在チェック。`NewVillageFormValidator` や `toVillage` は CDef 解決済みを
-     * 前提とするため、不正コードはここで弾く (API から取得したコードを送る限り発生しない)。
+     * コード値の存在チェック + 闇鍋編成の構造完全性チェック。
+     * `NewVillageFormValidator` や `toVillage` は CDef 解決済みかつ村人陣営/村人役職の存在を
+     * 前提に `first { }` で参照するため、欠けたリクエストが届くと 500 になる。ここで 400 に倒す
+     * (API から取得したコードを正しく組んで送る限り発生しない)。
      */
     fun validateCodes(): List<FieldErrorItem> {
         val errors = mutableListOf<FieldErrorItem>()
@@ -231,7 +233,27 @@ data class VillageCreateRequest(
                 errors.add(FieldErrorItem("$field.messageTypeCode", "存在しない発言種別です"))
             }
         }
+        if (randomOrganization == true && errors.isEmpty()) {
+            errors.addAll(validateRandomOrganizationStructure())
+        }
         return errors
+    }
+
+    /** 闇鍋編成で validator が `first { }` 参照する村人陣営・村人役職の存在を保証する。 */
+    private fun validateRandomOrganizationStructure(): List<FieldErrorItem> {
+        val camps = campAllocationList
+        if (camps.isNullOrEmpty()) {
+            return listOf(FieldErrorItem("campAllocationList", "闇鍋編成の陣営が指定されていません"))
+        }
+        val villagerCamp =
+            camps.firstOrNull { CDef.Camp.codeOf(it.campCode) == CDef.Camp.村人陣営 }
+                ?: return listOf(FieldErrorItem("campAllocationList", "村人陣営の配分が指定されていません"))
+        val hasVillagerSkill =
+            villagerCamp.skillAllocation?.any { CDef.Skill.codeOf(it.skillCode) == CDef.Skill.村人 } == true
+        if (!hasVillagerSkill) {
+            return listOf(FieldErrorItem("campAllocationList", "村人役職の配分が指定されていません"))
+        }
+        return emptyList()
     }
 
     /** SSR と同じ検証・変換 (`NewVillageFormValidator` / `toVillage`) を流用するためフォームへ変換する。 */

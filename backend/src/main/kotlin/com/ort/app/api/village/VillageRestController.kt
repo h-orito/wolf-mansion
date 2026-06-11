@@ -58,6 +58,7 @@ class VillageRestController(
         @RequestPart @Validated request: VillageCreateRequest,
         @RequestPart(required = false) dummyCharaImage: MultipartFile?,
     ): Village {
+        // principal は filter chain の authenticated() で保証済み (到達時は非 null)。防御的に確認する
         val player =
             principal?.let { playerService.findPlayer(it.name) }
                 ?: throw WolfMansionAuthException("ログインしてください")

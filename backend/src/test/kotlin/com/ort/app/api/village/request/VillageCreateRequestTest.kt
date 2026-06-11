@@ -56,6 +56,26 @@ internal class VillageCreateRequestTest {
     }
 
     @Test
+    fun `validateCodes は闇鍋で村人陣営が欠けたら検出する`() {
+        val request =
+            fixture(randomOrganization = true).copy(
+                campAllocationList = listOf(wolfCampOnly()),
+            )
+
+        val errors = request.validateCodes()
+
+        assertEquals(listOf("campAllocationList"), errors.map { it.field })
+    }
+
+    @Test
+    fun `validateCodes は固定編成では闇鍋構造を検査しない`() {
+        // 固定編成 (randomOrganization=false) なら村人陣営が無くてもここでは弾かない
+        val request = fixture().copy(campAllocationList = listOf(wolfCampOnly()))
+
+        assertTrue(request.validateCodes().isEmpty())
+    }
+
+    @Test
     fun `NewVillageFormValidator と組み合わせて固定編成の村を検証できる`() {
         val errors = BeanPropertyBindingResult(fixture().toForm(null), "villageForm")
 
@@ -75,10 +95,31 @@ internal class VillageCreateRequestTest {
         assertTrue(errors.fieldErrors.any { it.field == "organization" })
     }
 
+    /** 村人陣営を含まない人狼陣営のみの配分 (闇鍋構造チェック用)。 */
+    private fun wolfCampOnly(): VillageCreateRequest.CampAllocation =
+        VillageCreateRequest.CampAllocation(
+            campCode = "WEREWOLF",
+            minNum = 0,
+            maxNum = null,
+            allocation = 50,
+            reincarnationAllocation = 50,
+            skillAllocation =
+                listOf(
+                    VillageCreateRequest.SkillAllocation(
+                        skillCode = "WEREWOLF",
+                        minNum = 0,
+                        maxNum = null,
+                        allocation = 50,
+                        reincarnationAllocation = 0,
+                    ),
+                ),
+        )
+
     private fun fixture(
         shouldOriginalImage: Boolean = false,
         dummyCharaId: Int? = 1,
         personMaxNum: Int = 8,
+        randomOrganization: Boolean = false,
     ): VillageCreateRequest {
         val start = LocalDateTime.now().plusDays(7)
         return VillageCreateRequest(
@@ -114,7 +155,7 @@ internal class VillageCreateRequestTest {
             openSkillInGrave = false,
             visibleGraveSpectateMessage = false,
             availableAction = false,
-            randomOrganization = false,
+            randomOrganization = randomOrganization,
             organization = "村狼狼賢導村村村",
             campAllocationList = null,
             wolfAllocation = null,

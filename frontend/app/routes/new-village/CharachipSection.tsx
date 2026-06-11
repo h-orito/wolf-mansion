@@ -217,7 +217,8 @@ function OriginalImageRow({
         aria-label="ダミーキャラ画像"
         onChange={(e) => {
           const selected = e.target.files?.[0] ?? null;
-          if (selected && selected.size > ORIGINAL_IMAGE_MAX_BYTES) {
+          // backend `validateOriginalImage` と同じく 0 バイト・100KB 超を弾く
+          if (selected && (selected.size === 0 || selected.size > ORIGINAL_IMAGE_MAX_BYTES)) {
             setSizeError(true);
             onSelect(null);
             e.target.value = "";
