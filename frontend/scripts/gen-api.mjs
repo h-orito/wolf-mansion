@@ -49,6 +49,9 @@ function extractConstants(spec) {
   const signup = schemas.SignupRequest?.properties ?? {};
   const password = signup.password ?? {};
   const userId = signup.userId ?? {};
+  const randomKeywordRegister = schemas.RandomKeywordRegisterRequest?.properties ?? {};
+  const randomKeyword = randomKeywordRegister.keyword ?? {};
+  const randomKeywordMessage = randomKeywordRegister.messages?.items ?? {};
 
   // backend を制約の単一ソースにするのが目的なので、ソース欠落は黙って `undefined` 定数を吐かず loud に落とす
   // (SpringDoc の回帰や @Size/@Pattern 取り違えで frontend バリデーションが無効化されるのを防ぐ)。
@@ -59,6 +62,11 @@ function extractConstants(spec) {
     "SignupRequest.userId.minLength": userId.minLength,
     "SignupRequest.userId.maxLength": userId.maxLength,
     "SignupRequest.userId.pattern": userId.pattern,
+    "RandomKeywordRegisterRequest.keyword.minLength": randomKeyword.minLength,
+    "RandomKeywordRegisterRequest.keyword.maxLength": randomKeyword.maxLength,
+    "RandomKeywordRegisterRequest.keyword.pattern": randomKeyword.pattern,
+    "RandomKeywordRegisterRequest.messages.items.minLength": randomKeywordMessage.minLength,
+    "RandomKeywordRegisterRequest.messages.items.maxLength": randomKeywordMessage.maxLength,
   };
   const missing = Object.entries(required)
     .filter(([, v]) => v === undefined)
@@ -84,6 +92,13 @@ function extractConstants(spec) {
     line("SIGNUP_USER_ID_MIN_LENGTH", userId.minLength),
     line("SIGNUP_USER_ID_MAX_LENGTH", userId.maxLength),
     line("SIGNUP_USER_ID_PATTERN", userId.pattern),
+    "",
+    "/** ランダムキーワード制約 (backend RandomKeywordPolicy 由来)。 */",
+    line("RANDOM_KEYWORD_MIN_LENGTH", randomKeyword.minLength),
+    line("RANDOM_KEYWORD_MAX_LENGTH", randomKeyword.maxLength),
+    line("RANDOM_KEYWORD_PATTERN", randomKeyword.pattern),
+    line("RANDOM_KEYWORD_MESSAGE_MIN_LENGTH", randomKeywordMessage.minLength),
+    line("RANDOM_KEYWORD_MESSAGE_MAX_LENGTH", randomKeywordMessage.maxLength),
     "",
   ].join("\n");
 }

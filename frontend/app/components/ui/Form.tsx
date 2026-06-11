@@ -1,5 +1,10 @@
 import type { ReactNode } from "react";
 
+/** フィールド単位のエラー文言。 */
+export const fieldErrorClass = "mt-1 text-red-400";
+/** フォーム全体のエラー文言。 */
+export const formErrorClass = "mb-2 block text-red-400";
+
 /** ラベル列の幅 (横並び時)。フォームの用途で使い分ける。 */
 type LabelWidth = "narrow" | "wide";
 
