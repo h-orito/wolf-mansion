@@ -100,6 +100,9 @@ test("キャラチップ設定が既定値で表示されダミーキャラ情�
 test("ダミーキャラ変更でキャラ名・略称が置き換わる", async ({ page }) => {
   await signupAndGotoNewVillage(page);
 
+  // 自動入力済みの入村発言に対する上書き confirm はキャンセルし、名前・略称の置換だけを検証する
+  page.on("dialog", (dialog) => dialog.dismiss());
+
   const dummySelect = page.locator("#dummyCharaId");
   await expect(dummySelect).toHaveValue("1");
   await dummySelect.selectOption({ label: "村長 ヴァルター" });

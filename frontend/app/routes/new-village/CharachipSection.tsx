@@ -131,28 +131,22 @@ export function CharachipSection() {
             {characterSetError && <p className={fieldErrorClass}>{characterSetError.message}</p>}
           </FormRow>
           <FormRow label="ダミーキャラ" htmlFor="dummyCharaId" labelWidth="wide">
-            <Controller
-              control={control}
-              name="dummyCharaId"
-              render={({ field }) => (
-                <select
-                  id="dummyCharaId"
-                  className={selectClass}
-                  value={field.value ?? ""}
-                  onChange={(e) => {
-                    const chara = charas.find((c) => c.id === Number(e.target.value));
-                    if (chara) applyDummyChara(chara, true);
-                  }}
-                >
-                  {isLoading && <option value="">読み込み中</option>}
-                  {charas.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              )}
-            />
+            <select
+              id="dummyCharaId"
+              className={selectClass}
+              value={dummyCharaId ?? ""}
+              onChange={(e) => {
+                const chara = charas.find((c) => c.id === Number(e.target.value));
+                if (chara) applyDummyChara(chara, true);
+              }}
+            >
+              {isLoading && <option value="">読み込み中</option>}
+              {charas.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
+            </select>
           </FormRow>
         </>
       )}
