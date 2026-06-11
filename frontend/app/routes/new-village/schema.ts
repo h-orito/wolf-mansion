@@ -33,6 +33,11 @@ const START_DATETIME_MESSAGE = "開始日時は現在から14日以内の存在�
 const JOIN_PASSWORD_MESSAGE = `入村パスワードは${JOIN_PASSWORD_MIN_LENGTH}文字以上${JOIN_PASSWORD_MAX_LENGTH}文字以内にしてください`;
 const ALLOCATION_MESSAGE = "0~100で入力してください";
 const WOLF_ALLOCATION_MESSAGE = "1~100で入力してください";
+const SAY_RESTRICT_MESSAGE = "発言制限は0~400 * 0~100 で設定してください";
+
+/** 発言制限の上限 (1回あたりの文字数 / 1日あたりの回数)。 */
+export const SAY_RESTRICT_LENGTH_MAX = 400;
+export const SAY_RESTRICT_COUNT_MAX = 100;
 
 const allocationNum = z
   .number(ALLOCATION_MESSAGE)
@@ -54,6 +59,50 @@ const skillAllocationSchema = z.object({
   allocation: allocationNum,
   reincarnationAllocation: allocationNum,
 });
+
+/** 制限ありの行のみ length/count を検証する (制限なしの行は無制限扱いで値は送らない)。 */
+function refineSayRestrict(
+  values: { restrict: boolean; length: number | null; count: number | null },
+  ctx: z.RefinementCtx,
+) {
+  if (!values.restrict) return;
+  if (
+    values.length == null ||
+    !Number.isInteger(values.length) ||
+    values.length < 0 ||
+    values.length > SAY_RESTRICT_LENGTH_MAX
+  ) {
+    ctx.addIssue({ code: "custom", path: ["length"], message: SAY_RESTRICT_MESSAGE });
+  }
+  if (
+    values.count == null ||
+    !Number.isInteger(values.count) ||
+    values.count < 0 ||
+    values.count > SAY_RESTRICT_COUNT_MAX
+  ) {
+    ctx.addIssue({ code: "custom", path: ["count"], message: SAY_RESTRICT_MESSAGE });
+  }
+}
+
+const skillSayRestrictSchema = z
+  .object({
+    skillCode: z.string(),
+    skillName: z.string(),
+    restrict: z.boolean(),
+    length: z.number().nullable(),
+    count: z.number().nullable(),
+  })
+  .superRefine(refineSayRestrict);
+
+const messageTypeSayRestrictSchema = z
+  .object({
+    messageTypeCode: z.string(),
+    messageTypeName: z.string(),
+    restrict: z.boolean(),
+    length: z.number().nullable(),
+    count: z.number().nullable(),
+  })
+  .superRefine(refineSayRestrict);
 
 const campAllocationSchema = z.object({
   campCode: z.string(),
@@ -108,6 +157,9 @@ export const newVillageSchema = z
       minNum: wolfAllocationNum,
       maxNum: wolfAllocationNum.nullable(),
     }),
+    sayRestrictList: z.array(skillSayRestrictSchema),
+    skillSayRestrictList: z.array(messageTypeSayRestrictSchema),
+    rpSayRestrictList: z.array(messageTypeSayRestrictSchema),
     allowedSecretSayCode: z.enum(["NOTHING", "ONLY_CREATOR", "EVERYTHING"]),
     joinPassword: z
       .string()
@@ -160,6 +212,40 @@ export const newVillageSchema = z
 
 export type NewVillageFormInput = z.infer<typeof newVillageSchema>;
 export type CampAllocationInput = NewVillageFormInput["campAllocationList"][number];
+
+/** 発言制限の対象 (発言種別)。正本は backend `NewVillageForm.initialize` の対象種別。 */
+export const SKILL_SAY_MESSAGE_TYPES = [
+  { messageTypeCode: "WEREWOLF_SAY", messageTypeName: "人狼の囁き" },
+  { messageTypeCode: "MASON_SAY", messageTypeName: "共鳴発言" },
+  { messageTypeCode: "LOVERS_SAY", messageTypeName: "恋人発言" },
+  { messageTypeCode: "TELEPATHY", messageTypeName: "念話" },
+] as const;
+
+export const RP_SAY_MESSAGE_TYPES = [
+  { messageTypeCode: "ACTION", messageTypeName: "アクション" },
+] as const;
+
+type MessageTypeRef = { messageTypeCode: string; messageTypeName: string };
+
+/** 役職別 (通常発言) の発言制限の初期行。行順は役職一覧 API の並びに合わせる。 */
+export function createDefaultSayRestricts(
+  skills: SimpleSkillView[],
+): NewVillageFormInput["sayRestrictList"] {
+  return skills.map((s) => ({
+    skillCode: s.code,
+    skillName: s.name,
+    restrict: false,
+    length: 400,
+    count: 20,
+  }));
+}
+
+/** 発言種別 (役職発言 / RP発言) の発言制限の初期行。 */
+export function createDefaultMessageTypeSayRestricts(
+  messageTypes: readonly MessageTypeRef[],
+): NewVillageFormInput["skillSayRestrictList"] {
+  return messageTypes.map((t) => ({ ...t, restrict: false, length: 400, count: 20 }));
+}
 
 /** 闇鍋配分テーブルの陣営の並び順 (正本は backend `NewVillageForm` の陣営順)。 */
 const CAMP_CODE_ORDER = ["VILLAGER", "WEREWOLF", "FOX", "LOVERS", "CRIMINAL"];
@@ -222,6 +308,9 @@ export function createDefaultValues(skills: SimpleSkillView[], now: Date): NewVi
     organization: addPersonCountPrefix(DEFAULT_FIXED_ORGANIZATION),
     campAllocationList: createDefaultCampAllocations(skills),
     wolfAllocation: { minNum: 1, maxNum: null },
+    sayRestrictList: createDefaultSayRestricts(skills),
+    skillSayRestrictList: createDefaultMessageTypeSayRestricts(SKILL_SAY_MESSAGE_TYPES),
+    rpSayRestrictList: createDefaultMessageTypeSayRestricts(RP_SAY_MESSAGE_TYPES),
     allowedSecretSayCode: "NOTHING",
     joinPassword: "",
     ageLimit: "",
