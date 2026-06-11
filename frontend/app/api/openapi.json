@@ -386,6 +386,35 @@
         }
       }
     },
+    "/api/v1/villages/{id}/setting": {
+      "get": {
+        "tags": ["village-rest-controller"],
+        "operationId": "setting",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageSettingView"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/skills": {
       "get": {
         "tags": ["skill-rest-controller"],
@@ -610,51 +639,6 @@
         },
         "required": ["contents", "id", "keyword"]
       },
-      "CampAllocation": {
-        "type": "object",
-        "properties": {
-          "campCode": {
-            "type": ["string", "null"]
-          },
-          "minNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "maxNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "allocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "reincarnationAllocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "skillAllocation": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/SkillAllocation"
-            }
-          }
-        },
-        "required": [
-          "allocation",
-          "campCode",
-          "minNum",
-          "reincarnationAllocation",
-          "skillAllocation"
-        ]
-      },
       "MessageTypeSayRestrict": {
         "type": "object",
         "properties": {
@@ -674,39 +658,6 @@
           }
         },
         "required": ["messageTypeCode", "restrict"]
-      },
-      "SkillAllocation": {
-        "type": "object",
-        "properties": {
-          "skillCode": {
-            "type": ["string", "null"]
-          },
-          "minNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "maxNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "allocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "reincarnationAllocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          }
-        },
-        "required": ["allocation", "minNum", "reincarnationAllocation", "skillCode"]
       },
       "SkillSayRestrict": {
         "type": "object",
@@ -879,13 +830,13 @@
           "campAllocationList": {
             "type": ["array", "null"],
             "items": {
-              "$ref": "#/components/schemas/CampAllocation"
+              "$ref": "#/components/schemas/VillageCreateRequestCampAllocation"
             }
           },
           "wolfAllocation": {
             "oneOf": [
               {
-                "$ref": "#/components/schemas/WolfAllocation"
+                "$ref": "#/components/schemas/VillageCreateRequestWolfAllocation"
               },
               {
                 "type": "null"
@@ -955,7 +906,85 @@
           "visibleGraveSpectateMessage"
         ]
       },
-      "WolfAllocation": {
+      "VillageCreateRequestCampAllocation": {
+        "type": "object",
+        "properties": {
+          "campCode": {
+            "type": ["string", "null"]
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "skillAllocation": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/VillageCreateRequestSkillAllocation"
+            }
+          }
+        },
+        "required": [
+          "allocation",
+          "campCode",
+          "minNum",
+          "reincarnationAllocation",
+          "skillAllocation"
+        ]
+      },
+      "VillageCreateRequestSkillAllocation": {
+        "type": "object",
+        "properties": {
+          "skillCode": {
+            "type": ["string", "null"]
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          }
+        },
+        "required": ["allocation", "minNum", "reincarnationAllocation", "skillCode"]
+      },
+      "VillageCreateRequestWolfAllocation": {
         "type": "object",
         "properties": {
           "minNum": {
@@ -1191,6 +1220,557 @@
           }
         },
         "required": ["code", "name"]
+      },
+      "AbilityType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "setMessageType": {
+            "$ref": "#/components/schemas/MessageType"
+          }
+        },
+        "required": ["code", "name", "setMessageType"]
+      },
+      "Camp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isFoxs": {
+            "type": "boolean"
+          },
+          "isLovers": {
+            "type": "boolean"
+          },
+          "isVillagers": {
+            "type": "boolean"
+          },
+          "isWolfs": {
+            "type": "boolean"
+          },
+          "isCriminals": {
+            "type": "boolean"
+          }
+        },
+        "required": ["code", "isCriminals", "isFoxs", "isLovers", "isVillagers", "isWolfs", "name"]
+      },
+      "CampAllocation": {
+        "type": "object",
+        "properties": {
+          "camp": {
+            "$ref": "#/components/schemas/Camp"
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "initAllocation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reincarnationAllocation": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["camp", "initAllocation", "min", "reincarnationAllocation"]
+      },
+      "MessageType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "isOwlViewableType": {
+            "type": "boolean"
+          },
+          "isSayType": {
+            "type": "boolean"
+          }
+        },
+        "required": ["code", "isOwlViewableType", "isSayType", "name"]
+      },
+      "NormalSayRestriction": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["count", "length", "messageType", "skill"]
+      },
+      "SayRestriction": {
+        "type": "object",
+        "properties": {
+          "normalSayRestriction": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NormalSayRestriction"
+            }
+          },
+          "skillSayRestriction": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillSayRestriction"
+            }
+          }
+        },
+        "required": ["normalSayRestriction", "skillSayRestriction"]
+      },
+      "SecretSayRange": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
+      },
+      "Skill": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "histories": {
+            "$ref": "#/components/schemas/SkillHistories"
+          },
+          "isRequestable": {
+            "type": "boolean"
+          },
+          "isWolfCount": {
+            "type": "boolean"
+          },
+          "ability": {
+            "$ref": "#/components/schemas/AbilityType"
+          },
+          "isNoSound": {
+            "type": "boolean"
+          },
+          "isNoDeadByAttack": {
+            "type": "boolean"
+          },
+          "isShogiWolf": {
+            "type": "boolean"
+          },
+          "isViewableWolfCharaName": {
+            "type": "boolean"
+          },
+          "isSayableWerewolfSay": {
+            "type": "boolean"
+          },
+          "isFoxCount": {
+            "type": "boolean"
+          },
+          "isViewableSympathizeSay": {
+            "type": "boolean"
+          },
+          "isDivineResultWolf": {
+            "type": "boolean"
+          },
+          "isDeadByDivine": {
+            "type": "boolean"
+          },
+          "isCounterDeadByInvestigate": {
+            "type": "boolean"
+          },
+          "isOpenSkill": {
+            "type": "boolean"
+          },
+          "isViewableTelepathy": {
+            "type": "boolean"
+          },
+          "isSayableTelepathy": {
+            "type": "boolean"
+          },
+          "isViewableWerewolfSay": {
+            "type": "boolean"
+          },
+          "isViewableAttackMessage": {
+            "type": "boolean"
+          },
+          "isViewableCoronerMessage": {
+            "type": "boolean"
+          },
+          "isViewableLoversSay": {
+            "type": "boolean"
+          },
+          "isSayableSympathizeSay": {
+            "type": "boolean"
+          },
+          "isViewableFoxMessage": {
+            "type": "boolean"
+          },
+          "isViewableGuruMessage": {
+            "type": "boolean"
+          },
+          "isViewableInvestigateMessage": {
+            "type": "boolean"
+          },
+          "isViewableLoversMessage": {
+            "type": "boolean"
+          },
+          "isViewableDivineMessage": {
+            "type": "boolean"
+          },
+          "isViewablePsychicMessage": {
+            "type": "boolean"
+          },
+          "isViewableWiseMessage": {
+            "type": "boolean"
+          },
+          "isNoCount": {
+            "type": "boolean"
+          },
+          "isPsychicResultWolf": {
+            "type": "boolean"
+          },
+          "isRevivable": {
+            "type": "boolean"
+          },
+          "isCounterDeadByDivine": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "histories",
+          "isCounterDeadByDivine",
+          "isCounterDeadByInvestigate",
+          "isDeadByDivine",
+          "isDivineResultWolf",
+          "isFoxCount",
+          "isNoCount",
+          "isNoDeadByAttack",
+          "isNoSound",
+          "isOpenSkill",
+          "isPsychicResultWolf",
+          "isRequestable",
+          "isRevivable",
+          "isSayableSympathizeSay",
+          "isSayableTelepathy",
+          "isSayableWerewolfSay",
+          "isShogiWolf",
+          "isViewableAttackMessage",
+          "isViewableCoronerMessage",
+          "isViewableDivineMessage",
+          "isViewableFoxMessage",
+          "isViewableGuruMessage",
+          "isViewableInvestigateMessage",
+          "isViewableLoversMessage",
+          "isViewableLoversSay",
+          "isViewablePsychicMessage",
+          "isViewableSympathizeSay",
+          "isViewableTelepathy",
+          "isViewableWerewolfSay",
+          "isViewableWiseMessage",
+          "isViewableWolfCharaName",
+          "isWolfCount",
+          "name",
+          "shortName"
+        ]
+      },
+      "SkillAllocation": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "initAllocation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reincarnationAllocation": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["initAllocation", "min", "reincarnationAllocation", "skill"]
+      },
+      "SkillHistories": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillHistory"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "SkillHistory": {
+        "type": "object",
+        "properties": {
+          "skill": {
+            "required": ["code", "name", "shortName"]
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["day", "skill"]
+      },
+      "SkillSayRestriction": {
+        "type": "object",
+        "properties": {
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["count", "length", "messageType"]
+      },
+      "VillageCharaSetting": {
+        "type": "object",
+        "properties": {
+          "isOriginalCharachip": {
+            "type": "boolean"
+          },
+          "dummyCharaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dummyDay1Message": {
+            "type": ["string", "null"]
+          },
+          "charachipIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        },
+        "required": ["charachipIds", "dummyCharaId", "isOriginalCharachip"]
+      },
+      "VillageOrganize": {
+        "type": "object",
+        "properties": {
+          "fixedOrganization": {
+            "type": "string"
+          },
+          "randomOrganization": {
+            "$ref": "#/components/schemas/VillageRandomOrganize"
+          }
+        },
+        "required": ["fixedOrganization", "randomOrganization"]
+      },
+      "VillageRandomOrganize": {
+        "type": "object",
+        "properties": {
+          "skillAllocation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillAllocation"
+            }
+          },
+          "campAllocation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampAllocation"
+            }
+          },
+          "wolfAllocation": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/WolfAllocation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["campAllocation", "skillAllocation"]
+      },
+      "VillageRule": {
+        "type": "object",
+        "properties": {
+          "isOpenVote": {
+            "type": "boolean"
+          },
+          "isPossibleSkillRequest": {
+            "type": "boolean"
+          },
+          "isAvailableSpectate": {
+            "type": "boolean"
+          },
+          "isCreatorIsProducer": {
+            "type": "boolean"
+          },
+          "isAvailableSameWolfAttack": {
+            "type": "boolean"
+          },
+          "isOpenSkillInGrave": {
+            "type": "boolean"
+          },
+          "isVisibleGraveSpectateMessage": {
+            "type": "boolean"
+          },
+          "isAvailableSuddenlyDeath": {
+            "type": "boolean"
+          },
+          "isAvailableCommit": {
+            "type": "boolean"
+          },
+          "isAvailableGuardSameTarget": {
+            "type": "boolean"
+          },
+          "isAvailableAction": {
+            "type": "boolean"
+          },
+          "isRandomOrganization": {
+            "type": "boolean"
+          },
+          "isReincarnationSkillAll": {
+            "type": "boolean"
+          },
+          "secretSayRange": {
+            "$ref": "#/components/schemas/SecretSayRange"
+          }
+        },
+        "required": [
+          "isAvailableAction",
+          "isAvailableCommit",
+          "isAvailableGuardSameTarget",
+          "isAvailableSameWolfAttack",
+          "isAvailableSpectate",
+          "isAvailableSuddenlyDeath",
+          "isCreatorIsProducer",
+          "isOpenSkillInGrave",
+          "isOpenVote",
+          "isPossibleSkillRequest",
+          "isRandomOrganization",
+          "isReincarnationSkillAll",
+          "isVisibleGraveSpectateMessage",
+          "secretSayRange"
+        ]
+      },
+      "VillageSettingView": {
+        "type": "object",
+        "properties": {
+          "chara": {
+            "$ref": "#/components/schemas/VillageCharaSetting"
+          },
+          "personMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "startDatetime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "dayChangeIntervalSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rule": {
+            "$ref": "#/components/schemas/VillageRule"
+          },
+          "organize": {
+            "$ref": "#/components/schemas/VillageOrganize"
+          },
+          "sayRestriction": {
+            "$ref": "#/components/schemas/SayRestriction"
+          },
+          "tags": {
+            "$ref": "#/components/schemas/VillageTags"
+          }
+        },
+        "required": [
+          "chara",
+          "dayChangeIntervalSeconds",
+          "organize",
+          "personMax",
+          "personMin",
+          "rule",
+          "sayRestriction",
+          "startDatetime",
+          "tags"
+        ]
+      },
+      "VillageTags": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageTag"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "WolfAllocation": {
+        "type": "object",
+        "properties": {
+          "min": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["min"]
       },
       "SimpleSkillView": {
         "type": "object",

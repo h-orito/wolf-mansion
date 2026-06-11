@@ -33,6 +33,16 @@ export const NOT_FINISHED_STATUSES = [
 export const FINISHED_STATUSES = [VillageStatusCode.completed, VillageStatusCode.canceled];
 
 /**
+ * 進行が終わった (エピローグ/終了/廃村) 村の status code。設定流用の候補で使う
+ * (正本は backend `VillageStatus.notProgressStatusLsit`)。
+ */
+export const NOT_PROGRESS_STATUSES = [
+  VillageStatusCode.epilogue,
+  VillageStatusCode.completed,
+  VillageStatusCode.canceled,
+];
+
+/**
  * 村一覧の絞り込み条件。すべて省略可 (省略時はその軸で絞らない)。
  * - `statuses`: village_status の code 配列 (トップ = 未終了)。
  * - `charachips`: キャラセット (CharaGroup) の id 配列。
@@ -62,6 +72,14 @@ export function fetchVillages(filter: VillageFilter = {}): Promise<VillageListRe
   if (filter.order != null) params.append("order", filter.order);
   const query = params.toString();
   return apiFetch<VillageListResponse>(`/api/v1/villages${query ? `?${query}` : ""}`);
+}
+
+/** 村設定 (`GET /api/v1/villages/{id}/setting`)。入村パスワードのみマスクした生データ。 */
+export type VillageSettingView = components["schemas"]["VillageSettingView"];
+
+/** 村設定を取得する (公開。設定流用などで使う)。 */
+export function fetchVillageSetting(id: number): Promise<VillageSettingView> {
+  return apiFetch<VillageSettingView>(`/api/v1/villages/${id}/setting`);
 }
 
 /** 村作成リクエスト (`POST /api/v1/villages` の JSON part)。 */

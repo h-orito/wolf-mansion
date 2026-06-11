@@ -131,6 +131,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/setting": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["setting"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/skills": {
     parameters: {
       query?: never;
@@ -259,18 +275,6 @@ export interface components {
       keyword: string;
       contents: components["schemas"]["RandomContent"][];
     };
-    CampAllocation: {
-      campCode: string | null;
-      /** Format: int32 */
-      minNum: number | null;
-      /** Format: int32 */
-      maxNum?: number | null;
-      /** Format: int32 */
-      allocation: number | null;
-      /** Format: int32 */
-      reincarnationAllocation: number | null;
-      skillAllocation: components["schemas"]["SkillAllocation"][] | null;
-    };
     MessageTypeSayRestrict: {
       messageTypeCode: string | null;
       restrict: boolean | null;
@@ -278,17 +282,6 @@ export interface components {
       length?: number | null;
       /** Format: int32 */
       count?: number | null;
-    };
-    SkillAllocation: {
-      skillCode: string | null;
-      /** Format: int32 */
-      minNum: number | null;
-      /** Format: int32 */
-      maxNum?: number | null;
-      /** Format: int32 */
-      allocation: number | null;
-      /** Format: int32 */
-      reincarnationAllocation: number | null;
     };
     SkillSayRestrict: {
       skillCode: string | null;
@@ -344,15 +337,38 @@ export interface components {
       availableAction: boolean | null;
       randomOrganization: boolean | null;
       organization?: string | null;
-      campAllocationList?: components["schemas"]["CampAllocation"][] | null;
-      wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+      campAllocationList?: components["schemas"]["VillageCreateRequestCampAllocation"][] | null;
+      wolfAllocation?: components["schemas"]["VillageCreateRequestWolfAllocation"] | null;
       allowedSecretSayCode: string | null;
       sayRestrictList: components["schemas"]["SkillSayRestrict"][] | null;
       skillSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
       rpSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
       ageLimit?: string | null;
     };
-    WolfAllocation: {
+    VillageCreateRequestCampAllocation: {
+      campCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+      skillAllocation: components["schemas"]["VillageCreateRequestSkillAllocation"][] | null;
+    };
+    VillageCreateRequestSkillAllocation: {
+      skillCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+    };
+    VillageCreateRequestWolfAllocation: {
       /** Format: int32 */
       minNum: number | null;
       /** Format: int32 */
@@ -421,6 +437,173 @@ export interface components {
     VillageTag: {
       code: string;
       name: string;
+    };
+    AbilityType: {
+      code: string;
+      name: string;
+      setMessageType: components["schemas"]["MessageType"];
+    };
+    Camp: {
+      code: string;
+      name: string;
+      isFoxs: boolean;
+      isLovers: boolean;
+      isVillagers: boolean;
+      isWolfs: boolean;
+      isCriminals: boolean;
+    };
+    CampAllocation: {
+      camp: components["schemas"]["Camp"];
+      /** Format: int32 */
+      min: number;
+      /** Format: int32 */
+      max?: number | null;
+      /** Format: int32 */
+      initAllocation: number;
+      /** Format: int32 */
+      reincarnationAllocation: number;
+    };
+    MessageType: {
+      code: string;
+      name: string;
+      isOwlViewableType: boolean;
+      isSayType: boolean;
+    };
+    NormalSayRestriction: {
+      skill: components["schemas"]["Skill"];
+      messageType: components["schemas"]["MessageType"];
+      /** Format: int32 */
+      count: number;
+      /** Format: int32 */
+      length: number;
+    };
+    SayRestriction: {
+      normalSayRestriction: components["schemas"]["NormalSayRestriction"][];
+      skillSayRestriction: components["schemas"]["SkillSayRestriction"][];
+    };
+    SecretSayRange: {
+      code: string;
+      name: string;
+    };
+    Skill: {
+      code: string;
+      name: string;
+      shortName: string;
+      histories: components["schemas"]["SkillHistories"];
+      isRequestable: boolean;
+      isWolfCount: boolean;
+      ability?: components["schemas"]["AbilityType"];
+      isNoSound: boolean;
+      isNoDeadByAttack: boolean;
+      isShogiWolf: boolean;
+      isViewableWolfCharaName: boolean;
+      isSayableWerewolfSay: boolean;
+      isFoxCount: boolean;
+      isViewableSympathizeSay: boolean;
+      isDivineResultWolf: boolean;
+      isDeadByDivine: boolean;
+      isCounterDeadByInvestigate: boolean;
+      isOpenSkill: boolean;
+      isViewableTelepathy: boolean;
+      isSayableTelepathy: boolean;
+      isViewableWerewolfSay: boolean;
+      isViewableAttackMessage: boolean;
+      isViewableCoronerMessage: boolean;
+      isViewableLoversSay: boolean;
+      isSayableSympathizeSay: boolean;
+      isViewableFoxMessage: boolean;
+      isViewableGuruMessage: boolean;
+      isViewableInvestigateMessage: boolean;
+      isViewableLoversMessage: boolean;
+      isViewableDivineMessage: boolean;
+      isViewablePsychicMessage: boolean;
+      isViewableWiseMessage: boolean;
+      isNoCount: boolean;
+      isPsychicResultWolf: boolean;
+      isRevivable: boolean;
+      isCounterDeadByDivine: boolean;
+    };
+    SkillAllocation: {
+      skill: components["schemas"]["Skill"];
+      /** Format: int32 */
+      min: number;
+      /** Format: int32 */
+      max?: number | null;
+      /** Format: int32 */
+      initAllocation: number;
+      /** Format: int32 */
+      reincarnationAllocation: number;
+    };
+    SkillHistories: {
+      list: components["schemas"]["SkillHistory"][];
+    };
+    SkillHistory: {
+      skill: unknown;
+      /** Format: int32 */
+      day: number;
+    };
+    SkillSayRestriction: {
+      messageType: components["schemas"]["MessageType"];
+      /** Format: int32 */
+      count: number;
+      /** Format: int32 */
+      length: number;
+    };
+    VillageCharaSetting: {
+      isOriginalCharachip: boolean;
+      /** Format: int32 */
+      dummyCharaId: number;
+      dummyDay1Message?: string | null;
+      charachipIds: number[];
+    };
+    VillageOrganize: {
+      fixedOrganization: string;
+      randomOrganization: components["schemas"]["VillageRandomOrganize"];
+    };
+    VillageRandomOrganize: {
+      skillAllocation: components["schemas"]["SkillAllocation"][];
+      campAllocation: components["schemas"]["CampAllocation"][];
+      wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+    };
+    VillageRule: {
+      isOpenVote: boolean;
+      isPossibleSkillRequest: boolean;
+      isAvailableSpectate: boolean;
+      isCreatorIsProducer: boolean;
+      isAvailableSameWolfAttack: boolean;
+      isOpenSkillInGrave: boolean;
+      isVisibleGraveSpectateMessage: boolean;
+      isAvailableSuddenlyDeath: boolean;
+      isAvailableCommit: boolean;
+      isAvailableGuardSameTarget: boolean;
+      isAvailableAction: boolean;
+      isRandomOrganization: boolean;
+      isReincarnationSkillAll: boolean;
+      secretSayRange: components["schemas"]["SecretSayRange"];
+    };
+    VillageSettingView: {
+      chara: components["schemas"]["VillageCharaSetting"];
+      /** Format: int32 */
+      personMin: number;
+      /** Format: int32 */
+      personMax: number;
+      /** Format: date-time */
+      startDatetime: string;
+      /** Format: int32 */
+      dayChangeIntervalSeconds: number;
+      rule: components["schemas"]["VillageRule"];
+      organize: components["schemas"]["VillageOrganize"];
+      sayRestriction: components["schemas"]["SayRestriction"];
+      tags: components["schemas"]["VillageTags"];
+    };
+    VillageTags: {
+      list: components["schemas"]["VillageTag"][];
+    };
+    WolfAllocation: {
+      /** Format: int32 */
+      min: number;
+      /** Format: int32 */
+      max?: number | null;
     };
     SimpleSkillView: {
       code: string;
@@ -812,6 +995,28 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["MeResponse"];
+        };
+      };
+    };
+  };
+  setting: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSettingView"];
         };
       };
     };

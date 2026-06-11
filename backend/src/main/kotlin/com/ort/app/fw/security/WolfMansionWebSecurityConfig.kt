@@ -47,6 +47,7 @@ class WolfMansionWebSecurityConfig {
                     .requestMatchers(
                         org.springframework.http.HttpMethod.GET,
                         "/api/v1/villages",
+                        "/api/v1/villages/{id}/setting",
                         "/api/v1/charachips",
                         "/api/v1/charachips/{id}",
                         "/api/v1/rooms",

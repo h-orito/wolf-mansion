@@ -18,10 +18,13 @@ const ORIGINAL_IMAGE_SIZE_MESSAGE = "ダミーキャラ画像は100kByte以内�
 
 /** キャラチップ設定 (キャラチップ利用 / キャラセット / ダミーキャラと発言)。 */
 export function CharachipSection({
+  charaSyncKey,
   originalImageFile,
   originalImageUrl,
   onSelectOriginalImage,
 }: {
+  /** 増えるたびにダミーキャラ由来の項目を選択中キャラへ同期し直す (流用での reset 後など)。 */
+  charaSyncKey: number;
   originalImageFile: File | null;
   originalImageUrl: string | null;
   onSelectOriginalImage: (file: File | null) => void;
@@ -77,17 +80,18 @@ export function CharachipSection({
   };
 
   // キャラ候補が確定/変更されたら選択中ダミーキャラを補正して反映する
-  // (候補に残っていればそのまま、いなければ先頭キャラ)
+  // (候補に残っていればそのまま、いなければ先頭キャラ)。
+  // 読み込み途中の部分的な候補で先頭キャラに誤補正しないよう、全キャラセットの取得完了を待つ
   const charasKey = charas.map((c) => c.id).join(",");
   useEffect(() => {
-    if (charas.length === 0) return;
+    if (isLoading || charas.length === 0) return;
     const manualChanged = manualChangeRef.current;
     manualChangeRef.current = false;
     const currentId = getValues("dummyCharaId");
     const chara = charas.find((c) => c.id === currentId) ?? charas[0];
     applyDummyChara(chara, manualChanged);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [charasKey]);
+  }, [charasKey, charaSyncKey]);
 
   const selectedChara = charas.find((c) => c.id === dummyCharaId);
   const characterSetError = getFieldState("characterSetId", formState).error;

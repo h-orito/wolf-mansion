@@ -8,6 +8,7 @@ import com.ort.app.api.request.setting.RandomOrganizationWolfForm
 import com.ort.app.api.request.setting.SkillSayRestrictForm
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.dbflute.allcommon.CDef
+import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
@@ -131,6 +132,9 @@ data class VillageCreateRequest(
     @field:Pattern(regexp = "R15|R18")
     val ageLimit: String? = null,
 ) {
+    // ドメインの VillageRandomOrganize.CampAllocation 等と単純名が衝突すると
+    // SpringDoc が片方のスキーマ定義で上書きしてしまうため、spec 上の名前を明示する
+    @Schema(name = "VillageCreateRequestCampAllocation")
     data class CampAllocation(
         @field:NotNull
         val campCode: String? = null,
@@ -154,6 +158,7 @@ data class VillageCreateRequest(
         val skillAllocation: List<SkillAllocation>? = null,
     )
 
+    @Schema(name = "VillageCreateRequestSkillAllocation")
     data class SkillAllocation(
         @field:NotNull
         val skillCode: String? = null,
@@ -174,6 +179,7 @@ data class VillageCreateRequest(
         val reincarnationAllocation: Int? = null,
     )
 
+    @Schema(name = "VillageCreateRequestWolfAllocation")
     data class WolfAllocation(
         @field:NotNull
         @field:Min(1)
