@@ -64,6 +64,25 @@ export function fetchVillages(filter: VillageFilter = {}): Promise<VillageListRe
   return apiFetch<VillageListResponse>(`/api/v1/villages${query ? `?${query}` : ""}`);
 }
 
+/** 村作成リクエスト (`POST /api/v1/villages` の JSON part)。 */
+export type VillageCreateRequest = components["schemas"]["VillageCreateRequest"];
+/** 村 (ドメインモデル)。作成 API のレスポンス。 */
+export type Village = components["schemas"]["Village"];
+
+/**
+ * 村を作成する (要認証)。multipart/form-data で JSON part (`request`) +
+ * オリジナルダミーキャラ画像 (`dummyCharaImage`、任意) を送る。
+ */
+export function createVillage(
+  request: VillageCreateRequest,
+  dummyCharaImage: File | null,
+): Promise<Village> {
+  const formData = new FormData();
+  formData.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
+  if (dummyCharaImage) formData.append("dummyCharaImage", dummyCharaImage);
+  return apiFetch<Village>("/api/v1/villages", { method: "POST", body: formData });
+}
+
 /** キャラセット一覧を取得する (公開・村一覧の絞り込み候補などで使う)。 */
 export function fetchCharachips(): Promise<SimpleCharachipView[]> {
   return apiFetch<components["schemas"]["CharachipListResponse"]>("/api/v1/charachips").then(

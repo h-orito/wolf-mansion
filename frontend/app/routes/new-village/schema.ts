@@ -31,6 +31,7 @@ const PERSON_MAX_CORRELATION_MESSAGE = "定員は最少開始人数以上で設�
 const INTERVAL_MESSAGE = "更新間隔は1分以上72時間以内で設定してください";
 const START_DATETIME_MESSAGE = "開始日時は現在から14日以内の存在する日付にしてください";
 const JOIN_PASSWORD_MESSAGE = `入村パスワードは${JOIN_PASSWORD_MIN_LENGTH}文字以上${JOIN_PASSWORD_MAX_LENGTH}文字以内にしてください`;
+const JOIN_PASSWORD_ORIGINAL_MESSAGE = "オリジナル画像を使用する場合、パスワードは必須です";
 const ALLOCATION_MESSAGE = "0~100で入力してください";
 const WOLF_ALLOCATION_MESSAGE = "1~100で入力してください";
 const SAY_RESTRICT_MESSAGE = "発言制限は0~400 * 0~100 で設定してください";
@@ -157,12 +158,13 @@ export const newVillageSchema = z
       .max(1, DUMMY_CHARA_SHORT_NAME_MESSAGE),
     dummyJoinMessage: z
       .string()
-      .min(1, DUMMY_MESSAGE_MESSAGE)
       .max(400, DUMMY_MESSAGE_MESSAGE)
+      .refine((v) => v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
       .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
     dummyDay1Message: z
       .string()
       .max(400, DUMMY_MESSAGE_MESSAGE)
+      .refine((v) => v === "" || v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
       .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
     openVote: z.boolean(),
     possibleSkillRequest: z.boolean(),
@@ -204,6 +206,14 @@ export const newVillageSchema = z
         code: "custom",
         path: ["characterSetId"],
         message: CHARACTER_SET_MESSAGE,
+      });
+    }
+
+    if (values.shouldOriginalImage && values.joinPassword === "") {
+      ctx.addIssue({
+        code: "custom",
+        path: ["joinPassword"],
+        message: JOIN_PASSWORD_ORIGINAL_MESSAGE,
       });
     }
 

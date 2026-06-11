@@ -19,7 +19,7 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/random-keywords": {
+  "/api/v1/villages": {
     parameters: {
       query?: never;
       header?: never;
@@ -27,6 +27,22 @@ export interface paths {
       cookie?: never;
     };
     get: operations["list"];
+    put?: never;
+    post: operations["create"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/random-keywords": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["list_1"];
     put?: never;
     post: operations["register"];
     delete?: never;
@@ -109,22 +125,6 @@ export interface paths {
     get?: never;
     put?: never;
     post: operations["login"];
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
-  "/api/v1/villages": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["list_1"];
-    put?: never;
-    post?: never;
     delete?: never;
     options?: never;
     head?: never;
@@ -259,6 +259,466 @@ export interface components {
       keyword: string;
       contents: components["schemas"]["RandomContent"][];
     };
+    CampAllocation: {
+      campCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+      skillAllocation: components["schemas"]["SkillAllocation"][] | null;
+    };
+    MessageTypeSayRestrict: {
+      messageTypeCode: string | null;
+      restrict: boolean | null;
+      /** Format: int32 */
+      length?: number | null;
+      /** Format: int32 */
+      count?: number | null;
+    };
+    SkillAllocation: {
+      skillCode: string | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+    };
+    SkillSayRestrict: {
+      skillCode: string | null;
+      restrict: boolean | null;
+      /** Format: int32 */
+      length?: number | null;
+      /** Format: int32 */
+      count?: number | null;
+    };
+    VillageCreateRequest: {
+      villageName: string | null;
+      welcomeRange?: string | null;
+      /** Format: int32 */
+      startPersonMinNum: number | null;
+      /** Format: int32 */
+      personMaxNum: number | null;
+      /** Format: int32 */
+      dayChangeIntervalHours: number | null;
+      /** Format: int32 */
+      dayChangeIntervalMinutes: number | null;
+      /** Format: int32 */
+      dayChangeIntervalSeconds: number | null;
+      /** Format: int32 */
+      startYear: number | null;
+      /** Format: int32 */
+      startMonth: number | null;
+      /** Format: int32 */
+      startDay: number | null;
+      /** Format: int32 */
+      startHour: number | null;
+      /** Format: int32 */
+      startMinute: number | null;
+      shouldOriginalImage: boolean | null;
+      characterSetId: number[] | null;
+      /** Format: int32 */
+      dummyCharaId?: number | null;
+      dummyCharaName: string | null;
+      dummyCharaShortName: string | null;
+      dummyJoinMessage: string | null;
+      dummyDay1Message?: string | null;
+      joinPassword?: string | null;
+      openVote: boolean | null;
+      possibleSkillRequest: boolean | null;
+      availableSameWolfAttack: boolean | null;
+      availableGuardSameTarget: boolean | null;
+      reincarnationSkillAll: boolean | null;
+      availableSuddonlyDeath: boolean | null;
+      availableCommit: boolean | null;
+      availableSpectate: boolean | null;
+      creatorIsProducer: boolean | null;
+      openSkillInGrave: boolean | null;
+      visibleGraveSpectateMessage: boolean | null;
+      availableAction: boolean | null;
+      randomOrganization: boolean | null;
+      organization?: string | null;
+      campAllocationList?: components["schemas"]["CampAllocation"][] | null;
+      wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+      allowedSecretSayCode: string | null;
+      sayRestrictList: components["schemas"]["SkillSayRestrict"][] | null;
+      skillSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
+      rpSayRestrictList: components["schemas"]["MessageTypeSayRestrict"][] | null;
+      ageLimit?: string | null;
+    };
+    WolfAllocation: {
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+    };
+    AbilityType: {
+      code: string;
+      name: string;
+      setMessageType: components["schemas"]["MessageType"];
+    };
+    Camp: {
+      code: string;
+      name: string;
+      isFoxs: boolean;
+      isLovers: boolean;
+      isVillagers: boolean;
+      isWolfs: boolean;
+      isCriminals: boolean;
+    };
+    Dead: {
+      isDead: boolean;
+      /** Format: int32 */
+      deadDay?: number | null;
+      reason?: components["schemas"]["DeadReason"] | null;
+      histories: components["schemas"]["DeadHistories"];
+      isAttacked: boolean;
+      isSuddenlyDead: boolean;
+      isExecuted: boolean;
+      isPsychicable: boolean;
+      isMiserableDead: boolean;
+      isSuicideDead: boolean;
+    };
+    DeadHistories: {
+      list: components["schemas"]["DeadHistory"][];
+    };
+    DeadHistory: {
+      /** Format: int32 */
+      day: number;
+      isDead: boolean;
+      reason?: components["schemas"]["DeadReason"] | null;
+    };
+    DeadReason: {
+      code: string;
+      name: string;
+      isSuddenly: boolean;
+      isAttacked: boolean;
+      isExecuted: boolean;
+      isMiserable: boolean;
+      isPsychicable: boolean;
+      isSuicide: boolean;
+    };
+    MessageCondition: {
+      secretSay: boolean;
+      abilitySay: boolean;
+      anchor: boolean;
+      keywords: string[];
+    };
+    MessageType: {
+      code: string;
+      name: string;
+      isOwlViewableType: boolean;
+      isSayType: boolean;
+    };
+    NormalSayRestriction: {
+      skill: components["schemas"]["Skill"];
+      messageType: components["schemas"]["MessageType"];
+      /** Format: int32 */
+      count: number;
+      /** Format: int32 */
+      length: number;
+    };
+    RequestSkill: {
+      first: components["schemas"]["Skill"];
+      second: components["schemas"]["Skill"];
+    };
+    Room: {
+      /** Format: int32 */
+      number: number;
+      histories: components["schemas"]["RoomHistories"];
+    };
+    RoomHistories: {
+      list: components["schemas"]["RoomHistory"][];
+    };
+    RoomHistory: {
+      /** Format: int32 */
+      day: number;
+      /** Format: int32 */
+      number: number;
+    };
+    RoomSize: {
+      /** Format: int32 */
+      width: number;
+      /** Format: int32 */
+      height: number;
+    };
+    SayRestriction: {
+      normalSayRestriction: components["schemas"]["NormalSayRestriction"][];
+      skillSayRestriction: components["schemas"]["SkillSayRestriction"][];
+    };
+    SecretSayRange: {
+      code: string;
+      name: string;
+    };
+    Skill: {
+      code: string;
+      name: string;
+      shortName: string;
+      histories: components["schemas"]["SkillHistories"];
+      isRequestable: boolean;
+      isWolfCount: boolean;
+      ability?: components["schemas"]["AbilityType"];
+      isNoSound: boolean;
+      isNoDeadByAttack: boolean;
+      isShogiWolf: boolean;
+      isViewableWolfCharaName: boolean;
+      isSayableWerewolfSay: boolean;
+      isFoxCount: boolean;
+      isViewableSympathizeSay: boolean;
+      isDivineResultWolf: boolean;
+      isDeadByDivine: boolean;
+      isCounterDeadByInvestigate: boolean;
+      isOpenSkill: boolean;
+      isViewableCoronerMessage: boolean;
+      isViewableDivineMessage: boolean;
+      isViewableFoxMessage: boolean;
+      isViewableLoversSay: boolean;
+      isSayableSympathizeSay: boolean;
+      isViewableTelepathy: boolean;
+      isSayableTelepathy: boolean;
+      isViewableWerewolfSay: boolean;
+      isViewableAttackMessage: boolean;
+      isViewableGuruMessage: boolean;
+      isViewableInvestigateMessage: boolean;
+      isViewableLoversMessage: boolean;
+      isViewablePsychicMessage: boolean;
+      isViewableWiseMessage: boolean;
+      isNoCount: boolean;
+      isPsychicResultWolf: boolean;
+      isRevivable: boolean;
+      isCounterDeadByDivine: boolean;
+    };
+    SkillHistories: {
+      list: components["schemas"]["SkillHistory"][];
+    };
+    SkillHistory: {
+      skill: unknown;
+      /** Format: int32 */
+      day: number;
+    };
+    SkillSayRestriction: {
+      messageType: components["schemas"]["MessageType"];
+      /** Format: int32 */
+      count: number;
+      /** Format: int32 */
+      length: number;
+    };
+    Village: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+      createPlayerName: string;
+      /** Format: date-time */
+      createDatetime: string;
+      status: components["schemas"]["VillageStatus"];
+      roomSize?: components["schemas"]["RoomSize"] | null;
+      participants: components["schemas"]["VillageParticipants"];
+      spectators: components["schemas"]["VillageParticipants"];
+      days: components["schemas"]["VillageDays"];
+      setting: components["schemas"]["VillageSetting"];
+      /** Format: int32 */
+      epilogueDay?: number | null;
+      winCamp?: components["schemas"]["Camp"] | null;
+      isSettled: boolean;
+      isViewableSpoilerContent: boolean;
+      isSayableCreatorSay: boolean;
+      isSayableWerewolfSay: boolean;
+      epilogueTransitionMessage: string;
+      day2Message: string;
+      aliveParticipantsMessage: string;
+      isSayableActionSay: boolean;
+      isViewableCoronerMessage: boolean;
+      isViewableDivineMessage: boolean;
+      isViewableFoxMessage: boolean;
+      isSayableMonologueSay: boolean;
+      isSayableNormalSay: boolean;
+      isSayableGraveSay: boolean;
+      isSayableLoversSay: boolean;
+      isSayableSecretSay: boolean;
+      isSayableSpectateSay: boolean;
+      isSayableSympathizeSay: boolean;
+      isSayableTelepathy: boolean;
+      isViewableAttackMessage: boolean;
+      isViewableGuruMessage: boolean;
+      isViewableInvestigateMessage: boolean;
+      isViewableLoversMessage: boolean;
+      isViewablePrivateAbilityMessage: boolean;
+      isViewablePrivateSystemMessage: boolean;
+      isViewablePsychicMessage: boolean;
+      isViewableWiseMessage: boolean;
+    };
+    VillageCharaSetting: {
+      isOriginalCharachip: boolean;
+      /** Format: int32 */
+      dummyCharaId: number;
+      dummyDay1Message?: string | null;
+      charachipIds: number[];
+    };
+    VillageCondition: {
+      start: boolean;
+      dayChange: boolean;
+      epilogue: boolean;
+    };
+    VillageDay: {
+      /** Format: int32 */
+      day: number;
+      /** Format: date-time */
+      dayChangeDatetime: string;
+    };
+    VillageDays: {
+      list: components["schemas"]["VillageDay"][];
+    };
+    VillageOrganize: {
+      fixedOrganization: string;
+      randomOrganization: components["schemas"]["VillageRandomOrganize"];
+    };
+    VillageParticipant: {
+      /** Format: int32 */
+      id: number;
+      charaName: components["schemas"]["VillageParticipantName"];
+      /** Format: int32 */
+      playerId: number;
+      /** Format: int32 */
+      charaId: number;
+      skill?: components["schemas"]["Skill"] | null;
+      requestSkill?: components["schemas"]["RequestSkill"] | null;
+      room?: components["schemas"]["Room"] | null;
+      status: components["schemas"]["VillageParticipantStatus"];
+      dead: components["schemas"]["Dead"];
+      isSpectator: boolean;
+      isGone: boolean;
+      isWin?: boolean | null;
+      camp?: components["schemas"]["Camp"] | null;
+      /** Format: date-time */
+      lastAccessDatetime: string;
+      memo?: string | null;
+      ipAddresses: string[];
+      notification?: components["schemas"]["VillageParticipantNotificationCondition"] | null;
+      isAdmin: boolean;
+      isAvailableRequestSkill: boolean;
+      isDead: boolean;
+      isSayableWerewolfSay: boolean;
+      isViewableSympathizeSay: boolean;
+      isDeadByDivine: boolean;
+      isCounterKillByDivine: boolean;
+      isViewableCoronerMessage: boolean;
+      isViewableDivineMessage: boolean;
+      isViewableFoxMessage: boolean;
+      isSayableMonologueSay: boolean;
+      isViewableGraveSay: boolean;
+      isSayableGraveSay: boolean;
+      isViewableLoversSay: boolean;
+      isSayableLoversSay: boolean;
+      isViewableMonologueSay: boolean;
+      isViewableSecretSay: boolean;
+      isSayableSecretSay: boolean;
+      isViewableSpectateSay: boolean;
+      isSayableSpectateSay: boolean;
+      isSayableSympathizeSay: boolean;
+      isViewableTelepathy: boolean;
+      isSayableTelepathy: boolean;
+      isViewableWerewolfSay: boolean;
+      isViewableAttackMessage: boolean;
+      isViewableGuruMessage: boolean;
+      isViewableInvestigateMessage: boolean;
+      isViewableLoversMessage: boolean;
+      isViewablePrivateAbilityMessage: boolean;
+      isViewablePrivateSystemMessage: boolean;
+      isViewablePsychicMessage: boolean;
+      isViewableWiseMessage: boolean;
+      isAlive: boolean;
+    };
+    VillageParticipantName: {
+      name: string;
+      shortName: string;
+    };
+    VillageParticipantNotificationCondition: {
+      discordWebhookUrl: string;
+      village: components["schemas"]["VillageCondition"];
+      message: components["schemas"]["MessageCondition"];
+    };
+    VillageParticipantStatus: {
+      loverIdList: number[];
+      foxPossessionedIdList: number[];
+      insanedIdList: number[];
+      persuadedIdList: number[];
+      insuranceIdList: number[];
+      disrespectfulList: number[];
+      hasCurseMark: boolean;
+      hasCounterCurseMark: boolean;
+      hasTelekinesis: boolean;
+      isFoxPossessioned: boolean;
+      isDisrespectful: boolean;
+      isInsaned: boolean;
+      isPersuaded: boolean;
+    };
+    VillageParticipants: {
+      /** Format: int32 */
+      count: number;
+      list: components["schemas"]["VillageParticipant"][];
+    };
+    VillageRandomOrganize: {
+      skillAllocation: components["schemas"]["SkillAllocation"][];
+      campAllocation: components["schemas"]["CampAllocation"][];
+      wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+    };
+    VillageRule: {
+      isOpenVote: boolean;
+      isPossibleSkillRequest: boolean;
+      isAvailableSpectate: boolean;
+      isCreatorIsProducer: boolean;
+      isAvailableSameWolfAttack: boolean;
+      isOpenSkillInGrave: boolean;
+      isVisibleGraveSpectateMessage: boolean;
+      isAvailableSuddenlyDeath: boolean;
+      isAvailableCommit: boolean;
+      isAvailableGuardSameTarget: boolean;
+      isAvailableAction: boolean;
+      isRandomOrganization: boolean;
+      isReincarnationSkillAll: boolean;
+      secretSayRange: components["schemas"]["SecretSayRange"];
+    };
+    VillageSetting: {
+      chara: components["schemas"]["VillageCharaSetting"];
+      /** Format: int32 */
+      personMin: number;
+      /** Format: int32 */
+      personMax: number;
+      /** Format: date-time */
+      startDatetime: string;
+      /** Format: int32 */
+      dayChangeIntervalSeconds: number;
+      rule: components["schemas"]["VillageRule"];
+      joinPassword?: string | null;
+      organize: components["schemas"]["VillageOrganize"];
+      sayRestriction: components["schemas"]["SayRestriction"];
+      tags: components["schemas"]["VillageTags"];
+    };
+    VillageStatus: {
+      code: string;
+      name: string;
+      isPrologue: boolean;
+      isCanceled: boolean;
+      isSettled: boolean;
+      isProgress: boolean;
+      isEpilogue: boolean;
+      isNotFinished: boolean;
+      isSettleOrCanceled: boolean;
+      isFinished: boolean;
+    };
+    VillageTag: {
+      code: string;
+      name: string;
+    };
+    VillageTags: {
+      list: components["schemas"]["VillageTag"][];
+    };
     RandomKeywordRegisterRequest: {
       keyword: string | null;
       messages: string[] | null;
@@ -302,22 +762,6 @@ export interface components {
     };
     VillageListResponse: {
       villages: components["schemas"]["SimpleVillageView"][];
-    };
-    VillageStatus: {
-      code: string;
-      name: string;
-      isPrologue: boolean;
-      isCanceled: boolean;
-      isSettled: boolean;
-      isProgress: boolean;
-      isEpilogue: boolean;
-      isNotFinished: boolean;
-      isSettleOrCanceled: boolean;
-      isFinished: boolean;
-    };
-    VillageTag: {
-      code: string;
-      name: string;
     };
     SimpleSkillView: {
       code: string;
@@ -502,6 +946,60 @@ export interface operations {
   list: {
     parameters: {
       query?: {
+        status?: string[];
+        charachip?: number[];
+        skill?: string[];
+        random?: boolean;
+        order?: string;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageListResponse"];
+        };
+      };
+    };
+  };
+  create: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          request: components["schemas"]["VillageCreateRequest"];
+          /** Format: binary */
+          dummyCharaImage?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["Village"];
+        };
+      };
+    };
+  };
+  list_1: {
+    parameters: {
+      query?: {
         q?: string;
       };
       header?: never;
@@ -655,32 +1153,6 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["MeResponse"];
-        };
-      };
-    };
-  };
-  list_1: {
-    parameters: {
-      query?: {
-        status?: string[];
-        charachip?: number[];
-        skill?: string[];
-        random?: boolean;
-        order?: string;
-      };
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "*/*": components["schemas"]["VillageListResponse"];
         };
       };
     };

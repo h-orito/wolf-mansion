@@ -38,6 +38,17 @@ class RestApiExceptionHandler {
         return problem(HttpStatus.BAD_REQUEST, detail, "validation_error")
     }
 
+    @ExceptionHandler(WolfMansionValidationException::class)
+    fun handleFieldValidation(e: WolfMansionValidationException): ProblemDetail {
+        val detail =
+            e.fieldErrors
+                .joinToString("\n") { it.message }
+                .ifBlank { "入力内容が不正です" }
+        val problem = problem(HttpStatus.BAD_REQUEST, detail, "validation_error")
+        problem.setProperty("fieldErrors", e.fieldErrors)
+        return problem
+    }
+
     @ExceptionHandler(ResponseStatusException::class)
     fun handleResponseStatus(e: ResponseStatusException): ProblemDetail {
         val status = HttpStatus.valueOf(e.statusCode.value())

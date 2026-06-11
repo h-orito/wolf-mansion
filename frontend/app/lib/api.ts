@@ -44,12 +44,19 @@ export type ApiErrorCode =
   | "validation_error"
   | "internal_error";
 
+/** ProblemDetail の `fieldErrors` 要素 (検証エラーのフィールド単位の内訳)。 */
+export type ApiFieldError = {
+  field: string;
+  message: string;
+};
+
 /** backend が返す ProblemDetail を表すエラー。`code` で UI 分岐する。 */
 export class ApiError extends Error {
   constructor(
     readonly status: number,
     readonly code: string,
     readonly detail: string,
+    readonly fieldErrors: ApiFieldError[] = [],
   ) {
     super(detail || `HTTP ${status}`);
     this.name = "ApiError";
@@ -61,6 +68,7 @@ type ProblemDetail = {
   detail?: string;
   title?: string;
   error?: string;
+  fieldErrors?: ApiFieldError[];
 };
 
 async function toApiError(response: Response): Promise<ApiError> {
@@ -72,12 +80,15 @@ async function toApiError(response: Response): Promise<ApiError> {
   }
   const code = body.error ?? "internal_error";
   const detail = body.detail ?? body.title ?? `HTTP ${response.status}`;
-  return new ApiError(response.status, code, detail);
+  return new ApiError(response.status, code, detail, body.fieldErrors ?? []);
 }
 
 type ApiFetchOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE";
-  /** JSON シリアライズして body にする。GET では指定しない。 */
+  /**
+   * リクエスト body。FormData はそのまま送り (multipart、Content-Type はブラウザが boundary
+   * 込みで付ける)、それ以外は JSON シリアライズする。GET では指定しない。
+   */
   body?: unknown;
 };
 
@@ -87,11 +98,12 @@ type ApiFetchOptions = {
  */
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const { method = "GET", body } = options;
+  const isFormData = body instanceof FormData;
   const response = await fetch(`${API_BASE}${path}`, {
     method,
     credentials: "include",
-    headers: body === undefined ? undefined : { "Content-Type": "application/json" },
-    body: body === undefined ? undefined : JSON.stringify(body),
+    headers: body === undefined || isFormData ? undefined : { "Content-Type": "application/json" },
+    body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
   });
 
   if (!response.ok) {
