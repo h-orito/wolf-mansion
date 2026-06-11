@@ -86,30 +86,30 @@ test("発言制限のチェックで入力の有効/無効が切り替わる", a
   await signupAndGotoNewVillage(page);
 
   // 3 テーブル (役職別 / 発言種別 / RP) が表示される
-  await expect(page.getByLabel("村人 発言文字数")).toBeVisible();
-  await expect(page.getByLabel("人狼の囁き 発言文字数")).toBeVisible();
-  await expect(page.getByLabel("アクション 発言文字数")).toBeVisible();
+  await expect(page.getByLabel("村人 発言文字数", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("人狼の囁き 発言文字数", { exact: true })).toBeVisible();
+  await expect(page.getByLabel("アクション 発言文字数", { exact: true })).toBeVisible();
 
   // 既定はチェックなし + 入力無効 (400 * 20)
-  const lengthInput = page.getByLabel("村人 発言文字数");
-  const countInput = page.getByLabel("村人 発言回数");
+  const lengthInput = page.getByLabel("村人 発言文字数", { exact: true });
+  const countInput = page.getByLabel("村人 発言回数", { exact: true });
   await expect(lengthInput).toBeDisabled();
   await expect(lengthInput).toHaveValue("400");
   await expect(countInput).toHaveValue("20");
 
-  await page.getByLabel("村人 制限").check();
+  await page.getByLabel("村人 制限", { exact: true }).check();
   await expect(lengthInput).toBeEnabled();
   await expect(countInput).toBeEnabled();
 
-  await page.getByLabel("村人 制限").uncheck();
+  await page.getByLabel("村人 制限", { exact: true }).uncheck();
   await expect(lengthInput).toBeDisabled();
 });
 
 test("村人の設定を全てにコピーで役職別テーブルの全行に反映される", async ({ page }) => {
   await signupAndGotoNewVillage(page);
 
-  await page.getByLabel("村人 制限").check();
-  await page.getByLabel("村人 発言文字数").fill("200");
+  await page.getByLabel("村人 制限", { exact: true }).check();
+  await page.getByLabel("村人 発言文字数", { exact: true }).fill("200");
   await page.getByRole("button", { name: "村人の設定を全てにコピー" }).click();
 
   await expect(page.getByLabel("占い師 制限", { exact: true })).toBeChecked();
@@ -117,19 +117,19 @@ test("村人の設定を全てにコピーで役職別テーブルの全行に�
   await expect(page.getByLabel("占い師 発言文字数", { exact: true })).toHaveValue("200");
 
   // 発言種別 / RP のテーブルには波及しない
-  await expect(page.getByLabel("人狼の囁き 制限")).not.toBeChecked();
-  await expect(page.getByLabel("アクション 制限")).not.toBeChecked();
+  await expect(page.getByLabel("人狼の囁き 制限", { exact: true })).not.toBeChecked();
+  await expect(page.getByLabel("アクション 制限", { exact: true })).not.toBeChecked();
 });
 
 test("発言制限の範囲外入力でエラーが表示される", async ({ page }) => {
   await signupAndGotoNewVillage(page);
 
-  await page.getByLabel("村人 制限").check();
-  await page.getByLabel("村人 発言文字数").fill("500");
-  await page.getByLabel("村人 発言文字数").blur();
+  await page.getByLabel("村人 制限", { exact: true }).check();
+  await page.getByLabel("村人 発言文字数", { exact: true }).fill("500");
+  await page.getByLabel("村人 発言文字数", { exact: true }).blur();
   await expect(page.getByText("発言制限は0~400 * 0~100 で設定してください")).toBeVisible();
 
-  await page.getByLabel("村人 発言文字数").fill("400");
+  await page.getByLabel("村人 発言文字数", { exact: true }).fill("400");
   await expect(page.getByText("発言制限は0~400 * 0~100 で設定してください")).not.toBeVisible();
 });
 

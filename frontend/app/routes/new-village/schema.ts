@@ -60,7 +60,7 @@ const skillAllocationSchema = z.object({
   reincarnationAllocation: allocationNum,
 });
 
-/** 制限ありの行のみ length/count を検証する (制限なしの行は無制限扱いで値は送らない)。 */
+/** 制限ありの行のみ length/count を検証する (制限なしの行は無制限扱いで値を使わない)。 */
 function refineSayRestrict(
   values: { restrict: boolean; length: number | null; count: number | null },
   ctx: z.RefinementCtx,

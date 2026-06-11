@@ -105,16 +105,18 @@ function SayRestrictRow({
 
 /** 役職別の発言制限テーブルの先頭行 (村人) の設定を全行へ反映するボタン。 */
 export function CopySayRestrictButton() {
-  const { getValues, setValue } = useFormContext<NewVillageFormInput>();
+  const { getValues, setValue, trigger } = useFormContext<NewVillageFormInput>();
   const copyFirstRowToAll = () => {
     const list = getValues("sayRestrictList");
     const first = list[0];
     if (!first) return;
     list.forEach((_, index) => {
-      setValue(`sayRestrictList.${index}.restrict`, first.restrict);
-      setValue(`sayRestrictList.${index}.length`, first.length);
-      setValue(`sayRestrictList.${index}.count`, first.count);
+      setValue(`sayRestrictList.${index}.restrict`, first.restrict, { shouldDirty: true });
+      setValue(`sayRestrictList.${index}.length`, first.length, { shouldDirty: true });
+      setValue(`sayRestrictList.${index}.count`, first.count, { shouldDirty: true });
     });
+    // コピー元が範囲外の値でもコピー先にエラーが出るよう、まとめて再検証する
+    void trigger("sayRestrictList");
   };
   return (
     <Button variant="info" size="xs" onClick={copyFirstRowToAll}>
