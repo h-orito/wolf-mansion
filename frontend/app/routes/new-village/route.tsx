@@ -72,7 +72,7 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
             <DetailRuleSection skills={skills} defaultCamps={defaultCamps} />
             <SpectateSection />
             <RelativesSection />
-            <SpecialRuleSection />
+            <SpecialRuleSection skills={skills} />
             <RpSection />
             <Divider />
             <FormActions>

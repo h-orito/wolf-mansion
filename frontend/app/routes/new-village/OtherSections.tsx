@@ -2,8 +2,28 @@ import { useFormContext } from "react-hook-form";
 
 import { fieldErrorClass, FormRow } from "~/components/ui/Form";
 import { inputClass, selectClass } from "~/components/ui/Input";
+import type { SimpleSkillView } from "~/features/skills/api";
 import { RadioRow, RequiredAfterCreationMark, SettingSection } from "./fields";
+import {
+  CopySayRestrictButton,
+  SayRestrictionTable,
+  type SayRestrictRowLabel,
+} from "./SayRestrictionTable";
 import type { NewVillageFormInput } from "./schema";
+import { RP_SAY_MESSAGE_TYPES, SKILL_SAY_MESSAGE_TYPES } from "./schema";
+
+const sayRestrictNote = (
+  <div className="[&>p]:mb-[10.5px]">
+    <p>1回の文字数は0~400、1日の回数は0~100で設定してください。</p>
+    <p>チェックなしにすると無制限になります。</p>
+  </div>
+);
+
+function toMessageTypeRows(
+  messageTypes: readonly { messageTypeCode: string; messageTypeName: string }[],
+): SayRestrictRowLabel[] {
+  return messageTypes.map((t) => ({ key: t.messageTypeCode, label: t.messageTypeName }));
+}
 
 /** 見学、閲覧設定。 */
 export function SpectateSection() {
@@ -99,10 +119,27 @@ export function RelativesSection() {
   );
 }
 
-/** 特殊ルール向け (発言制限は未実装のため投票のみ)。 */
-export function SpecialRuleSection() {
+/** 特殊ルール向け。 */
+export function SpecialRuleSection({ skills }: { skills: SimpleSkillView[] }) {
   return (
     <SettingSection title="特殊ルール向け">
+      <FormRow label="発言制限（通常発言）" labelWidth="wide">
+        <CopySayRestrictButton />
+        <SayRestrictionTable
+          name="sayRestrictList"
+          targetHeader="役職"
+          rows={skills.map((s) => ({ key: s.code, label: s.name }))}
+        />
+        {sayRestrictNote}
+      </FormRow>
+      <FormRow label="発言制限（役職発言）" labelWidth="wide">
+        <SayRestrictionTable
+          name="skillSayRestrictList"
+          targetHeader="発言種別"
+          rows={toMessageTypeRows(SKILL_SAY_MESSAGE_TYPES)}
+        />
+        {sayRestrictNote}
+      </FormRow>
       <RadioRow
         name="openVote"
         label="投票"
@@ -116,7 +153,7 @@ export function SpecialRuleSection() {
   );
 }
 
-/** RP村向け (発言制限 (RP発言) は未実装のため年齢制限とアクションのみ)。 */
+/** RP村向け。 */
 export function RpSection() {
   return (
     <SettingSection title="RP村向け">
@@ -142,6 +179,14 @@ export function RpSection() {
           { value: false, label: "不可" },
         ]}
       />
+      <FormRow label="発言制限（RP発言）" labelWidth="wide">
+        <SayRestrictionTable
+          name="rpSayRestrictList"
+          targetHeader="発言種別"
+          rows={toMessageTypeRows(RP_SAY_MESSAGE_TYPES)}
+        />
+        {sayRestrictNote}
+      </FormRow>
     </SettingSection>
   );
 }
