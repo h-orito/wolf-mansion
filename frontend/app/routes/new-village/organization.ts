@@ -22,7 +22,8 @@ export const DEFAULT_FIXED_ORGANIZATION = [
 
 /**
  * 表示用に各行へ「N人：」プレフィックスを付ける。
- * テキストエリアの値はプレフィックス込みで保持し、送信時に取り除く (既存挙動の踏襲)。
+ * テキストエリアの値はプレフィックス込みで保持し、backend は編成本体のテキストだけを
+ * 期待するため送信時に取り除く。
  */
 export function addPersonCountPrefix(organization: string): string {
   return organization

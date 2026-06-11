@@ -161,7 +161,7 @@ export const newVillageSchema = z
 export type NewVillageFormInput = z.infer<typeof newVillageSchema>;
 export type CampAllocationInput = NewVillageFormInput["campAllocationList"][number];
 
-/** 闇鍋配分テーブルの陣営の並び順 (既存フォームの表示順)。 */
+/** 闇鍋配分テーブルの陣営の並び順 (正本は backend `NewVillageForm` の陣営順)。 */
 const CAMP_CODE_ORDER = ["VILLAGER", "WEREWOLF", "FOX", "LOVERS", "CRIMINAL"];
 
 /** 村人役職のコード (闇鍋の最少人数既定値はダミー分の 1 を確保する)。 */
