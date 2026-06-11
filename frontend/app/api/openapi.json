@@ -5,14 +5,185 @@
     "version": "v0"
   },
   "paths": {
-    "/api/v1/random-keywords/{id}": {
-      "get": {
-        "tags": ["random-keyword-rest-controller"],
-        "operationId": "detail",
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "logout",
         "parameters": [
           {
-            "name": "id",
+            "in": "cookie",
+            "name": "refresh_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "operationId": "me",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/auth/password": {
+      "post": {
+        "operationId": "changePassword",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordChangeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "operationId": "refresh",
+        "parameters": [
+          {
+            "in": "cookie",
+            "name": "refresh_token",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/auth/signup": {
+      "post": {
+        "operationId": "signup",
+        "parameters": [
+          {
+            "in": "cookie",
+            "name": "id_register",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignupRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["auth-controller"]
+      }
+    },
+    "/api/v1/charachips": {
+      "get": {
+        "operationId": "list_3",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/CharachipListResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["charachip-rest-controller"]
+      }
+    },
+    "/api/v1/charachips/{id}": {
+      "get": {
+        "operationId": "detail_1",
+        "parameters": [
+          {
             "in": "path",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "integer",
@@ -22,24 +193,127 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Charachip"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["charachip-rest-controller"]
+      }
+    },
+    "/api/v1/random-keywords": {
+      "get": {
+        "operationId": "list_1",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "q",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeywords"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["random-keyword-rest-controller"]
+      },
+      "post": {
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RandomKeywordRegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/RandomKeyword"
                 }
               }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["random-keyword-rest-controller"]
+      }
+    },
+    "/api/v1/random-keywords/{id}": {
+      "delete": {
+        "operationId": "delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["random-keyword-rest-controller"]
+      },
+      "get": {
+        "operationId": "detail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RandomKeyword"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["random-keyword-rest-controller"]
       },
       "put": {
-        "tags": ["random-keyword-rest-controller"],
         "operationId": "update",
         "parameters": [
           {
-            "name": "id",
             "in": "path",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "integer",
@@ -59,24 +333,26 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/RandomKeyword"
                 }
               }
-            }
+            },
+            "description": "OK"
           }
-        }
-      },
-      "delete": {
-        "tags": ["random-keyword-rest-controller"],
-        "operationId": "delete",
+        },
+        "tags": ["random-keyword-rest-controller"]
+      }
+    },
+    "/api/v1/rooms": {
+      "get": {
+        "operationId": "roomAssignment",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "in": "query",
+            "name": "personNum",
             "required": true,
             "schema": {
               "type": "integer",
@@ -85,20 +361,63 @@
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomAssignmentResponse"
+                }
+              }
+            },
+            "description": "OK"
           }
-        }
+        },
+        "tags": ["room-rest-controller"]
       }
     },
-    "/api/v1/villages": {
+    "/api/v1/rule/judges": {
       "get": {
-        "tags": ["village-rest-controller"],
-        "operationId": "list",
+        "operationId": "judges",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/JudgeListResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["rule-rest-controller"]
+      }
+    },
+    "/api/v1/skills": {
+      "get": {
+        "operationId": "list_2",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillListResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["skill-rest-controller"]
+      }
+    },
+    "/api/v1/skills/search": {
+      "get": {
+        "operationId": "search",
         "parameters": [
           {
-            "name": "status",
             "in": "query",
+            "name": "tags",
             "required": false,
             "schema": {
               "type": "array",
@@ -108,8 +427,56 @@
             }
           },
           {
-            "name": "charachip",
             "in": "query",
+            "name": "name",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "villageId",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/SkillSearchResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["skill-rest-controller"]
+      }
+    },
+    "/api/v1/villages": {
+      "get": {
+        "operationId": "list",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "charachip",
             "required": false,
             "schema": {
               "type": "array",
@@ -120,8 +487,8 @@
             }
           },
           {
-            "name": "skill",
             "in": "query",
+            "name": "skill",
             "required": false,
             "schema": {
               "type": "array",
@@ -131,16 +498,16 @@
             }
           },
           {
-            "name": "random",
             "in": "query",
+            "name": "random",
             "required": false,
             "schema": {
               "type": "boolean"
             }
           },
           {
-            "name": "order",
             "in": "query",
+            "name": "order",
             "required": false,
             "schema": {
               "type": "string"
@@ -149,19 +516,19 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/VillageListResponse"
                 }
               }
-            }
+            },
+            "description": "OK"
           }
-        }
+        },
+        "tags": ["village-rest-controller"]
       },
       "post": {
-        "tags": ["village-rest-controller"],
         "operationId": "create",
         "requestBody": {
           "content": {
@@ -169,12 +536,12 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "request": {
-                    "$ref": "#/components/schemas/VillageCreateRequest"
-                  },
                   "dummyCharaImage": {
                     "type": "string",
                     "format": "binary"
+                  },
+                  "request": {
+                    "$ref": "#/components/schemas/VillageCreateRequest"
                   }
                 },
                 "required": ["request"]
@@ -184,347 +551,26 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/VillageCreateResponse"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/random-keywords": {
-      "get": {
-        "tags": ["random-keyword-rest-controller"],
-        "operationId": "list_1",
-        "parameters": [
-          {
-            "name": "q",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RandomKeywords"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": ["random-keyword-rest-controller"],
-        "operationId": "register",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RandomKeywordRegisterRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RandomKeyword"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/signup": {
-      "post": {
-        "tags": ["auth-controller"],
-        "operationId": "signup",
-        "parameters": [
-          {
-            "name": "id_register",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "type": "boolean"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SignupRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/refresh": {
-      "post": {
-        "tags": ["auth-controller"],
-        "operationId": "refresh",
-        "parameters": [
-          {
-            "name": "refresh_token",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/auth/password": {
-      "post": {
-        "tags": ["auth-controller"],
-        "operationId": "changePassword",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PasswordChangeRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
+            },
             "description": "OK"
           }
-        }
-      }
-    },
-    "/api/v1/auth/logout": {
-      "post": {
-        "tags": ["auth-controller"],
-        "operationId": "logout",
-        "parameters": [
-          {
-            "name": "refresh_token",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/v1/auth/login": {
-      "post": {
-        "tags": ["auth-controller"],
-        "operationId": "login",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginRequest"
-              }
-            }
-          },
-          "required": true
         },
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeResponse"
-                }
-              }
-            }
-          }
-        }
+        "tags": ["village-rest-controller"]
       }
     },
-    "/api/v1/skills": {
+    "/api/v1/villages/{id}/setting": {
       "get": {
-        "tags": ["skill-rest-controller"],
-        "operationId": "list_2",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/SkillListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/skills/search": {
-      "get": {
-        "tags": ["skill-rest-controller"],
-        "operationId": "search",
+        "operationId": "setting",
         "parameters": [
           {
-            "name": "tags",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "villageId",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/SkillSearchResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/rule/judges": {
-      "get": {
-        "tags": ["rule-rest-controller"],
-        "operationId": "judges",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/JudgeListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/rooms": {
-      "get": {
-        "tags": ["room-rest-controller"],
-        "operationId": "roomAssignment",
-        "parameters": [
-          {
-            "name": "personNum",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/RoomAssignmentResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/charachips": {
-      "get": {
-        "tags": ["charachip-rest-controller"],
-        "operationId": "list_3",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/CharachipListResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/charachips/{id}": {
-      "get": {
-        "tags": ["charachip-rest-controller"],
-        "operationId": "detail_1",
-        "parameters": [
-          {
-            "name": "id",
             "in": "path",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "integer",
@@ -534,39 +580,453 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
             "content": {
               "*/*": {
                 "schema": {
-                  "$ref": "#/components/schemas/Charachip"
+                  "$ref": "#/components/schemas/VillageSettingView"
                 }
               }
-            }
+            },
+            "description": "OK"
           }
-        }
-      }
-    },
-    "/api/v1/auth/me": {
-      "get": {
-        "tags": ["auth-controller"],
-        "operationId": "me",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/MeResponse"
-                }
-              }
-            }
-          }
-        }
+        },
+        "tags": ["village-rest-controller"]
       }
     }
   },
   "components": {
     "schemas": {
+      "AbilityType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "setMessageType": {
+            "$ref": "#/components/schemas/MessageType"
+          }
+        },
+        "required": ["code", "name", "setMessageType"]
+      },
+      "Camp": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "isCriminals": {
+            "type": "boolean"
+          },
+          "isFoxs": {
+            "type": "boolean"
+          },
+          "isLovers": {
+            "type": "boolean"
+          },
+          "isVillagers": {
+            "type": "boolean"
+          },
+          "isWolfs": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "isCriminals", "isFoxs", "isLovers", "isVillagers", "isWolfs", "name"]
+      },
+      "CampAllocation": {
+        "type": "object",
+        "properties": {
+          "camp": {
+            "$ref": "#/components/schemas/Camp"
+          },
+          "initAllocation": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "max": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "reincarnationAllocation": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["camp", "initAllocation", "min", "reincarnationAllocation"]
+      },
+      "Chara": {
+        "type": "object",
+        "properties": {
+          "defaultFirstdayMessage": {
+            "type": ["string", "null"]
+          },
+          "defaultJoinMessage": {
+            "type": ["string", "null"]
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "images": {
+            "$ref": "#/components/schemas/CharaImages"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "size": {
+            "$ref": "#/components/schemas/CharaSize"
+          }
+        },
+        "required": ["id", "images", "name", "shortName", "size"]
+      },
+      "CharaImage": {
+        "type": "object",
+        "properties": {
+          "faceType": {
+            "$ref": "#/components/schemas/FaceType"
+          },
+          "isDisplay": {
+            "type": "boolean"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": ["faceType", "isDisplay", "url"]
+      },
+      "CharaImages": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CharaImage"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "CharaSize": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["height", "width"]
+      },
+      "Charachip": {
+        "type": "object",
+        "properties": {
+          "charas": {
+            "$ref": "#/components/schemas/Charas"
+          },
+          "descriptionUrl": {
+            "type": ["string", "null"]
+          },
+          "designer": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Designer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isAvailableChangeName": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["charas", "id", "isAvailableChangeName", "name"]
+      },
+      "CharachipListResponse": {
+        "type": "object",
+        "properties": {
+          "charachips": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleCharachipView"
+            }
+          }
+        },
+        "required": ["charachips"]
+      },
+      "Charas": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Chara"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "Designer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name"]
+      },
+      "FaceType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
+      },
+      "JudgeListResponse": {
+        "type": "object",
+        "properties": {
+          "judges": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JudgeView"
+            }
+          }
+        },
+        "required": ["judges"]
+      },
+      "JudgeSkillView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
+      },
+      "JudgeView": {
+        "type": "object",
+        "properties": {
+          "countType": {
+            "type": "string",
+            "enum": ["HUMAN", "WOLF", "NO_COUNT"]
+          },
+          "divineResultWolf": {
+            "type": "boolean"
+          },
+          "noDeadByAttack": {
+            "type": "boolean"
+          },
+          "psychicResultWolf": {
+            "type": "boolean"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/JudgeSkillView"
+            }
+          }
+        },
+        "required": [
+          "countType",
+          "divineResultWolf",
+          "noDeadByAttack",
+          "psychicResultWolf",
+          "skills"
+        ]
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": ["string", "null"]
+          },
+          "userId": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["password", "userId"]
+      },
+      "MeResponse": {
+        "type": "object",
+        "properties": {
+          "authorities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "canCreateVillage": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "playerId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["authorities", "canCreateVillage", "name", "playerId"]
+      },
+      "MessageType": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "isOwlViewableType": {
+            "type": "boolean"
+          },
+          "isSayType": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "isOwlViewableType", "isSayType", "name"]
+      },
+      "MessageTypeSayRestrict": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "length": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "messageTypeCode": {
+            "type": ["string", "null"]
+          },
+          "restrict": {
+            "type": ["boolean", "null"]
+          }
+        },
+        "required": ["messageTypeCode", "restrict"]
+      },
+      "NormalSayRestriction": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
+          }
+        },
+        "required": ["count", "length", "messageType", "skill"]
+      },
+      "PasswordChangeRequest": {
+        "type": "object",
+        "properties": {
+          "confirmPassword": {
+            "type": ["string", "null"],
+            "maxLength": 60,
+            "minLength": 3,
+            "pattern": "[\\x21-\\x7E]+"
+          },
+          "password": {
+            "type": ["string", "null"],
+            "maxLength": 60,
+            "minLength": 3,
+            "pattern": "[\\x21-\\x7E]+"
+          }
+        },
+        "required": ["confirmPassword", "password"]
+      },
+      "RandomContent": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "RandomKeyword": {
+        "type": "object",
+        "properties": {
+          "contents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RandomContent"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keyword": {
+            "type": "string"
+          }
+        },
+        "required": ["contents", "id", "keyword"]
+      },
+      "RandomKeywordRegisterRequest": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": ["string", "null"],
+            "maxLength": 10,
+            "minLength": 3,
+            "pattern": "[a-zA-Z]*"
+          },
+          "messages": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "string",
+              "maxLength": 20,
+              "minLength": 1
+            },
+            "minItems": 1
+          }
+        },
+        "required": ["keyword", "messages"]
+      },
       "RandomKeywordUpdateRequest": {
         "type": "object",
         "properties": {
@@ -582,173 +1042,520 @@
         },
         "required": ["messages"]
       },
-      "RandomContent": {
+      "RandomKeywords": {
         "type": "object",
         "properties": {
-          "message": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RandomKeyword"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "RoomAssignmentResponse": {
+        "type": "object",
+        "properties": {
+          "height": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "roomNumbers": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "width": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["height", "roomNumbers", "width"]
+      },
+      "SayRestriction": {
+        "type": "object",
+        "properties": {
+          "normalSayRestriction": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NormalSayRestriction"
+            }
+          },
+          "skillSayRestriction": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillSayRestriction"
+            }
+          }
+        },
+        "required": ["normalSayRestriction", "skillSayRestriction"]
+      },
+      "SecretSayRange": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
             "type": "string"
           }
         },
-        "required": ["message"]
+        "required": ["code", "name"]
       },
-      "RandomKeyword": {
+      "Setting": {
+        "type": "object",
+        "properties": {
+          "personMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageTag"
+            }
+          }
+        },
+        "required": ["personMax", "personMin", "tags"]
+      },
+      "SignupRequest": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": ["string", "null"],
+            "maxLength": 60,
+            "minLength": 3,
+            "pattern": "[\\x21-\\x7E]+"
+          },
+          "userId": {
+            "type": ["string", "null"],
+            "maxLength": 12,
+            "minLength": 3,
+            "pattern": "[a-zA-Z][a-zA-Z0-9\\-_]*"
+          }
+        },
+        "required": ["password", "userId"]
+      },
+      "SimpleCharachipView": {
+        "type": "object",
+        "properties": {
+          "charaNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "designerName": {
+            "type": "string"
+          },
+          "dummyImgHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dummyImgUrl": {
+            "type": "string"
+          },
+          "dummyImgWidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "charaNum",
+          "designerName",
+          "dummyImgHeight",
+          "dummyImgUrl",
+          "dummyImgWidth",
+          "id",
+          "name"
+        ]
+      },
+      "SimpleSkillView": {
+        "type": "object",
+        "properties": {
+          "campCode": {
+            "type": "string"
+          },
+          "campName": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "requestable": {
+            "type": "boolean"
+          },
+          "revivable": {
+            "type": "boolean"
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "campCode",
+          "campName",
+          "code",
+          "name",
+          "requestable",
+          "revivable",
+          "shortName",
+          "tags"
+        ]
+      },
+      "SimpleVillageView": {
         "type": "object",
         "properties": {
           "id": {
             "type": "integer",
             "format": "int32"
           },
-          "keyword": {
+          "name": {
             "type": "string"
           },
-          "contents": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RandomContent"
-            }
+          "participantCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "setting": {
+            "$ref": "#/components/schemas/Setting"
+          },
+          "spectatorCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "status": {
+            "$ref": "#/components/schemas/VillageStatus"
           }
         },
-        "required": ["contents", "id", "keyword"]
+        "required": ["id", "name", "participantCount", "setting", "spectatorCount", "status"]
       },
-      "CampAllocation": {
+      "Skill": {
         "type": "object",
         "properties": {
-          "campCode": {
-            "type": ["string", "null"]
+          "ability": {
+            "$ref": "#/components/schemas/AbilityType"
           },
-          "minNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+          "code": {
+            "type": "string"
           },
-          "maxNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+          "isCounterDeadByDivine": {
+            "type": "boolean"
           },
-          "allocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+          "isCounterDeadByInvestigate": {
+            "type": "boolean"
           },
-          "reincarnationAllocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+          "isDeadByDivine": {
+            "type": "boolean"
           },
-          "skillAllocation": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/SkillAllocation"
-            }
+          "isDivineResultWolf": {
+            "type": "boolean"
+          },
+          "isFoxCount": {
+            "type": "boolean"
+          },
+          "isNoCount": {
+            "type": "boolean"
+          },
+          "isNoDeadByAttack": {
+            "type": "boolean"
+          },
+          "isNoSound": {
+            "type": "boolean"
+          },
+          "isOpenSkill": {
+            "type": "boolean"
+          },
+          "isPsychicResultWolf": {
+            "type": "boolean"
+          },
+          "isRequestable": {
+            "type": "boolean"
+          },
+          "isRevivable": {
+            "type": "boolean"
+          },
+          "isSayableSympathizeSay": {
+            "type": "boolean"
+          },
+          "isSayableTelepathy": {
+            "type": "boolean"
+          },
+          "isSayableWerewolfSay": {
+            "type": "boolean"
+          },
+          "isShogiWolf": {
+            "type": "boolean"
+          },
+          "isViewableAttackMessage": {
+            "type": "boolean"
+          },
+          "isViewableCoronerMessage": {
+            "type": "boolean"
+          },
+          "isViewableDivineMessage": {
+            "type": "boolean"
+          },
+          "isViewableFoxMessage": {
+            "type": "boolean"
+          },
+          "isViewableGuruMessage": {
+            "type": "boolean"
+          },
+          "isViewableInvestigateMessage": {
+            "type": "boolean"
+          },
+          "isViewableLoversMessage": {
+            "type": "boolean"
+          },
+          "isViewableLoversSay": {
+            "type": "boolean"
+          },
+          "isViewablePsychicMessage": {
+            "type": "boolean"
+          },
+          "isViewableSympathizeSay": {
+            "type": "boolean"
+          },
+          "isViewableTelepathy": {
+            "type": "boolean"
+          },
+          "isViewableWerewolfSay": {
+            "type": "boolean"
+          },
+          "isViewableWiseMessage": {
+            "type": "boolean"
+          },
+          "isViewableWolfCharaName": {
+            "type": "boolean"
+          },
+          "isWolfCount": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
           }
         },
         "required": [
-          "allocation",
-          "campCode",
-          "minNum",
-          "reincarnationAllocation",
-          "skillAllocation"
+          "code",
+          "isCounterDeadByDivine",
+          "isCounterDeadByInvestigate",
+          "isDeadByDivine",
+          "isDivineResultWolf",
+          "isFoxCount",
+          "isNoCount",
+          "isNoDeadByAttack",
+          "isNoSound",
+          "isOpenSkill",
+          "isPsychicResultWolf",
+          "isRequestable",
+          "isRevivable",
+          "isSayableSympathizeSay",
+          "isSayableTelepathy",
+          "isSayableWerewolfSay",
+          "isShogiWolf",
+          "isViewableAttackMessage",
+          "isViewableCoronerMessage",
+          "isViewableDivineMessage",
+          "isViewableFoxMessage",
+          "isViewableGuruMessage",
+          "isViewableInvestigateMessage",
+          "isViewableLoversMessage",
+          "isViewableLoversSay",
+          "isViewablePsychicMessage",
+          "isViewableSympathizeSay",
+          "isViewableTelepathy",
+          "isViewableWerewolfSay",
+          "isViewableWiseMessage",
+          "isViewableWolfCharaName",
+          "isWolfCount",
+          "name",
+          "shortName"
         ]
-      },
-      "MessageTypeSayRestrict": {
-        "type": "object",
-        "properties": {
-          "messageTypeCode": {
-            "type": ["string", "null"]
-          },
-          "restrict": {
-            "type": ["boolean", "null"]
-          },
-          "length": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          },
-          "count": {
-            "type": ["integer", "null"],
-            "format": "int32"
-          }
-        },
-        "required": ["messageTypeCode", "restrict"]
       },
       "SkillAllocation": {
         "type": "object",
         "properties": {
-          "skillCode": {
-            "type": ["string", "null"]
+          "initAllocation": {
+            "type": "integer",
+            "format": "int32"
           },
-          "minNum": {
+          "max": {
             "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+            "format": "int32"
           },
-          "maxNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
-          },
-          "allocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+          "min": {
+            "type": "integer",
+            "format": "int32"
           },
           "reincarnationAllocation": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 100,
-            "minimum": 0
+            "type": "integer",
+            "format": "int32"
+          },
+          "skill": {
+            "$ref": "#/components/schemas/Skill"
           }
         },
-        "required": ["allocation", "minNum", "reincarnationAllocation", "skillCode"]
+        "required": ["initAllocation", "min", "reincarnationAllocation", "skill"]
+      },
+      "SkillListResponse": {
+        "type": "object",
+        "properties": {
+          "skills": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SimpleSkillView"
+            }
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["skills", "tags"]
       },
       "SkillSayRestrict": {
         "type": "object",
         "properties": {
-          "skillCode": {
-            "type": ["string", "null"]
-          },
-          "restrict": {
-            "type": ["boolean", "null"]
+          "count": {
+            "type": ["integer", "null"],
+            "format": "int32"
           },
           "length": {
             "type": ["integer", "null"],
             "format": "int32"
           },
-          "count": {
-            "type": ["integer", "null"],
-            "format": "int32"
+          "restrict": {
+            "type": ["boolean", "null"]
+          },
+          "skillCode": {
+            "type": ["string", "null"]
           }
         },
         "required": ["restrict", "skillCode"]
       },
+      "SkillSayRestriction": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "length": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          }
+        },
+        "required": ["count", "length", "messageType"]
+      },
+      "SkillSearchResponse": {
+        "type": "object",
+        "properties": {
+          "skillCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["skillCodes"]
+      },
+      "VillageCharaSetting": {
+        "type": "object",
+        "properties": {
+          "charachipIds": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "dummyCharaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dummyDay1Message": {
+            "type": ["string", "null"]
+          },
+          "isOriginalCharachip": {
+            "type": "boolean"
+          }
+        },
+        "required": ["charachipIds", "dummyCharaId", "isOriginalCharachip"]
+      },
       "VillageCreateRequest": {
         "type": "object",
         "properties": {
-          "villageName": {
+          "ageLimit": {
             "type": ["string", "null"],
-            "maxLength": 40,
-            "minLength": 5
+            "pattern": "R15|R18"
           },
-          "welcomeRange": {
+          "allowedSecretSayCode": {
             "type": ["string", "null"],
-            "pattern": "ANYONE_WELCOME|RELATIVES_ONLY"
+            "pattern": "NOTHING|ONLY_CREATOR|EVERYTHING"
           },
-          "startPersonMinNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "minimum": 8
+          "availableAction": {
+            "type": ["boolean", "null"]
           },
-          "personMaxNum": {
-            "type": ["integer", "null"],
-            "format": "int32",
-            "maximum": 999
+          "availableCommit": {
+            "type": ["boolean", "null"]
+          },
+          "availableGuardSameTarget": {
+            "type": ["boolean", "null"]
+          },
+          "availableSameWolfAttack": {
+            "type": ["boolean", "null"]
+          },
+          "availableSpectate": {
+            "type": ["boolean", "null"]
+          },
+          "availableSuddonlyDeath": {
+            "type": ["boolean", "null"]
+          },
+          "campAllocationList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/VillageCreateRequestCampAllocation"
+            }
+          },
+          "characterSetId": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "creatorIsProducer": {
+            "type": ["boolean", "null"]
           },
           "dayChangeIntervalHours": {
             "type": ["integer", "null"],
@@ -768,16 +1575,76 @@
             "maximum": 59,
             "minimum": 0
           },
-          "startYear": {
+          "dummyCharaId": {
             "type": ["integer", "null"],
-            "format": "int32",
-            "minimum": 0
+            "format": "int32"
           },
-          "startMonth": {
+          "dummyCharaName": {
+            "type": ["string", "null"],
+            "maxLength": 40,
+            "minLength": 1
+          },
+          "dummyCharaShortName": {
+            "type": ["string", "null"],
+            "maxLength": 1,
+            "minLength": 1
+          },
+          "dummyDay1Message": {
+            "type": ["string", "null"],
+            "maxLength": 400,
+            "minLength": 0
+          },
+          "dummyJoinMessage": {
+            "type": ["string", "null"],
+            "maxLength": 400,
+            "minLength": 1
+          },
+          "joinPassword": {
+            "type": ["string", "null"]
+          },
+          "openSkillInGrave": {
+            "type": ["boolean", "null"]
+          },
+          "openVote": {
+            "type": ["boolean", "null"]
+          },
+          "organization": {
+            "type": ["string", "null"]
+          },
+          "personMaxNum": {
             "type": ["integer", "null"],
             "format": "int32",
-            "maximum": 12,
-            "minimum": 1
+            "maximum": 999
+          },
+          "possibleSkillRequest": {
+            "type": ["boolean", "null"]
+          },
+          "randomOrganization": {
+            "type": ["boolean", "null"]
+          },
+          "reincarnationSkillAll": {
+            "type": ["boolean", "null"]
+          },
+          "rpSayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/MessageTypeSayRestrict"
+            }
+          },
+          "sayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/SkillSayRestrict"
+            }
+          },
+          "shouldOriginalImage": {
+            "type": ["boolean", "null"]
+          },
+          "skillSayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/MessageTypeSayRestrict"
+            }
           },
           "startDay": {
             "type": ["integer", "null"],
@@ -797,126 +1664,43 @@
             "maximum": 59,
             "minimum": 0
           },
-          "shouldOriginalImage": {
-            "type": ["boolean", "null"]
-          },
-          "characterSetId": {
-            "type": ["array", "null"],
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          "dummyCharaId": {
+          "startMonth": {
             "type": ["integer", "null"],
-            "format": "int32"
+            "format": "int32",
+            "maximum": 12,
+            "minimum": 1
           },
-          "dummyCharaName": {
+          "startPersonMinNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "minimum": 8
+          },
+          "startYear": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "minimum": 0
+          },
+          "villageName": {
             "type": ["string", "null"],
             "maxLength": 40,
-            "minLength": 1
-          },
-          "dummyCharaShortName": {
-            "type": ["string", "null"],
-            "maxLength": 1,
-            "minLength": 1
-          },
-          "dummyJoinMessage": {
-            "type": ["string", "null"],
-            "maxLength": 400,
-            "minLength": 1
-          },
-          "dummyDay1Message": {
-            "type": ["string", "null"],
-            "maxLength": 400,
-            "minLength": 0
-          },
-          "joinPassword": {
-            "type": ["string", "null"]
-          },
-          "openVote": {
-            "type": ["boolean", "null"]
-          },
-          "possibleSkillRequest": {
-            "type": ["boolean", "null"]
-          },
-          "availableSameWolfAttack": {
-            "type": ["boolean", "null"]
-          },
-          "availableGuardSameTarget": {
-            "type": ["boolean", "null"]
-          },
-          "reincarnationSkillAll": {
-            "type": ["boolean", "null"]
-          },
-          "availableSuddonlyDeath": {
-            "type": ["boolean", "null"]
-          },
-          "availableCommit": {
-            "type": ["boolean", "null"]
-          },
-          "availableSpectate": {
-            "type": ["boolean", "null"]
-          },
-          "creatorIsProducer": {
-            "type": ["boolean", "null"]
-          },
-          "openSkillInGrave": {
-            "type": ["boolean", "null"]
+            "minLength": 5
           },
           "visibleGraveSpectateMessage": {
             "type": ["boolean", "null"]
           },
-          "availableAction": {
-            "type": ["boolean", "null"]
-          },
-          "randomOrganization": {
-            "type": ["boolean", "null"]
-          },
-          "organization": {
-            "type": ["string", "null"]
-          },
-          "campAllocationList": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/CampAllocation"
-            }
+          "welcomeRange": {
+            "type": ["string", "null"],
+            "pattern": "ANYONE_WELCOME|RELATIVES_ONLY"
           },
           "wolfAllocation": {
             "oneOf": [
               {
-                "$ref": "#/components/schemas/WolfAllocation"
+                "$ref": "#/components/schemas/VillageCreateRequestWolfAllocation"
               },
               {
                 "type": "null"
               }
             ]
-          },
-          "allowedSecretSayCode": {
-            "type": ["string", "null"],
-            "pattern": "NOTHING|ONLY_CREATOR|EVERYTHING"
-          },
-          "sayRestrictList": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/SkillSayRestrict"
-            }
-          },
-          "skillSayRestrictList": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/MessageTypeSayRestrict"
-            }
-          },
-          "rpSayRestrictList": {
-            "type": ["array", "null"],
-            "items": {
-              "$ref": "#/components/schemas/MessageTypeSayRestrict"
-            }
-          },
-          "ageLimit": {
-            "type": ["string", "null"],
-            "pattern": "R15|R18"
           }
         },
         "required": [
@@ -955,16 +1739,94 @@
           "visibleGraveSpectateMessage"
         ]
       },
-      "WolfAllocation": {
+      "VillageCreateRequestCampAllocation": {
         "type": "object",
         "properties": {
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "campCode": {
+            "type": ["string", "null"]
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
           "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "skillAllocation": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/VillageCreateRequestSkillAllocation"
+            }
+          }
+        },
+        "required": [
+          "allocation",
+          "campCode",
+          "minNum",
+          "reincarnationAllocation",
+          "skillAllocation"
+        ]
+      },
+      "VillageCreateRequestSkillAllocation": {
+        "type": "object",
+        "properties": {
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "skillCode": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["allocation", "minNum", "reincarnationAllocation", "skillCode"]
+      },
+      "VillageCreateRequestWolfAllocation": {
+        "type": "object",
+        "properties": {
+          "maxNum": {
             "type": ["integer", "null"],
             "format": "int32",
             "maximum": 100,
             "minimum": 1
           },
-          "maxNum": {
+          "minNum": {
             "type": ["integer", "null"],
             "format": "int32",
             "maximum": 100,
@@ -983,144 +1845,6 @@
         },
         "required": ["id"]
       },
-      "RandomKeywordRegisterRequest": {
-        "type": "object",
-        "properties": {
-          "keyword": {
-            "type": ["string", "null"],
-            "maxLength": 10,
-            "minLength": 3,
-            "pattern": "[a-zA-Z]*"
-          },
-          "messages": {
-            "type": ["array", "null"],
-            "items": {
-              "type": "string",
-              "maxLength": 20,
-              "minLength": 1
-            },
-            "minItems": 1
-          }
-        },
-        "required": ["keyword", "messages"]
-      },
-      "SignupRequest": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": ["string", "null"],
-            "maxLength": 12,
-            "minLength": 3,
-            "pattern": "[a-zA-Z][a-zA-Z0-9\\-_]*"
-          },
-          "password": {
-            "type": ["string", "null"],
-            "maxLength": 60,
-            "minLength": 3,
-            "pattern": "[\\x21-\\x7E]+"
-          }
-        },
-        "required": ["password", "userId"]
-      },
-      "MeResponse": {
-        "type": "object",
-        "properties": {
-          "playerId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "authorities": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "canCreateVillage": {
-            "type": "boolean"
-          }
-        },
-        "required": ["authorities", "canCreateVillage", "name", "playerId"]
-      },
-      "PasswordChangeRequest": {
-        "type": "object",
-        "properties": {
-          "password": {
-            "type": ["string", "null"],
-            "maxLength": 60,
-            "minLength": 3,
-            "pattern": "[\\x21-\\x7E]+"
-          },
-          "confirmPassword": {
-            "type": ["string", "null"],
-            "maxLength": 60,
-            "minLength": 3,
-            "pattern": "[\\x21-\\x7E]+"
-          }
-        },
-        "required": ["confirmPassword", "password"]
-      },
-      "LoginRequest": {
-        "type": "object",
-        "properties": {
-          "userId": {
-            "type": ["string", "null"]
-          },
-          "password": {
-            "type": ["string", "null"]
-          }
-        },
-        "required": ["password", "userId"]
-      },
-      "Setting": {
-        "type": "object",
-        "properties": {
-          "personMin": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "personMax": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageTag"
-            }
-          }
-        },
-        "required": ["personMax", "personMin", "tags"]
-      },
-      "SimpleVillageView": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/VillageStatus"
-          },
-          "participantCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "spectatorCount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "setting": {
-            "$ref": "#/components/schemas/Setting"
-          }
-        },
-        "required": ["id", "name", "participantCount", "setting", "spectatorCount", "status"]
-      },
       "VillageListResponse": {
         "type": "object",
         "properties": {
@@ -1133,38 +1857,188 @@
         },
         "required": ["villages"]
       },
+      "VillageOrganize": {
+        "type": "object",
+        "properties": {
+          "fixedOrganization": {
+            "type": "string"
+          },
+          "randomOrganization": {
+            "$ref": "#/components/schemas/VillageRandomOrganize"
+          }
+        },
+        "required": ["fixedOrganization", "randomOrganization"]
+      },
+      "VillageRandomOrganize": {
+        "type": "object",
+        "properties": {
+          "campAllocation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CampAllocation"
+            }
+          },
+          "skillAllocation": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SkillAllocation"
+            }
+          },
+          "wolfAllocation": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/WolfAllocation"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["campAllocation", "skillAllocation"]
+      },
+      "VillageRule": {
+        "type": "object",
+        "properties": {
+          "isAvailableAction": {
+            "type": "boolean"
+          },
+          "isAvailableCommit": {
+            "type": "boolean"
+          },
+          "isAvailableGuardSameTarget": {
+            "type": "boolean"
+          },
+          "isAvailableSameWolfAttack": {
+            "type": "boolean"
+          },
+          "isAvailableSpectate": {
+            "type": "boolean"
+          },
+          "isAvailableSuddenlyDeath": {
+            "type": "boolean"
+          },
+          "isCreatorIsProducer": {
+            "type": "boolean"
+          },
+          "isOpenSkillInGrave": {
+            "type": "boolean"
+          },
+          "isOpenVote": {
+            "type": "boolean"
+          },
+          "isPossibleSkillRequest": {
+            "type": "boolean"
+          },
+          "isRandomOrganization": {
+            "type": "boolean"
+          },
+          "isReincarnationSkillAll": {
+            "type": "boolean"
+          },
+          "isVisibleGraveSpectateMessage": {
+            "type": "boolean"
+          },
+          "secretSayRange": {
+            "$ref": "#/components/schemas/SecretSayRange"
+          }
+        },
+        "required": [
+          "isAvailableAction",
+          "isAvailableCommit",
+          "isAvailableGuardSameTarget",
+          "isAvailableSameWolfAttack",
+          "isAvailableSpectate",
+          "isAvailableSuddenlyDeath",
+          "isCreatorIsProducer",
+          "isOpenSkillInGrave",
+          "isOpenVote",
+          "isPossibleSkillRequest",
+          "isRandomOrganization",
+          "isReincarnationSkillAll",
+          "isVisibleGraveSpectateMessage",
+          "secretSayRange"
+        ]
+      },
+      "VillageSettingView": {
+        "type": "object",
+        "properties": {
+          "chara": {
+            "$ref": "#/components/schemas/VillageCharaSetting"
+          },
+          "dayChangeIntervalSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "organize": {
+            "$ref": "#/components/schemas/VillageOrganize"
+          },
+          "personMax": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "personMin": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rule": {
+            "$ref": "#/components/schemas/VillageRule"
+          },
+          "sayRestriction": {
+            "$ref": "#/components/schemas/SayRestriction"
+          },
+          "startDatetime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tags": {
+            "$ref": "#/components/schemas/VillageTags"
+          }
+        },
+        "required": [
+          "chara",
+          "dayChangeIntervalSeconds",
+          "organize",
+          "personMax",
+          "personMin",
+          "rule",
+          "sayRestriction",
+          "startDatetime",
+          "tags"
+        ]
+      },
       "VillageStatus": {
         "type": "object",
         "properties": {
           "code": {
             "type": "string"
           },
-          "name": {
-            "type": "string"
-          },
-          "isPrologue": {
-            "type": "boolean"
-          },
           "isCanceled": {
-            "type": "boolean"
-          },
-          "isSettled": {
-            "type": "boolean"
-          },
-          "isProgress": {
             "type": "boolean"
           },
           "isEpilogue": {
             "type": "boolean"
           },
+          "isFinished": {
+            "type": "boolean"
+          },
           "isNotFinished": {
+            "type": "boolean"
+          },
+          "isProgress": {
+            "type": "boolean"
+          },
+          "isPrologue": {
             "type": "boolean"
           },
           "isSettleOrCanceled": {
             "type": "boolean"
           },
-          "isFinished": {
+          "isSettled": {
             "type": "boolean"
+          },
+          "name": {
+            "type": "string"
           }
         },
         "required": [
@@ -1192,354 +2066,31 @@
         },
         "required": ["code", "name"]
       },
-      "SimpleSkillView": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "shortName": {
-            "type": "string"
-          },
-          "campCode": {
-            "type": "string"
-          },
-          "campName": {
-            "type": "string"
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          "requestable": {
-            "type": "boolean"
-          },
-          "revivable": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "campCode",
-          "campName",
-          "code",
-          "name",
-          "requestable",
-          "revivable",
-          "shortName",
-          "tags"
-        ]
-      },
-      "SkillListResponse": {
-        "type": "object",
-        "properties": {
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimpleSkillView"
-            }
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": ["skills", "tags"]
-      },
-      "SkillSearchResponse": {
-        "type": "object",
-        "properties": {
-          "skillCodes": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "required": ["skillCodes"]
-      },
-      "JudgeListResponse": {
-        "type": "object",
-        "properties": {
-          "judges": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/JudgeView"
-            }
-          }
-        },
-        "required": ["judges"]
-      },
-      "JudgeSkillView": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["code", "name"]
-      },
-      "JudgeView": {
-        "type": "object",
-        "properties": {
-          "skills": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/JudgeSkillView"
-            }
-          },
-          "divineResultWolf": {
-            "type": "boolean"
-          },
-          "psychicResultWolf": {
-            "type": "boolean"
-          },
-          "noDeadByAttack": {
-            "type": "boolean"
-          },
-          "countType": {
-            "type": "string",
-            "enum": ["HUMAN", "WOLF", "NO_COUNT"]
-          }
-        },
-        "required": [
-          "countType",
-          "divineResultWolf",
-          "noDeadByAttack",
-          "psychicResultWolf",
-          "skills"
-        ]
-      },
-      "RoomAssignmentResponse": {
-        "type": "object",
-        "properties": {
-          "width": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "height": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "roomNumbers": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        },
-        "required": ["height", "roomNumbers", "width"]
-      },
-      "RandomKeywords": {
+      "VillageTags": {
         "type": "object",
         "properties": {
           "list": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/RandomKeyword"
+              "$ref": "#/components/schemas/VillageTag"
             }
           }
         },
         "required": ["list"]
       },
-      "CharachipListResponse": {
+      "WolfAllocation": {
         "type": "object",
         "properties": {
-          "charachips": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SimpleCharachipView"
-            }
-          }
-        },
-        "required": ["charachips"]
-      },
-      "SimpleCharachipView": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
+          "max": {
+            "type": ["integer", "null"],
             "format": "int32"
           },
-          "name": {
-            "type": "string"
-          },
-          "designerName": {
-            "type": "string"
-          },
-          "charaNum": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dummyImgUrl": {
-            "type": "string"
-          },
-          "dummyImgWidth": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dummyImgHeight": {
+          "min": {
             "type": "integer",
             "format": "int32"
           }
         },
-        "required": [
-          "charaNum",
-          "designerName",
-          "dummyImgHeight",
-          "dummyImgUrl",
-          "dummyImgWidth",
-          "id",
-          "name"
-        ]
-      },
-      "Chara": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "shortName": {
-            "type": "string"
-          },
-          "defaultJoinMessage": {
-            "type": ["string", "null"]
-          },
-          "defaultFirstdayMessage": {
-            "type": ["string", "null"]
-          },
-          "size": {
-            "$ref": "#/components/schemas/CharaSize"
-          },
-          "images": {
-            "$ref": "#/components/schemas/CharaImages"
-          }
-        },
-        "required": ["id", "images", "name", "shortName", "size"]
-      },
-      "CharaImage": {
-        "type": "object",
-        "properties": {
-          "faceType": {
-            "$ref": "#/components/schemas/FaceType"
-          },
-          "url": {
-            "type": "string"
-          },
-          "isDisplay": {
-            "type": "boolean"
-          }
-        },
-        "required": ["faceType", "isDisplay", "url"]
-      },
-      "CharaImages": {
-        "type": "object",
-        "properties": {
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CharaImage"
-            }
-          }
-        },
-        "required": ["list"]
-      },
-      "CharaSize": {
-        "type": "object",
-        "properties": {
-          "width": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "height": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "required": ["height", "width"]
-      },
-      "Charachip": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          },
-          "designer": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/Designer"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "descriptionUrl": {
-            "type": ["string", "null"]
-          },
-          "isAvailableChangeName": {
-            "type": "boolean"
-          },
-          "charas": {
-            "$ref": "#/components/schemas/Charas"
-          }
-        },
-        "required": ["charas", "id", "isAvailableChangeName", "name"]
-      },
-      "Charas": {
-        "type": "object",
-        "properties": {
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Chara"
-            }
-          }
-        },
-        "required": ["list"]
-      },
-      "Designer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["id", "name"]
-      },
-      "FaceType": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["code", "name"]
+        "required": ["min"]
       }
     }
   }

@@ -196,6 +196,47 @@ test("クライアント検証エラーが表示される", async ({ page }) => 
   await expect(page.getByText("入村パスワードは3文字以上12文字以内にしてください")).toBeVisible();
 });
 
+test("設定流用セクションが表示され、流用で選択した村の設定がフォームへ流し込まれる", async ({ page }) => {
+  await signupAndGotoNewVillage(page);
+
+  await expect(page.getByRole("heading", { name: "設定流用" })).toBeVisible();
+  const select = page.getByLabel("他の村から流用する");
+  await expect(select).toBeVisible();
+  await expect(page.getByRole("button", { name: "流用する" })).toBeVisible();
+
+  // 流用候補 (エピローグ/終了/廃村の村) は API から非同期に入る。候補が無い DB ではスキップ
+  const listRes = await page.request.get(
+    "/wolf-mansion-api/api/v1/villages?status=EPILOGUE&status=COMPLETED&status=CANCEL&order=asc",
+  );
+  expect(listRes.ok()).toBe(true);
+  const candidates = (await listRes.json()).villages as { id: number }[];
+  test.skip(candidates.length === 0, "流用候補 (終了村) が無い DB のためスキップ");
+
+  // 先頭候補が select に入るまで待つ (既定で選択される)
+  await expect(select).toHaveValue(String(candidates[0].id));
+  const villageId = candidates[0].id;
+  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages/${villageId}/setting`);
+  expect(res.ok()).toBe(true);
+  const setting = await res.json();
+
+  // 編集状態は保持されない (村名は流用対象外のため既定値 = 空に戻る)
+  await page.fill("#villageName", "流用前の編集");
+  await page.getByRole("button", { name: "流用する" }).click();
+
+  await expect(page.locator("#villageName")).toHaveValue("");
+  await expect(page.locator("#startPersonMinNum")).toHaveValue(String(setting.personMin));
+  await expect(page.locator("#personMaxNum")).toHaveValue(String(setting.personMax));
+  await expect(page.getByLabel("更新間隔 (時間)")).toHaveValue(
+    String(Math.floor(setting.dayChangeIntervalSeconds / 3600)),
+  );
+
+  // 編成 (固定/闇鍋) も流用元に合わせて切り替わる
+  const orgRadioGroup = page.getByRole("radiogroup", { name: "役職構成" });
+  await expect(
+    orgRadioGroup.getByRole("radio", { name: setting.rule.isRandomOrganization ? "闇鍋" : "固定" }),
+  ).toHaveAttribute("aria-checked", "true");
+});
+
 test("確認画面へ→確認モーダル→作成で村作成 API を叩く", async ({ page }) => {
   await signupAndGotoNewVillage(page);
 

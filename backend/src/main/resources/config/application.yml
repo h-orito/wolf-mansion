@@ -72,3 +72,6 @@ login-rate-limit:
 springdoc:
   # 新 REST 面 (/api/v1/**) のみを spec に含める。旧 SSR Controller / 公開 API (/api/login 等) は対象外
   paths-to-match: /api/v1/**
+  # spec のキーをアルファベット順で出力する。Kotlin の isXxx() 由来プロパティはリフレクションの
+  # 列挙順 (JVM 実行ごとに不定) で並ぶため、ソートしないと再生成のたびに差分が出て drift 検知が壊れる
+  writer-with-order-by-keys: true

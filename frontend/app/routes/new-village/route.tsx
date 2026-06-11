@@ -10,7 +10,7 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { RequireAuth } from "~/features/auth/RequireAuth";
 import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
-import { createVillage } from "~/features/villages/api";
+import { createVillage, fetchVillageSetting } from "~/features/villages/api";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
@@ -19,6 +19,8 @@ import { CharachipSection } from "./CharachipSection";
 import { ConfirmModal } from "./ConfirmModal";
 import { toCreateRequest } from "./createRequest";
 import { DetailRuleSection } from "./DetailRuleSection";
+import { toDivertValues } from "./divert";
+import { DivertSection } from "./DivertSection";
 import { RequiredAfterCreationMark } from "./fields";
 import { RelativesSection, RpSection, SpecialRuleSection, SpectateSection } from "./OtherSections";
 import {
@@ -70,6 +72,11 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
   const [originalImageFile, setOriginalImageFile] = useState<File | null>(null);
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
+  const [diverting, setDiverting] = useState(false);
+  const [divertError, setDivertError] = useState<string | null>(null);
+  // 流用などプログラム的にフォームを書き換えた後、ダミーキャラ由来の項目 (画像・名前・
+  // 略称・既定発言) を確認ダイアログなしで同期し直すためのキー
+  const [charaSyncKey, setCharaSyncKey] = useState(0);
 
   // オリジナル画像のプレビュー URL。選び直したら古い URL を破棄する
   const originalImageUrl = useMemo(
@@ -86,6 +93,21 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
     setCreateError(null);
     setConfirmValues(values);
   });
+
+  const divert = async (villageId: number) => {
+    setDiverting(true);
+    setDivertError(null);
+    try {
+      const setting = await fetchVillageSetting(villageId);
+      form.reset(toDivertValues(setting, skills, new Date()));
+      setOriginalImageFile(null);
+      setCharaSyncKey((key) => key + 1);
+    } catch {
+      setDivertError("村設定の取得に失敗しました。時間をおいて再度お試しください。");
+    } finally {
+      setDiverting(false);
+    }
+  };
 
   const create = async () => {
     if (!confirmValues) return;
@@ -116,9 +138,11 @@ function NewVillageForm({ skills }: { skills: SimpleSkillView[] }) {
           <RequiredAfterCreationMark /> のついている項目は村作成後に変更できません。
         </p>
         <FormProvider {...form}>
+          <DivertSection diverting={diverting} errorMessage={divertError} onDivert={divert} />
           <form noValidate onSubmit={openConfirm}>
             <BasicSection nowYear={nowYear} />
             <CharachipSection
+              charaSyncKey={charaSyncKey}
               originalImageFile={originalImageFile}
               originalImageUrl={originalImageUrl}
               onSelectOriginalImage={setOriginalImageFile}

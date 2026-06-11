@@ -5,6 +5,7 @@ import com.ort.app.api.village.request.VillageCreateRequest
 import com.ort.app.api.village.request.VillageSearchRequest
 import com.ort.app.api.village.response.VillageCreateResponse
 import com.ort.app.api.village.response.VillageListResponse
+import com.ort.app.api.village.response.VillageSettingView
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
@@ -15,16 +16,19 @@ import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import org.springdoc.core.annotations.ParameterObject
 import org.springframework.context.MessageSource
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.server.ResponseStatusException
 import java.util.Locale
 
 /**
@@ -46,6 +50,14 @@ class VillageRestController(
     fun list(
         @ParameterObject request: VillageSearchRequest,
     ): VillageListResponse = VillageListResponse(villageService.findVillages(request.toQuery()))
+
+    /** 村設定。村画面で公開されている情報のため認証不要 (入村パスワードのみマスク)。 */
+    @GetMapping("/{id}/setting")
+    fun setting(
+        @PathVariable id: Int,
+    ): VillageSettingView =
+        villageService.findVillage(id)?.let { VillageSettingView(it.setting) }
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
 
     /**
      * 村作成。multipart/form-data で JSON part (`request`) + オリジナルダミーキャラ画像
