@@ -82,6 +82,50 @@ test("固定と闇鍋の編成切替で表示が切り替わる", async ({ page 
   await expect(page.getByLabel("固定の役職構成")).toBeVisible();
 });
 
+test("キャラチップ設定が既定値で表示されダミーキャラ情報が自動入力される", async ({ page }) => {
+  await signupAndGotoNewVillage(page);
+
+  // 既定: 人狼BBS が選択され、ダミーキャラ候補の読み込み後に楽天家 ゲルトが選ばれる
+  const charaSet = page.getByLabel("キャラセット");
+  await expect(charaSet).toBeVisible();
+  await expect(charaSet.locator("option", { hasText: "人狼BBS" })).toHaveCount(1);
+
+  const dummySelect = page.locator("#dummyCharaId");
+  await expect(dummySelect).toHaveValue("1");
+  await expect(page.locator("#dummyCharaName")).toHaveValue("楽天家 ゲルト");
+  await expect(page.locator("#dummyCharaShortName")).toHaveValue("楽");
+  await expect(page.locator("#dummyJoinMessage")).not.toHaveValue("");
+});
+
+test("ダミーキャラ変更でキャラ名・略称が置き換わる", async ({ page }) => {
+  await signupAndGotoNewVillage(page);
+
+  // 自動入力済みの入村発言に対する上書き confirm はキャンセルし、名前・略称の置換だけを検証する
+  page.on("dialog", (dialog) => dialog.dismiss());
+
+  const dummySelect = page.locator("#dummyCharaId");
+  await expect(dummySelect).toHaveValue("1");
+  await dummySelect.selectOption({ label: "村長 ヴァルター" });
+  await expect(page.locator("#dummyCharaName")).toHaveValue("村長 ヴァルター");
+  await expect(page.locator("#dummyCharaShortName")).toHaveValue("長");
+});
+
+test("キャラチップ利用の切替でキャラセット選択と案内が切り替わる", async ({ page }) => {
+  await signupAndGotoNewVillage(page);
+
+  const radioGroup = page.getByRole("radiogroup", { name: "キャラチップ利用" });
+  await radioGroup.getByRole("radio", { name: "自分で用意する" }).click();
+  await expect(page.getByLabel("キャラセット")).not.toBeVisible();
+  await expect(page.locator("#dummyCharaId")).not.toBeVisible();
+  await expect(
+    page.getByText("オリジナル画像を各参加者がアップロードして使用します。"),
+  ).toBeVisible();
+
+  await radioGroup.getByRole("radio", { name: "利用する", exact: true }).click();
+  await expect(page.getByLabel("キャラセット")).toBeVisible();
+  await expect(page.locator("#dummyCharaId")).toBeVisible();
+});
+
 test("発言制限のチェックで入力の有効/無効が切り替わる", async ({ page }) => {
   await signupAndGotoNewVillage(page);
 
