@@ -9,7 +9,8 @@ import { createDefaultValues, type NewVillageFormInput } from "./schema";
  * 既定値の上に流用元の設定を上書きする形のため、`override` が流用しない項目
  * (村名・開始日時・入村パスワード・役職希望・ダミーキャラ名/略称/発言) は既定値に戻る。
  * 流用元の村に存在しない役職・陣営・発言種別の行 (流用元の作成後に実装されたもの) は
- * 既定値のまま = 発言制限は無制限扱いになる。
+ * `override` と同じフォールバックになる: 発言制限は無制限扱い、闇鍋配分は
+ * min 0 / max なし / 出現割合 0 / 転生配分 50。
  */
 export function toDivertValues(
   setting: VillageSettingView,

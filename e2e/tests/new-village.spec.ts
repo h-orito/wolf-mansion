@@ -205,11 +205,16 @@ test("設定流用セクションが表示され、流用で選択した村の�
   await expect(page.getByRole("button", { name: "流用する" })).toBeVisible();
 
   // 流用候補 (エピローグ/終了/廃村の村) は API から非同期に入る。候補が無い DB ではスキップ
-  await page.waitForLoadState("networkidle");
-  const optionCount = await select.locator("option").count();
-  test.skip(optionCount === 0, "流用候補 (終了村) が無い DB のためスキップ");
+  const listRes = await page.request.get(
+    "/wolf-mansion-api/api/v1/villages?status=EPILOGUE&status=COMPLETED&status=CANCEL&order=asc",
+  );
+  expect(listRes.ok()).toBe(true);
+  const candidates = (await listRes.json()).villages as { id: number }[];
+  test.skip(candidates.length === 0, "流用候補 (終了村) が無い DB のためスキップ");
 
-  const villageId = await select.inputValue();
+  // 先頭候補が select に入るまで待つ (既定で選択される)
+  await expect(select).toHaveValue(String(candidates[0].id));
+  const villageId = candidates[0].id;
   const res = await page.request.get(`/wolf-mansion-api/api/v1/villages/${villageId}/setting`);
   expect(res.ok()).toBe(true);
   const setting = await res.json();
