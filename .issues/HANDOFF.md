@@ -5,7 +5,13 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 7.1 (村作成フォーム本体) 完了 ✅ (#66)**。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 7.2 (発言制限設定) 完了 ✅ (#67)**。Step 7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+  - **step-7.2 完了 ✅ (#67)**: 発言制限設定 React 化。`/new-village` に 3 テーブル追加 — 役職別 (通常発言・全役職123行、行順は `GET /api/v1/skills` のまま) / 発言種別 (囁き・共鳴・恋人・念話) / RP (アクション)。**backend 変更なし**
+    - チェックで length/count を有効化 (未チェック = 無制限扱いで disabled + 背景 #aaaaaa)。「村人の設定を全てにコピー」は役職別テーブル限定 (legacy `#say-restriction` と同挙動)。コピーは `setValue(shouldDirty)` + `trigger("sayRestrictList")` でまとめて再検証 (コピー先にもエラーを出す、pr-reviewer should 反映)
+    - zod は制限ありの行のみ 0〜400 / 0〜100 を検証 (`refineSayRestrict`、文言はサーバー `NewVillageForm.validator.sayRestrictList` と同一)。既定値 (restrict=false / 400 * 20) と発言種別コード (`WEREWOLF_SAY`/`MASON_SAY`/`LOVERS_SAY`/`TELEPATHY`/`ACTION`) は `NewVillageForm.initialize()` と一致
+    - **`components/ui/Button` を variant (色) × size (padding) に分離**: info variant (#3498db) + xs サイズ (px-[5px] py-[1px]) 追加。LinkButton / AnchorButton も同構成
+    - 行ラベルは静的 prop / 値はフォーム state (闇鍋テーブルと同じ分離構造 → 7.5 divert 時は同様に reset で値のみ流し込み)
+    - e2e 3件追加 (全 **41 件** green)。発言制限ラベルの `getByLabel` は **`{ exact: true }` 必須** (「占い師」が「花占い師」に部分一致する実害あり)。pr-reviewer 2巡 (2巡目 should 0 で打ち切り、`.reviews/PR-67.md`)
   - **step-7.1 完了 ✅ (#66)**: 村作成フォーム本体 React 化 (`/new-village`、RequireAuth)。基本設定 / 詳細ルール (固定⇄闇鍋編成切替 + 闇鍋配分テーブル) / 見学・閲覧 / 身内村 / 特殊ルール / RP村 の入力 + zod クライアント検証 (**正本はサーバー検証**、相関は定員≧最少・間隔1分〜72h・開始日時14日以内のみ client 再現)。7.2 発言制限・7.3 キャラチップのセクションは未表示、**「確認画面へ」ボタンは 7.4 まで disabled** (作成 REST API も 7.4 で新設)
     - **backend 変更は `SimpleSkillView` に `requestable`/`revivable` 追加のみ** (闇鍋配分の既定値組み立てに必要な役職属性。`pnpm gen:api` 済)
     - **既定値は `NewVillageForm.initialize()` と同一を frontend で再現** (`routes/new-village/schema.ts` の `createDefaultValues`)。`:8091` と実測突合で完全一致 (闇鍋145行・村人 min1・暴走トラック max0・恋人転生0・編成テンプレ13行)。既定編成テンプレは frontend 定数 (正本 `VillageOrganize.defaultFixedOrganization`、`organization.ts`)。固定編成は「N人：」プレフィックス込みで編集し送信時に除去
@@ -82,7 +88,7 @@
     - **PageLayout に `header` オプション** (アーカイブはバナー無しページ)、**`siteMeta()` のページ名省略対応** (省略時はサイト共通タイトル「WOLF MANSION 〜人狼館の事件簿村〜」)
     - **announce にお知らせ追記** (releases.ts 先頭に手追記の運用どおり、3 ページへのリンク付き)
     - **検証**: `:8091` とスレ本文 `innerText` を空白正規化比較で**完全一致** (2 ページとも)。e2e 3件追加 (全30件 green)。pr-reviewer 2巡 must/should 0 件 (**指摘 0 件の巡があれば打ち切ってよい運用に ship-issue skill を更新**)
-  - **次の候補**: **Step 7.2 (発言制限設定)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 / 7.3 キャラチップ選択 / 7.4 確認モーダル→作成 / 7.5 流用。08-step-plan.md 参照
+  - **次の候補**: **Step 7.3 (キャラチップ選択)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 ✅ / 7.3 キャラチップ選択 / 7.4 確認モーダル→作成 / 7.5 流用。08-step-plan.md 参照
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -120,10 +126,10 @@
 
 ## 次にやること
 
-**Step 7.1 (村作成フォーム本体) 完了 ✅ (#66)** — 次は **Step 7.2 (発言制限設定)**。
+**Step 7.2 (発言制限設定) 完了 ✅ (#67)** — 次は **Step 7.3 (キャラチップ選択)**。
 
-- **(次) Step 7.2 (発言制限設定)**: 役職別 (通常発言・全役職分) / 発言種別 (囁き/共鳴/恋人/念話) / RP (アクション) の発言制限テーブル。count既定20/length既定400、チェックで有効化、先頭行の値を全行コピーするボタン。SSR テンプレ `new-village-{say,skill-say,rp-say}-restriction.html` + `new-village.js` の `initRestrict`/`handleRestriction` 参照。**7.1 で作ったフォームに `sayRestrictList`/`skillSayRestrictList`/`rpSayRestrictList` を足す** (zod schema / defaultValues は `routes/new-village/schema.ts` を拡張)。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
-- **Step 7 残り**: 7.3 キャラチップ選択 (Step 5.4 の charachip API 流用 + `GET /getCharacterList` の REST 化) / 7.4 確認モーダル→作成 (作成 REST API 新設、「確認画面へ」ボタン有効化、配分セルエラーの e2e 追加検討) / 7.5 流用 (divert。闇鍋テーブルの「ラベル=静的 prop / 値=フォーム state」分離に注意、`.reviews/PR-66.md`)
+- **(次) Step 7.3 (キャラチップ選択)**: 村作成フォームのキャラチップ選択セクション (`characterSetId`/`dummyCharaId`/`shouldOriginalImage`)。Step 5.4 の charachip API (`GET /api/v1/charachips`) 流用 + `GET /getCharacterList` (jQuery/Handlebars でダミーキャラ候補を取得) の REST 化。SSR テンプレ `new-village.html` のキャラチップ form-group + `new-village.js` 参照。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
+- **Step 7 残り**: 7.4 確認モーダル→作成 (作成 REST API 新設、「確認画面へ」ボタン有効化、配分セル・発言制限セルのエラー表示 e2e 追加検討) / 7.5 流用 (divert。闇鍋・発言制限テーブルの「ラベル=静的 prop / 値=フォーム state」分離に注意、`.reviews/PR-66.md`)
 - **認証付き CRUD パターン (step-6 で確立・以降踏襲)**: write 系 REST は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系ページ = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導。mutation 後は `useInvalidateXxx` → `navigate`。**コレクション要素の制約は型引数 `@Size` でなくコード検証** (実行時に効かない。spec へは `@ArraySchema` で出す)。**複数テーブル書き込みは service に `@Transactional`**
 - **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **REST API 設計方針 (step-5.4 で確定・以降必須)**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 [`doc/migration/01-overview.md`](../doc/migration/01-overview.md)「REST API 設計方針」
