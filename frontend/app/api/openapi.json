@@ -1260,9 +1260,6 @@
           "code": {
             "type": "string"
           },
-          "histories": {
-            "$ref": "#/components/schemas/SkillHistories"
-          },
           "isCounterDeadByDivine": {
             "type": "boolean"
           },
@@ -1365,7 +1362,6 @@
         },
         "required": [
           "code",
-          "histories",
           "isCounterDeadByDivine",
           "isCounterDeadByInvestigate",
           "isDeadByDivine",
@@ -1425,31 +1421,6 @@
           }
         },
         "required": ["initAllocation", "min", "reincarnationAllocation", "skill"]
-      },
-      "SkillHistories": {
-        "type": "object",
-        "properties": {
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SkillHistory"
-            }
-          }
-        },
-        "required": ["list"]
-      },
-      "SkillHistory": {
-        "type": "object",
-        "properties": {
-          "day": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "skill": {
-            "required": ["code"]
-          }
-        },
-        "required": ["day", "skill"]
       },
       "SkillListResponse": {
         "type": "object",

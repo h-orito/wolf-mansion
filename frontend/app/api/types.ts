@@ -470,7 +470,6 @@ export interface components {
     Skill: {
       ability?: components["schemas"]["AbilityType"];
       code: string;
-      histories: components["schemas"]["SkillHistories"];
       isCounterDeadByDivine: boolean;
       isCounterDeadByInvestigate: boolean;
       isDeadByDivine: boolean;
@@ -515,14 +514,6 @@ export interface components {
       /** Format: int32 */
       reincarnationAllocation: number;
       skill: components["schemas"]["Skill"];
-    };
-    SkillHistories: {
-      list: components["schemas"]["SkillHistory"][];
-    };
-    SkillHistory: {
-      /** Format: int32 */
-      day: number;
-      skill: unknown;
     };
     SkillListResponse: {
       skills: components["schemas"]["SimpleSkillView"][];
