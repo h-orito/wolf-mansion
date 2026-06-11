@@ -5,7 +5,15 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 7.3 (キャラチップ選択) 完了 ✅ (#68)**。Step 7.2 (発言制限設定) 完了 (#67)。Step 7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 7.4 (確認モーダル→村作成) 完了 ✅ (#69)**。Step 7.3 (キャラチップ選択) 完了 (#68)。Step 7.2 (発言制限設定) 完了 (#67)。Step 7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+  - **step-7.4 完了 ✅ (#69)**: 確認モーダル→村作成 REST 化。`/new-village` で実際に村が作れる ("確認画面へ" 有効化)
+    - **backend**: `POST /api/v1/villages` (**multipart/form-data**、要認証) 新設。JSON part (`VillageCreateRequest`) + オリジナルダミー画像 part (`dummyCharaImage`、任意)。検証は **SSR と共通の `NewVillageFormValidator` を `toForm()` 変換後に流用** (重複実装しない)。フィールドエラーは `WolfMansionValidationException` → ProblemDetail の **`fieldErrors`** (`MethodArgumentNotValidException` 側も統一)。作成は既存 `VillageCoordinator.registerVillage` 流用
+    - **作成 API は `VillageCreateResponse` (id のみ) を返す** (raw `Village` は `VillageSetting.joinPassword` 等のマスク対象を平文露出するため。REST API 設計方針: マスク要なら Response DTO。pr-reviewer 3巡目 should)。これにより `Village` ドメイン型は OpenAPI 応答スキーマから外れた
+    - **闇鍋構造チェック (重要)**: REST 化で `campAllocationList` をクライアント構築にしたため、村人陣営/村人役職を欠くと validator の `first { }` が `NoSuchElementException` → 500 になる。`VillageCreateRequest.validateRandomOrganizationStructure()` で先回りして 400 に倒す (pr-reviewer 1巡目 should)
+    - **frontend**: 「確認画面へ」= zod 検証 → **`ConfirmModal`** (設定一覧 + 発言プレビュー + 闇鍋編成/発言制限テーブルの読み取り表示、legacy `new-village-confirm.html` 相当) → 「作成」で multipart POST → `/village/{id}` 遷移 (村画面は Step 8 まで 404)。`lib/api` を **FormData (multipart) + `fieldErrors`** 対応に拡張。送信変換 `toCreateRequest` (空文字→null、固定編成「N人：」除去)
+    - **オリジナル画像**: ファイル入力を**元フォーム側**に追加 (確定方針: 確認モーダルはプレビューのみ)。`URL.createObjectURL`+revoke、0バイト/100KB をクライアントでも検証 (backend `validateOriginalImage` とパリティ)。**画像未選択での作成は backend が許容するためフロントも許容** (パリティ維持の意図的判断)。`components/ui/Modal` に `size="wide"` 追加
+    - zod に **入村発言の trim 後検証** (全空白拒否、PR-68 申し送り対応) + **オリジナル時パスワード必須** 相関を追加
+    - **e2e の実村作成は共有 DB 都合で見送り** (新規 signup ユーザーは終了村参加が無く村建て不可 = `assertCreateVillage` の最初のチェックで業務エラー → DB 非汚染で作成 API 接続を検証)。**実村作成→廃村 teardown は Step 8 (村画面) 完成後のシナリオ e2e で検討**。単体 8 + e2e 1 追加 (全 **45 件** green)。pr-reviewer 3巡 (各巡 should 反映、`.reviews/PR-69.md`)
   - **step-7.3 完了 ✅ (#68)**: キャラチップ選択 React 化。`/new-village` にキャラチップ設定セクション (基本設定と詳細ルール設定の間) — キャラチップ利用切替 / キャラセット複数選択 (`MultiSelect`、ラベル「名前（作者様作）」) / ダミーキャラ選択 / キャラ名・略称 / 入村・1日目発言 (キャラ画像プレビュー)。**backend 変更なし**
     - **キャラ情報は既存 `GET /api/v1/charachips/{id}` を選択 id ごとに取得し frontend で結合** (`useCharachipDetails` = react-query `useQueries` + combine)。**legacy `GET /getCharacterList` の REST 化は不要になった** (new-village.md の要検討事項が解消)
     - キャラ連動 (legacy `replaceCharaSet`/`replaceDummyChara` 相当): ダミーキャラ変更で画像・名前・略称反映 / 既定発言は空なら自動入力・入力済みはユーザー操作時のみ confirm / **複数キャラセット選択時は自動入力しない**。初期表示 vs 手動変更は `manualChangeRef` で区別
@@ -95,7 +103,7 @@
     - **PageLayout に `header` オプション** (アーカイブはバナー無しページ)、**`siteMeta()` のページ名省略対応** (省略時はサイト共通タイトル「WOLF MANSION 〜人狼館の事件簿村〜」)
     - **announce にお知らせ追記** (releases.ts 先頭に手追記の運用どおり、3 ページへのリンク付き)
     - **検証**: `:8091` とスレ本文 `innerText` を空白正規化比較で**完全一致** (2 ページとも)。e2e 3件追加 (全30件 green)。pr-reviewer 2巡 must/should 0 件 (**指摘 0 件の巡があれば打ち切ってよい運用に ship-issue skill を更新**)
-  - **次の候補**: **Step 7.4 (確認モーダル→作成)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 ✅ / 7.3 キャラチップ選択 ✅ / 7.4 確認モーダル→作成 / 7.5 流用。08-step-plan.md 参照
+  - **次の候補**: **Step 7.5 (流用 divert)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 ✅ / 7.3 キャラチップ選択 ✅ / 7.4 確認モーダル→作成 ✅ / 7.5 流用。08-step-plan.md 参照
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -133,10 +141,10 @@
 
 ## 次にやること
 
-**Step 7.3 (キャラチップ選択) 完了 ✅ (#68)** — 次は **Step 7.4 (確認モーダル→作成)**。
+**Step 7.4 (確認モーダル→村作成) 完了 ✅ (#69)** — 次は **Step 7.5 (流用 divert)** で Step 7 完了。
 
-- **(次) Step 7.4 (確認モーダル→作成)**: 村作成 REST API (`POST /api/v1/villages` 等、要認証) 新設 + 確認モーダル + 「確認画面へ」ボタン有効化。要検討: オリジナルダミー画像のアップロード方式 (multipart or 事前アップロード、new-village.md「元フォーム側でアップロード・確認モーダルはプレビューのみ」が確定方針)。申し送り: 入村発言の trim 後検証 / 配分セル・発言制限セルのエラー表示 e2e / 固定編成の「N人：」プレフィックス除去送信 (organization.ts)。SSR `new-village-confirm.html` + `NewVillageController.create` + `NewVillageFormValidator` 参照。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
-- **Step 7 残り**: 7.5 流用 (divert。闇鍋・発言制限テーブルの「ラベル=静的 prop / 値=フォーム state」分離に注意、`.reviews/PR-66.md`)
+- **(次) Step 7.5 (流用 divert)**: 既存の終了村の設定を流用して新規村フォームに流し込む機能。SSR `new-village/divert/{villageId}` (`NewVillageController.divert` + `NewVillageForm.override(village)`) + `new-village.js` の `#divert-btn`/`#divert-village` 参照。frontend は村選択 → `GET /api/v1/villages/{id}` 等で設定取得 → `form.reset()` で流し込み。**注意 (PR-66/PR-67)**: 闇鍋テーブル・発言制限テーブルは「ラベル=静的 prop / 値=フォーム state」分離構造。`reset()` で値だけ流し込んでもラベルは静的 prop のまま (キャラ名/陣営名/役職名/発言種別名は別途解決が要る)。流用元村の設定取得 API が必要なら新設 (村詳細はマスク対象を含むため Response DTO 検討)。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
+- **Step 7 完了後の申し送り**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状 7.4 e2e は業務エラーパスのみで DB 非汚染)
 - **認証付き CRUD パターン (step-6 で確立・以降踏襲)**: write 系 REST は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系ページ = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導。mutation 後は `useInvalidateXxx` → `navigate`。**コレクション要素の制約は型引数 `@Size` でなくコード検証** (実行時に効かない。spec へは `@ArraySchema` で出す)。**複数テーブル書き込みは service に `@Transactional`**
 - **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **REST API 設計方針 (step-5.4 で確定・以降必須)**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 [`doc/migration/01-overview.md`](../doc/migration/01-overview.md)「REST API 設計方針」
