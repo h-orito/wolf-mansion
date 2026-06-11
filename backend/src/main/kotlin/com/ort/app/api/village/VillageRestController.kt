@@ -3,12 +3,12 @@ package com.ort.app.api.village
 import com.ort.app.api.request.validator.NewVillageFormValidator
 import com.ort.app.api.village.request.VillageCreateRequest
 import com.ort.app.api.village.request.VillageSearchRequest
+import com.ort.app.api.village.response.VillageCreateResponse
 import com.ort.app.api.village.response.VillageListResponse
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.PlayerService
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.village.Village
 import com.ort.app.fw.exception.WolfMansionAuthException
 import com.ort.app.fw.exception.WolfMansionValidationException
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
@@ -57,7 +57,7 @@ class VillageRestController(
         @AuthenticationPrincipal principal: JwtPrincipal?,
         @RequestPart @Validated request: VillageCreateRequest,
         @RequestPart(required = false) dummyCharaImage: MultipartFile?,
-    ): Village {
+    ): VillageCreateResponse {
         // principal は filter chain の authenticated() で保証済み (到達時は非 null)。防御的に確認する
         val player =
             principal?.let { playerService.findPlayer(it.name) }
@@ -94,13 +94,15 @@ class VillageRestController(
 
         // 村建て可否・キャラ数不足は WolfMansionBusinessException → 400 (business_error)
         villageCoordinator.assertCreateVillage(player, form.personMaxNum!!, charachips, isOriginal)
-        return villageCoordinator.registerVillage(
-            form.toVillage(player),
-            form.dummyCharaName!!,
-            form.dummyCharaShortName!!,
-            form.dummyCharaImageFile,
-            form.dummyJoinMessage!!,
-            form.dummyDay1Message,
-        )
+        val village =
+            villageCoordinator.registerVillage(
+                form.toVillage(player),
+                form.dummyCharaName!!,
+                form.dummyCharaShortName!!,
+                form.dummyCharaImageFile,
+                form.dummyJoinMessage!!,
+                form.dummyDay1Message,
+            )
+        return VillageCreateResponse(village)
     }
 }
