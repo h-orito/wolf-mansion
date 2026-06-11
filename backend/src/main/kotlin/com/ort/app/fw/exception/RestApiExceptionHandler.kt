@@ -31,11 +31,20 @@ class RestApiExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleValidation(e: MethodArgumentNotValidException): ProblemDetail {
+        val fieldErrors =
+            e.bindingResult.fieldErrors.map {
+                WolfMansionValidationException.FieldErrorItem(
+                    it.field,
+                    it.defaultMessage ?: "入力内容が不正です",
+                )
+            }
         val detail =
-            e.bindingResult.fieldErrors
-                .joinToString(", ") { "${it.field}: ${it.defaultMessage}" }
+            fieldErrors
+                .joinToString(", ") { "${it.field}: ${it.message}" }
                 .ifBlank { "入力内容が不正です" }
-        return problem(HttpStatus.BAD_REQUEST, detail, "validation_error")
+        val problem = problem(HttpStatus.BAD_REQUEST, detail, "validation_error")
+        if (fieldErrors.isNotEmpty()) problem.setProperty("fieldErrors", fieldErrors)
+        return problem
     }
 
     @ExceptionHandler(WolfMansionValidationException::class)
