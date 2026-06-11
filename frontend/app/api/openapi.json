@@ -807,9 +807,24 @@
             "items": {
               "type": "string"
             }
+          },
+          "requestable": {
+            "type": "boolean"
+          },
+          "revivable": {
+            "type": "boolean"
           }
         },
-        "required": ["campCode", "campName", "code", "name", "shortName", "tags"]
+        "required": [
+          "campCode",
+          "campName",
+          "code",
+          "name",
+          "requestable",
+          "revivable",
+          "shortName",
+          "tags"
+        ]
       },
       "SkillListResponse": {
         "type": "object",

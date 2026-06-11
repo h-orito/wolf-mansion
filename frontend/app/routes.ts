@@ -8,6 +8,7 @@ export default [
   route("practice", "routes/practice/route.tsx"),
   route("announce", "routes/announce/route.tsx"),
   route("village-list", "routes/village-list/route.tsx"),
+  route("new-village", "routes/new-village/route.tsx"),
   route("skill", "routes/skill/route.tsx"),
   route("rule", "routes/rule/route.tsx"),
   route("chara-group", "routes/chara-group/route.tsx"),

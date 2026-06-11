@@ -8,10 +8,18 @@ export function Heading({ children, as: Tag = "h1" }: { children: ReactNode; as?
   return <Tag className="my-[10px] text-[19px] font-normal">{children}</Tag>;
 }
 
-/** セクション見出し (h2)。 */
-export function SubHeading({ children, id }: { children: ReactNode; id?: string }) {
+/** セクション見出し (h2)。設定フォーム系の画面は weight="normal" を使う。 */
+export function SubHeading({
+  children,
+  id,
+  weight = "bold",
+}: {
+  children: ReactNode;
+  id?: string;
+  weight?: "bold" | "normal";
+}) {
   return (
-    <h2 id={id} className="text-[15px] font-bold">
+    <h2 id={id} className={`text-[15px] ${weight === "bold" ? "font-bold" : "font-normal"}`}>
       {children}
     </h2>
   );
