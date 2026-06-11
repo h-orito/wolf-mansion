@@ -5,7 +5,15 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 6 (ランダム機能) 完了 🎉 (#65)**。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 7.1 (村作成フォーム本体) 完了 ✅ (#66)**。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+  - **step-7.1 完了 ✅ (#66)**: 村作成フォーム本体 React 化 (`/new-village`、RequireAuth)。基本設定 / 詳細ルール (固定⇄闇鍋編成切替 + 闇鍋配分テーブル) / 見学・閲覧 / 身内村 / 特殊ルール / RP村 の入力 + zod クライアント検証 (**正本はサーバー検証**、相関は定員≧最少・間隔1分〜72h・開始日時14日以内のみ client 再現)。7.2 発言制限・7.3 キャラチップのセクションは未表示、**「確認画面へ」ボタンは 7.4 まで disabled** (作成 REST API も 7.4 で新設)
+    - **backend 変更は `SimpleSkillView` に `requestable`/`revivable` 追加のみ** (闇鍋配分の既定値組み立てに必要な役職属性。`pnpm gen:api` 済)
+    - **既定値は `NewVillageForm.initialize()` と同一を frontend で再現** (`routes/new-village/schema.ts` の `createDefaultValues`)。`:8091` と実測突合で完全一致 (闇鍋145行・村人 min1・暴走トラック max0・恋人転生0・編成テンプレ13行)。既定編成テンプレは frontend 定数 (正本 `VillageOrganize.defaultFixedOrganization`、`organization.ts`)。固定編成は「N人：」プレフィックス込みで編集し送信時に除去
+    - **`lib/zodResolver` をネストエラー対応に拡張** (`campAllocationList[i].skillAllocation[j].*` の配列パス)。`@hookform/resolvers` は引き続き不採用
+    - **components/ui 拡充**: `ButtonRadioGroup` に **outline variant** (new-village の `btn-dark-success`=緑枠+選択時緑地。village-list の塗り `btn-success` とは別物と実測判明)、`Input.selectClass`、`FormRow` label の ReactNode 化 (変更不可 `*` 印)、`SubHeading` に `weight` prop
+    - **FAQ に「村を建てられないのですが」追加** (2つ目・ユーザー指示)。村作成3条件 = 終了村に1戦以上参加 / 入村制限なし / 自分が建てた村が進行中でない (`Player.isAvailableCreateVillage`)。legacy faq.html は据置 (ユーザー判断)
+    - **7.5 (流用 divert) 実装時の注意**: 闇鍋テーブルは「ラベル=静的 prop / 値=フォーム state」の分離構造。`reset()` で値だけ流し込んでもラベルは変わらない (`.reviews/PR-66.md` 2巡目 nit)。配分セルのエラー表示 e2e は 7.4 (submit 接続) で追加検討
+    - e2e 4件追加 (全 **38 件** green)。pr-reviewer 2巡 (2巡目 should 0 で打ち切り、`.reviews/PR-66.md`)
   - **step-6 完了 ✅ (#65)**: ランダムキーワード React 化 (`/random-message` 一覧 / `/new-random-keyword` 作成 / `/random-keyword/:id` 編集・削除)。**認証付き CRUD の最初のパターンを確立**
     - **backend**: `GET /api/v1/random-keywords(?q=)` / `GET /{id}` = permitAll、`POST`/`PUT /{id}`/`DELETE /{id}` = **要認証** (legacy の permitAll 書き込みを random-keyword.md の確定方針どおり厳格化)。ドメイン `RandomKeywords`/`RandomKeyword` を直接返す。絞り込みは API 側 (`RandomKeywordSearchRequest` + `RandomKeywords.filterBy`、pr-reviewer 指摘で client filter から移行)
     - **実バグ 2 件を実測で発見・対処 (今後の REST 化で要注意)**: (1) **型引数の `@Size` (`List<@Size(...) String>`) は実行時検証されない** (Kotlin は型アノテーションを既定でバイトコードに出さない) → コレクション要素の制約はコード検証 (`toModel`/`toContents`) で行い、spec へは `@ArraySchema` で出す。(2) **複数テーブル書き込みにトランザクションが無く部分挿入が残った** → `RandomKeywordService` の書き込み 3 メソッドに `@Transactional` 付与 (単一サービス内のため coordinator は作らない判断、レビュー合意)
@@ -74,7 +82,7 @@
     - **PageLayout に `header` オプション** (アーカイブはバナー無しページ)、**`siteMeta()` のページ名省略対応** (省略時はサイト共通タイトル「WOLF MANSION 〜人狼館の事件簿村〜」)
     - **announce にお知らせ追記** (releases.ts 先頭に手追記の運用どおり、3 ページへのリンク付き)
     - **検証**: `:8091` とスレ本文 `innerText` を空白正規化比較で**完全一致** (2 ページとも)。e2e 3件追加 (全30件 green)。pr-reviewer 2巡 must/should 0 件 (**指摘 0 件の巡があれば打ち切ってよい運用に ship-issue skill を更新**)
-  - **次の候補**: **Step 7 (新規村作成)**。設定項目最多 (~40 フィールド) のためサブ step 分割済 (7.1 フォーム本体 / 7.2 発言制限 / 7.3 キャラチップ選択 / 7.4 確認モーダル→作成 / 7.5 流用)。08-step-plan.md 参照
+  - **次の候補**: **Step 7.2 (発言制限設定)**。Step 7 サブ step 分割: 7.1 フォーム本体 ✅ / 7.2 発言制限 / 7.3 キャラチップ選択 / 7.4 確認モーダル→作成 / 7.5 流用。08-step-plan.md 参照
   - **UI 忠実再現メモ (方針変更・重要)**: 「移行中は近似 → Step 12 で一括復元」は**廃止**。**各画面を移行する step 内で `:8091` 基準に忠実再現する** (レイアウト・色・余白・`<title>` / OGP / `<head>` メタ・共通ヘッダー含む)。Step 12 は純粋な視覚モダナイズ (刷新) のみ。08-step-plan.md「忠実再現は各画面 step で行う」が正本。~~3.3 の認証画面は旧方針で素朴に作ったため後日忠実再現が要る~~ → **step-3.6 (#57) で対応済**
   - **判断済**: context-path rename (`/wolf-mansion-api`) は **据置 → Step 3 先行** (cutover 前の別サブ step に後回し)。Step 3 は 4 分割 (3.1 JWT基盤 ✅ / 3.2 signup・password+レート制限 ✅ / 3.3 frontend+e2e / 3.4 OpenAPI→TS)
   - **未対応の follow-up (別 step 候補)**: `DiscordRepositoryImpl.post`/`postToWebhook` が素の `RestTemplate`(タイムアウト無制限)。`postToMaster` 同様に短タイムアウトを付けるとリスクが揃う(pr-reviewer nit、本 PR スコープ外)
@@ -85,7 +93,7 @@
   - DBFlute エンジン本体は Java 8 で動作 (`_project.sh` が `/usr/libexec/java_home -v 1.8` を設定)。エンジンは `mydbflute/dbflute-1.3.1` (git tracked)
 - **Step 2 サブ step**: 2.1 移動+Jib (✅ #47) / 2.2 ktlint+hook+gitignore (✅ #48) / 2.3 frontend 雛形 (✅ #49) / 2.4 e2e 雛形 (✅ #50)。**context-path `/wolf-mansion-api` は別サブ step に切り出し**済 (PlayerController の id_register Cookie path と結合のため `/wolf-mansion` 据置、Step 3 前後で実施)
 - **git 状態**:
-  - ブランチ = `feature/monorepo`。HEAD = `5a70e80f` (= step-6 #65)。作業ツリー clean、origin と同期
+  - ブランチ = `feature/monorepo`。HEAD = `d6048afd` (= step-7.1 #66)。作業ツリー clean、origin と同期
   - **構成**: `backend/` (Spring Boot/Kotlin、自己完結 Gradle) / `frontend/` (RR v7 SSR) / `e2e/` (Playwright、ローカル専用) / root は doc・設定のみ
   - **backend**: ktlint 導入済 (`backend/build.gradle.kts` plugin + `.editorconfig` で 5 ルール無効化)。context-path は `/wolf-mansion` 据置。`cd backend && ./gradlew ...`、bootRun は 8089。**JDK 21 (jenv): root + `backend/.java-version`=21 + jenv global=21**
   - **e2e**: Playwright (`@playwright/test` 1.60.0 pin、minimumReleaseAge 14日制約) + pnpm (独立プロジェクト)。`playwright.config.ts` の webServer が backend **18089** / frontend **15173** を別ポート自動起動 (通常 8089/5173 と並走可)、baseURL=frontend。smoke + **auth.spec (3.3 で追加: signup→me→logout→login + 未認証リダイレクト)**。frontend webServer に `BACKEND_ORIGIN=…:18089` を注入し Vite proxy の転送先を e2e backend に向ける。本格 authoring は Step 8+/scenarios。CI 非実行。`cd e2e && pnpm install && pnpm run install:browsers && pnpm test`。**注意: e2e は provision 済み DB が前提** (空 docker DB だと `VILLAGE doesn't exist` 等で 500)
@@ -112,9 +120,10 @@
 
 ## 次にやること
 
-**Step 6 (ランダム機能) 完了 🎉 (#65)** — 次は **Step 7 (新規村作成)**。
+**Step 7.1 (村作成フォーム本体) 完了 ✅ (#66)** — 次は **Step 7.2 (発言制限設定)**。
 
-- **(次) Step 7 (新規村作成)**: 設定項目最多 (~40 フィールド) の複雑フォーム。サブ step 分割済み: 7.1 フォーム本体 / 7.2 発言制限設定 / 7.3 キャラチップ選択 / 7.4 確認モーダル→作成 / 7.5 既存村からの流用。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。08-step-plan.md 参照。`/add-issue` 起票 → `/ship-issue`
+- **(次) Step 7.2 (発言制限設定)**: 役職別 (通常発言・全役職分) / 発言種別 (囁き/共鳴/恋人/念話) / RP (アクション) の発言制限テーブル。count既定20/length既定400、チェックで有効化、先頭行の値を全行コピーするボタン。SSR テンプレ `new-village-{say,skill-say,rp-say}-restriction.html` + `new-village.js` の `initRestrict`/`handleRestriction` 参照。**7.1 で作ったフォームに `sayRestrictList`/`skillSayRestrictList`/`rpSayRestrictList` を足す** (zod schema / defaultValues は `routes/new-village/schema.ts` を拡張)。対象 md: [new-village.md](../doc/migration/screens/new-village.md)。`/add-issue` 起票 → `/ship-issue`
+- **Step 7 残り**: 7.3 キャラチップ選択 (Step 5.4 の charachip API 流用 + `GET /getCharacterList` の REST 化) / 7.4 確認モーダル→作成 (作成 REST API 新設、「確認画面へ」ボタン有効化、配分セルエラーの e2e 追加検討) / 7.5 流用 (divert。闇鍋テーブルの「ラベル=静的 prop / 値=フォーム state」分離に注意、`.reviews/PR-66.md`)
 - **認証付き CRUD パターン (step-6 で確立・以降踏襲)**: write 系 REST は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系ページ = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導。mutation 後は `useInvalidateXxx` → `navigate`。**コレクション要素の制約は型引数 `@Size` でなくコード検証** (実行時に効かない。spec へは `@ArraySchema` で出す)。**複数テーブル書き込みは service に `@Transactional`**
 - **step-5.1/5.2 で確立したパターン**: 役職説明データ・未実装役職は `descriptions.ts` (rule/skill.html からスクリプト自動生成)。名前・略称・陣営名は API (`SimpleSkillView`) から取得。メッセージ表示は暫定の色分け枠線 (`components/ui/SkillMessage`)、完全な見た目は Step 8.2 後に差し替え (08-step-plan.md 繰り越し事項)。フォントは system sans-serif (Inter 除去済)
 - **REST API 設計方針 (step-5.4 で確定・以降必須)**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 [`doc/migration/01-overview.md`](../doc/migration/01-overview.md)「REST API 設計方針」
