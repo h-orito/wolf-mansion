@@ -595,6 +595,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/vote": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["setVillageVote"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -877,6 +893,10 @@ export interface components {
     };
     ParticipantSituationViewVote: {
       canVote: boolean;
+      /** Format: int32 */
+      targetCharaId?: number | null;
+      targetList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
+      targetName?: string | null;
     };
     PasswordChangeRequest: {
       confirmPassword: string | null;
@@ -1401,6 +1421,10 @@ export interface components {
       /** Format: int32 */
       maxVoteCount: number;
       voteList: components["schemas"]["VillageMemberVoteContent"][];
+    };
+    VillageVoteRequest: {
+      /** Format: int32 */
+      targetCharaId: number | null;
     };
     WolfAllocation: {
       /** Format: int32 */
@@ -2378,6 +2402,30 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["VillageUpdateResponse"];
         };
+      };
+    };
+  };
+  setVillageVote: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageVoteRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

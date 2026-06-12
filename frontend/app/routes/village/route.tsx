@@ -36,6 +36,7 @@ import {
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "./AbilityPanel";
+import { VotePanel } from "./VotePanel";
 import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
@@ -384,6 +385,10 @@ export default function Village({ params }: Route.ComponentProps) {
             roomAssignedRows={situation?.roomAssignedRowList}
             onDone={invalidate}
           />
+        )}
+
+        {mySituation != null && mySituation.vote.canVote && (
+          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
 
         {mySituation != null &&

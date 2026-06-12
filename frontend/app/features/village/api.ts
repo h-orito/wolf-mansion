@@ -260,3 +260,11 @@ export function fetchAbilityFootsteps(
     `/api/v1/villages/${id}/ability/footsteps${query !== "" ? `?${query}` : ""}`,
   );
 }
+
+/** 投票セットのリクエスト。 */
+export type VillageVoteRequest = components["schemas"]["VillageVoteRequest"];
+
+/** 投票をセットする。要認証 → 204。 */
+export function setVillageVote(id: number, request: VillageVoteRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/vote`, { method: "POST", body: request });
+}
