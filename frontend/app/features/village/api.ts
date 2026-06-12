@@ -175,3 +175,35 @@ export function confirmVillageAction(
 export function actionVillage(id: number, request: VillageActionRequest): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/action`, { method: "POST", body: request });
 }
+
+/** 入村のリクエスト (JSON part)。 */
+export type VillageParticipateRequest = components["schemas"]["VillageParticipateRequest"];
+
+/** 入村確認 (サーバ検証のみ)。通れば 204。要認証。 */
+export function confirmVillageParticipate(
+  id: number,
+  request: VillageParticipateRequest,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/participate-confirm`, {
+    method: "POST",
+    body: request,
+  });
+}
+
+/**
+ * 入村する。multipart/form-data で JSON part (`request`) + オリジナル画像 (`charaImage`、
+ * 原画村のみ必須) を送る。要認証 → 204。
+ */
+export function participateVillage(
+  id: number,
+  request: VillageParticipateRequest,
+  charaImage: File | null,
+): Promise<void> {
+  const formData = new FormData();
+  formData.append("request", new Blob([JSON.stringify(request)], { type: "application/json" }));
+  if (charaImage != null) formData.append("charaImage", charaImage);
+  return apiFetch<void>(`/api/v1/villages/${id}/participate`, {
+    method: "POST",
+    body: formData,
+  });
+}
