@@ -5,8 +5,13 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 (村画面ベース) 完了 ✅ (#71)**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 (村画面ベース) ✅ #71 / 8.2 (メッセージ表示) ✅ #72**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
 - **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+  - **step-8.2 完了 ✅ (#72)**: 村画面メッセージ表示。発言ログ全種別描画 / ページング / アンカーのインライン展開 / 一覧末尾アナウンス / settled の参加者正体公開 / 新着発言検知 (footer 更新ボタン点滅) / 年齢制限確認モーダル (localStorage) / 通知用パーマリンク `/village/{id}/message?anchors=`
+    - **backend**: `VillageMessageRestController` (messages / latest-datetime / anchor / anchors / participants、全 permitAll + JWT 視点反映)。検索条件は `VillageMessageSearchRequest` → **SSR の `VillageGetMessageListForm.toMessageQuery` に委譲** (種別展開・全員選択空化を二重実装しない)。応答は既存 `VillageMessageListContent` 等を直接返す。**可視性マスク 2 層 (mask.md §2) は既存 `MessageService` をそのまま通る** (実測: 匿名 5 件/admin 11 件)。participants の settled ガードは controller 責務
+    - **frontend**: `messageHtml.ts` = legacy `escapeAndSetAnchor` の忠実移植 (**エスケープ → 固定マークアップ置換の順序が安全性の正本**。dangerouslySetInnerHTML はこの変換出力のみ)。`MessageCard` (種別バリアント + アンカー展開トグル + netabare/tp クリック解除)。配色は `components/ui/messageStyles.ts` に集約し **SkillMessage と共有 (5.1 の暫定枠線置換が完了)**。吹き出しには `message-normal` 等のセマンティッククラスを併記 (本文内リンク色 CSS と e2e が参照)
+    - 動作確認用に村 5 へ装飾フルセットの村建て発言を投稿済み (SSR `creator-say` を curl で。say 系は CSRF 除外だが creator-say は要 CSRF トークン)
+    - e2e 3 件追加 (全 **54 件** green)。pr-reviewer 2 巡 (should 1 = `/user/` リンク規約違反を反映、2 巡目 0 件、`.reviews/PR-72.md`)
   - **step-8.1 完了 ✅ (#71)**: 村画面ベース。`/village/:id` (+ `/day/:day`) で レイアウト / 日付ナビ / 状況サマリ 4 タブ (部屋割り・参加者・投票・足音) / 30 秒ポーリング / 残り時間カウントダウン。**二層 situation + `isViewableSpoilerContent` をマスク基盤として確立**
     - **backend**: `GET /api/v1/villages/{id}` (村詳細、joinPassword 除外) / `GET .../situation?day=` (状況、permitAll だが JWT があれば視点をマスクに反映) / `GET .../situation/me?day=` (capability フラグのみ、認証必須、**各操作の入力候補はその操作のサブ step で追加**) / `POST .../update` (ポーリング = 最終アクセス更新 + daychange 駆動、permitAll、応答 `{latestDay}` のみ)。マスクは既存 view (`VillageRoomAssignedRow.isViewableMemberSkill`) と domain service (足音/能力欄/投票隠蔽) を**そのまま流用**し重複実装しない。`VillageSituationView` は `VillageContent` の実フィールドが正本 (village-base.md 方針)
     - **operationId 衝突の教訓 (今後の REST 化で要注意)**: メソッド名が他 Controller と単純名衝突すると SpringDoc の自動連番 (`detail_1`/`detail_2`) が探索順で揺れて spec の不要差分になる → **新エンドポイントは `@Operation(operationId=...)` を明示** (7.5 のスキーマ名衝突の operationId 版、`.reviews/PR-71.md`)
@@ -159,9 +164,9 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1 完了 ✅ (#71)、次は 8.2 (メッセージ表示)**。
+**Step 8 (村画面) 進行中 — 8.1 ✅ / 8.2 ✅、次は 8.3 (メッセージフィルタ)**。
 
-- **(次) step-8.2 メッセージ表示**: 発言ログが種別ごとに正しく描画され、アンカー / 参加者一覧公開が動く (village-messages.md が正本)。メッセージ取得 REST + `MessageDomainService.getViewableMessageTypeList` + **query 層インクルージョン (`includeMonologue`/`includeSecret`/`includePrivateAbility`) の両層を移植** (mask.md §2: 種別リスト層だけだと当事者が自分の秘話/独り言を見られないバグ)。`components/ui/SkillMessage` の暫定枠線を村メッセージコンポーネントに置換 → skill 画面 (5.1) の差し替えも忘れず (08-step-plan.md 繰り越し)。年齢制限確認モーダルもここ
+- **(次) step-8.3 メッセージフィルタ**: 種別・発言者・宛先・キーワードでの抽出 (modal-filter) が動く (village-messages.md §4 が正本)。**API 側の受け口 (`VillageMessageSearchRequest` の participantIds/toParticipantIds/types/keywords) は 8.2 で実装済み**で、UI (抽出モーダル・ショートカット・全ON/OFF/反転・URL query 保存) とハッシュタグクリック連動・ネタバレ防止トグル (`data-spoiled-content` 相当の隠し分け) を実装する。発言抽出用の参加者リストは village situation (memberList) か `VillageContent.participantList` 相当の整理が必要
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
