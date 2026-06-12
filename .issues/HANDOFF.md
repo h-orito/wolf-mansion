@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.17 ✅ (#71〜#86)、次は 8.18 (村設定変更)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.18 ✅ (#71〜#87)、次は 8.19 (切り抜き)**。
 
-- **(次) step-8.18 村設定変更**: 村主の設定変更画面 `/village/{id}/settings` (village-settings.md が正本)。new-village のフォーム部品と共通化する前提 (new-village.md「村設定変更画面と酷似」)。SSR `CreatorController.saveSettings` / `Village.assertModifySetting` を踏襲
+- **(次) step-8.19 切り抜き**: 切り抜き画面 `/village/{id}/scrap` (village-scrap.md が正本)。村画面からのリンクは 8.1 で SPA URL 済み
+- **8.18 のメモ**: 設定変更 REST は `GET/PUT /api/v1/villages/{id}/creator/setting` (リクエスト/レスポンスとも SSR の `VillageSettingForm` を直接流用、merge は `VillageSettingForm.mergeTo` に移設)。フォーム部品は `features/village-form/` に共有化済み (new-village と村設定変更が使う)。schema は `newVillageSchema` / `villageSettingsSchema` の 2 本 (相関検証は共有関数)。変更不可項目 (キャラセット・ダミーキャラ・役職希望・プロデューサー) は backend Form にフィールド不在で構造的に改変不可
 - **8.17 のメモ**: debug REST は `GET /api/v1/villages/{id}/debug` (isDebugMode + dummy login 用 players。**無効時は isDebugMode:false を返す** — frontend のパネル表示判定用) / `POST /debug/all-participate` / `POST /debug/day-change` (無効時 404)。**e2e/手動の村進行はこの REST が新しい基本手段** (SSR debug メニュー不要に)。ダミーログインは既存 auth login (password=testuser) + 全リロード。使い捨て村の後片付け: 進行中まで進めた村は cancel 不可 → DB で `UPDATE VILLAGE SET VILLAGE_STATUS_CODE='CANCEL'` (村 8 がその例)
 - **8.16 のメモ**: admin REST は `/api/v1/villages/{id}/admin/*` (leave/access/vote/players)。管理者判定は DB 再確認 (`CDef.Authority.管理者`)。Bhv 直接操作は `AdminVillageService` (application 層) へ移設 (ドメイン経由への整理は将来課題)。参加プレイヤー確認はパネル内インライン表示に変更済み (確定済み UI 変更)。**村 6 の day 2 に全員自己投票の検証データ (自己投票 8 件) が入っている**
 - **8.15 のメモ**: creator REST は `/api/v1/villages/{id}/creator/*` (say-confirm/say/kick/cancel/extend-epilogue/shorten-epilogue)。kick/cancel の正常系は**使い捨て村を作って検証し、最後に cancel して後片付け**する方式が有効 (村 7 = 廃村済みがその痕跡)。`isAvailableShortenEpilogue` を domain situation に追加済み (短縮は残り 1 日超のみ)。エピローグ延長/短縮の正常系実測は未実施 (エピローグ村が無いため。domain assert + 異常系 400 は確認済み) — エピローグ村ができたら確認
