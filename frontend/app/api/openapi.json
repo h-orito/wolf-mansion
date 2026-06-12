@@ -974,6 +974,79 @@
         "tags": ["village-message-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/participate": {
+      "post": {
+        "operationId": "participateVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "charaImage": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "request": {
+                    "$ref": "#/components/schemas/VillageParticipateRequest"
+                  }
+                },
+                "required": ["request"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-participate-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/participate-confirm": {
+      "post": {
+        "operationId": "confirmVillageParticipate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageParticipateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-participate-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/say": {
       "post": {
         "operationId": "sayVillage",
@@ -1706,6 +1779,12 @@
           },
           "isParticipating": {
             "type": "boolean"
+          },
+          "selectableCharachipList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewParticipateCharachip"
+            }
           }
         },
         "required": [
@@ -1713,8 +1792,55 @@
           "isAvailableParticipate",
           "isAvailableSpectate",
           "isAvailableSwitchParticipate",
-          "isParticipating"
+          "isParticipating",
+          "selectableCharachipList"
         ]
+      },
+      "ParticipantSituationViewParticipateChara": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imageUrl": {
+            "type": "string"
+          },
+          "imageWidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "imageHeight", "imageUrl", "imageWidth", "name", "shortName"]
+      },
+      "ParticipantSituationViewParticipateCharachip": {
+        "type": "object",
+        "properties": {
+          "charas": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewParticipateChara"
+            }
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["charas", "id", "name"]
       },
       "ParticipantSituationViewRp": {
         "type": "object",
@@ -1831,9 +1957,33 @@
         "properties": {
           "isAvailableSkillRequest": {
             "type": "boolean"
+          },
+          "requestedSkillCode": {
+            "type": ["string", "null"]
+          },
+          "secondRequestedSkillCode": {
+            "type": ["string", "null"]
+          },
+          "selectableSkillList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewSkillRequestSkill"
+            }
           }
         },
-        "required": ["isAvailableSkillRequest"]
+        "required": ["isAvailableSkillRequest", "selectableSkillList"]
+      },
+      "ParticipantSituationViewSkillRequestSkill": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
       },
       "ParticipantSituationViewVote": {
         "type": "object",
@@ -3146,6 +3296,37 @@
           }
         },
         "required": ["list"]
+      },
+      "VillageParticipateRequest": {
+        "type": "object",
+        "properties": {
+          "charaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "charaName": {
+            "type": ["string", "null"]
+          },
+          "charaShortName": {
+            "type": ["string", "null"]
+          },
+          "joinMessage": {
+            "type": ["string", "null"]
+          },
+          "joinPassword": {
+            "type": ["string", "null"]
+          },
+          "requestedSkill": {
+            "type": ["string", "null"]
+          },
+          "secondRequestedSkill": {
+            "type": ["string", "null"]
+          },
+          "spectator": {
+            "type": ["boolean", "null"]
+          }
+        },
+        "required": ["charaName", "charaShortName", "joinMessage"]
       },
       "VillageRandomOrganize": {
         "type": "object",

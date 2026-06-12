@@ -1,6 +1,8 @@
 package com.ort.app.api.village.response
 
+import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.CharaImage
+import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
@@ -32,7 +34,7 @@ data class ParticipantSituationView(
     constructor(situation: ParticipantSituation) : this(
         myself = situation.participate.myself?.let { MyselfView(it) },
         participate = ParticipateView(situation),
-        skillRequest = SkillRequestView(isAvailableSkillRequest = situation.skillRequest.isAvailableSkillRequest),
+        skillRequest = SkillRequestView(situation),
         commit =
             CommitView(
                 isAvailableCommit = situation.commit.isAvailableCommit,
@@ -86,6 +88,8 @@ data class ParticipantSituationView(
         val isAvailableSpectate: Boolean,
         val isAvailableSwitchParticipate: Boolean,
         val isAvailableLeave: Boolean,
+        /** 入村フォームで選択できるキャラセット (空きキャラのみ) */
+        val selectableCharachipList: List<ParticipateCharachipView>,
     ) {
         constructor(situation: ParticipantSituation) : this(
             isParticipating = situation.participate.isParticipating,
@@ -93,12 +97,80 @@ data class ParticipantSituationView(
             isAvailableSpectate = situation.participate.isAvailableSpectate,
             isAvailableSwitchParticipate = situation.participate.isAvailableSwitchParticipate,
             isAvailableLeave = situation.participate.isAvailableLeave,
+            selectableCharachipList =
+                situation.participate.selectableCharachipList.map { charachip ->
+                    ParticipateCharachipView(charachip, situation.participate.selectableCharaList)
+                },
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewParticipateCharachip")
+    data class ParticipateCharachipView(
+        val id: Int,
+        val name: String,
+        /** このキャラセットのうち選択できる (未使用の) キャラ */
+        val charas: List<ParticipateCharaView>,
+    ) {
+        constructor(charachip: Charachip, selectableCharas: List<Chara>) : this(
+            id = charachip.id,
+            name = charachip.name,
+            charas =
+                charachip.charas.list
+                    .filter { chara -> selectableCharas.any { it.id == chara.id } }
+                    .map { ParticipateCharaView(it) },
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewParticipateChara")
+    data class ParticipateCharaView(
+        val id: Int,
+        val name: String,
+        val shortName: String,
+        val imageUrl: String,
+        val imageWidth: Int,
+        val imageHeight: Int,
+    ) {
+        constructor(chara: Chara) : this(
+            id = chara.id,
+            name = chara.name,
+            shortName = chara.shortName,
+            imageUrl = chara.defaultImage().url,
+            imageWidth = chara.size.width,
+            imageHeight = chara.size.height,
         )
     }
 
     @Schema(name = "ParticipantSituationViewSkillRequest")
     data class SkillRequestView(
         val isAvailableSkillRequest: Boolean,
+        /** 希望できる役職 */
+        val selectableSkillList: List<SkillRequestSkillView>,
+        /** 現在の第 1 希望 (未参加は null) */
+        val requestedSkillCode: String?,
+        /** 現在の第 2 希望 (未参加は null) */
+        val secondRequestedSkillCode: String?,
+    ) {
+        constructor(situation: ParticipantSituation) : this(
+            isAvailableSkillRequest = situation.skillRequest.isAvailableSkillRequest,
+            selectableSkillList =
+                situation.skillRequest.selectableSkillList.map {
+                    SkillRequestSkillView(code = it.code, name = it.name)
+                },
+            requestedSkillCode =
+                situation.skillRequest.skillRequest
+                    ?.first
+                    ?.code,
+            secondRequestedSkillCode =
+                situation.skillRequest.skillRequest
+                    ?.second
+                    ?.code,
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewSkillRequestSkill")
+    data class SkillRequestSkillView(
+        val code: String,
+        val name: String,
     )
 
     @Schema(name = "ParticipantSituationViewCommit")

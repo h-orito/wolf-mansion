@@ -9,11 +9,13 @@ import {
   actionVillage,
   confirmVillageAction,
   confirmVillageSay,
+  participateVillage,
   sayVillage,
   type VillageActionRequest,
   type VillageDetailView,
   type VillageMessageContent,
   type VillageMessageListContent,
+  type VillageParticipateRequest,
   type VillageSayRequest,
 } from "~/features/village/api";
 import {
@@ -39,6 +41,7 @@ import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
 import { MessageArea } from "./MessageArea";
+import { ParticipatePanel } from "./ParticipatePanel";
 import { type ReplyDraft } from "./MessageCard";
 import { MessageCard } from "./MessageCard";
 import { SayPanel } from "./SayPanel";
@@ -217,6 +220,17 @@ export default function Village({ params }: Route.ComponentProps) {
     setSayPreview(null);
     document.getElementById("say-panel")?.scrollIntoView();
   };
+  const [participateError, setParticipateError] = useState<string | null>(null);
+  const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
+    try {
+      await participateVillage(villageId, request, charaImage);
+      await invalidate();
+      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+    } catch (e) {
+      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
+      throw e;
+    }
+  };
 
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
@@ -360,6 +374,23 @@ export default function Village({ params }: Route.ComponentProps) {
             onConfirm={onActionConfirm}
           />
         )}
+
+        {mySituation != null &&
+          !mySituation.participate.isParticipating &&
+          (mySituation.participate.isAvailableParticipate ||
+            mySituation.participate.isAvailableSpectate) && (
+            <div>
+              {participateError != null && (
+                <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>
+              )}
+              <ParticipatePanel
+                village={village}
+                mySituation={mySituation}
+                onParticipated={onParticipated}
+                onError={setParticipateError}
+              />
+            </div>
+          )}
 
         <DayList
           villageId={villageId}

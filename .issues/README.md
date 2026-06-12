@@ -24,7 +24,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| (現在 open な Issue なし) | | | |
+| step-8.6 | 村画面 入村 (キャラ選択 + 入村発言 + 希望役職 + 確認) | enhancement | open |
 
 > **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12)**: `feature/monorepo-step8` を base にサブ step PR を積み、同ブランチへの squash merge は Claude 単独で可。`feature/monorepo` への merge は最終 PR でユーザー承認。8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75。
 

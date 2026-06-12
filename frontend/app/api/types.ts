@@ -371,6 +371,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/participate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["participateVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/participate-confirm": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["confirmVillageParticipate"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/say": {
     parameters: {
       query?: never;
@@ -639,6 +671,24 @@ export interface components {
       isAvailableSpectate: boolean;
       isAvailableSwitchParticipate: boolean;
       isParticipating: boolean;
+      selectableCharachipList: components["schemas"]["ParticipantSituationViewParticipateCharachip"][];
+    };
+    ParticipantSituationViewParticipateChara: {
+      /** Format: int32 */
+      id: number;
+      /** Format: int32 */
+      imageHeight: number;
+      imageUrl: string;
+      /** Format: int32 */
+      imageWidth: number;
+      name: string;
+      shortName: string;
+    };
+    ParticipantSituationViewParticipateCharachip: {
+      charas: components["schemas"]["ParticipantSituationViewParticipateChara"][];
+      /** Format: int32 */
+      id: number;
+      name: string;
     };
     ParticipantSituationViewRp: {
       canAddImage: boolean;
@@ -679,6 +729,13 @@ export interface components {
     };
     ParticipantSituationViewSkillRequest: {
       isAvailableSkillRequest: boolean;
+      requestedSkillCode?: string | null;
+      secondRequestedSkillCode?: string | null;
+      selectableSkillList: components["schemas"]["ParticipantSituationViewSkillRequestSkill"][];
+    };
+    ParticipantSituationViewSkillRequestSkill: {
+      code: string;
+      name: string;
     };
     ParticipantSituationViewVote: {
       canVote: boolean;
@@ -1062,6 +1119,17 @@ export interface components {
     };
     VillageParticipantsContent: {
       list: components["schemas"]["VillageParticipantContent"][];
+    };
+    VillageParticipateRequest: {
+      /** Format: int32 */
+      charaId?: number | null;
+      charaName: string | null;
+      charaShortName: string | null;
+      joinMessage: string | null;
+      joinPassword?: string | null;
+      requestedSkill?: string | null;
+      secondRequestedSkill?: string | null;
+      spectator?: boolean | null;
     };
     VillageRandomOrganize: {
       campAllocation: components["schemas"]["CampAllocation"][];
@@ -1830,6 +1898,58 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["VillageParticipantsContent"];
         };
+      };
+    };
+  };
+  participateVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          /** Format: binary */
+          charaImage?: string;
+          request: components["schemas"]["VillageParticipateRequest"];
+        };
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  confirmVillageParticipate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageParticipateRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };
