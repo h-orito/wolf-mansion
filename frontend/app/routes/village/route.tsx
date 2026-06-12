@@ -147,6 +147,8 @@ export default function Village({ params }: Route.ComponentProps) {
   const [filterOpen, setFilterOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
+  // 年齢制限確認 → 初回役職確認の順で出す (同時に重ねない)
+  const [ageLimitResolved, setAgeLimitResolved] = useState(false);
   const applyFilter = (next: MessageFilter) =>
     setSearchParams(applyFilterToParams(searchParams, next));
   const applyFilterNewTab = (next: MessageFilter) => {
@@ -488,7 +490,11 @@ export default function Village({ params }: Route.ComponentProps) {
         villageId={villageId}
         canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
       />
-      <InitialSkillModal villageId={villageId} mySituation={mySituation} />
+      <InitialSkillModal
+        villageId={villageId}
+        mySituation={mySituation}
+        suppressed={ageLimit != null && !ageLimitResolved}
+      />
       <FilterModal
         open={filterOpen}
         onClose={() => setFilterOpen(false)}
@@ -499,7 +505,13 @@ export default function Village({ params }: Route.ComponentProps) {
         onApply={applyFilter}
         onApplyNewTab={applyFilterNewTab}
       />
-      {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
+      {ageLimit != null && (
+        <AgeLimitModal
+          villageId={villageId}
+          ageLimit={ageLimit}
+          onResolved={() => setAgeLimitResolved(true)}
+        />
+      )}
 
       {/* 通知系のオーバーレイ */}
       {daychangeDetected && (

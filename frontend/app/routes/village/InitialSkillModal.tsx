@@ -23,20 +23,23 @@ function confirmedVillages(): string[] {
 export function InitialSkillModal({
   villageId,
   mySituation,
+  suppressed = false,
 }: {
   villageId: number;
   mySituation: ParticipantSituationView | null | undefined;
+  /** 年齢制限確認が済むまで出さない (確認モーダルの逐次表示) */
+  suppressed?: boolean;
 }) {
   const skill = mySituation?.myself?.skill;
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (skill == null) {
+    if (skill == null || suppressed) {
       setOpen(false);
       return;
     }
     setOpen(!confirmedVillages().includes(String(villageId)));
-  }, [villageId, skill]);
+  }, [villageId, skill, suppressed]);
 
   const { data: settings } = useVillageInfo(villageId, open);
 
@@ -53,9 +56,7 @@ export function InitialSkillModal({
     setOpen(false);
   };
 
-  const descriptionItems = (skillDescriptions[skill.code.toLowerCase()] ?? []).filter(
-    (item) => item.type === "text",
-  );
+  const descriptionItems = skillDescriptions[skill.code.toLowerCase()] ?? [];
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4">

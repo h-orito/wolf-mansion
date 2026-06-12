@@ -99,6 +99,11 @@ test("アクション: 対象選択 + 本文 → 確認 → 投稿 → ログ反
   const actionPanel = page.locator("div").filter({ hasText: /^アクション$/ }).first();
   const actionInput = page.getByLabel("アクション本文");
   test.skip((await actionInput.count()) === 0, "アクションできない状態のためスキップ");
+  // 共有 DB で繰り返し実行すると 1 日のアクション回数を使い切るため、枯渇時はスキップ
+  test.skip(
+    (await actionPanel.locator("..").getByText(/残り0\/\d+回/).count()) > 0,
+    "本日のアクション回数を使い切っているためスキップ",
+  );
 
   const text = `に e2e アクション ${Date.now()}`;
   await page.getByLabel("アクションの対象").selectOption("全員");
