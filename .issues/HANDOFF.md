@@ -5,8 +5,12 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 (メッセージフィルタ) ✅ #73**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 (発言投稿) ✅ #74**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
 - **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+  - **step-8.4 完了 ✅ (#74)**: 発言投稿。種別ラジオ (selectable のみ・背景色/既定表情の自動切替) / 秘話相手 / 装飾ツールバー (選択範囲を [[tag]] で囲む + ランダム機能挿入) / 表情選択 / **残数・文字数・行数のリアルタイム表示 (超過は入力可・確認のみ無効)** / **確認 → 投稿の 2 段フロー** (発言位置に黄枠プレビュー、種別別ボタンラベル、連打ガード) / 返信・秘話返信の接続
+    - **backend**: situation/me の say を拡張 (selectableMessageTypeList + restrict + 秘話宛先 / selectableCharaImageList / defaultMessageTypeCode)。`POST say-confirm` / `POST say` (要認証、`SayFormValidator` + `MessageCoordinator` 流用、**IP 記録維持**)。なりすまし不可 (myself は principal からのみ解決)、可否の権威検証は domain `assertSay`
+    - **意図的な暫定差異**: 装飾ツールバーは legacy では表示設定で既定非表示 → 表示設定実装 (8.13) までは常時表示。表情/秘話相手の画像選択モーダルは select で代替。`canAutoRefresh` 相当は自動リロード実装時 (8.13) に対応
+    - e2e 2 件追加 (全 **58 件** green)。pr-reviewer 2 巡 (should 1 = 連打ガード反映、`.reviews/PR-74.md`)
   - **step-8.3 完了 ✅ (#73)**: 村画面の発言抽出。抽出モーダル (種別 12 種/発言者/宛先/キーワード/ショートカット 囁き・共鳴・恋人・念話・自分宛・通知キーワード) + **フィルタ状態は URL searchParams が正本** (`fpid`/`typ`/`kwd`/`tpid`/`spl`、日付ナビ遷移でも引き継ぐ) + ハッシュタグクリック連動 + ネタバレ防止トグル (spoiled 種別/playerName/役職名/能力欄/足音詳細を隠す)。footer「抽出」有効化 (適用中は「抽出中」塗り)
     - backend は `VillageSituationView.participantList` (発言者・宛先の素材、`VillageFilterParticipantContent` 流用) と `MyselfView.notificationKeyword` の additive 追加のみ。絞り込みは 8.2 の `VillageMessageSearchRequest` をそのまま使用
     - **components/ui 拡充**: `TextButton` (リンク風アクション) / `ButtonCheckboxGroup` (ButtonRadioGroup outline の複数選択版)
@@ -169,9 +173,9 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1 ✅ / 8.2 ✅ / 8.3 ✅、次は 8.4 (発言投稿)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.4 ✅、次は 8.5 (アクション発言)**。
 
-- **(次) step-8.4 発言投稿**: 通常/表情/装飾/秘話/返信の発言を確認フロー経由で投稿できる。文字数/行数制限 (種別別) で送信可否を出し分け (village-say.md が正本)。`ParticipantSaySituation` の selectableMessageTypeList (種別別の制限・宛先) を situation/me に additive 追加し、発言 REST (確認 → 投稿) を新設。8.2 で出していない返信/秘話リンクの接続もここ。テストデータは村 5 + debug 機能 (人数分入村で新しい村を作り直すのも可)
+- **(次) step-8.5 アクション発言**: アクション発言 (別パネル `#actionform-panel`) を投稿できる (village-action.md が正本)。say と同じ確認 → 投稿フローだが、フォームは「myself は、/(本文)」の 2 部構成。SSR の `/action-confirm` `/action` は CSRF 除外されていない点が say と非対称な点に注意 (REST は v1 チェーンで CSRF 無効なので関係なし)。situation/me の say.selectableMessageTypeList に ACTION が既に出ているので、restrict もそこから取れる
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
