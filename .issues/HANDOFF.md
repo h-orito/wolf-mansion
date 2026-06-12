@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.14 ✅ (#71〜#83)、次は 8.15 (creator 機能)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.15 ✅ (#71〜#84)、次は 8.16 (admin 機能)**。
 
-- **(次) step-8.15 creator 機能**: 村建て発言・廃村・キック・エピローグ延長 (village-creator.md が正本)。`CreatorView` に `isAvailableCreatorSay`/`isAvailableCancelVillage`/`isAvailableKick`/`isAvailableExtendEpilogue` が出ている。SSR `CreatorController` を踏襲 (権威検証は domain)。動作確認は村 6 の master (村主) で可能。**廃村の実測は村 6 を潰さないこと** (異常系 + e2e 動的 skip で対応するか、使い捨て村を別途作る)
+- **(次) step-8.16 admin 機能**: 管理者 (playerId=1) 専用機能 (village-admin.md が正本)。`AdminView.isAdmin` は出ている。SSR の該当 controller を踏襲
+- **8.15 のメモ**: creator REST は `/api/v1/villages/{id}/creator/*` (say-confirm/say/kick/cancel/extend-epilogue/shorten-epilogue)。kick/cancel の正常系は**使い捨て村を作って検証し、最後に cancel して後片付け**する方式が有効 (村 7 = 廃村済みがその痕跡)。`isAvailableShortenEpilogue` を domain situation に追加済み (短縮は残り 1 日超のみ)。エピローグ延長/短縮の正常系実測は未実施 (エピローグ村が無いため。domain assert + 異常系 400 は確認済み) — エピローグ村ができたら確認
 - **8.14 のメモ**: 村情報は `GET /api/v1/villages/{id}/info` (公開) = SSR と共通の `VillageSettingsContent` を直返し。**ネスト DTO の単純名衝突 (`SayRestriction` 等 vs domain) で SpringDoc が生成型を壊す問題を実際に踏んだ** → `@Schema(name = "VillageSettingsXxx")` で解消。初回役職確認モーダルは localStorage `already_skill_confirm` (AgeLimitModal と同パターン)、年齢制限確認 → 役職確認の逐次表示。**初回モーダルは参加者系 e2e をブロックするため各 spec に dismiss を追加済み** — 新しい参加者系 e2e を書くときは `dismissInitialSkillModal` を忘れない。アクション e2e は 1 日の回数枯渇 (残り0/8回) で動的 skip
 - **8.13 のメモ**: 表示設定は `features/village/displaySettings.ts` (zustand persist / localStorage キー `wolf-mansion-display-settings`)。**react-query を SSR dehydrate する場合は persist の hydration 不一致に注意** (`skipHydration` 等。現状は設定依存 UI が loading 分岐の背後なので安全)。通知 keyword の空要素除去は legacy からの意図的改善
 - **8.12 の申し送り**: **表情差分 (原画村限定の画像アップロード add-face-type / modify-face-type) は 8.12.1 として分割・未実装**。原画村フィクスチャが必要 (村作成で「オリジナル画像をアップロードする」を選ぶ)。SSR `VillageRpController` の該当 2 エンドポイントと `face-type-form.html` が正本。なお SSR の modify-face-type は **face type の所有者検証をしていない** (本人キャラ以外の code を送ると他人の表情を更新できる可能性) — REST 化時に要検証・要修正
