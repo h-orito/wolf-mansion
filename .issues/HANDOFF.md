@@ -5,8 +5,13 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 (アクション発言) ✅ #75**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75 / 8.6 (入村) ✅ #76**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
 - **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+  - **step-8.6 完了 ✅ (#76)**: 入村。`ParticipatePanel` (input → confirm の 2 段: キャラセット/キャラ select で名前・略称自動補完 → 希望役職 第1/第2 → 入村発言 → パスワード → 見学チェック → **ルール/礼節の 2 つの同意チェックで「入村する」活性化**)。原画村のオリジナル画像は確認画面で選択 (multipart)
+    - **backend**: situation/me の participate (selectableCharachipList = キャラセットごとの**空きキャラのみ**) / skillRequest (selectableSkillList + 現在の希望) を additive 拡張。`POST participate-confirm` (検証のみ 204) / `POST participate` (multipart、validator + `VillageCoordinator` 流用、IP 記録維持)
+    - **意図的差異**: 入村パスワード入力は常時表示 (`joinPassword` はマスク済みで有無を露出しないため)
+    - **共有 DB**: REST 実測でユーザー `e2ejoin01` を村 2 に参加させたまま残置 (退村実装後に外せる)。e2e は確認画面まで (実入村しない = DB 非汚染)
+    - e2e 1 件追加 (全 **60 件**)。pr-reviewer 2 巡 (should 1 = 共有 input クラス反映、`.reviews/PR-76.md`)
   - **step-8.5 完了 ✅ (#75)**: アクション発言。`ActionPanel` (「{表示名}は、」+ 対象 選択しない/全員/参加者 + 本文 + 制限出し分け) + `POST action-confirm`/`action` (ActionFormValidator + MessageCoordinator 流用)。確認 → 投稿フローは say と共用 (プレビュー state に kind 導入)。SSR の action 系 CSRF 非対称は v1 チェーンで解消。e2e 1 件追加 (全 **59 件**)。pr-reviewer 1 巡 should 0 (`.reviews/PR-75.md`)
   - **step-8.4 完了 ✅ (#74)**: 発言投稿。種別ラジオ (selectable のみ・背景色/既定表情の自動切替) / 秘話相手 / 装飾ツールバー (選択範囲を [[tag]] で囲む + ランダム機能挿入) / 表情選択 / **残数・文字数・行数のリアルタイム表示 (超過は入力可・確認のみ無効)** / **確認 → 投稿の 2 段フロー** (発言位置に黄枠プレビュー、種別別ボタンラベル、連打ガード) / 返信・秘話返信の接続
     - **backend**: situation/me の say を拡張 (selectableMessageTypeList + restrict + 秘話宛先 / selectableCharaImageList / defaultMessageTypeCode)。`POST say-confirm` / `POST say` (要認証、`SayFormValidator` + `MessageCoordinator` 流用、**IP 記録維持**)。なりすまし不可 (myself は principal からのみ解決)、可否の権威検証は domain `assertSay`
@@ -174,9 +179,9 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.5 ✅、次は 8.6 (入村)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.6 ✅、次は 8.7 (見学参加・参加見学切替)**。
 
-- **(次) step-8.6 入村**: キャラ選択 + 入村発言 + 希望役職 + 確認 (ルール/礼節の同意チェック) で入村できる。原画村のオリジナル画像アップロード含む (village-participate.md が正本)。`ParticipantParticipateSituation` の selectableCharachipList/selectableCharaList を situation/me に additive 追加し、入村 REST (multipart、7.4 の村作成と同じ流儀) を新設。動作確認は新しい募集中の村を作るのが安全 (村 5 は進行中)
+- **(次) step-8.7 見学参加・参加見学切替**: 見学入村は 8.6 の spectator チェックで実装済みのため、**残りは参加 ⇄ 見学の切替** (`POST /village/{id}/switch-participate` 相当)。situation/me の participate.isAvailableSwitchParticipate は既に出ている。`VillageCoordinator.switchParticipate` を REST 化し、切替ボタン (フォーム) を追加するだけの小さな step。8.8 (希望役職変更・退村) と 1 PR にまとめてもよい (`changeSkill`/`leave` も同 controller・同程度の規模)
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
