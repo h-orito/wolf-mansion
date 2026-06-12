@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 
 import { Button } from "~/components/ui/Button";
-import { Modal } from "~/components/ui/Modal";
+import { ButtonCheckboxGroup } from "~/components/ui/ButtonCheckboxGroup";
 import { inputClass } from "~/components/ui/Input";
+import { Modal } from "~/components/ui/Modal";
+import { TextButton } from "~/components/ui/TextButton";
 import type { VillageFilterParticipantContent } from "~/features/village/api";
 import { EMPTY_FILTER, FILTER_TYPES, type MessageFilter } from "~/features/village/filter";
 
@@ -48,8 +50,6 @@ function toggle<T>(list: T[], value: T): T[] {
   return list.includes(value) ? list.filter((v) => v !== value) : [...list, value];
 }
 
-const linkClass = "text-wm-accent cursor-pointer hover:underline";
-
 function ParticipantCheckList({
   participants,
   checked,
@@ -63,21 +63,13 @@ function ParticipantCheckList({
   return (
     <div>
       <div className="mb-[10px]">
-        <button type="button" className={linkClass} onClick={() => onChange(allIds)}>
-          全てON
-        </button>
+        <TextButton onClick={() => onChange(allIds)}>全てON</TextButton>
         &nbsp;/&nbsp;
-        <button type="button" className={linkClass} onClick={() => onChange([])}>
-          全てOFF
-        </button>
+        <TextButton onClick={() => onChange([])}>全てOFF</TextButton>
         &nbsp;/&nbsp;
-        <button
-          type="button"
-          className={linkClass}
-          onClick={() => onChange(allIds.filter((id) => !checked.includes(id)))}
-        >
+        <TextButton onClick={() => onChange(allIds.filter((id) => !checked.includes(id)))}>
           反転
-        </button>
+        </TextButton>
       </div>
       <div className="grid grid-cols-1 border-b border-[#ccc] min-[768px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {participants.map((participant) => (
@@ -174,27 +166,17 @@ export function FilterModal({
         <div>
           <strong>ショートカット機能</strong>
           <div className="mt-[10px]">
-            <button type="button" className={linkClass} onClick={() => sayShortcut("WEREWOLF_SAY")}>
-              囁き
-            </button>
+            <TextButton onClick={() => sayShortcut("WEREWOLF_SAY")}>囁き</TextButton>
             &nbsp;/&nbsp;
-            <button type="button" className={linkClass} onClick={() => sayShortcut("MASON_SAY")}>
-              共鳴
-            </button>
+            <TextButton onClick={() => sayShortcut("MASON_SAY")}>共鳴</TextButton>
             &nbsp;/&nbsp;
-            <button type="button" className={linkClass} onClick={() => sayShortcut("LOVERS_SAY")}>
-              恋人
-            </button>
+            <TextButton onClick={() => sayShortcut("LOVERS_SAY")}>恋人</TextButton>
             &nbsp;/&nbsp;
-            <button type="button" className={linkClass} onClick={() => sayShortcut("TELEPATHY")}>
-              念話
-            </button>
+            <TextButton onClick={() => sayShortcut("TELEPATHY")}>念話</TextButton>
             {myselfId != null && (
               <>
                 &nbsp;/&nbsp;
-                <button
-                  type="button"
-                  className={linkClass}
+                <TextButton
                   onClick={() =>
                     apply({
                       ...toDraft(EMPTY_FILTER, allParticipantIds),
@@ -203,15 +185,13 @@ export function FilterModal({
                   }
                 >
                   自分宛
-                </button>
+                </TextButton>
               </>
             )}
             {notificationKeyword != null && notificationKeyword !== "" && (
               <>
                 &nbsp;/&nbsp;
-                <button
-                  type="button"
-                  className={linkClass}
+                <TextButton
                   onClick={() =>
                     apply({
                       ...toDraft(EMPTY_FILTER, allParticipantIds),
@@ -220,7 +200,7 @@ export function FilterModal({
                   }
                 >
                   通知キーワード
-                </button>
+                </TextButton>
               </>
             )}
           </div>
@@ -230,25 +210,13 @@ export function FilterModal({
         <div className="mt-[15px]">
           <strong>発言種別</strong>
           <div className="mt-[10px]">
-            <button
-              type="button"
-              className={linkClass}
-              onClick={() => setDraft({ ...draft, types: ALL_TYPE_VALUES })}
-            >
+            <TextButton onClick={() => setDraft({ ...draft, types: ALL_TYPE_VALUES })}>
               全てON
-            </button>
+            </TextButton>
             &nbsp;/&nbsp;
-            <button
-              type="button"
-              className={linkClass}
-              onClick={() => setDraft({ ...draft, types: [] })}
-            >
-              全てOFF
-            </button>
+            <TextButton onClick={() => setDraft({ ...draft, types: [] })}>全てOFF</TextButton>
             &nbsp;/&nbsp;
-            <button
-              type="button"
-              className={linkClass}
+            <TextButton
               onClick={() =>
                 setDraft({
                   ...draft,
@@ -257,31 +225,16 @@ export function FilterModal({
               }
             >
               反転
-            </button>
+            </TextButton>
           </div>
           {[0, 4, 8].map((start) => (
-            <div key={start} className="mt-[10px] flex">
-              {FILTER_TYPES.slice(start, start + 4).map((type) => {
-                const active = draft.types.includes(type.value);
-                return (
-                  <label
-                    key={type.value}
-                    className={`flex-1 cursor-pointer border border-[#00bc8c] px-[9px] py-[6px] text-center text-white first:rounded-l-[3px] last:rounded-r-[3px] ${
-                      active ? "bg-[#00bc8c]" : "bg-transparent"
-                    }`}
-                  >
-                    <input
-                      type="checkbox"
-                      className="hidden"
-                      checked={active}
-                      onChange={() =>
-                        setDraft({ ...draft, types: toggle(draft.types, type.value) })
-                      }
-                    />
-                    {type.label}
-                  </label>
-                );
-              })}
+            <div key={start} className="mt-[10px]">
+              <ButtonCheckboxGroup
+                options={FILTER_TYPES.slice(start, start + 4)}
+                values={draft.types}
+                onToggle={(value) => setDraft({ ...draft, types: toggle(draft.types, value) })}
+                ariaLabel="発言種別"
+              />
             </div>
           ))}
         </div>
@@ -310,13 +263,9 @@ export function FilterModal({
             value={draft.keywords}
             onChange={(e) => setDraft({ ...draft, keywords: e.target.value })}
           />
-          <button
-            type="button"
-            className={`${linkClass} mt-[10px]`}
-            onClick={() => setDraft({ ...draft, keywords: "" })}
-          >
+          <TextButton className="mt-[10px]" onClick={() => setDraft({ ...draft, keywords: "" })}>
             クリア
-          </button>
+          </TextButton>
         </div>
 
         <div className="mt-[40px]">
@@ -326,16 +275,14 @@ export function FilterModal({
               {myselfId != null && (
                 <>
                   &nbsp;
-                  <button
-                    type="button"
-                    className={linkClass}
+                  <TextButton
                     onClick={(e) => {
                       e.preventDefault();
                       setDraft({ ...draft, toParticipantIds: [myselfId] });
                     }}
                   >
                     自分宛
-                  </button>
+                  </TextButton>
                 </>
               )}
             </summary>

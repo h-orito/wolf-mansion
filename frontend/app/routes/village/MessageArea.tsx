@@ -48,9 +48,12 @@ export function MessageArea({
     d == null ? { pageNum: 1, isDispLatest: true } : { pageNum: 1, isDispLatest: false };
   const [page, setPage] = useState<PageState>(() => initialPage(day));
 
+  // 日付遷移・抽出条件の変更で先頭ページに戻す (絞り込み後に存在しないページを引かないため)
+  const filterKey = JSON.stringify(filter);
   useEffect(() => {
     setPage(initialPage(day));
-  }, [day]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [day, filterKey]);
 
   const { data, isLoading } = useVillageMessages(villageId, {
     day,
