@@ -132,3 +132,27 @@ export function fetchVillageParticipants(id: number): Promise<VillageParticipant
 /** 発言抽出用の参加者ビュー (村状況 API の participantList)。 */
 export type VillageFilterParticipantContent =
   components["schemas"]["VillageFilterParticipantContent"];
+
+/** 発言の確認/投稿のリクエスト。 */
+export type VillageSayRequest = components["schemas"]["VillageSayRequest"];
+/** 発言確認 (プレビュー) の応答。 */
+export type VillageSayConfirmContent = components["schemas"]["VillageSayConfirmContent"];
+/** 発言種別ごとの選択肢 (制限・宛先候補)。 */
+export type SayMessageTypeView = components["schemas"]["ParticipantSituationViewSayMessageType"];
+export type SayCharaImageView = components["schemas"]["ParticipantSituationViewSayCharaImage"];
+
+/** 発言を確認する (プレビュー。まだ保存されない)。要認証。 */
+export function confirmVillageSay(
+  id: number,
+  request: VillageSayRequest,
+): Promise<VillageSayConfirmContent> {
+  return apiFetch<VillageSayConfirmContent>(`/api/v1/villages/${id}/say-confirm`, {
+    method: "POST",
+    body: request,
+  });
+}
+
+/** 発言する。要認証 → 204。 */
+export function sayVillage(id: number, request: VillageSayRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/say`, { method: "POST", body: request });
+}
