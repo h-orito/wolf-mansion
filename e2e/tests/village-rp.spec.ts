@@ -111,10 +111,20 @@ test("キャラ名を変更できる (元に戻す)", async ({ page }) => {
   const testName = `${candidate.rp.name}改`;
   await nameInput.fill(testName);
   await page.getByRole("button", { name: "名前を変更する" }).click();
-  await expect(nameInput).toHaveValue(testName, { timeout: 15000 });
 
-  // 元に戻す
+  // 状況の参加者タブにサーバ反映された新しい名前が出る (ローカル state でなく round-trip を検証)
+  await page.getByRole("button", { name: "参加者" }).click();
+  await expect(page.getByText(testName).first()).toBeVisible({ timeout: 15000 });
+
+  // 元に戻す (変更履歴のシステムメッセージに旧名が残るため、復元はサーバ状態で検証する)
   await nameInput.fill(candidate.rp.name ?? "");
   await page.getByRole("button", { name: "名前を変更する" }).click();
-  await expect(nameInput).toHaveValue(candidate.rp.name ?? "", { timeout: 15000 });
+  await expect(async () => {
+    const res = await page.request.get(
+      `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/situation/me`,
+    );
+    expect(res.ok()).toBeTruthy();
+    const body = (await res.json()) as { rp: RpView };
+    expect(body.rp.name).toBe(candidate.rp.name);
+  }).toPass({ timeout: 15000 });
 });
