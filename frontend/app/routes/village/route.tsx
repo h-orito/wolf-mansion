@@ -47,6 +47,7 @@ import { ChangeSkillPanel, LeavePanel, SwitchParticipatePanel } from "./Particip
 import { ParticipatePanel } from "./ParticipatePanel";
 import { type ReplyDraft } from "./MessageCard";
 import { MessageCard } from "./MessageCard";
+import { RpPanel } from "./RpPanel";
 import { SayPanel } from "./SayPanel";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
@@ -395,6 +396,11 @@ export default function Village({ params }: Route.ComponentProps) {
         {mySituation != null && mySituation.commit.isAvailableCommit && (
           <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
+
+        {mySituation != null &&
+          (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
+            <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+          )}
 
         {mySituation != null &&
           !mySituation.participate.isParticipating &&

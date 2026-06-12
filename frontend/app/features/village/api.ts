@@ -276,3 +276,21 @@ export type VillageCommitRequest = components["schemas"]["VillageCommitRequest"]
 export function setVillageCommit(id: number, request: VillageCommitRequest): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/commit`, { method: "POST", body: request });
 }
+
+/** キャラ名・略称変更のリクエスト。 */
+export type VillageChangeNameRequest = components["schemas"]["VillageChangeNameRequest"];
+/** 簡易メモ変更のリクエスト。 */
+export type VillageMemoRequest = components["schemas"]["VillageMemoRequest"];
+
+/** キャラ名・略称を変更する。要認証 → 204。 */
+export function changeVillageCharaName(
+  id: number,
+  request: VillageChangeNameRequest,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/change-name`, { method: "POST", body: request });
+}
+
+/** 簡易メモを変更する。要認証 → 204。 */
+export function changeVillageMemo(id: number, request: VillageMemoRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/memo`, { method: "POST", body: request });
+}

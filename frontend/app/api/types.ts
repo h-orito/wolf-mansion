@@ -339,6 +339,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/change-name": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["changeVillageCharaName"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/change-skill": {
     parameters: {
       query?: never;
@@ -381,6 +397,22 @@ export interface paths {
     get?: never;
     put?: never;
     post: operations["leaveVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/memo": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["changeVillageMemo"];
     delete?: never;
     options?: never;
     head?: never;
@@ -864,6 +896,9 @@ export interface components {
       canAddImage: boolean;
       isAvailableChangeName: boolean;
       isAvailableMemo: boolean;
+      memo?: string | null;
+      name?: string | null;
+      shortName?: string | null;
     };
     ParticipantSituationViewSay: {
       defaultMessageTypeCode?: string | null;
@@ -1092,6 +1127,10 @@ export interface components {
     VillageAnchorMessagesContent: {
       messageList: components["schemas"]["VillageMessageContent"][];
     };
+    VillageChangeNameRequest: {
+      name: string | null;
+      shortName: string | null;
+    };
     VillageChangeSkillRequest: {
       requestedSkill: string | null;
       secondRequestedSkill: string | null;
@@ -1250,6 +1289,9 @@ export interface components {
     VillageMemberVoteContent: {
       charaName: string;
       voteTargetList: string[];
+    };
+    VillageMemoRequest: {
+      memo: string | null;
     };
     VillageMessageContent: {
       canReply: boolean;
@@ -2035,6 +2077,30 @@ export interface operations {
       };
     };
   };
+  changeVillageCharaName: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageChangeNameRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   changeVillageRequestSkill: {
     parameters: {
       query?: never;
@@ -2093,6 +2159,30 @@ export interface operations {
       cookie?: never;
     };
     requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  changeVillageMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageMemoRequest"];
+      };
+    };
     responses: {
       /** @description No Content */
       204: {

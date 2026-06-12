@@ -781,6 +781,38 @@
         "tags": ["village-say-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/change-name": {
+      "post": {
+        "operationId": "changeVillageCharaName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageChangeNameRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-rp-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/change-skill": {
       "post": {
         "operationId": "changeVillageRequestSkill",
@@ -865,6 +897,38 @@
           }
         },
         "tags": ["village-participate-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/memo": {
+      "post": {
+        "operationId": "changeVillageMemo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageMemoRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-rp-rest-controller"]
       }
     },
     "/api/v1/villages/{id}/messages": {
@@ -2267,6 +2331,15 @@
           },
           "isAvailableMemo": {
             "type": "boolean"
+          },
+          "memo": {
+            "type": ["string", "null"]
+          },
+          "name": {
+            "type": ["string", "null"]
+          },
+          "shortName": {
+            "type": ["string", "null"]
           }
         },
         "required": ["canAddImage", "isAvailableChangeName", "isAvailableMemo"]
@@ -3025,6 +3098,22 @@
         },
         "required": ["messageList"]
       },
+      "VillageChangeNameRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": ["string", "null"],
+            "maxLength": 40,
+            "minLength": 1
+          },
+          "shortName": {
+            "type": ["string", "null"],
+            "maxLength": 1,
+            "minLength": 1
+          }
+        },
+        "required": ["name", "shortName"]
+      },
       "VillageChangeSkillRequest": {
         "type": "object",
         "properties": {
@@ -3576,6 +3665,17 @@
           }
         },
         "required": ["charaName", "voteTargetList"]
+      },
+      "VillageMemoRequest": {
+        "type": "object",
+        "properties": {
+          "memo": {
+            "type": ["string", "null"],
+            "maxLength": 20,
+            "minLength": 0
+          }
+        },
+        "required": ["memo"]
       },
       "VillageMessageContent": {
         "type": "object",
