@@ -43,12 +43,13 @@ class VillageNotificationRestController(
         val myself =
             villageService.findVillageParticipant(village.id, principal.name)
                 ?: throw WolfMansionBusinessException("村に参加していません")
+        val webhookUrl = request.webhookUrl!!
 
         villageService.registerNotification(
             myself.copy(
                 notification =
                     VillageParticipantNotificationCondition(
-                        discordWebhookUrl = request.webhookUrl!!,
+                        discordWebhookUrl = webhookUrl,
                         village =
                             VillageParticipantNotificationCondition.VillageCondition(
                                 start = request.villageStart ?: false,
@@ -71,6 +72,6 @@ class VillageNotificationRestController(
                     ),
             ),
         )
-        notificationService.notifyTest(request.webhookUrl, village.id)
+        notificationService.notifyTest(webhookUrl, village.id)
     }
 }
