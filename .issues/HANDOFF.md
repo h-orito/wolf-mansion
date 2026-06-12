@@ -5,7 +5,17 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 7 (新規村作成) 全完了 🎉 — 7.5 (流用 divert) 完了 ✅ (#70)**。7.4 (確認モーダル→村作成) 完了 (#69)。7.3 (キャラチップ選択) 完了 (#68)。7.2 (発言制限設定) 完了 (#67)。7.1 (村作成フォーム本体) 完了 (#66)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 (村画面ベース) 完了 ✅ (#71)**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+  - **step-8.1 完了 ✅ (#71)**: 村画面ベース。`/village/:id` (+ `/day/:day`) で レイアウト / 日付ナビ / 状況サマリ 4 タブ (部屋割り・参加者・投票・足音) / 30 秒ポーリング / 残り時間カウントダウン。**二層 situation + `isViewableSpoilerContent` をマスク基盤として確立**
+    - **backend**: `GET /api/v1/villages/{id}` (村詳細、joinPassword 除外) / `GET .../situation?day=` (状況、permitAll だが JWT があれば視点をマスクに反映) / `GET .../situation/me?day=` (capability フラグのみ、認証必須、**各操作の入力候補はその操作のサブ step で追加**) / `POST .../update` (ポーリング = 最終アクセス更新 + daychange 駆動、permitAll、応答 `{latestDay}` のみ)。マスクは既存 view (`VillageRoomAssignedRow.isViewableMemberSkill`) と domain service (足音/能力欄/投票隠蔽) を**そのまま流用**し重複実装しない。`VillageSituationView` は `VillageContent` の実フィールドが正本 (village-base.md 方針)
+    - **operationId 衝突の教訓 (今後の REST 化で要注意)**: メソッド名が他 Controller と単純名衝突すると SpringDoc の自動連番 (`detail_1`/`detail_2`) が探索順で揺れて spec の不要差分になる → **新エンドポイントは `@Operation(operationId=...)` を明示** (7.5 のスキーマ名衝突の operationId 版、`.reviews/PR-71.md`)
+    - **frontend**: `features/village/` (hooks: useVillage / useVillageSituation / useMyVillageSituation / useVillagePolling) + `routes/village/` (colocation)。**`apiFetch` に 401→refresh→リトライ (single-flight) を追加** (村画面は長時間滞在のため access 15 分の自動更新が必須。refresh rotation の二重提示 = 漏洩検知全失効を防ぐため並行でも 1 回。`/auth/me` も対象)。セッション失効検知は situation/me の 401 (refresh 失敗後) → 「要再ログイン」表示
+    - **実バグの教訓: fetch の response body は必ず消費する**。`refreshTokens()` が body を読まず Playwright networkidle が永遠に来ず既存 e2e 14 件がタイムアウトした (`res.text()` で解消)
+    - **`:8091` (bk) は旧コードベースで部屋割りの役職名 span を出力しない**。移行正本は本リポジトリの SSR (8089) で、admin / 墓下公開視点では役職名を出す。視覚比較で差が出たらまず 8089 SSR と突合する
+    - **共有 DB に村 5「step8 動作確認用の村」(進行中・3日目) を残置**: master で作成 → debug 機能 (人数分入村 / 日付を進める) で進行。**e2e の進行中村テストが利用** (村の状態は API から動的に探し、無ければ skip)。検証が終わったら廃村可。村作成 → debug 進行のフローが Step 8 の動作確認の基本手段
+    - 申し送り: 状況パネルの「固定」(bottom-fix) と表示設定 Cookie → 8.13 / ネタバレ防止トグル → 8.3 / 村情報モーダル (日付ナビの「情報」リンク有効化) → 8.14 / 年齢制限確認モーダル → 8.2 / メッセージエリアはプレースホルダー (8.2)。Twitter 共有は widget script を読まず共有 URL ボタンで代替 (意図的差異)
+    - e2e 5 件追加 (全 **51 件** green)。pr-reviewer 2 巡 (2 巡目 should 0 で打ち切り、`.reviews/PR-71.md`)
   - **step-7.5 完了 ✅ (#70)**: 設定流用 (divert) REST + React 化。`/new-village` 最上部に設定流用セクション (終了村セレクト + 流用ボタン)
     - **backend**: `GET /api/v1/villages/{id}/setting` 新設 (permitAll、404=not_found)。`VillageSettingView` はドメイン `VillageSetting` から **joinPassword のみ除外**して直返し。流用候補一覧は既存 `GET /api/v1/villages?status=...&order=asc` 流用
     - **spec スキーマ名衝突の実バグを修正 (今後の REST 化で要注意)**: ネスト DTO とドメインのネスト型が**単純名衝突すると SpringDoc が片方の定義で上書き**する (response スキーマが request の形になっていた)。`VillageCreateRequest` のネスト DTO に `@Schema(name = "VillageCreateRequestXxx")` を付与して解消。**新 DTO 追加時は既存スキーマ名との単純名衝突に注意**
@@ -149,9 +159,10 @@
 
 ## 次にやること
 
-**Step 7 (新規村作成) 全完了 🎉 (7.5 #70 で完結)** — 次は **Step 8 (村画面)**。
+**Step 8 (村画面) 進行中 — 8.1 完了 ✅ (#71)、次は 8.2 (メッセージ表示)**。
 
-- **(次) Step 8 (村画面)**: 最重量。08-step-plan.md の表で **19 サブ step (8.1〜8.19)** に分割済み。`VillageControllerHelper` の `ParticipantSituation`/`VillageSituation` 二層駆動を村取得 API のマスク基盤に据える (village-base.md / usecases/mask.md が正本)。`/add-issue` で 8.1 を起票 → `/ship-issue`
+- **(次) step-8.2 メッセージ表示**: 発言ログが種別ごとに正しく描画され、アンカー / 参加者一覧公開が動く (village-messages.md が正本)。メッセージ取得 REST + `MessageDomainService.getViewableMessageTypeList` + **query 層インクルージョン (`includeMonologue`/`includeSecret`/`includePrivateAbility`) の両層を移植** (mask.md §2: 種別リスト層だけだと当事者が自分の秘話/独り言を見られないバグ)。`components/ui/SkillMessage` の暫定枠線を村メッセージコンポーネントに置換 → skill 画面 (5.1) の差し替えも忘れず (08-step-plan.md 繰り越し)。年齢制限確認モーダルもここ
+- **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
 - **認証付き CRUD パターン (step-6 で確立・以降踏襲)**: write 系 REST は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系ページ = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導。mutation 後は `useInvalidateXxx` → `navigate`。**コレクション要素の制約は型引数 `@Size` でなくコード検証** (実行時に効かない。spec へは `@ArraySchema` で出す)。**複数テーブル書き込みは service に `@Transactional`**
