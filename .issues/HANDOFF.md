@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.16 ✅ (#71〜#85)、次は 8.17 (debug 機能)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.17 ✅ (#71〜#86)、次は 8.18 (村設定変更)**。
 
-- **(次) step-8.17 debug 機能**: ローカル開発向け debug メニュー (village-debug.md が正本)。`app.debug=true` のときのみ。SSR `DebugController` (allparticipate/dayChange、dummy login) を踏襲
+- **(次) step-8.18 村設定変更**: 村主の設定変更画面 `/village/{id}/settings` (village-settings.md が正本)。new-village のフォーム部品と共通化する前提 (new-village.md「村設定変更画面と酷似」)。SSR `CreatorController.saveSettings` / `Village.assertModifySetting` を踏襲
+- **8.17 のメモ**: debug REST は `GET /api/v1/villages/{id}/debug` (isDebugMode + dummy login 用 players。**無効時は isDebugMode:false を返す** — frontend のパネル表示判定用) / `POST /debug/all-participate` / `POST /debug/day-change` (無効時 404)。**e2e/手動の村進行はこの REST が新しい基本手段** (SSR debug メニュー不要に)。ダミーログインは既存 auth login (password=testuser) + 全リロード。使い捨て村の後片付け: 進行中まで進めた村は cancel 不可 → DB で `UPDATE VILLAGE SET VILLAGE_STATUS_CODE='CANCEL'` (村 8 がその例)
 - **8.16 のメモ**: admin REST は `/api/v1/villages/{id}/admin/*` (leave/access/vote/players)。管理者判定は DB 再確認 (`CDef.Authority.管理者`)。Bhv 直接操作は `AdminVillageService` (application 層) へ移設 (ドメイン経由への整理は将来課題)。参加プレイヤー確認はパネル内インライン表示に変更済み (確定済み UI 変更)。**村 6 の day 2 に全員自己投票の検証データ (自己投票 8 件) が入っている**
 - **8.15 のメモ**: creator REST は `/api/v1/villages/{id}/creator/*` (say-confirm/say/kick/cancel/extend-epilogue/shorten-epilogue)。kick/cancel の正常系は**使い捨て村を作って検証し、最後に cancel して後片付け**する方式が有効 (村 7 = 廃村済みがその痕跡)。`isAvailableShortenEpilogue` を domain situation に追加済み (短縮は残り 1 日超のみ)。エピローグ延長/短縮の正常系実測は未実施 (エピローグ村が無いため。domain assert + 異常系 400 は確認済み) — エピローグ村ができたら確認
 - **8.14 のメモ**: 村情報は `GET /api/v1/villages/{id}/info` (公開) = SSR と共通の `VillageSettingsContent` を直返し。**ネスト DTO の単純名衝突 (`SayRestriction` 等 vs domain) で SpringDoc が生成型を壊す問題を実際に踏んだ** → `@Schema(name = "VillageSettingsXxx")` で解消。初回役職確認モーダルは localStorage `already_skill_confirm` (AgeLimitModal と同パターン)、年齢制限確認 → 役職確認の逐次表示。**初回モーダルは参加者系 e2e をブロックするため各 spec に dismiss を追加済み** — 新しい参加者系 e2e を書くときは `dismissInitialSkillModal` を忘れない。アクション e2e は 1 日の回数枯渇 (残り0/8回) で動的 skip
