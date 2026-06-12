@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.18 ✅ (#71〜#87)、次は 8.19 (切り抜き)**。
+**Step 8 (村画面) 完了 🎉 — 8.1〜8.19 ✅ (#71〜#88)。次は最終統合 PR (feature/monorepo-step8 → feature/monorepo、ユーザー承認必須) のレビュー → merge 後に Step 9 へ**。
 
-- **(次) step-8.19 切り抜き**: 切り抜き画面 `/village/{id}/scrap` (village-scrap.md が正本)。村画面からのリンクは 8.1 で SPA URL 済み
+- **残課題 (Step 8 から繰り越し)**: 8.12.1 表情差分 (原画村限定の add-face-type / modify-face-type。原画村フィクスチャが必要 + SSR の所有者検証欠如を REST 化時に修正)。エピローグ延長/短縮の正常系実測 (エピローグ村ができたら)
+- **8.19 のメモ**: 切り抜きは backend 変更なし (既存 anchors REST 流用)。searchParams `anchors` が正本
 - **8.18 のメモ**: 設定変更 REST は `GET/PUT /api/v1/villages/{id}/creator/setting` (リクエスト/レスポンスとも SSR の `VillageSettingForm` を直接流用、merge は `VillageSettingForm.mergeTo` に移設)。フォーム部品は `features/village-form/` に共有化済み (new-village と村設定変更が使う)。schema は `newVillageSchema` / `villageSettingsSchema` の 2 本 (相関検証は共有関数)。変更不可項目 (キャラセット・ダミーキャラ・役職希望・プロデューサー) は backend Form にフィールド不在で構造的に改変不可
 - **8.17 のメモ**: debug REST は `GET /api/v1/villages/{id}/debug` (isDebugMode + dummy login 用 players。**無効時は isDebugMode:false を返す** — frontend のパネル表示判定用) / `POST /debug/all-participate` / `POST /debug/day-change` (無効時 404)。**e2e/手動の村進行はこの REST が新しい基本手段** (SSR debug メニュー不要に)。ダミーログインは既存 auth login (password=testuser) + 全リロード。使い捨て村の後片付け: 進行中まで進めた村は cancel 不可 → DB で `UPDATE VILLAGE SET VILLAGE_STATUS_CODE='CANCEL'` (村 8 がその例)
 - **8.16 のメモ**: admin REST は `/api/v1/villages/{id}/admin/*` (leave/access/vote/players)。管理者判定は DB 再確認 (`CDef.Authority.管理者`)。Bhv 直接操作は `AdminVillageService` (application 層) へ移設 (ドメイン経由への整理は将来課題)。参加プレイヤー確認はパネル内インライン表示に変更済み (確定済み UI 変更)。**村 6 の day 2 に全員自己投票の検証データ (自己投票 8 件) が入っている**
