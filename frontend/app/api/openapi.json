@@ -877,6 +877,175 @@
         "tags": ["village-commit-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/creator/cancel": {
+      "post": {
+        "operationId": "cancelVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/creator/extend-epilogue": {
+      "post": {
+        "operationId": "extendVillageEpilogue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/creator/kick": {
+      "post": {
+        "operationId": "kickVillageParticipant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageKickRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/creator/say": {
+      "post": {
+        "operationId": "sayVillageCreator",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageCreatorSayRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/creator/say-confirm": {
+      "post": {
+        "operationId": "confirmVillageCreatorSay",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageCreatorSayRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageSayConfirmContent"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/creator/shorten-epilogue": {
+      "post": {
+        "operationId": "shortenVillageEpilogue",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/info": {
       "get": {
         "operationId": "getVillageInfo",
@@ -2231,6 +2400,9 @@
           "isAvailableModifySetting": {
             "type": "boolean"
           },
+          "isAvailableShortenEpilogue": {
+            "type": "boolean"
+          },
           "isCreator": {
             "type": "boolean"
           }
@@ -2241,6 +2413,7 @@
           "isAvailableExtendEpilogue",
           "isAvailableKick",
           "isAvailableModifySetting",
+          "isAvailableShortenEpilogue",
           "isCreator"
         ]
       },
@@ -3601,6 +3774,19 @@
         },
         "required": ["id"]
       },
+      "VillageCreatorSayRequest": {
+        "type": "object",
+        "properties": {
+          "convertDisable": {
+            "type": ["boolean", "null"]
+          },
+          "message": {
+            "type": ["string", "null"],
+            "minLength": 1
+          }
+        },
+        "required": ["message"]
+      },
       "VillageDay": {
         "type": "object",
         "properties": {
@@ -3666,6 +3852,10 @@
       "VillageFilterParticipantContent": {
         "type": "object",
         "properties": {
+          "charaId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "deadStatus": {
             "type": ["string", "null"]
           },
@@ -3688,7 +3878,7 @@
             "type": "string"
           }
         },
-        "required": ["id", "imgHeight", "imgUrl", "imgWidth", "name"]
+        "required": ["charaId", "id", "imgHeight", "imgUrl", "imgWidth", "name"]
       },
       "VillageFootstepContent": {
         "type": "object",
@@ -3702,6 +3892,16 @@
           }
         },
         "required": ["day", "footstep"]
+      },
+      "VillageKickRequest": {
+        "type": "object",
+        "properties": {
+          "charaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["charaId"]
       },
       "VillageLatestMessageDatetimeContent": {
         "type": "object",

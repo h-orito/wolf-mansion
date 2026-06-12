@@ -454,6 +454,7 @@ data class ParticipantSituationView(
         val isAvailableKick: Boolean,
         val isAvailableModifySetting: Boolean,
         val isAvailableExtendEpilogue: Boolean,
+        val isAvailableShortenEpilogue: Boolean,
     ) {
         constructor(situation: ParticipantSituation) : this(
             isCreator = situation.creator.isCreator,
@@ -462,6 +463,7 @@ data class ParticipantSituationView(
             isAvailableKick = situation.creator.isAvailableKick,
             isAvailableModifySetting = situation.creator.isAvailableModifySetting,
             isAvailableExtendEpilogue = situation.creator.isAvailableExtendEpilogue,
+            isAvailableShortenEpilogue = situation.creator.isAvailableShortenEpilogue,
         )
     }
 }

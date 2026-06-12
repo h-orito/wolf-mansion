@@ -9,9 +9,12 @@ import {
   actionVillage,
   confirmVillageAction,
   confirmVillageSay,
+  confirmVillageCreatorSay,
   participateVillage,
   sayVillage,
+  sayVillageCreator,
   type VillageActionRequest,
+  type VillageCreatorSayRequest,
   type VillageDetailView,
   type VillageMessageContent,
   type VillageMessageListContent,
@@ -40,6 +43,7 @@ import { AbilityPanel } from "./AbilityPanel";
 import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { CommitPanel } from "./CommitPanel";
+import { CreatorPanel } from "./CreatorPanel";
 import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
@@ -168,6 +172,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const [sayPreview, setSayPreview] = useState<
     | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
     | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
+    | { kind: "creatorSay"; message: VillageMessageContent; request: VillageCreatorSayRequest }
     | null
   >(null);
   const [sayError, setSayError] = useState<string | null>(null);
@@ -208,6 +213,22 @@ export default function Village({ params }: Route.ComponentProps) {
       setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
     }
   };
+  const onCreatorSayConfirm = async (request: VillageCreatorSayRequest) => {
+    setSayError(null);
+    try {
+      const response = await confirmVillageCreatorSay(villageId, request);
+      if (response.message == null) {
+        setSayError("村建て発言の確認に失敗しました");
+        return;
+      }
+      setSayPreview({ kind: "creatorSay", message: response.message, request });
+      requestAnimationFrame(() =>
+        document.getElementById("message-confirm-area")?.scrollIntoView(),
+      );
+    } catch (e) {
+      setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
+    }
+  };
   const onSayDetermine = async () => {
     // 非冪等な投稿のため連打をガードする
     if (sayPreview == null || saySubmitting) return;
@@ -216,8 +237,10 @@ export default function Village({ params }: Route.ComponentProps) {
     try {
       if (sayPreview.kind === "say") {
         await sayVillage(villageId, sayPreview.request);
-      } else {
+      } else if (sayPreview.kind === "action") {
         await actionVillage(villageId, sayPreview.request);
+      } else {
+        await sayVillageCreator(villageId, sayPreview.request);
       }
       setSayPreview(null);
       setReply(null);
@@ -355,7 +378,9 @@ export default function Village({ params }: Route.ComponentProps) {
               <Button onClick={onSayDetermine} disabled={saySubmitting}>
                 {sayPreview.kind === "action"
                   ? "アクション"
-                  : sayLabel(sayPreview.request.messageType)}
+                  : sayPreview.kind === "creatorSay"
+                    ? "発言する（村建て）"
+                    : sayLabel(sayPreview.request.messageType)}
               </Button>
             </div>
           </div>
@@ -417,6 +442,20 @@ export default function Village({ params }: Route.ComponentProps) {
           (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
             <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
           )}
+
+        {mySituation != null && mySituation.creator.isCreator && (
+          <CreatorPanel
+            villageId={villageId}
+            mySituation={mySituation}
+            participants={(situation?.participantList ?? []).map((p) => ({
+              charaId: p.charaId,
+              name: p.name,
+            }))}
+            members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
+            onConfirm={onCreatorSayConfirm}
+            onDone={invalidate}
+          />
+        )}
 
         {mySituation != null &&
           !mySituation.participate.isParticipating &&
