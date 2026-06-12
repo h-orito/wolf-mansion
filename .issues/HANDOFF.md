@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.13 ✅ (#71〜#82)、次は 8.14 (村情報モーダル)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.14 ✅ (#71〜#83)、次は 8.15 (creator 機能)**。
 
-- **(次) step-8.14 村情報モーダル**: footer-menu「情報」から開くモーダル (village-info.md 等が正本)。村設定一覧の表示 + **初回役職確認モーダル (skill-description、8.9 からの申し送り)** もここで扱う。`GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) が使える
+- **(次) step-8.15 creator 機能**: 村建て発言・廃村・キック・エピローグ延長 (village-creator.md が正本)。`CreatorView` に `isAvailableCreatorSay`/`isAvailableCancelVillage`/`isAvailableKick`/`isAvailableExtendEpilogue` が出ている。SSR `CreatorController` を踏襲 (権威検証は domain)。動作確認は村 6 の master (村主) で可能。**廃村の実測は村 6 を潰さないこと** (異常系 + e2e 動的 skip で対応するか、使い捨て村を別途作る)
+- **8.14 のメモ**: 村情報は `GET /api/v1/villages/{id}/info` (公開) = SSR と共通の `VillageSettingsContent` を直返し。**ネスト DTO の単純名衝突 (`SayRestriction` 等 vs domain) で SpringDoc が生成型を壊す問題を実際に踏んだ** → `@Schema(name = "VillageSettingsXxx")` で解消。初回役職確認モーダルは localStorage `already_skill_confirm` (AgeLimitModal と同パターン)、年齢制限確認 → 役職確認の逐次表示。**初回モーダルは参加者系 e2e をブロックするため各 spec に dismiss を追加済み** — 新しい参加者系 e2e を書くときは `dismissInitialSkillModal` を忘れない。アクション e2e は 1 日の回数枯渇 (残り0/8回) で動的 skip
 - **8.13 のメモ**: 表示設定は `features/village/displaySettings.ts` (zustand persist / localStorage キー `wolf-mansion-display-settings`)。**react-query を SSR dehydrate する場合は persist の hydration 不一致に注意** (`skipHydration` 等。現状は設定依存 UI が loading 分岐の背後なので安全)。通知 keyword の空要素除去は legacy からの意図的改善
 - **8.12 の申し送り**: **表情差分 (原画村限定の画像アップロード add-face-type / modify-face-type) は 8.12.1 として分割・未実装**。原画村フィクスチャが必要 (村作成で「オリジナル画像をアップロードする」を選ぶ)。SSR `VillageRpController` の該当 2 エンドポイントと `face-type-form.html` が正本。なお SSR の modify-face-type は **face type の所有者検証をしていない** (本人キャラ以外の code を送ると他人の表情を更新できる可能性) — REST 化時に要検証・要修正
 - **検証用フィクスチャ村 6「step8 コミット動作確認用の村」を追加 (2026-06-12)**: master 作成、コミットあり、進行中 2 日目、参加者 9 (dummy + testuser01〜08、players 2〜9)。SPA 村作成 (村 4 から設定流用) + SSR debug メニューで進行。**流用で付いた R18 タグは年齢制限モーダルが e2e を妨げるため DELETE 済み** (RELATIVES_ONLY タグは残存)。コミット系の動作確認・e2e 動的探索が村 6 を拾う
