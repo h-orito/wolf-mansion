@@ -156,3 +156,22 @@ export function confirmVillageSay(
 export function sayVillage(id: number, request: VillageSayRequest): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/say`, { method: "POST", body: request });
 }
+
+/** アクション発言のリクエスト。 */
+export type VillageActionRequest = components["schemas"]["VillageActionRequest"];
+
+/** アクション発言を確認する (プレビュー)。要認証。 */
+export function confirmVillageAction(
+  id: number,
+  request: VillageActionRequest,
+): Promise<VillageSayConfirmContent> {
+  return apiFetch<VillageSayConfirmContent>(`/api/v1/villages/${id}/action-confirm`, {
+    method: "POST",
+    body: request,
+  });
+}
+
+/** アクション発言する。要認証 → 204。 */
+export function actionVillage(id: number, request: VillageActionRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/action`, { method: "POST", body: request });
+}

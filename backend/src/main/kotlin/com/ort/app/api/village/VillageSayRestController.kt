@@ -1,7 +1,9 @@
 package com.ort.app.api.village
 
+import com.ort.app.api.request.validator.ActionFormValidator
 import com.ort.app.api.request.validator.SayFormValidator
 import com.ort.app.api.view.VillageSayConfirmContent
+import com.ort.app.api.village.request.VillageActionRequest
 import com.ort.app.api.village.request.VillageSayRequest
 import com.ort.app.application.coordinator.MessageCoordinator
 import com.ort.app.application.service.CharaService
@@ -16,6 +18,7 @@ import com.ort.app.fw.exception.WolfMansionValidationException
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.security.jwt.JwtPrincipal
+import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
@@ -45,6 +48,7 @@ class VillageSayRestController(
     private val randomKeywordService: RandomKeywordService,
     private val messageCoordinator: MessageCoordinator,
     private val sayFormValidator: SayFormValidator,
+    private val actionFormValidator: ActionFormValidator,
     private val messageSource: MessageSource,
     private val httpServletRequest: HttpServletRequest,
 ) {
@@ -104,6 +108,79 @@ class VillageSayRestController(
             request.secretSayTargetCharaId,
             httpServletRequest.getIpAddress(),
         )
+    }
+
+    /** アクション発言の確認 (プレビュー)。「{自分}は、{対象}{本文}」を結合して表示用に整形する。 */
+    @Operation(operationId = "confirmVillageAction")
+    @PostMapping("/action-confirm")
+    fun actionConfirm(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+        @RequestBody @Validated request: VillageActionRequest,
+    ): VillageSayConfirmContent {
+        val (village, myself) = resolveSayer(principal, id)
+        validateAction(request)
+        val message =
+            messageCoordinator.confirmToSay(
+                village,
+                myself,
+                composeActionText(request),
+                CDef.MessageType.アクション.code(),
+                null,
+                request.convertDisable,
+                null,
+            )
+        val player = playerService.findPlayer(myself.playerId)
+        val charas =
+            village.setting.chara.let {
+                charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas()
+            }
+        return VillageSayConfirmContent(
+            village = village,
+            message = message,
+            fromParticipant = myself,
+            player = player,
+            charas = charas,
+            keywords = randomKeywordService.findRandomKeywords(),
+        )
+    }
+
+    /** アクション発言する。 */
+    @Operation(operationId = "actionVillage")
+    @PostMapping("/action")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun action(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+        @RequestBody @Validated request: VillageActionRequest,
+    ) {
+        val (village, myself) = resolveSayer(principal, id)
+        validateAction(request)
+        messageCoordinator.say(
+            village,
+            myself,
+            composeActionText(request),
+            CDef.MessageType.アクション.code(),
+            null,
+            request.convertDisable,
+            null,
+            httpServletRequest.getIpAddress(),
+        )
+    }
+
+    private fun composeActionText(request: VillageActionRequest): String = "${request.myself!!}${request.target ?: ""}${request.message!!}"
+
+    private fun validateAction(request: VillageActionRequest) {
+        val form = request.toForm()
+        val errors = BeanPropertyBindingResult(form, "actionForm")
+        actionFormValidator.validate(form, errors)
+        if (errors.hasErrors()) {
+            throw WolfMansionValidationException(
+                errors.fieldErrors.map {
+                    FieldErrorItem(it.field, messageSource.getMessage(it, Locale.JAPAN))
+                },
+            )
+        }
     }
 
     private fun resolveSayer(

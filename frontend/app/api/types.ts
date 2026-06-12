@@ -259,6 +259,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/action": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["actionVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/action-confirm": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["confirmVillageAction"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/messages": {
     parameters: {
       query?: never;
@@ -809,6 +841,12 @@ export interface components {
     };
     SkillSearchResponse: {
       skillCodes: string[];
+    };
+    VillageActionRequest: {
+      convertDisable?: boolean | null;
+      message: string | null;
+      myself: string | null;
+      target?: string | null;
     };
     VillageAnchorMessageContent: {
       message?: components["schemas"]["VillageMessageContent"] | null;
@@ -1610,6 +1648,56 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageDetailView"];
+        };
+      };
+    };
+  };
+  actionVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageActionRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  confirmVillageAction: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageActionRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSayConfirmContent"];
         };
       };
     };
