@@ -67,6 +67,14 @@ async function dismissAgeLimitModal(page: Page) {
     await ageLimitConfirm.click();
   }
 }
+/** 初回役職確認モーダルが被っていたら閉じる。 */
+async function dismissInitialSkillModal(page: Page) {
+  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await confirm.count()) > 0) {
+    await confirm.click();
+  }
+}
+
 
 test("簡易メモを変更すると参加者一覧に表示される (元に戻す)", async ({ page }) => {
   const candidate = await findRpCandidate(page, (rp) => rp.isAvailableMemo);
@@ -77,6 +85,7 @@ test("簡易メモを変更すると参加者一覧に表示される (元に戻
   const memoInput = page.getByLabel("簡易メモ");
   await expect(memoInput).toBeVisible({ timeout: 15000 });
   await dismissAgeLimitModal(page);
+  await dismissInitialSkillModal(page);
 
   const testMemo = "e2eメモ";
   await memoInput.fill(testMemo);
@@ -104,6 +113,7 @@ test("キャラ名を変更できる (元に戻す)", async ({ page }) => {
   const nameInput = page.getByLabel("名前", { exact: true });
   await expect(nameInput).toBeVisible({ timeout: 15000 });
   await dismissAgeLimitModal(page);
+  await dismissInitialSkillModal(page);
 
   // 現在の名前が初期表示される
   await expect(nameInput).toHaveValue(candidate.rp.name ?? "");

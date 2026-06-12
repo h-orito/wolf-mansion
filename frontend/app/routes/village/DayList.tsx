@@ -4,25 +4,38 @@ import { dayLabel } from "./dayLabel";
 
 /**
  * 日付ナビゲーション。現在表示中の日はリンクにしない。
- * 先頭の「情報」は村情報モーダルを開く導線 (モーダル実装までは無効表示)。
+ * 先頭の「情報」は村情報モーダルを開く導線。
  */
 export function DayList({
   villageId,
   dayList,
   currentDay,
   epilogueDay,
+  onInfo,
 }: {
   villageId: number;
   dayList: number[];
   currentDay: number;
   epilogueDay: number | null | undefined;
+  /** 村情報モーダルを開く。 */
+  onInfo?: () => void;
 }) {
   // 抽出条件 (searchParams) は日付遷移後も引き継ぐ
   const { search } = useLocation();
   return (
     <ul className="pl-0 text-[10.32px]">
       <li className="mr-[10px] inline list-none">
-        <span className="text-wm-accent opacity-50">情報</span>
+        {onInfo != null ? (
+          <button
+            type="button"
+            className="text-wm-accent cursor-pointer hover:underline"
+            onClick={onInfo}
+          >
+            情報
+          </button>
+        ) : (
+          <span className="text-wm-accent opacity-50">情報</span>
+        )}
       </li>
       {dayList.map((day) => (
         <li key={day} className="mr-[10px] inline list-none">

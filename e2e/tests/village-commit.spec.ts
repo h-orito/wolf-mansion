@@ -68,6 +68,11 @@ test("コミット可の村でコミット ON → OFF を切り替えられる",
   if ((await ageLimitConfirm.count()) > 0) {
     await ageLimitConfirm.click();
   }
+  // 初回役職確認モーダルも被るため閉じる
+  const skillConfirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await skillConfirm.count()) > 0) {
+    await skillConfirm.click();
+  }
 
   await commitButton.click();
   const cancelButton = page.getByRole("button", { name: "コミットを取り消す" });

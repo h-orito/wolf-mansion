@@ -54,6 +54,14 @@ async function dismissAgeLimitModal(page: Page) {
     await ageLimitConfirm.click();
   }
 }
+/** 初回役職確認モーダルが被っていたら閉じる。 */
+async function dismissInitialSkillModal(page: Page) {
+  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await confirm.count()) > 0) {
+    await confirm.click();
+  }
+}
+
 
 test("設定モーダルで表示設定を変更でき、ブラウザに保存される", async ({ page }) => {
   const villages = await findVillages(page, ["IN_PROGRESS", "IN_PREPARATION"]);
@@ -63,6 +71,7 @@ test("設定モーダルで表示設定を変更でき、ブラウザに保存�
   await page.goto(`village/${village.id}`);
   await expect(page.getByRole("button", { name: "設定" })).toBeVisible({ timeout: 15000 });
   await dismissAgeLimitModal(page);
+  await dismissInitialSkillModal(page);
   await page.getByRole("button", { name: "設定" }).click();
 
   const dialog = page.getByRole("dialog", { name: "設定" });
@@ -95,6 +104,12 @@ test("参加者の設定モーダルには Discord 通知設定が表示され�
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByRole("button", { name: "設定" })).toBeVisible({ timeout: 15000 });
   await dismissAgeLimitModal(page);
+  // 初回役職確認モーダルは situation/me 取得後に遅れて出るため、出現を待って閉じる
+  // (役職未割当の参加者は出ないので、その場合は待ちを諦めて先へ進む)
+  await page
+    .getByRole("button", { name: "確認したので次回以降表示しない" })
+    .click({ timeout: 10000 })
+    .catch(() => {});
   await page.getByRole("button", { name: "設定" }).click();
 
   const dialog = page.getByRole("dialog", { name: "設定" });

@@ -40,6 +40,14 @@ async function login(page: Page, userId: string): Promise<boolean> {
   });
   return res.ok();
 }
+/** 初回役職確認モーダルが被っていたら閉じる。 */
+async function dismissInitialSkillModal(page: Page) {
+  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await confirm.count()) > 0) {
+    await confirm.click();
+  }
+}
+
 
 /** 能力を使える (user, village) の組を探す。filter で絞り込み条件を追加できる。 */
 async function findAbilityCandidate(
@@ -71,6 +79,7 @@ test("能力者で村画面を開くと役職パネルが表示される", async
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByText("役職", { exact: true }).first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
 
   // 現在のセット内容の説明文が出る (セット済みの場合)。「なし」等の短文は
   // select の option などにも一致しうるため first で見る
@@ -100,6 +109,7 @@ test("人狼が現在の襲撃セットを再セットできる (共有 DB の�
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByRole("button", { name: "能力セット" })).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
 
   // 初期表示で現在のセット値が選択済みになるのを待つ (対象候補は遅延取得)
   const targetSelect = page.getByLabel("能力の対象");

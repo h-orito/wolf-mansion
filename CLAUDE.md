@@ -92,6 +92,7 @@ mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ�
 
 ## Key Conventions
 
+- 出力が長くなるコマンド（build/test/e2e 等）はログをファイルにリダイレクトし、失敗箇所だけ抽出して読む（ログ全文を会話に持ち込まない）
 - ドメインモデルはKotlin data classで不変（状態変更は`copy()`で新インスタンスを返す）
 - ゲーム内テキスト（ステータスメッセージ、役職名など）は日本語
 - テンプレートは`backend/src/main/resources/templates/`にThymeleaf HTML

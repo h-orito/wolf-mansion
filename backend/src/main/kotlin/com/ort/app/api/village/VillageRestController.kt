@@ -1,6 +1,7 @@
 package com.ort.app.api.village
 
 import com.ort.app.api.request.validator.NewVillageFormValidator
+import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.api.village.request.VillageCreateRequest
 import com.ort.app.api.village.request.VillageSearchRequest
 import com.ort.app.api.village.response.ParticipantSituationView
@@ -183,6 +184,22 @@ class VillageRestController(
     ): VillageSettingView =
         villageService.findVillage(id)?.let { VillageSettingView(it.setting) }
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
+
+    /**
+     * 村情報モーダル用の設定表示。表示ラベル組み立てと進行状態に応じたマスク
+     * (役職構成は確定人数分のみ・入村パスワードは有無のみ等) を含むため、
+     * SSR と共通の [VillageSettingsContent] をそのまま返す。
+     */
+    @Operation(operationId = "getVillageInfo")
+    @GetMapping("/{id}/info")
+    fun info(
+        @PathVariable id: Int,
+    ): VillageSettingsContent {
+        val village = findVillageOrThrow(id)
+        val charachips =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+        return VillageSettingsContent(village, charachips)
+    }
 
     private fun findVillageOrThrow(id: Int): Village =
         villageService.findVillage(id)

@@ -295,6 +295,14 @@ export function changeVillageMemo(id: number, request: VillageMemoRequest): Prom
   return apiFetch<void>(`/api/v1/villages/${id}/memo`, { method: "POST", body: request });
 }
 
+/** 村情報モーダル用の設定表示 (表示ラベル組み立て・マスク済み)。 */
+export type VillageSettingsContent = components["schemas"]["VillageSettingsContent"];
+
+/** 村情報モーダル用の設定表示を取得する。 */
+export function fetchVillageInfo(id: number): Promise<VillageSettingsContent> {
+  return apiFetch<VillageSettingsContent>(`/api/v1/villages/${id}/info`);
+}
+
 /** Discord 通知設定のリクエスト。 */
 export type VillageNotificationRequest = components["schemas"]["VillageNotificationRequest"];
 

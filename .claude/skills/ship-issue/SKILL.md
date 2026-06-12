@@ -36,6 +36,15 @@ git checkout -b <type>/step-<N>(.M)-<slug>
 - ブランチ名にドットを含めてよい (`chore/step-1.5-tailwind-config`)
 - **main には絶対に push しない**
 
+### 実装フェーズの分担 (コンテキスト節約・本プロジェクト追加)
+
+メイン agent のコンテキストを温存するため、かさばる作業は agent に委譲する:
+
+- **既存実装の調査・パターン特定** → `Explore` agent に委譲し、結論（該当ファイルパス・パターンの要点）だけ受け取る。メインで grep / ファイル全文 Read を繰り返さない
+- **パターンが確立した実装**（RestController/Request 追加、frontend の route/Panel/API client 追加、e2e spec 追加など）→ `step-implementer` agent に委譲。委譲時は「仕様」と「参照すべき既存実装のファイルパス」を明示して渡す
+- **lint / test / e2e の実行** → `test-runner` agent に委譲し、失敗の要約だけ受け取る。メインでログ全文を読まない
+- **設計判断・参照パターンの選定・レビュー指摘の反映・PR 文面**はメイン agent が行う
+
 ### 動作確認 (グローバル §3)
 
 - backend lint: ktlint (`./gradlew ktlintCheck` / monorepo 化後は `-p backend`)

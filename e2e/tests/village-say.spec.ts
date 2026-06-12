@@ -23,6 +23,14 @@ async function loginAsMaster(page: Page) {
   await page.getByRole("button", { name: "ログイン" }).click();
   await expect(page).toHaveURL(/\/wolf-mansion$/);
 }
+/** 初回役職確認モーダルが被っていたら閉じる。 */
+async function dismissInitialSkillModal(page: Page) {
+  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await confirm.count()) > 0) {
+    await confirm.click();
+  }
+}
+
 
 test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) => {
   const villages = await findVillages(page, ["IN_PROGRESS"]);
@@ -34,6 +42,7 @@ test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) =
 
   const sayPanel = page.locator("#say-panel");
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
   test.skip((await sayPanel.count()) === 0, "発言できない状態のためスキップ");
 
   // 独り言で投稿する (種別が無ければスキップ)
@@ -71,6 +80,7 @@ test("空入力では確認ボタンが無効", async ({ page }) => {
   await page.goto(`village/${village.id}`);
   const sayPanel = page.locator("#say-panel");
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
   test.skip((await sayPanel.count()) === 0, "発言できない状態のためスキップ");
 
   await expect(sayPanel.getByRole("button", { name: "確認画面へ" })).toBeDisabled();
@@ -84,10 +94,16 @@ test("アクション: 対象選択 + 本文 → 確認 → 投稿 → ログ反
   await loginAsMaster(page);
   await page.goto(`village/${village.id}`);
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
 
   const actionPanel = page.locator("div").filter({ hasText: /^アクション$/ }).first();
   const actionInput = page.getByLabel("アクション本文");
   test.skip((await actionInput.count()) === 0, "アクションできない状態のためスキップ");
+  // 共有 DB で繰り返し実行すると 1 日のアクション回数を使い切るため、枯渇時はスキップ
+  test.skip(
+    (await actionPanel.locator("..").getByText(/残り0\/\d+回/).count()) > 0,
+    "本日のアクション回数を使い切っているためスキップ",
+  );
 
   const text = `に e2e アクション ${Date.now()}`;
   await page.getByLabel("アクションの対象").selectOption("全員");
