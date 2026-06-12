@@ -147,6 +147,7 @@ export default function Village({ params }: Route.ComponentProps) {
     request: VillageSayRequest;
   } | null>(null);
   const [sayError, setSayError] = useState<string | null>(null);
+  const [saySubmitting, setSaySubmitting] = useState(false);
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
     document.getElementById("say-panel")?.scrollIntoView();
@@ -155,7 +156,10 @@ export default function Village({ params }: Route.ComponentProps) {
     setSayError(null);
     try {
       const response = await confirmVillageSay(villageId, request);
-      if (response.message == null) return;
+      if (response.message == null) {
+        setSayError("発言の確認に失敗しました");
+        return;
+      }
       setSayPreview({ message: response.message, request });
       requestAnimationFrame(() =>
         document.getElementById("message-confirm-area")?.scrollIntoView(),
@@ -165,7 +169,9 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   };
   const onSayDetermine = async () => {
-    if (sayPreview == null) return;
+    // 非冪等な投稿のため連打をガードする
+    if (sayPreview == null || saySubmitting) return;
+    setSaySubmitting(true);
     setSayError(null);
     try {
       await sayVillage(villageId, sayPreview.request);
@@ -175,6 +181,8 @@ export default function Village({ params }: Route.ComponentProps) {
       requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
+    } finally {
+      setSaySubmitting(false);
     }
   };
   const onSayCancel = () => {
@@ -281,7 +289,9 @@ export default function Village({ params }: Route.ComponentProps) {
               <Button variant="default" onClick={onSayCancel}>
                 キャンセル
               </Button>
-              <Button onClick={onSayDetermine}>{sayLabel(sayPreview.request.messageType)}</Button>
+              <Button onClick={onSayDetermine} disabled={saySubmitting}>
+                {sayLabel(sayPreview.request.messageType)}
+              </Button>
             </div>
           </div>
         )}
