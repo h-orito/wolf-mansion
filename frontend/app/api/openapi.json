@@ -593,6 +593,77 @@
         "tags": ["village-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/action": {
+      "post": {
+        "operationId": "actionVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-say-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/action-confirm": {
+      "post": {
+        "operationId": "confirmVillageAction",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageSayConfirmContent"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-say-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/messages": {
       "get": {
         "operationId": "getVillageMessages",
@@ -2315,6 +2386,24 @@
           }
         },
         "required": ["skillCodes"]
+      },
+      "VillageActionRequest": {
+        "type": "object",
+        "properties": {
+          "convertDisable": {
+            "type": ["boolean", "null"]
+          },
+          "message": {
+            "type": ["string", "null"]
+          },
+          "myself": {
+            "type": ["string", "null"]
+          },
+          "target": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["message", "myself"]
       },
       "VillageAnchorMessageContent": {
         "type": "object",

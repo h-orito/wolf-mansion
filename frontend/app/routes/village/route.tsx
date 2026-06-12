@@ -6,8 +6,11 @@ import { Button, LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import {
+  actionVillage,
+  confirmVillageAction,
   confirmVillageSay,
   sayVillage,
+  type VillageActionRequest,
   type VillageDetailView,
   type VillageMessageContent,
   type VillageMessageListContent,
@@ -30,6 +33,7 @@ import {
 } from "~/features/village/useVillage";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
+import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
@@ -118,6 +122,9 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
+  const canAction =
+    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "ACTION") ??
+    false;
   const canSecretReply =
     mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "SECRET_SAY") ??
     false;
@@ -142,10 +149,11 @@ export default function Village({ params }: Route.ComponentProps) {
 
   // 発言: 返信引き継ぎと確認 (プレビュー) → 投稿の 2 段フロー
   const [reply, setReply] = useState<ReplyDraft | null>(null);
-  const [sayPreview, setSayPreview] = useState<{
-    message: VillageMessageContent;
-    request: VillageSayRequest;
-  } | null>(null);
+  const [sayPreview, setSayPreview] = useState<
+    | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
+    | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
+    | null
+  >(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
   const onReply = useCallback((draft: ReplyDraft) => {
@@ -160,12 +168,28 @@ export default function Village({ params }: Route.ComponentProps) {
         setSayError("発言の確認に失敗しました");
         return;
       }
-      setSayPreview({ message: response.message, request });
+      setSayPreview({ kind: "say", message: response.message, request });
       requestAnimationFrame(() =>
         document.getElementById("message-confirm-area")?.scrollIntoView(),
       );
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
+    }
+  };
+  const onActionConfirm = async (request: VillageActionRequest) => {
+    setSayError(null);
+    try {
+      const response = await confirmVillageAction(villageId, request);
+      if (response.message == null) {
+        setSayError("アクションの確認に失敗しました");
+        return;
+      }
+      setSayPreview({ kind: "action", message: response.message, request });
+      requestAnimationFrame(() =>
+        document.getElementById("message-confirm-area")?.scrollIntoView(),
+      );
+    } catch (e) {
+      setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
     }
   };
   const onSayDetermine = async () => {
@@ -174,7 +198,11 @@ export default function Village({ params }: Route.ComponentProps) {
     setSaySubmitting(true);
     setSayError(null);
     try {
-      await sayVillage(villageId, sayPreview.request);
+      if (sayPreview.kind === "say") {
+        await sayVillage(villageId, sayPreview.request);
+      } else {
+        await actionVillage(villageId, sayPreview.request);
+      }
       setSayPreview(null);
       setReply(null);
       await invalidate();
@@ -290,7 +318,9 @@ export default function Village({ params }: Route.ComponentProps) {
                 キャンセル
               </Button>
               <Button onClick={onSayDetermine} disabled={saySubmitting}>
-                {sayLabel(sayPreview.request.messageType)}
+                {sayPreview.kind === "action"
+                  ? "アクション"
+                  : sayLabel(sayPreview.request.messageType)}
               </Button>
             </div>
           </div>
@@ -321,6 +351,14 @@ export default function Village({ params }: Route.ComponentProps) {
               onConfirm={onSayConfirm}
             />
           </div>
+        )}
+
+        {mySituation != null && canAction && (
+          <ActionPanel
+            mySituation={mySituation}
+            participants={situation?.participantList ?? []}
+            onConfirm={onActionConfirm}
+          />
         )}
 
         <DayList

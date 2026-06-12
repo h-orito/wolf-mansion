@@ -75,3 +75,36 @@ test("空入力では確認ボタンが無効", async ({ page }) => {
 
   await expect(sayPanel.getByRole("button", { name: "確認画面へ" })).toBeDisabled();
 });
+
+test("アクション: 対象選択 + 本文 → 確認 → 投稿 → ログ反映", async ({ page }) => {
+  const villages = await findVillages(page, ["IN_PROGRESS"]);
+  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
+  const village = villages[0];
+
+  await loginAsMaster(page);
+  await page.goto(`village/${village.id}`);
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+
+  const actionPanel = page.locator("div").filter({ hasText: /^アクション$/ }).first();
+  const actionInput = page.getByLabel("アクション本文");
+  test.skip((await actionInput.count()) === 0, "アクションできない状態のためスキップ");
+
+  const text = `に e2e アクション ${Date.now()}`;
+  await page.getByLabel("アクションの対象").selectOption("全員");
+  await actionInput.fill(text);
+  await actionPanel
+    .locator("..")
+    .getByRole("button", { name: "確認画面へ" })
+    .last()
+    .click();
+
+  const confirmArea = page.locator("#message-confirm-area");
+  await expect(confirmArea).toBeVisible();
+  await expect(confirmArea).toContainText(text);
+
+  await confirmArea.getByRole("button", { name: "アクション" }).click();
+  await expect(confirmArea).toHaveCount(0);
+  await expect(page.locator(".message-action").filter({ hasText: text })).toBeVisible({
+    timeout: 15000,
+  });
+});
