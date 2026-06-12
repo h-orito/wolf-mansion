@@ -339,6 +339,70 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/admin/access": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["adminUpdateAllAccess"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/admin/leave": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["adminLeaveVillageParticipant"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/admin/players": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getAdminVillagePlayers"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/admin/vote": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["adminInsertSelfVotes"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/change-name": {
     parameters: {
       query?: never;
@@ -805,6 +869,13 @@ export interface components {
       name: string;
       setMessageType: components["schemas"]["MessageType"];
     };
+    AdminVillageCharaPlayer: {
+      charaName: string;
+      playerName: string;
+    };
+    AdminVillagePlayersResponse: {
+      players: components["schemas"]["AdminVillageCharaPlayer"][];
+    };
     Camp: {
       code: string;
       isCriminals: boolean;
@@ -1260,6 +1331,10 @@ export interface components {
       message: string | null;
       myself: string | null;
       target?: string | null;
+    };
+    VillageAdminLeaveRequest: {
+      /** Format: int32 */
+      villagePlayerId: number | null;
     };
     VillageAnchorMessageContent: {
       message?: components["schemas"]["VillageMessageContent"] | null;
@@ -2337,6 +2412,92 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["VillageSayConfirmContent"];
         };
+      };
+    };
+  };
+  adminUpdateAllAccess: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  adminLeaveVillageParticipant: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageAdminLeaveRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getAdminVillagePlayers: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["AdminVillagePlayersResponse"];
+        };
+      };
+    };
+  };
+  adminInsertSelfVotes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

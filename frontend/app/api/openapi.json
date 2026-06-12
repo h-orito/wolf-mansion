@@ -781,6 +781,111 @@
         "tags": ["village-say-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/admin/access": {
+      "post": {
+        "operationId": "adminUpdateAllAccess",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-admin-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/admin/leave": {
+      "post": {
+        "operationId": "adminLeaveVillageParticipant",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageAdminLeaveRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-admin-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/admin/players": {
+      "get": {
+        "operationId": "getAdminVillagePlayers",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminVillagePlayersResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-admin-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/admin/vote": {
+      "post": {
+        "operationId": "adminInsertSelfVotes",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-admin-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/change-name": {
       "post": {
         "operationId": "changeVillageCharaName",
@@ -1851,6 +1956,30 @@
           }
         },
         "required": ["code", "name", "setMessageType"]
+      },
+      "AdminVillageCharaPlayer": {
+        "type": "object",
+        "properties": {
+          "charaName": {
+            "type": "string"
+          },
+          "playerName": {
+            "type": "string"
+          }
+        },
+        "required": ["charaName", "playerName"]
+      },
+      "AdminVillagePlayersResponse": {
+        "type": "object",
+        "properties": {
+          "players": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AdminVillageCharaPlayer"
+            }
+          }
+        },
+        "required": ["players"]
       },
       "Camp": {
         "type": "object",
@@ -3353,6 +3482,16 @@
           }
         },
         "required": ["message", "myself"]
+      },
+      "VillageAdminLeaveRequest": {
+        "type": "object",
+        "properties": {
+          "villagePlayerId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["villagePlayerId"]
       },
       "VillageAnchorMessageContent": {
         "type": "object",

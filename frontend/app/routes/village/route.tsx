@@ -41,6 +41,7 @@ import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "./AbilityPanel";
 import { ActionPanel } from "./ActionPanel";
+import { AdminPanel } from "./AdminPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { CommitPanel } from "./CommitPanel";
 import { CreatorPanel } from "./CreatorPanel";
@@ -455,6 +456,10 @@ export default function Village({ params }: Route.ComponentProps) {
             onConfirm={onCreatorSayConfirm}
             onDone={invalidate}
           />
+        )}
+
+        {mySituation != null && mySituation.admin.isAdmin && (
+          <AdminPanel villageId={villageId} onDone={invalidate} />
         )}
 
         {mySituation != null &&
