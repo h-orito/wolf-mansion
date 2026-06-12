@@ -9,6 +9,7 @@ import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituatio
 import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
+import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
@@ -52,7 +53,7 @@ data class ParticipantSituationView(
                 canAddImage = situation.rp.canAddImage,
             ),
         ability = AbilityView(situation.ability, village),
-        vote = VoteView(canVote = situation.vote.canVote),
+        vote = VoteView(situation.vote),
         admin = AdminView(isAdmin = situation.admin.isAdmin),
         creator = CreatorView(situation),
     )
@@ -386,7 +387,20 @@ data class ParticipantSituationView(
     @Schema(name = "ParticipantSituationViewVote")
     data class VoteView(
         val canVote: Boolean,
-    )
+        /** 投票先の候補 */
+        val targetList: List<AbilityTargetView>,
+        /** 現在の投票先 */
+        val targetCharaId: Int?,
+        /** 現在の投票先の表示名 */
+        val targetName: String?,
+    ) {
+        constructor(vote: ParticipantVoteSituation) : this(
+            canVote = vote.canVote,
+            targetList = vote.targetList.map { AbilityTargetView(it) },
+            targetCharaId = vote.target?.charaId,
+            targetName = vote.target?.name(),
+        )
+    }
 
     @Schema(name = "ParticipantSituationViewAdmin")
     data class AdminView(

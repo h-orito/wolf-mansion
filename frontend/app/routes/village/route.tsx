@@ -49,6 +49,7 @@ import { MessageCard } from "./MessageCard";
 import { SayPanel } from "./SayPanel";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
+import { VotePanel } from "./VotePanel";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
@@ -384,6 +385,10 @@ export default function Village({ params }: Route.ComponentProps) {
             roomAssignedRows={situation?.roomAssignedRowList}
             onDone={invalidate}
           />
+        )}
+
+        {mySituation != null && mySituation.vote.canVote && (
+          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
 
         {mySituation != null &&

@@ -1444,6 +1444,38 @@
         },
         "tags": ["village-rest-controller"]
       }
+    },
+    "/api/v1/villages/{id}/vote": {
+      "post": {
+        "operationId": "setVillageVote",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageVoteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-vote-rest-controller"]
+      }
     }
   },
   "components": {
@@ -2340,9 +2372,22 @@
         "properties": {
           "canVote": {
             "type": "boolean"
+          },
+          "targetCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "targetList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewAbilityTarget"
+            }
+          },
+          "targetName": {
+            "type": ["string", "null"]
           }
         },
-        "required": ["canVote"]
+        "required": ["canVote", "targetList"]
       },
       "PasswordChangeRequest": {
         "type": "object",
@@ -4135,6 +4180,16 @@
           }
         },
         "required": ["maxVoteCount", "voteList"]
+      },
+      "VillageVoteRequest": {
+        "type": "object",
+        "properties": {
+          "targetCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["targetCharaId"]
       },
       "WolfAllocation": {
         "type": "object",
