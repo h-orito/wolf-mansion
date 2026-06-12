@@ -813,6 +813,38 @@
         "tags": ["village-participate-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/commit": {
+      "post": {
+        "operationId": "setVillageCommit",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageCommitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-commit-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/leave": {
       "post": {
         "operationId": "leaveVillage",
@@ -3027,6 +3059,15 @@
           }
         },
         "required": ["charachipIds", "dummyCharaId", "isOriginalCharachip"]
+      },
+      "VillageCommitRequest": {
+        "type": "object",
+        "properties": {
+          "commit": {
+            "type": ["boolean", "null"]
+          }
+        },
+        "required": ["commit"]
       },
       "VillageCreateRequest": {
         "type": "object",
