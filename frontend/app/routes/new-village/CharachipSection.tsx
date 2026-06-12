@@ -9,8 +9,12 @@ import { TextLink } from "~/components/ui/TextLink";
 import type { Chara } from "~/features/charachips/api";
 import { useCharachipDetails, useCharachipList } from "~/features/charachips/useCharachips";
 import { assetUrl } from "~/lib/api";
-import { RadioRow, RequiredAfterCreationMark, SettingSection } from "./fields";
-import type { NewVillageFormInput } from "./schema";
+import {
+  RadioRow,
+  RequiredAfterCreationMark,
+  SettingSection,
+} from "~/features/village-form/fields";
+import type { NewVillageFormInput } from "~/features/village-form/schema";
 
 /** オリジナルダミーキャラ画像のサイズ上限 (バイト)。正本は backend `NewVillageFormValidator`。 */
 const ORIGINAL_IMAGE_MAX_BYTES = 100000;

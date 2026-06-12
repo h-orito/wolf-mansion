@@ -125,135 +125,146 @@ const campAllocationSchema = z.object({
   skillAllocation: z.array(skillAllocationSchema),
 });
 
-export const newVillageSchema = z
-  .object({
-    villageName: z
-      .string()
-      .min(VILLAGE_NAME_MIN_LENGTH, VILLAGE_NAME_MESSAGE)
-      .max(VILLAGE_NAME_MAX_LENGTH, VILLAGE_NAME_MESSAGE),
-    welcomeRange: z.enum(["", "ANYONE_WELCOME", "RELATIVES_ONLY"]),
-    startPersonMinNum: z
-      .number(START_PERSON_MIN_MESSAGE)
-      .int(START_PERSON_MIN_MESSAGE)
-      .min(START_PERSON_MIN_NUM, START_PERSON_MIN_MESSAGE),
-    personMaxNum: z
-      .number(PERSON_MAX_MESSAGE)
-      .int(PERSON_MAX_MESSAGE)
-      .max(PERSON_MAX_NUM_LIMIT, PERSON_MAX_MESSAGE),
-    dayChangeIntervalHours: z.number().int().min(0).max(72),
-    dayChangeIntervalMinutes: z.number().int().min(0).max(59),
-    dayChangeIntervalSeconds: z.number().int().min(0).max(59),
-    startYear: z.number().int(),
-    startMonth: z.number().int().min(1).max(12),
-    startDay: z.number().int().min(1).max(31),
-    startHour: z.number().int().min(0).max(23),
-    startMinute: z.number().int().min(0).max(59),
-    shouldOriginalImage: z.boolean(),
-    characterSetId: z.array(z.number()),
-    dummyCharaId: z.number().nullable(),
-    dummyCharaName: z.string().min(1, DUMMY_CHARA_NAME_MESSAGE).max(40, DUMMY_CHARA_NAME_MESSAGE),
-    dummyCharaShortName: z
-      .string()
-      .min(1, DUMMY_CHARA_SHORT_NAME_MESSAGE)
-      .max(1, DUMMY_CHARA_SHORT_NAME_MESSAGE),
-    dummyJoinMessage: z
-      .string()
-      .max(400, DUMMY_MESSAGE_MESSAGE)
-      .refine((v) => v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
-      .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
-    dummyDay1Message: z
-      .string()
-      .max(400, DUMMY_MESSAGE_MESSAGE)
-      .refine((v) => v === "" || v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
-      .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
-    openVote: z.boolean(),
-    possibleSkillRequest: z.boolean(),
-    availableSameWolfAttack: z.boolean(),
-    availableGuardSameTarget: z.boolean(),
-    reincarnationSkillAll: z.boolean(),
-    availableSuddonlyDeath: z.boolean(),
-    availableCommit: z.boolean(),
-    availableSpectate: z.boolean(),
-    creatorIsProducer: z.boolean(),
-    openSkillInGrave: z.boolean(),
-    visibleGraveSpectateMessage: z.boolean(),
-    availableAction: z.boolean(),
-    randomOrganization: z.boolean(),
-    /** 表示用「N人：」プレフィックス込みのテキスト (送信時に取り除く)。 */
-    organization: z.string(),
-    campAllocationList: z.array(campAllocationSchema),
-    wolfAllocation: z.object({
-      minNum: wolfAllocationNum,
-      maxNum: wolfAllocationNum.nullable(),
-    }),
-    sayRestrictList: z.array(skillSayRestrictSchema),
-    skillSayRestrictList: z.array(messageTypeSayRestrictSchema),
-    rpSayRestrictList: z.array(messageTypeSayRestrictSchema),
-    allowedSecretSayCode: z.enum(["NOTHING", "ONLY_CREATOR", "EVERYTHING"]),
-    joinPassword: z
-      .string()
-      .refine(
-        (v) =>
-          v === "" ||
-          (v.length >= JOIN_PASSWORD_MIN_LENGTH && v.length <= JOIN_PASSWORD_MAX_LENGTH),
-        JOIN_PASSWORD_MESSAGE,
-      ),
-    ageLimit: z.enum(["", "R15", "R18"]),
-  })
-  .superRefine((values, ctx) => {
-    if (!values.shouldOriginalImage && values.characterSetId.length === 0) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["characterSetId"],
-        message: CHARACTER_SET_MESSAGE,
-      });
-    }
+const villageFormShape = {
+  villageName: z
+    .string()
+    .min(VILLAGE_NAME_MIN_LENGTH, VILLAGE_NAME_MESSAGE)
+    .max(VILLAGE_NAME_MAX_LENGTH, VILLAGE_NAME_MESSAGE),
+  welcomeRange: z.enum(["", "ANYONE_WELCOME", "RELATIVES_ONLY"]),
+  startPersonMinNum: z
+    .number(START_PERSON_MIN_MESSAGE)
+    .int(START_PERSON_MIN_MESSAGE)
+    .min(START_PERSON_MIN_NUM, START_PERSON_MIN_MESSAGE),
+  personMaxNum: z
+    .number(PERSON_MAX_MESSAGE)
+    .int(PERSON_MAX_MESSAGE)
+    .max(PERSON_MAX_NUM_LIMIT, PERSON_MAX_MESSAGE),
+  dayChangeIntervalHours: z.number().int().min(0).max(72),
+  dayChangeIntervalMinutes: z.number().int().min(0).max(59),
+  dayChangeIntervalSeconds: z.number().int().min(0).max(59),
+  startYear: z.number().int(),
+  startMonth: z.number().int().min(1).max(12),
+  startDay: z.number().int().min(1).max(31),
+  startHour: z.number().int().min(0).max(23),
+  startMinute: z.number().int().min(0).max(59),
+  shouldOriginalImage: z.boolean(),
+  characterSetId: z.array(z.number()),
+  dummyCharaId: z.number().nullable(),
+  dummyCharaName: z.string().min(1, DUMMY_CHARA_NAME_MESSAGE).max(40, DUMMY_CHARA_NAME_MESSAGE),
+  dummyCharaShortName: z
+    .string()
+    .min(1, DUMMY_CHARA_SHORT_NAME_MESSAGE)
+    .max(1, DUMMY_CHARA_SHORT_NAME_MESSAGE),
+  dummyJoinMessage: z
+    .string()
+    .max(400, DUMMY_MESSAGE_MESSAGE)
+    .refine((v) => v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
+    .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
+  dummyDay1Message: z
+    .string()
+    .max(400, DUMMY_MESSAGE_MESSAGE)
+    .refine((v) => v === "" || v.trim().length >= 1, DUMMY_MESSAGE_MESSAGE)
+    .refine(withinMaxLines, DUMMY_MESSAGE_LINE_MESSAGE),
+  openVote: z.boolean(),
+  possibleSkillRequest: z.boolean(),
+  availableSameWolfAttack: z.boolean(),
+  availableGuardSameTarget: z.boolean(),
+  reincarnationSkillAll: z.boolean(),
+  availableSuddonlyDeath: z.boolean(),
+  availableCommit: z.boolean(),
+  availableSpectate: z.boolean(),
+  creatorIsProducer: z.boolean(),
+  openSkillInGrave: z.boolean(),
+  visibleGraveSpectateMessage: z.boolean(),
+  availableAction: z.boolean(),
+  randomOrganization: z.boolean(),
+  /** 表示用「N人：」プレフィックス込みのテキスト (送信時に取り除く)。 */
+  organization: z.string(),
+  campAllocationList: z.array(campAllocationSchema),
+  wolfAllocation: z.object({
+    minNum: wolfAllocationNum,
+    maxNum: wolfAllocationNum.nullable(),
+  }),
+  sayRestrictList: z.array(skillSayRestrictSchema),
+  skillSayRestrictList: z.array(messageTypeSayRestrictSchema),
+  rpSayRestrictList: z.array(messageTypeSayRestrictSchema),
+  allowedSecretSayCode: z.enum(["NOTHING", "ONLY_CREATOR", "EVERYTHING"]),
+  joinPassword: z
+    .string()
+    .refine(
+      (v) =>
+        v === "" || (v.length >= JOIN_PASSWORD_MIN_LENGTH && v.length <= JOIN_PASSWORD_MAX_LENGTH),
+      JOIN_PASSWORD_MESSAGE,
+    ),
+  ageLimit: z.enum(["", "R15", "R18"]),
+};
 
-    if (values.shouldOriginalImage && values.joinPassword === "") {
-      ctx.addIssue({
-        code: "custom",
-        path: ["joinPassword"],
-        message: JOIN_PASSWORD_ORIGINAL_MESSAGE,
-      });
-    }
+type VillageFormValues = z.infer<z.ZodObject<typeof villageFormShape>>;
 
-    if (values.personMaxNum < values.startPersonMinNum) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["personMaxNum"],
-        message: PERSON_MAX_CORRELATION_MESSAGE,
-      });
-    }
+/** 村作成・村設定変更で共通の相関検証 (オリジナル村のパスワード必須・人数・更新間隔・開始日時)。 */
+function refineVillageSetting(values: VillageFormValues, ctx: z.RefinementCtx) {
+  if (values.shouldOriginalImage && values.joinPassword === "") {
+    ctx.addIssue({
+      code: "custom",
+      path: ["joinPassword"],
+      message: JOIN_PASSWORD_ORIGINAL_MESSAGE,
+    });
+  }
 
-    const intervalSeconds =
-      values.dayChangeIntervalHours * 60 * 60 +
-      values.dayChangeIntervalMinutes * 60 +
-      values.dayChangeIntervalSeconds;
-    if (intervalSeconds < INTERVAL_MIN_SECONDS || intervalSeconds > INTERVAL_MAX_SECONDS) {
-      ctx.addIssue({
-        code: "custom",
-        path: ["dayChangeIntervalHours"],
-        message: INTERVAL_MESSAGE,
-      });
-    }
+  if (values.personMaxNum < values.startPersonMinNum) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["personMaxNum"],
+      message: PERSON_MAX_CORRELATION_MESSAGE,
+    });
+  }
 
-    const start = new Date(
-      values.startYear,
-      values.startMonth - 1,
-      values.startDay,
-      values.startHour,
-      values.startMinute,
-    );
-    const exists =
-      start.getFullYear() === values.startYear &&
-      start.getMonth() === values.startMonth - 1 &&
-      start.getDate() === values.startDay;
-    const now = new Date();
-    const limit = new Date(now.getTime() + START_DATETIME_MAX_DAYS * 24 * 60 * 60 * 1000);
-    if (!exists || start < now || start > limit) {
-      ctx.addIssue({ code: "custom", path: ["startYear"], message: START_DATETIME_MESSAGE });
-    }
-  });
+  const intervalSeconds =
+    values.dayChangeIntervalHours * 60 * 60 +
+    values.dayChangeIntervalMinutes * 60 +
+    values.dayChangeIntervalSeconds;
+  if (intervalSeconds < INTERVAL_MIN_SECONDS || intervalSeconds > INTERVAL_MAX_SECONDS) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["dayChangeIntervalHours"],
+      message: INTERVAL_MESSAGE,
+    });
+  }
+
+  const start = new Date(
+    values.startYear,
+    values.startMonth - 1,
+    values.startDay,
+    values.startHour,
+    values.startMinute,
+  );
+  const exists =
+    start.getFullYear() === values.startYear &&
+    start.getMonth() === values.startMonth - 1 &&
+    start.getDate() === values.startDay;
+  const now = new Date();
+  const limit = new Date(now.getTime() + START_DATETIME_MAX_DAYS * 24 * 60 * 60 * 1000);
+  if (!exists || start < now || start > limit) {
+    ctx.addIssue({ code: "custom", path: ["startYear"], message: START_DATETIME_MESSAGE });
+  }
+}
+
+export const newVillageSchema = z.object(villageFormShape).superRefine((values, ctx) => {
+  if (!values.shouldOriginalImage && values.characterSetId.length === 0) {
+    ctx.addIssue({
+      code: "custom",
+      path: ["characterSetId"],
+      message: CHARACTER_SET_MESSAGE,
+    });
+  }
+  refineVillageSetting(values, ctx);
+});
+
+/**
+ * 村設定変更用。キャラセットは変更不可のため characterSetId の必須チェックを除き、
+ * ダミーキャラ関連は送信されないがフォーム値としては村作成と同じ形を保つ。
+ */
+export const villageSettingsSchema = z.object(villageFormShape).superRefine(refineVillageSetting);
 
 export type NewVillageFormInput = z.infer<typeof newVillageSchema>;
 export type CampAllocationInput = NewVillageFormInput["campAllocationList"][number];

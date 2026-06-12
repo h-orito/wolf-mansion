@@ -12,16 +12,11 @@ import com.ort.app.application.coordinator.CreatorCoordinator
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.RandomKeywordService
 import com.ort.app.application.service.VillageService
-import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Charachips
-import com.ort.app.domain.model.message.MessageType
-import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.setting.*
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.util.WolfMansionUserInfoUtil
-import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
@@ -29,7 +24,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.WebDataBinder
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 @Controller
 class CreatorController(
@@ -97,7 +91,7 @@ class CreatorController(
             return "redirect:/village/$villageId#bottom"
         }
         try {
-            creatorCoordinator.saveSettings(merge(village, form))
+            creatorCoordinator.saveSettings(form.mergeTo(village))
         } catch (e: WolfMansionBusinessException) {
             model.addAttribute("errorMessage", e.message)
             setSettingsIndexModel(village, charachips, model)
@@ -212,131 +206,6 @@ class CreatorController(
         model.addAttribute(
             "settingsForm",
             form ?: VillageSettingForm(village),
-        )
-    }
-
-    private fun merge(
-        village: Village,
-        form: VillageSettingForm,
-    ): Village {
-        val startDatetime =
-            LocalDateTime.of(
-                form.startYear!!,
-                form.startMonth!!,
-                form.startDay!!,
-                form.startHour!!,
-                form.startMinute!!,
-            )
-        val welcome =
-            if (form.welcomeRange.isNullOrBlank()) {
-                emptyList()
-            } else {
-                listOf(CDef.VillageTagItem.codeOf(form.welcomeRange).toModel())
-            }
-        val age =
-            if (form.ageLimit.isNullOrBlank()) {
-                emptyList()
-            } else {
-                listOf(CDef.VillageTagItem.codeOf(form.ageLimit).toModel())
-            }
-        return village.copy(
-            name = form.villageName!!,
-            days =
-                village.days.copy(
-                    list =
-                        village.days.list.map {
-                            if (it.day == 0) {
-                                it.copy(dayChangeDatetime = startDatetime)
-                            } else {
-                                it.copy()
-                            }
-                        },
-                ),
-            setting =
-                village.setting.copy(
-                    chara =
-                        village.setting.chara.copy(
-                            dummyDay1Message = form.dummyDay1Message,
-                        ),
-                    personMin = form.startPersonMinNum!!,
-                    personMax = form.personMaxNum!!,
-                    dayChangeIntervalSeconds =
-                        form.dayChangeIntervalHours!! * 3600 + form.dayChangeIntervalMinutes!! * 60 + form.dayChangeIntervalSeconds!!,
-                    startDatetime = startDatetime,
-                    rule =
-                        village.setting.rule.copy(
-                            isOpenVote = form.openVote!!,
-                            isAvailableSameWolfAttack = form.availableSameWolfAttack!!,
-                            isOpenSkillInGrave = form.openSkillInGrave!!,
-                            isVisibleGraveSpectateMessage = form.visibleGraveSpectateMessage!!,
-                            isAvailableSpectate = form.availableSpectate!!,
-                            isAvailableSuddenlyDeath = form.availableSuddonlyDeath!!,
-                            isAvailableCommit = form.availableCommit!!,
-                            isAvailableGuardSameTarget = form.availableGuardSameTarget!!,
-                            isAvailableAction = form.availableAction!!,
-                            isRandomOrganization = form.randomOrganization!!,
-                            isReincarnationSkillAll = form.reincarnationSkillAll!!,
-                            secretSayRange = SecretSayRange(CDef.AllowedSecretSay.codeOf(form.allowedSecretSayCode!!)),
-                        ),
-                    organize =
-                        VillageOrganize(
-                            fixedOrganization = form.organization.orEmpty(),
-                            randomOrganization =
-                                VillageRandomOrganize(
-                                    campAllocation =
-                                        form.campAllocationList?.map {
-                                            VillageRandomOrganize.CampAllocation(
-                                                camp = Camp(CDef.Camp.codeOf(it.campCode)),
-                                                min = it.minNum!!,
-                                                max = it.maxNum,
-                                                initAllocation = it.allocation!!,
-                                                reincarnationAllocation = it.reincarnationAllocation!!,
-                                            )
-                                        } ?: emptyList(),
-                                    skillAllocation =
-                                        form.campAllocationList?.flatMap { it.skillAllocation!! }?.map {
-                                            VillageRandomOrganize.SkillAllocation(
-                                                skill = Skill(CDef.Skill.codeOf(it.skillCode)),
-                                                min = it.minNum!!,
-                                                max = it.maxNum,
-                                                initAllocation = it.allocation!!,
-                                                reincarnationAllocation = it.reincarnationAllocation!!,
-                                            )
-                                        } ?: emptyList(),
-                                    wolfAllocation =
-                                        form.wolfAllocation?.let {
-                                            VillageRandomOrganize.WolfAllocation(
-                                                min = it.minNum!!,
-                                                max = it.maxNum,
-                                            )
-                                        },
-                                ),
-                        ),
-                    joinPassword = form.joinPassword,
-                    sayRestriction =
-                        SayRestriction(
-                            normalSayRestriction =
-                                form.sayRestrictList!!.filter { it.restrict!! }.map {
-                                    SayRestriction.NormalSayRestriction(
-                                        skill = Skill(CDef.Skill.codeOf(it.skillCode)),
-                                        messageType = MessageType(CDef.MessageType.通常発言),
-                                        count = it.count!!,
-                                        length = it.length!!,
-                                    )
-                                },
-                            skillSayRestriction =
-                                (form.skillSayRestrictList!! + form.rpSayRestrictList!!)
-                                    .filter { it.restrict!! }
-                                    .map {
-                                        SayRestriction.SkillSayRestriction(
-                                            messageType = MessageType(CDef.MessageType.codeOf(it.messageTypeCode)),
-                                            count = it.count!!,
-                                            length = it.length!!,
-                                        )
-                                    },
-                        ),
-                    tags = VillageTags(list = welcome + age),
-                ),
         )
     }
 }

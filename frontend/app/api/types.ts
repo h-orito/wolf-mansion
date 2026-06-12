@@ -531,6 +531,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/creator/setting": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageSettingForUpdate"];
+    put: operations["updateVillageSetting"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/creator/shorten-epilogue": {
     parameters: {
       query?: never;
@@ -1032,6 +1048,15 @@ export interface components {
       messageTypeCode: string | null;
       restrict: boolean | null;
     };
+    MessageTypeSayRestrictForm: {
+      /** Format: int32 */
+      count?: number | null;
+      /** Format: int32 */
+      length?: number | null;
+      messageTypeCode?: string | null;
+      messageTypeName?: string | null;
+      restrict?: boolean | null;
+    };
     NormalSayRestriction: {
       /** Format: int32 */
       count: number;
@@ -1231,6 +1256,37 @@ export interface components {
     RandomKeywords: {
       list: components["schemas"]["RandomKeyword"][];
     };
+    RandomOrganizationCampForm: {
+      /** Format: int32 */
+      allocation: number | null;
+      campCode?: string | null;
+      campName?: string | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+      skillAllocation: components["schemas"]["RandomOrganizationSkillForm"][] | null;
+    };
+    RandomOrganizationSkillForm: {
+      /** Format: int32 */
+      allocation: number | null;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number | null;
+      /** Format: int32 */
+      reincarnationAllocation: number | null;
+      skillCode?: string | null;
+      skillName?: string | null;
+    };
+    RandomOrganizationWolfForm: {
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number | null;
+    };
     RoomAssignmentResponse: {
       /** Format: int32 */
       height: number;
@@ -1356,6 +1412,15 @@ export interface components {
       length?: number | null;
       restrict: boolean | null;
       skillCode: string | null;
+    };
+    SkillSayRestrictForm: {
+      /** Format: int32 */
+      count?: number | null;
+      /** Format: int32 */
+      length?: number | null;
+      restrict?: boolean | null;
+      skillCode?: string | null;
+      skillName?: string | null;
     };
     SkillSayRestriction: {
       /** Format: int32 */
@@ -1713,6 +1778,51 @@ export interface components {
       messageType: string | null;
       /** Format: int32 */
       secretSayTargetCharaId?: number | null;
+    };
+    VillageSettingForm: {
+      ageLimit?: string | null;
+      allowedSecretSayCode: string | null;
+      availableAction: boolean | null;
+      availableCommit: boolean | null;
+      availableGuardSameTarget: boolean | null;
+      availableSameWolfAttack: boolean | null;
+      availableSpectate: boolean | null;
+      availableSuddonlyDeath: boolean | null;
+      campAllocationList?: components["schemas"]["RandomOrganizationCampForm"][] | null;
+      /** Format: int32 */
+      dayChangeIntervalHours?: number | null;
+      /** Format: int32 */
+      dayChangeIntervalMinutes?: number | null;
+      /** Format: int32 */
+      dayChangeIntervalSeconds?: number | null;
+      dummyDay1Message?: string | null;
+      joinPassword?: string | null;
+      openSkillInGrave: boolean | null;
+      openVote: boolean | null;
+      organization?: string | null;
+      /** Format: int32 */
+      personMaxNum: number | null;
+      randomOrganization: boolean | null;
+      reincarnationSkillAll: boolean | null;
+      rpSayRestrictList: components["schemas"]["MessageTypeSayRestrictForm"][] | null;
+      sayRestrictList: components["schemas"]["SkillSayRestrictForm"][] | null;
+      skillSayRestrictList: components["schemas"]["MessageTypeSayRestrictForm"][] | null;
+      /** Format: int32 */
+      startDay?: number | null;
+      /** Format: int32 */
+      startHour?: number | null;
+      /** Format: int32 */
+      startMinute?: number | null;
+      /** Format: int32 */
+      startMonth?: number | null;
+      /** Format: int32 */
+      startPersonMinNum: number | null;
+      /** Format: int32 */
+      startYear?: number | null;
+      villageName: string | null;
+      visibleGraveSpectateMessage: boolean | null;
+      welcomeRange?: string | null;
+      wolfAllocation?: components["schemas"]["RandomOrganizationWolfForm"] | null;
     };
     VillageSettingView: {
       chara: components["schemas"]["VillageCharaSetting"];
@@ -2744,6 +2854,52 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["VillageSayConfirmContent"];
         };
+      };
+    };
+  };
+  getVillageSettingForUpdate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSettingForm"];
+        };
+      };
+    };
+  };
+  updateVillageSetting: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageSettingForm"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

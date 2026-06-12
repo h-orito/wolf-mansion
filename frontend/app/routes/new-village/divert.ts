@@ -1,7 +1,7 @@
 import type { VillageSettingView } from "~/features/villages/api";
 import type { SimpleSkillView } from "~/features/skills/api";
-import { addPersonCountPrefix } from "./organization";
-import { createDefaultValues, type NewVillageFormInput } from "./schema";
+import { addPersonCountPrefix } from "~/features/village-form/organization";
+import { createDefaultValues, type NewVillageFormInput } from "~/features/village-form/schema";
 
 /**
  * 流用元の村設定をフォーム値へ変換する (正本は backend `NewVillageForm.override`)。

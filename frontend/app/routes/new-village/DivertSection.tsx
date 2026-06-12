@@ -5,7 +5,7 @@ import { fieldErrorClass, FormRow } from "~/components/ui/Form";
 import { selectClass } from "~/components/ui/Input";
 import { NOT_PROGRESS_STATUSES } from "~/features/villages/api";
 import { useVillages } from "~/features/villages/useVillages";
-import { SettingSection } from "./fields";
+import { SettingSection } from "~/features/village-form/fields";
 
 /**
  * 設定流用。エピローグ/終了/廃村の村を選び、その設定をフォームへ流し込む。
