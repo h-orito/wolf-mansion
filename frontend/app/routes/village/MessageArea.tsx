@@ -4,7 +4,7 @@ import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageMessages } from "~/features/village/useMessages";
-import { MessageCard } from "./MessageCard";
+import { MessageCard, type ReplyDraft } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
 
 function Announce({ text }: { text: string }) {
@@ -32,6 +32,8 @@ export function MessageArea({
   randomKeywords,
   filter = EMPTY_FILTER,
   onHashtagClick,
+  onReply,
+  onSecret,
   onLoaded,
 }: {
   villageId: number;
@@ -40,6 +42,8 @@ export function MessageArea({
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
   onHashtagClick?: (tag: string) => void;
+  onReply?: (reply: ReplyDraft) => void;
+  onSecret?: (reply: ReplyDraft) => void;
   /** 一覧取得のたびに呼ぶ (新着検知の基準更新用)。 */
   onLoaded: (content: VillageMessageListContent) => void;
 }) {
@@ -86,6 +90,8 @@ export function MessageArea({
           randomKeywords={randomKeywords}
           spoiled={filter.spoiled}
           onHashtagClick={onHashtagClick}
+          onReply={onReply}
+          onSecret={onSecret}
         />
       ))}
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}

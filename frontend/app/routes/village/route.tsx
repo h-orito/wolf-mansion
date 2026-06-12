@@ -2,10 +2,17 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
-import { LinkButton } from "~/components/ui/Button";
+import { Button, LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
-import type { VillageDetailView, VillageMessageListContent } from "~/features/village/api";
+import {
+  confirmVillageSay,
+  sayVillage,
+  type VillageDetailView,
+  type VillageMessageContent,
+  type VillageMessageListContent,
+  type VillageSayRequest,
+} from "~/features/village/api";
 import {
   applyFilterToParams,
   EMPTY_FILTER,
@@ -28,6 +35,9 @@ import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
 import { MessageArea } from "./MessageArea";
+import { type ReplyDraft } from "./MessageCard";
+import { MessageCard } from "./MessageCard";
+import { SayPanel } from "./SayPanel";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
 import type { Route } from "./+types/route";
@@ -45,6 +55,28 @@ function latestDayOf(village: VillageDetailView): number {
 /** 村番号は 4 桁 0 埋めで表示する。 */
 function villageNumber(id: number): string {
   return String(id).padStart(4, "0");
+}
+
+/** 確認画面の投稿ボタンのラベル (発言種別ごと)。 */
+function sayLabel(messageType: string | null | undefined): string {
+  switch (messageType) {
+    case "WEREWOLF_SAY":
+      return "発言する（囁き）";
+    case "MASON_SAY":
+      return "発言する（共鳴）";
+    case "LOVERS_SAY":
+      return "発言する（恋人）";
+    case "TELEPATHY":
+      return "発言する（念話）";
+    case "MONOLOGUE_SAY":
+      return "発言する（独り言）";
+    case "SECRET_SAY":
+      return "発言する（秘話）";
+    case "GRAVE_SAY":
+      return "呻く";
+    default:
+      return "発言する";
+  }
 }
 
 function formatStartDatetime(iso: string): string {
@@ -85,6 +117,10 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
   const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
+  const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
+  const canSecretReply =
+    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "SECRET_SAY") ??
+    false;
 
   // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
   const [searchParams, setSearchParams] = useSearchParams();
@@ -103,6 +139,48 @@ export default function Village({ params }: Route.ComponentProps) {
     },
     [setSearchParams],
   );
+
+  // 発言: 返信引き継ぎと確認 (プレビュー) → 投稿の 2 段フロー
+  const [reply, setReply] = useState<ReplyDraft | null>(null);
+  const [sayPreview, setSayPreview] = useState<{
+    message: VillageMessageContent;
+    request: VillageSayRequest;
+  } | null>(null);
+  const [sayError, setSayError] = useState<string | null>(null);
+  const onReply = useCallback((draft: ReplyDraft) => {
+    setReply(draft);
+    document.getElementById("say-panel")?.scrollIntoView();
+  }, []);
+  const onSayConfirm = async (request: VillageSayRequest) => {
+    setSayError(null);
+    try {
+      const response = await confirmVillageSay(villageId, request);
+      if (response.message == null) return;
+      setSayPreview({ message: response.message, request });
+      requestAnimationFrame(() =>
+        document.getElementById("message-confirm-area")?.scrollIntoView(),
+      );
+    } catch (e) {
+      setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
+    }
+  };
+  const onSayDetermine = async () => {
+    if (sayPreview == null) return;
+    setSayError(null);
+    try {
+      await sayVillage(villageId, sayPreview.request);
+      setSayPreview(null);
+      setReply(null);
+      await invalidate();
+      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+    } catch (e) {
+      setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
+    }
+  };
+  const onSayCancel = () => {
+    setSayPreview(null);
+    document.getElementById("say-panel")?.scrollIntoView();
+  };
 
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
@@ -179,11 +257,34 @@ export default function Village({ params }: Route.ComponentProps) {
         <MessageArea
           villageId={villageId}
           day={dayParam}
-          randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
+          randomKeywords={keywordList}
           filter={filter}
           onHashtagClick={onHashtagClick}
+          onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
+          onSecret={canSecretReply ? onReply : undefined}
           onLoaded={onMessagesLoaded}
         />
+        {sayPreview != null && (
+          <div
+            id="message-confirm-area"
+            className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
+          >
+            <p className="mb-[10px]">
+              以下の内容で発言してよろしいですか？（まだ発言されていません）
+            </p>
+            <MessageCard
+              villageId={villageId}
+              message={sayPreview.message}
+              randomKeywords={keywordList}
+            />
+            <div className="flex justify-end gap-[10px]">
+              <Button variant="default" onClick={onSayCancel}>
+                キャンセル
+              </Button>
+              <Button onClick={onSayDetermine}>{sayLabel(sayPreview.request.messageType)}</Button>
+            </div>
+          </div>
+        )}
         {!noAd && (
           <div className="mt-[15px] min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
             広告（移行中はプレースホルダー）
@@ -196,6 +297,20 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {situation != null && (
           <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
+        )}
+
+        {mySituation?.say.isAvailableSay && (
+          <div id="say-panel">
+            {sayError != null && <p className="mb-[5px] text-[#e74c3c]">{sayError}</p>}
+            <SayPanel
+              village={village}
+              mySituation={mySituation}
+              randomKeywords={keywordList}
+              reply={reply}
+              onClearReply={() => setReply(null)}
+              onConfirm={onSayConfirm}
+            />
+          </div>
         )}
 
         <DayList

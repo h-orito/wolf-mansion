@@ -1,6 +1,10 @@
 package com.ort.app.api.village.response
 
+import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.situation.ParticipantSituation
+import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
+import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
+import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import io.swagger.v3.oas.annotations.media.Schema
 
@@ -34,7 +38,7 @@ data class ParticipantSituationView(
                 isAvailableCommit = situation.commit.isAvailableCommit,
                 isCommitting = situation.commit.isCommitting,
             ),
-        say = SayView(isAvailableSay = situation.say.isAvailableSay),
+        say = SayView(situation.say),
         rp =
             RpView(
                 isAvailableChangeName = situation.rp.isAvailableChangeName,
@@ -106,7 +110,78 @@ data class ParticipantSituationView(
     @Schema(name = "ParticipantSituationViewSay")
     data class SayView(
         val isAvailableSay: Boolean,
-    )
+        /** 既定で選択する発言種別コード */
+        val defaultMessageTypeCode: String?,
+        /** 選択できる発言種別 (種別別の制限・秘話の宛先候補付き) */
+        val selectableMessageTypeList: List<SayMessageTypeView>,
+        /** 選択できる表情 (表示中の差分のみ) */
+        val selectableCharaImageList: List<SayCharaImageView>,
+    ) {
+        constructor(say: ParticipantSaySituation) : this(
+            isAvailableSay = say.isAvailableSay,
+            defaultMessageTypeCode = say.defaultMessageType?.code,
+            selectableMessageTypeList = say.selectableMessageTypeList.map { SayMessageTypeView(it) },
+            selectableCharaImageList =
+                say.selectableCharaImageList
+                    .filter { it.isDisplay }
+                    .map { SayCharaImageView(it) },
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewSayMessageType")
+    data class SayMessageTypeView(
+        val messageTypeCode: String,
+        val restrict: SayRestrictView,
+        /** 宛先の候補 (秘話のみ非空) */
+        val targetList: List<SayTargetView>,
+    ) {
+        constructor(situation: ParticipantSayMessageTypeSituation) : this(
+            messageTypeCode = situation.messageType.code,
+            restrict = SayRestrictView(situation.restrict),
+            targetList = situation.targetList.map { SayTargetView(it) },
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewSayRestrict")
+    data class SayRestrictView(
+        val isRestricted: Boolean,
+        val maxCount: Int?,
+        val remainingCount: Int?,
+        val maxLength: Int,
+        val maxLine: Int,
+    ) {
+        constructor(restrict: ParticipantSayRestrictSituation) : this(
+            isRestricted = restrict.isRestricted,
+            maxCount = restrict.maxCount,
+            remainingCount = restrict.remainingCount,
+            maxLength = restrict.maxLength,
+            maxLine = restrict.maxLine,
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewSayTarget")
+    data class SayTargetView(
+        val charaId: Int,
+        val name: String,
+    ) {
+        constructor(participant: VillageParticipant) : this(
+            charaId = participant.charaId,
+            name = participant.name(),
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewSayCharaImage")
+    data class SayCharaImageView(
+        val faceTypeCode: String,
+        val faceTypeName: String,
+        val url: String,
+    ) {
+        constructor(image: CharaImage) : this(
+            faceTypeCode = image.faceType.code,
+            faceTypeName = image.faceType.name,
+            url = image.url,
+        )
+    }
 
     @Schema(name = "ParticipantSituationViewRp")
     data class RpView(

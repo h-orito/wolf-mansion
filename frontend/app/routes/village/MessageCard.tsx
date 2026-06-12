@@ -74,6 +74,16 @@ type ExpandedAnchor = {
   visible: boolean;
 };
 
+/** 返信・秘話返信で発言フォームへ引き継ぐ内容。 */
+export type ReplyDraft = {
+  /** 本文へ挿入するアンカー (秘話返信は null) */
+  anchorText: string | null;
+  /** 秘話返信なら宛先のキャラ ID */
+  secretTargetCharaId: number | null;
+  /** 引用表示する元発言 */
+  message: VillageMessageContent;
+};
+
 /** プレイヤーのプロフィールページへの別タブリンク。 */
 export function UserPageLink({ name }: { name: string }) {
   return (
@@ -97,6 +107,8 @@ export function MessageCard({
   randomKeywords,
   spoiled = false,
   onHashtagClick,
+  onReply,
+  onSecret,
 }: {
   villageId: number;
   message: VillageMessageContent;
@@ -104,6 +116,10 @@ export function MessageCard({
   /** ネタバレ防止 (エピローグ前同等の表示)。対象種別の発言とプレイヤー名を隠す */
   spoiled?: boolean;
   onHashtagClick?: (tag: string) => void;
+  /** 返信 (アンカー挿入 + 引用)。未指定なら返信リンクを出さない */
+  onReply?: (reply: ReplyDraft) => void;
+  /** 秘話返信 (宛先セット + 引用)。未指定なら秘話リンクを出さない */
+  onSecret?: (reply: ReplyDraft) => void;
 }) {
   const [expandedAnchors, setExpandedAnchors] = useState<ExpandedAnchor[]>([]);
 
@@ -169,7 +185,16 @@ export function MessageCard({
     return null;
   }
 
-  const body = renderBody(message, html, onContentClick, copyAnchor, villageId, spoiled);
+  const body = renderBody(
+    message,
+    html,
+    onContentClick,
+    copyAnchor,
+    villageId,
+    spoiled,
+    onReply,
+    onSecret,
+  );
 
   return (
     <div className="mb-[20px]">
@@ -210,6 +235,8 @@ function renderBody(
   copyAnchor: (text: string) => void,
   villageId: number,
   spoiled: boolean,
+  onReply?: (reply: ReplyDraft) => void,
+  onSecret?: (reply: ReplyDraft) => void,
 ) {
   const type = message.messageType;
 
@@ -289,6 +316,44 @@ function renderBody(
             )}
           </div>
         </div>
+        {(message.canReply || message.canSecret) && (onReply != null || onSecret != null) && (
+          <div className="-mt-[18px] flex justify-end gap-[10px] text-[10.32px]">
+            {message.canReply && onReply != null && (
+              <button
+                type="button"
+                className="text-wm-accent cursor-pointer hover:underline"
+                onClick={() =>
+                  onReply(
+                    type === "SECRET_SAY"
+                      ? {
+                          anchorText: null,
+                          secretTargetCharaId: message.characterId ?? null,
+                          message,
+                        }
+                      : { anchorText: anchorText ?? "", secretTargetCharaId: null, message },
+                  )
+                }
+              >
+                &gt;&gt;返信
+              </button>
+            )}
+            {message.canSecret && onSecret != null && message.characterId != null && (
+              <button
+                type="button"
+                className="text-wm-accent cursor-pointer hover:underline"
+                onClick={() =>
+                  onSecret({
+                    anchorText: null,
+                    secretTargetCharaId: message.characterId ?? null,
+                    message,
+                  })
+                }
+              >
+                &gt;&gt;秘話
+              </button>
+            )}
+          </div>
+        )}
       </div>
     );
   }

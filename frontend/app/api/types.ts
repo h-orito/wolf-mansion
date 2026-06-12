@@ -339,6 +339,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/say": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["sayVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/say-confirm": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["confirmVillageSay"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/setting": {
     parameters: {
       query?: never;
@@ -582,7 +614,36 @@ export interface components {
       isAvailableMemo: boolean;
     };
     ParticipantSituationViewSay: {
+      defaultMessageTypeCode?: string | null;
       isAvailableSay: boolean;
+      selectableCharaImageList: components["schemas"]["ParticipantSituationViewSayCharaImage"][];
+      selectableMessageTypeList: components["schemas"]["ParticipantSituationViewSayMessageType"][];
+    };
+    ParticipantSituationViewSayCharaImage: {
+      faceTypeCode: string;
+      faceTypeName: string;
+      url: string;
+    };
+    ParticipantSituationViewSayMessageType: {
+      messageTypeCode: string;
+      restrict: components["schemas"]["ParticipantSituationViewSayRestrict"];
+      targetList: components["schemas"]["ParticipantSituationViewSayTarget"][];
+    };
+    ParticipantSituationViewSayRestrict: {
+      isRestricted: boolean;
+      /** Format: int32 */
+      maxCount?: number | null;
+      /** Format: int32 */
+      maxLength: number;
+      /** Format: int32 */
+      maxLine: number;
+      /** Format: int32 */
+      remainingCount?: number | null;
+    };
+    ParticipantSituationViewSayTarget: {
+      /** Format: int32 */
+      charaId: number;
+      name: string;
     };
     ParticipantSituationViewSkillRequest: {
       isAvailableSkillRequest: boolean;
@@ -1009,6 +1070,18 @@ export interface components {
       isReincarnationSkillAll: boolean;
       isVisibleGraveSpectateMessage: boolean;
       secretSayRange: components["schemas"]["SecretSayRange"];
+    };
+    VillageSayConfirmContent: {
+      message: components["schemas"]["VillageMessageContent"];
+      randomKeywords: string;
+    };
+    VillageSayRequest: {
+      convertDisable?: boolean | null;
+      faceType: string | null;
+      message: string | null;
+      messageType: string | null;
+      /** Format: int32 */
+      secretSayTargetCharaId?: number | null;
     };
     VillageSettingView: {
       chara: components["schemas"]["VillageCharaSetting"];
@@ -1668,6 +1741,56 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageParticipantsContent"];
+        };
+      };
+    };
+  };
+  sayVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageSayRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  confirmVillageSay: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageSayRequest"];
+      };
+    };
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSayConfirmContent"];
         };
       };
     };

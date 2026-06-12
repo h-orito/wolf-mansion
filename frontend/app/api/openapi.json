@@ -903,6 +903,77 @@
         "tags": ["village-message-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/say": {
+      "post": {
+        "operationId": "sayVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageSayRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-say-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/say-confirm": {
+      "post": {
+        "operationId": "confirmVillageSay",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageSayRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageSayConfirmContent"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-say-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/setting": {
       "get": {
         "operationId": "setting",
@@ -1592,11 +1663,97 @@
       "ParticipantSituationViewSay": {
         "type": "object",
         "properties": {
+          "defaultMessageTypeCode": {
+            "type": ["string", "null"]
+          },
           "isAvailableSay": {
             "type": "boolean"
+          },
+          "selectableCharaImageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewSayCharaImage"
+            }
+          },
+          "selectableMessageTypeList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewSayMessageType"
+            }
           }
         },
-        "required": ["isAvailableSay"]
+        "required": ["isAvailableSay", "selectableCharaImageList", "selectableMessageTypeList"]
+      },
+      "ParticipantSituationViewSayCharaImage": {
+        "type": "object",
+        "properties": {
+          "faceTypeCode": {
+            "type": "string"
+          },
+          "faceTypeName": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": ["faceTypeCode", "faceTypeName", "url"]
+      },
+      "ParticipantSituationViewSayMessageType": {
+        "type": "object",
+        "properties": {
+          "messageTypeCode": {
+            "type": "string"
+          },
+          "restrict": {
+            "$ref": "#/components/schemas/ParticipantSituationViewSayRestrict"
+          },
+          "targetList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewSayTarget"
+            }
+          }
+        },
+        "required": ["messageTypeCode", "restrict", "targetList"]
+      },
+      "ParticipantSituationViewSayRestrict": {
+        "type": "object",
+        "properties": {
+          "isRestricted": {
+            "type": "boolean"
+          },
+          "maxCount": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "maxLength": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxLine": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "remainingCount": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["isRestricted", "maxLength", "maxLine"]
+      },
+      "ParticipantSituationViewSayTarget": {
+        "type": "object",
+        "properties": {
+          "charaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["charaId", "name"]
       },
       "ParticipantSituationViewSkillRequest": {
         "type": "object",
@@ -3057,6 +3214,40 @@
           "isVisibleGraveSpectateMessage",
           "secretSayRange"
         ]
+      },
+      "VillageSayConfirmContent": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "$ref": "#/components/schemas/VillageMessageContent"
+          },
+          "randomKeywords": {
+            "type": "string"
+          }
+        },
+        "required": ["message", "randomKeywords"]
+      },
+      "VillageSayRequest": {
+        "type": "object",
+        "properties": {
+          "convertDisable": {
+            "type": ["boolean", "null"]
+          },
+          "faceType": {
+            "type": ["string", "null"]
+          },
+          "message": {
+            "type": ["string", "null"]
+          },
+          "messageType": {
+            "type": ["string", "null"]
+          },
+          "secretSayTargetCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["faceType", "message", "messageType"]
       },
       "VillageSettingView": {
         "type": "object",

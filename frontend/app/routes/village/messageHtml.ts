@@ -131,7 +131,7 @@ export function replaceIdLink(messageType: string, html: string): string {
   return html;
 }
 
-/** ISO 日時 → `yyyy/MM/dd HH:mm:ss` 表示。 */
+/** ISO 日時 → `yyyy/MM/dd HH:mm:ss` 表示 (小数秒は落とす)。 */
 export function formatMessageTime(iso: string): string {
-  return iso.replace("T", " ").replace(/-/g, "/");
+  return iso.split(".")[0].replace("T", " ").replace(/-/g, "/");
 }
