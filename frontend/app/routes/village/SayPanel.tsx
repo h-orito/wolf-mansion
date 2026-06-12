@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { Button } from "~/components/ui/Button";
+import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type {
@@ -203,11 +204,8 @@ export function SayPanel({
   };
 
   return (
-    <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
-        <span className="text-[15px] text-white">発言</span>
-      </div>
-      <div className="p-[15px]">
+    <Panel title="発言">
+      <div>
         {myself?.isDead && (
           <div className="mb-[10px] rounded border border-[#e74c3c] p-[9px] text-[#e74c3c]">
             あなたは死亡しました。現世の思い出を語り合いましょう。
@@ -355,7 +353,7 @@ export function SayPanel({
           </div>
         )}
       </div>
-    </div>
+    </Panel>
   );
 }
 

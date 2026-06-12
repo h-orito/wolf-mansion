@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Button } from "~/components/ui/Button";
+import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import {
   changeVillageRequestSkill,
@@ -9,17 +10,6 @@ import {
   type ParticipantSituationView,
 } from "~/features/village/api";
 import { ApiError } from "~/lib/api";
-
-function panelShell(title: string, children: React.ReactNode) {
-  return (
-    <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
-        <span className="text-[15px] text-white">{title}</span>
-      </div>
-      <div className="space-y-[10px] p-[15px] text-[12px]">{children}</div>
-    </div>
-  );
-}
 
 function errorMessage(e: unknown, fallback: string): string {
   return e instanceof ApiError ? e.detail : fallback;
@@ -48,16 +38,17 @@ export function SwitchParticipatePanel({
       setSubmitting(false);
     }
   };
-  return panelShell(
-    "参加見学切り替え",
-    <>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex justify-end">
-        <Button onClick={submit} disabled={submitting}>
-          参加見学を切り替える
-        </Button>
+  return (
+    <Panel title="参加見学切り替え">
+      <div className="space-y-[10px] text-[12px]">
+        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <div className="flex justify-end">
+          <Button onClick={submit} disabled={submitting}>
+            参加見学を切り替える
+          </Button>
+        </div>
       </div>
-    </>,
+    </Panel>
   );
 }
 
@@ -99,51 +90,52 @@ export function ChangeSkillPanel({
     }
   };
 
-  return panelShell(
-    "役職希望",
-    <>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <p>
-        現在の役職希望: {currentFirst}/{currentSecond}
-      </p>
-      <div className="flex gap-[10px]">
-        <label className="flex-1">
-          第一役職希望
-          <select
-            className={`${selectClass} mt-[5px]`}
-            value={first}
-            onChange={(e) => setFirst(e.target.value)}
-            aria-label="第一役職希望"
-          >
-            {skills.map((skill) => (
-              <option key={skill.code} value={skill.code}>
-                {skill.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="flex-1">
-          第二役職希望
-          <select
-            className={`${selectClass} mt-[5px]`}
-            value={second}
-            onChange={(e) => setSecond(e.target.value)}
-            aria-label="第二役職希望"
-          >
-            {skills.map((skill) => (
-              <option key={skill.code} value={skill.code}>
-                {skill.name}
-              </option>
-            ))}
-          </select>
-        </label>
+  return (
+    <Panel title="役職希望">
+      <div className="space-y-[10px] text-[12px]">
+        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <p>
+          現在の役職希望: {currentFirst}/{currentSecond}
+        </p>
+        <div className="flex gap-[10px]">
+          <label className="flex-1">
+            第一役職希望
+            <select
+              className={`${selectClass} mt-[5px]`}
+              value={first}
+              onChange={(e) => setFirst(e.target.value)}
+              aria-label="第一役職希望"
+            >
+              {skills.map((skill) => (
+                <option key={skill.code} value={skill.code}>
+                  {skill.name}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="flex-1">
+            第二役職希望
+            <select
+              className={`${selectClass} mt-[5px]`}
+              value={second}
+              onChange={(e) => setSecond(e.target.value)}
+              aria-label="第二役職希望"
+            >
+              {skills.map((skill) => (
+                <option key={skill.code} value={skill.code}>
+                  {skill.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="flex justify-end">
+          <Button onClick={submit} disabled={submitting}>
+            役職希望を変更する
+          </Button>
+        </div>
       </div>
-      <div className="flex justify-end">
-        <Button onClick={submit} disabled={submitting}>
-          役職希望を変更する
-        </Button>
-      </div>
-    </>,
+    </Panel>
   );
 }
 
@@ -171,15 +163,16 @@ export function LeavePanel({
       setSubmitting(false);
     }
   };
-  return panelShell(
-    "退村",
-    <>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex justify-end">
-        <Button variant="danger" onClick={submit} disabled={submitting}>
-          村を出る
-        </Button>
+  return (
+    <Panel title="退村">
+      <div className="space-y-[10px] text-[12px]">
+        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <div className="flex justify-end">
+          <Button variant="danger" onClick={submit} disabled={submitting}>
+            村を出る
+          </Button>
+        </div>
       </div>
-    </>,
+    </Panel>
   );
 }
