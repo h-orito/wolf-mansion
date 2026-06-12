@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.12 ✅ (#71〜#81)、次は 8.13 (ユーザー設定モーダル)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.13 ✅ (#71〜#82)、次は 8.14 (村情報モーダル)**。
 
-- **(次) step-8.13 ユーザー設定**: 設定モーダル (village-user-settings.md が正本)。発言色・アイコン位置等のローカル設定 + Discord 通知設定 (`MyselfView.notificationKeyword` は 8.2 で追加済み)。SSR の該当 controller を踏襲
+- **(次) step-8.14 村情報モーダル**: footer-menu「情報」から開くモーダル (village-info.md 等が正本)。村設定一覧の表示 + **初回役職確認モーダル (skill-description、8.9 からの申し送り)** もここで扱う。`GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) が使える
+- **8.13 のメモ**: 表示設定は `features/village/displaySettings.ts` (zustand persist / localStorage キー `wolf-mansion-display-settings`)。**react-query を SSR dehydrate する場合は persist の hydration 不一致に注意** (`skipHydration` 等。現状は設定依存 UI が loading 分岐の背後なので安全)。通知 keyword の空要素除去は legacy からの意図的改善
 - **8.12 の申し送り**: **表情差分 (原画村限定の画像アップロード add-face-type / modify-face-type) は 8.12.1 として分割・未実装**。原画村フィクスチャが必要 (村作成で「オリジナル画像をアップロードする」を選ぶ)。SSR `VillageRpController` の該当 2 エンドポイントと `face-type-form.html` が正本。なお SSR の modify-face-type は **face type の所有者検証をしていない** (本人キャラ以外の code を送ると他人の表情を更新できる可能性) — REST 化時に要検証・要修正
 - **検証用フィクスチャ村 6「step8 コミット動作確認用の村」を追加 (2026-06-12)**: master 作成、コミットあり、進行中 2 日目、参加者 9 (dummy + testuser01〜08、players 2〜9)。SPA 村作成 (村 4 から設定流用) + SSR debug メニューで進行。**流用で付いた R18 タグは年齢制限モーダルが e2e を妨げるため DELETE 済み** (RELATIVES_ONLY タグは残存)。コミット系の動作確認・e2e 動的探索が村 6 を拾う
 - **SSR デバッグ操作の curl 手順 (8.11 で確立)**: SSR ログイン = GET `/wolf-mansion-api/login` で `_csrf` 取得 → 同 cookie jar で POST (`userId`/`password`/`_csrf`) → 302。debug 進行 = 村ページから `_csrf` 取り直して POST `/wolf-mansion-api/village/{id}/allparticipate` (**`personNumber` 必須** — 無いと NPE 500) / POST `/village/{id}/dayChange`。**SSR の context-path は `/wolf-mansion-api`** (8089 の `/wolf-mansion/...` は 404)
