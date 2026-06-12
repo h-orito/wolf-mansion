@@ -36,7 +36,6 @@ import {
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "./AbilityPanel";
-import { VotePanel } from "./VotePanel";
 import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
@@ -50,6 +49,7 @@ import { MessageCard } from "./MessageCard";
 import { SayPanel } from "./SayPanel";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
+import { VotePanel } from "./VotePanel";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
