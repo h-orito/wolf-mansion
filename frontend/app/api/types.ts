@@ -355,6 +355,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/commit": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["setVillageCommit"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/leave": {
     parameters: {
       query?: never;
@@ -1086,6 +1102,9 @@ export interface components {
       dummyCharaId: number;
       dummyDay1Message?: string | null;
       isOriginalCharachip: boolean;
+    };
+    VillageCommitRequest: {
+      commit: boolean | null;
     };
     VillageCreateRequest: {
       ageLimit?: string | null;
@@ -2028,6 +2047,30 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["VillageChangeSkillRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  setVillageCommit: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageCommitRequest"];
       };
     };
     responses: {

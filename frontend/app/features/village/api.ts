@@ -268,3 +268,11 @@ export type VillageVoteRequest = components["schemas"]["VillageVoteRequest"];
 export function setVillageVote(id: number, request: VillageVoteRequest): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/vote`, { method: "POST", body: request });
 }
+
+/** コミット ON/OFF のリクエスト。 */
+export type VillageCommitRequest = components["schemas"]["VillageCommitRequest"];
+
+/** コミットを ON/OFF する。要認証 → 204。 */
+export function setVillageCommit(id: number, request: VillageCommitRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/commit`, { method: "POST", body: request });
+}

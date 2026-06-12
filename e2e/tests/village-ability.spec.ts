@@ -72,9 +72,12 @@ test("能力者で村画面を開くと役職パネルが表示される", async
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByText("役職", { exact: true }).first()).toBeVisible({ timeout: 15000 });
 
-  // 現在のセット内容の説明文が出る (セット済みの場合)
+  // 現在のセット内容の説明文が出る (セット済みの場合)。「なし」等の短文は
+  // select の option などにも一致しうるため first で見る
   if (candidate.ability.targetingMessage != null) {
-    await expect(page.getByText(candidate.ability.targetingMessage)).toBeVisible();
+    await expect(
+      page.getByText(candidate.ability.targetingMessage, { exact: true }).first(),
+    ).toBeVisible();
   }
   // 人狼系なら仲間の名前が見える
   if (candidate.ability.werewolfNames !== "") {

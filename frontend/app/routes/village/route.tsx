@@ -38,6 +38,7 @@ import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "./AbilityPanel";
 import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
+import { CommitPanel } from "./CommitPanel";
 import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
@@ -389,6 +390,10 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.vote.canVote && (
           <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        )}
+
+        {mySituation != null && mySituation.commit.isAvailableCommit && (
+          <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
 
         {mySituation != null &&
