@@ -179,7 +179,7 @@
     },
     "/api/v1/charachips/{id}": {
       "get": {
-        "operationId": "detail_2",
+        "operationId": "detail_1",
         "parameters": [
           {
             "in": "path",
@@ -566,7 +566,7 @@
     },
     "/api/v1/villages/{id}": {
       "get": {
-        "operationId": "detail_1",
+        "operationId": "getVillage",
         "parameters": [
           {
             "in": "path",
@@ -624,7 +624,7 @@
     },
     "/api/v1/villages/{id}/situation": {
       "get": {
-        "operationId": "situation",
+        "operationId": "getVillageSituation",
         "parameters": [
           {
             "in": "path",
@@ -662,7 +662,7 @@
     },
     "/api/v1/villages/{id}/situation/me": {
       "get": {
-        "operationId": "mySituation",
+        "operationId": "getMyVillageSituation",
         "parameters": [
           {
             "in": "path",
@@ -700,7 +700,7 @@
     },
     "/api/v1/villages/{id}/update": {
       "post": {
-        "operationId": "update_1",
+        "operationId": "updateVillage",
         "parameters": [
           {
             "in": "path",

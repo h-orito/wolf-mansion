@@ -25,6 +25,7 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.exception.WolfMansionValidationException
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.app.fw.security.jwt.JwtPrincipal
+import io.swagger.v3.oas.annotations.Operation
 import org.springdoc.core.annotations.ParameterObject
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpStatus
@@ -68,7 +69,12 @@ class VillageRestController(
         @ParameterObject request: VillageSearchRequest,
     ): VillageListResponse = VillageListResponse(villageService.findVillages(request.toQuery()))
 
-    /** 村詳細。公開情報のみ (入村パスワードは [VillageSettingView] が除外)。 */
+    /**
+     * 村詳細。公開情報のみ (入村パスワードは [VillageSettingView] が除外)。
+     * operationId は明示する (`detail`/`update` は他 Controller と単純名が衝突し、
+     * SpringDoc の自動連番が探索順で揺れて spec の不要差分になるため)。
+     */
+    @Operation(operationId = "getVillage")
     @GetMapping("/{id}")
     fun detail(
         @PathVariable id: Int,
@@ -78,6 +84,7 @@ class VillageRestController(
      * 村状況 (状況サマリ)。村全体の現況のため認証不要だが、ログインしていれば
      * スポイラーマスク (役職・能力欄・足音の表示形式) に視点を反映する。
      */
+    @Operation(operationId = "getVillageSituation")
     @GetMapping("/{id}/situation")
     fun situation(
         @AuthenticationPrincipal principal: JwtPrincipal?,
@@ -114,6 +121,7 @@ class VillageRestController(
     }
 
     /** 参加者本人の状態 (capability)。ログインユーザー固有のため認証必須。 */
+    @Operation(operationId = "getMyVillageSituation")
     @GetMapping("/{id}/situation/me")
     fun mySituation(
         @AuthenticationPrincipal principal: JwtPrincipal?,
@@ -150,6 +158,7 @@ class VillageRestController(
      * 応答の latestDay は日付更新前に取得した村のもので、更新が起きた場合は次回ポーリングで
      * 新しい日付を返す。
      */
+    @Operation(operationId = "updateVillage")
     @PostMapping("/{id}/update")
     fun update(
         @AuthenticationPrincipal principal: JwtPrincipal?,

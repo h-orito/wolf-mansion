@@ -122,7 +122,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["detail_2"];
+    get: operations["detail_1"];
     put?: never;
     post?: never;
     delete?: never;
@@ -250,7 +250,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["detail_1"];
+    get: operations["getVillage"];
     put?: never;
     post?: never;
     delete?: never;
@@ -282,7 +282,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["situation"];
+    get: operations["getVillageSituation"];
     put?: never;
     post?: never;
     delete?: never;
@@ -298,7 +298,7 @@ export interface paths {
       path?: never;
       cookie?: never;
     };
-    get: operations["mySituation"];
+    get: operations["getMyVillageSituation"];
     put?: never;
     post?: never;
     delete?: never;
@@ -316,7 +316,7 @@ export interface paths {
     };
     get?: never;
     put?: never;
-    post: operations["update_1"];
+    post: operations["updateVillage"];
     delete?: never;
     options?: never;
     head?: never;
@@ -1088,7 +1088,7 @@ export interface operations {
       };
     };
   };
-  detail_2: {
+  detail_1: {
     parameters: {
       query?: never;
       header?: never;
@@ -1364,7 +1364,7 @@ export interface operations {
       };
     };
   };
-  detail_1: {
+  getVillage: {
     parameters: {
       query?: never;
       header?: never;
@@ -1408,7 +1408,7 @@ export interface operations {
       };
     };
   };
-  situation: {
+  getVillageSituation: {
     parameters: {
       query?: {
         day?: number;
@@ -1432,7 +1432,7 @@ export interface operations {
       };
     };
   };
-  mySituation: {
+  getMyVillageSituation: {
     parameters: {
       query?: {
         day?: number;
@@ -1456,7 +1456,7 @@ export interface operations {
       };
     };
   };
-  update_1: {
+  updateVillage: {
     parameters: {
       query?: never;
       header?: never;

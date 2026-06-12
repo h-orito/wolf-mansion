@@ -12,8 +12,8 @@ function MemberTable({ group }: { group: VillageMemberContent }) {
             {group.status} ({members.length}人)
           </th>
         </tr>
-        {members.map((member, index) => (
-          <tr key={index}>
+        {members.map((member) => (
+          <tr key={member.charaName}>
             <td className={`${cellBorderClass} p-[5px]`}>
               {member.deadDay != null ? `${member.deadDay} ` : ""}
               {member.charaName}

@@ -77,8 +77,8 @@ export function VoteTab({
             </tr>
           </thead>
           <tbody>
-            {sortedList.map((member, index) => (
-              <tr key={index}>
+            {sortedList.map((member) => (
+              <tr key={member.charaName}>
                 <td className={`${cellBorderClass} p-[5px]`}>{member.charaName}</td>
                 {(member.voteTargetList ?? []).map((target, targetIndex) => (
                   <td
