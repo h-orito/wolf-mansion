@@ -56,6 +56,8 @@ data class ParticipantSituationView(
         val shortName: String,
         val isDead: Boolean,
         val isSpectator: Boolean,
+        /** Discord 通知キーワード (スペース区切り、未設定は null)。発言抽出のショートカットが使う */
+        val notificationKeyword: String?,
     ) {
         constructor(myself: VillageParticipant) : this(
             id = myself.id,
@@ -64,6 +66,12 @@ data class ParticipantSituationView(
             shortName = myself.shortName(),
             isDead = myself.dead.isDead,
             isSpectator = myself.isSpectator,
+            notificationKeyword =
+                myself.notification
+                    ?.message
+                    ?.keywords
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.joinToString(separator = " "),
         )
     }
 

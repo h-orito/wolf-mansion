@@ -13,10 +13,13 @@ export function RoomAssignedTab({
   rows,
   situationList,
   isViewableSpoilerContent,
+  spoiled = false,
 }: {
   rows: VillageRoomAssignedRow[];
   situationList: VillageSituationContent[];
   isViewableSpoilerContent: boolean;
+  /** ネタバレ防止 (役職名を隠す) */
+  spoiled?: boolean;
 }) {
   return (
     <div className="pt-[10px] pb-[10px]">
@@ -67,7 +70,7 @@ export function RoomAssignedTab({
                           ダミー
                         </span>
                       )}
-                      {room.skillName != null && (
+                      {room.skillName != null && !spoiled && (
                         <span className="bg-wm-base whitespace-nowrap">
                           <br />
                           {shortenSkillName(room.skillName)}

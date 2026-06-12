@@ -1,4 +1,4 @@
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 
 import { dayLabel } from "./dayLabel";
 
@@ -17,6 +17,8 @@ export function DayList({
   currentDay: number;
   epilogueDay: number | null | undefined;
 }) {
+  // 抽出条件 (searchParams) は日付遷移後も引き継ぐ
+  const { search } = useLocation();
   return (
     <ul className="pl-0 text-[10.32px]">
       <li className="mr-[10px] inline list-none">
@@ -28,7 +30,7 @@ export function DayList({
             <span>{dayLabel(day, epilogueDay)}</span>
           ) : (
             <Link
-              to={`/village/${villageId}/day/${day}`}
+              to={`/village/${villageId}/day/${day}${search}`}
               className="text-wm-accent hover:underline"
             >
               {dayLabel(day, epilogueDay)}

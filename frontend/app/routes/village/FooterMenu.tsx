@@ -16,18 +16,21 @@ function MenuButton({
   label,
   onClick,
   disabled = false,
+  active = false,
 }: {
   icon: ReactNode;
   label: string;
   onClick?: () => void;
   disabled?: boolean;
+  /** 適用中の状態表示 (塗りつぶし)。 */
+  active?: boolean;
 }) {
   return (
     <button
       type="button"
       className={`${buttonBaseClass} ${
         disabled ? "opacity-50" : "cursor-pointer hover:bg-[#00bc8c] hover:text-white"
-      }`}
+      } ${active ? "bg-[#00bc8c] text-white" : ""}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -44,9 +47,15 @@ function MenuButton({
 export function FooterMenu({
   onRefresh,
   hasNewMessage = false,
+  onFilter,
+  filtering = false,
 }: {
   onRefresh: () => void;
   hasNewMessage?: boolean;
+  /** 抽出モーダルを開く。 */
+  onFilter?: () => void;
+  /** 抽出条件が適用中か (ボタンを「抽出中」のアクティブ表示にする) */
+  filtering?: boolean;
 }) {
   const iconClass = "h-[14px] w-[14px]";
   const gotoTop = () => window.scrollTo({ top: 0 });
@@ -73,7 +82,13 @@ export function FooterMenu({
           label="更新"
           onClick={onRefresh}
         />
-        <MenuButton icon={<FunnelIcon className={iconClass} />} label="抽出" disabled />
+        <MenuButton
+          icon={<FunnelIcon className={iconClass} />}
+          label={filtering ? "抽出中" : "抽出"}
+          onClick={onFilter}
+          disabled={onFilter == null}
+          active={filtering}
+        />
         <MenuButton icon={<InformationCircleIcon className={iconClass} />} label="情報" disabled />
         <MenuButton icon={<Cog6ToothIcon className={iconClass} />} label="設定" disabled />
       </div>

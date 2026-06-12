@@ -1538,6 +1538,9 @@
           "name": {
             "type": "string"
           },
+          "notificationKeyword": {
+            "type": ["string", "null"]
+          },
           "shortName": {
             "type": "string"
           }
@@ -2601,6 +2604,33 @@
         },
         "required": ["days", "id", "name", "setting", "status"]
       },
+      "VillageFilterParticipantContent": {
+        "type": "object",
+        "properties": {
+          "deadStatus": {
+            "type": ["string", "null"]
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imgHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "imgUrl": {
+            "type": "string"
+          },
+          "imgWidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "imgHeight", "imgUrl", "imgWidth", "name"]
+      },
       "VillageFootstepContent": {
         "type": "object",
         "properties": {
@@ -3129,6 +3159,12 @@
               "$ref": "#/components/schemas/VillageMemberContent"
             }
           },
+          "participantList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageFilterParticipantContent"
+            }
+          },
           "roomAssignedRowList": {
             "type": ["array", "null"],
             "items": {
@@ -3156,7 +3192,13 @@
             ]
           }
         },
-        "required": ["footstepList", "isViewableSpoilerContent", "memberList", "situationList"]
+        "required": [
+          "footstepList",
+          "isViewableSpoilerContent",
+          "memberList",
+          "participantList",
+          "situationList"
+        ]
       },
       "VillageStatus": {
         "type": "object",

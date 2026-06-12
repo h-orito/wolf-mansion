@@ -566,6 +566,7 @@ export interface components {
       isDead: boolean;
       isSpectator: boolean;
       name: string;
+      notificationKeyword?: string | null;
       shortName: string;
     };
     ParticipantSituationViewParticipate: {
@@ -868,6 +869,17 @@ export interface components {
       setting: components["schemas"]["VillageSettingView"];
       status: components["schemas"]["VillageStatus"];
     };
+    VillageFilterParticipantContent: {
+      deadStatus?: string | null;
+      /** Format: int32 */
+      id: number;
+      /** Format: int32 */
+      imgHeight: number;
+      imgUrl: string;
+      /** Format: int32 */
+      imgWidth: number;
+      name: string;
+    };
     VillageFootstepContent: {
       /** Format: int32 */
       day: number;
@@ -1027,6 +1039,7 @@ export interface components {
       footstepList: components["schemas"]["VillageFootstepContent"][];
       isViewableSpoilerContent: boolean;
       memberList: components["schemas"]["VillageMemberContent"][];
+      participantList: components["schemas"]["VillageFilterParticipantContent"][];
       roomAssignedRowList?: components["schemas"]["VillageRoomAssignedRow"][] | null;
       /** Format: int32 */
       roomWidth?: number | null;

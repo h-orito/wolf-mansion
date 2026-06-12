@@ -128,3 +128,7 @@ export function fetchAnchorMessages(
 export function fetchVillageParticipants(id: number): Promise<VillageParticipantsContent> {
   return apiFetch<VillageParticipantsContent>(`/api/v1/villages/${id}/participants`);
 }
+
+/** 発言抽出用の参加者ビュー (村状況 API の participantList)。 */
+export type VillageFilterParticipantContent =
+  components["schemas"]["VillageFilterParticipantContent"];
