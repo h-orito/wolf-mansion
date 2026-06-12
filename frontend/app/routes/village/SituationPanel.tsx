@@ -15,9 +15,12 @@ type TabKey = "room" | "member" | "vote" | "footstep";
 export function SituationPanel({
   situation,
   day,
+  spoiled = false,
 }: {
   situation: VillageSituationView;
   day: number;
+  /** ネタバレ防止 (役職名・能力欄・足音詳細を隠す) */
+  spoiled?: boolean;
 }) {
   const hasRoomTab = situation.roomWidth != null && day > 0;
   const hasVoteTab = situation.vote != null;
@@ -70,7 +73,8 @@ export function SituationPanel({
             <RoomAssignedTab
               rows={situation.roomAssignedRowList ?? []}
               situationList={situation.situationList ?? []}
-              isViewableSpoilerContent={situation.isViewableSpoilerContent ?? false}
+              isViewableSpoilerContent={(situation.isViewableSpoilerContent ?? false) && !spoiled}
+              spoiled={spoiled}
             />
           )}
           {activeTab === "member" && <MemberListTab memberList={situation.memberList ?? []} />}
@@ -81,6 +85,7 @@ export function SituationPanel({
             <FootstepTab
               footstepList={situation.footstepList ?? []}
               roomAssignedRows={situation.roomAssignedRowList}
+              spoiled={spoiled}
             />
           )}
         </div>

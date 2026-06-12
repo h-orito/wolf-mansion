@@ -1,11 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import type { VillageDetailView, VillageMessageListContent } from "~/features/village/api";
+import {
+  applyFilterToParams,
+  EMPTY_FILTER,
+  isFiltering,
+  parseFilter,
+  type MessageFilter,
+} from "~/features/village/filter";
 import { useNewMessageDetector } from "~/features/village/useMessages";
 import {
   useInvalidateVillage,
@@ -18,6 +25,7 @@ import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
+import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
 import { MessageArea } from "./MessageArea";
 import { SituationPanel } from "./SituationPanel";
@@ -74,9 +82,27 @@ export default function Village({ params }: Route.ComponentProps) {
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
-  const { error: mySituationError } = useMyVillageSituation(villageId, dayParam);
+  const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
   const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
+
+  // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filter = parseFilter(searchParams);
+  const [filterOpen, setFilterOpen] = useState(false);
+  const applyFilter = (next: MessageFilter) =>
+    setSearchParams(applyFilterToParams(searchParams, next));
+  const applyFilterNewTab = (next: MessageFilter) => {
+    const params = applyFilterToParams(searchParams, next);
+    const query = params.toString();
+    window.open(`${window.location.pathname}${query !== "" ? `?${query}` : ""}`);
+  };
+  const onHashtagClick = useCallback(
+    (tag: string) => {
+      setSearchParams((prev) => applyFilterToParams(prev, { ...EMPTY_FILTER, keywords: tag }));
+    },
+    [setSearchParams],
+  );
 
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
@@ -154,6 +180,8 @@ export default function Village({ params }: Route.ComponentProps) {
           villageId={villageId}
           day={dayParam}
           randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
+          filter={filter}
+          onHashtagClick={onHashtagClick}
           onLoaded={onMessagesLoaded}
         />
         {!noAd && (
@@ -166,7 +194,9 @@ export default function Village({ params }: Route.ComponentProps) {
         {/* 最下部への移動先 (発言後のスクロール先) */}
         <div id="bottom" />
 
-        {situation != null && <SituationPanel situation={situation} day={currentDay} />}
+        {situation != null && (
+          <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
+        )}
 
         <DayList
           villageId={villageId}
@@ -190,7 +220,22 @@ export default function Village({ params }: Route.ComponentProps) {
         </div>
       </div>
 
-      <FooterMenu onRefresh={() => invalidate()} hasNewMessage={hasNewMessage} />
+      <FooterMenu
+        onRefresh={() => invalidate()}
+        hasNewMessage={hasNewMessage}
+        onFilter={() => setFilterOpen(true)}
+        filtering={isFiltering(filter)}
+      />
+      <FilterModal
+        open={filterOpen}
+        onClose={() => setFilterOpen(false)}
+        filter={filter}
+        participants={situation?.participantList ?? []}
+        myselfId={mySituation?.myself?.id ?? null}
+        notificationKeyword={mySituation?.myself?.notificationKeyword ?? null}
+        onApply={applyFilter}
+        onApplyNewTab={applyFilterNewTab}
+      />
       {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
 
       {/* 通知系のオーバーレイ */}

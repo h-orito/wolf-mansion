@@ -38,6 +38,29 @@ const SYSTEM_VARIANTS: Record<string, string> = {
   PRIVATE_ABILITY: "message-private-ability",
 };
 
+/** ネタバレ防止の対象種別 (エピローグ前は見えなかったもの)。 */
+const SPOILED_TYPES = new Set([
+  "WEREWOLF_SAY",
+  "MONOLOGUE_SAY",
+  "SECRET_SAY",
+  "MASON_SAY",
+  "LOVERS_SAY",
+  "TELEPATHY",
+  "GRAVE_SAY",
+  "SPECTATE_SAY",
+  "PRIVATE_SYSTEM",
+  "PRIVATE_SEER",
+  "PRIVATE_WISE",
+  "PRIVATE_PSYCHIC",
+  "PRIVATE_GURU",
+  "PRIVATE_CORONER",
+  "PRIVATE_INVESTIGATE",
+  "PRIVATE_WEREWOLF",
+  "PRIVATE_LOVER",
+  "PRIVATE_FOX",
+  "PRIVATE_ABILITY",
+]);
+
 const bubbleBaseClass = "message rounded-[5px] border p-[9px] break-words";
 
 // 種別クラス (message-normal 等) も付ける。本文内リンクの色分け CSS が参照する
@@ -72,10 +95,15 @@ export function MessageCard({
   villageId,
   message,
   randomKeywords,
+  spoiled = false,
+  onHashtagClick,
 }: {
   villageId: number;
   message: VillageMessageContent;
   randomKeywords: string[];
+  /** ネタバレ防止 (エピローグ前同等の表示)。対象種別の発言とプレイヤー名を隠す */
+  spoiled?: boolean;
+  onHashtagClick?: (tag: string) => void;
 }) {
   const [expandedAnchors, setExpandedAnchors] = useState<ExpandedAnchor[]>([]);
 
@@ -107,7 +135,7 @@ export function MessageCard({
     }
   };
 
-  // 生成 HTML 内のリンク/装飾はイベント委譲で扱う (アンカー展開・伏せ字解除)
+  // 生成 HTML 内のリンク/装飾はイベント委譲で扱う (アンカー展開・ハッシュタグ抽出・伏せ字解除)
   const onContentClick = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     const anchor = target.closest("[data-anchor-type]") as HTMLElement | null;
@@ -115,6 +143,12 @@ export function MessageCard({
       const type = anchor.dataset.anchorType;
       const number = Number(anchor.dataset.anchorNumber);
       if (type != null && Number.isFinite(number)) toggleAnchor(type, number);
+      return;
+    }
+    const hashtag = target.closest("[data-message-hashtag]") as HTMLElement | null;
+    if (hashtag != null) {
+      const tag = hashtag.dataset.messageHashtag ?? "";
+      if (tag !== "" && onHashtagClick != null) onHashtagClick(tag);
       return;
     }
     if (target.classList.contains("netabare")) {
@@ -130,7 +164,12 @@ export function MessageCard({
     navigator.clipboard.writeText(text).then(() => alert(`コピーしました： ${text}`));
   };
 
-  const body = renderBody(message, html, onContentClick, copyAnchor, villageId);
+  // ネタバレ防止中はスポイラー対象の発言そのものを出さない
+  if (spoiled && (message.isBigEars || SPOILED_TYPES.has(message.messageType))) {
+    return null;
+  }
+
+  const body = renderBody(message, html, onContentClick, copyAnchor, villageId, spoiled);
 
   return (
     <div className="mb-[20px]">
@@ -170,6 +209,7 @@ function renderBody(
   onContentClick: (e: MouseEvent<HTMLDivElement>) => void,
   copyAnchor: (text: string) => void,
   villageId: number,
+  spoiled: boolean,
 ) {
   const type = message.messageType;
 
@@ -217,7 +257,7 @@ function renderBody(
             )}
             {message.characterName}
             {type === "SECRET_SAY" && ` → ${message.targetCharacterName ?? ""}`}
-            {message.playerName != null && (
+            {message.playerName != null && !spoiled && (
               <span>
                 &nbsp;[
                 <UserPageLink name={message.playerName} />]
@@ -300,7 +340,7 @@ function renderBody(
                 .
               </>
             )}
-            {message.playerName != null && (
+            {message.playerName != null && !spoiled && (
               <span>
                 &nbsp;[
                 <UserPageLink name={message.playerName} />]

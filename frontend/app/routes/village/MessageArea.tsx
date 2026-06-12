@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
+import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageCard } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
@@ -29,11 +30,16 @@ export function MessageArea({
   villageId,
   day,
   randomKeywords,
+  filter = EMPTY_FILTER,
+  onHashtagClick,
   onLoaded,
 }: {
   villageId: number;
   day: number | undefined;
   randomKeywords: string[];
+  /** 発言抽出の条件 (URL searchParams 由来)。 */
+  filter?: MessageFilter;
+  onHashtagClick?: (tag: string) => void;
   /** 一覧取得のたびに呼ぶ (新着検知の基準更新用)。 */
   onLoaded: (content: VillageMessageListContent) => void;
 }) {
@@ -42,9 +48,12 @@ export function MessageArea({
     d == null ? { pageNum: 1, isDispLatest: true } : { pageNum: 1, isDispLatest: false };
   const [page, setPage] = useState<PageState>(() => initialPage(day));
 
+  // 日付遷移・抽出条件の変更で先頭ページに戻す (絞り込み後に存在しないページを引かないため)
+  const filterKey = JSON.stringify(filter);
   useEffect(() => {
     setPage(initialPage(day));
-  }, [day]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [day, filterKey]);
 
   const { data, isLoading } = useVillageMessages(villageId, {
     day,
@@ -52,6 +61,10 @@ export function MessageArea({
     pageNum: page.isDispLatest ? undefined : page.pageNum,
     isPaging: true,
     isDispLatest: page.isDispLatest,
+    participantIds: filter.participantIds.length > 0 ? filter.participantIds : undefined,
+    toParticipantIds: filter.toParticipantIds.length > 0 ? filter.toParticipantIds : undefined,
+    types: filter.types.length > 0 ? filter.types : undefined,
+    keywords: filter.keywords !== "" ? filter.keywords : undefined,
   });
 
   useEffect(() => {
@@ -71,6 +84,8 @@ export function MessageArea({
           villageId={villageId}
           message={message}
           randomKeywords={randomKeywords}
+          spoiled={filter.spoiled}
+          onHashtagClick={onHashtagClick}
         />
       ))}
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}

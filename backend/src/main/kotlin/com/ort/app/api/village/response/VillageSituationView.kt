@@ -1,6 +1,7 @@
 package com.ort.app.api.village.response
 
 import com.ort.app.api.view.VillageContent
+import com.ort.app.api.view.village.VillageFilterParticipantContent
 import com.ort.app.api.view.village.VillageMemberContent
 import com.ort.app.api.view.village.VillageRoomAssignedRow
 import com.ort.app.domain.model.chara.Charachips
@@ -25,6 +26,8 @@ data class VillageSituationView(
     val roomWidth: Int?,
     /** ステータス別の参加者一覧 */
     val memberList: List<VillageMemberContent>,
+    /** 発言抽出用の参加者一覧 (部屋番号順) */
+    val participantList: List<VillageFilterParticipantContent>,
     /** 投票表 (3日目以降のみ) */
     val vote: VillageContent.VillageVoteContent?,
     /** 日別の足音 */
@@ -56,6 +59,10 @@ data class VillageSituationView(
                     status = it.status,
                     statusMemberList = it.list.map { participant -> VillageMemberContent.VillageMemberDetailContent(participant) },
                 )
+            },
+        participantList =
+            village.allParticipants().sortedByRoomNumber().list.map {
+                VillageFilterParticipantContent(village, it, charachips)
             },
         vote = if (day > 2) VillageContent.VillageVoteContent(village, villageSituation) else null,
         footstepList = villageSituation.footstep.list.map { VillageContent.VillageFootstepContent(it.day, it.footstep) },
