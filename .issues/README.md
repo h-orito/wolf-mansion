@@ -24,7 +24,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| (現在 open な Issue なし) | | | |
+| step-8.2 | 村画面メッセージ表示 (発言ログ描画 / ページング / アンカー / 参加者正体公開) | enhancement | open |
 
 > **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12)**: `feature/monorepo-step8` を base にサブ step PR を積み、同ブランチへの squash merge は Claude 単独で可。`feature/monorepo` への merge は最終 PR でユーザー承認。8.1 完了 ✅ (#71)。
 

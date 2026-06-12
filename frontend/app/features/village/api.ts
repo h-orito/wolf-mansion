@@ -44,3 +44,87 @@ export function fetchMyVillageSituation(
 export function postVillageUpdate(id: number): Promise<VillageUpdateResponse> {
   return apiFetch<VillageUpdateResponse>(`/api/v1/villages/${id}/update`, { method: "POST" });
 }
+
+/** 発言一覧 (`GET /api/v1/villages/{id}/messages`)。可視範囲はサーバ側でマスク済み。 */
+export type VillageMessageListContent = components["schemas"]["VillageMessageListContent"];
+/** 1 件の発言。本文は生テキストで、HTML 化はクライアントの責務。 */
+export type VillageMessageContent = components["schemas"]["VillageMessageContent"];
+/** アンカー発言 (閲覧できない場合は message が null)。 */
+export type VillageAnchorMessageContent = components["schemas"]["VillageAnchorMessageContent"];
+export type VillageAnchorMessagesContent = components["schemas"]["VillageAnchorMessagesContent"];
+/** 参加者の正体一覧 (エピローグ以降のみ)。 */
+export type VillageParticipantsContent = components["schemas"]["VillageParticipantsContent"];
+
+/** 発言一覧の取得条件。絞り込み系は発言抽出 UI が使う。 */
+export type VillageMessageSearch = {
+  day?: number;
+  pageSize?: number;
+  pageNum?: number;
+  isPaging?: boolean;
+  isDispLatest?: boolean;
+  participantIds?: number[];
+  toParticipantIds?: number[];
+  types?: string[];
+  keywords?: string;
+};
+
+function messageSearchParams(search: VillageMessageSearch): string {
+  const params = new URLSearchParams();
+  if (search.day != null) params.set("day", String(search.day));
+  if (search.pageSize != null) params.set("pageSize", String(search.pageSize));
+  if (search.pageNum != null) params.set("pageNum", String(search.pageNum));
+  if (search.isPaging != null) params.set("isPaging", String(search.isPaging));
+  if (search.isDispLatest != null) params.set("isDispLatest", String(search.isDispLatest));
+  (search.participantIds ?? []).forEach((p) => params.append("participantIds", String(p)));
+  (search.toParticipantIds ?? []).forEach((p) => params.append("toParticipantIds", String(p)));
+  (search.types ?? []).forEach((t) => params.append("types", t));
+  if (search.keywords != null && search.keywords !== "") params.set("keywords", search.keywords);
+  const query = params.toString();
+  return query ? `?${query}` : "";
+}
+
+/** 発言一覧を取得する (公開・視点反映)。 */
+export function fetchVillageMessages(
+  id: number,
+  search: VillageMessageSearch,
+): Promise<VillageMessageListContent> {
+  return apiFetch<VillageMessageListContent>(
+    `/api/v1/villages/${id}/messages${messageSearchParams(search)}`,
+  );
+}
+
+/** 最新発言日時 (uuuuMMddHHmmss 文字列、新着検知用)。 */
+export function fetchLatestMessageDatetime(
+  id: number,
+  search: VillageMessageSearch,
+): Promise<string> {
+  return apiFetch<components["schemas"]["VillageLatestMessageDatetimeContent"]>(
+    `/api/v1/villages/${id}/messages/latest-datetime${messageSearchParams(search)}`,
+  ).then((r) => r.latestMessageDatetime);
+}
+
+/** 単一アンカー発言を取得する。 */
+export function fetchAnchorMessage(
+  id: number,
+  messageType: string,
+  messageNumber: number,
+): Promise<VillageAnchorMessageContent> {
+  return apiFetch<VillageAnchorMessageContent>(
+    `/api/v1/villages/${id}/messages/anchor?messageType=${encodeURIComponent(messageType)}&messageNumber=${messageNumber}`,
+  );
+}
+
+/** 複数アンカー発言 (`n123_w45` 形式) を取得する。通知のパーマリンクページが使う。 */
+export function fetchAnchorMessages(
+  id: number,
+  anchors: string,
+): Promise<VillageAnchorMessagesContent> {
+  return apiFetch<VillageAnchorMessagesContent>(
+    `/api/v1/villages/${id}/messages/anchors?anchors=${encodeURIComponent(anchors)}`,
+  );
+}
+
+/** 参加者の正体一覧を取得する (エピローグ以降のみ 200)。 */
+export function fetchVillageParticipants(id: number): Promise<VillageParticipantsContent> {
+  return apiFetch<VillageParticipantsContent>(`/api/v1/villages/${id}/participants`);
+}

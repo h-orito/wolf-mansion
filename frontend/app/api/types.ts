@@ -259,6 +259,86 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/messages": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageMessages"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/messages/anchor": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageAnchorMessage"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/messages/anchors": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageAnchorMessages"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/messages/latest-datetime": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageLatestMessageDatetime"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/participants": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageParticipants"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/setting": {
     parameters: {
       query?: never;
@@ -668,6 +748,12 @@ export interface components {
     SkillSearchResponse: {
       skillCodes: string[];
     };
+    VillageAnchorMessageContent: {
+      message?: components["schemas"]["VillageMessageContent"] | null;
+    };
+    VillageAnchorMessagesContent: {
+      messageList: components["schemas"]["VillageMessageContent"][];
+    };
     VillageCharaSetting: {
       charachipIds: number[];
       /** Format: int32 */
@@ -787,6 +873,9 @@ export interface components {
       day: number;
       footstep: string;
     };
+    VillageLatestMessageDatetimeContent: {
+      latestMessageDatetime: string;
+    };
     VillageListResponse: {
       villages: components["schemas"]["SimpleVillageView"][];
     };
@@ -806,9 +895,62 @@ export interface components {
       charaName: string;
       voteTargetList: string[];
     };
+    VillageMessageContent: {
+      canReply: boolean;
+      canSecret: boolean;
+      /** Format: int32 */
+      characterId?: number | null;
+      characterImageUrl?: string | null;
+      characterName?: string | null;
+      /** Format: int32 */
+      height?: number | null;
+      isBigEars: boolean;
+      isConvertDisable: boolean;
+      isLoud: boolean;
+      isRainbow: boolean;
+      messageContent: string;
+      /** Format: date-time */
+      messageDatetime: string;
+      /** Format: int32 */
+      messageNumber?: number | null;
+      messageType: string;
+      minHeightCss: string;
+      playerName?: string | null;
+      targetCharacterName?: string | null;
+      /** Format: int32 */
+      width?: number | null;
+    };
+    VillageMessageListContent: {
+      /** Format: int32 */
+      allPageCount: number;
+      commitStatusMessage?: string | null;
+      /** Format: int32 */
+      currentPageNum?: number | null;
+      isDispLatest: boolean;
+      isExistNextPage: boolean;
+      isExistPrePage: boolean;
+      /** Format: int32 */
+      latestDay: number;
+      latestMessageDatetime?: string | null;
+      messageList: components["schemas"]["VillageMessageContent"][];
+      pageNumList: number[];
+      suddenlyDeathMessage?: string | null;
+      villageStatusMessage?: string | null;
+    };
     VillageOrganize: {
       fixedOrganization: string;
       randomOrganization: components["schemas"]["VillageRandomOrganize"];
+    };
+    VillageParticipantContent: {
+      deadStatus: string;
+      isSpectator: boolean;
+      name: string;
+      playerName: string;
+      skillName: string;
+      winStatus: string;
+    };
+    VillageParticipantsContent: {
+      list: components["schemas"]["VillageParticipantContent"][];
     };
     VillageRandomOrganize: {
       campAllocation: components["schemas"]["CampAllocation"][];
@@ -1382,6 +1524,137 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageDetailView"];
+        };
+      };
+    };
+  };
+  getVillageMessages: {
+    parameters: {
+      query?: {
+        day?: number;
+        pageSize?: number;
+        pageNum?: number;
+        participantIds?: number[];
+        toParticipantIds?: number[];
+        types?: string[];
+        keywords?: string;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageMessageListContent"];
+        };
+      };
+    };
+  };
+  getVillageAnchorMessage: {
+    parameters: {
+      query: {
+        messageType: string;
+        messageNumber: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageAnchorMessageContent"];
+        };
+      };
+    };
+  };
+  getVillageAnchorMessages: {
+    parameters: {
+      query: {
+        anchors: string;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageAnchorMessagesContent"];
+        };
+      };
+    };
+  };
+  getVillageLatestMessageDatetime: {
+    parameters: {
+      query?: {
+        day?: number;
+        pageSize?: number;
+        pageNum?: number;
+        participantIds?: number[];
+        toParticipantIds?: number[];
+        types?: string[];
+        keywords?: string;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageLatestMessageDatetimeContent"];
+        };
+      };
+    };
+  };
+  getVillageParticipants: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageParticipantsContent"];
         };
       };
     };
