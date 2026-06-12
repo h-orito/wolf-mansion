@@ -182,9 +182,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.8 ✅ (#71〜#77)、次は 8.9 (能力使用)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.9 ✅ (#71〜#78)、次は 8.10 (投票)**。
 
-- **(次) step-8.9 能力使用**: 役職別パターン (A〜H) の能力セット (village-ability.md が正本)。**役職 133 / 能力サービス 67 と最重量** — `SkillTag` 述語でパターン A〜H に機械分類し、パターン別コンポーネントで実装。必要なら 8.9.K でパターングループ単位にさらに分割可 (08-step-plan.md)。`ParticipantAbilitySituation` は situation/me の ability に flags のみ出ている状態なので、対象リスト・足音候補等の additive 拡張から。能力セットの実測は村 5 (進行中) の master では当事者になれないため、**新しい村を建てて debug 進行 + dummy login (SSR debug メニュー) で役職者として確認**するのが基本手段
+- **(次) step-8.10 投票**: 投票セット (village-vote.md が正本)。`ParticipantSituation.vote` は `canVote` のみ出ている状態なので、投票候補・現在の投票先の additive 拡張 + `POST /api/v1/villages/{id}/vote` から。SSR の `VillageVoteController` / `VillageCoordinator.setVote` を踏襲 (権威検証は domain)。動作確認は村 5 (進行中 3 日目) のテストユーザーで可能 (8.9 と同じ手順)
+- **8.9 で確立したパターン (能力セット)**: 能力 UI は situation/me の `ability` 素材で出し分け (襲撃=attackerList 非空 / 調査=skill.hasInvestigateAbility / 徘徊=hasDisturbAbility && targetList 空 / 対象+足音=isTargetingAndFootstep / 対象のみ)。**役職別の分岐を frontend に持ち込まず、判定済みフラグ・候補リストを View で返す**。襲撃対象と現在対象の足音候補は situation に含まれないため AbilityPanel が初期表示時に candidates API (`ability/attack-targets`, `ability/footsteps`) で取得。**2 文字目大文字の Kotlin プロパティ (`cMadmanNames` 等) は Jackson と SpringDoc で名前が割れて spec に重複フィールドが出る → `@get:JsonProperty` で明示**。村 5 の配役は DB 直クエリ (`docker exec wolf-mansion-mysql mysql -u wmansion -p... -e "SELECT ... FROM VILLAGE_PLAYER vp JOIN PLAYER p ..."`) で確認でき、testuser03/05/15=人狼、testuser06=狩人 (全員 password=testuser) — 新規村を建てなくても役職者の実測ができた
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
