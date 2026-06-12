@@ -1,7 +1,9 @@
 package com.ort.app.api.village
 
 import com.ort.app.api.request.VillageSayForm
+import com.ort.app.api.request.VillageSettingForm
 import com.ort.app.api.request.validator.CreatorSayFormValidator
+import com.ort.app.api.request.validator.SettingFormValidator
 import com.ort.app.api.view.VillageSayConfirmContent
 import com.ort.app.api.village.request.VillageCreatorSayRequest
 import com.ort.app.api.village.request.VillageKickRequest
@@ -23,8 +25,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.BeanPropertyBindingResult
 import org.springframework.validation.annotation.Validated
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -42,6 +46,7 @@ class VillageCreatorRestController(
     private val randomKeywordService: RandomKeywordService,
     private val messageDomainService: MessageDomainService,
     private val creatorSayFormValidator: CreatorSayFormValidator,
+    private val settingFormValidator: SettingFormValidator,
     private val messageSource: MessageSource,
 ) {
     /** 村建て発言の確認 (プレビュー)。表示用に整形済みの発言を返す (まだ保存しない)。 */
@@ -138,6 +143,37 @@ class VillageCreatorRestController(
         creatorCoordinator.shortenEpilogue(id)
     }
 
+    /**
+     * 設定変更フォームの初期値。入村パスワードを含むため村建てプレイヤー限定
+     * (公開の setting API はパスワードをマスクしている)。
+     */
+    @Operation(operationId = "getVillageSettingForUpdate")
+    @GetMapping("/setting")
+    fun getSetting(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+    ): VillageSettingForm {
+        val village = resolveCreatorVillage(principal, id)
+        return VillageSettingForm(village)
+    }
+
+    /** 村設定を変更する。設定変更可否は domain が検証する。 */
+    @Operation(operationId = "updateVillageSetting")
+    @PutMapping("/setting")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun updateSetting(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+        @RequestBody @Validated form: VillageSettingForm,
+    ) {
+        val village = resolveCreatorVillage(principal, id)
+        validateSettingForm(form)
+        if (village.setting.chara.isOriginalCharachip && form.joinPassword.isNullOrEmpty()) {
+            throw WolfMansionBusinessException("オリジナルキャラクターを登録する村ではパスワードは必須です")
+        }
+        creatorCoordinator.saveSettings(form.mergeTo(village))
+    }
+
     private fun resolveCreatorVillage(
         principal: JwtPrincipal?,
         villageId: Int,
@@ -149,6 +185,18 @@ class VillageCreatorRestController(
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
         if (!creatorCoordinator.isCreator(principal.name, village.id)) throw WolfMansionBusinessException("村建てプレイヤーのみ実行できます")
         return village
+    }
+
+    private fun validateSettingForm(form: VillageSettingForm) {
+        val errors = BeanPropertyBindingResult(form, "settingsForm")
+        settingFormValidator.validate(form, errors)
+        if (errors.hasErrors()) {
+            throw WolfMansionValidationException(
+                errors.fieldErrors.map {
+                    FieldErrorItem(it.field, messageSource.getMessage(it, Locale.JAPAN))
+                },
+            )
+        }
     }
 
     private fun validate(request: VillageCreatorSayRequest) {

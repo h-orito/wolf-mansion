@@ -11,6 +11,7 @@ export default [
   route("village/:villageId/message", "routes/village-message/route.tsx"),
   route("village/:villageId/day?/:day?", "routes/village/route.tsx"),
   route("new-village", "routes/new-village/route.tsx"),
+  route("village/:villageId/settings", "routes/village-settings/route.tsx"),
   route("skill", "routes/skill/route.tsx"),
   route("rule", "routes/rule/route.tsx"),
   route("chara-group", "routes/chara-group/route.tsx"),

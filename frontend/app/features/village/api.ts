@@ -386,6 +386,22 @@ export function fetchAdminVillagePlayers(id: number): Promise<AdminVillagePlayer
   return apiFetch<AdminVillagePlayersResponse>(`/api/v1/villages/${id}/admin/players`);
 }
 
+/** 村設定変更フォームの GET/PUT で使う型。 */
+export type VillageSettingForm = components["schemas"]["VillageSettingForm"];
+
+/** 村設定変更用の設定を取得する (要認証・村建てのみ)。 */
+export function fetchVillageSettingForUpdate(id: number): Promise<VillageSettingForm> {
+  return apiFetch<VillageSettingForm>(`/api/v1/villages/${id}/creator/setting`);
+}
+
+/** 村設定を変更する (要認証・村建てのみ) → 204。 */
+export function updateVillageSetting(id: number, body: VillageSettingForm): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/setting`, {
+    method: "PUT",
+    body,
+  });
+}
+
 /** デバッグ情報のレスポンス。debug 無効時は isDebugMode=false・players 空。 */
 export type VillageDebugView = components["schemas"]["VillageDebugView"];
 /** デバッグ入村のリクエスト。 */

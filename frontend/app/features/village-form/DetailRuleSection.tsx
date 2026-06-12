@@ -12,9 +12,12 @@ import { type CampAllocationInput, type NewVillageFormInput } from "./schema";
 export function DetailRuleSection({
   skills,
   defaultCamps,
+  fixedSkillRequest,
 }: {
   skills: SimpleSkillView[];
   defaultCamps: CampAllocationInput[];
+  /** 役職希望の現在値 (村作成後は変更不可のため、指定時は読み取り表示にする) */
+  fixedSkillRequest?: boolean;
 }) {
   const randomOrganization = useWatch<NewVillageFormInput, "randomOrganization">({
     name: "randomOrganization",
@@ -37,19 +40,31 @@ export function DetailRuleSection({
           <FixedOrganizationPanel skills={skills} />
         )}
       </FormRow>
-      <RadioRow
-        name="possibleSkillRequest"
-        label={
-          <>
-            役職希望 <RequiredAfterCreationMark />
-          </>
-        }
-        ariaLabel="役職希望"
-        options={[
-          { value: true, label: "有効" },
-          { value: false, label: "無効" },
-        ]}
-      />
+      {fixedSkillRequest != null ? (
+        <FormRow
+          label={
+            <>
+              役職希望 <RequiredAfterCreationMark />
+            </>
+          }
+        >
+          <p className="pt-[5px]">{fixedSkillRequest ? "有効" : "無効"}</p>
+        </FormRow>
+      ) : (
+        <RadioRow
+          name="possibleSkillRequest"
+          label={
+            <>
+              役職希望 <RequiredAfterCreationMark />
+            </>
+          }
+          ariaLabel="役職希望"
+          options={[
+            { value: true, label: "有効" },
+            { value: false, label: "無効" },
+          ]}
+        />
+      )}
       <RadioRow
         name="availableSameWolfAttack"
         label="同一人狼による連続襲撃"

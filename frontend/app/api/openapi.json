@@ -1129,6 +1129,65 @@
         "tags": ["village-creator-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/creator/setting": {
+      "get": {
+        "operationId": "getVillageSettingForUpdate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageSettingForm"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      },
+      "put": {
+        "operationId": "updateVillageSetting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageSettingForm"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-creator-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/creator/shorten-epilogue": {
       "post": {
         "operationId": "shortenVillageEpilogue",
@@ -2393,6 +2452,28 @@
         },
         "required": ["messageTypeCode", "restrict"]
       },
+      "MessageTypeSayRestrictForm": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "length": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "messageTypeCode": {
+            "type": ["string", "null"]
+          },
+          "messageTypeName": {
+            "type": ["string", "null"]
+          },
+          "restrict": {
+            "type": ["boolean", "null"]
+          }
+        }
+      },
       "NormalSayRestriction": {
         "type": "object",
         "properties": {
@@ -3083,6 +3164,102 @@
         },
         "required": ["list"]
       },
+      "RandomOrganizationCampForm": {
+        "type": "object",
+        "properties": {
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "campCode": {
+            "type": ["string", "null"]
+          },
+          "campName": {
+            "type": ["string", "null"]
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "skillAllocation": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/RandomOrganizationSkillForm"
+            }
+          }
+        },
+        "required": ["allocation", "minNum", "reincarnationAllocation", "skillAllocation"]
+      },
+      "RandomOrganizationSkillForm": {
+        "type": "object",
+        "properties": {
+          "allocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "reincarnationAllocation": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 0
+          },
+          "skillCode": {
+            "type": ["string", "null"]
+          },
+          "skillName": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["allocation", "minNum", "reincarnationAllocation"]
+      },
+      "RandomOrganizationWolfForm": {
+        "type": "object",
+        "properties": {
+          "maxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 1
+          },
+          "minNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 100,
+            "minimum": 1
+          }
+        },
+        "required": ["minNum"]
+      },
       "RoomAssignmentResponse": {
         "type": "object",
         "properties": {
@@ -3502,6 +3679,28 @@
           }
         },
         "required": ["restrict", "skillCode"]
+      },
+      "SkillSayRestrictForm": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "length": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "restrict": {
+            "type": ["boolean", "null"]
+          },
+          "skillCode": {
+            "type": ["string", "null"]
+          },
+          "skillName": {
+            "type": ["string", "null"]
+          }
+        }
       },
       "SkillSayRestriction": {
         "type": "object",
@@ -4686,6 +4885,176 @@
           }
         },
         "required": ["faceType", "message", "messageType"]
+      },
+      "VillageSettingForm": {
+        "type": "object",
+        "properties": {
+          "ageLimit": {
+            "type": ["string", "null"]
+          },
+          "allowedSecretSayCode": {
+            "type": ["string", "null"]
+          },
+          "availableAction": {
+            "type": ["boolean", "null"]
+          },
+          "availableCommit": {
+            "type": ["boolean", "null"]
+          },
+          "availableGuardSameTarget": {
+            "type": ["boolean", "null"]
+          },
+          "availableSameWolfAttack": {
+            "type": ["boolean", "null"]
+          },
+          "availableSpectate": {
+            "type": ["boolean", "null"]
+          },
+          "availableSuddonlyDeath": {
+            "type": ["boolean", "null"]
+          },
+          "campAllocationList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/RandomOrganizationCampForm"
+            }
+          },
+          "dayChangeIntervalHours": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 72,
+            "minimum": 0
+          },
+          "dayChangeIntervalMinutes": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 59,
+            "minimum": 0
+          },
+          "dayChangeIntervalSeconds": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 59,
+            "minimum": 0
+          },
+          "dummyDay1Message": {
+            "type": ["string", "null"]
+          },
+          "joinPassword": {
+            "type": ["string", "null"]
+          },
+          "openSkillInGrave": {
+            "type": ["boolean", "null"]
+          },
+          "openVote": {
+            "type": ["boolean", "null"]
+          },
+          "organization": {
+            "type": ["string", "null"]
+          },
+          "personMaxNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 999
+          },
+          "randomOrganization": {
+            "type": ["boolean", "null"]
+          },
+          "reincarnationSkillAll": {
+            "type": ["boolean", "null"]
+          },
+          "rpSayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/MessageTypeSayRestrictForm"
+            }
+          },
+          "sayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/SkillSayRestrictForm"
+            }
+          },
+          "skillSayRestrictList": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/MessageTypeSayRestrictForm"
+            }
+          },
+          "startDay": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 31,
+            "minimum": 1
+          },
+          "startHour": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 23,
+            "minimum": 0
+          },
+          "startMinute": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 59,
+            "minimum": 0
+          },
+          "startMonth": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 12,
+            "minimum": 1
+          },
+          "startPersonMinNum": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "minimum": 8
+          },
+          "startYear": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "minimum": 0
+          },
+          "villageName": {
+            "type": ["string", "null"]
+          },
+          "visibleGraveSpectateMessage": {
+            "type": ["boolean", "null"]
+          },
+          "welcomeRange": {
+            "type": ["string", "null"]
+          },
+          "wolfAllocation": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/RandomOrganizationWolfForm"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "allowedSecretSayCode",
+          "availableAction",
+          "availableCommit",
+          "availableGuardSameTarget",
+          "availableSameWolfAttack",
+          "availableSpectate",
+          "availableSuddonlyDeath",
+          "openSkillInGrave",
+          "openVote",
+          "personMaxNum",
+          "randomOrganization",
+          "reincarnationSkillAll",
+          "rpSayRestrictList",
+          "sayRestrictList",
+          "skillSayRestrictList",
+          "startPersonMinNum",
+          "villageName",
+          "visibleGraveSpectateMessage"
+        ]
       },
       "VillageSettingView": {
         "type": "object",
