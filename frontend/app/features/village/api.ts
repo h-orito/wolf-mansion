@@ -294,3 +294,17 @@ export function changeVillageCharaName(
 export function changeVillageMemo(id: number, request: VillageMemoRequest): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/memo`, { method: "POST", body: request });
 }
+
+/** Discord 通知設定のリクエスト。 */
+export type VillageNotificationRequest = components["schemas"]["VillageNotificationRequest"];
+
+/** Discord 通知設定を保存する (保存時にテスト通知が届く)。要認証 → 204。 */
+export function saveVillageNotificationSetting(
+  id: number,
+  request: VillageNotificationRequest,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/notification-setting`, {
+    method: "POST",
+    body: request,
+  });
+}

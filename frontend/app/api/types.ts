@@ -483,6 +483,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/notification-setting": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["saveVillageNotificationSetting"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/participants": {
     parameters: {
       query?: never;
@@ -857,9 +873,20 @@ export interface components {
       isDead: boolean;
       isSpectator: boolean;
       name: string;
+      notification?: components["schemas"]["ParticipantSituationViewMyselfNotification"] | null;
       notificationKeyword?: string | null;
       shortName: string;
       skill?: components["schemas"]["ParticipantSituationViewMyselfSkill"] | null;
+    };
+    ParticipantSituationViewMyselfNotification: {
+      abilitySay: boolean;
+      anchorSay: boolean;
+      keyword: string;
+      secretSay: boolean;
+      villageDaychange: boolean;
+      villageEpilogue: boolean;
+      villageStart: boolean;
+      webhookUrl: string;
     };
     ParticipantSituationViewMyselfSkill: {
       code: string;
@@ -1334,6 +1361,16 @@ export interface components {
       pageNumList: number[];
       suddenlyDeathMessage?: string | null;
       villageStatusMessage?: string | null;
+    };
+    VillageNotificationRequest: {
+      abilitySay?: boolean | null;
+      anchorSay?: boolean | null;
+      keyword?: string | null;
+      secretSay?: boolean | null;
+      villageDaychange?: boolean | null;
+      villageEpilogue?: boolean | null;
+      villageStart?: boolean | null;
+      webhookUrl: string | null;
     };
     VillageOrganize: {
       fixedOrganization: string;
@@ -2299,6 +2336,30 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["VillageLatestMessageDatetimeContent"];
         };
+      };
+    };
+  };
+  saveVillageNotificationSetting: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageNotificationRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

@@ -3,6 +3,7 @@ import { Link } from "react-router";
 
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { fetchAnchorMessage, type VillageMessageContent } from "~/features/village/api";
+import { useDisplaySettings } from "~/features/village/displaySettings";
 import { formatMessageTime, replaceIdLink, toMessageHtml } from "./messageHtml";
 import { ParticipantsTable } from "./ParticipantsTable";
 
@@ -122,6 +123,8 @@ export function MessageCard({
   onSecret?: (reply: ReplyDraft) => void;
 }) {
   const [expandedAnchors, setExpandedAnchors] = useState<ExpandedAnchor[]>([]);
+  const largeImage = useDisplaySettings((s) => s.largeImage);
+  const imageScale = largeImage ? 2 : 1;
 
   const html = useMemo(() => {
     const converted = toMessageHtml(
@@ -192,6 +195,7 @@ export function MessageCard({
     copyAnchor,
     villageId,
     spoiled,
+    imageScale,
     onReply,
     onSecret,
   );
@@ -235,6 +239,7 @@ function renderBody(
   copyAnchor: (text: string) => void,
   villageId: number,
   spoiled: boolean,
+  imageScale: number,
   onReply?: (reply: ReplyDraft) => void,
   onSecret?: (reply: ReplyDraft) => void,
 ) {
@@ -298,8 +303,8 @@ function renderBody(
             {message.characterImageUrl != null && (
               <img
                 src={message.characterImageUrl}
-                width={message.width ?? undefined}
-                height={message.height ?? undefined}
+                width={message.width != null ? message.width * imageScale : undefined}
+                height={message.height != null ? message.height * imageScale : undefined}
                 alt={message.characterName ?? ""}
               />
             )}
