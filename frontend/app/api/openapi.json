@@ -593,6 +593,123 @@
         "tags": ["village-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/ability": {
+      "post": {
+        "operationId": "setVillageAbility",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageAbilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-ability-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/ability/attack-targets": {
+      "get": {
+        "operationId": "getVillageAttackTargets",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "charaId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AbilityCandidatesView"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-ability-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/ability/footsteps": {
+      "get": {
+        "operationId": "getVillageAbilityFootsteps",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "charaId",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "in": "query",
+            "name": "targetCharaId",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AbilityCandidatesView"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-ability-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/action": {
       "post": {
         "operationId": "actionVillage",
@@ -1331,6 +1448,37 @@
   },
   "components": {
     "schemas": {
+      "AbilityCandidatesTarget": {
+        "type": "object",
+        "properties": {
+          "charaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["charaId", "name"]
+      },
+      "AbilityCandidatesView": {
+        "type": "object",
+        "properties": {
+          "footsteps": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AbilityCandidatesTarget"
+            }
+          }
+        },
+        "required": ["footsteps", "targets"]
+      },
       "AbilityType": {
         "type": "object",
         "properties": {
@@ -1751,11 +1899,109 @@
       "ParticipantSituationViewAbility": {
         "type": "object",
         "properties": {
+          "attackerCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "attackerList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewAbilityTarget"
+            }
+          },
+          "cMadmanNames": {
+            "type": "string"
+          },
           "canUseAbility": {
             "type": "boolean"
+          },
+          "footstep": {
+            "type": ["string", "null"]
+          },
+          "foxNames": {
+            "type": "string"
+          },
+          "isAvailableNoTarget": {
+            "type": "boolean"
+          },
+          "isTargetingAndFootstep": {
+            "type": "boolean"
+          },
+          "listenMasonsNames": {
+            "type": "string"
+          },
+          "loversNames": {
+            "type": "string"
+          },
+          "masonsNames": {
+            "type": "string"
+          },
+          "skillHistoryList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targetCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "targetFootstep": {
+            "type": ["string", "null"]
+          },
+          "targetFootstepList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "targetList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParticipantSituationViewAbilityTarget"
+            }
+          },
+          "targetPrefix": {
+            "type": ["string", "null"]
+          },
+          "targetSuffix": {
+            "type": ["string", "null"]
+          },
+          "targetingMessage": {
+            "type": ["string", "null"]
+          },
+          "werewolfNames": {
+            "type": "string"
           }
         },
-        "required": ["canUseAbility"]
+        "required": [
+          "attackerList",
+          "cMadmanNames",
+          "canUseAbility",
+          "foxNames",
+          "isAvailableNoTarget",
+          "isTargetingAndFootstep",
+          "listenMasonsNames",
+          "loversNames",
+          "masonsNames",
+          "skillHistoryList",
+          "targetFootstepList",
+          "targetList",
+          "werewolfNames"
+        ]
+      },
+      "ParticipantSituationViewAbilityTarget": {
+        "type": "object",
+        "properties": {
+          "charaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["charaId", "name"]
       },
       "ParticipantSituationViewAdmin": {
         "type": "object",
@@ -1834,9 +2080,37 @@
           },
           "shortName": {
             "type": "string"
+          },
+          "skill": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantSituationViewMyselfSkill"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": ["charaId", "id", "isDead", "isSpectator", "name", "shortName"]
+      },
+      "ParticipantSituationViewMyselfSkill": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "hasDisturbAbility": {
+            "type": "boolean"
+          },
+          "hasInvestigateAbility": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "hasDisturbAbility", "hasInvestigateAbility", "name"]
       },
       "ParticipantSituationViewParticipate": {
         "type": "object",
@@ -2612,6 +2886,22 @@
           }
         },
         "required": ["skillCodes"]
+      },
+      "VillageAbilityRequest": {
+        "type": "object",
+        "properties": {
+          "attackerCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "footstep": {
+            "type": ["string", "null"]
+          },
+          "targetCharaId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        }
       },
       "VillageActionRequest": {
         "type": "object",

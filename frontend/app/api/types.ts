@@ -259,6 +259,54 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/ability": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["setVillageAbility"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/ability/attack-targets": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageAttackTargets"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/ability/footsteps": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageAbilityFootsteps"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/action": {
     parameters: {
       query?: never;
@@ -551,6 +599,15 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
   schemas: {
+    AbilityCandidatesTarget: {
+      /** Format: int32 */
+      charaId: number;
+      name: string;
+    };
+    AbilityCandidatesView: {
+      footsteps: string[];
+      targets: components["schemas"]["AbilityCandidatesTarget"][];
+    };
     AbilityType: {
       code: string;
       name: string;
@@ -685,7 +742,33 @@ export interface components {
       vote: components["schemas"]["ParticipantSituationViewVote"];
     };
     ParticipantSituationViewAbility: {
+      /** Format: int32 */
+      attackerCharaId?: number | null;
+      attackerList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
+      cMadmanNames: string;
       canUseAbility: boolean;
+      footstep?: string | null;
+      foxNames: string;
+      isAvailableNoTarget: boolean;
+      isTargetingAndFootstep: boolean;
+      listenMasonsNames: string;
+      loversNames: string;
+      masonsNames: string;
+      skillHistoryList: string[];
+      /** Format: int32 */
+      targetCharaId?: number | null;
+      targetFootstep?: string | null;
+      targetFootstepList: string[];
+      targetList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
+      targetPrefix?: string | null;
+      targetSuffix?: string | null;
+      targetingMessage?: string | null;
+      werewolfNames: string;
+    };
+    ParticipantSituationViewAbilityTarget: {
+      /** Format: int32 */
+      charaId: number;
+      name: string;
     };
     ParticipantSituationViewAdmin: {
       isAdmin: boolean;
@@ -712,6 +795,13 @@ export interface components {
       name: string;
       notificationKeyword?: string | null;
       shortName: string;
+      skill?: components["schemas"]["ParticipantSituationViewMyselfSkill"] | null;
+    };
+    ParticipantSituationViewMyselfSkill: {
+      code: string;
+      hasDisturbAbility: boolean;
+      hasInvestigateAbility: boolean;
+      name: string;
     };
     ParticipantSituationViewParticipate: {
       isAvailableLeave: boolean;
@@ -946,6 +1036,13 @@ export interface components {
     };
     SkillSearchResponse: {
       skillCodes: string[];
+    };
+    VillageAbilityRequest: {
+      /** Format: int32 */
+      attackerCharaId?: number | null;
+      footstep?: string | null;
+      /** Format: int32 */
+      targetCharaId?: number | null;
     };
     VillageActionRequest: {
       convertDisable?: boolean | null;
@@ -1768,6 +1865,79 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageDetailView"];
+        };
+      };
+    };
+  };
+  setVillageAbility: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageAbilityRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getVillageAttackTargets: {
+    parameters: {
+      query: {
+        charaId: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["AbilityCandidatesView"];
+        };
+      };
+    };
+  };
+  getVillageAbilityFootsteps: {
+    parameters: {
+      query?: {
+        charaId?: number;
+        targetCharaId?: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["AbilityCandidatesView"];
         };
       };
     };

@@ -228,3 +228,35 @@ export function changeVillageRequestSkill(
 export function leaveVillage(id: number): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/leave`, { method: "POST" });
 }
+
+/** 能力セットのリクエスト。 */
+export type VillageAbilityRequest = components["schemas"]["VillageAbilityRequest"];
+/** 能力セットの候補 (襲撃対象 / 足音)。 */
+export type AbilityCandidatesView = components["schemas"]["AbilityCandidatesView"];
+
+/** 能力をセットする。要認証 → 204。 */
+export function setVillageAbility(id: number, request: VillageAbilityRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/ability`, { method: "POST", body: request });
+}
+
+/** 襲撃者を選んだときの襲撃対象候補。 */
+export function fetchAttackTargets(id: number, charaId: number): Promise<AbilityCandidatesView> {
+  return apiFetch<AbilityCandidatesView>(
+    `/api/v1/villages/${id}/ability/attack-targets?charaId=${charaId}`,
+  );
+}
+
+/** 対象を選んだときの足音 (通過する部屋) 候補。 */
+export function fetchAbilityFootsteps(
+  id: number,
+  charaId: number | null,
+  targetCharaId: number | null,
+): Promise<AbilityCandidatesView> {
+  const params = new URLSearchParams();
+  if (charaId != null) params.set("charaId", String(charaId));
+  if (targetCharaId != null) params.set("targetCharaId", String(targetCharaId));
+  const query = params.toString();
+  return apiFetch<AbilityCandidatesView>(
+    `/api/v1/villages/${id}/ability/footsteps${query !== "" ? `?${query}` : ""}`,
+  );
+}

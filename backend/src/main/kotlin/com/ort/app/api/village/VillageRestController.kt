@@ -139,16 +139,18 @@ class VillageRestController(
         val charachips =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
         return ParticipantSituationView(
-            villageCoordinator.findParticipantSituation(
-                village = village,
-                username = principal.name,
-                myself = myself,
-                votes = votes,
-                abilities = abilities,
-                footsteps = footsteps,
-                charachips = charachips,
-                day = targetDay,
-            ),
+            situation =
+                villageCoordinator.findParticipantSituation(
+                    village = village,
+                    username = principal.name,
+                    myself = myself,
+                    votes = votes,
+                    abilities = abilities,
+                    footsteps = footsteps,
+                    charachips = charachips,
+                    day = targetDay,
+                ),
+            village = village,
         )
     }
 

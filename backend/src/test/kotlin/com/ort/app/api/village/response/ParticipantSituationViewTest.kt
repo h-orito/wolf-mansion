@@ -12,6 +12,7 @@ import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
 import com.ort.app.domain.model.situation.participant.ParticipantSkillRequestSituation
 import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.skill.Skill
+import com.ort.app.domain.model.village.createDay1Village
 import com.ort.app.domain.model.village.createVillageParticipant
 import com.ort.dbflute.allcommon.CDef
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test
 internal class ParticipantSituationViewTest {
     @Test
     fun `未参加でもフラグがそのまま写像される`() {
-        val view = ParticipantSituationView(createSituation(myselfParticipant = null))
+        val view = ParticipantSituationView(createSituation(myselfParticipant = null), createDay1Village())
 
         assertNull(view.myself)
         assertFalse(view.participate.isParticipating)
@@ -41,6 +42,7 @@ internal class ParticipantSituationViewTest {
         val view =
             ParticipantSituationView(
                 createSituation(myselfParticipant = participant, isParticipating = true),
+                createDay1Village(),
             )
 
         assertEquals(participant.id, view.myself!!.id)

@@ -35,6 +35,7 @@ import {
 } from "~/features/village/useVillage";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
+import { AbilityPanel } from "./AbilityPanel";
 import { ActionPanel } from "./ActionPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
@@ -373,6 +374,15 @@ export default function Village({ params }: Route.ComponentProps) {
             mySituation={mySituation}
             participants={situation?.participantList ?? []}
             onConfirm={onActionConfirm}
+          />
+        )}
+
+        {mySituation != null && mySituation.ability.canUseAbility && (
+          <AbilityPanel
+            villageId={villageId}
+            mySituation={mySituation}
+            roomAssignedRows={situation?.roomAssignedRowList}
+            onDone={invalidate}
           />
         )}
 
