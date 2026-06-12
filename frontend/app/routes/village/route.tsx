@@ -34,6 +34,7 @@ import {
   useInvalidateVillage,
   useMyVillageSituation,
   useVillage,
+  useVillageDebugInfo,
   useVillagePolling,
   useVillageSituation,
 } from "~/features/village/useVillage";
@@ -42,6 +43,7 @@ import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "./AbilityPanel";
 import { ActionPanel } from "./ActionPanel";
 import { AdminPanel } from "./AdminPanel";
+import { DebugPanel } from "./DebugPanel";
 import { AgeLimitModal } from "./AgeLimitModal";
 import { CommitPanel } from "./CommitPanel";
 import { CreatorPanel } from "./CreatorPanel";
@@ -136,6 +138,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
+  const { data: debugInfo } = useVillageDebugInfo(villageId);
   const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
@@ -460,6 +463,15 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.admin.isAdmin && (
           <AdminPanel villageId={villageId} onDone={invalidate} />
+        )}
+
+        {debugInfo?.isDebugMode && (
+          <DebugPanel
+            villageId={villageId}
+            currentDay={currentDay}
+            debugInfo={debugInfo}
+            onDone={invalidate}
+          />
         )}
 
         {mySituation != null &&

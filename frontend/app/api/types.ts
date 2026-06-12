@@ -547,6 +547,54 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/debug": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageDebugInfo"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/debug/all-participate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["debugAllParticipateVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/debug/day-change": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["debugDayChangeVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/info": {
     parameters: {
       query?: never;
@@ -1459,6 +1507,18 @@ export interface components {
     };
     VillageDays: {
       list: components["schemas"]["VillageDay"][];
+    };
+    VillageDebugParticipateRequest: {
+      /** Format: int32 */
+      personNumber: number | null;
+    };
+    VillageDebugPlayer: {
+      label: string;
+      userId: string;
+    };
+    VillageDebugView: {
+      isDebugMode: boolean;
+      players: components["schemas"]["VillageDebugPlayer"][];
     };
     VillageDetailView: {
       days: components["schemas"]["VillageDays"];
@@ -2688,6 +2748,72 @@ export interface operations {
     };
   };
   shortenVillageEpilogue: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getVillageDebugInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageDebugView"];
+        };
+      };
+    };
+  };
+  debugAllParticipateVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageDebugParticipateRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  debugDayChangeVillage: {
     parameters: {
       query?: never;
       header?: never;

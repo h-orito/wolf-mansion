@@ -55,6 +55,7 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/villages/{id}/messages",
                         "/api/v1/villages/{id}/messages/*",
                         "/api/v1/villages/{id}/participants",
+                        "/api/v1/villages/{id}/debug",
                         "/api/v1/charachips",
                         "/api/v1/charachips/{id}",
                         "/api/v1/rooms",
@@ -68,6 +69,11 @@ class WolfMansionWebSecurityConfig {
                     .requestMatchers(
                         org.springframework.http.HttpMethod.POST,
                         "/api/v1/villages/{id}/update",
+                    ).permitAll()
+                    // デバッグ操作はローカル開発専用 (app.debug 無効時は 404) のため匿名でも実行可
+                    .requestMatchers(
+                        org.springframework.http.HttpMethod.POST,
+                        "/api/v1/villages/{id}/debug/*",
                     ).permitAll()
                     .anyRequest()
                     .authenticated()

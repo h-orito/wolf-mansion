@@ -1151,6 +1151,89 @@
         "tags": ["village-creator-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/debug": {
+      "get": {
+        "operationId": "getVillageDebugInfo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/VillageDebugView"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["village-debug-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/debug/all-participate": {
+      "post": {
+        "operationId": "debugAllParticipateVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageDebugParticipateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-debug-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/debug/day-change": {
+      "post": {
+        "operationId": "debugDayChangeVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-debug-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/info": {
       "get": {
         "operationId": "getVillageInfo",
@@ -3951,6 +4034,45 @@
           }
         },
         "required": ["list"]
+      },
+      "VillageDebugParticipateRequest": {
+        "type": "object",
+        "properties": {
+          "personNumber": {
+            "type": ["integer", "null"],
+            "format": "int32",
+            "maximum": 50,
+            "minimum": 1
+          }
+        },
+        "required": ["personNumber"]
+      },
+      "VillageDebugPlayer": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        },
+        "required": ["label", "userId"]
+      },
+      "VillageDebugView": {
+        "type": "object",
+        "properties": {
+          "isDebugMode": {
+            "type": "boolean"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageDebugPlayer"
+            }
+          }
+        },
+        "required": ["isDebugMode", "players"]
       },
       "VillageDetailView": {
         "type": "object",

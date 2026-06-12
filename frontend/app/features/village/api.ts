@@ -385,3 +385,27 @@ export function adminInsertSelfVotes(id: number): Promise<void> {
 export function fetchAdminVillagePlayers(id: number): Promise<AdminVillagePlayersResponse> {
   return apiFetch<AdminVillagePlayersResponse>(`/api/v1/villages/${id}/admin/players`);
 }
+
+/** デバッグ情報のレスポンス。debug 無効時は isDebugMode=false・players 空。 */
+export type VillageDebugView = components["schemas"]["VillageDebugView"];
+/** デバッグ入村のリクエスト。 */
+export type VillageDebugParticipateRequest =
+  components["schemas"]["VillageDebugParticipateRequest"];
+
+/** デバッグ情報を取得する (app.debug 無効時も 200 で isDebugMode=false を返す)。 */
+export function fetchVillageDebugInfo(id: number): Promise<VillageDebugView> {
+  return apiFetch<VillageDebugView>(`/api/v1/villages/${id}/debug`);
+}
+
+/** 未参加キャラを personNumber 分入村させる (デバッグ専用)。204。 */
+export function debugAllParticipate(id: number, personNumber: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/debug/all-participate`, {
+    method: "POST",
+    body: { personNumber },
+  });
+}
+
+/** 最新日の daychangeDatetime を過去にして日付更新を強制実行する (デバッグ専用)。204。 */
+export function debugDayChange(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/debug/day-change`, { method: "POST" });
+}
