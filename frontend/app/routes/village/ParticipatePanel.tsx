@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import { Button } from "~/components/ui/Button";
+import { Panel } from "~/components/ui/Panel";
 import { inlineInputClass, inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import {
   confirmVillageParticipate,
@@ -112,11 +113,8 @@ export function ParticipatePanel({
 
   if (step === "confirm") {
     return (
-      <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-        <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
-          <span className="text-[15px] text-white">入村確認</span>
-        </div>
-        <div className="p-[15px]">
+      <Panel title="入村確認">
+        <div>
           <p className="mb-[10px]">以下の内容で入村してよろしいですか？</p>
           <div className="flex">
             <div>
@@ -174,16 +172,13 @@ export function ParticipatePanel({
             </Button>
           </div>
         </div>
-      </div>
+      </Panel>
     );
   }
 
   return (
-    <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
-        <span className="text-[15px] text-white">入村</span>
-      </div>
-      <div className="space-y-[10px] p-[15px] text-[12px]">
+    <Panel title="入村">
+      <div className="space-y-[10px] text-[12px]">
         {!isOriginal && (
           <>
             {charachips.length > 1 && (
@@ -325,6 +320,6 @@ export function ParticipatePanel({
           </Button>
         </div>
       </div>
-    </div>
+    </Panel>
   );
 }

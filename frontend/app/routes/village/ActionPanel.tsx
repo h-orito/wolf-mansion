@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { Button } from "~/components/ui/Button";
+import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import type {
   ParticipantSituationView,
@@ -43,11 +44,8 @@ export function ActionPanel({
   const submitDisabled = overLimit || message.trim().length === 0;
 
   return (
-    <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
-        <span className="text-[15px] text-white">アクション</span>
-      </div>
-      <div className="p-[15px]">
+    <Panel title="アクション">
+      <div>
         <div className="mb-[10px] rounded border border-[#f39c12] p-[9px] text-[#f39c12]">
           推理、まとめ、および推理に繋がる内容のアクションは禁止です。
         </div>
@@ -103,6 +101,6 @@ export function ActionPanel({
           </Button>
         </div>
       </div>
-    </div>
+    </Panel>
   );
 }

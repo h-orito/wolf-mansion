@@ -1,6 +1,7 @@
 package com.ort.app.api.village
 
 import com.ort.app.api.request.validator.VillageParticipateFormValidator
+import com.ort.app.api.village.request.VillageChangeSkillRequest
 import com.ort.app.api.village.request.VillageParticipateRequest
 import com.ort.app.application.coordinator.VillageCoordinator
 import com.ort.app.application.service.PlayerService
@@ -9,6 +10,7 @@ import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.toModel
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.fw.exception.WolfMansionAuthException
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.exception.WolfMansionValidationException
@@ -108,6 +110,63 @@ class VillageParticipateRestController(
             request.spectator == true,
             httpServletRequest.getIpAddress(),
         )
+    }
+
+    /** 参加 ⇄ 見学の切替。可否は domain (switchParticipate) が検証する。 */
+    @Operation(operationId = "switchVillageParticipate")
+    @PostMapping("/switch-participate")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun switchParticipate(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+    ) {
+        val (village, myself) = resolveParticipant(principal, id)
+        villageCoordinator.switchParticipate(village, myself)
+    }
+
+    /** 希望役職 (第 1/第 2) の変更。 */
+    @Operation(operationId = "changeVillageRequestSkill")
+    @PostMapping("/change-skill")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun changeSkill(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+        @RequestBody @Validated request: VillageChangeSkillRequest,
+    ) {
+        val (village, myself) = resolveParticipant(principal, id)
+        val first =
+            CDef.Skill.codeOf(request.requestedSkill!!)?.toModel()
+                ?: throw WolfMansionBusinessException("skill not found.")
+        val second =
+            CDef.Skill.codeOf(request.secondRequestedSkill!!)?.toModel()
+                ?: throw WolfMansionBusinessException("skill not found.")
+        villageCoordinator.changeRequestSkill(village, myself, first, second)
+    }
+
+    /** 退村。可否は domain (leave) が検証する。 */
+    @Operation(operationId = "leaveVillage")
+    @PostMapping("/leave")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun leave(
+        @AuthenticationPrincipal principal: JwtPrincipal?,
+        @PathVariable id: Int,
+    ) {
+        val (village, myself) = resolveParticipant(principal, id)
+        villageCoordinator.leave(village, myself)
+    }
+
+    private fun resolveParticipant(
+        principal: JwtPrincipal?,
+        villageId: Int,
+    ): Pair<Village, VillageParticipant> {
+        principal ?: throw WolfMansionAuthException("ログインしてください")
+        val village =
+            villageService.findVillage(villageId)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
+        val myself =
+            villageService.findVillageParticipant(village.id, principal.name)
+                ?: throw WolfMansionBusinessException("村に参加していません")
+        return village to myself
     }
 
     private fun resolvePlayer(
