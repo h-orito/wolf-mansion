@@ -24,9 +24,9 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| step-8.7-8.8 | 村画面 参加見学切替・希望役職変更・退村 | enhancement | open |
+| (現在 open な Issue なし) | | | |
 
-> **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12)**: `feature/monorepo-step8` を base にサブ step PR を積み、同ブランチへの squash merge は Claude 単独で可。`feature/monorepo` への merge は最終 PR でユーザー承認。8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75 / 8.6 ✅ #76。
+> **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12)**: `feature/monorepo-step8` を base にサブ step PR を積み、同ブランチへの squash merge は Claude 単独で可。`feature/monorepo` への merge は最終 PR でユーザー承認。8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75 / 8.6 ✅ #76 / 8.7+8.8 ✅ #77。
 
 > **Step 0・1・2 完了** 🎉 — Step 1 は `.java-version` 21 化 / README 整備 (PR #46)。
 > **Step 2 (monorepo 化) は 4 サブ step すべて完了**: 2.1 backend/ 移動 (PR #47 ✅) / 2.2 ktlint+hook+per-dir .gitignore (PR #48 ✅) / 2.3 frontend 雛形 (PR #49 ✅) / 2.4 e2e 雛形 (PR #50 ✅)。次は **Step 3 (認証 REST 化)**。

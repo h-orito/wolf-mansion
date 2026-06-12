@@ -5,8 +5,11 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75 / 8.6 (入村) ✅ #76**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1〜8.6 ✅ #71〜#76 / 8.7+8.8 (切替・希望変更・退村) ✅ #77**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
 - **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+  - **step-8.7/8.8 完了 ✅ (#77)**: 参加見学切替・希望役職変更・退村 (同 controller の小操作 3 つを 1 PR に統合)。`POST switch-participate`/`change-skill`/`leave` (domain assert 委譲) + situation/me フラグで出し分ける 3 パネル。退村は confirm ダイアログ (legacy parity)
+    - **components/ui に `Panel` (タイトル付きパネル) を新設**し、発言/アクション/入村/参加系の重複 markup を排除 (collapsible は従来どおり別物)
+    - e2e 1 件追加: **入村 → 役職希望変更 → 退村の自己完結フロー** (実入村するが退村で後片付け)。全 **61 件**。8.6 で残置した村 2 の `e2ejoin01` も退村実測で片付け済み。pr-reviewer 2 巡 (`.reviews/PR-77.md`)
   - **step-8.6 完了 ✅ (#76)**: 入村。`ParticipatePanel` (input → confirm の 2 段: キャラセット/キャラ select で名前・略称自動補完 → 希望役職 第1/第2 → 入村発言 → パスワード → 見学チェック → **ルール/礼節の 2 つの同意チェックで「入村する」活性化**)。原画村のオリジナル画像は確認画面で選択 (multipart)
     - **backend**: situation/me の participate (selectableCharachipList = キャラセットごとの**空きキャラのみ**) / skillRequest (selectableSkillList + 現在の希望) を additive 拡張。`POST participate-confirm` (検証のみ 204) / `POST participate` (multipart、validator + `VillageCoordinator` 流用、IP 記録維持)
     - **意図的差異**: 入村パスワード入力は常時表示 (`joinPassword` はマスク済みで有無を露出しないため)
@@ -179,9 +182,9 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.6 ✅、次は 8.7 (見学参加・参加見学切替)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.8 ✅ (#71〜#77)、次は 8.9 (能力使用)**。
 
-- **(次) step-8.7 見学参加・参加見学切替**: 見学入村は 8.6 の spectator チェックで実装済みのため、**残りは参加 ⇄ 見学の切替** (`POST /village/{id}/switch-participate` 相当)。situation/me の participate.isAvailableSwitchParticipate は既に出ている。`VillageCoordinator.switchParticipate` を REST 化し、切替ボタン (フォーム) を追加するだけの小さな step。8.8 (希望役職変更・退村) と 1 PR にまとめてもよい (`changeSkill`/`leave` も同 controller・同程度の規模)
+- **(次) step-8.9 能力使用**: 役職別パターン (A〜H) の能力セット (village-ability.md が正本)。**役職 133 / 能力サービス 67 と最重量** — `SkillTag` 述語でパターン A〜H に機械分類し、パターン別コンポーネントで実装。必要なら 8.9.K でパターングループ単位にさらに分割可 (08-step-plan.md)。`ParticipantAbilitySituation` は situation/me の ability に flags のみ出ている状態なので、対象リスト・足音候補等の additive 拡張から。能力セットの実測は村 5 (進行中) の master では当事者になれないため、**新しい村を建てて debug 進行 + dummy login (SSR debug メニュー) で役職者として確認**するのが基本手段
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
 - **申し送り (Step 7 から)**: 実村作成→廃村 teardown を伴うシナリオ e2e は **Step 8 (村画面) 完成後**に検討 (現状の e2e は業務エラーパス or 既存 CANCEL 村 (ID 4) 利用で DB 非汚染)
