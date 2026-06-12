@@ -316,3 +316,44 @@ export function saveVillageNotificationSetting(
     body: request,
   });
 }
+
+/** 村建て発言のリクエスト。 */
+export type VillageCreatorSayRequest = components["schemas"]["VillageCreatorSayRequest"];
+/** 強制退村のリクエスト。 */
+export type VillageKickRequest = components["schemas"]["VillageKickRequest"];
+
+/** 村建て発言を確認する (プレビュー。まだ保存されない)。要認証。 */
+export function confirmVillageCreatorSay(
+  id: number,
+  request: VillageCreatorSayRequest,
+): Promise<VillageSayConfirmContent> {
+  return apiFetch<VillageSayConfirmContent>(`/api/v1/villages/${id}/creator/say-confirm`, {
+    method: "POST",
+    body: request,
+  });
+}
+
+/** 村建て発言する。要認証 → 204。 */
+export function sayVillageCreator(id: number, request: VillageCreatorSayRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/say`, { method: "POST", body: request });
+}
+
+/** 参加者を強制退村させる。要認証 → 204。 */
+export function kickVillageParticipant(id: number, request: VillageKickRequest): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/kick`, { method: "POST", body: request });
+}
+
+/** 廃村にする。要認証 → 204。 */
+export function cancelVillage(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/cancel`, { method: "POST" });
+}
+
+/** エピローグを1日延長する。要認証 → 204。 */
+export function extendVillageEpilogue(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/extend-epilogue`, { method: "POST" });
+}
+
+/** エピローグを1日短縮する。要認証 → 204。 */
+export function shortenVillageEpilogue(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/creator/shorten-epilogue`, { method: "POST" });
+}
