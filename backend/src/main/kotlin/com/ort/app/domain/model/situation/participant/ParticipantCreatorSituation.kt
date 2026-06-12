@@ -7,4 +7,5 @@ data class ParticipantCreatorSituation(
     val isAvailableKick: Boolean,
     val isAvailableModifySetting: Boolean,
     val isAvailableExtendEpilogue: Boolean,
+    val isAvailableShortenEpilogue: Boolean,
 )

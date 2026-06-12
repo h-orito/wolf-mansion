@@ -53,8 +53,13 @@ export function CreatorPanel({
           <CancelSection villageId={villageId} onDone={onDone} />
         )}
         {creator.isAvailableCreatorSay && <CreatorSaySection onConfirm={onConfirm} />}
-        {creator.isAvailableExtendEpilogue && (
-          <EpilogueSection villageId={villageId} onDone={onDone} />
+        {(creator.isAvailableExtendEpilogue || creator.isAvailableShortenEpilogue) && (
+          <EpilogueSection
+            villageId={villageId}
+            canExtend={creator.isAvailableExtendEpilogue}
+            canShorten={creator.isAvailableShortenEpilogue}
+            onDone={onDone}
+          />
         )}
       </div>
     </Panel>
@@ -234,9 +239,14 @@ function CreatorSaySection({
 
 function EpilogueSection({
   villageId,
+  canExtend,
+  canShorten,
   onDone,
 }: {
   villageId: number;
+  canExtend: boolean;
+  /** 短縮は残り 1 日を切ると不可になるため、延長と別フラグで出し分ける */
+  canShorten: boolean;
   onDone: () => Promise<unknown>;
 }) {
   const [error, setError] = useState<string | null>(null);
@@ -274,12 +284,16 @@ function EpilogueSection({
     <div>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
       <div className="flex gap-[5px]">
-        <Button onClick={extend} disabled={submitting}>
-          1日延長する
-        </Button>
-        <Button onClick={shorten} disabled={submitting}>
-          1日短縮する
-        </Button>
+        {canExtend && (
+          <Button onClick={extend} disabled={submitting}>
+            1日延長する
+          </Button>
+        )}
+        {canShorten && (
+          <Button onClick={shorten} disabled={submitting}>
+            1日短縮する
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -124,6 +124,7 @@ internal class ParticipantSituationViewTest {
                     isAvailableKick = false,
                     isAvailableModifySetting = false,
                     isAvailableExtendEpilogue = false,
+                    isAvailableShortenEpilogue = false,
                 ),
         )
 }

@@ -2400,6 +2400,9 @@
           "isAvailableModifySetting": {
             "type": "boolean"
           },
+          "isAvailableShortenEpilogue": {
+            "type": "boolean"
+          },
           "isCreator": {
             "type": "boolean"
           }
@@ -2410,6 +2413,7 @@
           "isAvailableExtendEpilogue",
           "isAvailableKick",
           "isAvailableModifySetting",
+          "isAvailableShortenEpilogue",
           "isCreator"
         ]
       },

@@ -95,6 +95,10 @@ class VillageCreatorRestController(
         val village = resolveCreatorVillage(principal, id)
         // プロローグ以外では退村画面が表示されないが、サーバ側でも状態を検証する
         if (!village.status.isPrologue()) throw WolfMansionBusinessException("プロローグ中でなければ強制退村できません")
+        // 不参加キャラの指定は coordinator 内で NoSuchElementException (500) になるため先に検証する
+        if (village.allParticipants(excludeDummy = true).list.none { it.charaId == request.charaId }) {
+            throw WolfMansionBusinessException("村に参加していないキャラクターです")
+        }
         creatorCoordinator.kick(id, request.charaId!!)
     }
 

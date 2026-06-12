@@ -975,6 +975,7 @@ export interface components {
       isAvailableExtendEpilogue: boolean;
       isAvailableKick: boolean;
       isAvailableModifySetting: boolean;
+      isAvailableShortenEpilogue: boolean;
       isCreator: boolean;
     };
     ParticipantSituationViewMyself: {

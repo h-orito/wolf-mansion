@@ -18,6 +18,7 @@ class CreatorDomainService {
             isAvailableKick = isAvailableKick(village, player),
             isAvailableModifySetting = isAvailableModifySetting(village, player),
             isAvailableExtendEpilogue = isAvailableExtendEpilogue(village, player),
+            isAvailableShortenEpilogue = isAvailableShortenEpilogue(village, player),
         )
 
     private fun isCreator(
@@ -49,4 +50,9 @@ class CreatorDomainService {
         village: Village,
         player: Player?,
     ): Boolean = isCreator(village, player) && village.canExtendEpilogue()
+
+    private fun isAvailableShortenEpilogue(
+        village: Village,
+        player: Player?,
+    ): Boolean = isCreator(village, player) && village.canShortenEpilogue()
 }
