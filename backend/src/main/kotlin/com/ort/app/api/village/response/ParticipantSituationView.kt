@@ -6,6 +6,7 @@ import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
+import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
@@ -46,12 +47,7 @@ data class ParticipantSituationView(
                 isCommitting = situation.commit.isCommitting,
             ),
         say = SayView(situation.say),
-        rp =
-            RpView(
-                isAvailableChangeName = situation.rp.isAvailableChangeName,
-                isAvailableMemo = situation.rp.isAvailableMemo,
-                canAddImage = situation.rp.canAddImage,
-            ),
+        rp = RpView(situation.rp, situation.participate.myself),
         ability = AbilityView(situation.ability, village),
         vote = VoteView(situation.vote),
         admin = AdminView(isAdmin = situation.admin.isAdmin),
@@ -285,7 +281,22 @@ data class ParticipantSituationView(
         val isAvailableChangeName: Boolean,
         val isAvailableMemo: Boolean,
         val canAddImage: Boolean,
-    )
+        /** 現在のキャラ名 (部屋番号なしの生値。変更フォームの初期値) */
+        val name: String?,
+        /** 現在の略称 */
+        val shortName: String?,
+        /** 現在の簡易メモ (参加者一覧に表示される公開情報) */
+        val memo: String?,
+    ) {
+        constructor(rp: ParticipantRpSituation, myself: VillageParticipant?) : this(
+            isAvailableChangeName = rp.isAvailableChangeName,
+            isAvailableMemo = rp.isAvailableMemo,
+            canAddImage = rp.canAddImage,
+            name = myself?.charaName?.name,
+            shortName = myself?.charaName?.shortName,
+            memo = myself?.memo,
+        )
+    }
 
     @Schema(name = "ParticipantSituationViewAbility")
     data class AbilityView(
