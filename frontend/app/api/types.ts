@@ -243,6 +243,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillage"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/setting": {
     parameters: {
       query?: never;
@@ -253,6 +269,54 @@ export interface paths {
     get: operations["setting"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/situation": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageSituation"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/situation/me": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyVillageSituation"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/update": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["updateVillage"];
     delete?: never;
     options?: never;
     head?: never;
@@ -384,6 +448,67 @@ export interface components {
       messageType: components["schemas"]["MessageType"];
       skill: components["schemas"]["Skill"];
     };
+    ParticipantSituationView: {
+      ability: components["schemas"]["ParticipantSituationViewAbility"];
+      admin: components["schemas"]["ParticipantSituationViewAdmin"];
+      commit: components["schemas"]["ParticipantSituationViewCommit"];
+      creator: components["schemas"]["ParticipantSituationViewCreator"];
+      myself?: components["schemas"]["ParticipantSituationViewMyself"] | null;
+      participate: components["schemas"]["ParticipantSituationViewParticipate"];
+      rp: components["schemas"]["ParticipantSituationViewRp"];
+      say: components["schemas"]["ParticipantSituationViewSay"];
+      skillRequest: components["schemas"]["ParticipantSituationViewSkillRequest"];
+      vote: components["schemas"]["ParticipantSituationViewVote"];
+    };
+    ParticipantSituationViewAbility: {
+      canUseAbility: boolean;
+    };
+    ParticipantSituationViewAdmin: {
+      isAdmin: boolean;
+    };
+    ParticipantSituationViewCommit: {
+      isAvailableCommit: boolean;
+      isCommitting: boolean;
+    };
+    ParticipantSituationViewCreator: {
+      isAvailableCancelVillage: boolean;
+      isAvailableCreatorSay: boolean;
+      isAvailableExtendEpilogue: boolean;
+      isAvailableKick: boolean;
+      isAvailableModifySetting: boolean;
+      isCreator: boolean;
+    };
+    ParticipantSituationViewMyself: {
+      /** Format: int32 */
+      charaId: number;
+      /** Format: int32 */
+      id: number;
+      isDead: boolean;
+      isSpectator: boolean;
+      name: string;
+      shortName: string;
+    };
+    ParticipantSituationViewParticipate: {
+      isAvailableLeave: boolean;
+      isAvailableParticipate: boolean;
+      isAvailableSpectate: boolean;
+      isAvailableSwitchParticipate: boolean;
+      isParticipating: boolean;
+    };
+    ParticipantSituationViewRp: {
+      canAddImage: boolean;
+      isAvailableChangeName: boolean;
+      isAvailableMemo: boolean;
+    };
+    ParticipantSituationViewSay: {
+      isAvailableSay: boolean;
+    };
+    ParticipantSituationViewSkillRequest: {
+      isAvailableSkillRequest: boolean;
+    };
+    ParticipantSituationViewVote: {
+      canVote: boolean;
+    };
     PasswordChangeRequest: {
       confirmPassword: string | null;
       password: string | null;
@@ -411,6 +536,12 @@ export interface components {
       /** Format: int32 */
       height: number;
       roomNumbers: number[];
+      /** Format: int32 */
+      width: number;
+    };
+    RoomSize: {
+      /** Format: int32 */
+      height: number;
       /** Format: int32 */
       width: number;
     };
@@ -631,8 +762,49 @@ export interface components {
       /** Format: int32 */
       id: number;
     };
+    VillageDay: {
+      /** Format: int32 */
+      day: number;
+      /** Format: date-time */
+      dayChangeDatetime: string;
+    };
+    VillageDays: {
+      list: components["schemas"]["VillageDay"][];
+    };
+    VillageDetailView: {
+      days: components["schemas"]["VillageDays"];
+      /** Format: int32 */
+      epilogueDay?: number | null;
+      /** Format: int32 */
+      id: number;
+      name: string;
+      roomSize?: components["schemas"]["RoomSize"] | null;
+      setting: components["schemas"]["VillageSettingView"];
+      status: components["schemas"]["VillageStatus"];
+    };
+    VillageFootstepContent: {
+      /** Format: int32 */
+      day: number;
+      footstep: string;
+    };
     VillageListResponse: {
       villages: components["schemas"]["SimpleVillageView"][];
+    };
+    VillageMemberContent: {
+      status: string;
+      statusMemberList: components["schemas"]["VillageMemberDetailContent"][];
+    };
+    VillageMemberDetailContent: {
+      charaName: string;
+      deadDay?: string | null;
+      lastAccess: string;
+      /** Format: date-time */
+      lastAccessDatetime: string;
+      memo?: string | null;
+    };
+    VillageMemberVoteContent: {
+      charaName: string;
+      voteTargetList: string[];
     };
     VillageOrganize: {
       fixedOrganization: string;
@@ -642,6 +814,31 @@ export interface components {
       campAllocation: components["schemas"]["CampAllocation"][];
       skillAllocation: components["schemas"]["SkillAllocation"][];
       wolfAllocation?: components["schemas"]["WolfAllocation"] | null;
+    };
+    VillageRoomAssigned: {
+      /** Format: int32 */
+      charaImgHeight?: number | null;
+      charaImgUrl?: string | null;
+      /** Format: int32 */
+      charaImgWidth?: number | null;
+      charaName?: string | null;
+      charaShortName?: string | null;
+      /** Format: int32 */
+      deadDay?: number | null;
+      deadReason?: string | null;
+      isDead?: boolean | null;
+      isDummy?: boolean | null;
+      /** Format: int32 */
+      maxHeight?: number | null;
+      /** Format: int32 */
+      maxWidth?: number | null;
+      /** Format: int32 */
+      participantId?: number | null;
+      roomNumber: string;
+      skillName?: string | null;
+    };
+    VillageRoomAssignedRow: {
+      roomAssignedList: components["schemas"]["VillageRoomAssigned"][];
     };
     VillageRule: {
       isAvailableAction: boolean;
@@ -674,6 +871,26 @@ export interface components {
       startDatetime: string;
       tags: components["schemas"]["VillageTags"];
     };
+    VillageSituationContent: {
+      ability: string;
+      attackedChara: string;
+      /** Format: int32 */
+      day: number;
+      executedChara: string;
+      revivalChara: string;
+      suddonlyDeathChara: string;
+      suicideChara: string;
+    };
+    VillageSituationView: {
+      footstepList: components["schemas"]["VillageFootstepContent"][];
+      isViewableSpoilerContent: boolean;
+      memberList: components["schemas"]["VillageMemberContent"][];
+      roomAssignedRowList?: components["schemas"]["VillageRoomAssignedRow"][] | null;
+      /** Format: int32 */
+      roomWidth?: number | null;
+      situationList: components["schemas"]["VillageSituationContent"][];
+      vote?: components["schemas"]["VillageVoteContent"] | null;
+    };
     VillageStatus: {
       code: string;
       isCanceled: boolean;
@@ -692,6 +909,15 @@ export interface components {
     };
     VillageTags: {
       list: components["schemas"]["VillageTag"][];
+    };
+    VillageUpdateResponse: {
+      /** Format: int32 */
+      latestDay: number;
+    };
+    VillageVoteContent: {
+      /** Format: int32 */
+      maxVoteCount: number;
+      voteList: components["schemas"]["VillageMemberVoteContent"][];
     };
     WolfAllocation: {
       /** Format: int32 */
@@ -1138,6 +1364,28 @@ export interface operations {
       };
     };
   };
+  getVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageDetailView"];
+        };
+      };
+    };
+  };
   setting: {
     parameters: {
       query?: never;
@@ -1156,6 +1404,76 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["VillageSettingView"];
+        };
+      };
+    };
+  };
+  getVillageSituation: {
+    parameters: {
+      query?: {
+        day?: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSituationView"];
+        };
+      };
+    };
+  };
+  getMyVillageSituation: {
+    parameters: {
+      query?: {
+        day?: number;
+      };
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["ParticipantSituationView"];
+        };
+      };
+    };
+  };
+  updateVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageUpdateResponse"];
         };
       };
     };

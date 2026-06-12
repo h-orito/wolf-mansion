@@ -5,7 +5,8 @@ name: api-drift
 # 差分が出たら frontend で `pnpm gen:api` を実行して commit すれば解消する。
 on:
   pull_request:
-    branches: [feature/monorepo]
+    # feature/monorepo-step8 は村画面 (Step 8) の統合ブランチ。サブ step の PR でも drift を検知する
+    branches: [feature/monorepo, feature/monorepo-step8]
     paths:
       - backend/**
       - frontend/app/api/**
