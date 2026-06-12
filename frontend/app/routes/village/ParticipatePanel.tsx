@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import { Button } from "~/components/ui/Button";
-import { selectClass } from "~/components/ui/Input";
+import { inlineInputClass, inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import {
   confirmVillageParticipate,
   type ParticipantSituationView,
@@ -240,7 +240,7 @@ export function ParticipatePanel({
             キャラクター名 (1〜40 字)
             <input
               type="text"
-              className="mt-[5px] h-[30px] w-full rounded border border-[#464545] bg-white p-[6px] text-[#555]"
+              className={`${inputClass} mt-[5px]`}
               value={charaName}
               onChange={(e) => setCharaName(e.target.value)}
               aria-label="キャラクター名"
@@ -250,7 +250,7 @@ export function ParticipatePanel({
             略称 (1 字)
             <input
               type="text"
-              className="mt-[5px] h-[30px] w-full rounded border border-[#464545] bg-white p-[6px] text-[#555]"
+              className={`${inlineInputClass} mt-[5px] w-full`}
               value={charaShortName}
               onChange={(e) => setCharaShortName(e.target.value)}
               aria-label="略称"
@@ -294,7 +294,7 @@ export function ParticipatePanel({
         <label className="block">
           入村発言 (1〜400 字)
           <textarea
-            className="mt-[5px] min-h-[100px] w-full rounded border border-[#464545] bg-white p-[9px] text-[#555]"
+            className={`${textareaClass} mt-[5px] min-h-[100px]`}
             value={joinMessage}
             onChange={(e) => setJoinMessage(e.target.value)}
             aria-label="入村発言"
@@ -307,7 +307,7 @@ export function ParticipatePanel({
           入村パスワード (設定されている村のみ)
           <input
             type="text"
-            className="mt-[5px] h-[30px] w-full rounded border border-[#464545] bg-white p-[6px] text-[#555]"
+            className={`${inputClass} mt-[5px]`}
             value={joinPassword}
             onChange={(e) => setJoinPassword(e.target.value)}
             aria-label="入村パスワード"
