@@ -43,6 +43,8 @@ class VillageAdminRestController(
         @RequestBody @Validated request: VillageAdminLeaveRequest,
     ) {
         val village = resolveAdminVillage(principal, id)
+        // 退村済み (gone) は取得時点で除外されるため、ここに到達するのは在籍中の参加者のみ。
+        // 所属検証は別村の villagePlayerId を弾くためのもの
         val participant =
             villageService.findVillageParticipant(request.villagePlayerId!!)
                 ?: throw WolfMansionBusinessException("村参加者が見つかりません")
@@ -87,6 +89,7 @@ class VillageAdminRestController(
         return AdminVillagePlayersResponse.of(adminVillageService.findVillageCharaPlayers(village.id))
     }
 
+    /** 管理者権限は村単位ではなくシステム全体のもの (村との関係は問わない)。 */
     private fun resolveAdminVillage(
         principal: JwtPrincipal?,
         villageId: Int,
