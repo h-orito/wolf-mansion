@@ -160,7 +160,10 @@ class VillageMessageRestController(
     fun participants(
         @PathVariable id: Int,
     ): VillageParticipantsContent {
-        val village = findVillageOrThrow(id)
+        // 正体の公開は gone な村を含めない (発言系と異なり閲覧継続の必要がない)
+        val village =
+            villageService.findVillage(id)
+                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
         if (!village.status.isSettled()) {
             throw WolfMansionBusinessException("エピローグ以降の村のみ参照できます")
         }

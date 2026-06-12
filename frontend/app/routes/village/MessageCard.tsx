@@ -1,4 +1,5 @@
 import { type MouseEvent, useMemo, useState } from "react";
+import { Link } from "react-router";
 
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { fetchAnchorMessage, type VillageMessageContent } from "~/features/village/api";
@@ -50,6 +51,19 @@ type ExpandedAnchor = {
   visible: boolean;
 };
 
+/** プレイヤーのプロフィールページへの別タブリンク。 */
+export function UserPageLink({ name }: { name: string }) {
+  return (
+    <Link
+      to={`/user/${encodeURIComponent(name)}`}
+      target="_blank"
+      className="text-wm-accent cursor-pointer hover:underline"
+    >
+      {name}
+    </Link>
+  );
+}
+
 /**
  * 発言ログの 1 メッセージ。本文中のアンカークリックで該当発言をこのカードの直下に
  * インライン展開する (展開済みは表示/非表示のトグル)。
@@ -93,7 +107,7 @@ export function MessageCard({
     }
   };
 
-  // 生成 HTML 内のリンク/装飾はイベント委譲で扱う (アンカー展開・ユーザページ・伏せ字解除)
+  // 生成 HTML 内のリンク/装飾はイベント委譲で扱う (アンカー展開・伏せ字解除)
   const onContentClick = (e: MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
     const anchor = target.closest("[data-anchor-type]") as HTMLElement | null;
@@ -101,12 +115,6 @@ export function MessageCard({
       const type = anchor.dataset.anchorType;
       const number = Number(anchor.dataset.anchorNumber);
       if (type != null && Number.isFinite(number)) toggleAnchor(type, number);
-      return;
-    }
-    const userPage = target.closest("[data-user-page]") as HTMLElement | null;
-    if (userPage != null) {
-      const name = userPage.dataset.userPage || userPage.textContent || "";
-      if (name !== "") window.open(`${import.meta.env.BASE_URL.replace(/\/$/, "")}/user/${name}`);
       return;
     }
     if (target.classList.contains("netabare")) {
@@ -212,18 +220,7 @@ function renderBody(
             {message.playerName != null && (
               <span>
                 &nbsp;[
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() =>
-                    window.open(
-                      `${import.meta.env.BASE_URL.replace(/\/$/, "")}/user/${message.playerName}`,
-                    )
-                  }
-                >
-                  {message.playerName}
-                </button>
-                ]
+                <UserPageLink name={message.playerName} />]
               </span>
             )}
           </span>
@@ -306,18 +303,7 @@ function renderBody(
             {message.playerName != null && (
               <span>
                 &nbsp;[
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() =>
-                    window.open(
-                      `${import.meta.env.BASE_URL.replace(/\/$/, "")}/user/${message.playerName}`,
-                    )
-                  }
-                >
-                  {message.playerName}
-                </button>
-                ]
+                <UserPageLink name={message.playerName} />]
               </span>
             )}
           </span>

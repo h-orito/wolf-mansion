@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
@@ -5,7 +6,6 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import { fetchAnchorMessages } from "~/features/village/api";
 import { useVillage } from "~/features/village/useVillage";
-import { useQuery } from "@tanstack/react-query";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AgeLimitModal } from "../village/AgeLimitModal";

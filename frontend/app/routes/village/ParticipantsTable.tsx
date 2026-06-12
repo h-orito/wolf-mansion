@@ -1,4 +1,5 @@
 import { useVillageParticipants } from "~/features/village/useMessages";
+import { UserPageLink } from "./MessageCard";
 
 const cellBorderClass = "border border-[#464545]";
 
@@ -27,17 +28,7 @@ export function ParticipantsTable({ villageId }: { villageId: number }) {
               <tr key={index}>
                 <td className={`${cellBorderClass} p-[5px]`}>{participant.name}</td>
                 <td className={`${cellBorderClass} p-[5px]`}>
-                  <button
-                    type="button"
-                    className="text-wm-accent cursor-pointer hover:underline"
-                    onClick={() =>
-                      window.open(
-                        `${import.meta.env.BASE_URL.replace(/\/$/, "")}/user/${participant.playerName}`,
-                      )
-                    }
-                  >
-                    {participant.playerName}
-                  </button>
+                  {participant.playerName != null && <UserPageLink name={participant.playerName} />}
                 </td>
                 <td className={`${cellBorderClass} p-[5px]`}>{participant.skillName}</td>
                 <td className={`${cellBorderClass} p-[5px]`}>{participant.deadStatus}</td>

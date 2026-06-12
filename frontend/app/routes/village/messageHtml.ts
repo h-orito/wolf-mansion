@@ -117,12 +117,15 @@ export function toMessageHtml(
 
 /**
  * 死亡時の公開システムメッセージ中のユーザ ID をプロフィールリンクにする。
+ * リンク先は SPA の `/user/{name}` (リンク規約: 未移行ページも SPA URL を指す)。
  */
 export function replaceIdLink(messageType: string, html: string): string {
   if (messageType === "PUBLIC_SYSTEM" && html.includes("(master)、死亡")) {
+    const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     return html.replace(
       / \(([^(]*)\)、/g,
-      '(<a href="javascript:void(0);" data-user-page="$1">$1</a>)、',
+      (_, name: string) =>
+        `(<a href="${base}/user/${encodeURIComponent(name)}" target="_blank" rel="noreferrer">${name}</a>)、`,
     );
   }
   return html;
