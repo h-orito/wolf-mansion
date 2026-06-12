@@ -37,6 +37,14 @@ async function login(page: Page, userId: string): Promise<boolean> {
   });
   return res.ok();
 }
+/** 初回役職確認モーダルが被っていたら閉じる。 */
+async function dismissInitialSkillModal(page: Page) {
+  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
+  if ((await confirm.count()) > 0) {
+    await confirm.click();
+  }
+}
+
 
 async function findVoteCandidate(
   page: Page,
@@ -67,6 +75,7 @@ test("投票可能な参加者に投票パネルが表示される", async ({ pa
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByRole("button", { name: "投票セット" })).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
   await expect(
     page.getByText(`現在の投票先: ${candidate.vote.targetName ?? "なし"}`),
   ).toBeVisible();
@@ -92,6 +101,7 @@ test("投票先を変更してセットできる (元に戻して共有 DB の�
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByRole("button", { name: "投票セット" })).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
 
   await page.getByLabel("投票先").selectOption(String(another.charaId));
   await page.getByRole("button", { name: "投票セット" }).click();

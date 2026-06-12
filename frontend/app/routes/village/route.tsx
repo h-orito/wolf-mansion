@@ -43,6 +43,7 @@ import { CommitPanel } from "./CommitPanel";
 import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
+import { InitialSkillModal } from "./InitialSkillModal";
 import { MessageArea } from "./MessageArea";
 import { ChangeSkillPanel, LeavePanel, SwitchParticipatePanel } from "./ParticipantOpsPanels";
 import { ParticipatePanel } from "./ParticipatePanel";
@@ -51,6 +52,7 @@ import { MessageCard } from "./MessageCard";
 import { RpPanel } from "./RpPanel";
 import { SayPanel } from "./SayPanel";
 import { SettingsModal } from "./SettingsModal";
+import { VillageInfoModal } from "./VillageInfoModal";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
 import { VotePanel } from "./VotePanel";
@@ -144,6 +146,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const filter = parseFilter(searchParams);
   const [filterOpen, setFilterOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const applyFilter = (next: MessageFilter) =>
     setSearchParams(applyFilterToParams(searchParams, next));
   const applyFilterNewTab = (next: MessageFilter) => {
@@ -317,6 +320,7 @@ export default function Village({ params }: Route.ComponentProps) {
           dayList={(village.days.list ?? []).map((d) => d.day)}
           currentDay={currentDay}
           epilogueDay={village.epilogueDay}
+          onInfo={() => setInfoOpen(true)}
         />
 
         <MessageArea
@@ -446,6 +450,7 @@ export default function Village({ params }: Route.ComponentProps) {
           dayList={(village.days.list ?? []).map((d) => d.day)}
           currentDay={currentDay}
           epilogueDay={village.epilogueDay}
+          onInfo={() => setInfoOpen(true)}
         />
 
         <div className="mb-[10px]">
@@ -469,6 +474,7 @@ export default function Village({ params }: Route.ComponentProps) {
         onFilter={() => setFilterOpen(true)}
         filtering={isFiltering(filter)}
         onSettings={() => setSettingsOpen(true)}
+        onInfo={() => setInfoOpen(true)}
       />
       <SettingsModal
         open={settingsOpen}
@@ -476,6 +482,13 @@ export default function Village({ params }: Route.ComponentProps) {
         villageId={villageId}
         mySituation={mySituation}
       />
+      <VillageInfoModal
+        open={infoOpen}
+        onClose={() => setInfoOpen(false)}
+        villageId={villageId}
+        canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
+      />
+      <InitialSkillModal villageId={villageId} mySituation={mySituation} />
       <FilterModal
         open={filterOpen}
         onClose={() => setFilterOpen(false)}

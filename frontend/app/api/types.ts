@@ -387,6 +387,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/info": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getVillageInfo"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/leave": {
     parameters: {
       query?: never;
@@ -1471,6 +1487,109 @@ export interface components {
       startDatetime: string;
       tags: components["schemas"]["VillageTags"];
     };
+    VillageSettingsCharachip: {
+      /** Format: int32 */
+      id: number;
+      name: string;
+    };
+    VillageSettingsContent: {
+      ageLimit: string;
+      allowedSecretSayCode: string;
+      campAllocationList: components["schemas"]["VillageSettingsRandomCampOrganization"][];
+      charachips: components["schemas"]["VillageSettingsCharachip"][];
+      createPlayerName: string;
+      creatorIsProducer: boolean;
+      dayChangeInterval: string;
+      dummyCharaName: string;
+      isAvailableAction: boolean;
+      isAvailableCommit: boolean;
+      isAvailableGuardSameTarget: boolean;
+      isAvailableSameWolfAttack: boolean;
+      isAvailableSpectate: boolean;
+      isAvailableSuddenlyDeath: boolean;
+      isOpenSkillInGrave: boolean;
+      isRandomOrganization: boolean;
+      isReincarnationSkillAll: boolean;
+      isRequiredJoinPassword: boolean;
+      isSkillRequestAvailable: boolean;
+      isVisibleGraveSpectateMessage: boolean;
+      organization: string;
+      /** Format: int32 */
+      personMaxNum: number;
+      rpSayRestrictList: components["schemas"]["VillageSettingsRpSayRestriction"][];
+      sayRestrictList: components["schemas"]["VillageSettingsSayRestriction"][];
+      shouldOriginalImage: boolean;
+      skillRequestType: string;
+      skillSayRestrictList: components["schemas"]["VillageSettingsSkillSayRestriction"][];
+      /** Format: date-time */
+      startDatetime: string;
+      /** Format: int32 */
+      startPersonMinNum: number;
+      voteType: string;
+      welcomeRange?: string | null;
+      wolfAllocation?: components["schemas"]["VillageSettingsRandomWolfOrganization"] | null;
+    };
+    VillageSettingsRandomCampOrganization: {
+      /** Format: int32 */
+      allocation: number;
+      campCode: string;
+      campName: string;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number;
+      /** Format: int32 */
+      reincarnationAllocation: number;
+      skillAllocation: components["schemas"]["VillageSettingsRandomSkillOrganization"][];
+    };
+    VillageSettingsRandomSkillOrganization: {
+      /** Format: int32 */
+      allocation: number;
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number;
+      /** Format: int32 */
+      reincarnationAllocation: number;
+      skillCode: string;
+      skillName: string;
+    };
+    VillageSettingsRandomWolfOrganization: {
+      /** Format: int32 */
+      maxNum?: number | null;
+      /** Format: int32 */
+      minNum: number;
+    };
+    VillageSettingsRpSayRestriction: {
+      /** Format: int32 */
+      count?: number | null;
+      isRestrict: boolean;
+      /** Format: int32 */
+      length?: number | null;
+      messageTypeCode: string;
+      messageTypeName: string;
+      restrict?: boolean;
+    };
+    VillageSettingsSayRestriction: {
+      /** Format: int32 */
+      count?: number | null;
+      isRestrict: boolean;
+      /** Format: int32 */
+      length?: number | null;
+      restrict?: boolean;
+      skillCode: string;
+      skillName: string;
+    };
+    VillageSettingsSkillSayRestriction: {
+      /** Format: int32 */
+      count?: number | null;
+      isRestrict: boolean;
+      /** Format: int32 */
+      length?: number | null;
+      messageTypeCode: string;
+      messageTypeName: string;
+      restrict?: boolean;
+    };
     VillageSituationContent: {
       ability: string;
       attackedChara: string;
@@ -2183,6 +2302,28 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
+      };
+    };
+  };
+  getVillageInfo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["VillageSettingsContent"];
+        };
       };
     };
   };

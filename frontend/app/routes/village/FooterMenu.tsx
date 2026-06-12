@@ -41,8 +41,7 @@ function MenuButton({
 }
 
 /**
- * 画面下部に固定表示する操作メニュー。情報はモーダル実装までは
- * 無効状態で出す (ボタン構成は最終形を保つ)。新着発言を検知したら更新アイコンを点滅させる。
+ * 画面下部に固定表示する操作メニュー。新着発言を検知したら更新アイコンを点滅させる。
  */
 export function FooterMenu({
   onRefresh,
@@ -50,6 +49,7 @@ export function FooterMenu({
   onFilter,
   filtering = false,
   onSettings,
+  onInfo,
 }: {
   onRefresh: () => void;
   hasNewMessage?: boolean;
@@ -59,6 +59,8 @@ export function FooterMenu({
   filtering?: boolean;
   /** 設定モーダルを開く。 */
   onSettings?: () => void;
+  /** 村情報モーダルを開く。 */
+  onInfo?: () => void;
 }) {
   const iconClass = "h-[14px] w-[14px]";
   const gotoTop = () => window.scrollTo({ top: 0 });
@@ -92,7 +94,12 @@ export function FooterMenu({
           disabled={onFilter == null}
           active={filtering}
         />
-        <MenuButton icon={<InformationCircleIcon className={iconClass} />} label="情報" disabled />
+        <MenuButton
+          icon={<InformationCircleIcon className={iconClass} />}
+          label="情報"
+          onClick={onInfo}
+          disabled={onInfo == null}
+        />
         <MenuButton
           icon={<Cog6ToothIcon className={iconClass} />}
           label="設定"

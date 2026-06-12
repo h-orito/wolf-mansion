@@ -5,6 +5,7 @@ import { useMe } from "~/features/auth/useMe";
 import {
   fetchMyVillageSituation,
   fetchVillage,
+  fetchVillageInfo,
   fetchVillageSituation,
   postVillageUpdate,
 } from "./api";
@@ -47,6 +48,16 @@ export function useMyVillageSituation(id: number, day: number | undefined) {
     queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id, day ?? "latest", me?.name],
     queryFn: () => fetchMyVillageSituation(id, day),
     enabled: !isLoading && me != null,
+    retry: false,
+  });
+}
+
+/** 村情報モーダル用の設定表示。モーダルを開いたときだけ取得する。 */
+export function useVillageInfo(id: number, enabled: boolean) {
+  return useQuery({
+    queryKey: ["village-info", id],
+    queryFn: () => fetchVillageInfo(id),
+    enabled,
     retry: false,
   });
 }

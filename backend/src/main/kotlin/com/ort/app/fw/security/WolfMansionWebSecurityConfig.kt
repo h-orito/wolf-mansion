@@ -50,6 +50,7 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/villages",
                         "/api/v1/villages/{id}",
                         "/api/v1/villages/{id}/setting",
+                        "/api/v1/villages/{id}/info",
                         "/api/v1/villages/{id}/situation",
                         "/api/v1/villages/{id}/messages",
                         "/api/v1/villages/{id}/messages/*",
