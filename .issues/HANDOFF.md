@@ -182,9 +182,11 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 進行中 — 8.1〜8.10 ✅ (#71〜#79)、次は 8.11 (コミット)**。
+**Step 8 (村画面) 進行中 — 8.1〜8.11 ✅ (#71〜#80)、次は 8.12 (RP 支援)**。
 
-- **(次) step-8.11 コミット**: コミットセット (village-commit.md が正本)。`ParticipantSituation.commit` は `isAvailableCommit`/`isCommitting` が出ているので、`POST /api/v1/villages/{id}/commit` (commit boolean) の追加が主。SSR の `VillageAbilityController.setCommit` / `VillageCoordinator.setCommit` を踏襲 (権威検証は domain)。動作確認はコミット可の村設定が必要 (村 5 が不可なら新規村 or REST 異常系 + e2e 動的 skip で対応)
+- **(次) step-8.12 RP 支援**: 名前変更・メモ・キャラ画像追加 (village-rp.md が正本)。`ParticipantSituation.rp` に `isAvailableChangeName`/`isAvailableMemo`/`canAddImage` が出ている。SSR の該当 controller (changeName/memo 等) を踏襲
+- **検証用フィクスチャ村 6「step8 コミット動作確認用の村」を追加 (2026-06-12)**: master 作成、コミットあり、進行中 2 日目、参加者 9 (dummy + testuser01〜08、players 2〜9)。SPA 村作成 (村 4 から設定流用) + SSR debug メニューで進行。**流用で付いた R18 タグは年齢制限モーダルが e2e を妨げるため DELETE 済み** (RELATIVES_ONLY タグは残存)。コミット系の動作確認・e2e 動的探索が村 6 を拾う
+- **SSR デバッグ操作の curl 手順 (8.11 で確立)**: SSR ログイン = GET `/wolf-mansion-api/login` で `_csrf` 取得 → 同 cookie jar で POST (`userId`/`password`/`_csrf`) → 302。debug 進行 = 村ページから `_csrf` 取り直して POST `/wolf-mansion-api/village/{id}/allparticipate` (**`personNumber` 必須** — 無いと NPE 500) / POST `/village/{id}/dayChange`。**SSR の context-path は `/wolf-mansion-api`** (8089 の `/wolf-mansion/...` は 404)
 - **8.9 で確立したパターン (能力セット)**: 能力 UI は situation/me の `ability` 素材で出し分け (襲撃=attackerList 非空 / 調査=skill.hasInvestigateAbility / 徘徊=hasDisturbAbility && targetList 空 / 対象+足音=isTargetingAndFootstep / 対象のみ)。**役職別の分岐を frontend に持ち込まず、判定済みフラグ・候補リストを View で返す**。襲撃対象と現在対象の足音候補は situation に含まれないため AbilityPanel が初期表示時に candidates API (`ability/attack-targets`, `ability/footsteps`) で取得。**2 文字目大文字の Kotlin プロパティ (`cMadmanNames` 等) は Jackson と SpringDoc で名前が割れて spec に重複フィールドが出る → `@get:JsonProperty` で明示**。村 5 の配役は DB 直クエリ (`docker exec wolf-mansion-mysql mysql -u wmansion -p... -e "SELECT ... FROM VILLAGE_PLAYER vp JOIN PLAYER p ..."`) で確認でき、testuser03/05/15=人狼、testuser06=狩人 (全員 password=testuser) — 新規村を建てなくても役職者の実測ができた
 - **Step 8 の進め方**: 統合ブランチ `feature/monorepo-step8` 上でサブ step を `/add-issue` → `/ship-issue` (base 読み替え)。8.2 → 8.3 (フィルタ) → 8.4 (発言投稿) → … と依存順 (08-step-plan.md の表)。村 5 (進行中) を動作確認に使い、足りない状態は debug 機能 (人数分入村 / 日付を進める) で作る
 - **Step 8 で再利用できる資産**: `GET /api/v1/villages/{id}/setting` (7.5 新設、joinPassword マスク済み) は村画面の設定表示・村設定変更 (village-settings) でも使える。村設定変更画面はフォーム部品を new-village と共通化する前提 (new-village.md「村設定変更画面と酷似」)
