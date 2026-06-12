@@ -41,6 +41,7 @@ import { DayList } from "./DayList";
 import { FilterModal } from "./FilterModal";
 import { FooterMenu } from "./FooterMenu";
 import { MessageArea } from "./MessageArea";
+import { ChangeSkillPanel, LeavePanel, SwitchParticipatePanel } from "./ParticipantOpsPanels";
 import { ParticipatePanel } from "./ParticipatePanel";
 import { type ReplyDraft } from "./MessageCard";
 import { MessageCard } from "./MessageCard";
@@ -391,6 +392,18 @@ export default function Village({ params }: Route.ComponentProps) {
               />
             </div>
           )}
+
+        {mySituation != null &&
+          mySituation.participate.isParticipating &&
+          mySituation.skillRequest.isAvailableSkillRequest && (
+            <ChangeSkillPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+          )}
+        {mySituation?.participate.isAvailableSwitchParticipate && (
+          <SwitchParticipatePanel villageId={villageId} onDone={invalidate} />
+        )}
+        {mySituation?.participate.isAvailableLeave && (
+          <LeavePanel villageId={villageId} onDone={invalidate} />
+        )}
 
         <DayList
           villageId={villageId}

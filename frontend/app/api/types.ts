@@ -291,6 +291,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/change-skill": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["changeVillageRequestSkill"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/leave": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["leaveVillage"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/messages": {
     parameters: {
       query?: never;
@@ -477,6 +509,22 @@ export interface paths {
     get: operations["getMyVillageSituation"];
     put?: never;
     post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/villages/{id}/switch-participate": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put?: never;
+    post: operations["switchVillageParticipate"];
     delete?: never;
     options?: never;
     head?: never;
@@ -910,6 +958,10 @@ export interface components {
     };
     VillageAnchorMessagesContent: {
       messageList: components["schemas"]["VillageMessageContent"][];
+    };
+    VillageChangeSkillRequest: {
+      requestedSkill: string | null;
+      secondRequestedSkill: string | null;
     };
     VillageCharaSetting: {
       charachipIds: number[];
@@ -1770,6 +1822,50 @@ export interface operations {
       };
     };
   };
+  changeVillageRequestSkill: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageChangeSkillRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  leaveVillage: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
   getVillageMessages: {
     parameters: {
       query?: {
@@ -2070,6 +2166,26 @@ export interface operations {
         content: {
           "*/*": components["schemas"]["ParticipantSituationView"];
         };
+      };
+    };
+  };
+  switchVillageParticipate: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
       };
     };
   };

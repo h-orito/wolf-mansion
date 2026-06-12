@@ -207,3 +207,24 @@ export function participateVillage(
     body: formData,
   });
 }
+
+/** 希望役職変更のリクエスト。 */
+export type VillageChangeSkillRequest = components["schemas"]["VillageChangeSkillRequest"];
+
+/** 参加 ⇄ 見学を切り替える。要認証 → 204。 */
+export function switchVillageParticipate(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/switch-participate`, { method: "POST" });
+}
+
+/** 希望役職 (第 1/第 2) を変更する。要認証 → 204。 */
+export function changeVillageRequestSkill(
+  id: number,
+  request: VillageChangeSkillRequest,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/change-skill`, { method: "POST", body: request });
+}
+
+/** 退村する。要認証 → 204。 */
+export function leaveVillage(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/leave`, { method: "POST" });
+}

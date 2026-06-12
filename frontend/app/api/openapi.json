@@ -664,6 +664,60 @@
         "tags": ["village-say-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/change-skill": {
+      "post": {
+        "operationId": "changeVillageRequestSkill",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageChangeSkillRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-participate-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/leave": {
+      "post": {
+        "operationId": "leaveVillage",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-participate-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/messages": {
       "get": {
         "operationId": "getVillageMessages",
@@ -1221,6 +1275,28 @@
           }
         },
         "tags": ["village-rest-controller"]
+      }
+    },
+    "/api/v1/villages/{id}/switch-participate": {
+      "post": {
+        "operationId": "switchVillageParticipate",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-participate-rest-controller"]
       }
     },
     "/api/v1/villages/{id}/update": {
@@ -2581,6 +2657,18 @@
           }
         },
         "required": ["messageList"]
+      },
+      "VillageChangeSkillRequest": {
+        "type": "object",
+        "properties": {
+          "requestedSkill": {
+            "type": ["string", "null"]
+          },
+          "secondRequestedSkill": {
+            "type": ["string", "null"]
+          }
+        },
+        "required": ["requestedSkill", "secondRequestedSkill"]
       },
       "VillageCharaSetting": {
         "type": "object",
