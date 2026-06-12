@@ -8,6 +8,7 @@ import {
   fetchVillageSituation,
   postVillageUpdate,
 } from "./api";
+import { VILLAGE_MESSAGES_QUERY_KEY, VILLAGE_PARTICIPANTS_QUERY_KEY } from "./useMessages";
 
 export const VILLAGE_QUERY_KEY = "village";
 export const VILLAGE_SITUATION_QUERY_KEY = "village-situation";
@@ -50,7 +51,7 @@ export function useMyVillageSituation(id: number, day: number | undefined) {
   });
 }
 
-/** 村系クエリをまとめて無効化する (日付更新・手動更新時)。 */
+/** 村系クエリをまとめて無効化する (日付更新・手動更新時)。発言一覧も含む。 */
 export function useInvalidateVillage(id: number) {
   const queryClient = useQueryClient();
   return useCallback(
@@ -59,6 +60,8 @@ export function useInvalidateVillage(id: number) {
         queryClient.invalidateQueries({ queryKey: [VILLAGE_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [VILLAGE_SITUATION_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id] }),
+        queryClient.invalidateQueries({ queryKey: [VILLAGE_MESSAGES_QUERY_KEY, id] }),
+        queryClient.invalidateQueries({ queryKey: [VILLAGE_PARTICIPANTS_QUERY_KEY, id] }),
       ]),
     [queryClient, id],
   );

@@ -39,9 +39,15 @@ function MenuButton({
 
 /**
  * 画面下部に固定表示する操作メニュー。抽出 / 情報 / 設定はそれぞれのモーダル実装までは
- * 無効状態で出す (ボタン構成は最終形を保つ)。
+ * 無効状態で出す (ボタン構成は最終形を保つ)。新着発言を検知したら更新アイコンを点滅させる。
  */
-export function FooterMenu({ onRefresh }: { onRefresh: () => void }) {
+export function FooterMenu({
+  onRefresh,
+  hasNewMessage = false,
+}: {
+  onRefresh: () => void;
+  hasNewMessage?: boolean;
+}) {
   const iconClass = "h-[14px] w-[14px]";
   const gotoTop = () => window.scrollTo({ top: 0 });
   const gotoBottom = () => {
@@ -63,7 +69,7 @@ export function FooterMenu({ onRefresh }: { onRefresh: () => void }) {
           onClick={gotoBottom}
         />
         <MenuButton
-          icon={<ArrowPathIcon className={iconClass} />}
+          icon={<ArrowPathIcon className={`${iconClass} ${hasNewMessage ? "flash" : ""}`} />}
           label="更新"
           onClick={onRefresh}
         />

@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
-import type { VillageDetailView } from "~/features/village/api";
+import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
+import type { VillageDetailView, VillageMessageListContent } from "~/features/village/api";
+import { useNewMessageDetector } from "~/features/village/useMessages";
 import {
   useInvalidateVillage,
   useMyVillageSituation,
@@ -14,8 +16,10 @@ import {
 } from "~/features/village/useVillage";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
+import { AgeLimitModal } from "./AgeLimitModal";
 import { DayList } from "./DayList";
 import { FooterMenu } from "./FooterMenu";
+import { MessageArea } from "./MessageArea";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
 import type { Route } from "./+types/route";
@@ -71,12 +75,26 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { error: mySituationError } = useMyVillageSituation(villageId, dayParam);
+  const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
 
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
+
+  // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
+  const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
+  const onMessagesLoaded = useCallback(
+    (content: VillageMessageListContent) => setLoadedMessages(content),
+    [],
+  );
+  const hasNewMessage = useNewMessageDetector(
+    villageId,
+    dayParam,
+    loadedMessages?.latestMessageDatetime,
+    latestDay != null && currentDay === latestDay,
+  );
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
@@ -107,6 +125,9 @@ export default function Village({ params }: Route.ComponentProps) {
   }
 
   const noAd = (village.setting.tags.list ?? []).some((tag) => tag.code === "R18");
+  const ageLimit = (village.setting.tags.list ?? []).find(
+    (tag) => tag.code === "R15" || tag.code === "R18",
+  )?.name;
 
   return (
     <PageLayout noAd={noAd}>
@@ -129,8 +150,12 @@ export default function Village({ params }: Route.ComponentProps) {
           epilogueDay={village.epilogueDay}
         />
 
-        {/* 発言ログ (メッセージ表示は未実装) */}
-        <div className="text-gray-400">読み込み中...</div>
+        <MessageArea
+          villageId={villageId}
+          day={dayParam}
+          randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
+          onLoaded={onMessagesLoaded}
+        />
         {!noAd && (
           <div className="mt-[15px] min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
             広告（移行中はプレースホルダー）
@@ -165,7 +190,8 @@ export default function Village({ params }: Route.ComponentProps) {
         </div>
       </div>
 
-      <FooterMenu onRefresh={() => invalidate()} />
+      <FooterMenu onRefresh={() => invalidate()} hasNewMessage={hasNewMessage} />
+      {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
 
       {/* 通知系のオーバーレイ */}
       {daychangeDetected && (
