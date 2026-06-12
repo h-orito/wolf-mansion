@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
+import { useDisplaySettings } from "~/features/village/displaySettings";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
@@ -52,19 +53,22 @@ export function MessageArea({
     d == null ? { pageNum: 1, isDispLatest: true } : { pageNum: 1, isDispLatest: false };
   const [page, setPage] = useState<PageState>(() => initialPage(day));
 
-  // 日付遷移・抽出条件の変更で先頭ページに戻す (絞り込み後に存在しないページを引かないため)
+  const isPaging = useDisplaySettings((s) => s.isPaging);
+  const pageSize = useDisplaySettings((s) => s.pageSize);
+
+  // 日付遷移・抽出条件・ページ設定の変更で先頭ページに戻す (存在しないページを引かないため)
   const filterKey = JSON.stringify(filter);
   useEffect(() => {
     setPage(initialPage(day));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day, filterKey]);
+  }, [day, filterKey, isPaging, pageSize]);
 
   const { data, isLoading } = useVillageMessages(villageId, {
     day,
-    pageSize: 30,
-    pageNum: page.isDispLatest ? undefined : page.pageNum,
-    isPaging: true,
-    isDispLatest: page.isDispLatest,
+    pageSize: isPaging ? pageSize : undefined,
+    pageNum: isPaging && !page.isDispLatest ? page.pageNum : undefined,
+    isPaging,
+    isDispLatest: isPaging ? page.isDispLatest : undefined,
     participantIds: filter.participantIds.length > 0 ? filter.participantIds : undefined,
     toParticipantIds: filter.toParticipantIds.length > 0 ? filter.toParticipantIds : undefined,
     types: filter.types.length > 0 ? filter.types : undefined,

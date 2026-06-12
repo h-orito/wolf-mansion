@@ -9,6 +9,7 @@ import type {
   VillageDetailView,
   VillageSayRequest,
 } from "~/features/village/api";
+import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
 export type { ReplyDraft };
 
@@ -92,6 +93,7 @@ export function SayPanel({
 }) {
   const say = mySituation.say;
   const myself = mySituation.myself;
+  const showDecorationButtons = useDisplaySettings((s) => s.showDecorationButtons);
   const selectable = say.selectableMessageTypeList ?? [];
   const images = say.selectableCharaImageList ?? [];
 
@@ -263,8 +265,12 @@ export function SayPanel({
           </div>
         )}
 
-        {/* 装飾タグ・ランダム機能 */}
-        <div className="mt-[10px] flex flex-wrap items-center gap-[5px]">
+        {/* 装飾タグ・ランダム機能 (表示設定でまとめて非表示にできる) */}
+        <div
+          className={`mt-[10px] flex-wrap items-center gap-[5px] ${
+            showDecorationButtons ? "flex" : "hidden"
+          }`}
+        >
           {DECORATION_TAGS.map((tag) => (
             <button
               key={tag.name}

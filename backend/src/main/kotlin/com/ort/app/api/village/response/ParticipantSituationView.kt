@@ -14,6 +14,7 @@ import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.model.village.participant.VillageParticipantNotificationCondition
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
@@ -65,6 +66,8 @@ data class ParticipantSituationView(
         val isSpectator: Boolean,
         /** Discord 通知キーワード (スペース区切り、未設定は null)。発言抽出のショートカットが使う */
         val notificationKeyword: String?,
+        /** Discord 通知設定 (本人にのみ返る。未設定は null)。設定フォームの初期値用 */
+        val notification: MyselfNotificationView?,
         /** 自分の役職 (本人にのみ返る。未割当は null) */
         val skill: MyselfSkillView?,
     ) {
@@ -81,7 +84,32 @@ data class ParticipantSituationView(
                     ?.keywords
                     ?.takeIf { it.isNotEmpty() }
                     ?.joinToString(separator = " "),
+            notification = myself.notification?.let { MyselfNotificationView(it) },
             skill = myself.skill?.let { MyselfSkillView(it) },
+        )
+    }
+
+    @Schema(name = "ParticipantSituationViewMyselfNotification")
+    data class MyselfNotificationView(
+        val webhookUrl: String,
+        val villageStart: Boolean,
+        val villageDaychange: Boolean,
+        val villageEpilogue: Boolean,
+        val secretSay: Boolean,
+        val abilitySay: Boolean,
+        val anchorSay: Boolean,
+        /** キーワード (スペース区切り) */
+        val keyword: String,
+    ) {
+        constructor(notification: VillageParticipantNotificationCondition) : this(
+            webhookUrl = notification.discordWebhookUrl,
+            villageStart = notification.village.start,
+            villageDaychange = notification.village.dayChange,
+            villageEpilogue = notification.village.epilogue,
+            secretSay = notification.message.secretSay,
+            abilitySay = notification.message.abilitySay,
+            anchorSay = notification.message.anchor,
+            keyword = notification.message.keywords.joinToString(" "),
         )
     }
 

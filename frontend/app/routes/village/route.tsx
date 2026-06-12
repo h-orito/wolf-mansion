@@ -18,6 +18,7 @@ import {
   type VillageParticipateRequest,
   type VillageSayRequest,
 } from "~/features/village/api";
+import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
   applyFilterToParams,
   EMPTY_FILTER,
@@ -49,6 +50,7 @@ import { type ReplyDraft } from "./MessageCard";
 import { MessageCard } from "./MessageCard";
 import { RpPanel } from "./RpPanel";
 import { SayPanel } from "./SayPanel";
+import { SettingsModal } from "./SettingsModal";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
 import { VotePanel } from "./VotePanel";
@@ -141,6 +143,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const filter = parseFilter(searchParams);
   const [filterOpen, setFilterOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const applyFilter = (next: MessageFilter) =>
     setSearchParams(applyFilterToParams(searchParams, next));
   const applyFilterNewTab = (next: MessageFilter) => {
@@ -254,6 +257,13 @@ export default function Village({ params }: Route.ComponentProps) {
     loadedMessages?.latestMessageDatetime,
     latestDay != null && currentDay === latestDay,
   );
+  // 自動更新設定が ON なら、新着検知時に更新ボタンを押すのと同じ再読み込みを行う
+  const autoReload = useDisplaySettings((s) => s.autoReload);
+  const largeText = useDisplaySettings((s) => s.largeText);
+  useEffect(() => {
+    if (hasNewMessage && autoReload) void invalidate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasNewMessage, autoReload]);
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
@@ -290,7 +300,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
   return (
     <PageLayout noAd={noAd}>
-      <div className="px-[15px] pb-[45px]">
+      <div className={`px-[15px] pb-[45px] ${largeText ? "text-[150%]" : ""}`}>
         {/* 村タイトル */}
         <div className="flex">
           <h1 className="my-[10.5px] flex-1 text-[15px] font-normal">
@@ -458,6 +468,13 @@ export default function Village({ params }: Route.ComponentProps) {
         hasNewMessage={hasNewMessage}
         onFilter={() => setFilterOpen(true)}
         filtering={isFiltering(filter)}
+        onSettings={() => setSettingsOpen(true)}
+      />
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        villageId={villageId}
+        mySituation={mySituation}
       />
       <FilterModal
         open={filterOpen}

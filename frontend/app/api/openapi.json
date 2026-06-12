@@ -1212,6 +1212,38 @@
         "tags": ["village-message-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/notification-setting": {
+      "post": {
+        "operationId": "saveVillageNotificationSetting",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageNotificationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-notification-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/participants": {
       "get": {
         "operationId": "getVillageParticipants",
@@ -2203,6 +2235,16 @@
           "name": {
             "type": "string"
           },
+          "notification": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParticipantSituationViewMyselfNotification"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "notificationKeyword": {
             "type": ["string", "null"]
           },
@@ -2221,6 +2263,45 @@
           }
         },
         "required": ["charaId", "id", "isDead", "isSpectator", "name", "shortName"]
+      },
+      "ParticipantSituationViewMyselfNotification": {
+        "type": "object",
+        "properties": {
+          "abilitySay": {
+            "type": "boolean"
+          },
+          "anchorSay": {
+            "type": "boolean"
+          },
+          "keyword": {
+            "type": "string"
+          },
+          "secretSay": {
+            "type": "boolean"
+          },
+          "villageDaychange": {
+            "type": "boolean"
+          },
+          "villageEpilogue": {
+            "type": "boolean"
+          },
+          "villageStart": {
+            "type": "boolean"
+          },
+          "webhookUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "abilitySay",
+          "anchorSay",
+          "keyword",
+          "secretSay",
+          "villageDaychange",
+          "villageEpilogue",
+          "villageStart",
+          "webhookUrl"
+        ]
       },
       "ParticipantSituationViewMyselfSkill": {
         "type": "object",
@@ -3812,6 +3893,39 @@
           "messageList",
           "pageNumList"
         ]
+      },
+      "VillageNotificationRequest": {
+        "type": "object",
+        "properties": {
+          "abilitySay": {
+            "type": ["boolean", "null"]
+          },
+          "anchorSay": {
+            "type": ["boolean", "null"]
+          },
+          "keyword": {
+            "type": ["string", "null"],
+            "maxLength": 30,
+            "minLength": 0
+          },
+          "secretSay": {
+            "type": ["boolean", "null"]
+          },
+          "villageDaychange": {
+            "type": ["boolean", "null"]
+          },
+          "villageEpilogue": {
+            "type": ["boolean", "null"]
+          },
+          "villageStart": {
+            "type": ["boolean", "null"]
+          },
+          "webhookUrl": {
+            "type": ["string", "null"],
+            "minLength": 1
+          }
+        },
+        "required": ["webhookUrl"]
       },
       "VillageOrganize": {
         "type": "object",
