@@ -5,6 +5,7 @@ import { useMe } from "~/features/auth/useMe";
 import {
   fetchMyVillageSituation,
   fetchVillage,
+  fetchVillageDebugInfo,
   fetchVillageInfo,
   fetchVillageSituation,
   postVillageUpdate,
@@ -58,6 +59,15 @@ export function useVillageInfo(id: number, enabled: boolean) {
     queryKey: ["village-info", id],
     queryFn: () => fetchVillageInfo(id),
     enabled,
+    retry: false,
+  });
+}
+
+/** デバッグ情報を取得する。debug 無効時は isDebugMode=false が返る。 */
+export function useVillageDebugInfo(id: number) {
+  return useQuery({
+    queryKey: ["village-debug", id],
+    queryFn: () => fetchVillageDebugInfo(id),
     retry: false,
   });
 }
