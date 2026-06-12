@@ -357,3 +357,31 @@ export function extendVillageEpilogue(id: number): Promise<void> {
 export function shortenVillageEpilogue(id: number): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/creator/shorten-epilogue`, { method: "POST" });
 }
+
+/** 管理者による強制退村のリクエスト。 */
+export type VillageAdminLeaveRequest = components["schemas"]["VillageAdminLeaveRequest"];
+/** 管理者用参加プレイヤー一覧のレスポンス。 */
+export type AdminVillagePlayersResponse = components["schemas"]["AdminVillagePlayersResponse"];
+
+/** 参加者を強制退村させる (管理者専用)。要認証 → 204。 */
+export function adminLeaveVillageParticipant(
+  id: number,
+  request: VillageAdminLeaveRequest,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/admin/leave`, { method: "POST", body: request });
+}
+
+/** 全参加者のアクセス日時を現在日時に更新する (管理者専用)。要認証 → 204。 */
+export function adminUpdateAllAccess(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/admin/access`, { method: "POST" });
+}
+
+/** 未投票の生存者に自己投票を追加する (管理者専用)。要認証 → 204。 */
+export function adminInsertSelfVotes(id: number): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/admin/vote`, { method: "POST" });
+}
+
+/** 村の参加プレイヤー一覧を取得する (管理者専用)。要認証。 */
+export function fetchAdminVillagePlayers(id: number): Promise<AdminVillagePlayersResponse> {
+  return apiFetch<AdminVillagePlayersResponse>(`/api/v1/villages/${id}/admin/players`);
+}
