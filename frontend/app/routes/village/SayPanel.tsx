@@ -398,8 +398,8 @@ function RandomTagSelect({
           </option>
         ))}
       </select>
-      <Button variant="info" size="xs" onClick={() => onAdd(selected)}>
-        追加
+      <Button size="sm" onClick={() => onAdd(selected)}>
+        <span className="whitespace-nowrap">タグ追加</span>
       </Button>
     </span>
   );
