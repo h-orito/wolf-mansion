@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
@@ -340,13 +341,13 @@ export function SayPanel({
           />
         </div>
 
-        {/* 文字数・行数・残数 */}
-        <div className={`mt-[5px] ml-[55px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
-          {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
-          文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
-        </div>
-
-        <div className="mt-[10px] flex items-center justify-between">
+        {/* 文字数・行数・残数 / 装飾・変換無効 / 確認画面へ */}
+        <div className="mt-[5px]" style={{ marginLeft: (myself?.chara.size.width ?? 55) + 5 }}>
+          <span className={overLimit ? "text-[#e74c3c]" : ""}>
+            {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
+            文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
+          </span>
+          <br />
           <label className="flex cursor-pointer items-center gap-[5px]">
             <input
               type="checkbox"
@@ -355,9 +356,16 @@ export function SayPanel({
             />
             装飾・変換無効
           </label>
-          <Button onClick={submit} disabled={submitDisabled}>
-            確認画面へ
-          </Button>
+          <div className="mt-[5px] flex justify-end">
+            <Button onClick={submit} disabled={submitDisabled}>
+              確認画面へ
+            </Button>
+          </div>
+        </div>
+        <div className="mt-[10px] flex justify-end">
+          <Link to="/rule#other" target="_blank" className="text-wm-accent hover:underline">
+            文字装飾・ランダム機能
+          </Link>
         </div>
 
         {/* 返信元の引用 */}
