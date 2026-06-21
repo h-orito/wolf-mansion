@@ -211,25 +211,36 @@ export function SayPanel({
     <Panel title="発言">
       <div>
         {myself?.isDead && (
-          <div className="mb-[10px] rounded border border-[#e74c3c] p-[9px] text-[#e74c3c]">
-            あなたは死亡しました。現世の思い出を語り合いましょう。
-          </div>
+          <ul className="mb-[10px] list-disc rounded border border-[#3498db] py-[9px] pr-[9px] pl-[25px] text-[#3498db]">
+            <li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
+            {!village.setting.rule.isVisibleGraveSpectateMessage && (
+              <li>墓下では推理発言やCOを行っても問題ありません。</li>
+            )}
+          </ul>
         )}
-        {village.status.isProgress && (
-          <div className="mb-[10px] rounded border border-[#f39c12] p-[9px] text-[#f39c12]">
-            {village.setting.rule.isVisibleGraveSpectateMessage
-              ? "この村は、墓下や見学発言を生存者が参照できます。進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。"
-              : "進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。"}
-            <br />
-            COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。
-          </div>
+        {(!myself?.isDead ||
+          (myself?.isDead && village.setting.rule.isVisibleGraveSpectateMessage)) && (
+          <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
+            {village.setting.rule.isVisibleGraveSpectateMessage && (
+              <>
+                <li>この村は、墓下や見学発言を生存者が参照できます。</li>
+                <li>
+                  進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。
+                </li>
+              </>
+            )}
+            {!village.setting.rule.isVisibleGraveSpectateMessage && (
+              <li>
+                進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。
+              </li>
+            )}
+            <li>
+              COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。
+            </li>
+          </ul>
         )}
 
-        {myself != null && (
-          <p className="mb-[5px]">
-            [{myself.shortName}] {myself.name}
-          </p>
-        )}
+        {myself != null && <p className="mb-[10px]">{myself.name}</p>}
 
         {/* 発言種別 */}
         <div className="flex flex-wrap">
@@ -275,7 +286,7 @@ export function SayPanel({
 
         {/* 装飾タグ・ランダム機能 (表示設定でまとめて非表示にできる) */}
         <div
-          className={`mt-[10px] flex-wrap items-center gap-y-[5px] ${
+          className={`mt-[5px] flex-wrap items-center gap-y-[5px] ${
             showDecorationButtons ? "flex" : "hidden"
           }`}
         >

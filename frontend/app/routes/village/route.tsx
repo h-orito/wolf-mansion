@@ -196,9 +196,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "say", message: response.message, request });
-      requestAnimationFrame(() =>
-        scrollToBottom(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
     }
@@ -212,9 +210,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "action", message: response.message, request });
-      requestAnimationFrame(() =>
-        scrollToBottom(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
     }
@@ -228,9 +224,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "creatorSay", message: response.message, request });
-      requestAnimationFrame(() =>
-        scrollToBottom(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
     }
@@ -251,9 +245,7 @@ export default function Village({ params }: Route.ComponentProps) {
       setSayPreview(null);
       setReply(null);
       await invalidate();
-      requestAnimationFrame(() =>
-        scrollToBottom(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
     } finally {
@@ -269,9 +261,7 @@ export default function Village({ params }: Route.ComponentProps) {
     try {
       await participateVillage(villageId, request, charaImage);
       await invalidate();
-      requestAnimationFrame(() =>
-        scrollToBottom(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
       throw e;
@@ -286,16 +276,13 @@ export default function Village({ params }: Route.ComponentProps) {
   // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
   const hashScrolled = useRef(false);
-  const onMessagesLoaded = useCallback(
-    (content: VillageMessageListContent) => {
-      setLoadedMessages(content);
-      if (!hashScrolled.current && window.location.hash === "#bottom") {
-        hashScrolled.current = true;
-        setTimeout(() => scrollToBottom(false), 0);
-      }
-    },
-    [],
-  );
+  const onMessagesLoaded = useCallback((content: VillageMessageListContent) => {
+    setLoadedMessages(content);
+    if (!hashScrolled.current && window.location.hash === "#bottom") {
+      hashScrolled.current = true;
+      setTimeout(() => scrollToBottom(false), 0);
+    }
+  }, []);
   const hasNewMessage = useNewMessageDetector(
     villageId,
     dayParam,
@@ -322,7 +309,6 @@ export default function Village({ params }: Route.ComponentProps) {
   useEffect(() => {
     if (village != null) document.title = `WOLF MANSION | ${village.name}`;
   }, [village]);
-
 
   if (villageError instanceof ApiError && villageError.status === 404) {
     return (
