@@ -223,6 +223,12 @@ export function SayPanel({
           </div>
         )}
 
+        {myself != null && (
+          <p className="mb-[5px]">
+            [{myself.shortName}] {myself.name}
+          </p>
+        )}
+
         {/* 発言種別 */}
         <div className="flex flex-wrap">
           {SAY_TYPE_ORDER.filter((t) => selectable.some((s) => s.messageTypeCode === t.code)).map(
@@ -267,28 +273,30 @@ export function SayPanel({
 
         {/* 装飾タグ・ランダム機能 (表示設定でまとめて非表示にできる) */}
         <div
-          className={`mt-[10px] flex-wrap items-center gap-[5px] ${
+          className={`mt-[10px] flex-wrap items-center gap-y-[5px] ${
             showDecorationButtons ? "flex" : "hidden"
           }`}
         >
-          {DECORATION_TAGS.map((tag) => (
+          <div className="flex flex-wrap">
+            {DECORATION_TAGS.map((tag) => (
+              <button
+                key={tag.name}
+                type="button"
+                className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+                style={tag.color != null ? { color: tag.color } : undefined}
+                onClick={() => addDecoration(tag.name)}
+              >
+                {tag.name === "s" ? <s>あ</s> : tag.label}
+              </button>
+            ))}
             <button
-              key={tag.name}
               type="button"
-              className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white hover:opacity-90"
-              style={tag.color != null ? { color: tag.color } : undefined}
-              onClick={() => addDecoration(tag.name)}
+              className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+              onClick={() => insertAtCursor("[[]]")}
             >
-              {tag.name === "s" ? <s>あ</s> : tag.label}
+              [[]]
             </button>
-          ))}
-          <button
-            type="button"
-            className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white hover:opacity-90"
-            onClick={() => insertAtCursor("[[]]")}
-          >
-            [[]]
-          </button>
+          </div>
           <RandomTagSelect
             keywords={randomKeywords}
             onAdd={(tag) => insertAtCursor(`[[${tag}]]`)}
