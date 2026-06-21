@@ -111,6 +111,7 @@ export function SayPanel({
   );
   const [convertDisable, setConvertDisable] = useState(false);
   const [secretTargetCharaId, setSecretTargetCharaId] = useState<string>("");
+  const [faceModalOpen, setFaceModalOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 返信・秘話返信からの引き継ぎ (アンカー挿入 / 種別・宛先の切替)
@@ -312,6 +313,8 @@ export function SayPanel({
                 alt={faceImage.faceTypeName}
                 width={myself?.chara.size.width ?? 60}
                 height={myself?.chara.size.height ?? 77}
+                className="cursor-pointer"
+                onClick={() => setFaceModalOpen(true)}
               />
             )}
             <select
@@ -373,6 +376,49 @@ export function SayPanel({
           </div>
         )}
       </div>
+      {faceModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setFaceModalOpen(false)}
+        >
+          <div
+            className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">表情選択</h4>
+            <div className="flex flex-wrap gap-[5px]">
+              {images.map((image) => (
+                <div
+                  key={image.faceTypeCode}
+                  className="inline-block border border-[#464545] p-[5px] text-center"
+                >
+                  <img
+                    src={image.url}
+                    alt={image.faceTypeName}
+                    width={myself?.chara.size.width ?? 60}
+                    height={myself?.chara.size.height ?? 77}
+                  />
+                  <div>{image.faceTypeName}</div>
+                  <Button
+                    size="xs"
+                    onClick={() => {
+                      setFaceType(image.faceTypeCode);
+                      setFaceModalOpen(false);
+                    }}
+                  >
+                    選択
+                  </Button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-[10px] flex justify-end">
+              <Button variant="default" onClick={() => setFaceModalOpen(false)}>
+                閉じる
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Panel>
   );
 }
