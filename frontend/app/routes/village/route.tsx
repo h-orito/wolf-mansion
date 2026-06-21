@@ -425,6 +425,10 @@ export default function Village({ params }: Route.ComponentProps) {
           />
         )}
 
+        {mySituation != null && mySituation.vote.canVote && (
+          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        )}
+
         {mySituation != null && mySituation.ability.canUseAbility && (
           <AbilityPanel
             villageId={villageId}
@@ -434,8 +438,33 @@ export default function Village({ params }: Route.ComponentProps) {
           />
         )}
 
-        {mySituation != null && mySituation.vote.canVote && (
-          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        {mySituation != null &&
+          !mySituation.participate.isParticipating &&
+          (mySituation.participate.isAvailableParticipate ||
+            mySituation.participate.isAvailableSpectate) && (
+            <div>
+              {participateError != null && (
+                <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>
+              )}
+              <ParticipatePanel
+                village={village}
+                mySituation={mySituation}
+                onParticipated={onParticipated}
+                onError={setParticipateError}
+              />
+            </div>
+          )}
+
+        {mySituation != null &&
+          mySituation.participate.isParticipating &&
+          mySituation.skillRequest.isAvailableSkillRequest && (
+            <ChangeSkillPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+          )}
+        {mySituation?.participate.isAvailableSwitchParticipate && (
+          <SwitchParticipatePanel villageId={villageId} onDone={invalidate} />
+        )}
+        {mySituation?.participate.isAvailableLeave && (
+          <LeavePanel villageId={villageId} onDone={invalidate} />
         )}
 
         {mySituation != null && mySituation.commit.isAvailableCommit && (
@@ -472,35 +501,6 @@ export default function Village({ params }: Route.ComponentProps) {
             debugInfo={debugInfo}
             onDone={invalidate}
           />
-        )}
-
-        {mySituation != null &&
-          !mySituation.participate.isParticipating &&
-          (mySituation.participate.isAvailableParticipate ||
-            mySituation.participate.isAvailableSpectate) && (
-            <div>
-              {participateError != null && (
-                <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>
-              )}
-              <ParticipatePanel
-                village={village}
-                mySituation={mySituation}
-                onParticipated={onParticipated}
-                onError={setParticipateError}
-              />
-            </div>
-          )}
-
-        {mySituation != null &&
-          mySituation.participate.isParticipating &&
-          mySituation.skillRequest.isAvailableSkillRequest && (
-            <ChangeSkillPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-          )}
-        {mySituation?.participate.isAvailableSwitchParticipate && (
-          <SwitchParticipatePanel villageId={villageId} onDone={invalidate} />
-        )}
-        {mySituation?.participate.isAvailableLeave && (
-          <LeavePanel villageId={villageId} onDone={invalidate} />
         )}
 
         <DayList
