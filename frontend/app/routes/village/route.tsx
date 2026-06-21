@@ -113,20 +113,24 @@ function formatStartDatetime(iso: string): string {
  * 村の共有ツイートボタン。村名 (募集中は開始予定日時も) + ハッシュタグを共有する。
  * 公式 widget script は読み込まず、同じ共有 URL を開くボタンで代替する。
  */
-function TweetButton({ village }: { village: VillageDetailView }) {
+function XPostButton({ village }: { village: VillageDetailView }) {
   const lines = [village.name];
   if (latestDayOf(village) === 0) {
     lines.push(`開始予定: ${formatStartDatetime(village.setting.startDatetime)}`);
   }
-  const url = `https://twitter.com/share?text=${encodeURIComponent(lines.join("\n") + "\n")}&hashtags=WOLF_MANSION`;
+  const pageUrl = `${window.location.origin}/wolf-mansion/village/${village.id}`;
+  const url = `https://x.com/intent/post?text=${encodeURIComponent(lines.join("\n") + "\n")}&hashtags=WOLF_MANSION&url=${encodeURIComponent(pageUrl)}`;
   return (
     <a
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="rounded-full bg-[#1d9bf0] px-[12px] py-[4px] font-bold text-white hover:bg-[#0c7abf]"
+      className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
     >
-      ツイート
+      <svg viewBox="0 0 24 24" className="h-[14px] w-[14px] fill-current" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+      ポスト
     </a>
   );
 }
@@ -282,7 +286,7 @@ export default function Village({ params }: Route.ComponentProps) {
       hashScrolled.current = true;
       setTimeout(() => scrollToBottom(false), 0);
     }
-  }, []);
+  }, [scrollToBottom]);
   const hasNewMessage = useNewMessageDetector(
     villageId,
     dayParam,
@@ -339,7 +343,7 @@ export default function Village({ params }: Route.ComponentProps) {
             {villageNumber(village.id)}. {village.name}
           </h1>
           <div className="my-[10.5px]">
-            <TweetButton village={village} />
+            <XPostButton village={village} />
           </div>
         </div>
         <hr className="mt-[5px] mb-[10px] border-[#464545]" />
