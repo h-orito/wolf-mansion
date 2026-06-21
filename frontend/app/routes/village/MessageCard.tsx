@@ -322,7 +322,7 @@ function renderBody(
           </div>
         </div>
         {(message.canReply || message.canSecret) && (onReply != null || onSecret != null) && (
-          <div className="-mt-[18px] flex justify-end gap-[10px]">
+          <div className="flex justify-end gap-[10px]">
             {message.canReply && onReply != null && (
               <button
                 type="button"
