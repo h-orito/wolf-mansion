@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
 import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
@@ -38,8 +39,8 @@ data class ParticipantSituationView(
     val admin: AdminView,
     val creator: CreatorView,
 ) {
-    constructor(situation: ParticipantSituation, village: Village) : this(
-        myself = situation.participate.myself?.let { MyselfView(it) },
+    constructor(situation: ParticipantSituation, village: Village, charachips: Charachips) : this(
+        myself = situation.participate.myself?.let { MyselfView(it, charachips.chara(it.charaId)) },
         participate = ParticipateView(situation),
         skillRequest = SkillRequestView(situation),
         commit =
@@ -64,6 +65,7 @@ data class ParticipantSituationView(
         val shortName: String,
         val isDead: Boolean,
         val isSpectator: Boolean,
+        val chara: Chara,
         /** Discord 通知キーワード (スペース区切り、未設定は null)。発言抽出のショートカットが使う */
         val notificationKeyword: String?,
         /** Discord 通知設定 (本人にのみ返る。未設定は null)。設定フォームの初期値用 */
@@ -71,13 +73,14 @@ data class ParticipantSituationView(
         /** 自分の役職 (本人にのみ返る。未割当は null) */
         val skill: MyselfSkillView?,
     ) {
-        constructor(myself: VillageParticipant) : this(
+        constructor(myself: VillageParticipant, chara: Chara) : this(
             id = myself.id,
             charaId = myself.charaId,
             name = myself.name(),
             shortName = myself.shortName(),
             isDead = myself.dead.isDead,
             isSpectator = myself.isSpectator,
+            chara = chara,
             notificationKeyword =
                 myself.notification
                     ?.message
@@ -165,8 +168,8 @@ data class ParticipantSituationView(
             name = charachip.name,
             charas =
                 charachip.charas.list
-                    .filter { chara -> selectableCharas.any { it.id == chara.id } }
-                    .map { ParticipateCharaView(it) },
+                    .filter { chara: Chara -> selectableCharas.any { it.id == chara.id } }
+                    .map { chara: Chara -> ParticipateCharaView(chara) },
         )
     }
 

@@ -307,10 +307,16 @@ export function SayPanel({
         <div className="mt-[10px] flex">
           <div>
             {faceImage != null && (
-              <img src={faceImage.url} alt={faceImage.faceTypeName} width={60} height={77} />
+              <img
+                src={faceImage.url}
+                alt={faceImage.faceTypeName}
+                width={myself?.chara.size.width ?? 60}
+                height={myself?.chara.size.height ?? 77}
+              />
             )}
             <select
-              className={`${selectClass} mt-[5px] max-w-[80px]`}
+              className={`${selectClass} mt-[5px]`}
+              style={{ maxWidth: myself?.chara.size.width ?? 80 }}
               value={faceType}
               onChange={(e) => setFaceType(e.target.value)}
               aria-label="表情"

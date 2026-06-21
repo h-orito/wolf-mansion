@@ -1123,6 +1123,7 @@ export interface components {
       isCreator: boolean;
     };
     ParticipantSituationViewMyself: {
+      chara: components["schemas"]["Chara"];
       /** Format: int32 */
       charaId: number;
       /** Format: int32 */

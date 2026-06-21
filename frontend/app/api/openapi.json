@@ -2713,6 +2713,9 @@
       "ParticipantSituationViewMyself": {
         "type": "object",
         "properties": {
+          "chara": {
+            "$ref": "#/components/schemas/Chara"
+          },
           "charaId": {
             "type": "integer",
             "format": "int32"
@@ -2757,7 +2760,7 @@
             ]
           }
         },
-        "required": ["charaId", "id", "isDead", "isSpectator", "name", "shortName"]
+        "required": ["chara", "charaId", "id", "isDead", "isSpectator", "name", "shortName"]
       },
       "ParticipantSituationViewMyselfNotification": {
         "type": "object",

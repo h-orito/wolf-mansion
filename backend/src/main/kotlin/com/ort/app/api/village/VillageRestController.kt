@@ -152,6 +152,7 @@ class VillageRestController(
                     day = targetDay,
                 ),
             village = village,
+            charachips = charachips,
         )
     }
 
