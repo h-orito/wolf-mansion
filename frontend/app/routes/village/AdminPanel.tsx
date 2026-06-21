@@ -26,7 +26,7 @@ export function AdminPanel({
 }) {
   return (
     <Panel title="管理者メニュー">
-      <div className="space-y-[20px] text-[12px]">
+      <div className="space-y-[20px]">
         <AccessSection villageId={villageId} onDone={onDone} />
         <SelfVoteSection villageId={villageId} onDone={onDone} />
         <LeaveSection villageId={villageId} onDone={onDone} />

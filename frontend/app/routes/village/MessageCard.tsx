@@ -249,7 +249,7 @@ function renderBody(
   if (message.isBigEars) {
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>地獄耳</span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
@@ -273,7 +273,7 @@ function renderBody(
     const rainbow = sayVariant.decoratable && message.isRainbow;
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
             {anchorText != null && (
               <>
@@ -322,7 +322,7 @@ function renderBody(
           </div>
         </div>
         {(message.canReply || message.canSecret) && (onReply != null || onSecret != null) && (
-          <div className="-mt-[18px] flex justify-end gap-[10px] text-[10.32px]">
+          <div className="-mt-[18px] flex justify-end gap-[10px]">
             {message.canReply && onReply != null && (
               <button
                 type="button"
@@ -366,7 +366,7 @@ function renderBody(
   if (type === "CREATOR_SAY") {
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
             {message.messageNumber != null && (
               <>
@@ -396,7 +396,7 @@ function renderBody(
   if (type === "ACTION") {
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
             {message.messageNumber != null && (
               <>

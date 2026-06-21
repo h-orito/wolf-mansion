@@ -6,7 +6,7 @@ export type PageState = {
 };
 
 const itemBaseClass =
-  "-ml-px border border-transparent px-[14px] py-[2px] text-[12px] text-white first:ml-0 first:rounded-l-[4px] last:rounded-r-[4px] border-l-[#009c6c] mb-[2px]";
+  "-ml-px border border-transparent px-[14px] py-[2px] text-white first:ml-0 first:rounded-l-[4px] last:rounded-r-[4px] border-l-[#009c6c] mb-[2px]";
 const enabledClass = `${itemBaseClass} cursor-pointer bg-[#00bc8c] hover:bg-[#00dba3]`;
 const activeClass = `${itemBaseClass} bg-[#00dba3]`;
 const disabledClass = `${itemBaseClass} cursor-not-allowed bg-[#007053]`;

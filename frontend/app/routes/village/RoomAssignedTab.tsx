@@ -24,7 +24,7 @@ export function RoomAssignedTab({
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
-        <table className={`${cellBorderClass} border-collapse text-[10.32px]`}>
+        <table className={`${cellBorderClass} border-collapse text-village-sm`}>
           <tbody>
             {rows.map((row, rowIndex) => (
               <tr key={rowIndex}>
@@ -86,7 +86,7 @@ export function RoomAssignedTab({
       </div>
       {situationList.length > 0 && (
         <div className="mt-[10px]">
-          <table className={`${cellBorderClass} border-collapse text-[10.32px]`}>
+          <table className={`${cellBorderClass} border-collapse text-village-sm`}>
             <thead>
               <tr>
                 <th className={`${cellBorderClass} p-[5px] text-center`}>日付</th>

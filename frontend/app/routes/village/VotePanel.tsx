@@ -44,7 +44,7 @@ export function VotePanel({
       headerClassName={isUnset ? "bg-[#ff0000]" : "bg-[#464545]"}
       headerExtra={isUnset ? "(未セットのままだと突然死します)" : null}
     >
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <p>現在の投票先: {vote.targetName ?? "なし"}</p>
         <hr className="border-[#464545]" />

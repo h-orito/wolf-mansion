@@ -67,18 +67,18 @@ export function ActionPanel({
           </select>
           <input
             type="text"
-            className="h-[30px] min-w-[200px] flex-1 rounded border border-[#464545] bg-white p-[6px] text-[12px] text-[#555]"
+            className="h-[30px] min-w-[200px] flex-1 rounded border border-[#464545] bg-white p-[6px] text-[#555]"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-label="アクション本文"
           />
         </div>
-        <div className={`mt-[5px] text-[12px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+        <div className={`mt-[5px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
           {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
           文字数: {totalLength}/{maxLength}
         </div>
         <div className="mt-[10px] flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-[5px] text-[12px]">
+          <label className="flex cursor-pointer items-center gap-[5px]">
             <input
               type="checkbox"
               checked={convertDisable}

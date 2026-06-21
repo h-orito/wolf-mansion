@@ -45,7 +45,7 @@ export function SituationPanel({
           aria-expanded={open}
           aria-controls={bodyId}
           onClick={() => setOpen((v) => !v)}
-          className="cursor-pointer text-[15px] text-white hover:underline"
+          className="cursor-pointer text-white hover:underline"
         >
           状況
         </button>
@@ -58,7 +58,7 @@ export function SituationPanel({
                 <button
                   type="button"
                   onClick={() => setActiveTab(tab.key)}
-                  className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] text-[12px] ${
+                  className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] ${
                     activeTab === tab.key
                       ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
                       : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"

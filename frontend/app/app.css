@@ -12,6 +12,8 @@
   --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
   --color-wm-accent: #0ce3ac; /* アクセント (hover 文字・枠 / 誰歓タグ) */
   --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤 */
+
+  --font-size-village-sm: 0.75em;
 }
 
 /* ロゴフォント (font-anima)。frontend (/wolf-mansion) 配信の public/app/font の woff を参照する。 */

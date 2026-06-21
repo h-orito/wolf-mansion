@@ -132,20 +132,20 @@ export function ParticipatePanel({
               dangerouslySetInnerHTML={{ __html: previewHtml }}
             />
           </div>
-          <div className="mt-[10px] text-[12px]">
+          <div className="mt-[10px]">
             <p>
               キャラクター: {charaName} ({charaShortName}){spectator && " / 見学者として入村"}
             </p>
           </div>
           {isOriginal && (
             <div className="mt-[10px]">
-              <label className="block text-[12px]">
+              <label className="block">
                 キャラクター画像 (必須、100KB まで)
                 <input ref={fileRef} type="file" accept="image/*" className="mt-[5px] block" />
               </label>
             </div>
           )}
-          <div className="mt-[15px] space-y-[5px] text-[12px]">
+          <div className="mt-[15px] space-y-[5px]">
             <label className="flex cursor-pointer items-center gap-[5px]">
               <input
                 type="checkbox"
@@ -178,7 +178,7 @@ export function ParticipatePanel({
 
   return (
     <Panel title="入村">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {!isOriginal && (
           <>
             {charachips.length > 1 && (

@@ -25,7 +25,7 @@ export function DebugPanel({
 }) {
   return (
     <Panel title="デバッグメニュー">
-      <div className="space-y-[20px] text-[12px]">
+      <div className="space-y-[20px]">
         {currentDay === 0 && <ParticipateSection villageId={villageId} onDone={onDone} />}
         <DayChangeSection villageId={villageId} onDone={onDone} />
         <DummyLoginSection players={debugInfo.players} />

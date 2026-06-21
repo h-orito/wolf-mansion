@@ -17,7 +17,7 @@ export function FootstepTab({
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
-        <table className={`${cellBorderClass} border-collapse text-[10.32px]`}>
+        <table className={`${cellBorderClass} border-collapse text-village-sm`}>
           <tbody>
             {roomAssignedRows && (
               <tr>

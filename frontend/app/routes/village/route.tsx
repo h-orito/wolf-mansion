@@ -123,7 +123,7 @@ function TweetButton({ village }: { village: VillageDetailView }) {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="rounded-full bg-[#1d9bf0] px-[12px] py-[4px] text-[11px] font-bold text-white hover:bg-[#0c7abf]"
+      className="rounded-full bg-[#1d9bf0] px-[12px] py-[4px] font-bold text-white hover:bg-[#0c7abf]"
     >
       ツイート
     </a>
@@ -335,7 +335,7 @@ export default function Village({ params }: Route.ComponentProps) {
       <div className={`px-[15px] pb-[45px] ${largeText ? "text-[150%]" : ""}`}>
         {/* 村タイトル */}
         <div className="flex">
-          <h1 className="my-[10.5px] flex-1 text-[15px] font-normal">
+          <h1 className="my-[10.5px] flex-1 text-[1.125em]">
             {villageNumber(village.id)}. {village.name}
           </h1>
           <div className="my-[10.5px]">

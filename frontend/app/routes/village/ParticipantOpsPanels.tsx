@@ -40,7 +40,7 @@ export function SwitchParticipatePanel({
   };
   return (
     <Panel title="参加見学切り替え">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
@@ -92,7 +92,7 @@ export function ChangeSkillPanel({
 
   return (
     <Panel title="役職希望">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <p>
           現在の役職希望: {currentFirst}/{currentSecond}
@@ -165,7 +165,7 @@ export function LeavePanel({
   };
   return (
     <Panel title="退村">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button variant="danger" onClick={submit} disabled={submitting}>

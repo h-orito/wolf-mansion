@@ -137,7 +137,7 @@ export function AbilityPanel({
 
   return (
     <Panel title="役職">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         {ability.targetingMessage != null && <p>{ability.targetingMessage}</p>}
 
@@ -149,7 +149,7 @@ export function AbilityPanel({
             </p>
             {roomAssignedRows != null && (
               <div className="mt-[10px] overflow-x-auto">
-                <table className="border-collapse border border-[#464545] text-[10.32px]">
+                <table className="border-collapse border border-[#464545] text-village-sm">
                   <tbody>
                     {roomAssignedRows.map((row, rowIndex) => (
                       <tr key={rowIndex}>

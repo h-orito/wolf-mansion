@@ -232,7 +232,7 @@ export function SayPanel({
                 <button
                   key={t.code}
                   type="button"
-                  className={`not-first:-ml-px cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] text-[13px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
+                  className={`not-first:-ml-px cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
                     active
                       ? "bg-[#00bc8c] text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
                       : "bg-[#222222] text-[#00bc8c]"
@@ -275,7 +275,7 @@ export function SayPanel({
             <button
               key={tag.name}
               type="button"
-              className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-[12px] text-white hover:opacity-90"
+              className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white hover:opacity-90"
               style={tag.color != null ? { color: tag.color } : undefined}
               onClick={() => addDecoration(tag.name)}
             >
@@ -284,7 +284,7 @@ export function SayPanel({
           ))}
           <button
             type="button"
-            className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-[12px] text-white hover:opacity-90"
+            className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white hover:opacity-90"
             onClick={() => insertAtCursor("[[]]")}
           >
             [[]]
@@ -316,7 +316,7 @@ export function SayPanel({
           </div>
           <textarea
             ref={textareaRef}
-            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] text-[12px] ${textareaStyle}`}
+            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] ${textareaStyle}`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-label="発言"
@@ -324,13 +324,13 @@ export function SayPanel({
         </div>
 
         {/* 文字数・行数・残数 */}
-        <div className={`mt-[5px] ml-[55px] text-[12px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+        <div className={`mt-[5px] ml-[55px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
           {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
           文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
         </div>
 
         <div className="mt-[10px] flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-[5px] text-[12px]">
+          <label className="flex cursor-pointer items-center gap-[5px]">
             <input
               type="checkbox"
               checked={convertDisable}

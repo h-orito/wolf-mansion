@@ -5,7 +5,7 @@ const cellBorderClass = "border border-[#464545]";
 function MemberTable({ group }: { group: VillageMemberContent }) {
   const members = group.statusMemberList ?? [];
   return (
-    <table className={`${cellBorderClass} mb-[21px] w-full border-collapse text-[10.32px]`}>
+    <table className={`${cellBorderClass} mb-[21px] w-full border-collapse text-village-sm`}>
       <tbody>
         <tr>
           <th className={`${cellBorderClass} p-[5px] text-left align-top`}>

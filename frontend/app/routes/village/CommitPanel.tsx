@@ -35,7 +35,7 @@ export function CommitPanel({
 
   return (
     <Panel title="コミット">
-      <div className="space-y-[10px] text-[12px]">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>

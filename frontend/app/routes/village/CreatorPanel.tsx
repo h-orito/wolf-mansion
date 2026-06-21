@@ -40,7 +40,7 @@ export function CreatorPanel({
 
   return (
     <Panel title="村建て機能">
-      <div className="space-y-[20px] text-[12px]">
+      <div className="space-y-[20px]">
         {creator.isAvailableKick && (
           <KickSection
             villageId={villageId}
@@ -211,17 +211,17 @@ function CreatorSaySection({
       <p className="mb-[5px] font-bold">村建て発言</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
       <textarea
-        className="w-full rounded border border-[#464545] bg-white p-[9px] text-[12px] text-[#555]"
+        className="w-full rounded border border-[#464545] bg-white p-[9px] text-[#555]"
         rows={5}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         aria-label="村建て発言"
       />
-      <div className={`mt-[5px] text-[12px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+      <div className={`mt-[5px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
         文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
       </div>
       <div className="mt-[10px] flex items-center justify-between">
-        <label className="flex cursor-pointer items-center gap-[5px] text-[12px]">
+        <label className="flex cursor-pointer items-center gap-[5px]">
           <input
             type="checkbox"
             checked={convertDisable}

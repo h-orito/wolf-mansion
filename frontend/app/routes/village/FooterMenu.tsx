@@ -9,7 +9,7 @@ import {
 import type { ReactNode } from "react";
 
 const buttonBaseClass =
-  "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] bg-wm-base px-[5px] pt-[4px] pb-[4px] text-[13px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px]";
+  "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] bg-wm-base px-[5px] pt-[4px] pb-[4px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px]";
 
 function MenuButton({
   icon,
