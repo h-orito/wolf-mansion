@@ -8,6 +8,8 @@ import {
 } from "@heroicons/react/24/outline";
 import type { ReactNode } from "react";
 
+import { useVillageScroll } from "./useVillageScroll";
+
 const buttonBaseClass =
   "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] bg-wm-base px-[5px] pt-[4px] pb-[4px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px]";
 
@@ -63,11 +65,7 @@ export function FooterMenu({
   onInfo?: () => void;
 }) {
   const iconClass = "h-[14px] w-[14px]";
-  const gotoTop = () => window.scrollTo({ top: 0 });
-  const gotoBottom = () => {
-    const bottom = document.getElementById("bottom");
-    if (bottom) bottom.scrollIntoView();
-  };
+  const { scrollToTop, scrollToBottom } = useVillageScroll();
 
   return (
     <div className="fixed bottom-0 left-0 z-20 w-screen">
@@ -75,12 +73,12 @@ export function FooterMenu({
         <MenuButton
           icon={<ArrowUpIcon className={iconClass} />}
           label="最上部へ"
-          onClick={gotoTop}
+          onClick={scrollToTop}
         />
         <MenuButton
           icon={<ArrowDownIcon className={iconClass} />}
           label="最下部へ"
-          onClick={gotoBottom}
+          onClick={scrollToBottom}
         />
         <MenuButton
           icon={<ArrowPathIcon className={`${iconClass} ${hasNewMessage ? "flash" : ""}`} />}

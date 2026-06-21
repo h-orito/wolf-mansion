@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
@@ -62,6 +62,7 @@ import { SettingsModal } from "./SettingsModal";
 import { VillageInfoModal } from "./VillageInfoModal";
 import { SituationPanel } from "./SituationPanel";
 import { useCountdown } from "./useCountdown";
+import { useVillageScroll } from "./useVillageScroll";
 import { VotePanel } from "./VotePanel";
 import type { Route } from "./+types/route";
 
@@ -134,6 +135,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const dayParam = params.day != null ? Number(params.day) : undefined;
 
+  const { scrollToBottom } = useVillageScroll();
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
@@ -183,7 +185,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const [saySubmitting, setSaySubmitting] = useState(false);
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
-    document.getElementById("say-panel")?.scrollIntoView();
+    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, []);
   const onSayConfirm = async (request: VillageSayRequest) => {
     setSayError(null);
@@ -195,7 +197,7 @@ export default function Village({ params }: Route.ComponentProps) {
       }
       setSayPreview({ kind: "say", message: response.message, request });
       requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
+        scrollToBottom(),
       );
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
@@ -211,7 +213,7 @@ export default function Village({ params }: Route.ComponentProps) {
       }
       setSayPreview({ kind: "action", message: response.message, request });
       requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
+        scrollToBottom(),
       );
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
@@ -227,7 +229,7 @@ export default function Village({ params }: Route.ComponentProps) {
       }
       setSayPreview({ kind: "creatorSay", message: response.message, request });
       requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
+        scrollToBottom(),
       );
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
@@ -249,7 +251,9 @@ export default function Village({ params }: Route.ComponentProps) {
       setSayPreview(null);
       setReply(null);
       await invalidate();
-      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+      requestAnimationFrame(() =>
+        scrollToBottom(),
+      );
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
     } finally {
@@ -258,14 +262,16 @@ export default function Village({ params }: Route.ComponentProps) {
   };
   const onSayCancel = () => {
     setSayPreview(null);
-    document.getElementById("say-panel")?.scrollIntoView();
+    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
   const [participateError, setParticipateError] = useState<string | null>(null);
   const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
     try {
       await participateVillage(villageId, request, charaImage);
       await invalidate();
-      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+      requestAnimationFrame(() =>
+        scrollToBottom(),
+      );
     } catch (e) {
       setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
       throw e;
@@ -279,8 +285,15 @@ export default function Village({ params }: Route.ComponentProps) {
 
   // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
+  const hashScrolled = useRef(false);
   const onMessagesLoaded = useCallback(
-    (content: VillageMessageListContent) => setLoadedMessages(content),
+    (content: VillageMessageListContent) => {
+      setLoadedMessages(content);
+      if (!hashScrolled.current && window.location.hash === "#bottom") {
+        hashScrolled.current = true;
+        setTimeout(() => scrollToBottom(false), 0);
+      }
+    },
     [],
   );
   const hasNewMessage = useNewMessageDetector(
@@ -309,6 +322,7 @@ export default function Village({ params }: Route.ComponentProps) {
   useEffect(() => {
     if (village != null) document.title = `WOLF MANSION | ${village.name}`;
   }, [village]);
+
 
   if (villageError instanceof ApiError && villageError.status === 404) {
     return (
@@ -394,10 +408,8 @@ export default function Village({ params }: Route.ComponentProps) {
             広告（移行中はプレースホルダー）
           </div>
         )}
-        <hr className="mt-[5px] mb-[10px] border-[#464545]" />
-
-        {/* 最下部への移動先 (発言後のスクロール先) */}
         <div id="bottom" />
+        <hr className="mt-[5px] mb-[10px] border-[#464545]" />
 
         {situation != null && (
           <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
