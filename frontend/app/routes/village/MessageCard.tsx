@@ -201,7 +201,7 @@ export function MessageCard({
   );
 
   return (
-    <div className="mb-[20px]">
+    <div>
       {body}
       {expandedAnchors
         .filter((a) => a.visible)
@@ -308,7 +308,7 @@ function renderBody(
           <span>&nbsp;{formatMessageTime(message.messageDatetime)}</span>
         </div>
         <div className="flex">
-          <div className="mb-[20px]">
+          <div>
             {message.characterImageUrl != null && (
               <img
                 src={message.characterImageUrl}
@@ -320,7 +320,6 @@ function renderBody(
           </div>
           <div
             className={`ml-[5px] flex-1 ${bubbleClass(sayVariant.styleKey)} ${loud ? "loud" : ""}`}
-            style={message.height != null ? { minHeight: message.height } : undefined}
             onClick={onContentClick}
           >
             {rainbow ? <StableHtml className="rainbow" html={html} /> : <StableHtml html={html} />}
@@ -386,7 +385,7 @@ function renderBody(
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
         <StableHtml
-          className={bubbleClass("message-creator")}
+          className={`mb-[20px] ${bubbleClass("message-creator")}`}
           onClick={onContentClick}
           html={html}
         />
@@ -418,7 +417,7 @@ function renderBody(
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
         <StableHtml
-          className={bubbleClass("message-action")}
+          className={`mb-[20px] ${bubbleClass("message-action")}`}
           onClick={onContentClick}
           html={html}
         />
@@ -428,7 +427,7 @@ function renderBody(
 
   if (type === "PARTICIPANTS") {
     return (
-      <div className={bubbleClass("message-public-system")}>
+      <div className={`mb-[20px] ${bubbleClass("message-public-system")}`}>
         <ParticipantsTable villageId={villageId} />
       </div>
     );
@@ -436,7 +435,11 @@ function renderBody(
 
   const systemStyleKey = SYSTEM_VARIANTS[type] ?? "message-public-system";
   return (
-    <StableHtml className={bubbleClass(systemStyleKey)} onClick={onContentClick} html={html} />
+    <StableHtml
+      className={`mb-[20px] ${bubbleClass(systemStyleKey)}`}
+      onClick={onContentClick}
+      html={html}
+    />
   );
 }
 
