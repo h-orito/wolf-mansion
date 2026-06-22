@@ -280,13 +280,16 @@ export default function Village({ params }: Route.ComponentProps) {
   // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
   const hashScrolled = useRef(false);
-  const onMessagesLoaded = useCallback((content: VillageMessageListContent) => {
-    setLoadedMessages(content);
-    if (!hashScrolled.current && window.location.hash === "#bottom") {
-      hashScrolled.current = true;
-      setTimeout(() => scrollToBottom(false), 0);
-    }
-  }, [scrollToBottom]);
+  const onMessagesLoaded = useCallback(
+    (content: VillageMessageListContent) => {
+      setLoadedMessages(content);
+      if (!hashScrolled.current && window.location.hash === "#bottom") {
+        hashScrolled.current = true;
+        setTimeout(() => scrollToBottom(false), 0);
+      }
+    },
+    [scrollToBottom],
+  );
   const hasNewMessage = useNewMessageDetector(
     villageId,
     dayParam,

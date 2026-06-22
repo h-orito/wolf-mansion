@@ -97,37 +97,35 @@ export function ChangeSkillPanel({
         <p>
           現在の役職希望: {currentFirst}/{currentSecond}
         </p>
-        <div className="flex gap-[10px]">
-          <label className="flex-1">
-            第一役職希望
-            <select
-              className={`${selectClass} mt-[5px]`}
-              value={first}
-              onChange={(e) => setFirst(e.target.value)}
-              aria-label="第一役職希望"
-            >
-              {skills.map((skill) => (
-                <option key={skill.code} value={skill.code}>
-                  {skill.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex-1">
-            第二役職希望
-            <select
-              className={`${selectClass} mt-[5px]`}
-              value={second}
-              onChange={(e) => setSecond(e.target.value)}
-              aria-label="第二役職希望"
-            >
-              {skills.map((skill) => (
-                <option key={skill.code} value={skill.code}>
-                  {skill.name}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px]">第一役職希望</label>
+          <select
+            className={`${selectClass} mt-[5px] sm:mt-0`}
+            value={first}
+            onChange={(e) => setFirst(e.target.value)}
+            aria-label="第一役職希望"
+          >
+            {skills.map((skill) => (
+              <option key={skill.code} value={skill.code}>
+                {skill.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px]">第二役職希望</label>
+          <select
+            className={`${selectClass} mt-[5px] sm:mt-0`}
+            value={second}
+            onChange={(e) => setSecond(e.target.value)}
+            aria-label="第二役職希望"
+          >
+            {skills.map((skill) => (
+              <option key={skill.code} value={skill.code}>
+                {skill.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>

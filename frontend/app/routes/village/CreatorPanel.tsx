@@ -117,20 +117,20 @@ function KickSection({
         </tbody>
       </table>
       <p className="mb-[5px] font-bold">強制退村</p>
-      <div className="flex flex-wrap items-center gap-[5px]">
-        <select
-          className={selectClass}
-          value={selectedCharaId}
-          onChange={(e) => setSelectedCharaId(e.target.value)}
-          aria-label="退村させる参加者"
-        >
-          <option value="">選択してください</option>
-          {participants.map((p) => (
-            <option key={p.charaId} value={p.charaId}>
-              {p.name}
-            </option>
-          ))}
-        </select>
+      <select
+        className={selectClass}
+        value={selectedCharaId}
+        onChange={(e) => setSelectedCharaId(e.target.value)}
+        aria-label="退村させる参加者"
+      >
+        <option value="">選択してください</option>
+        {participants.map((p) => (
+          <option key={p.charaId} value={p.charaId}>
+            {p.name}
+          </option>
+        ))}
+      </select>
+      <div className="mt-[5px] flex justify-end">
         <Button variant="danger" onClick={submit} disabled={submitting || selectedCharaId === ""}>
           退村させる
         </Button>
@@ -281,20 +281,28 @@ function EpilogueSection({
   };
 
   return (
-    <div>
+    <div className="space-y-[10px]">
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex gap-[5px]">
-        {canExtend && (
-          <Button onClick={extend} disabled={submitting}>
-            1日延長する
-          </Button>
-        )}
-        {canShorten && (
-          <Button onClick={shorten} disabled={submitting}>
-            1日短縮する
-          </Button>
-        )}
-      </div>
+      {canExtend && (
+        <div>
+          <p className="mb-[5px] font-bold">エピローグ延長</p>
+          <div className="flex justify-end">
+            <Button onClick={extend} disabled={submitting}>
+              1日延長する
+            </Button>
+          </div>
+        </div>
+      )}
+      {canShorten && (
+        <div>
+          <p className="mb-[5px] font-bold">エピローグ短縮</p>
+          <div className="flex justify-end">
+            <Button onClick={shorten} disabled={submitting}>
+              1日短縮する
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

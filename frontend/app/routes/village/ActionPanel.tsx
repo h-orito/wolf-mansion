@@ -46,33 +46,32 @@ export function ActionPanel({
   return (
     <Panel title="アクション">
       <div>
-        <div className="mb-[10px] rounded border border-[#f39c12] p-[9px] text-[#f39c12]">
-          推理、まとめ、および推理に繋がる内容のアクションは禁止です。
-        </div>
-        <div className="flex flex-wrap items-center gap-[5px]">
-          <span>{prefix}</span>
-          <select
-            className={`${selectClass} max-w-[200px]`}
-            value={target}
-            onChange={(e) => setTarget(e.target.value)}
-            aria-label="アクションの対象"
-          >
-            <option value="">選択しない</option>
-            <option value="全員">全員</option>
-            {targets.map((name) => (
-              <option key={name} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>
-          <input
-            type="text"
-            className="h-[30px] min-w-[200px] flex-1 rounded border border-[#464545] bg-white p-[6px] text-[#555]"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            aria-label="アクション本文"
-          />
-        </div>
+        <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
+          <li>進行中は、推理、まとめ、および推理に繋がる内容は発言しないでください。</li>
+        </ul>
+        <p>{prefix}</p>
+        <select
+          className={selectClass}
+          value={target}
+          onChange={(e) => setTarget(e.target.value)}
+          aria-label="アクションの対象"
+        >
+          <option value="">選択しない</option>
+          <option value="全員">全員</option>
+          {targets.map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        </select>
+        <input
+          type="text"
+          className="mt-[10px] w-full rounded border border-[#464545] bg-white p-[6px] text-[#555]"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          aria-label="アクション本文"
+          placeholder="自由入力"
+        />
         <div className={`mt-[5px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
           {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
           文字数: {totalLength}/{maxLength}

@@ -62,10 +62,13 @@ function AccessSection({
 
   return (
     <div>
+      <p className="mb-[5px] font-bold">全員アクセス</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <Button onClick={submit} disabled={submitting}>
-        全員アクセス
-      </Button>
+      <div className="flex justify-end">
+        <Button onClick={submit} disabled={submitting}>
+          更新
+        </Button>
+      </div>
     </div>
   );
 }
@@ -96,10 +99,13 @@ function SelfVoteSection({
 
   return (
     <div>
+      <p className="mb-[5px] font-bold">全員自投票</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <Button onClick={submit} disabled={submitting}>
-        全員自分投票
-      </Button>
+      <div className="flex justify-end">
+        <Button onClick={submit} disabled={submitting}>
+          全員投票
+        </Button>
+      </div>
     </div>
   );
 }
@@ -135,16 +141,15 @@ function LeaveSection({
     <div>
       <p className="mb-[5px] font-bold">強制退村</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex flex-wrap items-center gap-[5px]">
-        <input
-          type="number"
-          className={inlineInputClass}
-          style={{ width: "100px" }}
-          value={villagePlayerId}
-          onChange={(e) => setVillagePlayerId(e.target.value)}
-          aria-label="村参加者ID"
-          placeholder="村参加者ID"
-        />
+      <input
+        type="number"
+        className={inlineInputClass}
+        value={villagePlayerId}
+        onChange={(e) => setVillagePlayerId(e.target.value)}
+        aria-label="村参加者ID"
+        placeholder="village_player_id"
+      />
+      <div className="mt-[5px] flex justify-end">
         <Button variant="danger" onClick={submit} disabled={submitting || villagePlayerId === ""}>
           退村させる
         </Button>

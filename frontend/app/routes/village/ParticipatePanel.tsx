@@ -182,10 +182,10 @@ export function ParticipatePanel({
         {!isOriginal && (
           <>
             {charachips.length > 1 && (
-              <div>
-                <label className="mb-[5px] block">キャラセット</label>
+              <div className="sm:flex sm:items-center sm:gap-[10px]">
+                <label className="sm:w-[120px]">キャラセット</label>
                 <select
-                  className={selectClass}
+                  className={`${selectClass} mt-[5px] sm:mt-0`}
                   value={charachipId ?? ""}
                   onChange={(e) => {
                     setCharachipId(Number(e.target.value));
@@ -201,10 +201,10 @@ export function ParticipatePanel({
                 </select>
               </div>
             )}
-            <div>
-              <label className="mb-[5px] block">キャラクター</label>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[120px]">キャラクター</label>
               <select
-                className={selectClass}
+                className={`${selectClass} mt-[5px] sm:mt-0`}
                 value={charaId ?? ""}
                 onChange={(e) => selectChara(e.target.value === "" ? null : Number(e.target.value))}
                 aria-label="キャラクター"
@@ -230,34 +230,32 @@ export function ParticipatePanel({
         {isOriginal && (
           <p>この村はオリジナルキャラクター制です。キャラクター画像は確認画面で選択します。</p>
         )}
-        <div className="flex gap-[10px]">
-          <label className="flex-1">
-            キャラクター名 (1〜40 字)
-            <input
-              type="text"
-              className={`${inputClass} mt-[5px]`}
-              value={charaName}
-              onChange={(e) => setCharaName(e.target.value)}
-              aria-label="キャラクター名"
-            />
-          </label>
-          <label className="w-[120px]">
-            略称 (1 字)
-            <input
-              type="text"
-              className={`${inlineInputClass} mt-[5px] w-full`}
-              value={charaShortName}
-              onChange={(e) => setCharaShortName(e.target.value)}
-              aria-label="略称"
-            />
-          </label>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px]">キャラクター名</label>
+          <input
+            type="text"
+            className={`${inputClass} mt-[5px] sm:mt-0`}
+            value={charaName}
+            onChange={(e) => setCharaName(e.target.value)}
+            aria-label="キャラクター名"
+          />
+        </div>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px]">略称</label>
+          <input
+            type="text"
+            className={`${inlineInputClass} mt-[5px] sm:mt-0`}
+            value={charaShortName}
+            onChange={(e) => setCharaShortName(e.target.value)}
+            aria-label="略称"
+          />
         </div>
         {skillRequest.isAvailableSkillRequest && (
-          <div className="flex gap-[10px]">
-            <label className="flex-1">
-              第 1 希望役職
+          <>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[120px]">役職第一希望</label>
               <select
-                className={`${selectClass} mt-[5px]`}
+                className={`${selectClass} mt-[5px] sm:mt-0`}
                 value={requestedSkill}
                 onChange={(e) => setRequestedSkill(e.target.value)}
                 aria-label="第1希望役職"
@@ -268,11 +266,11 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </label>
-            <label className="flex-1">
-              第 2 希望役職
+            </div>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[120px]">役職第二希望</label>
               <select
-                className={`${selectClass} mt-[5px]`}
+                className={`${selectClass} mt-[5px] sm:mt-0`}
                 value={secondRequestedSkill}
                 onChange={(e) => setSecondRequestedSkill(e.target.value)}
                 aria-label="第2希望役職"
@@ -283,31 +281,31 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </label>
-          </div>
+            </div>
+          </>
         )}
-        <label className="block">
-          入村発言 (1〜400 字)
+        <div className="sm:flex sm:gap-[10px]">
+          <label className="sm:w-[120px] sm:pt-[5px]">発言</label>
           <textarea
-            className={`${textareaClass} mt-[5px] min-h-[100px]`}
+            className={`${textareaClass} mt-[5px] min-h-[100px] sm:mt-0 sm:flex-1`}
             value={joinMessage}
             onChange={(e) => setJoinMessage(e.target.value)}
             aria-label="入村発言"
           />
-        </label>
+        </div>
         <div className={overLimit ? "text-[#e74c3c]" : ""}>
           文字数: {length}/400, 行数: {lineCount}/20
         </div>
-        <label className="block">
-          入村パスワード (設定されている村のみ)
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px]">入村パスワード</label>
           <input
             type="text"
-            className={`${inputClass} mt-[5px]`}
+            className={`${inputClass} mt-[5px] sm:mt-0`}
             value={joinPassword}
             onChange={(e) => setJoinPassword(e.target.value)}
             aria-label="入村パスワード"
           />
-        </label>
+        </div>
         {participate.isAvailableSpectate && (
           <label className="flex cursor-pointer items-center gap-[5px]">
             <input type="checkbox" checked={spectator} onChange={() => setSpectator(!spectator)} />

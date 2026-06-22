@@ -64,10 +64,10 @@ function ParticipateSection({
     <div>
       <p className="mb-[5px] font-bold">入村させる</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex flex-wrap items-center gap-[5px]">
+      <div className="sm:flex sm:items-center sm:gap-[10px]">
         <input
           type="number"
-          className={inlineInputClass}
+          className={`${inlineInputClass} mt-[5px] sm:mt-0`}
           style={{ width: "80px" }}
           value={personNumber}
           min={1}
@@ -111,9 +111,11 @@ function DayChangeSection({
     <div>
       <p className="mb-[5px] font-bold">日付を進める</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <Button onClick={submit} disabled={submitting}>
-        日付を進める
-      </Button>
+      <div className="flex justify-end">
+        <Button onClick={submit} disabled={submitting}>
+          日付を進める
+        </Button>
+      </div>
     </div>
   );
 }
@@ -140,19 +142,19 @@ function DummyLoginSection({ players }: { players: VillageDebugView["players"] }
     <div>
       <p className="mb-[5px] font-bold">ダミーログイン</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex flex-wrap items-center gap-[5px]">
-        <select
-          className={`${selectClass} max-w-[240px]`}
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          aria-label="ダミーログインプレイヤー"
-        >
-          {players.map((p) => (
-            <option key={p.userId} value={p.userId}>
-              {p.label}
-            </option>
-          ))}
-        </select>
+      <select
+        className={selectClass}
+        value={userId}
+        onChange={(e) => setUserId(e.target.value)}
+        aria-label="ダミーログインプレイヤー"
+      >
+        {players.map((p) => (
+          <option key={p.userId} value={p.userId}>
+            {p.label}
+          </option>
+        ))}
+      </select>
+      <div className="mt-[5px] flex justify-end">
         <Button onClick={submit} disabled={submitting || userId === ""}>
           ログイン
         </Button>

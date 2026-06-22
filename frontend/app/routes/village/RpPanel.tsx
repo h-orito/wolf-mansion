@@ -75,28 +75,28 @@ function ChangeNameForm({
     <div className="space-y-[10px]">
       <strong>名前変更</strong>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <label className="block">
-        略称
+      <div className="sm:flex sm:items-center sm:gap-[10px]">
+        <label className="sm:w-[120px]">略称</label>
         <input
           type="text"
-          className={`${inputClass} mt-[5px]`}
+          className={`${inputClass} mt-[5px] sm:mt-0`}
           value={shortName}
           maxLength={1}
           onChange={(e) => setShortName(e.target.value)}
           aria-label="略称"
         />
-      </label>
-      <label className="block">
-        名前
+      </div>
+      <div className="sm:flex sm:items-center sm:gap-[10px]">
+        <label className="sm:w-[120px]">名前</label>
         <input
           type="text"
-          className={`${inputClass} mt-[5px]`}
+          className={`${inputClass} mt-[5px] sm:mt-0`}
           value={name}
           maxLength={40}
           onChange={(e) => setName(e.target.value)}
           aria-label="名前"
         />
-      </label>
+      </div>
       <div className="flex justify-end">
         <Button onClick={submit} disabled={submitting || name === "" || shortName === ""}>
           名前を変更する
@@ -137,17 +137,17 @@ function MemoForm({
     <div className="space-y-[10px]">
       <strong>簡易メモ変更</strong>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <label className="block">
-        簡易メモ
+      <div className="sm:flex sm:items-center sm:gap-[10px]">
+        <label className="sm:w-[120px]">簡易メモ</label>
         <input
           type="text"
-          className={`${inputClass} mt-[5px]`}
+          className={`${inputClass} mt-[5px] sm:mt-0`}
           value={memo}
           maxLength={20}
           onChange={(e) => setMemo(e.target.value)}
           aria-label="簡易メモ"
         />
-      </label>
+      </div>
       <div className="flex justify-end">
         <Button onClick={submit} disabled={submitting}>
           簡易メモを変更する

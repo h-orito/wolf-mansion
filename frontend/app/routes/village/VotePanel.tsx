@@ -49,9 +49,9 @@ export function VotePanel({
         <p>現在の投票先: {vote.targetName ?? "なし"}</p>
         <hr className="border-[#464545]" />
         <p>一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
-        <div className="flex flex-wrap items-center gap-[5px]">
+        <div>
           <select
-            className={`${selectClass} max-w-[240px]`}
+            className={selectClass}
             value={targetCharaId}
             onChange={(e) => setTargetCharaId(e.target.value)}
             aria-label="投票先"
@@ -62,8 +62,8 @@ export function VotePanel({
                 {target.name}
               </option>
             ))}
-          </select>
-          <span>に投票する</span>
+          </select>{" "}
+          に投票する
         </div>
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting || targetCharaId === ""}>
