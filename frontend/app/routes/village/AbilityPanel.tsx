@@ -142,6 +142,21 @@ export function AbilityPanel({
     <Panel title="役職">
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        {skill != null && (
+          <div className="rounded border border-[#00bc8c] p-[10px] text-village-sm">
+            <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
+            {mySituation.myself?.camp != null && (
+              <p>
+                あなたは <strong>{mySituation.myself.camp.name}</strong> です。
+              </p>
+            )}
+          </div>
+        )}
+        {mySituation.myself?.dead.isDead && (
+          <div className="rounded border border-[#e74c3c] p-[10px] text-village-sm text-[#e74c3c]">
+            あなたは死亡しました。
+          </div>
+        )}
         {ability.targetingMessage != null && <p>{ability.targetingMessage}</p>}
 
         {ability.canUseAbility && isDisturb && (

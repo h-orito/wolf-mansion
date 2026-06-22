@@ -1,6 +1,7 @@
 package com.ort.app.api.village.response
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import com.ort.app.api.view.village.VillageParticipantView
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachip
@@ -12,10 +13,8 @@ import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeS
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
 import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
-import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
-import com.ort.app.domain.model.village.participant.VillageParticipantNotificationCondition
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
@@ -28,7 +27,7 @@ import io.swagger.v3.oas.annotations.media.Schema
  */
 data class ParticipantSituationView(
     /** 参加している場合の自分自身 (未参加は null) */
-    val myself: MyselfView?,
+    val myself: VillageParticipantView?,
     val participate: ParticipateView,
     val skillRequest: SkillRequestView,
     val commit: CommitView,
@@ -40,7 +39,10 @@ data class ParticipantSituationView(
     val creator: CreatorView,
 ) {
     constructor(situation: ParticipantSituation, village: Village, charachips: Charachips) : this(
-        myself = situation.participate.myself?.let { MyselfView(it, charachips.chara(it.charaId)) },
+        myself =
+            situation.participate.myself?.let {
+                VillageParticipantView(it, charachips.chara(it.charaId), shouldHidePrivate = false)
+            },
         participate = ParticipateView(situation),
         skillRequest = SkillRequestView(situation),
         commit =
@@ -55,83 +57,6 @@ data class ParticipantSituationView(
         admin = AdminView(isAdmin = situation.admin.isAdmin),
         creator = CreatorView(situation),
     )
-
-    @Schema(name = "ParticipantSituationViewMyself")
-    data class MyselfView(
-        val id: Int,
-        val charaId: Int,
-        /** 部屋番号付きの表示名 */
-        val name: String,
-        val shortName: String,
-        val isDead: Boolean,
-        val isSpectator: Boolean,
-        val chara: Chara,
-        /** Discord 通知キーワード (スペース区切り、未設定は null)。発言抽出のショートカットが使う */
-        val notificationKeyword: String?,
-        /** Discord 通知設定 (本人にのみ返る。未設定は null)。設定フォームの初期値用 */
-        val notification: MyselfNotificationView?,
-        /** 自分の役職 (本人にのみ返る。未割当は null) */
-        val skill: MyselfSkillView?,
-    ) {
-        constructor(myself: VillageParticipant, chara: Chara) : this(
-            id = myself.id,
-            charaId = myself.charaId,
-            name = myself.name(),
-            shortName = myself.shortName(),
-            isDead = myself.dead.isDead,
-            isSpectator = myself.isSpectator,
-            chara = chara,
-            notificationKeyword =
-                myself.notification
-                    ?.message
-                    ?.keywords
-                    ?.takeIf { it.isNotEmpty() }
-                    ?.joinToString(separator = " "),
-            notification = myself.notification?.let { MyselfNotificationView(it) },
-            skill = myself.skill?.let { MyselfSkillView(it) },
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewMyselfNotification")
-    data class MyselfNotificationView(
-        val webhookUrl: String,
-        val villageStart: Boolean,
-        val villageDaychange: Boolean,
-        val villageEpilogue: Boolean,
-        val secretSay: Boolean,
-        val abilitySay: Boolean,
-        val anchorSay: Boolean,
-        /** キーワード (スペース区切り) */
-        val keyword: String,
-    ) {
-        constructor(notification: VillageParticipantNotificationCondition) : this(
-            webhookUrl = notification.discordWebhookUrl,
-            villageStart = notification.village.start,
-            villageDaychange = notification.village.dayChange,
-            villageEpilogue = notification.village.epilogue,
-            secretSay = notification.message.secretSay,
-            abilitySay = notification.message.abilitySay,
-            anchorSay = notification.message.anchor,
-            keyword = notification.message.keywords.joinToString(" "),
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewMyselfSkill")
-    data class MyselfSkillView(
-        val code: String,
-        val name: String,
-        /** 足音の調査能力を持つか (調査型の能力 UI) */
-        val hasInvestigateAbility: Boolean,
-        /** 徘徊能力を持つか (部屋選択の能力 UI) */
-        val hasDisturbAbility: Boolean,
-    ) {
-        constructor(skill: Skill) : this(
-            code = skill.code,
-            name = skill.name,
-            hasInvestigateAbility = skill.hasInvestigateAbility(),
-            hasDisturbAbility = skill.hasDisturbAbility(),
-        )
-    }
 
     @Schema(name = "ParticipantSituationViewParticipate")
     data class ParticipateView(

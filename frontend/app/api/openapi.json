@@ -2300,6 +2300,79 @@
         },
         "required": ["list"]
       },
+      "DeadHistoriesView": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DeadHistoryView"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "DeadHistoryView": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isDead": {
+            "type": "boolean"
+          },
+          "reason": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeadReasonView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["day", "isDead"]
+      },
+      "DeadReasonView": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "name"]
+      },
+      "DeadView": {
+        "type": "object",
+        "properties": {
+          "deadDay": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "histories": {
+            "$ref": "#/components/schemas/DeadHistoriesView"
+          },
+          "isDead": {
+            "type": "boolean"
+          },
+          "reason": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/DeadReasonView"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["histories", "isDead"]
+      },
       "Designer": {
         "type": "object",
         "properties": {
@@ -2414,6 +2487,27 @@
         },
         "required": ["authorities", "canCreateVillage", "name", "playerId"]
       },
+      "MessageCondition": {
+        "type": "object",
+        "properties": {
+          "abilitySay": {
+            "type": "boolean"
+          },
+          "anchor": {
+            "type": "boolean"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "secretSay": {
+            "type": "boolean"
+          }
+        },
+        "required": ["abilitySay", "anchor", "keywords", "secretSay"]
+      },
       "MessageType": {
         "type": "object",
         "properties": {
@@ -2512,7 +2606,7 @@
           "myself": {
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ParticipantSituationViewMyself"
+                "$ref": "#/components/schemas/VillageParticipantView"
               },
               {
                 "type": "null"
@@ -2709,115 +2803,6 @@
           "isAvailableShortenEpilogue",
           "isCreator"
         ]
-      },
-      "ParticipantSituationViewMyself": {
-        "type": "object",
-        "properties": {
-          "chara": {
-            "$ref": "#/components/schemas/Chara"
-          },
-          "charaId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isDead": {
-            "type": "boolean"
-          },
-          "isSpectator": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string"
-          },
-          "notification": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ParticipantSituationViewMyselfNotification"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "notificationKeyword": {
-            "type": ["string", "null"]
-          },
-          "shortName": {
-            "type": "string"
-          },
-          "skill": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ParticipantSituationViewMyselfSkill"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        },
-        "required": ["chara", "charaId", "id", "isDead", "isSpectator", "name", "shortName"]
-      },
-      "ParticipantSituationViewMyselfNotification": {
-        "type": "object",
-        "properties": {
-          "abilitySay": {
-            "type": "boolean"
-          },
-          "anchorSay": {
-            "type": "boolean"
-          },
-          "keyword": {
-            "type": "string"
-          },
-          "secretSay": {
-            "type": "boolean"
-          },
-          "villageDaychange": {
-            "type": "boolean"
-          },
-          "villageEpilogue": {
-            "type": "boolean"
-          },
-          "villageStart": {
-            "type": "boolean"
-          },
-          "webhookUrl": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "abilitySay",
-          "anchorSay",
-          "keyword",
-          "secretSay",
-          "villageDaychange",
-          "villageEpilogue",
-          "villageStart",
-          "webhookUrl"
-        ]
-      },
-      "ParticipantSituationViewMyselfSkill": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          },
-          "hasDisturbAbility": {
-            "type": "boolean"
-          },
-          "hasInvestigateAbility": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["code", "hasDisturbAbility", "hasInvestigateAbility", "name"]
       },
       "ParticipantSituationViewParticipate": {
         "type": "object",
@@ -3263,6 +3248,19 @@
         },
         "required": ["minNum"]
       },
+      "Room": {
+        "type": "object",
+        "properties": {
+          "histories": {
+            "$ref": "#/components/schemas/RoomHistories"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["histories", "number"]
+      },
       "RoomAssignmentResponse": {
         "type": "object",
         "properties": {
@@ -3283,6 +3281,32 @@
           }
         },
         "required": ["height", "roomNumbers", "width"]
+      },
+      "RoomHistories": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoomHistory"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "RoomHistory": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["day", "number"]
       },
       "RoomSize": {
         "type": "object",
@@ -3864,6 +3888,21 @@
           }
         },
         "required": ["commit"]
+      },
+      "VillageCondition": {
+        "type": "object",
+        "properties": {
+          "dayChange": {
+            "type": "boolean"
+          },
+          "epilogue": {
+            "type": "boolean"
+          },
+          "start": {
+            "type": "boolean"
+          }
+        },
+        "required": ["dayChange", "epilogue", "start"]
       },
       "VillageCreateRequest": {
         "type": "object",
@@ -4654,6 +4693,122 @@
           }
         },
         "required": ["deadStatus", "isSpectator", "name", "playerName", "skillName", "winStatus"]
+      },
+      "VillageParticipantName": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "shortName": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "shortName"]
+      },
+      "VillageParticipantNotificationCondition": {
+        "type": "object",
+        "properties": {
+          "discordWebhookUrl": {
+            "type": "string"
+          },
+          "message": {
+            "$ref": "#/components/schemas/MessageCondition"
+          },
+          "village": {
+            "$ref": "#/components/schemas/VillageCondition"
+          }
+        },
+        "required": ["discordWebhookUrl", "message", "village"]
+      },
+      "VillageParticipantView": {
+        "type": "object",
+        "properties": {
+          "camp": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Camp"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "chara": {
+            "$ref": "#/components/schemas/Chara"
+          },
+          "charaName": {
+            "$ref": "#/components/schemas/VillageParticipantName"
+          },
+          "dead": {
+            "$ref": "#/components/schemas/DeadView"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isSpectator": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "notification": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VillageParticipantNotificationCondition"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "room": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/Room"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shortName": {
+            "type": "string"
+          },
+          "skill": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/VillageParticipantViewSkill"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": ["chara", "charaName", "dead", "id", "isSpectator", "name", "shortName"]
+      },
+      "VillageParticipantViewSkill": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hasDisturbAbility": {
+            "type": "boolean"
+          },
+          "hasInvestigateAbility": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "description", "hasDisturbAbility", "hasInvestigateAbility", "name"]
       },
       "VillageParticipantsContent": {
         "type": "object",

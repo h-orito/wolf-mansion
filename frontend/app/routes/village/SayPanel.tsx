@@ -210,7 +210,7 @@ export function SayPanel({
   return (
     <Panel title="発言">
       <div>
-        {myself?.isDead && (
+        {myself?.dead.isDead && (
           <ul className="mb-[10px] list-disc rounded border border-[#3498db] py-[9px] pr-[9px] pl-[25px] text-[#3498db]">
             <li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
             {!village.setting.rule.isVisibleGraveSpectateMessage && (
@@ -218,8 +218,8 @@ export function SayPanel({
             )}
           </ul>
         )}
-        {(!myself?.isDead ||
-          (myself?.isDead && village.setting.rule.isVisibleGraveSpectateMessage)) && (
+        {(!myself?.dead.isDead ||
+          (myself?.dead.isDead && village.setting.rule.isVisibleGraveSpectateMessage)) && (
           <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
             {village.setting.rule.isVisibleGraveSpectateMessage && (
               <>
