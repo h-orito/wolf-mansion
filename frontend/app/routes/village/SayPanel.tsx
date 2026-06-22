@@ -208,7 +208,7 @@ export function SayPanel({
   };
 
   return (
-    <Panel title="発言">
+    <Panel title="発言" storageKey="sayform" fixable>
       <div>
         {myself?.dead.isDead && (
           <ul className="mb-[10px] list-disc rounded border border-[#3498db] py-[9px] pr-[9px] pl-[25px] text-[#3498db]">

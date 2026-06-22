@@ -139,7 +139,7 @@ export function AbilityPanel({
   const needsFootstepSelect = isAttack || ability.isTargetingAndFootstep;
 
   return (
-    <Panel title="役職">
+    <Panel title="役職" storageKey="skillform" fixable>
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         {skill != null && (

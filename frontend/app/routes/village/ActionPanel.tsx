@@ -44,7 +44,7 @@ export function ActionPanel({
   const submitDisabled = overLimit || message.trim().length === 0;
 
   return (
-    <Panel title="アクション">
+    <Panel title="アクション" storageKey="actionform" fixable>
       <div>
         <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
           <li>進行中は、推理、まとめ、および推理に繋がる内容は発言しないでください。</li>

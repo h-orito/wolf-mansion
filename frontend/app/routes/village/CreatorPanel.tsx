@@ -43,7 +43,7 @@ export function CreatorPanel({
   const creator = mySituation.creator;
 
   return (
-    <Panel title="村建て機能">
+    <Panel title="村建て機能" storageKey="creatorform" fixable>
       <div className="space-y-[15px]">
         {creator.isAvailableModifySetting && (
           <div className={rowClass}>

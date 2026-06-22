@@ -6,7 +6,7 @@ export type PageState = {
 };
 
 const itemBaseClass =
-  "-ml-px border border-transparent px-[14px] py-[2px] text-white first:ml-0 first:rounded-l-[4px] last:rounded-r-[4px] border-l-[#009c6c] mb-[2px]";
+  "-ml-px rounded-none border border-transparent px-[14px] py-[2px] text-white border-l-[#009c6c] mb-[2px]";
 const enabledClass = `${itemBaseClass} cursor-pointer bg-[#00bc8c] hover:bg-[#00dba3]`;
 const activeClass = `${itemBaseClass} bg-[#00dba3]`;
 const disabledClass = `${itemBaseClass} cursor-not-allowed bg-[#007053]`;
@@ -29,7 +29,7 @@ export function MessagePagination({
 
   return (
     <div className="flex justify-end">
-      <ul className="my-[10px] flex">
+      <ul className="my-[10px] flex [&>li:first-child>button]:ml-0 [&>li:first-child>button]:rounded-l-[4px] [&>li:last-child>button]:rounded-r-[4px]">
         <li>
           <button
             type="button"

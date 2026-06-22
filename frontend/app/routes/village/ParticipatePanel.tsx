@@ -116,7 +116,7 @@ export function ParticipatePanel({
   const charaNotSelected = !isOriginal && charaId == null;
 
   return (
-    <Panel title="入村">
+    <Panel title="入村" storageKey="participateform">
       <div className="space-y-[10px]">
         {/* 見学チェック (旧版: 最初に表示) */}
         {participate.isAvailableSpectate && (
@@ -372,7 +372,9 @@ export function ParticipatePanel({
                 <input ref={fileRef} type="file" accept="image/*" className="block" />
               </div>
             )}
-            <p className="text-village-sm">[{charaShortName}] {charaName}</p>
+            <p className="text-village-sm">
+              [{charaShortName}] {charaName}
+            </p>
             <div className="flex pt-[5px]">
               <div>
                 {chara != null && (

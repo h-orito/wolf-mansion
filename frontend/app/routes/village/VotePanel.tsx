@@ -44,6 +44,8 @@ export function VotePanel({
   return (
     <Panel
       title="投票"
+      storageKey="voteform"
+      fixable
       headerClassName={isUnset ? "bg-[#ff0000]" : "bg-[#464545]"}
       headerExtra={isUnset ? "(未セットのままだと突然死します)" : null}
     >

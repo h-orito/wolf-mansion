@@ -27,7 +27,7 @@ export function DebugPanel({
   onDone: () => Promise<unknown>;
 }) {
   return (
-    <Panel title="デバッグメニュー">
+    <Panel title="デバッグメニュー" storageKey="debugform">
       <div className="space-y-[15px]">
         {currentDay === 0 && <ParticipateSection villageId={villageId} onDone={onDone} />}
         <DayChangeSection villageId={villageId} onDone={onDone} />

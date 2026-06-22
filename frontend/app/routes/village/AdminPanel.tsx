@@ -27,7 +27,7 @@ export function AdminPanel({
   onDone: () => Promise<unknown>;
 }) {
   return (
-    <Panel title="管理者メニュー">
+    <Panel title="管理者メニュー" storageKey="adminform">
       <div className="space-y-[15px]">
         <AccessSection villageId={villageId} onDone={onDone} />
         <SelfVoteSection villageId={villageId} onDone={onDone} />

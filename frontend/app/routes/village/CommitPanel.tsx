@@ -37,7 +37,7 @@ export function CommitPanel({
   };
 
   return (
-    <Panel title="コミット">
+    <Panel title="コミット" storageKey="commitform">
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">

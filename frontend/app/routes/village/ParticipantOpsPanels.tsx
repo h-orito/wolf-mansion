@@ -42,7 +42,7 @@ export function SwitchParticipatePanel({
     }
   };
   return (
-    <Panel title="参加見学切り替え">
+    <Panel title="参加見学切り替え" storageKey="switchparticipateform">
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
@@ -96,7 +96,7 @@ export function ChangeSkillPanel({
   };
 
   return (
-    <Panel title="役職希望">
+    <Panel title="役職希望" storageKey="changeskillform">
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <p>
@@ -169,7 +169,7 @@ export function LeavePanel({
     }
   };
   return (
-    <Panel title="退村">
+    <Panel title="退村" storageKey="leaveform">
       <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">

@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useCallback, useId, useState, useSyncExternalStore } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
 import { FootstepTab } from "./FootstepTab";
@@ -7,6 +7,30 @@ import { RoomAssignedTab } from "./RoomAssignedTab";
 import { VoteTab } from "./VoteTab";
 
 type TabKey = "room" | "member" | "vote" | "footstep";
+
+const STORAGE_KEY = "village_panel_situation";
+const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
+
+function subscribeStorage(key: string, cb: () => void) {
+  const handler = (e: StorageEvent) => {
+    if (e.key === key) cb();
+  };
+  window.addEventListener("storage", handler);
+  return () => window.removeEventListener("storage", handler);
+}
+
+function readStorage(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function writeStorage(key: string, value: string) {
+  localStorage.setItem(key, value);
+  window.dispatchEvent(new StorageEvent("storage", { key, newValue: value }));
+}
 
 /**
  * 状況サマリ。部屋割り / 参加者 / 投票 / 足音 をタブで切り替える。
@@ -26,9 +50,35 @@ export function SituationPanel({
   const hasVoteTab = situation.vote != null;
   const hasFootstepTab = (situation.footstepList ?? []).length > 0;
 
-  const [open, setOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState<TabKey>(hasRoomTab ? "room" : "member");
   const bodyId = useId();
+
+  const open = useSyncExternalStore(
+    useCallback((cb: () => void) => subscribeStorage(STORAGE_KEY, cb), []),
+    () => {
+      const v = readStorage(STORAGE_KEY);
+      return v == null ? true : v === "true";
+    },
+    () => true,
+  );
+
+  const isFixed = useSyncExternalStore(
+    useCallback((cb: () => void) => subscribeStorage(BOTTOM_FIX_KEY, cb), []),
+    () => readStorage(BOTTOM_FIX_KEY) === "situation",
+    () => false,
+  );
+
+  const toggle = useCallback(() => {
+    const v = readStorage(STORAGE_KEY);
+    const current = v == null ? true : v === "true";
+    writeStorage(STORAGE_KEY, String(!current));
+  }, []);
+
+  const toggleFix = useCallback(() => {
+    const current = readStorage(BOTTOM_FIX_KEY) ?? "";
+    writeStorage(BOTTOM_FIX_KEY, current === "situation" ? "" : "situation");
+  }, []);
+
+  const [activeTab, setActiveTab] = useState<TabKey>(hasRoomTab ? "room" : "member");
 
   const tabs: { key: TabKey; label: string }[] = [
     ...(hasRoomTab ? [{ key: "room" as const, label: "部屋割り当て" }] : []),
@@ -38,58 +88,74 @@ export function SituationPanel({
   ];
 
   return (
-    <div className="mb-[20px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
+    <div
+      className={`mb-[20px] rounded border border-[#464545] bg-[#303030] ${isFixed ? "fixed bottom-0 left-0 z-20 mb-0 w-screen max-h-[30vh] overflow-y-auto" : ""}`}
+    >
+      <div className="flex items-center rounded-t bg-[#464545] px-[15px] py-[10px]">
+        <div className="flex-1">
+          <button
+            type="button"
+            aria-expanded={open}
+            aria-controls={bodyId}
+            onClick={toggle}
+            className="cursor-pointer text-[15px] text-white hover:underline"
+          >
+            状況
+          </button>
+        </div>
         <button
           type="button"
-          aria-expanded={open}
-          aria-controls={bodyId}
-          onClick={() => setOpen((v) => !v)}
-          className="cursor-pointer text-white hover:underline"
+          onClick={toggleFix}
+          className="cursor-pointer text-[12px] text-white hover:underline"
         >
-          状況
+          {isFixed ? "固定解除" : "固定"}
         </button>
       </div>
-      {open && (
-        <div id={bodyId} className="p-[15px]">
-          <ul className="flex border-b border-[#464545]">
-            {tabs.map((tab) => (
-              <li key={tab.key} className="-mb-px">
-                <button
-                  type="button"
-                  onClick={() => setActiveTab(tab.key)}
-                  className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] ${
-                    activeTab === tab.key
-                      ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
-                      : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              </li>
-            ))}
-          </ul>
-          {activeTab === "room" && hasRoomTab && (
-            <RoomAssignedTab
-              rows={situation.roomAssignedRowList ?? []}
-              situationList={situation.situationList ?? []}
-              isViewableSpoilerContent={(situation.isViewableSpoilerContent ?? false) && !spoiled}
-              spoiled={spoiled}
-            />
-          )}
-          {activeTab === "member" && <MemberListTab memberList={situation.memberList ?? []} />}
-          {activeTab === "vote" && situation.vote != null && (
-            <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
-          )}
-          {activeTab === "footstep" && (
-            <FootstepTab
-              footstepList={situation.footstepList ?? []}
-              roomAssignedRows={situation.roomAssignedRowList}
-              spoiled={spoiled}
-            />
-          )}
+      <div
+        id={bodyId}
+        className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+      >
+        <div className="overflow-hidden">
+          <div className="p-[15px]">
+            <ul className="flex border-b border-[#464545]">
+              {tabs.map((tab) => (
+                <li key={tab.key} className="-mb-px">
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab(tab.key)}
+                    className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] ${
+                      activeTab === tab.key
+                        ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
+                        : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"
+                    }`}
+                  >
+                    {tab.label}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {activeTab === "room" && hasRoomTab && (
+              <RoomAssignedTab
+                rows={situation.roomAssignedRowList ?? []}
+                situationList={situation.situationList ?? []}
+                isViewableSpoilerContent={(situation.isViewableSpoilerContent ?? false) && !spoiled}
+                spoiled={spoiled}
+              />
+            )}
+            {activeTab === "member" && <MemberListTab memberList={situation.memberList ?? []} />}
+            {activeTab === "vote" && situation.vote != null && (
+              <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
+            )}
+            {activeTab === "footstep" && (
+              <FootstepTab
+                footstepList={situation.footstepList ?? []}
+                roomAssignedRows={situation.roomAssignedRowList}
+                spoiled={spoiled}
+              />
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
