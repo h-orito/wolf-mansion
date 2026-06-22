@@ -113,71 +113,6 @@ export function ParticipatePanel({
     }
   };
 
-  if (step === "confirm") {
-    return (
-      <Panel title="入村確認">
-        <div>
-          <p className="mb-[10px]">以下の内容で入村してよろしいですか？</p>
-          <div className="flex">
-            <div>
-              {chara != null && (
-                <img
-                  src={chara.imageUrl}
-                  width={chara.imageWidth}
-                  height={chara.imageHeight}
-                  alt={charaName}
-                />
-              )}
-            </div>
-            <div
-              className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
-              dangerouslySetInnerHTML={{ __html: previewHtml }}
-            />
-          </div>
-          <div className="mt-[10px]">
-            <p>
-              キャラクター: {charaName} ({charaShortName}){spectator && " / 見学者として入村"}
-            </p>
-          </div>
-          {isOriginal && (
-            <div className="mt-[10px]">
-              <label className="block">
-                キャラクター画像 (必須、100KB まで)
-                <input ref={fileRef} type="file" accept="image/*" className="mt-[5px] block" />
-              </label>
-            </div>
-          )}
-          <div className="mt-[15px] space-y-[5px]">
-            <label className="flex cursor-pointer items-center gap-[5px]">
-              <input
-                type="checkbox"
-                checked={agreeRule}
-                onChange={() => setAgreeRule(!agreeRule)}
-              />
-              ルールを確認し、同意します
-            </label>
-            <label className="flex cursor-pointer items-center gap-[5px]">
-              <input
-                type="checkbox"
-                checked={agreeMind}
-                onChange={() => setAgreeMind(!agreeMind)}
-              />
-              他の参加者への礼節を守り、迷惑をかけないことに同意します
-            </label>
-          </div>
-          <div className="mt-[15px] flex justify-end gap-[10px]">
-            <Button variant="default" onClick={() => setStep("input")}>
-              戻る
-            </Button>
-            <Button onClick={submit} disabled={!agreeRule || !agreeMind || submitting}>
-              入村する
-            </Button>
-          </div>
-        </div>
-      </Panel>
-    );
-  }
-
   const charaNotSelected = !isOriginal && charaId == null;
 
   return (
@@ -358,7 +293,7 @@ export function ParticipatePanel({
 
         <div className="flex justify-end">
           <Button onClick={toConfirm} disabled={confirmDisabled}>
-            入村確認画面へ
+            入村確認へ
           </Button>
         </div>
         {village.setting.rule.isPossibleSkillRequest && (
@@ -411,6 +346,83 @@ export function ParticipatePanel({
             <div className="mt-[10px] flex justify-end">
               <Button variant="default" onClick={() => setCharaModalOpen(false)}>
                 閉じる
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {step === "confirm" && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setStep("input")}
+        >
+          <div
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">入村確認</h4>
+            {isOriginal && (
+              <div className="mb-[10px]">
+                <ul className="mb-[5px] list-disc pl-[20px]">
+                  <li>
+                    画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
+                  </li>
+                  <li>100kByteを超える画像はアップロードできません。</li>
+                </ul>
+                <input ref={fileRef} type="file" accept="image/*" className="block" />
+              </div>
+            )}
+            <p className="text-village-sm">[{charaShortName}] {charaName}</p>
+            <div className="flex pt-[5px]">
+              <div>
+                {chara != null && (
+                  <img
+                    src={chara.imageUrl}
+                    width={chara.imageWidth}
+                    height={chara.imageHeight}
+                    alt={charaName}
+                  />
+                )}
+              </div>
+              <div
+                className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
+                style={chara != null ? { minHeight: chara.imageHeight } : undefined}
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+              />
+            </div>
+            <div className="mt-[10px] space-y-[5px]">
+              <label className="flex cursor-pointer items-start gap-[5px]">
+                <input
+                  type="checkbox"
+                  className="mt-[4px]"
+                  checked={agreeRule}
+                  onChange={() => setAgreeRule(!agreeRule)}
+                />
+                <span>
+                  <Link to="/rule" target="_blank" className="text-wm-accent hover:underline">
+                    ルール
+                  </Link>
+                  を確認し、人狼館の事件簿村ルール特有の禁止事項について理解しました。
+                </span>
+              </label>
+              <label className="flex cursor-pointer items-start gap-[5px]">
+                <input
+                  type="checkbox"
+                  className="mt-[4px]"
+                  checked={agreeMind}
+                  onChange={() => setAgreeMind(!agreeMind)}
+                />
+                <span>
+                  他者への礼節を欠いたり、正常な運営を妨げるような行為を行なった場合、管理人の裁量により処罰される可能性があることについて理解しました。
+                </span>
+              </label>
+            </div>
+            <div className="mt-[15px] flex justify-between">
+              <Button variant="default" onClick={() => setStep("input")}>
+                戻る
+              </Button>
+              <Button onClick={submit} disabled={!agreeRule || !agreeMind || submitting}>
+                入村する
               </Button>
             </div>
           </div>
