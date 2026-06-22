@@ -1,4 +1,4 @@
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
@@ -255,10 +255,10 @@ function renderBody(
         </div>
         <div className="flex">
           <div className="h-[77px] w-[50px] rounded-[5px] border border-white" />
-          <div
+          <StableHtml
             className={`ml-[5px] flex-1 ${bubbleClass("message-owl")}`}
             onClick={onContentClick}
-            dangerouslySetInnerHTML={{ __html: html }}
+            html={html}
           />
         </div>
       </div>
@@ -319,11 +319,7 @@ function renderBody(
             style={message.height != null ? { minHeight: message.height } : undefined}
             onClick={onContentClick}
           >
-            {rainbow ? (
-              <div className="rainbow" dangerouslySetInnerHTML={{ __html: html }} />
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-            )}
+            {rainbow ? <StableHtml className="rainbow" html={html} /> : <StableHtml html={html} />}
           </div>
         </div>
         {(message.canReply || message.canSecret) && (onReply != null || onSecret != null) && (
@@ -385,10 +381,10 @@ function renderBody(
           </span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
-        <div
+        <StableHtml
           className={bubbleClass("message-creator")}
           onClick={onContentClick}
-          dangerouslySetInnerHTML={{ __html: html }}
+          html={html}
         />
       </div>
     );
@@ -417,10 +413,10 @@ function renderBody(
           </span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
-        <div
+        <StableHtml
           className={bubbleClass("message-action")}
           onClick={onContentClick}
-          dangerouslySetInnerHTML={{ __html: html }}
+          html={html}
         />
       </div>
     );
@@ -436,10 +432,22 @@ function renderBody(
 
   const systemStyleKey = SYSTEM_VARIANTS[type] ?? "message-public-system";
   return (
-    <div
-      className={bubbleClass(systemStyleKey)}
-      onClick={onContentClick}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <StableHtml className={bubbleClass(systemStyleKey)} onClick={onContentClick} html={html} />
   );
+}
+
+function StableHtml({
+  html,
+  className,
+  onClick,
+}: {
+  html: string;
+  className?: string;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.innerHTML = html;
+  }, [html]);
+  return <div ref={ref} className={className} onClick={onClick} />;
 }
