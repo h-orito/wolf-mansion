@@ -208,24 +208,28 @@ export function MessageCard({
         .map((a) => (
           <div
             key={a.key}
-            className="relative mb-[10px] rounded border border-[#464545] bg-[#303030] p-[10px]"
+            className="mb-[10px] rounded border border-[#464545] bg-[#303030] p-[10px]"
           >
-            <button
-              type="button"
-              className="absolute top-[5px] right-[5px] cursor-pointer rounded border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white"
-              onClick={() =>
-                setExpandedAnchors((prev) =>
-                  prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),
-                )
-              }
-            >
-              ×
-            </button>
-            <MessageCard
-              villageId={villageId}
-              message={a.message}
-              randomKeywords={randomKeywords}
-            />
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="cursor-pointer rounded border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white"
+                onClick={() =>
+                  setExpandedAnchors((prev) =>
+                    prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),
+                  )
+                }
+              >
+                ×
+              </button>
+            </div>
+            <div className="[&>div]:mb-0">
+              <MessageCard
+                villageId={villageId}
+                message={a.message}
+                randomKeywords={randomKeywords}
+              />
+            </div>
           </div>
         ))}
     </div>
