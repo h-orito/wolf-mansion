@@ -1,8 +1,9 @@
 import { useMemo, useRef, useState } from "react";
+import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
-import { inlineInputClass, inputClass, selectClass, textareaClass } from "~/components/ui/Input";
+import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import {
   confirmVillageParticipate,
   type ParticipantSituationView,
@@ -50,6 +51,7 @@ export function ParticipatePanel({
   const [agreeRule, setAgreeRule] = useState(false);
   const [agreeMind, setAgreeMind] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [charaModalOpen, setCharaModalOpen] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const currentChip = charachips.find((c) => c.id === charachipId) ?? charachips[0];
@@ -111,153 +113,125 @@ export function ParticipatePanel({
     }
   };
 
-  if (step === "confirm") {
-    return (
-      <Panel title="入村確認">
-        <div>
-          <p className="mb-[10px]">以下の内容で入村してよろしいですか？</p>
-          <div className="flex">
-            <div>
-              {chara != null && (
-                <img
-                  src={chara.imageUrl}
-                  width={chara.imageWidth}
-                  height={chara.imageHeight}
-                  alt={charaName}
-                />
-              )}
-            </div>
-            <div
-              className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
-              dangerouslySetInnerHTML={{ __html: previewHtml }}
-            />
-          </div>
-          <div className="mt-[10px] text-[12px]">
-            <p>
-              キャラクター: {charaName} ({charaShortName}){spectator && " / 見学者として入村"}
-            </p>
-          </div>
-          {isOriginal && (
-            <div className="mt-[10px]">
-              <label className="block text-[12px]">
-                キャラクター画像 (必須、100KB まで)
-                <input ref={fileRef} type="file" accept="image/*" className="mt-[5px] block" />
-              </label>
-            </div>
-          )}
-          <div className="mt-[15px] space-y-[5px] text-[12px]">
-            <label className="flex cursor-pointer items-center gap-[5px]">
-              <input
-                type="checkbox"
-                checked={agreeRule}
-                onChange={() => setAgreeRule(!agreeRule)}
-              />
-              ルールを確認し、同意します
-            </label>
-            <label className="flex cursor-pointer items-center gap-[5px]">
-              <input
-                type="checkbox"
-                checked={agreeMind}
-                onChange={() => setAgreeMind(!agreeMind)}
-              />
-              他の参加者への礼節を守り、迷惑をかけないことに同意します
-            </label>
-          </div>
-          <div className="mt-[15px] flex justify-end gap-[10px]">
-            <Button variant="default" onClick={() => setStep("input")}>
-              戻る
-            </Button>
-            <Button onClick={submit} disabled={!agreeRule || !agreeMind || submitting}>
-              入村する
-            </Button>
-          </div>
-        </div>
-      </Panel>
-    );
-  }
+  const charaNotSelected = !isOriginal && charaId == null;
 
   return (
-    <Panel title="入村">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="入村" storageKey="participateform">
+      <div className="space-y-[10px]">
+        {/* 見学チェック (旧版: 最初に表示) */}
+        {participate.isAvailableSpectate && (
+          <div className="sm:flex sm:items-center sm:gap-[10px]">
+            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">見学</label>
+            <label className="mt-[5px] flex cursor-pointer items-center gap-[5px] sm:mt-0">
+              <input
+                type="checkbox"
+                checked={spectator}
+                onChange={() => setSpectator(!spectator)}
+              />
+              見学者として入村
+            </label>
+          </div>
+        )}
+
+        {/* キャラクター選択 (非オリジナル) */}
         {!isOriginal && (
           <>
-            {charachips.length > 1 && (
-              <div>
-                <label className="mb-[5px] block">キャラセット</label>
-                <select
-                  className={selectClass}
-                  value={charachipId ?? ""}
-                  onChange={(e) => {
-                    setCharachipId(Number(e.target.value));
-                    setCharaId(null);
-                  }}
-                  aria-label="キャラセット"
-                >
-                  {charachips.map((chip) => (
-                    <option key={chip.id} value={chip.id}>
-                      {chip.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            )}
-            <div>
-              <label className="mb-[5px] block">キャラクター</label>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター</label>
               <select
-                className={selectClass}
-                value={charaId ?? ""}
-                onChange={(e) => selectChara(e.target.value === "" ? null : Number(e.target.value))}
-                aria-label="キャラクター"
+                className={`${selectClass} mt-[5px] sm:mt-0`}
+                value={charachipId ?? ""}
+                onChange={(e) => {
+                  setCharachipId(Number(e.target.value));
+                  setCharaId(null);
+                  setCharaName("");
+                  setCharaShortName("");
+                }}
+                aria-label="キャラセット"
               >
-                <option value="">選択してください</option>
-                {charas.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name}
+                {charachips.map((chip) => (
+                  <option key={chip.id} value={chip.id}>
+                    {chip.name}
                   </option>
                 ))}
               </select>
             </div>
-            {chara != null && (
-              <img
-                src={chara.imageUrl}
-                width={chara.imageWidth}
-                height={chara.imageHeight}
-                alt={chara.name}
-              />
-            )}
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[130px] sm:shrink-0 sm:text-right" />
+              <div className="mt-[5px] flex items-center gap-[10px] sm:mt-0 sm:flex-1">
+                <select
+                  className={`${selectClass} flex-1`}
+                  value={charaId ?? ""}
+                  onChange={(e) =>
+                    selectChara(e.target.value === "" ? null : Number(e.target.value))
+                  }
+                  aria-label="キャラクター"
+                >
+                  <option value="">選択してください</option>
+                  {charas.map((c) => (
+                    <option key={c.id} value={c.id}>
+                      {c.name}
+                    </option>
+                  ))}
+                </select>
+                <Button onClick={() => setCharaModalOpen(true)}>画像から選択</Button>
+              </div>
+            </div>
           </>
         )}
-        {isOriginal && (
-          <p>この村はオリジナルキャラクター制です。キャラクター画像は確認画面で選択します。</p>
-        )}
-        <div className="flex gap-[10px]">
-          <label className="flex-1">
-            キャラクター名 (1〜40 字)
-            <input
-              type="text"
-              className={`${inputClass} mt-[5px]`}
-              value={charaName}
-              onChange={(e) => setCharaName(e.target.value)}
-              aria-label="キャラクター名"
-            />
-          </label>
-          <label className="w-[120px]">
-            略称 (1 字)
-            <input
-              type="text"
-              className={`${inlineInputClass} mt-[5px] w-full`}
-              value={charaShortName}
-              onChange={(e) => setCharaShortName(e.target.value)}
-              aria-label="略称"
-            />
-          </label>
+
+        {/* キャラクター名・略称 */}
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター名</label>
+          <input
+            type="text"
+            className={`${inputClass} mt-[5px] sm:mt-0`}
+            value={charaName}
+            onChange={(e) => setCharaName(e.target.value)}
+            disabled={charaNotSelected}
+            aria-label="キャラクター名"
+          />
         </div>
-        {skillRequest.isAvailableSkillRequest && (
-          <div className="flex gap-[10px]">
-            <label className="flex-1">
-              第 1 希望役職
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[130px] sm:shrink-0 sm:text-right">略称</label>
+          <input
+            type="text"
+            className={`${inputClass} mt-[5px] sm:mt-0`}
+            value={charaShortName}
+            onChange={(e) => setCharaShortName(e.target.value)}
+            disabled={charaNotSelected}
+            aria-label="略称"
+          />
+        </div>
+
+        {/* オリジナルキャラ画像の説明 */}
+        {isOriginal && (
+          <div className="sm:flex sm:gap-[10px]">
+            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター画像</label>
+            <ul className="mt-[5px] list-disc pl-[20px] sm:mt-0">
+              <li>キャラクター画像は参加確認画面でアップロードしてください。</li>
+              <li>
+                登録した時点で、
+                <Link
+                  to="/about#original"
+                  target="_blank"
+                  className="text-wm-accent hover:underline"
+                >
+                  オリジナルキャラクターおよび画像の登録
+                </Link>
+                について了承したものとみなします。
+              </li>
+            </ul>
+          </div>
+        )}
+
+        {/* 役職希望 */}
+        {village.setting.rule.isPossibleSkillRequest && (
+          <>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">役職第一希望</label>
               <select
-                className={`${selectClass} mt-[5px]`}
+                className={`${selectClass} mt-[5px] sm:mt-0`}
                 value={requestedSkill}
                 onChange={(e) => setRequestedSkill(e.target.value)}
                 aria-label="第1希望役職"
@@ -268,11 +242,11 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </label>
-            <label className="flex-1">
-              第 2 希望役職
+            </div>
+            <div className="sm:flex sm:items-center sm:gap-[10px]">
+              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">役職第二希望</label>
               <select
-                className={`${selectClass} mt-[5px]`}
+                className={`${selectClass} mt-[5px] sm:mt-0`}
                 value={secondRequestedSkill}
                 onChange={(e) => setSecondRequestedSkill(e.target.value)}
                 aria-label="第2希望役職"
@@ -283,43 +257,179 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </label>
+            </div>
+          </>
+        )}
+
+        {/* 発言 */}
+        <div className="sm:flex sm:gap-[10px]">
+          <label className="sm:w-[130px] sm:shrink-0 sm:text-right sm:pt-[5px]">発言</label>
+          <div className="mt-[5px] sm:mt-0 sm:flex-1">
+            <textarea
+              className={`${textareaClass} min-h-[150px]`}
+              value={joinMessage}
+              onChange={(e) => setJoinMessage(e.target.value)}
+              aria-label="入村発言"
+              placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
+            />
+            <div className={`mt-[3px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+              文字数: {length}/400, 行数: {lineCount}/20
+            </div>
+          </div>
+        </div>
+
+        {village.setting.hasJoinPassword && (
+          <div className="sm:flex sm:items-center sm:gap-[10px]">
+            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">入村パスワード</label>
+            <input
+              type="text"
+              className={`${inputClass} mt-[5px] sm:mt-0`}
+              value={joinPassword}
+              onChange={(e) => setJoinPassword(e.target.value)}
+              aria-label="入村パスワード"
+            />
           </div>
         )}
-        <label className="block">
-          入村発言 (1〜400 字)
-          <textarea
-            className={`${textareaClass} mt-[5px] min-h-[100px]`}
-            value={joinMessage}
-            onChange={(e) => setJoinMessage(e.target.value)}
-            aria-label="入村発言"
-          />
-        </label>
-        <div className={overLimit ? "text-[#e74c3c]" : ""}>
-          文字数: {length}/400, 行数: {lineCount}/20
-        </div>
-        <label className="block">
-          入村パスワード (設定されている村のみ)
-          <input
-            type="text"
-            className={`${inputClass} mt-[5px]`}
-            value={joinPassword}
-            onChange={(e) => setJoinPassword(e.target.value)}
-            aria-label="入村パスワード"
-          />
-        </label>
-        {participate.isAvailableSpectate && (
-          <label className="flex cursor-pointer items-center gap-[5px]">
-            <input type="checkbox" checked={spectator} onChange={() => setSpectator(!spectator)} />
-            見学者として入村
-          </label>
-        )}
+
         <div className="flex justify-end">
           <Button onClick={toConfirm} disabled={confirmDisabled}>
-            確認画面へ
+            入村確認へ
           </Button>
         </div>
+        {village.setting.rule.isPossibleSkillRequest && (
+          <div className="flex justify-end">
+            <Link
+              to="/rule#skill-request"
+              target="_blank"
+              className="text-wm-accent hover:underline"
+            >
+              役職希望について
+            </Link>
+          </div>
+        )}
       </div>
+      {charaModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setCharaModalOpen(false)}
+        >
+          <div
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">キャラクター選択</h4>
+            <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
+              {charas.map((c) => (
+                <div key={c.id} className="border border-[#464545] p-[5px] text-center">
+                  <div className="flex justify-center">
+                    <img
+                      src={c.imageUrl}
+                      alt={c.name}
+                      width={c.imageWidth}
+                      height={c.imageHeight}
+                    />
+                  </div>
+                  <div>{c.name}</div>
+                  <Button
+                    size="xs"
+                    className="w-full"
+                    onClick={() => {
+                      selectChara(c.id);
+                      setCharaModalOpen(false);
+                    }}
+                  >
+                    選択
+                  </Button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-[10px] flex justify-end">
+              <Button variant="default" onClick={() => setCharaModalOpen(false)}>
+                閉じる
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {step === "confirm" && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setStep("input")}
+        >
+          <div
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">入村確認</h4>
+            {isOriginal && (
+              <div className="mb-[10px]">
+                <ul className="mb-[5px] list-disc pl-[20px]">
+                  <li>
+                    画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
+                  </li>
+                  <li>100kByteを超える画像はアップロードできません。</li>
+                </ul>
+                <input ref={fileRef} type="file" accept="image/*" className="block" />
+              </div>
+            )}
+            <p className="text-village-sm">
+              [{charaShortName}] {charaName}
+            </p>
+            <div className="flex pt-[5px]">
+              <div>
+                {chara != null && (
+                  <img
+                    src={chara.imageUrl}
+                    width={chara.imageWidth}
+                    height={chara.imageHeight}
+                    alt={charaName}
+                  />
+                )}
+              </div>
+              <div
+                className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
+                style={chara != null ? { minHeight: chara.imageHeight } : undefined}
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+              />
+            </div>
+            <div className="mt-[10px] space-y-[5px]">
+              <label className="flex cursor-pointer items-start gap-[5px]">
+                <input
+                  type="checkbox"
+                  className="mt-[4px]"
+                  checked={agreeRule}
+                  onChange={() => setAgreeRule(!agreeRule)}
+                />
+                <span>
+                  <Link to="/rule" target="_blank" className="text-wm-accent hover:underline">
+                    ルール
+                  </Link>
+                  を確認し、人狼館の事件簿村ルール特有の禁止事項について理解しました。
+                </span>
+              </label>
+              <label className="flex cursor-pointer items-start gap-[5px]">
+                <input
+                  type="checkbox"
+                  className="mt-[4px]"
+                  checked={agreeMind}
+                  onChange={() => setAgreeMind(!agreeMind)}
+                />
+                <span>
+                  他者への礼節を欠いたり、正常な運営を妨げるような行為を行なった場合、管理人の裁量により処罰される可能性があることについて理解しました。
+                </span>
+              </label>
+            </div>
+            <div className="mt-[15px] flex justify-between">
+              <Button variant="default" onClick={() => setStep("input")}>
+                戻る
+              </Button>
+              <Button onClick={submit} disabled={!agreeRule || !agreeMind || submitting}>
+                入村する
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Panel>
   );
 }

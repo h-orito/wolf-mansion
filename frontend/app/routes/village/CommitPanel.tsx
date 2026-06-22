@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
+import { useToast } from "~/components/ui/Toast";
 import { setVillageCommit, type ParticipantSituationView } from "~/features/village/api";
 import { ApiError } from "~/lib/api";
 
@@ -16,6 +17,7 @@ export function CommitPanel({
   onDone: () => Promise<unknown>;
 }) {
   const isCommitting = mySituation.commit.isCommitting;
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,6 +27,7 @@ export function CommitPanel({
     setError(null);
     try {
       await setVillageCommit(villageId, { commit: !isCommitting });
+      showToast(isCommitting ? "コミットを取り消しました" : "コミットしました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "コミットに失敗しました");
@@ -34,8 +37,8 @@ export function CommitPanel({
   };
 
   return (
-    <Panel title="コミット">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="コミット" storageKey="commitform">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>

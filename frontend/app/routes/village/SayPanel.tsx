@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
@@ -111,6 +112,7 @@ export function SayPanel({
   );
   const [convertDisable, setConvertDisable] = useState(false);
   const [secretTargetCharaId, setSecretTargetCharaId] = useState<string>("");
+  const [faceModalOpen, setFaceModalOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 返信・秘話返信からの引き継ぎ (アンカー挿入 / 種別・宛先の切替)
@@ -206,22 +208,39 @@ export function SayPanel({
   };
 
   return (
-    <Panel title="発言">
+    <Panel title="発言" storageKey="sayform" fixable>
       <div>
-        {myself?.isDead && (
-          <div className="mb-[10px] rounded border border-[#e74c3c] p-[9px] text-[#e74c3c]">
-            あなたは死亡しました。現世の思い出を語り合いましょう。
-          </div>
+        {myself?.dead.isDead && (
+          <ul className="mb-[10px] list-disc rounded border border-[#3498db] py-[9px] pr-[9px] pl-[25px] text-[#3498db]">
+            <li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
+            {!village.setting.rule.isVisibleGraveSpectateMessage && (
+              <li>墓下では推理発言やCOを行っても問題ありません。</li>
+            )}
+          </ul>
         )}
-        {village.status.isProgress && (
-          <div className="mb-[10px] rounded border border-[#f39c12] p-[9px] text-[#f39c12]">
-            {village.setting.rule.isVisibleGraveSpectateMessage
-              ? "この村は、墓下や見学発言を生存者が参照できます。進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。"
-              : "進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。"}
-            <br />
-            COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。
-          </div>
+        {(!myself?.dead.isDead ||
+          (myself?.dead.isDead && village.setting.rule.isVisibleGraveSpectateMessage)) && (
+          <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
+            {village.setting.rule.isVisibleGraveSpectateMessage && (
+              <>
+                <li>この村は、墓下や見学発言を生存者が参照できます。</li>
+                <li>
+                  進行中は、推理、まとめ、および推理に繋がる内容は生存者全員が見られる発言種別で発言しないでください。
+                </li>
+              </>
+            )}
+            {!village.setting.rule.isVisibleGraveSpectateMessage && (
+              <li>
+                進行中は、推理、まとめ、および推理に繋がる内容は通常発言で発言しないでください。
+              </li>
+            )}
+            <li>
+              COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。
+            </li>
+          </ul>
         )}
+
+        {myself != null && <p className="mb-[10px]">{myself.name}</p>}
 
         {/* 発言種別 */}
         <div className="flex flex-wrap">
@@ -232,7 +251,7 @@ export function SayPanel({
                 <button
                   key={t.code}
                   type="button"
-                  className={`not-first:-ml-px cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] text-[13px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
+                  className={`not-first:-ml-px cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
                     active
                       ? "bg-[#00bc8c] text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
                       : "bg-[#222222] text-[#00bc8c]"
@@ -267,28 +286,30 @@ export function SayPanel({
 
         {/* 装飾タグ・ランダム機能 (表示設定でまとめて非表示にできる) */}
         <div
-          className={`mt-[10px] flex-wrap items-center gap-[5px] ${
+          className={`mt-[5px] flex-wrap items-center gap-y-[5px] ${
             showDecorationButtons ? "flex" : "hidden"
           }`}
         >
-          {DECORATION_TAGS.map((tag) => (
+          <div className="flex flex-wrap">
+            {DECORATION_TAGS.map((tag) => (
+              <button
+                key={tag.name}
+                type="button"
+                className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+                style={tag.color != null ? { color: tag.color } : undefined}
+                onClick={() => addDecoration(tag.name)}
+              >
+                {tag.name === "s" ? <s>あ</s> : tag.label}
+              </button>
+            ))}
             <button
-              key={tag.name}
               type="button"
-              className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-[12px] text-white hover:opacity-90"
-              style={tag.color != null ? { color: tag.color } : undefined}
-              onClick={() => addDecoration(tag.name)}
+              className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+              onClick={() => insertAtCursor("[[]]")}
             >
-              {tag.name === "s" ? <s>あ</s> : tag.label}
+              [[]]
             </button>
-          ))}
-          <button
-            type="button"
-            className="cursor-pointer rounded-[3px] border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-[12px] text-white hover:opacity-90"
-            onClick={() => insertAtCursor("[[]]")}
-          >
-            [[]]
-          </button>
+          </div>
           <RandomTagSelect
             keywords={randomKeywords}
             onAdd={(tag) => insertAtCursor(`[[${tag}]]`)}
@@ -299,10 +320,18 @@ export function SayPanel({
         <div className="mt-[10px] flex">
           <div>
             {faceImage != null && (
-              <img src={faceImage.url} alt={faceImage.faceTypeName} width={60} height={77} />
+              <img
+                src={faceImage.url}
+                alt={faceImage.faceTypeName}
+                width={myself?.chara.size.width ?? 60}
+                height={myself?.chara.size.height ?? 77}
+                className="cursor-pointer"
+                onClick={() => setFaceModalOpen(true)}
+              />
             )}
             <select
-              className={`${selectClass} mt-[5px] max-w-[80px]`}
+              className={`${selectClass} mt-[5px]`}
+              style={{ maxWidth: myself?.chara.size.width ?? 80 }}
               value={faceType}
               onChange={(e) => setFaceType(e.target.value)}
               aria-label="表情"
@@ -316,21 +345,21 @@ export function SayPanel({
           </div>
           <textarea
             ref={textareaRef}
-            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] text-[12px] ${textareaStyle}`}
+            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] ${textareaStyle}`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-label="発言"
           />
         </div>
 
-        {/* 文字数・行数・残数 */}
-        <div className={`mt-[5px] ml-[55px] text-[12px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
-          {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
-          文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
-        </div>
-
-        <div className="mt-[10px] flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-[5px] text-[12px]">
+        {/* 文字数・行数・残数 / 装飾・変換無効 / 確認画面へ */}
+        <div className="mt-[5px]" style={{ marginLeft: (myself?.chara.size.width ?? 55) + 5 }}>
+          <span className={overLimit ? "text-[#e74c3c]" : ""}>
+            {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
+            文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
+          </span>
+          <br />
+          <label className="flex cursor-pointer items-center gap-[5px]">
             <input
               type="checkbox"
               checked={convertDisable}
@@ -338,9 +367,16 @@ export function SayPanel({
             />
             装飾・変換無効
           </label>
-          <Button onClick={submit} disabled={submitDisabled}>
-            確認画面へ
-          </Button>
+          <div className="mt-[5px] flex justify-end">
+            <Button onClick={submit} disabled={submitDisabled}>
+              確認画面へ
+            </Button>
+          </div>
+        </div>
+        <div className="mt-[10px] flex justify-end">
+          <Link to="/rule#other" target="_blank" className="text-wm-accent hover:underline">
+            文字装飾・ランダム機能
+          </Link>
         </div>
 
         {/* 返信元の引用 */}
@@ -359,6 +395,49 @@ export function SayPanel({
           </div>
         )}
       </div>
+      {faceModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setFaceModalOpen(false)}
+        >
+          <div
+            className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">表情選択</h4>
+            <div className="flex flex-wrap gap-[5px]">
+              {images.map((image) => (
+                <div
+                  key={image.faceTypeCode}
+                  className="inline-block border border-[#464545] p-[5px] text-center"
+                >
+                  <img
+                    src={image.url}
+                    alt={image.faceTypeName}
+                    width={myself?.chara.size.width ?? 60}
+                    height={myself?.chara.size.height ?? 77}
+                  />
+                  <div>{image.faceTypeName}</div>
+                  <Button
+                    size="xs"
+                    onClick={() => {
+                      setFaceType(image.faceTypeCode);
+                      setFaceModalOpen(false);
+                    }}
+                  >
+                    選択
+                  </Button>
+                </div>
+              ))}
+            </div>
+            <div className="mt-[10px] flex justify-end">
+              <Button variant="default" onClick={() => setFaceModalOpen(false)}>
+                閉じる
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </Panel>
   );
 }
@@ -390,8 +469,8 @@ function RandomTagSelect({
           </option>
         ))}
       </select>
-      <Button variant="info" size="xs" onClick={() => onAdd(selected)}>
-        追加
+      <Button size="sm" onClick={() => onAdd(selected)}>
+        <span className="whitespace-nowrap">タグ追加</span>
       </Button>
     </span>
   );

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
+import { useToast } from "~/components/ui/Toast";
 import {
   changeVillageRequestSkill,
   leaveVillage,
@@ -23,6 +24,7 @@ export function SwitchParticipatePanel({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const submit = async () => {
@@ -31,6 +33,7 @@ export function SwitchParticipatePanel({
     setError(null);
     try {
       await switchVillageParticipate(villageId);
+      showToast("参加見学を切り替えました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "切り替えに失敗しました"));
@@ -39,8 +42,8 @@ export function SwitchParticipatePanel({
     }
   };
   return (
-    <Panel title="参加見学切り替え">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="参加見学切り替え" storageKey="switchparticipateform">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
@@ -66,6 +69,7 @@ export function ChangeSkillPanel({
   const skills = skillRequest.selectableSkillList ?? [];
   const [first, setFirst] = useState(skillRequest.requestedSkillCode ?? "LEFTOVER");
   const [second, setSecond] = useState(skillRequest.secondRequestedSkillCode ?? "LEFTOVER");
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -82,6 +86,7 @@ export function ChangeSkillPanel({
         requestedSkill: first,
         secondRequestedSkill: second,
       });
+      showToast("役職希望を変更しました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "役職希望の変更に失敗しました"));
@@ -91,43 +96,41 @@ export function ChangeSkillPanel({
   };
 
   return (
-    <Panel title="役職希望">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="役職希望" storageKey="changeskillform">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <p>
           現在の役職希望: {currentFirst}/{currentSecond}
         </p>
-        <div className="flex gap-[10px]">
-          <label className="flex-1">
-            第一役職希望
-            <select
-              className={`${selectClass} mt-[5px]`}
-              value={first}
-              onChange={(e) => setFirst(e.target.value)}
-              aria-label="第一役職希望"
-            >
-              {skills.map((skill) => (
-                <option key={skill.code} value={skill.code}>
-                  {skill.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex-1">
-            第二役職希望
-            <select
-              className={`${selectClass} mt-[5px]`}
-              value={second}
-              onChange={(e) => setSecond(e.target.value)}
-              aria-label="第二役職希望"
-            >
-              {skills.map((skill) => (
-                <option key={skill.code} value={skill.code}>
-                  {skill.name}
-                </option>
-              ))}
-            </select>
-          </label>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第一役職希望</label>
+          <select
+            className={`${selectClass} mt-[5px] sm:mt-0`}
+            value={first}
+            onChange={(e) => setFirst(e.target.value)}
+            aria-label="第一役職希望"
+          >
+            {skills.map((skill) => (
+              <option key={skill.code} value={skill.code}>
+                {skill.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="sm:flex sm:items-center sm:gap-[10px]">
+          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第二役職希望</label>
+          <select
+            className={`${selectClass} mt-[5px] sm:mt-0`}
+            value={second}
+            onChange={(e) => setSecond(e.target.value)}
+            aria-label="第二役職希望"
+          >
+            {skills.map((skill) => (
+              <option key={skill.code} value={skill.code}>
+                {skill.name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
@@ -147,6 +150,7 @@ export function LeavePanel({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const submit = async () => {
@@ -156,6 +160,7 @@ export function LeavePanel({
     setError(null);
     try {
       await leaveVillage(villageId);
+      showToast("退村しました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "退村に失敗しました"));
@@ -164,8 +169,8 @@ export function LeavePanel({
     }
   };
   return (
-    <Panel title="退村">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="退村" storageKey="leaveform">
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         <div className="flex justify-end">
           <Button variant="danger" onClick={submit} disabled={submitting}>

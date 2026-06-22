@@ -999,6 +999,26 @@ export interface components {
     Charas: {
       list: components["schemas"]["Chara"][];
     };
+    DeadHistoriesView: {
+      list: components["schemas"]["DeadHistoryView"][];
+    };
+    DeadHistoryView: {
+      /** Format: int32 */
+      day: number;
+      isDead: boolean;
+      reason?: components["schemas"]["DeadReasonView"] | null;
+    };
+    DeadReasonView: {
+      code: string;
+      name: string;
+    };
+    DeadView: {
+      /** Format: int32 */
+      deadDay?: number | null;
+      histories: components["schemas"]["DeadHistoriesView"];
+      isDead: boolean;
+      reason?: components["schemas"]["DeadReasonView"] | null;
+    };
     Designer: {
       /** Format: int32 */
       id: number;
@@ -1033,6 +1053,12 @@ export interface components {
       name: string;
       /** Format: int32 */
       playerId: number;
+    };
+    MessageCondition: {
+      abilitySay: boolean;
+      anchor: boolean;
+      keywords: string[];
+      secretSay: boolean;
     };
     MessageType: {
       code: string;
@@ -1070,7 +1096,7 @@ export interface components {
       admin: components["schemas"]["ParticipantSituationViewAdmin"];
       commit: components["schemas"]["ParticipantSituationViewCommit"];
       creator: components["schemas"]["ParticipantSituationViewCreator"];
-      myself?: components["schemas"]["ParticipantSituationViewMyself"] | null;
+      myself?: components["schemas"]["VillageParticipantView"] | null;
       participate: components["schemas"]["ParticipantSituationViewParticipate"];
       rp: components["schemas"]["ParticipantSituationViewRp"];
       say: components["schemas"]["ParticipantSituationViewSay"];
@@ -1121,35 +1147,6 @@ export interface components {
       isAvailableModifySetting: boolean;
       isAvailableShortenEpilogue: boolean;
       isCreator: boolean;
-    };
-    ParticipantSituationViewMyself: {
-      /** Format: int32 */
-      charaId: number;
-      /** Format: int32 */
-      id: number;
-      isDead: boolean;
-      isSpectator: boolean;
-      name: string;
-      notification?: components["schemas"]["ParticipantSituationViewMyselfNotification"] | null;
-      notificationKeyword?: string | null;
-      shortName: string;
-      skill?: components["schemas"]["ParticipantSituationViewMyselfSkill"] | null;
-    };
-    ParticipantSituationViewMyselfNotification: {
-      abilitySay: boolean;
-      anchorSay: boolean;
-      keyword: string;
-      secretSay: boolean;
-      villageDaychange: boolean;
-      villageEpilogue: boolean;
-      villageStart: boolean;
-      webhookUrl: string;
-    };
-    ParticipantSituationViewMyselfSkill: {
-      code: string;
-      hasDisturbAbility: boolean;
-      hasInvestigateAbility: boolean;
-      name: string;
     };
     ParticipantSituationViewParticipate: {
       isAvailableLeave: boolean;
@@ -1287,12 +1284,26 @@ export interface components {
       /** Format: int32 */
       minNum: number | null;
     };
+    Room: {
+      histories: components["schemas"]["RoomHistories"];
+      /** Format: int32 */
+      number: number;
+    };
     RoomAssignmentResponse: {
       /** Format: int32 */
       height: number;
       roomNumbers: number[];
       /** Format: int32 */
       width: number;
+    };
+    RoomHistories: {
+      list: components["schemas"]["RoomHistory"][];
+    };
+    RoomHistory: {
+      /** Format: int32 */
+      day: number;
+      /** Format: int32 */
+      number: number;
     };
     RoomSize: {
       /** Format: int32 */
@@ -1472,6 +1483,11 @@ export interface components {
     };
     VillageCommitRequest: {
       commit: boolean | null;
+    };
+    VillageCondition: {
+      dayChange: boolean;
+      epilogue: boolean;
+      start: boolean;
     };
     VillageCreateRequest: {
       ageLimit?: string | null;
@@ -1707,6 +1723,36 @@ export interface components {
       skillName: string;
       winStatus: string;
     };
+    VillageParticipantName: {
+      name: string;
+      shortName: string;
+    };
+    VillageParticipantNotificationCondition: {
+      discordWebhookUrl: string;
+      message: components["schemas"]["MessageCondition"];
+      village: components["schemas"]["VillageCondition"];
+    };
+    VillageParticipantView: {
+      camp?: components["schemas"]["Camp"] | null;
+      chara: components["schemas"]["Chara"];
+      charaName: components["schemas"]["VillageParticipantName"];
+      dead: components["schemas"]["DeadView"];
+      /** Format: int32 */
+      id: number;
+      isSpectator: boolean;
+      name: string;
+      notification?: components["schemas"]["VillageParticipantNotificationCondition"] | null;
+      room?: components["schemas"]["Room"] | null;
+      shortName: string;
+      skill?: components["schemas"]["VillageParticipantViewSkill"] | null;
+    };
+    VillageParticipantViewSkill: {
+      code: string;
+      description: string;
+      hasDisturbAbility: boolean;
+      hasInvestigateAbility: boolean;
+      name: string;
+    };
     VillageParticipantsContent: {
       list: components["schemas"]["VillageParticipantContent"][];
     };
@@ -1828,6 +1874,7 @@ export interface components {
       chara: components["schemas"]["VillageCharaSetting"];
       /** Format: int32 */
       dayChangeIntervalSeconds: number;
+      hasJoinPassword: boolean;
       organize: components["schemas"]["VillageOrganize"];
       /** Format: int32 */
       personMax: number;

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
@@ -61,7 +61,9 @@ import { SayPanel } from "./SayPanel";
 import { SettingsModal } from "./SettingsModal";
 import { VillageInfoModal } from "./VillageInfoModal";
 import { SituationPanel } from "./SituationPanel";
+import { Toast, useToast } from "~/components/ui/Toast";
 import { useCountdown } from "./useCountdown";
+import { useVillageScroll } from "./useVillageScroll";
 import { VotePanel } from "./VotePanel";
 import type { Route } from "./+types/route";
 
@@ -112,20 +114,24 @@ function formatStartDatetime(iso: string): string {
  * 村の共有ツイートボタン。村名 (募集中は開始予定日時も) + ハッシュタグを共有する。
  * 公式 widget script は読み込まず、同じ共有 URL を開くボタンで代替する。
  */
-function TweetButton({ village }: { village: VillageDetailView }) {
+function XPostButton({ village }: { village: VillageDetailView }) {
   const lines = [village.name];
   if (latestDayOf(village) === 0) {
     lines.push(`開始予定: ${formatStartDatetime(village.setting.startDatetime)}`);
   }
-  const url = `https://twitter.com/share?text=${encodeURIComponent(lines.join("\n") + "\n")}&hashtags=WOLF_MANSION`;
+  const pageUrl = `${window.location.origin}/wolf-mansion/village/${village.id}`;
+  const url = `https://x.com/intent/post?text=${encodeURIComponent(lines.join("\n") + "\n")}&hashtags=WOLF_MANSION&url=${encodeURIComponent(pageUrl)}`;
   return (
     <a
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="rounded-full bg-[#1d9bf0] px-[12px] py-[4px] text-[11px] font-bold text-white hover:bg-[#0c7abf]"
+      className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
     >
-      ツイート
+      <svg viewBox="0 0 24 24" className="h-[14px] w-[14px] fill-current" aria-hidden="true">
+        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+      </svg>
+      ポスト
     </a>
   );
 }
@@ -134,6 +140,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const dayParam = params.day != null ? Number(params.day) : undefined;
 
+  const { scrollToBottom } = useVillageScroll();
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
@@ -183,7 +190,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const [saySubmitting, setSaySubmitting] = useState(false);
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
-    document.getElementById("say-panel")?.scrollIntoView();
+    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, []);
   const onSayConfirm = async (request: VillageSayRequest) => {
     setSayError(null);
@@ -194,9 +201,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "say", message: response.message, request });
-      requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
     }
@@ -210,9 +215,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "action", message: response.message, request });
-      requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
     }
@@ -226,9 +229,7 @@ export default function Village({ params }: Route.ComponentProps) {
         return;
       }
       setSayPreview({ kind: "creatorSay", message: response.message, request });
-      requestAnimationFrame(() =>
-        document.getElementById("message-confirm-area")?.scrollIntoView(),
-      );
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
     }
@@ -249,7 +250,7 @@ export default function Village({ params }: Route.ComponentProps) {
       setSayPreview(null);
       setReply(null);
       await invalidate();
-      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
     } finally {
@@ -258,14 +259,14 @@ export default function Village({ params }: Route.ComponentProps) {
   };
   const onSayCancel = () => {
     setSayPreview(null);
-    document.getElementById("say-panel")?.scrollIntoView();
+    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
   };
   const [participateError, setParticipateError] = useState<string | null>(null);
   const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
     try {
       await participateVillage(villageId, request, charaImage);
       await invalidate();
-      requestAnimationFrame(() => document.getElementById("bottom")?.scrollIntoView());
+      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
       throw e;
@@ -276,29 +277,57 @@ export default function Village({ params }: Route.ComponentProps) {
   const currentDay = dayParam ?? latestDay ?? 0;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
+  const showToast = useToast((s) => s.show);
+  useEffect(() => {
+    if (daychangeDetected) {
+      showToast("日付が更新されました。ページを再読み込みしてください。", {
+        variant: "info",
+        persistent: true,
+      });
+    }
+  }, [daychangeDetected, showToast]);
 
   // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
+  const hashScrolled = useRef(false);
   const onMessagesLoaded = useCallback(
-    (content: VillageMessageListContent) => setLoadedMessages(content),
-    [],
+    (content: VillageMessageListContent) => {
+      setLoadedMessages(content);
+      if (!hashScrolled.current && window.location.hash === "#bottom") {
+        hashScrolled.current = true;
+        setTimeout(() => scrollToBottom(false), 0);
+      }
+    },
+    [scrollToBottom],
   );
+  const isInLatestPage =
+    latestDay != null &&
+    currentDay === latestDay &&
+    (loadedMessages == null || loadedMessages.isDispLatest || !loadedMessages.isExistNextPage);
   const hasNewMessage = useNewMessageDetector(
     villageId,
     dayParam,
     loadedMessages?.latestMessageDatetime,
-    latestDay != null && currentDay === latestDay,
+    isInLatestPage,
   );
   // 自動更新設定が ON なら、新着検知時に更新ボタンを押すのと同じ再読み込みを行う
   const autoReload = useDisplaySettings((s) => s.autoReload);
   const largeText = useDisplaySettings((s) => s.largeText);
   useEffect(() => {
-    if (hasNewMessage && autoReload) void invalidate();
+    if (hasNewMessage && autoReload && sayPreview == null) {
+      void invalidate();
+      showToast("最新発言を読み込みました");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasNewMessage, autoReload]);
+  }, [hasNewMessage, autoReload, sayPreview]);
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
+  useEffect(() => {
+    if (sessionExpired) {
+      showToast("要再ログイン", { variant: "error", persistent: true });
+    }
+  }, [sessionExpired, showToast]);
 
   const dayChangeDatetime =
     village != null && !village.status.isFinished
@@ -331,15 +360,15 @@ export default function Village({ params }: Route.ComponentProps) {
   )?.name;
 
   return (
-    <PageLayout noAd={noAd}>
-      <div className={`px-[15px] pb-[45px] ${largeText ? "text-[150%]" : ""}`}>
+    <PageLayout noAd={noAd} footerPaddingBottom={50}>
+      <div className={`px-[15px] ${largeText ? "text-[150%]" : ""}`}>
         {/* 村タイトル */}
         <div className="flex">
-          <h1 className="my-[10.5px] flex-1 text-[15px] font-normal">
+          <h1 className="my-[10.5px] flex-1 text-[1.125em]">
             {villageNumber(village.id)}. {village.name}
           </h1>
           <div className="my-[10.5px]">
-            <TweetButton village={village} />
+            <XPostButton village={village} />
           </div>
         </div>
         <hr className="mt-[5px] mb-[10px] border-[#464545]" />
@@ -361,43 +390,50 @@ export default function Village({ params }: Route.ComponentProps) {
           onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
           onSecret={canSecretReply ? onReply : undefined}
           onLoaded={onMessagesLoaded}
+          confirmArea={
+            sayPreview != null ? (
+              <div
+                id="message-confirm-area"
+                className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
+              >
+                <p className="mb-[10px]">
+                  以下の内容で発言してよろしいですか？（まだ発言されていません）
+                </p>
+                <MessageCard
+                  villageId={villageId}
+                  message={sayPreview.message}
+                  randomKeywords={keywordList}
+                />
+                <div className="flex justify-end gap-[10px]">
+                  <Button variant="default" onClick={onSayCancel}>
+                    キャンセル
+                  </Button>
+                  <Button onClick={onSayDetermine} disabled={saySubmitting}>
+                    {sayPreview.kind === "action"
+                      ? "アクション"
+                      : sayPreview.kind === "creatorSay"
+                        ? "発言する（村建て）"
+                        : sayLabel(sayPreview.request.messageType)}
+                  </Button>
+                </div>
+              </div>
+            ) : null
+          }
         />
-        {sayPreview != null && (
-          <div
-            id="message-confirm-area"
-            className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
-          >
-            <p className="mb-[10px]">
-              以下の内容で発言してよろしいですか？（まだ発言されていません）
-            </p>
-            <MessageCard
-              villageId={villageId}
-              message={sayPreview.message}
-              randomKeywords={keywordList}
-            />
-            <div className="flex justify-end gap-[10px]">
-              <Button variant="default" onClick={onSayCancel}>
-                キャンセル
-              </Button>
-              <Button onClick={onSayDetermine} disabled={saySubmitting}>
-                {sayPreview.kind === "action"
-                  ? "アクション"
-                  : sayPreview.kind === "creatorSay"
-                    ? "発言する（村建て）"
-                    : sayLabel(sayPreview.request.messageType)}
-              </Button>
-            </div>
-          </div>
-        )}
+        <DayList
+          villageId={villageId}
+          dayList={(village.days.list ?? []).map((d) => d.day)}
+          currentDay={currentDay}
+          epilogueDay={village.epilogueDay}
+          onInfo={() => setInfoOpen(true)}
+        />
         {!noAd && (
           <div className="mt-[15px] min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
             広告（移行中はプレースホルダー）
           </div>
         )}
-        <hr className="mt-[5px] mb-[10px] border-[#464545]" />
-
-        {/* 最下部への移動先 (発言後のスクロール先) */}
         <div id="bottom" />
+        <hr className="mt-[5px] mb-[10px] border-[#464545]" />
 
         {situation != null && (
           <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
@@ -425,51 +461,15 @@ export default function Village({ params }: Route.ComponentProps) {
           />
         )}
 
+        {mySituation != null && mySituation.vote.canVote && (
+          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        )}
+
         {mySituation != null && mySituation.ability.canUseAbility && (
           <AbilityPanel
             villageId={villageId}
             mySituation={mySituation}
             roomAssignedRows={situation?.roomAssignedRowList}
-            onDone={invalidate}
-          />
-        )}
-
-        {mySituation != null && mySituation.vote.canVote && (
-          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-        )}
-
-        {mySituation != null && mySituation.commit.isAvailableCommit && (
-          <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-        )}
-
-        {mySituation != null &&
-          (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-            <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-          )}
-
-        {mySituation != null && mySituation.creator.isCreator && (
-          <CreatorPanel
-            villageId={villageId}
-            mySituation={mySituation}
-            participants={(situation?.participantList ?? []).map((p) => ({
-              charaId: p.charaId,
-              name: p.name,
-            }))}
-            members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
-            onConfirm={onCreatorSayConfirm}
-            onDone={invalidate}
-          />
-        )}
-
-        {mySituation != null && mySituation.admin.isAdmin && (
-          <AdminPanel villageId={villageId} onDone={invalidate} />
-        )}
-
-        {debugInfo?.isDebugMode && (
-          <DebugPanel
-            villageId={villageId}
-            currentDay={currentDay}
-            debugInfo={debugInfo}
             onDone={invalidate}
           />
         )}
@@ -503,13 +503,48 @@ export default function Village({ params }: Route.ComponentProps) {
           <LeavePanel villageId={villageId} onDone={invalidate} />
         )}
 
-        <DayList
-          villageId={villageId}
-          dayList={(village.days.list ?? []).map((d) => d.day)}
-          currentDay={currentDay}
-          epilogueDay={village.epilogueDay}
-          onInfo={() => setInfoOpen(true)}
-        />
+        {mySituation != null && mySituation.commit.isAvailableCommit && (
+          <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        )}
+
+        {mySituation != null &&
+          (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
+            <RpPanel
+              villageId={villageId}
+              mySituation={mySituation}
+              onDone={async () => {
+                await invalidate();
+                requestAnimationFrame(() => scrollToBottom());
+              }}
+            />
+          )}
+
+        {mySituation != null && mySituation.creator.isCreator && (
+          <CreatorPanel
+            villageId={villageId}
+            mySituation={mySituation}
+            participants={(situation?.participantList ?? []).map((p) => ({
+              charaId: p.charaId,
+              name: p.name,
+            }))}
+            members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
+            onConfirm={onCreatorSayConfirm}
+            onDone={invalidate}
+          />
+        )}
+
+        {mySituation != null && mySituation.admin.isAdmin && (
+          <AdminPanel villageId={villageId} onDone={invalidate} />
+        )}
+
+        {debugInfo?.isDebugMode && (
+          <DebugPanel
+            villageId={villageId}
+            currentDay={currentDay}
+            debugInfo={debugInfo}
+            onDone={invalidate}
+          />
+        )}
 
         <div className="mb-[10px]">
           <LinkButton to="/" variant="default">
@@ -557,7 +592,7 @@ export default function Village({ params }: Route.ComponentProps) {
         filter={filter}
         participants={situation?.participantList ?? []}
         myselfId={mySituation?.myself?.id ?? null}
-        notificationKeyword={mySituation?.myself?.notificationKeyword ?? null}
+        notificationKeyword={mySituation?.myself?.notification?.keyword ?? null}
         onApply={applyFilter}
         onApplyNewTab={applyFilterNewTab}
       />
@@ -569,12 +604,7 @@ export default function Village({ params }: Route.ComponentProps) {
         />
       )}
 
-      {/* 通知系のオーバーレイ */}
-      {daychangeDetected && (
-        <div className="fixed top-0 right-[5px] left-[5px] z-[105] rounded bg-[#00bc8c] p-[15px] text-white">
-          日付が更新されました。ページを再読み込みしてください。
-        </div>
-      )}
+      {/* ステータス表示 */}
       {leftTime != null && (
         <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
           更新まで <span>{leftTime}</span>
@@ -587,11 +617,7 @@ export default function Village({ params }: Route.ComponentProps) {
           </div>
         </Link>
       )}
-      {sessionExpired && (
-        <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#e74c3c] p-[5px] text-white">
-          要再ログイン
-        </div>
-      )}
+      <Toast />
     </PageLayout>
   );
 }

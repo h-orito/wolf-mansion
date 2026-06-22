@@ -36,6 +36,7 @@ export function MessageArea({
   onReply,
   onSecret,
   onLoaded,
+  confirmArea,
 }: {
   villageId: number;
   day: number | undefined;
@@ -47,6 +48,7 @@ export function MessageArea({
   onSecret?: (reply: ReplyDraft) => void;
   /** 一覧取得のたびに呼ぶ (新着検知の基準更新用)。 */
   onLoaded: (content: VillageMessageListContent) => void;
+  confirmArea?: React.ReactNode;
 }) {
   // 日付指定 (`/day/{day}`) で開いたら 1 ページ目、最新日 URL なら最新ページを初期表示する
   const initialPage = (d: number | undefined): PageState =>
@@ -63,7 +65,7 @@ export function MessageArea({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [day, filterKey, isPaging, pageSize]);
 
-  const { data, isLoading } = useVillageMessages(villageId, {
+  const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,
     pageNum: isPaging && !page.isDispLatest ? page.pageNum : undefined,
@@ -83,8 +85,11 @@ export function MessageArea({
     return <div className="text-gray-400">読み込み中...</div>;
   }
 
+  const showOverlay = isFetching && !isLoading;
+
   return (
-    <div>
+    <div className="relative">
+      {showOverlay && <div className="absolute inset-0 z-10 bg-[#222222]/60" />}
       <MessagePagination content={data} onChange={setPage} />
       {(data.messageList ?? []).map((message, index) => (
         <MessageCard
@@ -98,6 +103,7 @@ export function MessageArea({
           onSecret={onSecret}
         />
       ))}
+      {confirmArea}
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}
       {data.villageStatusMessage != null && <Announce text={data.villageStatusMessage} />}
       {data.commitStatusMessage != null && <Announce text={data.commitStatusMessage} />}

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
+import { useToast } from "~/components/ui/Toast";
 import {
   fetchAbilityFootsteps,
   fetchAttackTargets,
@@ -56,6 +57,7 @@ export function AbilityPanel({
   const [footstepOptions, setFootstepOptions] = useState<string[]>(
     ability.targetFootstepList ?? [],
   );
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -125,6 +127,7 @@ export function AbilityPanel({
           };
     try {
       await setVillageAbility(villageId, request);
+      showToast("能力をセットしました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "能力セットに失敗しました");
@@ -136,9 +139,24 @@ export function AbilityPanel({
   const needsFootstepSelect = isAttack || ability.isTargetingAndFootstep;
 
   return (
-    <Panel title="役職">
-      <div className="space-y-[10px] text-[12px]">
+    <Panel title="役職" storageKey="skillform" fixable>
+      <div className="space-y-[10px]">
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        {skill != null && (
+          <div className="rounded border border-[#00bc8c] p-[10px] text-village-sm">
+            <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
+            {mySituation.myself?.camp != null && (
+              <p>
+                あなたは <strong>{mySituation.myself.camp.name}</strong> です。
+              </p>
+            )}
+          </div>
+        )}
+        {mySituation.myself?.dead.isDead && (
+          <div className="rounded border border-[#e74c3c] p-[10px] text-village-sm text-[#e74c3c]">
+            あなたは死亡しました。
+          </div>
+        )}
         {ability.targetingMessage != null && <p>{ability.targetingMessage}</p>}
 
         {ability.canUseAbility && isDisturb && (
@@ -149,7 +167,7 @@ export function AbilityPanel({
             </p>
             {roomAssignedRows != null && (
               <div className="mt-[10px] overflow-x-auto">
-                <table className="border-collapse border border-[#464545] text-[10.32px]">
+                <table className="border-collapse border border-[#464545] text-village-sm">
                   <tbody>
                     {roomAssignedRows.map((row, rowIndex) => (
                       <tr key={rowIndex}>

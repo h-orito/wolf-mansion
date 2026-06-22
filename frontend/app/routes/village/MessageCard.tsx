@@ -1,4 +1,4 @@
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
@@ -201,31 +201,35 @@ export function MessageCard({
   );
 
   return (
-    <div className="mb-[20px]">
+    <div>
       {body}
       {expandedAnchors
         .filter((a) => a.visible)
         .map((a) => (
           <div
             key={a.key}
-            className="relative mb-[10px] rounded border border-[#464545] bg-[#303030] p-[10px]"
+            className="mb-[10px] rounded border border-[#464545] bg-[#303030] p-[10px]"
           >
-            <button
-              type="button"
-              className="absolute top-[5px] right-[5px] cursor-pointer rounded border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white"
-              onClick={() =>
-                setExpandedAnchors((prev) =>
-                  prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),
-                )
-              }
-            >
-              ×
-            </button>
-            <MessageCard
-              villageId={villageId}
-              message={a.message}
-              randomKeywords={randomKeywords}
-            />
+            <div className="flex justify-end">
+              <button
+                type="button"
+                className="cursor-pointer rounded border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white"
+                onClick={() =>
+                  setExpandedAnchors((prev) =>
+                    prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),
+                  )
+                }
+              >
+                ×
+              </button>
+            </div>
+            <div className="[&>div]:mb-0">
+              <MessageCard
+                villageId={villageId}
+                message={a.message}
+                randomKeywords={randomKeywords}
+              />
+            </div>
           </div>
         ))}
     </div>
@@ -249,16 +253,16 @@ function renderBody(
   if (message.isBigEars) {
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>地獄耳</span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
         <div className="flex">
           <div className="h-[77px] w-[50px] rounded-[5px] border border-white" />
-          <div
+          <StableHtml
             className={`ml-[5px] flex-1 ${bubbleClass("message-owl")}`}
             onClick={onContentClick}
-            dangerouslySetInnerHTML={{ __html: html }}
+            html={html}
           />
         </div>
       </div>
@@ -267,13 +271,18 @@ function renderBody(
 
   const sayVariant = SAY_VARIANTS[type];
   if (sayVariant != null) {
+    const alwaysShowAnchor = type !== "MONOLOGUE_SAY" && type !== "SECRET_SAY";
     const anchorText =
-      message.messageNumber != null ? `${sayVariant.anchorPrefix}${message.messageNumber}` : null;
+      message.messageNumber != null
+        ? `${sayVariant.anchorPrefix}${message.messageNumber}`
+        : alwaysShowAnchor
+          ? sayVariant.anchorPrefix
+          : null;
     const loud = sayVariant.decoratable && message.isLoud;
     const rainbow = sayVariant.decoratable && message.isRainbow;
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
             {anchorText != null && (
               <>
@@ -299,7 +308,7 @@ function renderBody(
           <span>&nbsp;{formatMessageTime(message.messageDatetime)}</span>
         </div>
         <div className="flex">
-          <div className="mb-[20px]">
+          <div>
             {message.characterImageUrl != null && (
               <img
                 src={message.characterImageUrl}
@@ -311,18 +320,13 @@ function renderBody(
           </div>
           <div
             className={`ml-[5px] flex-1 ${bubbleClass(sayVariant.styleKey)} ${loud ? "loud" : ""}`}
-            style={message.height != null ? { minHeight: message.height } : undefined}
             onClick={onContentClick}
           >
-            {rainbow ? (
-              <div className="rainbow" dangerouslySetInnerHTML={{ __html: html }} />
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: html }} />
-            )}
+            {rainbow ? <StableHtml className="rainbow" html={html} /> : <StableHtml html={html} />}
           </div>
         </div>
         {(message.canReply || message.canSecret) && (onReply != null || onSecret != null) && (
-          <div className="-mt-[18px] flex justify-end gap-[10px] text-[10.32px]">
+          <div className="flex justify-end gap-[10px]">
             {message.canReply && onReply != null && (
               <button
                 type="button"
@@ -364,52 +368,45 @@ function renderBody(
   }
 
   if (type === "CREATOR_SAY") {
+    const creatorAnchorText = message.messageNumber != null ? `>>#${message.messageNumber}` : ">>#";
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
-            {message.messageNumber != null && (
-              <>
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() => copyAnchor(`>>#${message.messageNumber}`)}
-                >
-                  {`>>#${message.messageNumber}`}
-                </button>
-                .&nbsp;
-              </>
-            )}
-            天からのお告げ
+            <button
+              type="button"
+              className="text-wm-accent cursor-pointer hover:underline"
+              onClick={() => copyAnchor(creatorAnchorText)}
+            >
+              {creatorAnchorText}
+            </button>
+            .&nbsp;天からのお告げ
           </span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
-        <div
-          className={bubbleClass("message-creator")}
+        <StableHtml
+          className={`mb-[20px] ${bubbleClass("message-creator")}`}
           onClick={onContentClick}
-          dangerouslySetInnerHTML={{ __html: html }}
+          html={html}
         />
       </div>
     );
   }
 
   if (type === "ACTION") {
+    const actionAnchorText = message.messageNumber != null ? `>>a${message.messageNumber}` : ">>a";
     return (
       <div>
-        <div className="text-[10.32px]">
+        <div className="text-village-sm">
           <span>
-            {message.messageNumber != null && (
-              <>
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() => copyAnchor(`>>a${message.messageNumber}`)}
-                >
-                  {`>>a${message.messageNumber}`}
-                </button>
-                .
-              </>
-            )}
+            <button
+              type="button"
+              className="text-wm-accent cursor-pointer hover:underline"
+              onClick={() => copyAnchor(actionAnchorText)}
+            >
+              {actionAnchorText}
+            </button>
+            .
             {message.playerName != null && !spoiled && (
               <span>
                 &nbsp;[
@@ -419,10 +416,10 @@ function renderBody(
           </span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
-        <div
-          className={bubbleClass("message-action")}
+        <StableHtml
+          className={`mb-[20px] ${bubbleClass("message-action")}`}
           onClick={onContentClick}
-          dangerouslySetInnerHTML={{ __html: html }}
+          html={html}
         />
       </div>
     );
@@ -430,7 +427,7 @@ function renderBody(
 
   if (type === "PARTICIPANTS") {
     return (
-      <div className={bubbleClass("message-public-system")}>
+      <div className={`mb-[20px] ${bubbleClass("message-public-system")}`}>
         <ParticipantsTable villageId={villageId} />
       </div>
     );
@@ -438,10 +435,26 @@ function renderBody(
 
   const systemStyleKey = SYSTEM_VARIANTS[type] ?? "message-public-system";
   return (
-    <div
-      className={bubbleClass(systemStyleKey)}
+    <StableHtml
+      className={`mb-[20px] ${bubbleClass(systemStyleKey)}`}
       onClick={onContentClick}
-      dangerouslySetInnerHTML={{ __html: html }}
+      html={html}
     />
   );
+}
+
+function StableHtml({
+  html,
+  className,
+  onClick,
+}: {
+  html: string;
+  className?: string;
+  onClick?: (e: MouseEvent<HTMLDivElement>) => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) ref.current.innerHTML = html;
+  }, [html]);
+  return <div ref={ref} className={className} onClick={onClick} />;
 }

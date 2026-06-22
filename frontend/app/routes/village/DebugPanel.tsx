@@ -11,6 +11,9 @@ function errorMessage(e: unknown, fallback: string): string {
   return e instanceof ApiError ? e.detail : fallback;
 }
 
+const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
+const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
+
 /** ローカル開発向けデバッグメニュー。app.debug 有効時のみ表示する。 */
 export function DebugPanel({
   villageId,
@@ -24,8 +27,8 @@ export function DebugPanel({
   onDone: () => Promise<unknown>;
 }) {
   return (
-    <Panel title="デバッグメニュー">
-      <div className="space-y-[20px] text-[12px]">
+    <Panel title="デバッグメニュー" storageKey="debugform">
+      <div className="space-y-[15px]">
         {currentDay === 0 && <ParticipateSection villageId={villageId} onDone={onDone} />}
         <DayChangeSection villageId={villageId} onDone={onDone} />
         <DummyLoginSection players={debugInfo.players} />
@@ -62,22 +65,23 @@ function ParticipateSection({
 
   return (
     <div>
-      <p className="mb-[5px] font-bold">入村させる</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex flex-wrap items-center gap-[5px]">
-        <input
-          type="number"
-          className={inlineInputClass}
-          style={{ width: "80px" }}
-          value={personNumber}
-          min={1}
-          max={50}
-          onChange={(e) => setPersonNumber(Number(e.target.value))}
-          aria-label="入村人数"
-        />
-        <Button onClick={submit} disabled={submitting}>
-          人数分入村させる
-        </Button>
+      <div className={rowClass}>
+        <label className={labelClass}>入村させる</label>
+        <div className="mt-[5px] flex flex-1 items-center gap-[10px] sm:mt-0">
+          <input
+            type="number"
+            className={`${inlineInputClass} flex-1`}
+            value={personNumber}
+            min={1}
+            max={50}
+            onChange={(e) => setPersonNumber(Number(e.target.value))}
+            aria-label="入村人数"
+          />
+          <Button onClick={submit} disabled={submitting}>
+            人数分入村させる
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -109,11 +113,15 @@ function DayChangeSection({
 
   return (
     <div>
-      <p className="mb-[5px] font-bold">日付を進める</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <Button onClick={submit} disabled={submitting}>
-        日付を進める
-      </Button>
+      <div className={rowClass}>
+        <label className={labelClass}>日付を進める</label>
+        <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+          <Button onClick={submit} disabled={submitting}>
+            日付を進める
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
@@ -138,24 +146,26 @@ function DummyLoginSection({ players }: { players: VillageDebugView["players"] }
 
   return (
     <div>
-      <p className="mb-[5px] font-bold">ダミーログイン</p>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="flex flex-wrap items-center gap-[5px]">
-        <select
-          className={`${selectClass} max-w-[240px]`}
-          value={userId}
-          onChange={(e) => setUserId(e.target.value)}
-          aria-label="ダミーログインプレイヤー"
-        >
-          {players.map((p) => (
-            <option key={p.userId} value={p.userId}>
-              {p.label}
-            </option>
-          ))}
-        </select>
-        <Button onClick={submit} disabled={submitting || userId === ""}>
-          ログイン
-        </Button>
+      <div className={rowClass}>
+        <label className={labelClass}>ダミーログイン</label>
+        <div className="mt-[5px] flex flex-1 items-center gap-[10px] sm:mt-0">
+          <select
+            className={`${selectClass} flex-1`}
+            value={userId}
+            onChange={(e) => setUserId(e.target.value)}
+            aria-label="ダミーログインプレイヤー"
+          >
+            {players.map((p) => (
+              <option key={p.userId} value={p.userId}>
+                {p.label}
+              </option>
+            ))}
+          </select>
+          <Button onClick={submit} disabled={submitting || userId === ""}>
+            ログイン
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -181,9 +191,14 @@ function LogoutSection() {
   return (
     <div>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <Button variant="danger" onClick={submit} disabled={submitting}>
-        ログアウト
-      </Button>
+      <div className={rowClass}>
+        <label className={labelClass} />
+        <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+          <Button variant="danger" onClick={submit} disabled={submitting}>
+            ログアウト
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

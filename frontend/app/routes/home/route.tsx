@@ -12,6 +12,8 @@ import {
   WrenchIcon,
 } from "@heroicons/react/24/outline";
 
+import { Link } from "react-router";
+
 import { Footer } from "~/components/layout/Footer";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
@@ -201,19 +203,18 @@ export default function Home() {
 }
 
 function VillageRow({ village }: { village: SimpleVillageView }) {
-  const url = legacyUrl(`/village/${village.id}`);
-  // 既存 (:8091) は番号/人数/状態が中央寄せ、村名のみ左寄せ (`.top-menu-inner` の text-align:center + td.text-left)。
+  const url = `/village/${village.id}`;
   const cell = "border border-wm-band p-0";
   const link = "block p-[5px] text-white no-underline hover:text-wm-accent";
   return (
     <tr className="border border-wm-band hover:bg-wm-tile-hover">
       <td className={`${cell} text-center`}>
-        <a href={url} className={link}>
+        <Link to={url} className={link}>
           {villageNumber(village.id)}
-        </a>
+        </Link>
       </td>
       <td className={`${cell} text-left`}>
-        <a href={url} className={link}>
+        <Link to={url} className={link}>
           {villageListTags(village).map((tag) => (
             <span
               key={tag.name}
@@ -225,17 +226,17 @@ function VillageRow({ village }: { village: SimpleVillageView }) {
             </span>
           ))}
           {village.name}
-        </a>
+        </Link>
       </td>
       <td className={`${cell} text-center`}>
-        <a href={url} className={link}>
+        <Link to={url} className={link}>
           {participateNumLabel(village)}
-        </a>
+        </Link>
       </td>
       <td className={`${cell} text-center`}>
-        <a href={url} className={link}>
+        <Link to={url} className={link}>
           {village.status.name}
-        </a>
+        </Link>
       </td>
     </tr>
   );
