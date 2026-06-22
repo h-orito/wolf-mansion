@@ -23,7 +23,7 @@ export function DayList({
   // 抽出条件 (searchParams) は日付遷移後も引き継ぐ
   const { search } = useLocation();
   return (
-    <ul className="pl-0">
+    <ul className="my-[10px] pl-0">
       <li className="mr-[10px] inline list-none">
         {onInfo != null ? (
           <button

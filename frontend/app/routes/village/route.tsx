@@ -369,6 +369,13 @@ export default function Village({ params }: Route.ComponentProps) {
           onSecret={canSecretReply ? onReply : undefined}
           onLoaded={onMessagesLoaded}
         />
+        <DayList
+          villageId={villageId}
+          dayList={(village.days.list ?? []).map((d) => d.day)}
+          currentDay={currentDay}
+          epilogueDay={village.epilogueDay}
+          onInfo={() => setInfoOpen(true)}
+        />
         {sayPreview != null && (
           <div
             id="message-confirm-area"
@@ -507,14 +514,6 @@ export default function Village({ params }: Route.ComponentProps) {
             onDone={invalidate}
           />
         )}
-
-        <DayList
-          villageId={villageId}
-          dayList={(village.days.list ?? []).map((d) => d.day)}
-          currentDay={currentDay}
-          epilogueDay={village.epilogueDay}
-          onInfo={() => setInfoOpen(true)}
-        />
 
         <div className="mb-[10px]">
           <LinkButton to="/" variant="default">
