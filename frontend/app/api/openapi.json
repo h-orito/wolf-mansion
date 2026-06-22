@@ -5069,6 +5069,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "hasJoinPassword": {
+            "type": "boolean"
+          },
           "organize": {
             "$ref": "#/components/schemas/VillageOrganize"
           },
@@ -5097,6 +5100,7 @@
         "required": [
           "chara",
           "dayChangeIntervalSeconds",
+          "hasJoinPassword",
           "organize",
           "personMax",
           "personMin",

@@ -1829,6 +1829,7 @@ export interface components {
       chara: components["schemas"]["VillageCharaSetting"];
       /** Format: int32 */
       dayChangeIntervalSeconds: number;
+      hasJoinPassword: boolean;
       organize: components["schemas"]["VillageOrganize"];
       /** Format: int32 */
       personMax: number;

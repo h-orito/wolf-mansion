@@ -98,7 +98,7 @@ export function ChangeSkillPanel({
           現在の役職希望: {currentFirst}/{currentSecond}
         </p>
         <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[120px]">第一役職希望</label>
+          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第一役職希望</label>
           <select
             className={`${selectClass} mt-[5px] sm:mt-0`}
             value={first}
@@ -113,7 +113,7 @@ export function ChangeSkillPanel({
           </select>
         </div>
         <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[120px]">第二役職希望</label>
+          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第二役職希望</label>
           <select
             className={`${selectClass} mt-[5px] sm:mt-0`}
             value={second}

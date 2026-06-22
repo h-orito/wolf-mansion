@@ -76,7 +76,7 @@ function ChangeNameForm({
       <strong>名前変更</strong>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
       <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px]">略称</label>
+        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">略称</label>
         <input
           type="text"
           className={`${inputClass} mt-[5px] sm:mt-0`}
@@ -87,7 +87,7 @@ function ChangeNameForm({
         />
       </div>
       <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px]">名前</label>
+        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">名前</label>
         <input
           type="text"
           className={`${inputClass} mt-[5px] sm:mt-0`}
@@ -138,7 +138,7 @@ function MemoForm({
       <strong>簡易メモ変更</strong>
       {error != null && <p className="text-[#e74c3c]">{error}</p>}
       <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px]">簡易メモ</label>
+        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">簡易メモ</label>
         <input
           type="text"
           className={`${inputClass} mt-[5px] sm:mt-0`}

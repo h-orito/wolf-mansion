@@ -23,6 +23,7 @@ data class VillageSettingView(
     val organize: VillageOrganize,
     val sayRestriction: SayRestriction,
     val tags: VillageTags,
+    val hasJoinPassword: Boolean,
 ) {
     constructor(setting: VillageSetting) : this(
         chara = setting.chara,
@@ -34,5 +35,6 @@ data class VillageSettingView(
         organize = setting.organize,
         sayRestriction = setting.sayRestriction,
         tags = setting.tags,
+        hasJoinPassword = !setting.joinPassword.isNullOrEmpty(),
     )
 }
