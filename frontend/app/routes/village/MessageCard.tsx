@@ -267,8 +267,13 @@ function renderBody(
 
   const sayVariant = SAY_VARIANTS[type];
   if (sayVariant != null) {
+    const alwaysShowAnchor = type !== "MONOLOGUE_SAY" && type !== "SECRET_SAY";
     const anchorText =
-      message.messageNumber != null ? `${sayVariant.anchorPrefix}${message.messageNumber}` : null;
+      message.messageNumber != null
+        ? `${sayVariant.anchorPrefix}${message.messageNumber}`
+        : alwaysShowAnchor
+          ? sayVariant.anchorPrefix
+          : null;
     const loud = sayVariant.decoratable && message.isLoud;
     const rainbow = sayVariant.decoratable && message.isRainbow;
     return (
@@ -364,23 +369,19 @@ function renderBody(
   }
 
   if (type === "CREATOR_SAY") {
+    const creatorAnchorText = message.messageNumber != null ? `>>#${message.messageNumber}` : ">>#";
     return (
       <div>
         <div className="text-village-sm">
           <span>
-            {message.messageNumber != null && (
-              <>
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() => copyAnchor(`>>#${message.messageNumber}`)}
-                >
-                  {`>>#${message.messageNumber}`}
-                </button>
-                .&nbsp;
-              </>
-            )}
-            天からのお告げ
+            <button
+              type="button"
+              className="text-wm-accent cursor-pointer hover:underline"
+              onClick={() => copyAnchor(creatorAnchorText)}
+            >
+              {creatorAnchorText}
+            </button>
+            .&nbsp;天からのお告げ
           </span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
         </div>
@@ -394,22 +395,19 @@ function renderBody(
   }
 
   if (type === "ACTION") {
+    const actionAnchorText = message.messageNumber != null ? `>>a${message.messageNumber}` : ">>a";
     return (
       <div>
         <div className="text-village-sm">
           <span>
-            {message.messageNumber != null && (
-              <>
-                <button
-                  type="button"
-                  className="text-wm-accent cursor-pointer hover:underline"
-                  onClick={() => copyAnchor(`>>a${message.messageNumber}`)}
-                >
-                  {`>>a${message.messageNumber}`}
-                </button>
-                .
-              </>
-            )}
+            <button
+              type="button"
+              className="text-wm-accent cursor-pointer hover:underline"
+              onClick={() => copyAnchor(actionAnchorText)}
+            >
+              {actionAnchorText}
+            </button>
+            .
             {message.playerName != null && !spoiled && (
               <span>
                 &nbsp;[
