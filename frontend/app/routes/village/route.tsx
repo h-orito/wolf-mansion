@@ -61,6 +61,7 @@ import { SayPanel } from "./SayPanel";
 import { SettingsModal } from "./SettingsModal";
 import { VillageInfoModal } from "./VillageInfoModal";
 import { SituationPanel } from "./SituationPanel";
+import { Toast, useToast } from "~/components/ui/Toast";
 import { useCountdown } from "./useCountdown";
 import { useVillageScroll } from "./useVillageScroll";
 import { VotePanel } from "./VotePanel";
@@ -276,6 +277,15 @@ export default function Village({ params }: Route.ComponentProps) {
   const currentDay = dayParam ?? latestDay ?? 0;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
+  const showToast = useToast((s) => s.show);
+  useEffect(() => {
+    if (daychangeDetected) {
+      showToast("日付が更新されました。ページを再読み込みしてください。", {
+        variant: "info",
+        persistent: true,
+      });
+    }
+  }, [daychangeDetected, showToast]);
 
   // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
@@ -306,6 +316,11 @@ export default function Village({ params }: Route.ComponentProps) {
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
+  useEffect(() => {
+    if (sessionExpired) {
+      showToast("要再ログイン", { variant: "error", persistent: true });
+    }
+  }, [sessionExpired, showToast]);
 
   const dayChangeDatetime =
     village != null && !village.status.isFinished
@@ -485,7 +500,14 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null &&
           (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-            <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+            <RpPanel
+              villageId={villageId}
+              mySituation={mySituation}
+              onDone={async () => {
+                await invalidate();
+                requestAnimationFrame(() => scrollToBottom());
+              }}
+            />
           )}
 
         {mySituation != null && mySituation.creator.isCreator && (
@@ -573,12 +595,7 @@ export default function Village({ params }: Route.ComponentProps) {
         />
       )}
 
-      {/* 通知系のオーバーレイ */}
-      {daychangeDetected && (
-        <div className="fixed top-0 right-[5px] left-[5px] z-[105] rounded bg-[#00bc8c] p-[15px] text-white">
-          日付が更新されました。ページを再読み込みしてください。
-        </div>
-      )}
+      {/* ステータス表示 */}
       {leftTime != null && (
         <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
           更新まで <span>{leftTime}</span>
@@ -591,11 +608,7 @@ export default function Village({ params }: Route.ComponentProps) {
           </div>
         </Link>
       )}
-      {sessionExpired && (
-        <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#e74c3c] p-[5px] text-white">
-          要再ログイン
-        </div>
-      )}
+      <Toast />
     </PageLayout>
   );
 }

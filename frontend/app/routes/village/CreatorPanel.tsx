@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
+import { useToast } from "~/components/ui/Toast";
 import {
   cancelVillage,
   extendVillageEpilogue,
@@ -78,6 +79,7 @@ function KickSection({
   onDone: () => Promise<unknown>;
 }) {
   const [selectedCharaId, setSelectedCharaId] = useState<string>("");
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -88,6 +90,7 @@ function KickSection({
     setError(null);
     try {
       await kickVillageParticipant(villageId, { charaId: Number(selectedCharaId) });
+      showToast("退村させました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "強制退村に失敗しました"));
@@ -146,6 +149,7 @@ function CancelSection({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -156,6 +160,7 @@ function CancelSection({
     setError(null);
     try {
       await cancelVillage(villageId);
+      showToast("廃村にしました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "廃村に失敗しました"));
@@ -249,6 +254,7 @@ function EpilogueSection({
   canShorten: boolean;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -258,6 +264,7 @@ function EpilogueSection({
     setError(null);
     try {
       await extendVillageEpilogue(villageId);
+      showToast("エピローグを延長しました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "エピローグ延長に失敗しました"));
@@ -272,6 +279,7 @@ function EpilogueSection({
     setError(null);
     try {
       await shortenVillageEpilogue(villageId);
+      showToast("エピローグを短縮しました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "エピローグ短縮に失敗しました"));

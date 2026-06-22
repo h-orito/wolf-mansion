@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { inlineInputClass } from "~/components/ui/Input";
+import { useToast } from "~/components/ui/Toast";
 import {
   adminInsertSelfVotes,
   adminLeaveVillageParticipant,
@@ -43,6 +44,7 @@ function AccessSection({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -52,6 +54,7 @@ function AccessSection({
     setError(null);
     try {
       await adminUpdateAllAccess(villageId);
+      showToast("全員アクセスを更新しました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "全員アクセスに失敗しました"));
@@ -80,6 +83,7 @@ function SelfVoteSection({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -89,6 +93,7 @@ function SelfVoteSection({
     setError(null);
     try {
       await adminInsertSelfVotes(villageId);
+      showToast("全員自投票をセットしました");
       await onDone();
     } catch (e) {
       setError(errorMessage(e, "全員自分投票に失敗しました"));
@@ -118,6 +123,7 @@ function LeaveSection({
   onDone: () => Promise<unknown>;
 }) {
   const [villagePlayerId, setVillagePlayerId] = useState<string>("");
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -128,6 +134,7 @@ function LeaveSection({
     setError(null);
     try {
       await adminLeaveVillageParticipant(villageId, { villagePlayerId: Number(villagePlayerId) });
+      showToast("退村させました");
       setVillagePlayerId("");
       await onDone();
     } catch (e) {

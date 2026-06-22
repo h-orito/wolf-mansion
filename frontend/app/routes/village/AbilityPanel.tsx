@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
+import { useToast } from "~/components/ui/Toast";
 import {
   fetchAbilityFootsteps,
   fetchAttackTargets,
@@ -56,6 +57,7 @@ export function AbilityPanel({
   const [footstepOptions, setFootstepOptions] = useState<string[]>(
     ability.targetFootstepList ?? [],
   );
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -125,6 +127,7 @@ export function AbilityPanel({
           };
     try {
       await setVillageAbility(villageId, request);
+      showToast("能力をセットしました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "能力セットに失敗しました");

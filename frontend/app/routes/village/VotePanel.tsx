@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
+import { useToast } from "~/components/ui/Toast";
 import { setVillageVote, type ParticipantSituationView } from "~/features/village/api";
 import { ApiError } from "~/lib/api";
 
@@ -20,6 +21,7 @@ export function VotePanel({
   const [targetCharaId, setTargetCharaId] = useState<string>(
     vote.targetCharaId != null ? String(vote.targetCharaId) : "",
   );
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -29,6 +31,7 @@ export function VotePanel({
     setError(null);
     try {
       await setVillageVote(villageId, { targetCharaId: Number(targetCharaId) });
+      showToast("投票をセットしました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "投票セットに失敗しました");

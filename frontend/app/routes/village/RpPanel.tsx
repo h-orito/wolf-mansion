@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { inputClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
+import { useToast } from "~/components/ui/Toast";
 import {
   changeVillageCharaName,
   changeVillageMemo,
@@ -54,6 +55,7 @@ function ChangeNameForm({
 }) {
   const [name, setName] = useState(rp.name ?? "");
   const [shortName, setShortName] = useState(rp.shortName ?? "");
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,6 +65,7 @@ function ChangeNameForm({
     setError(null);
     try {
       await changeVillageCharaName(villageId, { name, shortName });
+      showToast("名前を変更しました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "名前の変更に失敗しました");
@@ -116,6 +119,7 @@ function MemoForm({
   onDone: () => Promise<unknown>;
 }) {
   const [memo, setMemo] = useState(rp.memo ?? "");
+  const showToast = useToast((s) => s.show);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
 
@@ -125,6 +129,7 @@ function MemoForm({
     setError(null);
     try {
       await changeVillageMemo(villageId, { memo });
+      showToast("簡易メモを変更しました");
       await onDone();
     } catch (e) {
       setError(e instanceof ApiError ? e.detail : "簡易メモの変更に失敗しました");
