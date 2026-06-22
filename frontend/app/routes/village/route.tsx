@@ -353,8 +353,8 @@ export default function Village({ params }: Route.ComponentProps) {
   )?.name;
 
   return (
-    <PageLayout noAd={noAd}>
-      <div className={`px-[15px] pb-[45px] ${largeText ? "text-[150%]" : ""}`}>
+    <PageLayout noAd={noAd} footerPaddingBottom={50}>
+      <div className={`px-[15px] ${largeText ? "text-[150%]" : ""}`}>
         {/* 村タイトル */}
         <div className="flex">
           <h1 className="my-[10.5px] flex-1 text-[1.125em]">

@@ -14,11 +14,14 @@ export function PageLayout({
   children,
   header = true,
   noAd = false,
+  footerPaddingBottom,
 }: {
   children: ReactNode;
   header?: boolean;
   /** R18 村など広告を出さないページで true。 */
   noAd?: boolean;
+  /** fixed フッターメニュー等で共通 Footer が隠れる場合の下部余白 (px)。 */
+  footerPaddingBottom?: number;
 }) {
   return (
     <div className="min-h-screen bg-wm-base text-xs text-white">
@@ -26,6 +29,7 @@ export function PageLayout({
         {header && <Header />}
         {children}
         <Footer noAd={noAd} />
+        {footerPaddingBottom != null && <div style={{ height: footerPaddingBottom }} />}
       </div>
     </div>
   );
