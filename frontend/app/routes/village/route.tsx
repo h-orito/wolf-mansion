@@ -383,6 +383,35 @@ export default function Village({ params }: Route.ComponentProps) {
           onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
           onSecret={canSecretReply ? onReply : undefined}
           onLoaded={onMessagesLoaded}
+          confirmArea={
+            sayPreview != null ? (
+              <div
+                id="message-confirm-area"
+                className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
+              >
+                <p className="mb-[10px]">
+                  以下の内容で発言してよろしいですか？（まだ発言されていません）
+                </p>
+                <MessageCard
+                  villageId={villageId}
+                  message={sayPreview.message}
+                  randomKeywords={keywordList}
+                />
+                <div className="flex justify-end gap-[10px]">
+                  <Button variant="default" onClick={onSayCancel}>
+                    キャンセル
+                  </Button>
+                  <Button onClick={onSayDetermine} disabled={saySubmitting}>
+                    {sayPreview.kind === "action"
+                      ? "アクション"
+                      : sayPreview.kind === "creatorSay"
+                        ? "発言する（村建て）"
+                        : sayLabel(sayPreview.request.messageType)}
+                  </Button>
+                </div>
+              </div>
+            ) : null
+          }
         />
         <DayList
           villageId={villageId}
@@ -391,33 +420,6 @@ export default function Village({ params }: Route.ComponentProps) {
           epilogueDay={village.epilogueDay}
           onInfo={() => setInfoOpen(true)}
         />
-        {sayPreview != null && (
-          <div
-            id="message-confirm-area"
-            className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
-          >
-            <p className="mb-[10px]">
-              以下の内容で発言してよろしいですか？（まだ発言されていません）
-            </p>
-            <MessageCard
-              villageId={villageId}
-              message={sayPreview.message}
-              randomKeywords={keywordList}
-            />
-            <div className="flex justify-end gap-[10px]">
-              <Button variant="default" onClick={onSayCancel}>
-                キャンセル
-              </Button>
-              <Button onClick={onSayDetermine} disabled={saySubmitting}>
-                {sayPreview.kind === "action"
-                  ? "アクション"
-                  : sayPreview.kind === "creatorSay"
-                    ? "発言する（村建て）"
-                    : sayLabel(sayPreview.request.messageType)}
-              </Button>
-            </div>
-          </div>
-        )}
         {!noAd && (
           <div className="mt-[15px] min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
             広告（移行中はプレースホルダー）

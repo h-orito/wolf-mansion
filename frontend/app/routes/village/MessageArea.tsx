@@ -36,6 +36,7 @@ export function MessageArea({
   onReply,
   onSecret,
   onLoaded,
+  confirmArea,
 }: {
   villageId: number;
   day: number | undefined;
@@ -47,6 +48,7 @@ export function MessageArea({
   onSecret?: (reply: ReplyDraft) => void;
   /** 一覧取得のたびに呼ぶ (新着検知の基準更新用)。 */
   onLoaded: (content: VillageMessageListContent) => void;
+  confirmArea?: React.ReactNode;
 }) {
   // 日付指定 (`/day/{day}`) で開いたら 1 ページ目、最新日 URL なら最新ページを初期表示する
   const initialPage = (d: number | undefined): PageState =>
@@ -98,6 +100,7 @@ export function MessageArea({
           onSecret={onSecret}
         />
       ))}
+      {confirmArea}
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}
       {data.villageStatusMessage != null && <Announce text={data.villageStatusMessage} />}
       {data.commitStatusMessage != null && <Announce text={data.commitStatusMessage} />}
