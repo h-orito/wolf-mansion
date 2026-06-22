@@ -300,19 +300,26 @@ export default function Village({ params }: Route.ComponentProps) {
     },
     [scrollToBottom],
   );
+  const isInLatestPage =
+    latestDay != null &&
+    currentDay === latestDay &&
+    (loadedMessages == null || loadedMessages.isDispLatest || !loadedMessages.isExistNextPage);
   const hasNewMessage = useNewMessageDetector(
     villageId,
     dayParam,
     loadedMessages?.latestMessageDatetime,
-    latestDay != null && currentDay === latestDay,
+    isInLatestPage,
   );
   // 自動更新設定が ON なら、新着検知時に更新ボタンを押すのと同じ再読み込みを行う
   const autoReload = useDisplaySettings((s) => s.autoReload);
   const largeText = useDisplaySettings((s) => s.largeText);
   useEffect(() => {
-    if (hasNewMessage && autoReload) void invalidate();
+    if (hasNewMessage && autoReload && sayPreview == null) {
+      void invalidate();
+      showToast("最新発言を読み込みました");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasNewMessage, autoReload]);
+  }, [hasNewMessage, autoReload, sayPreview]);
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;

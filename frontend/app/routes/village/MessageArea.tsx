@@ -65,7 +65,7 @@ export function MessageArea({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [day, filterKey, isPaging, pageSize]);
 
-  const { data, isLoading } = useVillageMessages(villageId, {
+  const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,
     pageNum: isPaging && !page.isDispLatest ? page.pageNum : undefined,
@@ -85,8 +85,11 @@ export function MessageArea({
     return <div className="text-gray-400">読み込み中...</div>;
   }
 
+  const showOverlay = isFetching && !isLoading;
+
   return (
-    <div>
+    <div className="relative">
+      {showOverlay && <div className="absolute inset-0 z-10 bg-[#222222]/60" />}
       <MessagePagination content={data} onChange={setPage} />
       {(data.messageList ?? []).map((message, index) => (
         <MessageCard
