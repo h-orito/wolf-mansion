@@ -143,10 +143,10 @@ export default function Village({ params }: Route.ComponentProps) {
   const invalidate = useInvalidateVillage(villageId);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
   const canAction =
-    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "ACTION") ??
+    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageType.code === "ACTION") ??
     false;
   const canSecretReply =
-    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "SECRET_SAY") ??
+    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageType.code === "SECRET_SAY") ??
     false;
 
   const {
@@ -365,12 +365,18 @@ export default function Village({ params }: Route.ComponentProps) {
         )}
 
         {mySituation != null && mySituation.vote.canVote && (
-          <VotePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+          <VotePanel
+            villageId={villageId}
+            village={village}
+            mySituation={mySituation}
+            onDone={invalidate}
+          />
         )}
 
         {mySituation != null && mySituation.ability.canUseAbility && (
           <AbilityPanel
             villageId={villageId}
+            village={village}
             mySituation={mySituation}
             roomAssignedRows={situation?.roomAssignedRowList}
             onDone={invalidate}

@@ -10,9 +10,15 @@ import {
   setVillageAbility,
   type ParticipantSituationView,
   type VillageAbilityRequest,
+  type VillageDetailView,
   type VillageRoomAssignedRow,
 } from "~/features/village/api";
 import { useAsyncAction } from "~/lib/useAsyncAction";
+
+function resolveCharaName(village: VillageDetailView, charaId: number): string {
+  const all = [...(village.participants.list ?? []), ...(village.spectators.list ?? [])];
+  return all.find((p) => p.chara.id === charaId)?.name ?? `(${charaId})`;
+}
 
 const NO_FOOTSTEP = "なし";
 
@@ -23,11 +29,13 @@ const NO_FOOTSTEP = "なし";
  */
 export function AbilityPanel({
   villageId,
+  village,
   mySituation,
   roomAssignedRows,
   onDone,
 }: {
   villageId: number;
+  village: VillageDetailView;
   mySituation: ParticipantSituationView;
   roomAssignedRows: VillageRoomAssignedRow[] | null | undefined;
   onDone: () => Promise<unknown>;
@@ -35,9 +43,9 @@ export function AbilityPanel({
   const ability = mySituation.ability;
   const skill = mySituation.myself?.skill;
 
-  const isAttack = (ability.attackerList ?? []).length > 0;
+  const isAttack = ability.attackerCharaIds.length > 0;
   const isInvestigate = skill?.hasInvestigateAbility ?? false;
-  const isDisturb = (skill?.hasDisturbAbility ?? false) && (ability.targetList ?? []).length === 0;
+  const isDisturb = (skill?.hasDisturbAbility ?? false) && ability.targetCharaIds.length === 0;
 
   const [attackerCharaId, setAttackerCharaId] = useState<string>(
     ability.attackerCharaId != null ? String(ability.attackerCharaId) : "",
@@ -53,7 +61,7 @@ export function AbilityPanel({
     const current = ability.footstep;
     return current == null || current === NO_FOOTSTEP ? [] : current.split(",");
   });
-  const [targets, setTargets] = useState(ability.targetList ?? []);
+  const [targets, setTargets] = useState<{ charaId: number; name: string }[]>([]);
   const [footstepOptions, setFootstepOptions] = useState<string[]>(
     ability.targetFootstepList ?? [],
   );
@@ -230,9 +238,9 @@ export function AbilityPanel({
                   onChange={(e) => onAttackerChange(e.target.value)}
                   aria-label="襲撃者"
                 >
-                  {(ability.attackerList ?? []).map((attacker) => (
-                    <option key={attacker.charaId} value={attacker.charaId}>
-                      {attacker.name}
+                  {ability.attackerCharaIds.map((id) => (
+                    <option key={id} value={id}>
+                      {resolveCharaName(village, id)}
                     </option>
                   ))}
                 </select>
@@ -290,7 +298,7 @@ export function AbilityPanel({
           </div>
         )}
 
-        <FactionNotes ability={ability} />
+        <FactionNotes ability={ability} village={village} />
 
         {(ability.skillHistoryList ?? []).length > 0 && (
           <div>
@@ -307,26 +315,52 @@ export function AbilityPanel({
 }
 
 /** 自陣営の仲間名リスト (見える役職にのみ situation が値を返す)。 */
-function FactionNotes({ ability }: { ability: ParticipantSituationView["ability"] }) {
+function FactionNotes({
+  ability,
+  village,
+}: {
+  ability: ParticipantSituationView["ability"];
+  village: VillageDetailView;
+}) {
+  const resolve = (id: number) => resolveCharaName(village, id);
   const notes: { key: string; text: string }[] = [];
-  if (ability.werewolfNames)
-    notes.push({ key: "wolf", text: `この村の人狼は、 ${ability.werewolfNames} です。` });
-  if (ability.cMadmanNames)
-    notes.push({ key: "cmad", text: `この村のC国狂人は、 ${ability.cMadmanNames} です。` });
-  if (ability.foxNames)
-    notes.push({ key: "fox", text: `この村の妖狐は、 ${ability.foxNames} です。` });
-  if (ability.masonsNames)
-    notes.push({ key: "mason", text: `この村の共鳴者は、 ${ability.masonsNames} です。` });
-  if (ability.listenMasonsNames)
-    notes.push({ key: "listen", text: `この村の共有者は、 ${ability.listenMasonsNames} です。` });
-  if (notes.length === 0 && !ability.loversNames) return null;
+  if (ability.wolfCharaIds.length > 0)
+    notes.push({
+      key: "wolf",
+      text: `この村の人狼は、 ${ability.wolfCharaIds.map(resolve).join("、")} です。`,
+    });
+  if (ability.cMadmanCharaIds.length > 0)
+    notes.push({
+      key: "cmad",
+      text: `この村のC国狂人は、 ${ability.cMadmanCharaIds.map(resolve).join("、")} です。`,
+    });
+  if (ability.foxCharaIds.length > 0)
+    notes.push({
+      key: "fox",
+      text: `この村の妖狐は、 ${ability.foxCharaIds.map(resolve).join("、")} です。`,
+    });
+  if (ability.masonsCharaIds.length > 0)
+    notes.push({
+      key: "mason",
+      text: `この村の共鳴者は、 ${ability.masonsCharaIds.map(resolve).join("、")} です。`,
+    });
+  if (ability.listenMasonsCharaIds.length > 0)
+    notes.push({
+      key: "listen",
+      text: `この村の共有者は、 ${ability.listenMasonsCharaIds.map(resolve).join("、")} です。`,
+    });
+  const loversText =
+    ability.lovers.length > 0
+      ? ability.lovers.map((l) => `${resolve(l.fromCharaId)} → ${resolve(l.toCharaId)}`).join("\n")
+      : null;
+  if (notes.length === 0 && loversText == null) return null;
   return (
     <div>
       <hr className="my-[10px] border-[#464545]" />
       {notes.map((note) => (
         <p key={note.key}>{note.text}</p>
       ))}
-      {ability.loversNames && <p className="whitespace-pre-line">{ability.loversNames}</p>}
+      {loversText != null && <p className="whitespace-pre-line">{loversText}</p>}
     </div>
   );
 }

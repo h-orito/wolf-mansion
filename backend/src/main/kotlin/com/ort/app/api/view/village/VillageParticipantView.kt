@@ -23,10 +23,12 @@ data class VillageParticipantView(
     val skill: SkillView?,
     /** 現在の勝敗判定陣営 (恋人化・狐憑依・説得等で変わりうる)。本人以外は null */
     val camp: Camp?,
+    /** 簡易メモ (参加者一覧に表示される公開情報)。本人以外は null */
+    val memo: String?,
     /** Discord 通知設定。本人以外は null */
     val notification: VillageParticipantNotificationCondition?,
 ) {
-    /** 参加者一覧向け。非公開フィールドは null */
+    /** 参加者一覧向け（SSR 互換）。非公開フィールドは null */
     constructor(
         participant: VillageParticipant,
         participantIdToChara: Map<Int, Chara>,
@@ -41,14 +43,20 @@ data class VillageParticipantView(
         isSpectator = participant.isSpectator,
         skill = null,
         camp = null,
+        memo = null,
         notification = null,
     )
 
-    /** 本人向け。shouldHidePrivate = false のとき役職・通知設定を返す */
+    /**
+     * REST API 向け。
+     * [shouldHidePrivate] = true で役職・陣営・通知設定をすべて隠す (進行中の公開一覧)。
+     * [includeNotification] = true のとき通知設定を含める (本人向け API のみ)。
+     */
     constructor(
         participant: VillageParticipant,
         chara: Chara,
         shouldHidePrivate: Boolean,
+        includeNotification: Boolean = false,
     ) : this(
         id = participant.id,
         charaName = participant.charaName,
@@ -65,12 +73,8 @@ data class VillageParticipantView(
                 SkillView(participant.skill)
             },
         camp = if (shouldHidePrivate) null else participant.camp,
-        notification =
-            if (shouldHidePrivate) {
-                null
-            } else {
-                participant.notification
-            },
+        memo = if (shouldHidePrivate) null else participant.memo,
+        notification = if (includeNotification && !shouldHidePrivate) participant.notification else null,
     )
 
     @Schema(name = "VillageParticipantViewSkill")

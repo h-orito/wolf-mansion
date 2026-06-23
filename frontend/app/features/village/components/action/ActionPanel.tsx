@@ -24,7 +24,7 @@ export function ActionPanel({
 }) {
   const myself = mySituation.myself;
   const restrict = mySituation.say.selectableMessageTypeList?.find(
-    (t) => t.messageTypeCode === "ACTION",
+    (t) => t.messageType.code === "ACTION",
   )?.restrict;
 
   const [target, setTarget] = useState("");

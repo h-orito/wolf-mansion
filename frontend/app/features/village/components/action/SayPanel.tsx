@@ -10,6 +10,7 @@ import type {
   VillageDetailView,
   VillageSayRequest,
 } from "~/features/village/api";
+import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 export type { ReplyDraft };
@@ -98,16 +99,18 @@ export function SayPanel({
   const selectable = say.selectableMessageTypeList ?? [];
   const images = say.selectableCharaImageList ?? [];
 
-  const defaultType = say.defaultMessageTypeCode ?? selectable[0]?.messageTypeCode ?? "NORMAL_SAY";
+  const displayImages = images.filter((i) => i.isDisplay);
+  const defaultType =
+    say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? "NORMAL_SAY";
   const [messageType, setMessageType] = useState(defaultType);
   const [message, setMessage] = useState("");
   const [faceType, setFaceType] = useState<string>(
     () =>
       faceTypeFor(
         defaultType,
-        images.map((i) => i.faceTypeCode),
+        displayImages.map((i) => i.faceType.code),
       ) ??
-      images[0]?.faceTypeCode ??
+      displayImages[0]?.faceType.code ??
       "NORMAL",
   );
   const [convertDisable, setConvertDisable] = useState(false);
@@ -127,10 +130,10 @@ export function SayPanel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reply]);
 
-  const current = selectable.find((t) => t.messageTypeCode === messageType);
+  const current = selectable.find((t) => t.messageType.code === messageType);
   const restrict = current?.restrict;
-  const secretTargets =
-    selectable.find((t) => t.messageTypeCode === "SECRET_SAY")?.targetList ?? [];
+  const secretTargetCharaIds =
+    selectable.find((t) => t.messageType.code === "SECRET_SAY")?.targetCharaIds ?? [];
 
   const length = message.length;
   const lineCount = message.split("\n").length;
@@ -155,7 +158,7 @@ export function SayPanel({
     setMessageType(type);
     const face = faceTypeFor(
       type,
-      images.map((i) => i.faceTypeCode),
+      displayImages.map((i) => i.faceType.code),
     );
     if (face != null) setFaceType(face);
   };
@@ -190,7 +193,7 @@ export function SayPanel({
     }
   };
 
-  const faceImage = images.find((i) => i.faceTypeCode === faceType) ?? images[0];
+  const faceImage = displayImages.find((i) => i.faceType.code === faceType) ?? displayImages[0];
   const styleKey = TYPE_TO_STYLE_KEY[messageType];
   const textareaStyle = styleKey != null ? MESSAGE_STYLES[styleKey] : "bg-white text-[#555]";
 
@@ -244,7 +247,7 @@ export function SayPanel({
 
         {/* 発言種別 */}
         <div className="flex flex-wrap">
-          {SAY_TYPE_ORDER.filter((t) => selectable.some((s) => s.messageTypeCode === t.code)).map(
+          {SAY_TYPE_ORDER.filter((t) => selectable.some((s) => s.messageType.code === t.code)).map(
             (t) => {
               const active = messageType === t.code;
               return (
@@ -275,9 +278,9 @@ export function SayPanel({
               aria-label="秘話相手"
             >
               <option value="">選択してください</option>
-              {secretTargets.map((target) => (
-                <option key={target.charaId} value={target.charaId}>
-                  {target.name}
+              {secretTargetCharaIds.map((charaId) => (
+                <option key={charaId} value={charaId}>
+                  {resolveParticipantName(village, charaId)}
                 </option>
               ))}
             </select>
@@ -322,7 +325,7 @@ export function SayPanel({
             {faceImage != null && (
               <img
                 src={faceImage.url}
-                alt={faceImage.faceTypeName}
+                alt={faceImage.faceType.name}
                 width={myself?.chara.size.width ?? 60}
                 height={myself?.chara.size.height ?? 77}
                 className="cursor-pointer"
@@ -336,9 +339,9 @@ export function SayPanel({
               onChange={(e) => setFaceType(e.target.value)}
               aria-label="表情"
             >
-              {images.map((image) => (
-                <option key={image.faceTypeCode} value={image.faceTypeCode}>
-                  {image.faceTypeName}
+              {displayImages.map((image) => (
+                <option key={image.faceType.code} value={image.faceType.code}>
+                  {image.faceType.name}
                 </option>
               ))}
             </select>
@@ -406,22 +409,22 @@ export function SayPanel({
           >
             <h4 className="mb-[10px] font-bold">表情選択</h4>
             <div className="flex flex-wrap gap-[5px]">
-              {images.map((image) => (
+              {displayImages.map((image) => (
                 <div
-                  key={image.faceTypeCode}
+                  key={image.faceType.code}
                   className="inline-block border border-[#464545] p-[5px] text-center"
                 >
                   <img
                     src={image.url}
-                    alt={image.faceTypeName}
+                    alt={image.faceType.name}
                     width={myself?.chara.size.width ?? 60}
                     height={myself?.chara.size.height ?? 77}
                   />
-                  <div>{image.faceTypeName}</div>
+                  <div>{image.faceType.name}</div>
                   <Button
                     size="xs"
                     onClick={() => {
-                      setFaceType(image.faceTypeCode);
+                      setFaceType(image.faceType.code);
                       setFaceModalOpen(false);
                     }}
                   >

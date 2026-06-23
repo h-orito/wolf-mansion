@@ -15,6 +15,20 @@ import { toMessageHtml } from "../message/messageHtml";
 
 const OMAKASE = "LEFTOVER";
 
+type CharaLike = {
+  id: number;
+  name: string;
+  shortName: string;
+  images: { list: { faceType: { code: string }; url: string }[] };
+  size: { width: number; height: number };
+};
+
+function defaultImageUrl(c: CharaLike): string {
+  return (
+    c.images.list.find((i) => i.faceType.code === "NORMAL")?.url ?? c.images.list[0]?.url ?? ""
+  );
+}
+
 type Step = "input" | "confirm";
 
 /**
@@ -55,7 +69,7 @@ export function ParticipatePanel({
   const fileRef = useRef<HTMLInputElement>(null);
 
   const currentChip = charachips.find((c) => c.id === charachipId) ?? charachips[0];
-  const charas = currentChip?.charas ?? [];
+  const charas = currentChip?.charas?.list ?? [];
   const chara = charas.find((c) => c.id === charaId) ?? null;
 
   const selectChara = (id: number | null) => {
@@ -323,10 +337,10 @@ export function ParticipatePanel({
                 <div key={c.id} className="border border-[#464545] p-[5px] text-center">
                   <div className="flex justify-center">
                     <img
-                      src={c.imageUrl}
+                      src={defaultImageUrl(c)}
                       alt={c.name}
-                      width={c.imageWidth}
-                      height={c.imageHeight}
+                      width={c.size.width}
+                      height={c.size.height}
                     />
                   </div>
                   <div>{c.name}</div>
@@ -379,16 +393,16 @@ export function ParticipatePanel({
               <div>
                 {chara != null && (
                   <img
-                    src={chara.imageUrl}
-                    width={chara.imageWidth}
-                    height={chara.imageHeight}
+                    src={defaultImageUrl(chara)}
+                    width={chara.size.width}
+                    height={chara.size.height}
                     alt={charaName}
                   />
                 )}
               </div>
               <div
                 className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
-                style={chara != null ? { minHeight: chara.imageHeight } : undefined}
+                style={chara != null ? { minHeight: chara.size.height } : undefined}
                 dangerouslySetInnerHTML={{ __html: previewHtml }}
               />
             </div>

@@ -36,9 +36,11 @@ export function RpPanel({
           )}
         </ul>
         {rp.isAvailableChangeName && (
-          <ChangeNameForm villageId={villageId} rp={rp} onDone={onDone} />
+          <ChangeNameForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
         )}
-        {rp.isAvailableMemo && <MemoForm villageId={villageId} rp={rp} onDone={onDone} />}
+        {rp.isAvailableMemo && (
+          <MemoForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
+        )}
       </div>
     </Panel>
   );
@@ -46,15 +48,15 @@ export function RpPanel({
 
 function ChangeNameForm({
   villageId,
-  rp,
+  myself,
   onDone,
 }: {
   villageId: number;
-  rp: ParticipantSituationView["rp"];
+  myself: ParticipantSituationView["myself"];
   onDone: () => Promise<unknown>;
 }) {
-  const [name, setName] = useState(rp.name ?? "");
-  const [shortName, setShortName] = useState(rp.shortName ?? "");
+  const [name, setName] = useState(myself?.charaName.name ?? "");
+  const [shortName, setShortName] = useState(myself?.charaName.shortName ?? "");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -102,14 +104,14 @@ function ChangeNameForm({
 
 function MemoForm({
   villageId,
-  rp,
+  myself,
   onDone,
 }: {
   villageId: number;
-  rp: ParticipantSituationView["rp"];
+  myself: ParticipantSituationView["myself"];
   onDone: () => Promise<unknown>;
 }) {
-  const [memo, setMemo] = useState(rp.memo ?? "");
+  const [memo, setMemo] = useState(myself?.memo ?? "");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 

@@ -54,14 +54,15 @@ export function ChangeSkillPanel({
 }) {
   const skillRequest = mySituation.skillRequest;
   const skills = skillRequest.selectableSkillList ?? [];
-  const [first, setFirst] = useState(skillRequest.requestedSkillCode ?? "LEFTOVER");
-  const [second, setSecond] = useState(skillRequest.secondRequestedSkillCode ?? "LEFTOVER");
+  const [first, setFirst] = useState(skillRequest.skillRequest?.first?.code ?? "LEFTOVER");
+  const [second, setSecond] = useState(skillRequest.skillRequest?.second?.code ?? "LEFTOVER");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
-  const currentFirst = skills.find((s) => s.code === skillRequest.requestedSkillCode)?.name ?? "";
+  const currentFirst =
+    skills.find((s) => s.code === skillRequest.skillRequest?.first?.code)?.name ?? "";
   const currentSecond =
-    skills.find((s) => s.code === skillRequest.secondRequestedSkillCode)?.name ?? "";
+    skills.find((s) => s.code === skillRequest.skillRequest?.second?.code)?.name ?? "";
 
   const submit = () =>
     execute(async () => {

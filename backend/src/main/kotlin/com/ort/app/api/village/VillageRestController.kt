@@ -79,7 +79,12 @@ class VillageRestController(
     @GetMapping("/{id}")
     fun detail(
         @PathVariable id: Int,
-    ): VillageDetailView = VillageDetailView(findVillageOrThrow(id))
+    ): VillageDetailView {
+        val village = findVillageOrThrow(id)
+        val charachips =
+            village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
+        return VillageDetailView(village, charachips)
+    }
 
     /**
      * 村状況 (状況サマリ)。村全体の現況のため認証不要だが、ログインしていれば

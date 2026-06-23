@@ -139,7 +139,7 @@ export type VillageSayRequest = components["schemas"]["VillageSayRequest"];
 export type VillageSayConfirmContent = components["schemas"]["VillageSayConfirmContent"];
 /** 発言種別ごとの選択肢 (制限・宛先候補)。 */
 export type SayMessageTypeView = components["schemas"]["ParticipantSituationViewSayMessageType"];
-export type SayCharaImageView = components["schemas"]["ParticipantSituationViewSayCharaImage"];
+export type CharaImage = components["schemas"]["CharaImage"];
 
 /** 発言を確認する (プレビュー。まだ保存されない)。要認証。 */
 export function confirmVillageSay(

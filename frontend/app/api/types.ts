@@ -1091,55 +1091,14 @@ export interface components {
       messageType: components["schemas"]["MessageType"];
       skill: components["schemas"]["Skill"];
     };
-    ParticipantSituationView: {
-      ability: components["schemas"]["ParticipantSituationViewAbility"];
-      admin: components["schemas"]["ParticipantSituationViewAdmin"];
-      commit: components["schemas"]["ParticipantSituationViewCommit"];
-      creator: components["schemas"]["ParticipantSituationViewCreator"];
-      myself?: components["schemas"]["VillageParticipantView"] | null;
-      participate: components["schemas"]["ParticipantSituationViewParticipate"];
-      rp: components["schemas"]["ParticipantSituationViewRp"];
-      say: components["schemas"]["ParticipantSituationViewSay"];
-      skillRequest: components["schemas"]["ParticipantSituationViewSkillRequest"];
-      vote: components["schemas"]["ParticipantSituationViewVote"];
-    };
-    ParticipantSituationViewAbility: {
-      /** Format: int32 */
-      attackerCharaId?: number | null;
-      attackerList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
-      cMadmanNames: string;
-      canUseAbility: boolean;
-      footstep?: string | null;
-      foxNames: string;
-      isAvailableNoTarget: boolean;
-      isTargetingAndFootstep: boolean;
-      listenMasonsNames: string;
-      loversNames: string;
-      masonsNames: string;
-      skillHistoryList: string[];
-      /** Format: int32 */
-      targetCharaId?: number | null;
-      targetFootstep?: string | null;
-      targetFootstepList: string[];
-      targetList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
-      targetPrefix?: string | null;
-      targetSuffix?: string | null;
-      targetingMessage?: string | null;
-      werewolfNames: string;
-    };
-    ParticipantSituationViewAbilityTarget: {
-      /** Format: int32 */
-      charaId: number;
-      name: string;
-    };
-    ParticipantSituationViewAdmin: {
+    ParticipantAdminSituation: {
       isAdmin: boolean;
     };
-    ParticipantSituationViewCommit: {
+    ParticipantCommitSituation: {
       isAvailableCommit: boolean;
       isCommitting: boolean;
     };
-    ParticipantSituationViewCreator: {
+    ParticipantCreatorSituation: {
       isAvailableCancelVillage: boolean;
       isAvailableCreatorSay: boolean;
       isAvailableExtendEpilogue: boolean;
@@ -1148,56 +1107,12 @@ export interface components {
       isAvailableShortenEpilogue: boolean;
       isCreator: boolean;
     };
-    ParticipantSituationViewParticipate: {
-      isAvailableLeave: boolean;
-      isAvailableParticipate: boolean;
-      isAvailableSpectate: boolean;
-      isAvailableSwitchParticipate: boolean;
-      isParticipating: boolean;
-      selectableCharachipList: components["schemas"]["ParticipantSituationViewParticipateCharachip"][];
-    };
-    ParticipantSituationViewParticipateChara: {
-      /** Format: int32 */
-      id: number;
-      /** Format: int32 */
-      imageHeight: number;
-      imageUrl: string;
-      /** Format: int32 */
-      imageWidth: number;
-      name: string;
-      shortName: string;
-    };
-    ParticipantSituationViewParticipateCharachip: {
-      charas: components["schemas"]["ParticipantSituationViewParticipateChara"][];
-      /** Format: int32 */
-      id: number;
-      name: string;
-    };
-    ParticipantSituationViewRp: {
+    ParticipantRpSituation: {
       canAddImage: boolean;
       isAvailableChangeName: boolean;
       isAvailableMemo: boolean;
-      memo?: string | null;
-      name?: string | null;
-      shortName?: string | null;
     };
-    ParticipantSituationViewSay: {
-      defaultMessageTypeCode?: string | null;
-      isAvailableSay: boolean;
-      selectableCharaImageList: components["schemas"]["ParticipantSituationViewSayCharaImage"][];
-      selectableMessageTypeList: components["schemas"]["ParticipantSituationViewSayMessageType"][];
-    };
-    ParticipantSituationViewSayCharaImage: {
-      faceTypeCode: string;
-      faceTypeName: string;
-      url: string;
-    };
-    ParticipantSituationViewSayMessageType: {
-      messageTypeCode: string;
-      restrict: components["schemas"]["ParticipantSituationViewSayRestrict"];
-      targetList: components["schemas"]["ParticipantSituationViewSayTarget"][];
-    };
-    ParticipantSituationViewSayRestrict: {
+    ParticipantSayRestrictSituation: {
       isRestricted: boolean;
       /** Format: int32 */
       maxCount?: number | null;
@@ -1208,27 +1123,78 @@ export interface components {
       /** Format: int32 */
       remainingCount?: number | null;
     };
-    ParticipantSituationViewSayTarget: {
+    ParticipantSituationView: {
+      ability: components["schemas"]["ParticipantSituationViewAbility"];
+      admin: components["schemas"]["ParticipantAdminSituation"];
+      commit: components["schemas"]["ParticipantCommitSituation"];
+      creator: components["schemas"]["ParticipantCreatorSituation"];
+      myself?: components["schemas"]["VillageParticipantView"] | null;
+      participate: components["schemas"]["ParticipantSituationViewParticipate"];
+      rp: components["schemas"]["ParticipantRpSituation"];
+      say: components["schemas"]["ParticipantSituationViewSay"];
+      skillRequest: components["schemas"]["ParticipantSkillRequestSituation"];
+      vote: components["schemas"]["ParticipantSituationViewVote"];
+    };
+    ParticipantSituationViewAbility: {
       /** Format: int32 */
-      charaId: number;
-      name: string;
+      attackerCharaId?: number | null;
+      attackerCharaIds: number[];
+      cMadmanCharaIds: number[];
+      canUseAbility: boolean;
+      footstep?: string | null;
+      foxCharaIds: number[];
+      isAvailableNoTarget: boolean;
+      isTargetingAndFootstep: boolean;
+      listenMasonsCharaIds: number[];
+      lovers: components["schemas"]["ParticipantSituationViewLoverRelation"][];
+      masonsCharaIds: number[];
+      skillHistoryList: string[];
+      /** Format: int32 */
+      targetCharaId?: number | null;
+      targetCharaIds: number[];
+      targetFootstep?: string | null;
+      targetFootstepList: string[];
+      targetPrefix?: string | null;
+      targetSuffix?: string | null;
+      targetingMessage?: string | null;
+      wolfCharaIds: number[];
     };
-    ParticipantSituationViewSkillRequest: {
-      isAvailableSkillRequest: boolean;
-      requestedSkillCode?: string | null;
-      secondRequestedSkillCode?: string | null;
-      selectableSkillList: components["schemas"]["ParticipantSituationViewSkillRequestSkill"][];
+    ParticipantSituationViewLoverRelation: {
+      /** Format: int32 */
+      fromCharaId: number;
+      /** Format: int32 */
+      toCharaId: number;
     };
-    ParticipantSituationViewSkillRequestSkill: {
-      code: string;
-      name: string;
+    ParticipantSituationViewParticipate: {
+      isAvailableLeave: boolean;
+      isAvailableParticipate: boolean;
+      isAvailableSpectate: boolean;
+      isAvailableSwitchParticipate: boolean;
+      isParticipating: boolean;
+      selectableCharaList: components["schemas"]["Chara"][];
+      selectableCharachipList: components["schemas"]["Charachip"][];
+    };
+    ParticipantSituationViewSay: {
+      defaultMessageType?: components["schemas"]["MessageType"] | null;
+      isAvailableSay: boolean;
+      selectableCharaImageList: components["schemas"]["CharaImage"][];
+      selectableMessageTypeList: components["schemas"]["ParticipantSituationViewSayMessageType"][];
+    };
+    ParticipantSituationViewSayMessageType: {
+      messageType: components["schemas"]["MessageType"];
+      restrict: components["schemas"]["ParticipantSayRestrictSituation"];
+      targetCharaIds: number[];
     };
     ParticipantSituationViewVote: {
       canVote: boolean;
       /** Format: int32 */
       targetCharaId?: number | null;
-      targetList: components["schemas"]["ParticipantSituationViewAbilityTarget"][];
-      targetName?: string | null;
+      targetCharaIds: number[];
+    };
+    ParticipantSkillRequestSituation: {
+      isAvailableSkillRequest: boolean;
+      selectableSkillList: components["schemas"]["Skill"][];
+      skillRequest?: components["schemas"]["RequestSkill"] | null;
     };
     PasswordChangeRequest: {
       confirmPassword: string | null;
@@ -1283,6 +1249,10 @@ export interface components {
       maxNum?: number | null;
       /** Format: int32 */
       minNum: number | null;
+    };
+    RequestSkill: {
+      first: components["schemas"]["Skill"];
+      second: components["schemas"]["Skill"];
     };
     Room: {
       histories: components["schemas"]["RoomHistories"];
@@ -1608,8 +1578,10 @@ export interface components {
       /** Format: int32 */
       id: number;
       name: string;
+      participants: components["schemas"]["VillageParticipantsView"];
       roomSize?: components["schemas"]["RoomSize"] | null;
       setting: components["schemas"]["VillageSettingView"];
+      spectators: components["schemas"]["VillageParticipantsView"];
       status: components["schemas"]["VillageStatus"];
     };
     VillageFilterParticipantContent: {
@@ -1740,6 +1712,7 @@ export interface components {
       /** Format: int32 */
       id: number;
       isSpectator: boolean;
+      memo?: string | null;
       name: string;
       notification?: components["schemas"]["VillageParticipantNotificationCondition"] | null;
       room?: components["schemas"]["Room"] | null;
@@ -1755,6 +1728,11 @@ export interface components {
     };
     VillageParticipantsContent: {
       list: components["schemas"]["VillageParticipantContent"][];
+    };
+    VillageParticipantsView: {
+      /** Format: int32 */
+      count: number;
+      list: components["schemas"]["VillageParticipantView"][];
     };
     VillageParticipateRequest: {
       /** Format: int32 */

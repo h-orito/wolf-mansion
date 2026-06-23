@@ -1,61 +1,57 @@
 package com.ort.app.api.village.response
 
-import com.fasterxml.jackson.annotation.JsonProperty
 import com.ort.app.api.view.village.VillageParticipantView
 import com.ort.app.domain.model.chara.Chara
 import com.ort.app.domain.model.chara.CharaImage
 import com.ort.app.domain.model.chara.Charachip
 import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
+import com.ort.app.domain.model.situation.participant.ParticipantAdminSituation
+import com.ort.app.domain.model.situation.participant.ParticipantCommitSituation
+import com.ort.app.domain.model.situation.participant.ParticipantCreatorSituation
 import com.ort.app.domain.model.situation.participant.ParticipantRpSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayMessageTypeSituation
 import com.ort.app.domain.model.situation.participant.ParticipantSayRestrictSituation
-import com.ort.app.domain.model.situation.participant.ParticipantSaySituation
-import com.ort.app.domain.model.situation.participant.ParticipantVoteSituation
+import com.ort.app.domain.model.situation.participant.ParticipantSkillRequestSituation
 import com.ort.app.domain.model.village.Village
-import com.ort.app.domain.model.village.participant.VillageParticipant
 import io.swagger.v3.oas.annotations.media.Schema
 
 /**
  * 参加者本人の状態 (ログインユーザー固有の capability)。認証必須 API でのみ返す。
- * どの操作 UI を表示してよいかのフラグを担い、各操作の入力候補 (対象リスト等) は
- * その操作の API を実装する際に追加する。
  *
- * ネスト DTO はドメインの situation と単純名が衝突しないよう `@Schema` で命名する
- * (衝突すると SpringDoc がスキーマ定義を上書きしてしまう)。
+ * ドメインモデルをそのまま返すのが原則。VillageParticipant を含むフィールドのみ
+ * charaId に変換する薄い View で包む。参加者の名前・画像解決はフロントエンドが
+ * VillageDetailView.participants を使って行う。
  */
 data class ParticipantSituationView(
     /** 参加している場合の自分自身 (未参加は null) */
     val myself: VillageParticipantView?,
     val participate: ParticipateView,
-    val skillRequest: SkillRequestView,
-    val commit: CommitView,
+    val skillRequest: ParticipantSkillRequestSituation,
+    val commit: ParticipantCommitSituation,
     val say: SayView,
-    val rp: RpView,
+    val rp: ParticipantRpSituation,
     val ability: AbilityView,
     val vote: VoteView,
-    val admin: AdminView,
-    val creator: CreatorView,
+    val admin: ParticipantAdminSituation,
+    val creator: ParticipantCreatorSituation,
 ) {
     constructor(situation: ParticipantSituation, village: Village, charachips: Charachips) : this(
         myself =
             situation.participate.myself?.let {
-                VillageParticipantView(it, charachips.chara(it.charaId), shouldHidePrivate = false)
+                VillageParticipantView(it, charachips.chara(it.charaId), shouldHidePrivate = false, includeNotification = true)
             },
         participate = ParticipateView(situation),
-        skillRequest = SkillRequestView(situation),
-        commit =
-            CommitView(
-                isAvailableCommit = situation.commit.isAvailableCommit,
-                isCommitting = situation.commit.isCommitting,
-            ),
+        skillRequest = situation.skillRequest,
+        commit = situation.commit,
         say = SayView(situation.say),
-        rp = RpView(situation.rp, situation.participate.myself),
+        rp = situation.rp,
         ability = AbilityView(situation.ability, village),
         vote = VoteView(situation.vote),
-        admin = AdminView(isAdmin = situation.admin.isAdmin),
-        creator = CreatorView(situation),
+        admin = situation.admin,
+        creator = situation.creator,
     )
 
     @Schema(name = "ParticipantSituationViewParticipate")
@@ -65,8 +61,8 @@ data class ParticipantSituationView(
         val isAvailableSpectate: Boolean,
         val isAvailableSwitchParticipate: Boolean,
         val isAvailableLeave: Boolean,
-        /** 入村フォームで選択できるキャラセット (空きキャラのみ) */
-        val selectableCharachipList: List<ParticipateCharachipView>,
+        val selectableCharachipList: List<Charachip>,
+        val selectableCharaList: List<Chara>,
     ) {
         constructor(situation: ParticipantSituation) : this(
             isParticipating = situation.participate.isParticipating,
@@ -74,235 +70,66 @@ data class ParticipantSituationView(
             isAvailableSpectate = situation.participate.isAvailableSpectate,
             isAvailableSwitchParticipate = situation.participate.isAvailableSwitchParticipate,
             isAvailableLeave = situation.participate.isAvailableLeave,
-            selectableCharachipList =
-                situation.participate.selectableCharachipList.map { charachip ->
-                    ParticipateCharachipView(charachip, situation.participate.selectableCharaList)
-                },
+            selectableCharachipList = situation.participate.selectableCharachipList,
+            selectableCharaList = situation.participate.selectableCharaList,
         )
     }
-
-    @Schema(name = "ParticipantSituationViewParticipateCharachip")
-    data class ParticipateCharachipView(
-        val id: Int,
-        val name: String,
-        /** このキャラセットのうち選択できる (未使用の) キャラ */
-        val charas: List<ParticipateCharaView>,
-    ) {
-        constructor(charachip: Charachip, selectableCharas: List<Chara>) : this(
-            id = charachip.id,
-            name = charachip.name,
-            charas =
-                charachip.charas.list
-                    .filter { chara: Chara -> selectableCharas.any { it.id == chara.id } }
-                    .map { chara: Chara -> ParticipateCharaView(chara) },
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewParticipateChara")
-    data class ParticipateCharaView(
-        val id: Int,
-        val name: String,
-        val shortName: String,
-        val imageUrl: String,
-        val imageWidth: Int,
-        val imageHeight: Int,
-    ) {
-        constructor(chara: Chara) : this(
-            id = chara.id,
-            name = chara.name,
-            shortName = chara.shortName,
-            imageUrl = chara.defaultImage().url,
-            imageWidth = chara.size.width,
-            imageHeight = chara.size.height,
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewSkillRequest")
-    data class SkillRequestView(
-        val isAvailableSkillRequest: Boolean,
-        /** 希望できる役職 */
-        val selectableSkillList: List<SkillRequestSkillView>,
-        /** 現在の第 1 希望 (未参加は null) */
-        val requestedSkillCode: String?,
-        /** 現在の第 2 希望 (未参加は null) */
-        val secondRequestedSkillCode: String?,
-    ) {
-        constructor(situation: ParticipantSituation) : this(
-            isAvailableSkillRequest = situation.skillRequest.isAvailableSkillRequest,
-            selectableSkillList =
-                situation.skillRequest.selectableSkillList.map {
-                    SkillRequestSkillView(code = it.code, name = it.name)
-                },
-            requestedSkillCode =
-                situation.skillRequest.skillRequest
-                    ?.first
-                    ?.code,
-            secondRequestedSkillCode =
-                situation.skillRequest.skillRequest
-                    ?.second
-                    ?.code,
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewSkillRequestSkill")
-    data class SkillRequestSkillView(
-        val code: String,
-        val name: String,
-    )
-
-    @Schema(name = "ParticipantSituationViewCommit")
-    data class CommitView(
-        val isAvailableCommit: Boolean,
-        val isCommitting: Boolean,
-    )
 
     @Schema(name = "ParticipantSituationViewSay")
     data class SayView(
         val isAvailableSay: Boolean,
-        /** 既定で選択する発言種別コード */
-        val defaultMessageTypeCode: String?,
-        /** 選択できる発言種別 (種別別の制限・秘話の宛先候補付き) */
+        val defaultMessageType: MessageType?,
         val selectableMessageTypeList: List<SayMessageTypeView>,
-        /** 選択できる表情 (表示中の差分のみ) */
-        val selectableCharaImageList: List<SayCharaImageView>,
+        val selectableCharaImageList: List<CharaImage>,
     ) {
-        constructor(say: ParticipantSaySituation) : this(
+        constructor(say: com.ort.app.domain.model.situation.participant.ParticipantSaySituation) : this(
             isAvailableSay = say.isAvailableSay,
-            defaultMessageTypeCode = say.defaultMessageType?.code,
+            defaultMessageType = say.defaultMessageType,
             selectableMessageTypeList = say.selectableMessageTypeList.map { SayMessageTypeView(it) },
-            selectableCharaImageList =
-                say.selectableCharaImageList
-                    .filter { it.isDisplay }
-                    .map { SayCharaImageView(it) },
+            selectableCharaImageList = say.selectableCharaImageList,
         )
     }
 
     @Schema(name = "ParticipantSituationViewSayMessageType")
     data class SayMessageTypeView(
-        val messageTypeCode: String,
-        val restrict: SayRestrictView,
-        /** 宛先の候補 (秘話のみ非空) */
-        val targetList: List<SayTargetView>,
+        val messageType: MessageType,
+        val restrict: ParticipantSayRestrictSituation,
+        val targetCharaIds: List<Int>,
     ) {
         constructor(situation: ParticipantSayMessageTypeSituation) : this(
-            messageTypeCode = situation.messageType.code,
-            restrict = SayRestrictView(situation.restrict),
-            targetList = situation.targetList.map { SayTargetView(it) },
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewSayRestrict")
-    data class SayRestrictView(
-        val isRestricted: Boolean,
-        val maxCount: Int?,
-        val remainingCount: Int?,
-        val maxLength: Int,
-        val maxLine: Int,
-    ) {
-        constructor(restrict: ParticipantSayRestrictSituation) : this(
-            isRestricted = restrict.isRestricted,
-            maxCount = restrict.maxCount,
-            remainingCount = restrict.remainingCount,
-            maxLength = restrict.maxLength,
-            maxLine = restrict.maxLine,
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewSayTarget")
-    data class SayTargetView(
-        val charaId: Int,
-        val name: String,
-    ) {
-        constructor(participant: VillageParticipant) : this(
-            charaId = participant.charaId,
-            name = participant.name(),
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewSayCharaImage")
-    data class SayCharaImageView(
-        val faceTypeCode: String,
-        val faceTypeName: String,
-        val url: String,
-    ) {
-        constructor(image: CharaImage) : this(
-            faceTypeCode = image.faceType.code,
-            faceTypeName = image.faceType.name,
-            url = image.url,
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewRp")
-    data class RpView(
-        val isAvailableChangeName: Boolean,
-        val isAvailableMemo: Boolean,
-        val canAddImage: Boolean,
-        /** 現在のキャラ名 (部屋番号なしの生値。変更フォームの初期値) */
-        val name: String?,
-        /** 現在の略称 */
-        val shortName: String?,
-        /** 現在の簡易メモ (参加者一覧に表示される公開情報) */
-        val memo: String?,
-    ) {
-        constructor(rp: ParticipantRpSituation, myself: VillageParticipant?) : this(
-            isAvailableChangeName = rp.isAvailableChangeName,
-            isAvailableMemo = rp.isAvailableMemo,
-            canAddImage = rp.canAddImage,
-            name = myself?.charaName?.name,
-            shortName = myself?.charaName?.shortName,
-            memo = myself?.memo,
+            messageType = situation.messageType,
+            restrict = situation.restrict,
+            targetCharaIds = situation.targetList.map { it.charaId },
         )
     }
 
     @Schema(name = "ParticipantSituationViewAbility")
     data class AbilityView(
         val canUseAbility: Boolean,
-        /** 対象の候補 (足音調査型は targetFootstepList を使う) */
-        val targetList: List<AbilityTargetView>,
-        /** 襲撃者の候補 (襲撃能力を持つ陣営のみ非空) */
-        val attackerList: List<AbilityTargetView>,
-        /** 足音の候補 (調査型・対象+足音型) */
         val targetFootstepList: List<String>,
-        /** 現在セット中の襲撃者 */
-        val attackerCharaId: Int?,
-        /** 現在セット中の対象 */
-        val targetCharaId: Int?,
-        /** 現在セット中の足音 */
         val targetFootstep: String?,
-        /** 徘徊で現在セット中の通過部屋 (CSV または「なし」) */
         val footstep: String?,
-        /** 現在のセット内容の説明文 */
         val targetingMessage: String?,
-        /** 対象 select の前置文言 */
         val targetPrefix: String?,
-        /** 対象 select の後置文言 */
         val targetSuffix: String?,
         val isAvailableNoTarget: Boolean,
-        /** 対象選択に加えて通過する部屋の選択が要るか */
         val isTargetingAndFootstep: Boolean,
-        /** 能力セット履歴 */
         val skillHistoryList: List<String>,
-        /** 人狼の名前 (狂信者などに見える)。空なら非表示 */
-        val werewolfNames: String,
-        /** C 国狂人の名前 (人狼に見える)。2 文字目が大文字のため Jackson と SpringDoc で名前が割れないよう明示する */
-        @get:JsonProperty("cMadmanNames")
-        val cMadmanNames: String,
-        /** 妖狐の名前 (背徳者に見える) */
-        val foxNames: String,
-        /** 恋人の関係 (恋人陣営に見える、複数行) */
-        val loversNames: String,
-        /** 共鳴者の名前 */
-        val masonsNames: String,
-        /** 共有者の名前 */
-        val listenMasonsNames: String,
+        val targetCharaIds: List<Int>,
+        val attackerCharaIds: List<Int>,
+        val attackerCharaId: Int?,
+        val targetCharaId: Int?,
+        val wolfCharaIds: List<Int>,
+        @get:com.fasterxml.jackson.annotation.JsonProperty("cMadmanCharaIds")
+        val cMadmanCharaIds: List<Int>,
+        val foxCharaIds: List<Int>,
+        val lovers: List<LoverRelation>,
+        val masonsCharaIds: List<Int>,
+        val listenMasonsCharaIds: List<Int>,
     ) {
         constructor(ability: ParticipantAbilitySituation, village: Village) : this(
             canUseAbility = ability.canUseAbility,
-            targetList = ability.targetList.map { AbilityTargetView(it) },
-            attackerList = ability.attackerList.map { AbilityTargetView(it) },
             targetFootstepList = ability.targetFootstepList,
-            attackerCharaId = ability.attacker?.charaId,
-            targetCharaId = ability.target?.charaId,
             targetFootstep = ability.targetFootstep,
             footstep = ability.footstep,
             targetingMessage = ability.targetingMessage,
@@ -311,87 +138,50 @@ data class ParticipantSituationView(
             isAvailableNoTarget = ability.isAvailableNoTarget,
             isTargetingAndFootstep = ability.isTargetingAndFootstep,
             skillHistoryList = ability.skillHistoryList,
-            werewolfNames = ability.wolfList.joinToString("、") { it.name() },
-            cMadmanNames = ability.cMadmanList.joinToString("、") { it.name() },
-            foxNames = ability.foxList.joinToString("、") { it.name() },
-            loversNames = mapLoversNames(village, ability.loversList),
-            masonsNames = ability.masonsList.joinToString("、") { it.name() },
-            listenMasonsNames = ability.listenMasonsList.joinToString("、") { it.name() },
+            targetCharaIds = ability.targetList.map { it.charaId },
+            attackerCharaIds = ability.attackerList.map { it.charaId },
+            attackerCharaId = ability.attacker?.charaId,
+            targetCharaId = ability.target?.charaId,
+            wolfCharaIds = ability.wolfList.map { it.charaId },
+            cMadmanCharaIds = ability.cMadmanList.map { it.charaId },
+            foxCharaIds = ability.foxList.map { it.charaId },
+            lovers = mapLovers(village, ability.loversList),
+            masonsCharaIds = ability.masonsList.map { it.charaId },
+            listenMasonsCharaIds = ability.listenMasonsList.map { it.charaId },
         )
 
         companion object {
-            private fun mapLoversNames(
+            private fun mapLovers(
                 village: Village,
-                loversList: List<VillageParticipant>,
-            ): String {
-                val list =
-                    loversList.flatMap { lover ->
-                        lover.status.loverIdList.map { targetId ->
-                            "${lover.name()} → ${village.participants.member(targetId).name()}"
-                        }
+                loversList: List<com.ort.app.domain.model.village.participant.VillageParticipant>,
+            ): List<LoverRelation> =
+                loversList.flatMap { lover ->
+                    lover.status.loverIdList.map { targetId ->
+                        LoverRelation(
+                            fromCharaId = lover.charaId,
+                            toCharaId = village.participants.member(targetId).charaId,
+                        )
                     }
-                if (list.isEmpty()) return ""
-                return list.joinToString(
-                    prefix = "この村で恋に落ちているのは\n",
-                    separator = "\n",
-                    postfix = "\nです。",
-                )
-            }
+                }
         }
     }
 
-    @Schema(name = "ParticipantSituationViewAbilityTarget")
-    data class AbilityTargetView(
-        val charaId: Int,
-        val name: String,
-    ) {
-        constructor(participant: VillageParticipant) : this(
-            charaId = participant.charaId,
-            name = participant.name(),
-        )
-    }
+    @Schema(name = "ParticipantSituationViewLoverRelation")
+    data class LoverRelation(
+        val fromCharaId: Int,
+        val toCharaId: Int,
+    )
 
     @Schema(name = "ParticipantSituationViewVote")
     data class VoteView(
         val canVote: Boolean,
-        /** 投票先の候補 */
-        val targetList: List<AbilityTargetView>,
-        /** 現在の投票先 */
+        val targetCharaIds: List<Int>,
         val targetCharaId: Int?,
-        /** 現在の投票先の表示名 */
-        val targetName: String?,
     ) {
-        constructor(vote: ParticipantVoteSituation) : this(
+        constructor(vote: com.ort.app.domain.model.situation.participant.ParticipantVoteSituation) : this(
             canVote = vote.canVote,
-            targetList = vote.targetList.map { AbilityTargetView(it) },
+            targetCharaIds = vote.targetList.map { it.charaId },
             targetCharaId = vote.target?.charaId,
-            targetName = vote.target?.name(),
-        )
-    }
-
-    @Schema(name = "ParticipantSituationViewAdmin")
-    data class AdminView(
-        val isAdmin: Boolean,
-    )
-
-    @Schema(name = "ParticipantSituationViewCreator")
-    data class CreatorView(
-        val isCreator: Boolean,
-        val isAvailableCreatorSay: Boolean,
-        val isAvailableCancelVillage: Boolean,
-        val isAvailableKick: Boolean,
-        val isAvailableModifySetting: Boolean,
-        val isAvailableExtendEpilogue: Boolean,
-        val isAvailableShortenEpilogue: Boolean,
-    ) {
-        constructor(situation: ParticipantSituation) : this(
-            isCreator = situation.creator.isCreator,
-            isAvailableCreatorSay = situation.creator.isAvailableCreatorSay,
-            isAvailableCancelVillage = situation.creator.isAvailableCancelVillage,
-            isAvailableKick = situation.creator.isAvailableKick,
-            isAvailableModifySetting = situation.creator.isAvailableModifySetting,
-            isAvailableExtendEpilogue = situation.creator.isAvailableExtendEpilogue,
-            isAvailableShortenEpilogue = situation.creator.isAvailableShortenEpilogue,
         )
     }
 }
