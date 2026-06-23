@@ -314,7 +314,12 @@ export function FilterModal({
         </Button>
         <Button
           variant="default"
-          onClick={() => setDraft(toDraft(EMPTY_FILTER, allParticipantIds))}
+          onClick={() => {
+            if (window.confirm("抽出条件をリセットしてよろしいですか？")) {
+              onApply(EMPTY_FILTER);
+              onClose();
+            }
+          }}
         >
           リセット
         </Button>

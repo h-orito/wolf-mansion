@@ -11,7 +11,7 @@ import type { ReactNode } from "react";
 import { useVillageScroll } from "./useVillageScroll";
 
 const buttonBaseClass =
-  "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] bg-wm-base px-[5px] pt-[4px] pb-[4px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px]";
+  "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] px-[5px] pt-[4px] pb-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";
 
 function MenuButton({
   icon,
@@ -31,8 +31,8 @@ function MenuButton({
     <button
       type="button"
       className={`${buttonBaseClass} ${
-        disabled ? "opacity-50" : "cursor-pointer hover:bg-[#00bc8c] hover:text-white"
-      } ${active ? "bg-[#00bc8c] text-white" : ""}`}
+        active ? "bg-[#00bc8c] text-white" : "bg-wm-base text-[#00bc8c]"
+      } ${disabled ? "opacity-50" : "cursor-pointer hover:bg-[#00bc8c] hover:text-white"}`}
       onClick={onClick}
       disabled={disabled}
     >

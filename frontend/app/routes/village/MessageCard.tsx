@@ -280,8 +280,10 @@ function renderBody(
           : null;
     const loud = sayVariant.decoratable && message.isLoud;
     const rainbow = sayVariant.decoratable && message.isRainbow;
+    const hasButtons =
+      (message.canReply || message.canSecret) && (onReply != null || onSecret != null);
     return (
-      <div>
+      <div className={hasButtons ? "" : "mb-[20px]"}>
         <div className="text-village-sm">
           <span>
             {anchorText != null && (
