@@ -445,6 +445,8 @@ function renderBody(
   );
 }
 
+// dangerouslySetInnerHTMLではなくref経由でDOMを直接設定する。
+// [[cw]]/[[netabare]]タグのクリックでclass除去した状態がReact再レンダリングで復元されるのを防ぐため。
 function StableHtml({
   html,
   className,
