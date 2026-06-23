@@ -8,7 +8,7 @@ import {
 } from "@heroicons/react/24/outline";
 import type { ReactNode } from "react";
 
-import { useVillageScroll } from "./useVillageScroll";
+import { useVillageScroll } from "~/features/village/useVillageScroll";
 
 const buttonBaseClass =
   "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] px-[5px] pt-[4px] pb-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";

@@ -11,7 +11,7 @@ import type {
   VillageSayRequest,
 } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
-import { MessageCard, type ReplyDraft } from "./MessageCard";
+import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 export type { ReplyDraft };
 
 /** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */

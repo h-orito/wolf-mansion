@@ -10,8 +10,8 @@ import { fetchAnchorMessages } from "~/features/village/api";
 import { useVillage } from "~/features/village/useVillage";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
-import { AgeLimitModal } from "../village/AgeLimitModal";
-import { MessageCard } from "../village/MessageCard";
+import { MessageCard } from "~/features/village/components/message/MessageCard";
+import { AgeLimitModal } from "~/features/village/components/modal/AgeLimitModal";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {

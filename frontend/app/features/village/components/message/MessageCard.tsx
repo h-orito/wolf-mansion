@@ -5,7 +5,7 @@ import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageSt
 import { fetchAnchorMessage, type VillageMessageContent } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { formatMessageTime, replaceIdLink, toMessageHtml } from "./messageHtml";
-import { ParticipantsTable } from "./ParticipantsTable";
+import { ParticipantsTable } from "../info/ParticipantsTable";
 
 /** 発言系メッセージの種別ごとの表示定義。アンカー接頭辞と装飾 (拡声/虹塗り) の対象か。 */
 const SAY_VARIANTS: Record<

@@ -1,5 +1,5 @@
 import { useVillageParticipants } from "~/features/village/useMessages";
-import { UserPageLink } from "./MessageCard";
+import { UserPageLink } from "../message/MessageCard";
 
 const cellBorderClass = "border border-[#464545]";
 

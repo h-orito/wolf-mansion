@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { skillDescriptions } from "~/features/skills/descriptions";
 import type { ParticipantSituationView } from "~/features/village/api";
 import { useVillageInfo } from "~/features/village/useVillage";
-import { RestrictionTable, Row } from "./VillageInfoModal";
+import { RestrictionTable, Row } from "../modal/VillageInfoModal";
 
 const STORAGE_KEY = "already_skill_confirm";
 

@@ -11,7 +11,7 @@ import {
   type VillageParticipateRequest,
 } from "~/features/village/api";
 import { ApiError } from "~/lib/api";
-import { toMessageHtml } from "./messageHtml";
+import { toMessageHtml } from "../message/messageHtml";
 
 const OMAKASE = "LEFTOVER";
 
