@@ -79,7 +79,16 @@ export function VoteTab({
           <tbody>
             {sortedList.map((member) => (
               <tr key={member.charaName}>
-                <td className={`${cellBorderClass} p-[5px]`}>{member.charaName}</td>
+                <td
+                  className={`${cellBorderClass} cursor-pointer p-[5px] ${
+                    highlightTarget != null && member.charaName === highlightTarget
+                      ? "bg-[#3498db]"
+                      : ""
+                  }`}
+                  onClick={() => onCellClick(member.charaName ?? "")}
+                >
+                  {member.charaName}
+                </td>
                 {(member.voteTargetList ?? []).map((target, targetIndex) => (
                   <td
                     key={targetIndex}

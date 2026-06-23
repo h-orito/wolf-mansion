@@ -24,7 +24,10 @@ export function RoomAssignedTab({
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
-        <table className={`${cellBorderClass} border-collapse text-village-sm`}>
+        <table
+          className={`${cellBorderClass} border-collapse text-village-sm`}
+          style={{ tableLayout: "fixed" }}
+        >
           <tbody>
             {rows.map((row, rowIndex) => (
               <tr key={rowIndex}>
