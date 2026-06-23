@@ -1,6 +1,7 @@
-import { useCallback, useId, useState, useSyncExternalStore } from "react";
+import { useCallback, useId, useState } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
+import { useLocalStorage } from "~/lib/useLocalStorage";
 import { FootstepTab } from "./FootstepTab";
 import { MemberListTab } from "./MemberListTab";
 import { RoomAssignedTab } from "./RoomAssignedTab";
@@ -10,27 +11,6 @@ type TabKey = "room" | "member" | "vote" | "footstep";
 
 const STORAGE_KEY = "village_panel_situation";
 const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
-
-function subscribeStorage(key: string, cb: () => void) {
-  const handler = (e: StorageEvent) => {
-    if (e.key === key) cb();
-  };
-  window.addEventListener("storage", handler);
-  return () => window.removeEventListener("storage", handler);
-}
-
-function readStorage(key: string): string | null {
-  try {
-    return localStorage.getItem(key);
-  } catch {
-    return null;
-  }
-}
-
-function writeStorage(key: string, value: string) {
-  localStorage.setItem(key, value);
-  window.dispatchEvent(new StorageEvent("storage", { key, newValue: value }));
-}
 
 /**
  * 状況サマリ。部屋割り / 参加者 / 投票 / 足音 をタブで切り替える。
@@ -52,31 +32,13 @@ export function SituationPanel({
 
   const bodyId = useId();
 
-  const open = useSyncExternalStore(
-    useCallback((cb: () => void) => subscribeStorage(STORAGE_KEY, cb), []),
-    () => {
-      const v = readStorage(STORAGE_KEY);
-      return v == null ? true : v === "true";
-    },
-    () => true,
-  );
+  const [openRaw, setOpenRaw] = useLocalStorage(STORAGE_KEY, "true");
+  const open = openRaw === "true";
+  const toggle = useCallback(() => setOpenRaw(String(!open)), [open, setOpenRaw]);
 
-  const isFixed = useSyncExternalStore(
-    useCallback((cb: () => void) => subscribeStorage(BOTTOM_FIX_KEY, cb), []),
-    () => readStorage(BOTTOM_FIX_KEY) === "situation",
-    () => false,
-  );
-
-  const toggle = useCallback(() => {
-    const v = readStorage(STORAGE_KEY);
-    const current = v == null ? true : v === "true";
-    writeStorage(STORAGE_KEY, String(!current));
-  }, []);
-
-  const toggleFix = useCallback(() => {
-    const current = readStorage(BOTTOM_FIX_KEY) ?? "";
-    writeStorage(BOTTOM_FIX_KEY, current === "situation" ? "" : "situation");
-  }, []);
+  const [fixRaw, setFixRaw] = useLocalStorage(BOTTOM_FIX_KEY, "");
+  const isFixed = fixRaw === "situation";
+  const toggleFix = useCallback(() => setFixRaw(isFixed ? "" : "situation"), [isFixed, setFixRaw]);
 
   const [activeTab, setActiveTab] = useState<TabKey>(hasRoomTab ? "room" : "member");
 

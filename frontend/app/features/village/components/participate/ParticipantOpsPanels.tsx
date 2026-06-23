@@ -10,11 +10,7 @@ import {
   switchVillageParticipate,
   type ParticipantSituationView,
 } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
-
-function errorMessage(e: unknown, fallback: string): string {
-  return e instanceof ApiError ? e.detail : fallback;
-}
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 参加 ⇄ 見学の切替。 */
 export function SwitchParticipatePanel({
@@ -25,22 +21,13 @@ export function SwitchParticipatePanel({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const { error, submitting, execute } = useAsyncAction();
+  const submit = () =>
+    execute(async () => {
       await switchVillageParticipate(villageId);
       showToast("参加見学を切り替えました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "切り替えに失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "切り替えに失敗しました");
   return (
     <Panel title="参加見学切り替え" storageKey="switchparticipateform">
       <div className="space-y-[10px]">
@@ -70,30 +57,21 @@ export function ChangeSkillPanel({
   const [first, setFirst] = useState(skillRequest.requestedSkillCode ?? "LEFTOVER");
   const [second, setSecond] = useState(skillRequest.secondRequestedSkillCode ?? "LEFTOVER");
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
   const currentFirst = skills.find((s) => s.code === skillRequest.requestedSkillCode)?.name ?? "";
   const currentSecond =
     skills.find((s) => s.code === skillRequest.secondRequestedSkillCode)?.name ?? "";
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await changeVillageRequestSkill(villageId, {
         requestedSkill: first,
         secondRequestedSkill: second,
       });
       showToast("役職希望を変更しました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "役職希望の変更に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "役職希望の変更に失敗しました");
 
   return (
     <Panel title="役職希望" storageKey="changeskillform">
@@ -151,22 +129,14 @@ export function LeavePanel({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
-  const submit = async () => {
-    if (submitting) return;
+  const { error, submitting, execute } = useAsyncAction();
+  const submit = () => {
     if (!window.confirm("本当に退村してよろしいですか？")) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+    void execute(async () => {
       await leaveVillage(villageId);
       showToast("退村しました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "退村に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
+    }, "退村に失敗しました");
   };
   return (
     <Panel title="退村" storageKey="leaveform">

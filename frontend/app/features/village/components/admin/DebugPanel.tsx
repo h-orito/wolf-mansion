@@ -5,11 +5,7 @@ import { inlineInputClass, selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { login, logout } from "~/features/auth/api";
 import { debugAllParticipate, debugDayChange, type VillageDebugView } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
-
-function errorMessage(e: unknown, fallback: string): string {
-  return e instanceof ApiError ? e.detail : fallback;
-}
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
 const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
@@ -46,22 +42,13 @@ function ParticipateSection({
   onDone: () => Promise<unknown>;
 }) {
   const [personNumber, setPersonNumber] = useState(16);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await debugAllParticipate(villageId, personNumber);
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "入村に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "入村に失敗しました");
 
   return (
     <div>
@@ -94,22 +81,13 @@ function DayChangeSection({
   villageId: number;
   onDone: () => Promise<unknown>;
 }) {
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await debugDayChange(villageId);
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "日付更新に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "日付更新に失敗しました");
 
   return (
     <div>
@@ -128,20 +106,14 @@ function DayChangeSection({
 
 function DummyLoginSection({ players }: { players: VillageDebugView["players"] }) {
   const [userId, setUserId] = useState(players[0]?.userId ?? "");
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting || userId === "") return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () => {
+    if (userId === "") return;
+    void execute(async () => {
       await login(userId, "testuser");
       window.location.reload();
-    } catch (e) {
-      setError(errorMessage(e, "ログインに失敗しました"));
-      setSubmitting(false);
-    }
+    }, "ログインに失敗しました");
   };
 
   return (
@@ -172,21 +144,13 @@ function DummyLoginSection({ players }: { players: VillageDebugView["players"] }
 }
 
 function LogoutSection() {
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await logout();
       window.location.reload();
-    } catch (e) {
-      setError(errorMessage(e, "ログアウトに失敗しました"));
-      setSubmitting(false);
-    }
-  };
+    }, "ログアウトに失敗しました");
 
   return (
     <div>

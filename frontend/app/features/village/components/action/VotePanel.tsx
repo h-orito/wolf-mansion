@@ -5,7 +5,7 @@ import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
 import { setVillageVote, type ParticipantSituationView } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 処刑対象への投票。未セットのまま日付が更新されると突然死するため警告を出す。 */
 export function VotePanel({
@@ -22,22 +22,15 @@ export function VotePanel({
     vote.targetCharaId != null ? String(vote.targetCharaId) : "",
   );
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting || targetCharaId === "") return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () => {
+    if (targetCharaId === "") return;
+    void execute(async () => {
       await setVillageVote(villageId, { targetCharaId: Number(targetCharaId) });
       showToast("投票をセットしました");
       await onDone();
-    } catch (e) {
-      setError(e instanceof ApiError ? e.detail : "投票セットに失敗しました");
-    } finally {
-      setSubmitting(false);
-    }
+    }, "投票セットに失敗しました");
   };
 
   const isUnset = vote.targetCharaId == null;

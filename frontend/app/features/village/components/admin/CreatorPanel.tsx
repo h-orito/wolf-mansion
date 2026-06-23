@@ -12,11 +12,7 @@ import {
   type ParticipantSituationView,
   type VillageCreatorSayRequest,
 } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
-
-function errorMessage(e: unknown, fallback: string): string {
-  return e instanceof ApiError ? e.detail : fallback;
-}
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
 const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
@@ -93,23 +89,16 @@ function KickSection({
 }) {
   const [selectedCharaId, setSelectedCharaId] = useState<string>("");
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting || selectedCharaId === "") return;
+  const submit = () => {
+    if (selectedCharaId === "") return;
     if (!window.confirm("本当に退村させてよろしいですか？")) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+    void execute(async () => {
       await kickVillageParticipant(villageId, { charaId: Number(selectedCharaId) });
       showToast("退村させました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "強制退村に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
+    }, "強制退村に失敗しました");
   };
 
   return (
@@ -165,23 +154,15 @@ function CancelSection({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
+  const submit = () => {
     if (!window.confirm("本当に廃村にしてよろしいですか？")) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+    void execute(async () => {
       await cancelVillage(villageId);
       showToast("廃村にしました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "廃村に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
+    }, "廃村に失敗しました");
   };
 
   return (
@@ -206,8 +187,7 @@ function CreatorSaySection({
 }) {
   const [message, setMessage] = useState("");
   const [convertDisable, setConvertDisable] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const { error, submitting, execute } = useAsyncAction();
 
   const length = message.length;
   const lineCount = message.split("\n").length;
@@ -216,17 +196,11 @@ function CreatorSaySection({
   const overLimit = length > maxLength || lineCount > maxLine;
   const submitDisabled = overLimit || message.trim().length === 0 || submitting;
 
-  const submit = async () => {
+  const submit = () => {
     if (submitDisabled) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+    void execute(async () => {
       await onConfirm({ message, convertDisable });
-    } catch (e) {
-      setError(errorMessage(e, "確認に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
+    }, "確認に失敗しました");
   };
 
   return (
@@ -281,38 +255,21 @@ function EpilogueSection({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const extend = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const extend = () =>
+    execute(async () => {
       await extendVillageEpilogue(villageId);
       showToast("エピローグを延長しました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "エピローグ延長に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "エピローグ延長に失敗しました");
 
-  const shorten = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const shorten = () =>
+    execute(async () => {
       await shortenVillageEpilogue(villageId);
       showToast("エピローグを短縮しました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "エピローグ短縮に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "エピローグ短縮に失敗しました");
 
   return (
     <div className="space-y-[10px]">

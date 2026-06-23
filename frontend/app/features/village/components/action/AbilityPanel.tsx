@@ -12,7 +12,7 @@ import {
   type VillageAbilityRequest,
   type VillageRoomAssignedRow,
 } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 const NO_FOOTSTEP = "なし";
 
@@ -58,8 +58,7 @@ export function AbilityPanel({
     ability.targetFootstepList ?? [],
   );
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
   // 襲撃の対象候補と現在対象の足音候補は situation に含まれないため、初期表示時に取得する
   useEffect(() => {
@@ -112,29 +111,21 @@ export function AbilityPanel({
     }
   };
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    const request: VillageAbilityRequest = isDisturb
-      ? { footstep: disturbRooms.length === 0 ? NO_FOOTSTEP : disturbRooms.join(",") }
-      : isInvestigate
-        ? { footstep }
-        : {
-            attackerCharaId: isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-            targetCharaId: targetCharaId === "" ? null : Number(targetCharaId),
-            footstep: footstep === "" ? null : footstep,
-          };
-    try {
+  const submit = () =>
+    execute(async () => {
+      const request: VillageAbilityRequest = isDisturb
+        ? { footstep: disturbRooms.length === 0 ? NO_FOOTSTEP : disturbRooms.join(",") }
+        : isInvestigate
+          ? { footstep }
+          : {
+              attackerCharaId: isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
+              targetCharaId: targetCharaId === "" ? null : Number(targetCharaId),
+              footstep: footstep === "" ? null : footstep,
+            };
       await setVillageAbility(villageId, request);
       showToast("能力をセットしました");
       await onDone();
-    } catch (e) {
-      setError(e instanceof ApiError ? e.detail : "能力セットに失敗しました");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "能力セットに失敗しました");
 
   const needsFootstepSelect = isAttack || ability.isTargetingAndFootstep;
 

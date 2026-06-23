@@ -9,11 +9,7 @@ import {
   fetchAdminVillagePlayers,
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
-
-function errorMessage(e: unknown, fallback: string): string {
-  return e instanceof ApiError ? e.detail : fallback;
-}
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
 const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
@@ -45,23 +41,14 @@ function AccessSection({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await adminUpdateAllAccess(villageId);
       showToast("全員アクセスを更新しました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "全員アクセスに失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "全員アクセスに失敗しました");
 
   return (
     <div>
@@ -86,23 +73,14 @@ function SelfVoteSection({
   onDone: () => Promise<unknown>;
 }) {
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await adminInsertSelfVotes(villageId);
       showToast("全員自投票をセットしました");
       await onDone();
-    } catch (e) {
-      setError(errorMessage(e, "全員自分投票に失敗しました"));
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "全員自分投票に失敗しました");
 
   return (
     <div>
@@ -121,22 +99,13 @@ function SelfVoteSection({
 
 function PlayersSection({ villageId }: { villageId: number }) {
   const [players, setPlayers] = useState<AdminVillagePlayersResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
+  const { error, submitting: loading, execute } = useAsyncAction();
 
-  const load = async () => {
-    if (loading) return;
-    setLoading(true);
-    setError(null);
-    try {
+  const load = () =>
+    execute(async () => {
       const data = await fetchAdminVillagePlayers(villageId);
       setPlayers(data);
-    } catch (e) {
-      setError(errorMessage(e, "参加プレイヤーの取得に失敗しました"));
-    } finally {
-      setLoading(false);
-    }
-  };
+    }, "参加プレイヤーの取得に失敗しました");
 
   return (
     <div>

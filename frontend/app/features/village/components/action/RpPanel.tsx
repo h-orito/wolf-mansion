@@ -9,7 +9,7 @@ import {
   changeVillageMemo,
   type ParticipantSituationView,
 } from "~/features/village/api";
-import { ApiError } from "~/lib/api";
+import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /**
  * RP 支援 (名前変更・簡易メモ)。簡易メモは参加者一覧に表示される公開情報で、
@@ -56,23 +56,14 @@ function ChangeNameForm({
   const [name, setName] = useState(rp.name ?? "");
   const [shortName, setShortName] = useState(rp.shortName ?? "");
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await changeVillageCharaName(villageId, { name, shortName });
       showToast("名前を変更しました");
       await onDone();
-    } catch (e) {
-      setError(e instanceof ApiError ? e.detail : "名前の変更に失敗しました");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "名前の変更に失敗しました");
 
   return (
     <div className="space-y-[10px]">
@@ -120,23 +111,14 @@ function MemoForm({
 }) {
   const [memo, setMemo] = useState(rp.memo ?? "");
   const showToast = useToast((s) => s.show);
-  const [error, setError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const { error, submitting, execute } = useAsyncAction();
 
-  const submit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError(null);
-    try {
+  const submit = () =>
+    execute(async () => {
       await changeVillageMemo(villageId, { memo });
       showToast("簡易メモを変更しました");
       await onDone();
-    } catch (e) {
-      setError(e instanceof ApiError ? e.detail : "簡易メモの変更に失敗しました");
-    } finally {
-      setSubmitting(false);
-    }
-  };
+    }, "簡易メモの変更に失敗しました");
 
   return (
     <div className="space-y-[10px]">

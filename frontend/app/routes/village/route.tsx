@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
@@ -6,20 +6,9 @@ import { Button, LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import {
-  actionVillage,
-  confirmVillageAction,
-  confirmVillageSay,
-  confirmVillageCreatorSay,
   participateVillage,
-  sayVillage,
-  sayVillageCreator,
-  type VillageActionRequest,
-  type VillageCreatorSayRequest,
   type VillageDetailView,
-  type VillageMessageContent,
-  type VillageMessageListContent,
   type VillageParticipateRequest,
-  type VillageSayRequest,
 } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
@@ -29,7 +18,8 @@ import {
   parseFilter,
   type MessageFilter,
 } from "~/features/village/filter";
-import { useNewMessageDetector } from "~/features/village/useMessages";
+import { useMessageSync } from "~/features/village/useMessageSync";
+import { useSayFlow } from "~/features/village/useSayFlow";
 import {
   useInvalidateVillage,
   useMyVillageSituation,
@@ -53,13 +43,17 @@ import { DayList } from "~/features/village/components/info/DayList";
 import { SituationPanel } from "~/features/village/components/info/SituationPanel";
 import { FooterMenu } from "~/features/village/components/layout/FooterMenu";
 import { MessageArea } from "~/features/village/components/message/MessageArea";
-import { MessageCard, type ReplyDraft } from "~/features/village/components/message/MessageCard";
+import { MessageCard } from "~/features/village/components/message/MessageCard";
 import { AgeLimitModal } from "~/features/village/components/modal/AgeLimitModal";
 import { FilterModal } from "~/features/village/components/modal/FilterModal";
 import { SettingsModal } from "~/features/village/components/modal/SettingsModal";
 import { VillageInfoModal } from "~/features/village/components/modal/VillageInfoModal";
 import { InitialSkillModal } from "~/features/village/components/participate/InitialSkillModal";
-import { ChangeSkillPanel, LeavePanel, SwitchParticipatePanel } from "~/features/village/components/participate/ParticipantOpsPanels";
+import {
+  ChangeSkillPanel,
+  LeavePanel,
+  SwitchParticipatePanel,
+} from "~/features/village/components/participate/ParticipantOpsPanels";
 import { ParticipatePanel } from "~/features/village/components/participate/ParticipatePanel";
 import { useCountdown } from "~/features/village/useCountdown";
 import { useVillageScroll } from "~/features/village/useVillageScroll";
@@ -155,6 +149,20 @@ export default function Village({ params }: Route.ComponentProps) {
     mySituation?.say.selectableMessageTypeList?.some((t) => t.messageTypeCode === "SECRET_SAY") ??
     false;
 
+  const {
+    reply,
+    onReply,
+    clearReply,
+    sayPreview,
+    sayError,
+    saySubmitting,
+    onSayConfirm,
+    onActionConfirm,
+    onCreatorSayConfirm,
+    onSayDetermine,
+    onSayCancel,
+  } = useSayFlow(villageId, invalidate, scrollToBottom);
+
   // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
   const [searchParams, setSearchParams] = useSearchParams();
   const filter = parseFilter(searchParams);
@@ -177,89 +185,6 @@ export default function Village({ params }: Route.ComponentProps) {
     [setSearchParams],
   );
 
-  // 発言: 返信引き継ぎと確認 (プレビュー) → 投稿の 2 段フロー
-  const [reply, setReply] = useState<ReplyDraft | null>(null);
-  const [sayPreview, setSayPreview] = useState<
-    | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
-    | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
-    | { kind: "creatorSay"; message: VillageMessageContent; request: VillageCreatorSayRequest }
-    | null
-  >(null);
-  const [sayError, setSayError] = useState<string | null>(null);
-  const [saySubmitting, setSaySubmitting] = useState(false);
-  const onReply = useCallback((draft: ReplyDraft) => {
-    setReply(draft);
-    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
-  }, []);
-  const onSayConfirm = async (request: VillageSayRequest) => {
-    setSayError(null);
-    try {
-      const response = await confirmVillageSay(villageId, request);
-      if (response.message == null) {
-        setSayError("発言の確認に失敗しました");
-        return;
-      }
-      setSayPreview({ kind: "say", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
-    }
-  };
-  const onActionConfirm = async (request: VillageActionRequest) => {
-    setSayError(null);
-    try {
-      const response = await confirmVillageAction(villageId, request);
-      if (response.message == null) {
-        setSayError("アクションの確認に失敗しました");
-        return;
-      }
-      setSayPreview({ kind: "action", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
-    }
-  };
-  const onCreatorSayConfirm = async (request: VillageCreatorSayRequest) => {
-    setSayError(null);
-    try {
-      const response = await confirmVillageCreatorSay(villageId, request);
-      if (response.message == null) {
-        setSayError("村建て発言の確認に失敗しました");
-        return;
-      }
-      setSayPreview({ kind: "creatorSay", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
-    }
-  };
-  const onSayDetermine = async () => {
-    // 非冪等な投稿のため連打をガードする
-    if (sayPreview == null || saySubmitting) return;
-    setSaySubmitting(true);
-    setSayError(null);
-    try {
-      if (sayPreview.kind === "say") {
-        await sayVillage(villageId, sayPreview.request);
-      } else if (sayPreview.kind === "action") {
-        await actionVillage(villageId, sayPreview.request);
-      } else {
-        await sayVillageCreator(villageId, sayPreview.request);
-      }
-      setSayPreview(null);
-      setReply(null);
-      await invalidate();
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
-    } finally {
-      setSaySubmitting(false);
-    }
-  };
-  const onSayCancel = () => {
-    setSayPreview(null);
-    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
-  };
   const [participateError, setParticipateError] = useState<string | null>(null);
   const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
     try {
@@ -286,39 +211,18 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   }, [daychangeDetected, showToast]);
 
-  // 新着発言の検知。最新日を表示している間だけ最新発言日時を見比べる
-  const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
-  const hashScrolled = useRef(false);
-  const onMessagesLoaded = useCallback(
-    (content: VillageMessageListContent) => {
-      setLoadedMessages(content);
-      if (!hashScrolled.current && window.location.hash === "#bottom") {
-        hashScrolled.current = true;
-        setTimeout(() => scrollToBottom(false), 0);
-      }
-    },
-    [scrollToBottom],
-  );
-  const isInLatestPage =
-    latestDay != null &&
-    currentDay === latestDay &&
-    (loadedMessages == null || loadedMessages.isDispLatest || !loadedMessages.isExistNextPage);
-  const hasNewMessage = useNewMessageDetector(
+  const { onMessagesLoaded, hasNewMessage } = useMessageSync(
     villageId,
     dayParam,
-    loadedMessages?.latestMessageDatetime,
-    isInLatestPage,
+    latestDay,
+    currentDay,
+    scrollToBottom,
+    invalidate,
+    showToast,
+    sayPreview == null,
   );
-  // 自動更新設定が ON なら、新着検知時に更新ボタンを押すのと同じ再読み込みを行う
-  const autoReload = useDisplaySettings((s) => s.autoReload);
+
   const largeText = useDisplaySettings((s) => s.largeText);
-  useEffect(() => {
-    if (hasNewMessage && autoReload && sayPreview == null) {
-      void invalidate();
-      showToast("最新発言を読み込みました");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasNewMessage, autoReload, sayPreview]);
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
@@ -446,7 +350,7 @@ export default function Village({ params }: Route.ComponentProps) {
               mySituation={mySituation}
               randomKeywords={keywordList}
               reply={reply}
-              onClearReply={() => setReply(null)}
+              onClearReply={clearReply}
               onConfirm={onSayConfirm}
             />
           </div>
