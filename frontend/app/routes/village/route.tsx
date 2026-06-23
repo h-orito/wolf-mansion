@@ -373,7 +373,7 @@ export default function Village({ params }: Route.ComponentProps) {
           />
         )}
 
-        {mySituation != null && mySituation.ability.canUseAbility && (
+        {mySituation != null && mySituation.myself?.skill != null && (
           <AbilityPanel
             villageId={villageId}
             village={village}

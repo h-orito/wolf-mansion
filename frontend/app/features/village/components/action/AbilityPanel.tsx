@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
@@ -61,7 +62,9 @@ export function AbilityPanel({
     const current = ability.footstep;
     return current == null || current === NO_FOOTSTEP ? [] : current.split(",");
   });
-  const [targets, setTargets] = useState<{ charaId: number; name: string }[]>([]);
+  const [targets, setTargets] = useState<{ charaId: number; name: string }[]>(
+    ability.targetCharaIds.map((id) => ({ charaId: id, name: resolveCharaName(village, id) })),
+  );
   const [footstepOptions, setFootstepOptions] = useState<string[]>(
     ability.targetFootstepList ?? [],
   );
@@ -139,30 +142,57 @@ export function AbilityPanel({
 
   return (
     <Panel title="役職" storageKey="skillform" fixable>
-      <div className="space-y-[10px]">
+      <div>
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
         {skill != null && (
-          <div className="rounded border border-[#00bc8c] p-[10px] text-village-sm">
-            <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
-            {mySituation.myself?.camp != null && (
-              <p>
-                あなたは <strong>{mySituation.myself.camp.name}</strong> です。
-              </p>
-            )}
-          </div>
+          <>
+            <div className="mb-[5px] rounded border border-white p-[5px] text-village-sm">
+              <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
+              {mySituation.myself?.camp != null && (
+                <p>
+                  あなたは <strong>{mySituation.myself.camp.name}</strong> です。
+                </p>
+              )}
+            </div>
+            <div className="mb-[10px] text-right text-village-sm">
+              <Link
+                to={`/skill#${skill.code.toLowerCase()}`}
+                target="_blank"
+                className="text-wm-accent hover:underline"
+              >
+                役職「{skill.name}」の詳細
+              </Link>
+            </div>
+          </>
         )}
+        {ability.canUseAbility && <hr className="my-[21px] border-[#464545]" />}
         {mySituation.myself?.dead.isDead && (
-          <div className="rounded border border-[#e74c3c] p-[10px] text-village-sm text-[#e74c3c]">
+          <div className="mb-[10px] rounded border border-[#e74c3c] p-[10px] text-village-sm text-[#e74c3c]">
             あなたは死亡しました。
           </div>
         )}
-        {ability.targetingMessage != null && <p>{ability.targetingMessage}</p>}
+        {ability.targetingMessage != null && (
+          <p className="text-village-sm">
+            現在の選択: <strong className="text-base">{ability.targetingMessage}</strong>
+          </p>
+        )}
+        {ability.footstep != null && (
+          <p className="text-village-sm">
+            通過する部屋:{" "}
+            <strong className="text-base">
+              {ability.footstep === "" ? "なし" : ability.footstep}
+            </strong>{" "}
+            （明日朝時点で生存者のいる部屋のみ響きます）
+          </p>
+        )}
+        {ability.targetingMessage != null && <hr className="my-[21px] border-[#464545]" />}
 
         {ability.canUseAbility && isDisturb && (
-          <div>
+          <div className="mt-[10px]">
             <p>
-              任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。
-              部屋を選択してセットしてください。徘徊しない場合は何も選択せずセットしてください。
+              任意の部屋からその直線上の部屋に向かって徘徊し、徘徊した部屋に足音を響かせることが可能です。部屋を選択してセットしてください。
+              <br />
+              徘徊しない場合は何も選択せずセットしてください。
             </p>
             {roomAssignedRows != null && (
               <div className="mt-[10px] overflow-x-auto">
@@ -175,9 +205,20 @@ export function AbilityPanel({
                           return (
                             <td
                               key={room.roomNumber}
-                              className={`cursor-pointer border border-[#464545] p-[5px] text-center ${
-                                selected ? "bg-[#0ce3ac]/30" : ""
-                              }`}
+                              className="cursor-pointer text-center align-bottom"
+                              style={{
+                                border: selected ? "2px solid #0ce3ac" : "1px solid #464545",
+                                width: room.charaImgWidth ?? 50,
+                                height: room.charaImgHeight ?? 60,
+                                ...(room.charaImgUrl
+                                  ? {
+                                      backgroundImage: `url(${room.charaImgUrl})`,
+                                      backgroundRepeat: "no-repeat",
+                                      backgroundSize: "contain",
+                                    }
+                                  : {}),
+                                ...(room.isDead == null || room.isDead ? { opacity: 0.3 } : {}),
+                              }}
                               onClick={() =>
                                 setDisturbRooms((prev) =>
                                   prev.includes(room.roomNumber ?? "")
@@ -186,7 +227,12 @@ export function AbilityPanel({
                                 )
                               }
                             >
-                              {room.roomNumber} {room.charaShortName ?? ""}
+                              <span
+                                className="whitespace-nowrap"
+                                style={{ backgroundColor: "#222222", opacity: 0.8 }}
+                              >
+                                {room.roomNumber} {room.charaShortName ?? ""}
+                              </span>
                             </td>
                           );
                         })}
@@ -228,12 +274,21 @@ export function AbilityPanel({
         )}
 
         {ability.canUseAbility && !isDisturb && !isInvestigate && (
-          <div className="space-y-[10px]">
+          <div className="text-village-sm">
             {isAttack && (
-              <div className="flex flex-wrap items-center gap-[5px]">
-                <span>襲撃者</span>
+              <ul className="mb-[10px] list-disc rounded border border-[#f39c12] p-[5px] pl-[25px] text-[#f39c12]">
+                <li>個人ごとに別々の襲撃内容をセットできます。</li>
+                <li>あなたの襲撃セット内容はあなたしか参照できません。</li>
+                <li>
+                  日付更新時に、処刑と同様、最多票となったセット内容（襲撃者x対象x足音）が採用され、その内容で襲撃を行います。
+                </li>
+              </ul>
+            )}
+            {isAttack && (
+              <div className="mb-[5px]">
+                <span>襲撃者 </span>
                 <select
-                  className={`${selectClass} max-w-[240px]`}
+                  className={selectClass}
                   value={attackerCharaId}
                   onChange={(e) => onAttackerChange(e.target.value)}
                   aria-label="襲撃者"
@@ -247,16 +302,15 @@ export function AbilityPanel({
               </div>
             )}
             {(targets.length > 0 || ability.isAvailableNoTarget) && (
-              <div className="flex flex-wrap items-center gap-[5px]">
+              <div className="mb-[5px]">
                 {ability.targetPrefix != null && <span>{ability.targetPrefix}</span>}
                 <select
-                  className={`${selectClass} max-w-[240px]`}
+                  className={selectClass}
                   value={targetCharaId}
                   onChange={(e) => onTargetChange(e.target.value)}
                   aria-label="能力の対象"
                 >
                   {ability.isAvailableNoTarget && <option value="">なし</option>}
-                  {!ability.isAvailableNoTarget && <option value="">選択してください</option>}
                   {targets.map((target) => (
                     <option key={target.charaId} value={target.charaId}>
                       {target.name}
@@ -267,15 +321,14 @@ export function AbilityPanel({
               </div>
             )}
             {needsFootstepSelect && (
-              <div className="flex flex-wrap items-center gap-[5px]">
+              <div className="mb-[5px]">
                 <span>通過する部屋</span>
                 <select
-                  className={`${selectClass} max-w-[240px]`}
+                  className={selectClass}
                   value={footstep}
                   onChange={(e) => setFootstep(e.target.value)}
                   aria-label="通過する部屋"
                 >
-                  <option value="">選択してください</option>
                   {footstepOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}
@@ -302,10 +355,12 @@ export function AbilityPanel({
 
         {(ability.skillHistoryList ?? []).length > 0 && (
           <div>
-            <hr className="my-[10px] border-[#464545]" />
-            <strong>能力セット履歴</strong>
+            <hr className="my-[21px] border-[#464545]" />
+            <p>能力セット履歴</p>
             {(ability.skillHistoryList ?? []).map((history, index) => (
-              <p key={index}>{history}</p>
+              <p key={index}>
+                <strong className="text-base">{history}</strong>
+              </p>
             ))}
           </div>
         )}
@@ -323,44 +378,66 @@ function FactionNotes({
   village: VillageDetailView;
 }) {
   const resolve = (id: number) => resolveCharaName(village, id);
-  const notes: { key: string; text: string }[] = [];
+  const notes: { key: string; label: string; names: string }[] = [];
   if (ability.wolfCharaIds.length > 0)
     notes.push({
       key: "wolf",
-      text: `この村の人狼は、 ${ability.wolfCharaIds.map(resolve).join("、")} です。`,
+      label: "この村の人狼は、",
+      names: ability.wolfCharaIds.map(resolve).join("、"),
     });
   if (ability.cMadmanCharaIds.length > 0)
     notes.push({
       key: "cmad",
-      text: `この村のC国狂人は、 ${ability.cMadmanCharaIds.map(resolve).join("、")} です。`,
+      label: "この村のC国狂人は、",
+      names: ability.cMadmanCharaIds.map(resolve).join("、"),
     });
   if (ability.foxCharaIds.length > 0)
     notes.push({
       key: "fox",
-      text: `この村の妖狐は、 ${ability.foxCharaIds.map(resolve).join("、")} です。`,
+      label: "この村の妖狐は、",
+      names: ability.foxCharaIds.map(resolve).join("、"),
     });
   if (ability.masonsCharaIds.length > 0)
     notes.push({
       key: "mason",
-      text: `この村の共鳴者は、 ${ability.masonsCharaIds.map(resolve).join("、")} です。`,
+      label: "この村の共鳴者は、",
+      names: ability.masonsCharaIds.map(resolve).join("、"),
     });
   if (ability.listenMasonsCharaIds.length > 0)
     notes.push({
       key: "listen",
-      text: `この村の共有者は、 ${ability.listenMasonsCharaIds.map(resolve).join("、")} です。`,
+      label: "この村の共有者は、",
+      names: ability.listenMasonsCharaIds.map(resolve).join("、"),
     });
-  const loversText =
+  const loversLines =
     ability.lovers.length > 0
-      ? ability.lovers.map((l) => `${resolve(l.fromCharaId)} → ${resolve(l.toCharaId)}`).join("\n")
+      ? ability.lovers.map((l) => ({ from: resolve(l.fromCharaId), to: resolve(l.toCharaId) }))
       : null;
-  if (notes.length === 0 && loversText == null) return null;
+  if (notes.length === 0 && loversLines == null) return null;
   return (
-    <div>
-      <hr className="my-[10px] border-[#464545]" />
+    <>
       {notes.map((note) => (
-        <p key={note.key}>{note.text}</p>
+        <div key={note.key}>
+          <hr className="my-[21px] border-[#464545]" />
+          <p className="text-village-sm">
+            {note.label} <strong className="text-base">{note.names}</strong> です。
+          </p>
+        </div>
       ))}
-      {loversText != null && <p className="whitespace-pre-line">{loversText}</p>}
-    </div>
+      {loversLines != null && (
+        <div>
+          <hr className="my-[21px] border-[#464545]" />
+          <p className="text-village-sm">
+            {loversLines.map((l, i) => (
+              <span key={i}>
+                {i > 0 && <br />}
+                <strong className="text-base">{l.from}</strong> →{" "}
+                <strong className="text-base">{l.to}</strong>
+              </span>
+            ))}
+          </p>
+        </div>
+      )}
+    </>
   );
 }
