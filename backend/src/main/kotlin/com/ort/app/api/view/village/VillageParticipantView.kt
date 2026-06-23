@@ -23,7 +23,7 @@ data class VillageParticipantView(
     val skill: SkillView?,
     /** 現在の勝敗判定陣営 (恋人化・狐憑依・説得等で変わりうる)。本人以外は null */
     val camp: Camp?,
-    /** 簡易メモ (参加者一覧に表示される公開情報)。本人以外は null */
+    /** 簡易メモ (参加者一覧に表示される公開情報) */
     val memo: String?,
     /** Discord 通知設定。本人以外は null */
     val notification: VillageParticipantNotificationCondition?,
@@ -43,7 +43,7 @@ data class VillageParticipantView(
         isSpectator = participant.isSpectator,
         skill = null,
         camp = null,
-        memo = null,
+        memo = participant.memo,
         notification = null,
     )
 
@@ -73,7 +73,7 @@ data class VillageParticipantView(
                 SkillView(participant.skill)
             },
         camp = if (shouldHidePrivate) null else participant.camp,
-        memo = if (shouldHidePrivate) null else participant.memo,
+        memo = participant.memo,
         notification = if (includeNotification && !shouldHidePrivate) participant.notification else null,
     )
 

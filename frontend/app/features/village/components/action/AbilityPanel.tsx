@@ -358,8 +358,8 @@ export function AbilityPanel({
             <hr className="my-[21px] border-[#464545]" />
             <p>能力セット履歴</p>
             {(ability.skillHistoryList ?? []).map((history, index) => (
-              <p key={index}>
-                <strong className="text-base">{history}</strong>
+              <p key={index} className="text-village-sm">
+                {history}
               </p>
             ))}
           </div>
