@@ -67,7 +67,7 @@ export function SettingsModal({
   const settings = useDisplaySettings();
 
   return (
-    <Modal open={open} onClose={onClose} title="設定">
+    <Modal open={open} onClose={onClose} title="ユーザー設定" size="wide">
       <div className="space-y-[10px] p-[15px] text-[12px]">
         <h4 className="text-[16px] font-bold">表示設定</h4>
         <SectionTitle>ページ分割</SectionTitle>
@@ -121,7 +121,14 @@ export function SettingsModal({
         />
         <SectionTitle>表示設定のリセット</SectionTitle>
         <div className="flex justify-end">
-          <Button variant="danger" onClick={() => settings.reset()}>
+          <Button
+            variant="danger"
+            onClick={() => {
+              if (window.confirm("本当に表示設定をリセットしてよろしいですか？")) {
+                settings.reset();
+              }
+            }}
+          >
             リセット
           </Button>
         </div>
@@ -132,7 +139,7 @@ export function SettingsModal({
 
         <hr className="my-[15px] border-[#464545]" />
         <div className="flex justify-end">
-          <Button variant="info" onClick={onClose}>
+          <Button variant="default" onClick={onClose}>
             閉じる
           </Button>
         </div>

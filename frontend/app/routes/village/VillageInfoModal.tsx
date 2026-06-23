@@ -285,7 +285,7 @@ export function VillageInfoModal({
               {canModifySetting && (
                 <LinkButton to={`/village/${villageId}/settings`}>設定変更</LinkButton>
               )}
-              <Button variant="info" onClick={onClose}>
+              <Button variant="default" onClick={onClose}>
                 閉じる
               </Button>
             </div>
