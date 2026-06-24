@@ -1,7 +1,9 @@
 package com.ort.app.api.view.village
 
+import com.ort.app.api.view.player.PlayerView
 import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipantName
@@ -27,6 +29,10 @@ data class VillageParticipantView(
     val memo: String?,
     /** Discord 通知設定。本人以外は null */
     val notification: VillageParticipantNotificationCondition?,
+    /** エピローグ以降のみ公開 */
+    val player: PlayerView?,
+    /** エピローグ以降のみ公開 */
+    val isWin: Boolean?,
 ) {
     /** 参加者一覧向け（SSR 互換）。非公開フィールドは null */
     constructor(
@@ -45,6 +51,8 @@ data class VillageParticipantView(
         camp = null,
         memo = participant.memo,
         notification = null,
+        player = null,
+        isWin = null,
     )
 
     /**
@@ -57,6 +65,7 @@ data class VillageParticipantView(
         chara: Chara,
         shouldHidePrivate: Boolean,
         includeNotification: Boolean = false,
+        player: Player? = null,
     ) : this(
         id = participant.id,
         charaName = participant.charaName,
@@ -75,6 +84,8 @@ data class VillageParticipantView(
         camp = if (shouldHidePrivate) null else participant.camp,
         memo = participant.memo,
         notification = if (includeNotification && !shouldHidePrivate) participant.notification else null,
+        player = if (shouldHidePrivate || player == null) null else PlayerView(player),
+        isWin = if (shouldHidePrivate) null else participant.isWin,
     )
 
     @Schema(name = "VillageParticipantViewSkill")

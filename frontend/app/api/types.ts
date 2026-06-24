@@ -739,22 +739,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/villages/{id}/participants": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["getVillageParticipants"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   "/api/v1/villages/{id}/participate": {
     parameters: {
       query?: never;
@@ -1199,6 +1183,11 @@ export interface components {
     PasswordChangeRequest: {
       confirmPassword: string | null;
       password: string | null;
+    };
+    PlayerView: {
+      /** Format: int32 */
+      id: number;
+      name: string;
     };
     RandomContent: {
       message: string;
@@ -1687,14 +1676,6 @@ export interface components {
       fixedOrganization: string;
       randomOrganization: components["schemas"]["VillageRandomOrganize"];
     };
-    VillageParticipantContent: {
-      deadStatus: string;
-      isSpectator: boolean;
-      name: string;
-      playerName: string;
-      skillName: string;
-      winStatus: string;
-    };
     VillageParticipantName: {
       name: string;
       shortName: string;
@@ -1712,9 +1693,11 @@ export interface components {
       /** Format: int32 */
       id: number;
       isSpectator: boolean;
+      isWin?: boolean | null;
       memo?: string | null;
       name: string;
       notification?: components["schemas"]["VillageParticipantNotificationCondition"] | null;
+      player?: components["schemas"]["PlayerView"] | null;
       room?: components["schemas"]["Room"] | null;
       shortName: string;
       skill?: components["schemas"]["VillageParticipantViewSkill"] | null;
@@ -1725,9 +1708,6 @@ export interface components {
       hasDisturbAbility: boolean;
       hasInvestigateAbility: boolean;
       name: string;
-    };
-    VillageParticipantsContent: {
-      list: components["schemas"]["VillageParticipantContent"][];
     };
     VillageParticipantsView: {
       /** Format: int32 */
@@ -3210,28 +3190,6 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
-      };
-    };
-  };
-  getVillageParticipants: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "*/*": components["schemas"]["VillageParticipantsContent"];
-        };
       };
     };
   };

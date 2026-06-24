@@ -289,6 +289,10 @@ export default function Village({ params }: Route.ComponentProps) {
           day={dayParam}
           randomKeywords={keywordList}
           filter={filter}
+          allParticipants={[
+            ...(village.participants.list ?? []),
+            ...(village.spectators.list ?? []),
+          ]}
           onHashtagClick={onHashtagClick}
           onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
           onSecret={canSecretReply ? onReply : undefined}

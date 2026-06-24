@@ -83,7 +83,8 @@ class VillageRestController(
         val village = findVillageOrThrow(id)
         val charachips =
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip) }
-        return VillageDetailView(village, charachips)
+        val players = playerService.findPlayers(village.id)
+        return VillageDetailView(village, charachips, players)
     }
 
     /**

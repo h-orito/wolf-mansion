@@ -1,6 +1,7 @@
 import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 
+import type { components } from "~/api/types";
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { fetchAnchorMessage, type VillageMessageContent } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -107,6 +108,7 @@ export function MessageCard({
   message,
   randomKeywords,
   spoiled = false,
+  allParticipants,
   onHashtagClick,
   onReply,
   onSecret,
@@ -116,6 +118,8 @@ export function MessageCard({
   randomKeywords: string[];
   /** ネタバレ防止 (エピローグ前同等の表示)。対象種別の発言とプレイヤー名を隠す */
   spoiled?: boolean;
+  /** 参加者+見学者の全員リスト (参加者正体一覧の表示用) */
+  allParticipants?: components["schemas"]["VillageParticipantView"][];
   onHashtagClick?: (tag: string) => void;
   /** 返信 (アンカー挿入 + 引用)。未指定なら返信リンクを出さない */
   onReply?: (reply: ReplyDraft) => void;
@@ -196,6 +200,7 @@ export function MessageCard({
     villageId,
     spoiled,
     imageScale,
+    allParticipants,
     onReply,
     onSecret,
   );
@@ -244,6 +249,7 @@ function renderBody(
   villageId: number,
   spoiled: boolean,
   imageScale: number,
+  allParticipants?: components["schemas"]["VillageParticipantView"][],
   onReply?: (reply: ReplyDraft) => void,
   onSecret?: (reply: ReplyDraft) => void,
 ) {
@@ -427,10 +433,10 @@ function renderBody(
     );
   }
 
-  if (type === "PARTICIPANTS") {
+  if (type === "PARTICIPANTS" && allParticipants != null) {
     return (
       <div className={`mb-[20px] ${bubbleClass("message-public-system")}`}>
-        <ParticipantsTable villageId={villageId} />
+        <ParticipantsTable participants={allParticipants} />
       </div>
     );
   }

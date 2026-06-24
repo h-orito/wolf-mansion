@@ -2,15 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef, useState } from "react";
 
 import { useMe } from "~/features/auth/useMe";
-import {
-  fetchLatestMessageDatetime,
-  fetchVillageMessages,
-  fetchVillageParticipants,
-  type VillageMessageSearch,
-} from "./api";
+import { fetchLatestMessageDatetime, fetchVillageMessages, type VillageMessageSearch } from "./api";
 
 export const VILLAGE_MESSAGES_QUERY_KEY = "village-messages";
-export const VILLAGE_PARTICIPANTS_QUERY_KEY = "village-participants";
 
 /** 発言一覧を取得する。可視範囲がログイン状態で変わるため me と合わせてキャッシュを分ける。 */
 export function useVillageMessages(id: number, search: VillageMessageSearch) {
@@ -20,16 +14,6 @@ export function useVillageMessages(id: number, search: VillageMessageSearch) {
     queryFn: () => fetchVillageMessages(id, search),
     // ログイン判定前に匿名視点で取得すると判定後に二重取得になるため確定を待つ
     enabled: !isLoading,
-    retry: false,
-  });
-}
-
-/** 参加者の正体一覧 (エピローグ以降のみ)。 */
-export function useVillageParticipants(id: number, enabled: boolean) {
-  return useQuery({
-    queryKey: [VILLAGE_PARTICIPANTS_QUERY_KEY, id],
-    queryFn: () => fetchVillageParticipants(id),
-    enabled,
     retry: false,
   });
 }

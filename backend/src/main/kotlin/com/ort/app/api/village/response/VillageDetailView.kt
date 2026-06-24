@@ -2,6 +2,7 @@ package com.ort.app.api.village.response
 
 import com.ort.app.api.view.village.VillageParticipantsView
 import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageDays
 import com.ort.app.domain.model.village.VillageStatus
@@ -23,7 +24,7 @@ data class VillageDetailView(
     val participants: VillageParticipantsView,
     val spectators: VillageParticipantsView,
 ) {
-    constructor(village: Village, charachips: Charachips) : this(
+    constructor(village: Village, charachips: Charachips, players: Players) : this(
         id = village.id,
         name = village.name,
         status = village.status,
@@ -31,7 +32,7 @@ data class VillageDetailView(
         epilogueDay = village.epilogueDay,
         roomSize = village.roomSize,
         setting = VillageSettingView(village.setting),
-        participants = VillageParticipantsView(village.participants, charachips, !village.status.isSettled()),
-        spectators = VillageParticipantsView(village.spectators, charachips, !village.status.isSettled()),
+        participants = VillageParticipantsView(village.participants, charachips, !village.status.isSettled(), players),
+        spectators = VillageParticipantsView(village.spectators, charachips, !village.status.isSettled(), players),
     )
 }

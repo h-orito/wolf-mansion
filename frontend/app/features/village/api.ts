@@ -52,8 +52,6 @@ export type VillageMessageContent = components["schemas"]["VillageMessageContent
 /** アンカー発言 (閲覧できない場合は message が null)。 */
 export type VillageAnchorMessageContent = components["schemas"]["VillageAnchorMessageContent"];
 export type VillageAnchorMessagesContent = components["schemas"]["VillageAnchorMessagesContent"];
-/** 参加者の正体一覧 (エピローグ以降のみ)。 */
-export type VillageParticipantsContent = components["schemas"]["VillageParticipantsContent"];
 
 /** 発言一覧の取得条件。絞り込み系は発言抽出 UI が使う。 */
 export type VillageMessageSearch = {
@@ -122,11 +120,6 @@ export function fetchAnchorMessages(
   return apiFetch<VillageAnchorMessagesContent>(
     `/api/v1/villages/${id}/messages/anchors?anchors=${encodeURIComponent(anchors)}`,
   );
-}
-
-/** 参加者の正体一覧を取得する (エピローグ以降のみ 200)。 */
-export function fetchVillageParticipants(id: number): Promise<VillageParticipantsContent> {
-  return apiFetch<VillageParticipantsContent>(`/api/v1/villages/${id}/participants`);
 }
 
 /** 発言抽出用の参加者ビュー (村状況 API の participantList)。 */

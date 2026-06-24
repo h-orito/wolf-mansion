@@ -1689,35 +1689,6 @@
         "tags": ["village-notification-rest-controller"]
       }
     },
-    "/api/v1/villages/{id}/participants": {
-      "get": {
-        "operationId": "getVillageParticipants",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/VillageParticipantsContent"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": ["village-message-rest-controller"]
-      }
-    },
     "/api/v1/villages/{id}/participate": {
       "post": {
         "operationId": "participateVillage",
@@ -3023,6 +2994,19 @@
           }
         },
         "required": ["confirmPassword", "password"]
+      },
+      "PlayerView": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "name"]
       },
       "RandomContent": {
         "type": "object",
@@ -4636,30 +4620,6 @@
         },
         "required": ["fixedOrganization", "randomOrganization"]
       },
-      "VillageParticipantContent": {
-        "type": "object",
-        "properties": {
-          "deadStatus": {
-            "type": "string"
-          },
-          "isSpectator": {
-            "type": "boolean"
-          },
-          "name": {
-            "type": "string"
-          },
-          "playerName": {
-            "type": "string"
-          },
-          "skillName": {
-            "type": "string"
-          },
-          "winStatus": {
-            "type": "string"
-          }
-        },
-        "required": ["deadStatus", "isSpectator", "name", "playerName", "skillName", "winStatus"]
-      },
       "VillageParticipantName": {
         "type": "object",
         "properties": {
@@ -4716,6 +4676,9 @@
           "isSpectator": {
             "type": "boolean"
           },
+          "isWin": {
+            "type": ["boolean", "null"]
+          },
           "memo": {
             "type": ["string", "null"]
           },
@@ -4726,6 +4689,16 @@
             "oneOf": [
               {
                 "$ref": "#/components/schemas/VillageParticipantNotificationCondition"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "player": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/PlayerView"
               },
               {
                 "type": "null"
@@ -4778,18 +4751,6 @@
           }
         },
         "required": ["code", "description", "hasDisturbAbility", "hasInvestigateAbility", "name"]
-      },
-      "VillageParticipantsContent": {
-        "type": "object",
-        "properties": {
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageParticipantContent"
-            }
-          }
-        },
-        "required": ["list"]
       },
       "VillageParticipantsView": {
         "type": "object",

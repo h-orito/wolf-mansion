@@ -1,14 +1,33 @@
-import { useVillageParticipants } from "~/features/village/useMessages";
+import type { components } from "~/api/types";
 import { UserPageLink } from "../message/MessageCard";
 
+type VillageParticipantView = components["schemas"]["VillageParticipantView"];
+
 const cellBorderClass = "border border-[#464545]";
+
+function deadStatus(p: VillageParticipantView): string {
+  if (p.isSpectator) return "";
+  if (!p.dead.isDead) return "生存";
+  const name = p.dead.reason?.name ?? "";
+  const reason = name.endsWith("死") ? name : `${name}死`;
+  return `${p.dead.deadDay}d${reason}`;
+}
+
+function winStatus(p: VillageParticipantView): string {
+  if (p.isWin == null) return "";
+  return p.isWin ? "勝利" : "敗北";
+}
+
+function skillName(p: VillageParticipantView): string {
+  if (p.isSpectator) return "見学参加";
+  return p.skill?.name ?? "";
+}
 
 /**
  * エピローグ以降の参加者正体一覧。発言ログ中の参加者一覧メッセージの位置に表示する。
  */
-export function ParticipantsTable({ villageId }: { villageId: number }) {
-  const { data } = useVillageParticipants(villageId, true);
-  if (data == null) return null;
+export function ParticipantsTable({ participants }: { participants: VillageParticipantView[] }) {
+  if (participants.length === 0) return null;
   return (
     <div>
       <p>館に集まった村人達の正体は、以下の通りだった。</p>
@@ -24,15 +43,15 @@ export function ParticipantsTable({ villageId }: { villageId: number }) {
             </tr>
           </thead>
           <tbody>
-            {(data.list ?? []).map((participant, index) => (
-              <tr key={index}>
-                <td className={`${cellBorderClass} p-[5px]`}>{participant.name}</td>
+            {participants.map((p) => (
+              <tr key={p.id}>
+                <td className={`${cellBorderClass} p-[5px]`}>{p.name}</td>
                 <td className={`${cellBorderClass} p-[5px]`}>
-                  {participant.playerName != null && <UserPageLink name={participant.playerName} />}
+                  {p.player?.name != null && <UserPageLink name={p.player.name} />}
                 </td>
-                <td className={`${cellBorderClass} p-[5px]`}>{participant.skillName}</td>
-                <td className={`${cellBorderClass} p-[5px]`}>{participant.deadStatus}</td>
-                <td className={`${cellBorderClass} p-[5px]`}>{participant.winStatus}</td>
+                <td className={`${cellBorderClass} p-[5px]`}>{skillName(p)}</td>
+                <td className={`${cellBorderClass} p-[5px]`}>{deadStatus(p)}</td>
+                <td className={`${cellBorderClass} p-[5px]`}>{winStatus(p)}</td>
               </tr>
             ))}
           </tbody>

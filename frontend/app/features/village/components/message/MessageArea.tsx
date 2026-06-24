@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import type { components } from "~/api/types";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -32,6 +33,7 @@ export function MessageArea({
   day,
   randomKeywords,
   filter = EMPTY_FILTER,
+  allParticipants,
   onHashtagClick,
   onReply,
   onSecret,
@@ -43,6 +45,7 @@ export function MessageArea({
   randomKeywords: string[];
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
+  allParticipants?: components["schemas"]["VillageParticipantView"][];
   onHashtagClick?: (tag: string) => void;
   onReply?: (reply: ReplyDraft) => void;
   onSecret?: (reply: ReplyDraft) => void;
@@ -98,6 +101,7 @@ export function MessageArea({
           message={message}
           randomKeywords={randomKeywords}
           spoiled={filter.spoiled}
+          allParticipants={allParticipants}
           onHashtagClick={onHashtagClick}
           onReply={onReply}
           onSecret={onSecret}

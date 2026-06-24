@@ -5,7 +5,6 @@ import com.ort.app.api.view.VillageAnchorMessageContent
 import com.ort.app.api.view.VillageAnchorMessagesContent
 import com.ort.app.api.view.VillageLatestMessageDatetimeContent
 import com.ort.app.api.view.VillageMessageListContent
-import com.ort.app.api.view.VillageParticipantsContent
 import com.ort.app.api.village.request.VillageMessageSearchRequest
 import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
@@ -19,7 +18,6 @@ import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
-import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.security.UserInfo
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import io.swagger.v3.oas.annotations.Operation
@@ -152,23 +150,6 @@ class VillageMessageRestController(
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
         val abilities = abilityService.findAbilities(village.id)
         return VillageAnchorMessagesContent(messages, village, players, charas, abilities)
-    }
-
-    /** 参加者の正体一覧。エピローグ以降 (settled) のみ公開する。 */
-    @Operation(operationId = "getVillageParticipants")
-    @GetMapping("/participants")
-    fun participants(
-        @PathVariable id: Int,
-    ): VillageParticipantsContent {
-        // 正体の公開は gone な村を含めない (発言系と異なり閲覧継続の必要がない)
-        val village =
-            villageService.findVillage(id)
-                ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
-        if (!village.status.isSettled()) {
-            throw WolfMansionBusinessException("エピローグ以降の村のみ参照できます")
-        }
-        val players = playerService.findPlayers(id)
-        return VillageParticipantsContent(village, players)
     }
 
     private fun findVillageOrThrow(id: Int): Village =

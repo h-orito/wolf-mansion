@@ -10,7 +10,7 @@ import {
   fetchVillageSituation,
   postVillageUpdate,
 } from "./api";
-import { VILLAGE_MESSAGES_QUERY_KEY, VILLAGE_PARTICIPANTS_QUERY_KEY } from "./useMessages";
+import { VILLAGE_MESSAGES_QUERY_KEY } from "./useMessages";
 
 export const VILLAGE_QUERY_KEY = "village";
 export const VILLAGE_SITUATION_QUERY_KEY = "village-situation";
@@ -82,7 +82,6 @@ export function useInvalidateVillage(id: number) {
         queryClient.invalidateQueries({ queryKey: [VILLAGE_SITUATION_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [VILLAGE_MESSAGES_QUERY_KEY, id] }),
-        queryClient.invalidateQueries({ queryKey: [VILLAGE_PARTICIPANTS_QUERY_KEY, id] }),
       ]),
     [queryClient, id],
   );
