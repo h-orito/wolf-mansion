@@ -156,6 +156,7 @@ export default function Village({ params }: Route.ComponentProps) {
     sayPreview,
     sayError,
     saySubmitting,
+    registerSayDone,
     onSayConfirm,
     onActionConfirm,
     onCreatorSayConfirm,
@@ -356,6 +357,7 @@ export default function Village({ params }: Route.ComponentProps) {
               reply={reply}
               onClearReply={clearReply}
               onConfirm={onSayConfirm}
+              registerOnDone={registerSayDone}
             />
           </div>
         )}

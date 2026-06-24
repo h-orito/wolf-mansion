@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 
+import { AlertList } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
@@ -84,6 +85,7 @@ export function SayPanel({
   reply,
   onClearReply,
   onConfirm,
+  registerOnDone,
 }: {
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
@@ -92,6 +94,8 @@ export function SayPanel({
   onClearReply: () => void;
   /** 確認画面へ (リクエスト内容を親へ渡し、プレビュー取得は親が行う) */
   onConfirm: (request: VillageSayRequest) => void;
+  /** 発言完了時のクリア関数を登録する */
+  registerOnDone: (fn: () => void) => void;
 }) {
   const say = mySituation.say;
   const myself = mySituation.myself;
@@ -104,6 +108,7 @@ export function SayPanel({
     say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? "NORMAL_SAY";
   const [messageType, setMessageType] = useState(defaultType);
   const [message, setMessage] = useState("");
+  registerOnDone(() => setMessage(""));
   const [faceType, setFaceType] = useState<string>(
     () =>
       faceTypeFor(
@@ -214,16 +219,16 @@ export function SayPanel({
     <Panel title="発言" storageKey="sayform" fixable>
       <div>
         {myself?.dead.isDead && (
-          <ul className="mb-[10px] list-disc rounded border border-[#3498db] py-[9px] pr-[9px] pl-[25px] text-[#3498db]">
+          <AlertList variant="info" className="mb-[10px]">
             <li>あなたは死亡しました。現世の思い出を語り合いましょう。</li>
             {!village.setting.rule.isVisibleGraveSpectateMessage && (
               <li>墓下では推理発言やCOを行っても問題ありません。</li>
             )}
-          </ul>
+          </AlertList>
         )}
         {(!myself?.dead.isDead ||
           (myself?.dead.isDead && village.setting.rule.isVisibleGraveSpectateMessage)) && (
-          <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
+          <AlertList className="mb-[10px]">
             {village.setting.rule.isVisibleGraveSpectateMessage && (
               <>
                 <li>この村は、墓下や見学発言を生存者が参照できます。</li>
@@ -240,7 +245,7 @@ export function SayPanel({
             <li>
               COおよび能力行使結果の発表は生存中の導師と探偵のみ行うことができます。騙りCOも禁止です。
             </li>
-          </ul>
+          </AlertList>
         )}
 
         {myself != null && <p className="mb-[10px]">{myself.name}</p>}

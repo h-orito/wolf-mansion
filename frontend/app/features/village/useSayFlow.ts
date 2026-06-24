@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import {
   actionVillage,
@@ -30,6 +30,7 @@ export function useSayFlow(
   const [sayPreview, setSayPreview] = useState<SayPreview>(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
+  const onSayDoneRef = useRef<(() => void) | null>(null);
 
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
@@ -37,6 +38,10 @@ export function useSayFlow(
   }, []);
 
   const clearReply = useCallback(() => setReply(null), []);
+
+  const registerSayDone = useCallback((fn: () => void) => {
+    onSayDoneRef.current = fn;
+  }, []);
 
   const onSayConfirm = async (request: VillageSayRequest) => {
     setSayError(null);
@@ -97,6 +102,7 @@ export function useSayFlow(
       }
       setSayPreview(null);
       setReply(null);
+      onSayDoneRef.current?.();
       await invalidate();
       requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
@@ -118,6 +124,7 @@ export function useSayFlow(
     sayPreview,
     sayError,
     saySubmitting,
+    registerSayDone,
     onSayConfirm,
     onActionConfirm,
     onCreatorSayConfirm,
