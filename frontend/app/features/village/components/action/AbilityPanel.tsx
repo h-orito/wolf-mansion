@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
+import { Alert, AlertList } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -101,10 +102,20 @@ export function AbilityPanel({
     setAttackerCharaId(value);
     setTargetCharaId("");
     setFootstep("");
+    setFootstepOptions([]);
     if (value === "") return;
     try {
       const response = await fetchAttackTargets(villageId, Number(value));
-      setTargets(response.targets ?? []);
+      const newTargets = response.targets ?? [];
+      setTargets(newTargets);
+      if (newTargets.length > 0) {
+        const firstTargetId = newTargets[0].charaId;
+        setTargetCharaId(String(firstTargetId));
+        const fsResponse = await fetchAbilityFootsteps(villageId, Number(value), firstTargetId);
+        const opts = fsResponse.footsteps ?? [];
+        setFootstepOptions(opts);
+        setFootstep(opts.length > 0 ? opts[0] : "");
+      }
     } catch {
       setTargets([]);
     }
@@ -150,16 +161,21 @@ export function AbilityPanel({
     <Panel title="役職" storageKey="skillform" fixable>
       <div>
         {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        {mySituation.myself?.dead.isDead && (
+          <Alert variant="info" className="mb-[10px] text-village-sm">
+            あなたは死亡しました。
+          </Alert>
+        )}
         {skill != null && (
           <>
-            <div className="mb-[5px] rounded border border-white p-[5px] text-village-sm">
+            <Alert className="mb-[5px] text-village-sm">
               <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
               {mySituation.myself?.camp != null && (
                 <p>
                   あなたは <strong>{mySituation.myself.camp.name}</strong> です。
                 </p>
               )}
-            </div>
+            </Alert>
             <div className="mb-[10px] text-right text-village-sm">
               <Link
                 to={`/skill#${skill.code.toLowerCase()}`}
@@ -172,17 +188,12 @@ export function AbilityPanel({
           </>
         )}
         {ability.canUseAbility && <hr className="my-[21px] border-[#464545]" />}
-        {mySituation.myself?.dead.isDead && (
-          <div className="mb-[10px] rounded border border-[#e74c3c] p-[10px] text-village-sm text-[#e74c3c]">
-            あなたは死亡しました。
-          </div>
-        )}
-        {ability.targetingMessage != null && (
+        {ability.canUseAbility && ability.targetingMessage != null && (
           <p className="text-village-sm">
             現在の選択: <strong className="text-base">{ability.targetingMessage}</strong>
           </p>
         )}
-        {ability.footstep != null && (
+        {ability.canUseAbility && ability.footstep != null && (
           <p className="text-village-sm">
             通過する部屋:{" "}
             <strong className="text-base">
@@ -191,7 +202,9 @@ export function AbilityPanel({
             （明日朝時点で生存者のいる部屋のみ響きます）
           </p>
         )}
-        {ability.targetingMessage != null && <hr className="my-[21px] border-[#464545]" />}
+        {ability.canUseAbility && ability.targetingMessage != null && (
+          <hr className="my-[21px] border-[#464545]" />
+        )}
 
         {ability.canUseAbility && isDisturb && (
           <div className="mt-[10px]">
@@ -282,13 +295,13 @@ export function AbilityPanel({
         {ability.canUseAbility && !isDisturb && !isInvestigate && (
           <div className="text-village-sm">
             {isAttack && (
-              <ul className="mb-[10px] list-disc rounded border border-[#f39c12] p-[5px] pl-[25px] text-[#f39c12]">
+              <AlertList className="mb-[10px]">
                 <li>個人ごとに別々の襲撃内容をセットできます。</li>
                 <li>あなたの襲撃セット内容はあなたしか参照できません。</li>
                 <li>
                   日付更新時に、処刑と同様、最多票となったセット内容（襲撃者x対象x足音）が採用され、その内容で襲撃を行います。
                 </li>
-              </ul>
+              </AlertList>
             )}
             {isAttack && (
               <div className="mb-[5px]">
@@ -384,36 +397,32 @@ function FactionNotes({
   village: VillageDetailView;
 }) {
   const resolve = (id: number) => resolveCharaName(village, id);
-  const notes: { key: string; label: string; names: string }[] = [];
+  const notes: { key: string; label: string; names: string[] }[] = [];
   if (ability.wolfCharaIds.length > 0)
     notes.push({
       key: "wolf",
       label: "この村の人狼は、",
-      names: ability.wolfCharaIds.map(resolve).join("、"),
+      names: ability.wolfCharaIds.map(resolve),
     });
   if (ability.cMadmanCharaIds.length > 0)
     notes.push({
       key: "cmad",
       label: "この村のC国狂人は、",
-      names: ability.cMadmanCharaIds.map(resolve).join("、"),
+      names: ability.cMadmanCharaIds.map(resolve),
     });
   if (ability.foxCharaIds.length > 0)
-    notes.push({
-      key: "fox",
-      label: "この村の妖狐は、",
-      names: ability.foxCharaIds.map(resolve).join("、"),
-    });
+    notes.push({ key: "fox", label: "この村の妖狐は、", names: ability.foxCharaIds.map(resolve) });
   if (ability.masonsCharaIds.length > 0)
     notes.push({
       key: "mason",
       label: "この村の共鳴者は、",
-      names: ability.masonsCharaIds.map(resolve).join("、"),
+      names: ability.masonsCharaIds.map(resolve),
     });
   if (ability.listenMasonsCharaIds.length > 0)
     notes.push({
       key: "listen",
       label: "この村の共有者は、",
-      names: ability.listenMasonsCharaIds.map(resolve).join("、"),
+      names: ability.listenMasonsCharaIds.map(resolve),
     });
   const loversLines =
     ability.lovers.length > 0
@@ -426,7 +435,15 @@ function FactionNotes({
         <div key={note.key}>
           <hr className="my-[21px] border-[#464545]" />
           <p className="text-village-sm">
-            {note.label} <strong className="text-base">{note.names}</strong> です。
+            {note.label}
+            {note.names.map((name, i) => (
+              <span key={i}>
+                {i > 0 && <br />}
+                <strong className="text-base">{name}</strong>
+                {i < note.names.length - 1 && "、"}
+              </span>
+            ))}
+            {" です。"}
           </p>
         </div>
       ))}
