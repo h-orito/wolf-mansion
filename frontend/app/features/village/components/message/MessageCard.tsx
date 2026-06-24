@@ -258,7 +258,7 @@ function renderBody(
   // 梟の地獄耳: 発言者を伏せた特殊表示
   if (message.isBigEars) {
     return (
-      <div>
+      <div className="mb-[15px]">
         <div className="text-village-sm">
           <span>地獄耳</span>
           <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
@@ -287,7 +287,8 @@ function renderBody(
     const loud = sayVariant.decoratable && message.isLoud;
     const rainbow = sayVariant.decoratable && message.isRainbow;
     const hasButtons =
-      (message.canReply || message.canSecret) && (onReply != null || onSecret != null);
+      (message.canReply && onReply != null) ||
+      (message.canSecret && onSecret != null && message.characterId != null);
     return (
       <div className={hasButtons ? "" : "mb-[20px]"}>
         <div className="text-village-sm">

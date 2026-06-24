@@ -451,13 +451,17 @@ function FactionNotes({
         <div>
           <hr className="my-[21px] border-[#464545]" />
           <p className="text-village-sm">
+            {"この村で恋に落ちているのは"}
             {loversLines.map((l, i) => (
               <span key={i}>
-                {i > 0 && <br />}
-                <strong className="text-base">{l.from}</strong> →{" "}
+                <br />
+                <strong className="text-base">{l.from}</strong>
+                {" → "}
                 <strong className="text-base">{l.to}</strong>
               </span>
             ))}
+            <br />
+            {"です。"}
           </p>
         </div>
       )}
