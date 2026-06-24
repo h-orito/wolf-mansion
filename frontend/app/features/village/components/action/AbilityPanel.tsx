@@ -85,7 +85,11 @@ export function AbilityPanel({
         isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
         Number(targetCharaId),
       )
-        .then((response) => setFootstepOptions(response.footsteps ?? []))
+        .then((response) => {
+          const opts = response.footsteps ?? [];
+          setFootstepOptions(opts);
+          if (!footstep && opts.length > 0) setFootstep(opts[0]);
+        })
         .catch(() => {});
     }
     // 初期表示のみ。以降の変更は onAttackerChange / onTargetChange が取得する
@@ -116,7 +120,9 @@ export function AbilityPanel({
         isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
         Number(value),
       );
-      setFootstepOptions(response.footsteps ?? []);
+      const opts = response.footsteps ?? [];
+      setFootstepOptions(opts);
+      setFootstep(opts.length > 0 ? opts[0] : "");
     } catch {
       setFootstepOptions([]);
     }
