@@ -11,6 +11,10 @@
 /.gradle
 /.settings
 
+### ローカル開発用データ (オリジナルキャラチップ画像等) ###
+data/*
+!data/.gitkeep
+
 ### Claude / ツール (リポジトリ全体) ###
 .claude/settings.local.json
 .serena

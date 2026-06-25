@@ -1,6 +1,9 @@
 # docker-compose
 
-wolf-mansion 用のローカル開発用 MySQL 8 を起動する docker-compose 定義。
+wolf-mansion 用のローカル開発環境を起動する docker-compose 定義。
+
+- **MySQL 8**: ゲームデータベース
+- **nginx**: オリジナルキャラチップ画像の配信 (本番と同じ構成)
 
 ## 起動 / 停止
 
@@ -42,3 +45,13 @@ jdbc:mysql://127.0.0.1:4306/werewolf_mansiondb?character_set_server=utf8mb4
 
 スキーマ・テーブルは DBFlute の ReplaceSchema で作成します（`backend/dbflute_wolf_mansiondb/`）。
 初回起動後、DB を初期化したい場合は `initdb/` に `*.sql` を置くとコンテナ初回起動時に自動実行されます。
+
+## オリジナルキャラチップ画像
+
+オリジナルキャラチップ村（参加者が自分でキャラ画像をアップロードする村）の画像は nginx が配信します。
+
+- backend が `../data/original/` に画像を保存
+- nginx が `/wmansion/original` パスで同ディレクトリを配信 (ポート 18080)
+- Vite dev server が `/wmansion/original` を nginx にプロキシ
+
+本番と同じ URL パス (`/wmansion/original`) で画像にアクセスできます。

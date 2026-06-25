@@ -31,6 +31,11 @@ export default defineConfig({
         target: BACKEND_ORIGIN,
         changeOrigin: true,
       },
+      // オリジナルキャラチップ画像は nginx が配信 (本番と同じ構成)
+      "/wmansion/original": {
+        target: process.env.NGINX_ORIGIN ?? "http://localhost:18080",
+        changeOrigin: true,
+      },
     },
   },
 });
