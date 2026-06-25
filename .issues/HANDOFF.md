@@ -5,8 +5,8 @@
 
 ## 現在地
 
-- **フェーズ**: **Step 8 (村画面) 進行中 — 8.1〜8.6 ✅ #71〜#76 / 8.7+8.8 (切替・希望変更・退村) ✅ #77**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
-- **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12・最重要)**: `feature/monorepo-step8` を base にサブ step PR を積む。**同ブランチへの squash merge は Claude 単独で可** (夜間連続作業のため)。`feature/monorepo` への merge は Step 8 完了時の統合 PR でユーザーレビュー。api-drift CI の branches フィルタに `feature/monorepo-step8` 追加済み (8.1 PR)
+- **フェーズ**: **Step 8 (村画面) 完了 🎉 — 8.1〜8.19 全19サブstep ✅ #71〜#88、統合 PR #89 merge 済 (2026-06-25)**。Step 7 (新規村作成) 全完了 🎉 (7.1〜7.5 ✅ #66〜#70)。Step 6 (ランダム機能) 完了 (#65)。Step 5 (情報・静的ページ) 完了 (5.1〜5.5 ✅ #60〜#64)。Step 4 完了済 (4.1 ホーム / 3.6 認証忠実再現 / 4.2 村一覧 / 4.3 intro)。Step 3 / Step 2 完了済
+- **Step 8 統合ブランチ方式 (完了)**: `feature/monorepo-step8` を base にサブ step PR を積む方式で実施。統合 PR #89 (feature/monorepo-step8 → feature/monorepo) がレビュー・merge 済。simplify リファクタ (VillageFormRow/ErrorMessage 導入) も merge 済
   - **step-8.7/8.8 完了 ✅ (#77)**: 参加見学切替・希望役職変更・退村 (同 controller の小操作 3 つを 1 PR に統合)。`POST switch-participate`/`change-skill`/`leave` (domain assert 委譲) + situation/me フラグで出し分ける 3 パネル。退村は confirm ダイアログ (legacy parity)
     - **components/ui に `Panel` (タイトル付きパネル) を新設**し、発言/アクション/入村/参加系の重複 markup を排除 (collapsible は従来どおり別物)
     - e2e 1 件追加: **入村 → 役職希望変更 → 退村の自己完結フロー** (実入村するが退村で後片付け)。全 **61 件**。8.6 で残置した村 2 の `e2ejoin01` も退村実測で片付け済み。pr-reviewer 2 巡 (`.reviews/PR-77.md`)
@@ -155,8 +155,9 @@
   - DBFlute エンジン本体は Java 8 で動作 (`_project.sh` が `/usr/libexec/java_home -v 1.8` を設定)。エンジンは `mydbflute/dbflute-1.3.1` (git tracked)
 - **Step 2 サブ step**: 2.1 移動+Jib (✅ #47) / 2.2 ktlint+hook+gitignore (✅ #48) / 2.3 frontend 雛形 (✅ #49) / 2.4 e2e 雛形 (✅ #50)。**context-path `/wolf-mansion-api` は別サブ step に切り出し**済 (PlayerController の id_register Cookie path と結合のため `/wolf-mansion` 据置、Step 3 前後で実施)
 - **git 状態**:
-  - ブランチ = `feature/monorepo`。HEAD = `ff109a6d` (= step-7.5 #70) + 後片付け commit。作業ツリー clean、origin と同期
+  - ブランチ = `feature/monorepo`。HEAD = `bac9e52c` (= Step 8 統合 merge + simplify)。作業ツリー clean、origin と同期
   - **構成**: `backend/` (Spring Boot/Kotlin、自己完結 Gradle) / `frontend/` (RR v7 SSR) / `e2e/` (Playwright、ローカル専用) / root は doc・設定のみ
+  - **Step 8 統合 merge 済 (2026-06-25)**: PR #89 (feature/monorepo-step8 → feature/monorepo) merge + simplify リファクタ commit 済。feature/monorepo-step8 ブランチは履歴保存のため残置
   - **backend**: ktlint 導入済 (`backend/build.gradle.kts` plugin + `.editorconfig` で 5 ルール無効化)。context-path は `/wolf-mansion` 据置。`cd backend && ./gradlew ...`、bootRun は 8089。**JDK 21 (jenv): root + `backend/.java-version`=21 + jenv global=21**
   - **e2e**: Playwright (`@playwright/test` 1.60.0 pin、minimumReleaseAge 14日制約) + pnpm (独立プロジェクト)。`playwright.config.ts` の webServer が backend **18089** / frontend **15173** を別ポート自動起動 (通常 8089/5173 と並走可)、baseURL=frontend。smoke + **auth.spec (3.3 で追加: signup→me→logout→login + 未認証リダイレクト)**。frontend webServer に `BACKEND_ORIGIN=…:18089` を注入し Vite proxy の転送先を e2e backend に向ける。本格 authoring は Step 8+/scenarios。CI 非実行。`cd e2e && pnpm install && pnpm run install:browsers && pnpm test`。**注意: e2e は provision 済み DB が前提** (空 docker DB だと `VILLAGE doesn't exist` 等で 500)
   - **frontend**: RR v7 framework(SSR) + Vite 8 + Tailwind v4 + TS + React 19。`pnpm install/dev(5173)/build/lint/format:check/typecheck` 全 green。**RR は `minimumReleaseAge`(14日) で 7.15.1 固定** (7.16+ が 14 日経過したら bump + v8 future flags 再有効化)。中核ライブラリ (react-query/zustand/react-hook-form/zod/heroicons + devDep openapi-typescript) 導入、`root.tsx` に QueryClientProvider 配線済 (リクエスト毎生成)。**3.3 で認証フロー実装済** (`app/lib/{api,zodResolver}.ts` / `app/features/auth/*` / `/login,/signup,/mypage,/change-password` ルート)。dev は `vite.config.ts` の **proxy `/wolf-mansion`→`BACKEND_ORIGIN`(既定 8089, rewrite無し)** + `optimizeDeps.include`(react-hook-form/zod)。API base は env `VITE_API_BASE`(既定 `/wolf-mansion`)。Dockerfile は Step 11 で作成
@@ -182,9 +183,10 @@
 
 ## 次にやること
 
-**Step 8 (村画面) 完了 🎉 — 8.1〜8.19 ✅ (#71〜#88)。次は最終統合 PR (feature/monorepo-step8 → feature/monorepo、ユーザー承認必須) のレビュー → merge 後に Step 9 へ**。
+**Step 8 完了・merge 済 🎉 → Step 9 (プロフィール・戦績) へ**。
 
 - **残課題 (Step 8 から繰り越し)**: 8.12.1 表情差分 (原画村限定の add-face-type / modify-face-type。原画村フィクスチャが必要 + SSR の所有者検証欠如を REST 化時に修正)。エピローグ延長/短縮の正常系実測 (エピローグ村ができたら)
+- **Step 8 統合後の simplify リファクタ実施済 (2026-06-25)**: `VillageFormRow`/`ErrorMessage` コンポーネント導入で 30 箇所以上のフォーム行重複・12 箇所のエラー表示重複を集約。`resolveCharaName` 重複除去、AgeLimitModal/InitialSkillModal のボタン Button 化、AbilityPanel の inline hr → Divider 置換
 - **8.19 のメモ**: 切り抜きは backend 変更なし (既存 anchors REST 流用)。searchParams `anchors` が正本
 - **8.18 のメモ**: 設定変更 REST は `GET/PUT /api/v1/villages/{id}/creator/setting` (リクエスト/レスポンスとも SSR の `VillageSettingForm` を直接流用、merge は `VillageSettingForm.mergeTo` に移設)。フォーム部品は `features/village-form/` に共有化済み (new-village と村設定変更が使う)。schema は `newVillageSchema` / `villageSettingsSchema` の 2 本 (相関検証は共有関数)。変更不可項目 (キャラセット・ダミーキャラ・役職希望・プロデューサー) は backend Form にフィールド不在で構造的に改変不可
 - **8.17 のメモ**: debug REST は `GET /api/v1/villages/{id}/debug` (isDebugMode + dummy login 用 players。**無効時は isDebugMode:false を返す** — frontend のパネル表示判定用) / `POST /debug/all-participate` / `POST /debug/day-change` (無効時 404)。**e2e/手動の村進行はこの REST が新しい基本手段** (SSR debug メニュー不要に)。ダミーログインは既存 auth login (password=testuser) + 全リロード。使い捨て村の後片付け: 進行中まで進めた村は cancel 不可 → DB で `UPDATE VILLAGE SET VILLAGE_STATUS_CODE='CANCEL'` (村 8 がその例)
