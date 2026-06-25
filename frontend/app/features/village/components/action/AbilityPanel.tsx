@@ -56,7 +56,7 @@ export function AbilityPanel({
     ability.targetCharaId != null ? String(ability.targetCharaId) : "",
   );
   const [footstep, setFootstep] = useState<string>(
-    ability.targetFootstep ?? ability.footstep ?? "",
+    ability.targetFootstep ?? ability.footstep ?? ability.targetFootstepList?.[0] ?? "",
   );
   // 徘徊の通過部屋 (CSV をトグル選択で組み立てる)
   const [disturbRooms, setDisturbRooms] = useState<string[]>(() => {
@@ -279,7 +279,6 @@ export function AbilityPanel({
                   onChange={(e) => setFootstep(e.target.value)}
                   aria-label="調査する足音"
                 >
-                  <option value="">選択してください</option>
                   {footstepOptions.map((option) => (
                     <option key={option} value={option}>
                       {option}
