@@ -157,14 +157,14 @@ function NotificationSection({
   mySituation: ParticipantSituationView;
 }) {
   const current = mySituation.myself?.notification;
-  const [webhookUrl, setWebhookUrl] = useState(current?.webhookUrl ?? "");
-  const [villageStart, setVillageStart] = useState(current?.villageStart ?? false);
-  const [villageDaychange, setVillageDaychange] = useState(current?.villageDaychange ?? false);
-  const [villageEpilogue, setVillageEpilogue] = useState(current?.villageEpilogue ?? false);
-  const [secretSay, setSecretSay] = useState(current?.secretSay ?? false);
-  const [anchorSay, setAnchorSay] = useState(current?.anchorSay ?? false);
-  const [abilitySay, setAbilitySay] = useState(current?.abilitySay ?? false);
-  const [keyword, setKeyword] = useState(current?.keyword ?? "");
+  const [webhookUrl, setWebhookUrl] = useState(current?.discordWebhookUrl ?? "");
+  const [villageStart, setVillageStart] = useState(current?.village?.start ?? false);
+  const [villageDaychange, setVillageDaychange] = useState(current?.village?.dayChange ?? false);
+  const [villageEpilogue, setVillageEpilogue] = useState(current?.village?.epilogue ?? false);
+  const [secretSay, setSecretSay] = useState(current?.message?.secretSay ?? false);
+  const [anchorSay, setAnchorSay] = useState(current?.message?.anchor ?? false);
+  const [abilitySay, setAbilitySay] = useState(current?.message?.abilitySay ?? false);
+  const [keyword, setKeyword] = useState(current?.message?.keywords?.join("\n") ?? "");
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [submitting, setSubmitting] = useState(false);
