@@ -288,6 +288,22 @@ export function changeVillageMemo(id: number, request: VillageMemoRequest): Prom
   return apiFetch<void>(`/api/v1/villages/${id}/memo`, { method: "POST", body: request });
 }
 
+/** 表情差分を追加する（原画村限定）。要認証 → 204。 */
+export function addVillageFaceType(id: number, faceTypeName: string, image: File): Promise<void> {
+  const form = new FormData();
+  form.append("faceTypeName", faceTypeName);
+  form.append("image", image);
+  return apiFetch<void>(`/api/v1/villages/${id}/face-types`, { method: "POST", body: form });
+}
+
+/** 表情差分を一括編集する（原画村限定）。要認証 → 204。 */
+export function modifyVillageFaceTypes(
+  id: number,
+  list: { code: string; name: string; isDisplay: boolean }[],
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${id}/face-types`, { method: "PUT", body: { list } });
+}
+
 /** 村情報モーダル用の設定表示 (表示ラベル組み立て・マスク済み)。 */
 export type VillageSettingsContent = components["schemas"]["VillageSettingsContent"];
 

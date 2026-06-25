@@ -33,6 +33,7 @@ import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
 import { ActionPanel } from "~/features/village/components/action/ActionPanel";
 import { CommitPanel } from "~/features/village/components/action/CommitPanel";
+import { FaceTypePanel } from "~/features/village/components/action/FaceTypePanel";
 import { RpPanel } from "~/features/village/components/action/RpPanel";
 import { SayPanel } from "~/features/village/components/action/SayPanel";
 import { VotePanel } from "~/features/village/components/action/VotePanel";
@@ -425,15 +426,12 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null &&
           (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-            <RpPanel
-              villageId={villageId}
-              mySituation={mySituation}
-              onDone={async () => {
-                await invalidate();
-                requestAnimationFrame(() => scrollToBottom());
-              }}
-            />
+            <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
           )}
+
+        {mySituation != null && mySituation.rp.canAddImage && (
+          <FaceTypePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
+        )}
 
         {mySituation != null && mySituation.creator.isCreator && (
           <CreatorPanel
@@ -509,7 +507,9 @@ export default function Village({ params }: Route.ComponentProps) {
         filter={filter}
         participants={situation?.participantList ?? []}
         myselfId={mySituation?.myself?.id ?? null}
-        notificationKeyword={mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null}
+        notificationKeyword={
+          mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null
+        }
         onApply={applyFilter}
         onApplyNewTab={applyFilterNewTab}
       />

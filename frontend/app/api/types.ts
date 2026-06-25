@@ -643,6 +643,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{id}/face-types": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations["modifyVillageFaceTypes"];
+    post: operations["addVillageFaceType"];
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/villages/{id}/info": {
     parameters: {
       query?: never;
@@ -1737,6 +1753,14 @@ export interface components {
       pageNumList: number[];
       suddenlyDeathMessage?: string | null;
       villageStatusMessage?: string | null;
+    };
+    VillageModifyFaceTypesRequest: {
+      list: components["schemas"]["VillageModifyFaceTypesRequestItem"][] | null;
+    };
+    VillageModifyFaceTypesRequestItem: {
+      code: string | null;
+      isDisplay: boolean | null;
+      name: string | null;
     };
     VillageNotificationRequest: {
       abilitySay?: boolean | null;
@@ -3104,6 +3128,58 @@ export interface operations {
       cookie?: never;
     };
     requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  modifyVillageFaceTypes: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["VillageModifyFaceTypesRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  addVillageFaceType: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        id: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: {
+      content: {
+        "multipart/form-data": {
+          faceTypeName: string;
+          /** Format: binary */
+          image: string;
+        };
+      };
+    };
     responses: {
       /** @description No Content */
       204: {

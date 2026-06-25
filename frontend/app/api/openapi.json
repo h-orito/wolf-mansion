@@ -1342,6 +1342,77 @@
         "tags": ["village-debug-rest-controller"]
       }
     },
+    "/api/v1/villages/{id}/face-types": {
+      "post": {
+        "operationId": "addVillageFaceType",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "faceTypeName": {
+                    "type": "string"
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["faceTypeName", "image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-rp-rest-controller"]
+      },
+      "put": {
+        "operationId": "modifyVillageFaceTypes",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VillageModifyFaceTypesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["village-rp-rest-controller"]
+      }
+    },
     "/api/v1/villages/{id}/info": {
       "get": {
         "operationId": "getVillageInfo",
@@ -4775,6 +4846,36 @@
           "messageList",
           "pageNumList"
         ]
+      },
+      "VillageModifyFaceTypesRequest": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/VillageModifyFaceTypesRequestItem"
+            }
+          }
+        },
+        "required": ["list"]
+      },
+      "VillageModifyFaceTypesRequestItem": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": ["string", "null"],
+            "minLength": 1
+          },
+          "isDisplay": {
+            "type": ["boolean", "null"]
+          },
+          "name": {
+            "type": ["string", "null"],
+            "maxLength": 5,
+            "minLength": 1
+          }
+        },
+        "required": ["code", "isDisplay", "name"]
       },
       "VillageNotificationRequest": {
         "type": "object",
