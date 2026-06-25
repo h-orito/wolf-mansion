@@ -206,6 +206,34 @@
         "tags": ["charachip-rest-controller"]
       }
     },
+    "/api/v1/players/{name}": {
+      "get": {
+        "operationId": "getPlayerByName",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerRecordsContent"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["player-rest-controller"]
+      }
+    },
     "/api/v1/random-keywords": {
       "get": {
         "operationId": "list_1",
@@ -2995,6 +3023,143 @@
         },
         "required": ["confirmPassword", "password"]
       },
+      "PlayerCampRecord": {
+        "type": "object",
+        "properties": {
+          "campName": {
+            "type": "string"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/PlayerRecord"
+          }
+        },
+        "required": ["campName", "stats"]
+      },
+      "PlayerParticipateVillage": {
+        "type": "object",
+        "properties": {
+          "campName": {
+            "type": "string"
+          },
+          "characterImgHeight": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "characterImgUrl": {
+            "type": "string"
+          },
+          "characterImgWidth": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "characterName": {
+            "type": "string"
+          },
+          "liveStatus": {
+            "type": "string"
+          },
+          "skillName": {
+            "type": "string"
+          },
+          "villageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "villageName": {
+            "type": "string"
+          },
+          "winStatus": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "campName",
+          "characterImgHeight",
+          "characterImgUrl",
+          "characterImgWidth",
+          "characterName",
+          "liveStatus",
+          "skillName",
+          "villageId",
+          "villageName",
+          "winStatus"
+        ]
+      },
+      "PlayerRecord": {
+        "type": "object",
+        "properties": {
+          "participateNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "winNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "winRate": {
+            "type": "number",
+            "format": "float"
+          }
+        },
+        "required": ["participateNum", "winNum", "winRate"]
+      },
+      "PlayerRecordsContent": {
+        "type": "object",
+        "properties": {
+          "campStatsList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerCampRecord"
+            }
+          },
+          "introduction": {
+            "type": ["string", "null"]
+          },
+          "participateVillageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerParticipateVillage"
+            }
+          },
+          "skillStatsList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerSkillRecord"
+            }
+          },
+          "spectateVillageList": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerParticipateVillage"
+            }
+          },
+          "twitterUserName": {
+            "type": ["string", "null"]
+          },
+          "wholeStats": {
+            "$ref": "#/components/schemas/PlayerRecord"
+          }
+        },
+        "required": [
+          "campStatsList",
+          "participateVillageList",
+          "skillStatsList",
+          "spectateVillageList",
+          "wholeStats"
+        ]
+      },
+      "PlayerSkillRecord": {
+        "type": "object",
+        "properties": {
+          "skillName": {
+            "type": "string"
+          },
+          "stats": {
+            "$ref": "#/components/schemas/PlayerRecord"
+          }
+        },
+        "required": ["skillName", "stats"]
+      },
       "PlayerView": {
         "type": "object",
         "properties": {
@@ -4226,7 +4391,7 @@
           "personNumber": {
             "type": ["integer", "null"],
             "format": "int32",
-            "maximum": 50,
+            "maximum": 99,
             "minimum": 1
           }
         },

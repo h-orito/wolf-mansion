@@ -42,8 +42,8 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/auth/refresh",
                         "/api/v1/auth/logout",
                     ).permitAll()
-                    // 村一覧・村詳細・村状況・キャラセット一覧・役職一覧・ルール情報・ランダムキーワードの
-                    // 閲覧は公開情報 (ランダムキーワードの書き込み系はログイン必須のため GET のみ)。
+                    // 村一覧・村詳細・村状況・キャラセット一覧・役職一覧・ルール情報・ランダムキーワード・
+                    // プレイヤープロフィールの閲覧は公開情報 (ランダムキーワードの書き込み系はログイン必須のため GET のみ)。
                     // 村状況はログイン時のみ視点をマスクに反映する (JWT filter が principal を積む)
                     .requestMatchers(
                         org.springframework.http.HttpMethod.GET,
@@ -64,6 +64,7 @@ class WolfMansionWebSecurityConfig {
                         "/api/v1/rule/judges",
                         "/api/v1/random-keywords",
                         "/api/v1/random-keywords/{id}",
+                        "/api/v1/players/{name}",
                     ).permitAll()
                     // 村ポーリングは匿名の閲覧者も日付更新を駆動するため公開
                     .requestMatchers(
