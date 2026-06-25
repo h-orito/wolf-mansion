@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+
+import { Button, LinkButton } from "~/components/ui/Button";
 
 const STORAGE_KEY = "already_agelimit_confirm";
 
@@ -60,19 +61,10 @@ export function AgeLimitModal({
           暴力表現や性描写などが含まれる可能性があります。
         </p>
         <div className="flex justify-end gap-[10px] text-[12px]">
-          <Link
-            to="/"
-            className="rounded-[3px] border-2 border-[#3498db] bg-[#3498db] px-[9px] py-[6px] text-white hover:opacity-90"
-          >
+          <LinkButton to="/" variant="info">
             表示せず戻る
-          </Link>
-          <button
-            type="button"
-            className="cursor-pointer rounded-[3px] border-2 border-[#00bc8c] bg-[#00bc8c] px-[9px] py-[6px] text-white hover:opacity-90"
-            onClick={confirm}
-          >
-            表示する
-          </button>
+          </LinkButton>
+          <Button onClick={confirm}>表示する</Button>
         </div>
       </div>
     </div>

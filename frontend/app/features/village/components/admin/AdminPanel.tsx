@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
+import { VillageFormRow } from "~/components/ui/Form";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
 import {
@@ -10,9 +12,6 @@ import {
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
 import { useAsyncAction } from "~/lib/useAsyncAction";
-
-const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
-const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
 
 /** 管理者機能パネル。管理者プレイヤーのみ表示する。 */
 export function AdminPanel({
@@ -52,15 +51,14 @@ function AccessSection({
 
   return (
     <div>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={rowClass}>
-        <label className={labelClass}>全員アクセス</label>
-        <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+      <ErrorMessage error={error} />
+      <VillageFormRow label="全員アクセス">
+        <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
             更新
           </Button>
         </div>
-      </div>
+      </VillageFormRow>
     </div>
   );
 }
@@ -84,15 +82,14 @@ function SelfVoteSection({
 
   return (
     <div>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={rowClass}>
-        <label className={labelClass}>全員自投票</label>
-        <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+      <ErrorMessage error={error} />
+      <VillageFormRow label="全員自投票">
+        <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
             全員投票
           </Button>
         </div>
-      </div>
+      </VillageFormRow>
     </div>
   );
 }
@@ -109,37 +106,34 @@ function PlayersSection({ villageId }: { villageId: number }) {
 
   return (
     <div>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={`${rowClass} sm:items-start`}>
-        <label className={labelClass}>ID確認</label>
-        <div className="mt-[5px] flex-1 sm:mt-0">
-          <div className="flex justify-end">
-            <Button onClick={load} disabled={loading}>
-              参加プレイヤーを表示
-            </Button>
-          </div>
-          {players != null && (
-            <table className="mt-[10px] w-full border-collapse border border-[#464545]">
-              <thead>
-                <tr>
-                  <th className="border border-[#464545] px-[8px] py-[4px] text-left">キャラ名</th>
-                  <th className="border border-[#464545] px-[8px] py-[4px] text-left">
-                    プレイヤー名
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {players.players.map((p) => (
-                  <tr key={p.charaName}>
-                    <td className="border border-[#464545] px-[8px] py-[4px]">{p.charaName}</td>
-                    <td className="border border-[#464545] px-[8px] py-[4px]">{p.playerName}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
+      <ErrorMessage error={error} />
+      <VillageFormRow label="ID確認" align="start">
+        <div className="flex justify-end">
+          <Button onClick={load} disabled={loading}>
+            参加プレイヤーを表示
+          </Button>
         </div>
-      </div>
+        {players != null && (
+          <table className="mt-[10px] w-full border-collapse border border-[#464545]">
+            <thead>
+              <tr>
+                <th className="border border-[#464545] px-[8px] py-[4px] text-left">キャラ名</th>
+                <th className="border border-[#464545] px-[8px] py-[4px] text-left">
+                  プレイヤー名
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {players.players.map((p) => (
+                <tr key={p.charaName}>
+                  <td className="border border-[#464545] px-[8px] py-[4px]">{p.charaName}</td>
+                  <td className="border border-[#464545] px-[8px] py-[4px]">{p.playerName}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </VillageFormRow>
     </div>
   );
 }

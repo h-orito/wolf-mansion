@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
-import { Panel } from "~/components/ui/Panel";
+import { VillageFormRow } from "~/components/ui/Form";
 import { selectClass } from "~/components/ui/Input";
+import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
 import {
   changeVillageRequestSkill,
@@ -31,7 +33,7 @@ export function SwitchParticipatePanel({
   return (
     <Panel title="参加見学切り替え" storageKey="switchparticipateform">
       <div className="space-y-[10px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
             参加見学を切り替える
@@ -77,14 +79,13 @@ export function ChangeSkillPanel({
   return (
     <Panel title="役職希望" storageKey="changeskillform">
       <div className="space-y-[10px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         <p>
           現在の役職希望: {currentFirst}/{currentSecond}
         </p>
-        <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第一役職希望</label>
+        <VillageFormRow label="第一役職希望">
           <select
-            className={`${selectClass} mt-[5px] sm:mt-0`}
+            className={selectClass}
             value={first}
             onChange={(e) => setFirst(e.target.value)}
             aria-label="第一役職希望"
@@ -95,11 +96,10 @@ export function ChangeSkillPanel({
               </option>
             ))}
           </select>
-        </div>
-        <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[120px] sm:shrink-0 sm:text-right">第二役職希望</label>
+        </VillageFormRow>
+        <VillageFormRow label="第二役職希望">
           <select
-            className={`${selectClass} mt-[5px] sm:mt-0`}
+            className={selectClass}
             value={second}
             onChange={(e) => setSecond(e.target.value)}
             aria-label="第二役職希望"
@@ -110,7 +110,7 @@ export function ChangeSkillPanel({
               </option>
             ))}
           </select>
-        </div>
+        </VillageFormRow>
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
             役職希望を変更する
@@ -142,7 +142,7 @@ export function LeavePanel({
   return (
     <Panel title="退村" storageKey="leaveform">
       <div className="space-y-[10px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         <div className="flex justify-end">
           <Button variant="danger" onClick={submit} disabled={submitting}>
             村を出る

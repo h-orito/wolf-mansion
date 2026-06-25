@@ -5,6 +5,39 @@ export const fieldErrorClass = "mt-1 text-red-400";
 /** フォーム全体のエラー文言。 */
 export const formErrorClass = "mb-2 block text-red-400";
 
+type VillageLabelWidth = "default" | "wide";
+
+const VILLAGE_LABEL_WIDTH: Record<VillageLabelWidth, string> = {
+  default: "sm:w-[120px]",
+  wide: "sm:w-[130px]",
+};
+
+/**
+ * 村画面パネル内のコンパクトなフォーム行。
+ * sm 以上でラベル左寄せ・入力右寄せ、それ未満でラベル上・入力下に積む。
+ */
+export function VillageFormRow({
+  label,
+  labelWidth = "default",
+  align = "center",
+  children,
+}: {
+  label?: ReactNode;
+  labelWidth?: VillageLabelWidth;
+  align?: "center" | "start";
+  children: ReactNode;
+}) {
+  const alignClass = align === "center" ? "sm:items-center" : "sm:items-start";
+  return (
+    <div className={`sm:flex sm:gap-[10px] ${alignClass}`}>
+      <label className={`${VILLAGE_LABEL_WIDTH[labelWidth]} sm:shrink-0 sm:text-right`}>
+        {label}
+      </label>
+      <div className="mt-[5px] flex-1 sm:mt-0">{children}</div>
+    </div>
+  );
+}
+
 /** ラベル列の幅 (横並び時)。フォームの用途で使い分ける。 */
 type LabelWidth = "narrow" | "wide";
 

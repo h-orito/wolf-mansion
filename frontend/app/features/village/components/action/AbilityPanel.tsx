@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
-import { Alert, AlertList } from "~/components/ui/Alert";
+import { Alert, AlertList, ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
+import { Divider } from "~/components/ui/Divider";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
@@ -15,12 +16,8 @@ import {
   type VillageDetailView,
   type VillageRoomAssignedRow,
 } from "~/features/village/api";
+import { resolveParticipantName } from "~/features/village/participants";
 import { useAsyncAction } from "~/lib/useAsyncAction";
-
-function resolveCharaName(village: VillageDetailView, charaId: number): string {
-  const all = [...(village.participants.list ?? []), ...(village.spectators.list ?? [])];
-  return all.find((p) => p.chara.id === charaId)?.name ?? `(${charaId})`;
-}
 
 const NO_FOOTSTEP = "なし";
 
@@ -64,7 +61,10 @@ export function AbilityPanel({
     return current == null || current === NO_FOOTSTEP ? [] : current.split(",");
   });
   const [targets, setTargets] = useState<{ charaId: number; name: string }[]>(
-    ability.targetCharaIds.map((id) => ({ charaId: id, name: resolveCharaName(village, id) })),
+    ability.targetCharaIds.map((id) => ({
+      charaId: id,
+      name: resolveParticipantName(village, id),
+    })),
   );
   const [footstepOptions, setFootstepOptions] = useState<string[]>(
     ability.targetFootstepList ?? [],
@@ -160,7 +160,7 @@ export function AbilityPanel({
   return (
     <Panel title="役職" storageKey="skillform" fixable>
       <div>
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         {mySituation.myself?.dead.isDead && (
           <Alert variant="info" className="mb-[10px] text-village-sm">
             あなたは死亡しました。
@@ -187,7 +187,7 @@ export function AbilityPanel({
             </div>
           </>
         )}
-        {ability.canUseAbility && <hr className="my-[21px] border-[#464545]" />}
+        {ability.canUseAbility && <Divider />}
         {ability.canUseAbility && ability.targetingMessage != null && (
           <p className="text-village-sm">
             現在の選択: <strong className="text-base">{ability.targetingMessage}</strong>
@@ -202,9 +202,7 @@ export function AbilityPanel({
             （明日朝時点で生存者のいる部屋のみ響きます）
           </p>
         )}
-        {ability.canUseAbility && ability.targetingMessage != null && (
-          <hr className="my-[21px] border-[#464545]" />
-        )}
+        {ability.canUseAbility && ability.targetingMessage != null && <Divider />}
 
         {ability.canUseAbility && isDisturb && (
           <div className="mt-[10px]">
@@ -313,7 +311,7 @@ export function AbilityPanel({
                 >
                   {ability.attackerCharaIds.map((id) => (
                     <option key={id} value={id}>
-                      {resolveCharaName(village, id)}
+                      {resolveParticipantName(village, id)}
                     </option>
                   ))}
                 </select>
@@ -373,7 +371,7 @@ export function AbilityPanel({
 
         {(ability.skillHistoryList ?? []).length > 0 && (
           <div>
-            <hr className="my-[21px] border-[#464545]" />
+            <Divider />
             <p>能力セット履歴</p>
             {(ability.skillHistoryList ?? []).map((history, index) => (
               <p key={index} className="text-village-sm">
@@ -395,7 +393,7 @@ function FactionNotes({
   ability: ParticipantSituationView["ability"];
   village: VillageDetailView;
 }) {
-  const resolve = (id: number) => resolveCharaName(village, id);
+  const resolve = (id: number) => resolveParticipantName(village, id);
   const notes: { key: string; label: string; names: string[] }[] = [];
   if (ability.wolfCharaIds.length > 0)
     notes.push({
@@ -432,7 +430,7 @@ function FactionNotes({
     <>
       {notes.map((note) => (
         <div key={note.key}>
-          <hr className="my-[21px] border-[#464545]" />
+          <Divider />
           <p className="text-village-sm">
             {note.label}
             {note.names.map((name, i) => (
@@ -448,7 +446,7 @@ function FactionNotes({
       ))}
       {loversLines != null && (
         <div>
-          <hr className="my-[21px] border-[#464545]" />
+          <Divider />
           <p className="text-village-sm">
             {"この村で恋に落ちているのは"}
             {loversLines.map((l, i) => (

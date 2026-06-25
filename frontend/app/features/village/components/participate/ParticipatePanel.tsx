@@ -2,8 +2,9 @@ import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
-import { Panel } from "~/components/ui/Panel";
+import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
+import { Panel } from "~/components/ui/Panel";
 import {
   confirmVillageParticipate,
   type ParticipantSituationView,
@@ -132,11 +133,9 @@ export function ParticipatePanel({
   return (
     <Panel title="入村" storageKey="participateform">
       <div className="space-y-[10px]">
-        {/* 見学チェック (旧版: 最初に表示) */}
         {participate.isAvailableSpectate && (
-          <div className="sm:flex sm:items-center sm:gap-[10px]">
-            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">見学</label>
-            <label className="mt-[5px] flex cursor-pointer items-center gap-[5px] sm:mt-0">
+          <VillageFormRow label="見学" labelWidth="wide">
+            <label className="flex cursor-pointer items-center gap-[5px]">
               <input
                 type="checkbox"
                 checked={spectator}
@@ -144,16 +143,14 @@ export function ParticipatePanel({
               />
               見学者として入村
             </label>
-          </div>
+          </VillageFormRow>
         )}
 
-        {/* キャラクター選択 (非オリジナル) */}
         {!isOriginal && (
           <>
-            <div className="sm:flex sm:items-center sm:gap-[10px]">
-              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター</label>
+            <VillageFormRow label="キャラクター" labelWidth="wide">
               <select
-                className={`${selectClass} mt-[5px] sm:mt-0`}
+                className={selectClass}
                 value={charachipId ?? ""}
                 onChange={(e) => {
                   setCharachipId(Number(e.target.value));
@@ -169,10 +166,9 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="sm:flex sm:items-center sm:gap-[10px]">
-              <label className="sm:w-[130px] sm:shrink-0 sm:text-right" />
-              <div className="mt-[5px] flex items-center gap-[10px] sm:mt-0 sm:flex-1">
+            </VillageFormRow>
+            <VillageFormRow labelWidth="wide">
+              <div className="flex items-center gap-[10px]">
                 <select
                   className={`${selectClass} flex-1`}
                   value={charaId ?? ""}
@@ -190,39 +186,34 @@ export function ParticipatePanel({
                 </select>
                 <Button onClick={() => setCharaModalOpen(true)}>画像から選択</Button>
               </div>
-            </div>
+            </VillageFormRow>
           </>
         )}
 
-        {/* キャラクター名・略称 */}
-        <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター名</label>
+        <VillageFormRow label="キャラクター名" labelWidth="wide">
           <input
             type="text"
-            className={`${inputClass} mt-[5px] sm:mt-0`}
+            className={inputClass}
             value={charaName}
             onChange={(e) => setCharaName(e.target.value)}
             disabled={charaNotSelected}
             aria-label="キャラクター名"
           />
-        </div>
-        <div className="sm:flex sm:items-center sm:gap-[10px]">
-          <label className="sm:w-[130px] sm:shrink-0 sm:text-right">略称</label>
+        </VillageFormRow>
+        <VillageFormRow label="略称" labelWidth="wide">
           <input
             type="text"
-            className={`${inputClass} mt-[5px] sm:mt-0`}
+            className={inputClass}
             value={charaShortName}
             onChange={(e) => setCharaShortName(e.target.value)}
             disabled={charaNotSelected}
             aria-label="略称"
           />
-        </div>
+        </VillageFormRow>
 
-        {/* オリジナルキャラ画像の説明 */}
         {isOriginal && (
-          <div className="sm:flex sm:gap-[10px]">
-            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">キャラクター画像</label>
-            <ul className="mt-[5px] list-disc pl-[20px] sm:mt-0">
+          <VillageFormRow label="キャラクター画像" labelWidth="wide" align="start">
+            <ul className="list-disc pl-[20px]">
               <li>キャラクター画像は参加確認画面でアップロードしてください。</li>
               <li>
                 登録した時点で、
@@ -236,16 +227,14 @@ export function ParticipatePanel({
                 について了承したものとみなします。
               </li>
             </ul>
-          </div>
+          </VillageFormRow>
         )}
 
-        {/* 役職希望 */}
         {village.setting.rule.isPossibleSkillRequest && (
           <>
-            <div className="sm:flex sm:items-center sm:gap-[10px]">
-              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">役職第一希望</label>
+            <VillageFormRow label="役職第一希望" labelWidth="wide">
               <select
-                className={`${selectClass} mt-[5px] sm:mt-0`}
+                className={selectClass}
                 value={requestedSkill}
                 onChange={(e) => setRequestedSkill(e.target.value)}
                 aria-label="第1希望役職"
@@ -256,11 +245,10 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </div>
-            <div className="sm:flex sm:items-center sm:gap-[10px]">
-              <label className="sm:w-[130px] sm:shrink-0 sm:text-right">役職第二希望</label>
+            </VillageFormRow>
+            <VillageFormRow label="役職第二希望" labelWidth="wide">
               <select
-                className={`${selectClass} mt-[5px] sm:mt-0`}
+                className={selectClass}
                 value={secondRequestedSkill}
                 onChange={(e) => setSecondRequestedSkill(e.target.value)}
                 aria-label="第2希望役職"
@@ -271,38 +259,33 @@ export function ParticipatePanel({
                   </option>
                 ))}
               </select>
-            </div>
+            </VillageFormRow>
           </>
         )}
 
-        {/* 発言 */}
-        <div className="sm:flex sm:gap-[10px]">
-          <label className="sm:w-[130px] sm:shrink-0 sm:text-right sm:pt-[5px]">発言</label>
-          <div className="mt-[5px] sm:mt-0 sm:flex-1">
-            <textarea
-              className={`${textareaClass} min-h-[150px]`}
-              value={joinMessage}
-              onChange={(e) => setJoinMessage(e.target.value)}
-              aria-label="入村発言"
-              placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
-            />
-            <div className={`mt-[3px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
-              文字数: {length}/400, 行数: {lineCount}/20
-            </div>
+        <VillageFormRow label="発言" labelWidth="wide" align="start">
+          <textarea
+            className={`${textareaClass} min-h-[150px]`}
+            value={joinMessage}
+            onChange={(e) => setJoinMessage(e.target.value)}
+            aria-label="入村発言"
+            placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
+          />
+          <div className={`mt-[3px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+            文字数: {length}/400, 行数: {lineCount}/20
           </div>
-        </div>
+        </VillageFormRow>
 
         {village.setting.hasJoinPassword && (
-          <div className="sm:flex sm:items-center sm:gap-[10px]">
-            <label className="sm:w-[130px] sm:shrink-0 sm:text-right">入村パスワード</label>
+          <VillageFormRow label="入村パスワード" labelWidth="wide">
             <input
               type="text"
-              className={`${inputClass} mt-[5px] sm:mt-0`}
+              className={inputClass}
               value={joinPassword}
               onChange={(e) => setJoinPassword(e.target.value)}
               aria-label="入村パスワード"
             />
-          </div>
+          </VillageFormRow>
         )}
 
         <div className="flex justify-end">

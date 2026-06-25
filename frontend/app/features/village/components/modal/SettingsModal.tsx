@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from "react";
 
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { inputClass, selectClass } from "~/components/ui/Input";
 import { Modal } from "~/components/ui/Modal";
@@ -196,7 +197,7 @@ function NotificationSection({
     <div className="space-y-[10px]">
       <hr className="my-[15px] border-[#464545]" />
       <h4 className="text-[16px] font-bold">Discord通知設定</h4>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
+      <ErrorMessage error={error} />
       {saved && <p className="text-[#00bc8c]">保存しました。テスト通知を確認してください。</p>}
       <SettingRow label="WebhookURL">
         <input

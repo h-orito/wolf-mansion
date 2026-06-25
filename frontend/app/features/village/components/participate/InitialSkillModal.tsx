@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 
+import { Button } from "~/components/ui/Button";
 import { skillDescriptions } from "~/features/skills/descriptions";
 import type { ParticipantSituationView } from "~/features/village/api";
 import { useVillageInfo } from "~/features/village/useVillage";
@@ -129,13 +130,7 @@ export function InitialSkillModal({
           </table>
         )}
         <div className="mt-[15px] flex justify-end">
-          <button
-            type="button"
-            className="cursor-pointer rounded-[3px] border-2 border-[#00bc8c] bg-[#00bc8c] px-[9px] py-[6px] text-white hover:opacity-90"
-            onClick={confirm}
-          >
-            確認したので次回以降表示しない
-          </button>
+          <Button onClick={confirm}>確認したので次回以降表示しない</Button>
         </div>
       </div>
     </div>

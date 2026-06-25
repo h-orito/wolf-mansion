@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { AlertList } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
@@ -46,9 +47,9 @@ export function ActionPanel({
   return (
     <Panel title="アクション" storageKey="actionform" fixable>
       <div>
-        <ul className="mb-[10px] list-disc rounded border border-[#f39c12] py-[9px] pr-[9px] pl-[25px] text-[#f39c12]">
+        <AlertList className="mb-[10px]">
           <li>進行中は、推理、まとめ、および推理に繋がる内容は発言しないでください。</li>
-        </ul>
+        </AlertList>
         <p>{prefix}</p>
         <select
           className={selectClass}

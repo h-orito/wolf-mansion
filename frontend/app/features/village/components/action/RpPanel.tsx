@@ -1,6 +1,8 @@
 import { useState } from "react";
 
+import { AlertList, ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
+import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
@@ -28,13 +30,13 @@ export function RpPanel({
   return (
     <Panel title="名前変更・簡易メモ" storageKey="changenameform" fixable>
       <div className="space-y-[15px]">
-        <ul className="list-disc space-y-[3px] rounded border border-[#f39c12] p-[10px] pl-[25px] text-[#f39c12]">
+        <AlertList>
           <li>進行中は、推理、まとめ、および推理に繋がる内容は記載しないでください。</li>
           <li>簡易メモは状況欄の参加者一覧に表示されます。</li>
           {!rp.isAvailableChangeName && (
             <li>このキャラチップは制作者様の意向により名前変更ができません。</li>
           )}
-        </ul>
+        </AlertList>
         {rp.isAvailableChangeName && (
           <ChangeNameForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
         )}
@@ -70,29 +72,27 @@ function ChangeNameForm({
   return (
     <div className="space-y-[10px]">
       <strong>名前変更</strong>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">略称</label>
+      <ErrorMessage error={error} />
+      <VillageFormRow label="略称">
         <input
           type="text"
-          className={`${inputClass} mt-[5px] sm:mt-0`}
+          className={inputClass}
           value={shortName}
           maxLength={1}
           onChange={(e) => setShortName(e.target.value)}
           aria-label="略称"
         />
-      </div>
-      <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">名前</label>
+      </VillageFormRow>
+      <VillageFormRow label="名前">
         <input
           type="text"
-          className={`${inputClass} mt-[5px] sm:mt-0`}
+          className={inputClass}
           value={name}
           maxLength={40}
           onChange={(e) => setName(e.target.value)}
           aria-label="名前"
         />
-      </div>
+      </VillageFormRow>
       <div className="flex justify-end">
         <Button onClick={submit} disabled={submitting || name === "" || shortName === ""}>
           名前を変更する
@@ -125,18 +125,17 @@ function MemoForm({
   return (
     <div className="space-y-[10px]">
       <strong>簡易メモ変更</strong>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className="sm:flex sm:items-center sm:gap-[10px]">
-        <label className="sm:w-[120px] sm:shrink-0 sm:text-right">簡易メモ</label>
+      <ErrorMessage error={error} />
+      <VillageFormRow label="簡易メモ">
         <input
           type="text"
-          className={`${inputClass} mt-[5px] sm:mt-0`}
+          className={inputClass}
           value={memo}
           maxLength={20}
           onChange={(e) => setMemo(e.target.value)}
           aria-label="簡易メモ"
         />
-      </div>
+      </VillageFormRow>
       <div className="flex justify-end">
         <Button onClick={submit} disabled={submitting}>
           簡易メモを変更する

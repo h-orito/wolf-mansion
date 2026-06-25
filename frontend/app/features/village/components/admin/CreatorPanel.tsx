@@ -1,8 +1,10 @@
 import { useState } from "react";
 
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button, LinkButton } from "~/components/ui/Button";
-import { Panel } from "~/components/ui/Panel";
+import { VillageFormRow } from "~/components/ui/Form";
 import { selectClass } from "~/components/ui/Input";
+import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
 import {
   cancelVillage,
@@ -13,9 +15,6 @@ import {
   type VillageCreatorSayRequest,
 } from "~/features/village/api";
 import { useAsyncAction } from "~/lib/useAsyncAction";
-
-const labelClass = "sm:w-[120px] sm:shrink-0 sm:text-right";
-const rowClass = "sm:flex sm:items-center sm:gap-[10px]";
 
 /** 村建て機能パネル。村建てプレイヤーのみ表示する。 */
 export function CreatorPanel({
@@ -42,14 +41,13 @@ export function CreatorPanel({
     <Panel title="村建て機能" storageKey="creatorform" fixable>
       <div className="space-y-[15px]">
         {creator.isAvailableModifySetting && (
-          <div className={rowClass}>
-            <label className={labelClass}>設定変更</label>
-            <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+          <VillageFormRow label="設定変更">
+            <div className="flex justify-end">
               <LinkButton to={`/village/${villageId}/settings`} target="_blank" variant="success">
                 村設定変更
               </LinkButton>
             </div>
-          </div>
+          </VillageFormRow>
         )}
         {creator.isAvailableKick && (
           <KickSection
@@ -103,27 +101,21 @@ function KickSection({
 
   return (
     <div className="space-y-[10px]">
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={`${rowClass} sm:items-start`}>
-        <label className={labelClass}>最終アクセス日時</label>
-        <div className="mt-[5px] flex-1 sm:mt-0">
-          <table className="w-full border-collapse border border-[#464545]">
-            <tbody>
-              {members.map((m) => (
-                <tr key={m.charaName}>
-                  <td className="border border-[#464545] px-[8px] py-[4px]">{m.charaName}</td>
-                  <td className="border border-[#464545] px-[8px] py-[4px]">
-                    {m.lastAccess ?? ""}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div className={rowClass}>
-        <label className={labelClass}>強制退村</label>
-        <div className="mt-[5px] flex flex-1 items-center gap-[10px] sm:mt-0">
+      <ErrorMessage error={error} />
+      <VillageFormRow label="最終アクセス日時" align="start">
+        <table className="w-full border-collapse border border-[#464545]">
+          <tbody>
+            {members.map((m) => (
+              <tr key={m.charaName}>
+                <td className="border border-[#464545] px-[8px] py-[4px]">{m.charaName}</td>
+                <td className="border border-[#464545] px-[8px] py-[4px]">{m.lastAccess ?? ""}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </VillageFormRow>
+      <VillageFormRow label="強制退村">
+        <div className="flex items-center gap-[10px]">
           <select
             className={`${selectClass} flex-1`}
             value={selectedCharaId}
@@ -141,7 +133,7 @@ function KickSection({
             退村させる
           </Button>
         </div>
-      </div>
+      </VillageFormRow>
     </div>
   );
 }
@@ -167,15 +159,14 @@ function CancelSection({
 
   return (
     <div>
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={rowClass}>
-        <label className={labelClass}>廃村</label>
-        <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+      <ErrorMessage error={error} />
+      <VillageFormRow label="廃村">
+        <div className="flex justify-end">
           <Button variant="danger" onClick={submit} disabled={submitting}>
             廃村にする
           </Button>
         </div>
-      </div>
+      </VillageFormRow>
     </div>
   );
 }
@@ -205,22 +196,18 @@ function CreatorSaySection({
 
   return (
     <div className="space-y-[10px]">
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
-      <div className={`${rowClass} sm:items-start`}>
-        <label className={labelClass}>村建て発言</label>
-        <div className="mt-[5px] flex-1 sm:mt-0">
-          <textarea
-            className="min-h-[77px] w-full rounded border border-[#464545] bg-white p-[9px] text-[#555]"
-            rows={5}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            aria-label="村建て発言"
-          />
-        </div>
-      </div>
-      <div className={rowClass}>
-        <div className={labelClass} />
-        <div className="mt-[5px] flex flex-1 items-center justify-between sm:mt-0">
+      <ErrorMessage error={error} />
+      <VillageFormRow label="村建て発言" align="start">
+        <textarea
+          className="min-h-[77px] w-full rounded border border-[#464545] bg-white p-[9px] text-[#555]"
+          rows={5}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          aria-label="村建て発言"
+        />
+      </VillageFormRow>
+      <VillageFormRow>
+        <div className="flex items-center justify-between">
           <div>
             <span className={overLimit ? "text-[#e74c3c]" : ""}>
               文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
@@ -238,7 +225,7 @@ function CreatorSaySection({
             確認画面へ
           </Button>
         </div>
-      </div>
+      </VillageFormRow>
     </div>
   );
 }
@@ -273,26 +260,24 @@ function EpilogueSection({
 
   return (
     <div className="space-y-[10px]">
-      {error != null && <p className="text-[#e74c3c]">{error}</p>}
+      <ErrorMessage error={error} />
       {canExtend && (
-        <div className={rowClass}>
-          <label className={labelClass}>エピローグ延長</label>
-          <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+        <VillageFormRow label="エピローグ延長">
+          <div className="flex justify-end">
             <Button onClick={extend} disabled={submitting}>
               1日延長する
             </Button>
           </div>
-        </div>
+        </VillageFormRow>
       )}
       {canShorten && (
-        <div className={rowClass}>
-          <label className={labelClass}>エピローグ短縮</label>
-          <div className="mt-[5px] flex flex-1 justify-end sm:mt-0">
+        <VillageFormRow label="エピローグ短縮">
+          <div className="flex justify-end">
             <Button onClick={shorten} disabled={submitting}>
               1日短縮する
             </Button>
           </div>
-        </div>
+        </VillageFormRow>
       )}
     </div>
   );

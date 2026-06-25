@@ -1,3 +1,4 @@
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
@@ -28,7 +29,7 @@ export function CommitPanel({
   return (
     <Panel title="コミット" storageKey="commitform">
       <div className="space-y-[10px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting}>
             {isCommitting ? "コミットを取り消す" : "コミットする"}

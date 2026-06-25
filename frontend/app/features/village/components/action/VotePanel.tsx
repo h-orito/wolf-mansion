@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -50,7 +51,7 @@ export function VotePanel({
       headerExtra={isUnset ? "(未セットのままだと突然死します)" : null}
     >
       <div className="space-y-[10px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <ErrorMessage error={error} />
         <p>
           現在の投票先:{" "}
           {vote.targetCharaId != null
