@@ -47,6 +47,7 @@ export function DetailRuleSection({
               役職希望 <RequiredAfterCreationMark />
             </>
           }
+          labelWidth="wide"
         >
           <p className="pt-[5px]">{fixedSkillRequest ? "有効" : "無効"}</p>
         </FormRow>

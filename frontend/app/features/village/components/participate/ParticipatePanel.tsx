@@ -13,7 +13,7 @@ import {
   type VillageParticipateRequest,
 } from "~/features/village/api";
 import { ApiError } from "~/lib/api";
-import { toMessageHtml } from "../message/messageHtml";
+import { toMessageHtml } from "../message/message";
 
 const OMAKASE = "LEFTOVER";
 

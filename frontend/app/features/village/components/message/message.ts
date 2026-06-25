@@ -1,19 +1,78 @@
-/**
- * 発言本文 (生テキスト) を表示用 HTML へ変換する。サーバは本文を生のまま返し、
- * エスケープ・装飾・アンカーのリンク化はクライアントの責務 (発言保存時も生のまま)。
- *
- * 変換順序が安全性に直結する: 先に HTML エスケープし、その後で許可した装飾だけを
- * 信頼できる固定マークアップに置換する。
- */
+import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "~/components/ui/messageStyles";
+import type { VillageMessageContent } from "~/features/village/api";
+import { MessageType } from "./messageType";
 
-// ランダム表記 (展開済みの注釈を小さく出す)
+/** 発言系メッセージの種別ごとの表示定義。アンカー接頭辞と装飾 (拡声/虹塗り) の対象か。 */
+export const SAY_VARIANTS: Record<
+  string,
+  { anchorPrefix: string; styleKey: string; decoratable: boolean }
+> = {
+  [MessageType.NORMAL_SAY]: { anchorPrefix: ">>", styleKey: "message-normal", decoratable: true },
+  [MessageType.WEREWOLF_SAY]: {
+    anchorPrefix: ">>*",
+    styleKey: "message-werewolf",
+    decoratable: true,
+  },
+  [MessageType.MONOLOGUE_SAY]: {
+    anchorPrefix: ">>-",
+    styleKey: "message-monologue",
+    decoratable: false,
+  },
+  [MessageType.SECRET_SAY]: { anchorPrefix: ">>s", styleKey: "message-secret", decoratable: false },
+  [MessageType.MASON_SAY]: { anchorPrefix: ">>=", styleKey: "message-mason", decoratable: true },
+  [MessageType.LOVERS_SAY]: { anchorPrefix: ">>?", styleKey: "message-lover", decoratable: true },
+  [MessageType.TELEPATHY]: {
+    anchorPrefix: ">>_",
+    styleKey: "message-telepathy",
+    decoratable: true,
+  },
+  [MessageType.GRAVE_SAY]: { anchorPrefix: ">>+", styleKey: "message-grave", decoratable: true },
+  [MessageType.SPECTATE_SAY]: {
+    anchorPrefix: ">>@",
+    styleKey: "message-spectate",
+    decoratable: false,
+  },
+};
+
+/** システム系メッセージの種別 → 配色キー。 */
+export const SYSTEM_VARIANTS: Record<string, string> = {
+  [MessageType.PUBLIC_SYSTEM]: "message-public-system",
+  [MessageType.PRIVATE_SYSTEM]: "message-private-system",
+  [MessageType.PRIVATE_SEER]: "message-private-seer",
+  [MessageType.PRIVATE_WISE]: "message-private-seer",
+  [MessageType.PRIVATE_PSYCHIC]: "message-private-psychic",
+  [MessageType.PRIVATE_GURU]: "message-private-psychic",
+  [MessageType.PRIVATE_CORONER]: "message-private-psychic",
+  [MessageType.PRIVATE_INVESTIGATE]: "message-private-investigate",
+  [MessageType.PRIVATE_WEREWOLF]: "message-private-werewolf",
+  [MessageType.PRIVATE_LOVER]: "message-private-lover",
+  [MessageType.PRIVATE_FOX]: "message-private-fox",
+  [MessageType.PRIVATE_ABILITY]: "message-private-ability",
+};
+
+const bubbleBaseClass = "message rounded-[5px] border p-[9px] break-words";
+
+export function bubbleClass(styleKey: string): string {
+  return `${bubbleBaseClass} ${styleKey} ${MESSAGE_STYLES[styleKey] ?? DEFAULT_MESSAGE_STYLE}`;
+}
+
+/** 返信・秘話返信で発言フォームへ引き継ぐ内容。 */
+export type ReplyDraft = {
+  anchorText: string | null;
+  secretTargetCharaId: number | null;
+  message: VillageMessageContent;
+};
+
+// ---------------------------------------------------------------------------
+// 本文テキスト → 表示用 HTML 変換
+// ---------------------------------------------------------------------------
+
 const diceRegex = /(\[\[\d{1}d\d{1,5}\]\]?)/g;
 const fortuneRegex = /(\[\[fortune\]\])/g;
 const orRegex = /(?!\[\[fortune\]\])(\[\[[^\]]*or.*?\]\])/g;
 const whoRegex = /(?!\[\[allwho\]\])(\[\[who\]\])/g;
 const allWhoRegex = /(\[\[allwho\]\])/g;
 const gwhoRegex = /(\[\[gwho\]\])/g;
-// 文字装飾
 const colorRegex = /\[\[(#[0-9a-fA-F]{6})\]\](.*?)\[\[\/#\]\]/g;
 const boldRegex = /\[\[b\]\](.*?)\[\[\/b\]\]/g;
 const strikeRegex = /\[\[s\]\](.*?)\[\[\/s\]\]/g;
@@ -24,28 +83,24 @@ const netabareRegex = /\[\[netabare\]\](.*?)\[\[\/netabare\]\]/g;
 const cwRegex = /\[\[cw\]\](.*?)\[\[\/cw\]\]/g;
 const transparencyRegex = /\[\[tp\]\](.*?)\[\[\/tp\]\]/g;
 
-/** アンカー記法 → クリック用 data 属性 (messageType を data-anchor-type に持つ)。 */
 const ANCHOR_RULES: { regex: RegExp; type: string; prefix: string }[] = [
-  { regex: /&gt;&gt;(\d{1,5})/g, type: "NORMAL_SAY", prefix: "&gt;&gt;" },
-  { regex: /&gt;&gt;\+(\d{1,5})/g, type: "GRAVE_SAY", prefix: "&gt;&gt;+" },
-  { regex: /&gt;&gt;=(\d{1,5})/g, type: "MASON_SAY", prefix: "&gt;&gt;=" },
-  { regex: /&gt;&gt;\?(\d{1,5})/g, type: "LOVERS_SAY", prefix: "&gt;&gt;?" },
-  { regex: /&gt;&gt;_(\d{1,5})/g, type: "TELEPATHY", prefix: "&gt;&gt;_" },
-  { regex: /&gt;&gt;@(\d{1,5})/g, type: "SPECTATE_SAY", prefix: "&gt;&gt;@" },
-  { regex: /&gt;&gt;-(\d{1,5})/g, type: "MONOLOGUE_SAY", prefix: "&gt;&gt;-" },
-  { regex: /&gt;&gt;\*(\d{1,5})/g, type: "WEREWOLF_SAY", prefix: "&gt;&gt;*" },
-  { regex: /&gt;&gt;#(\d{1,5})/g, type: "CREATOR_SAY", prefix: "&gt;&gt;#" },
-  { regex: /&gt;&gt;a(\d{1,5})/g, type: "ACTION", prefix: "&gt;&gt;a" },
-  { regex: /&gt;&gt;s(\d{1,5})/g, type: "SECRET_SAY", prefix: "&gt;&gt;s" },
+  { regex: /&gt;&gt;(\d{1,5})/g, type: MessageType.NORMAL_SAY, prefix: "&gt;&gt;" },
+  { regex: /&gt;&gt;\+(\d{1,5})/g, type: MessageType.GRAVE_SAY, prefix: "&gt;&gt;+" },
+  { regex: /&gt;&gt;=(\d{1,5})/g, type: MessageType.MASON_SAY, prefix: "&gt;&gt;=" },
+  { regex: /&gt;&gt;\?(\d{1,5})/g, type: MessageType.LOVERS_SAY, prefix: "&gt;&gt;?" },
+  { regex: /&gt;&gt;_(\d{1,5})/g, type: MessageType.TELEPATHY, prefix: "&gt;&gt;_" },
+  { regex: /&gt;&gt;@(\d{1,5})/g, type: MessageType.SPECTATE_SAY, prefix: "&gt;&gt;@" },
+  { regex: /&gt;&gt;-(\d{1,5})/g, type: MessageType.MONOLOGUE_SAY, prefix: "&gt;&gt;-" },
+  { regex: /&gt;&gt;\*(\d{1,5})/g, type: MessageType.WEREWOLF_SAY, prefix: "&gt;&gt;*" },
+  { regex: /&gt;&gt;#(\d{1,5})/g, type: MessageType.CREATOR_SAY, prefix: "&gt;&gt;#" },
+  { regex: /&gt;&gt;a(\d{1,5})/g, type: MessageType.ACTION, prefix: "&gt;&gt;a" },
+  { regex: /&gt;&gt;s(\d{1,5})/g, type: MessageType.SECRET_SAY, prefix: "&gt;&gt;s" },
 ];
 
 function escapeRegExp(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
-/**
- * 1 行ぶんの変換。エスケープ → ランダム表記 → ハッシュタグ → アンカーの順。
- */
 function convertLine(line: string, isConvertDisable: boolean, randomKeywords: string[]): string {
   let item = line
     .replace(/&/g, "&amp;")
@@ -64,7 +119,6 @@ function convertLine(line: string, isConvertDisable: boolean, randomKeywords: st
       item = item.replace(regex, '<span class="msg-extra-small">$1</span>');
     }
   }
-  // ハッシュタグ (アンカー記法・装飾タグの直後の # は対象外。否定後読みの非対応ブラウザ向け実装を踏襲)
   const hashArray = item.split("#");
   item = hashArray
     .map((str, index) => {
@@ -79,7 +133,6 @@ function convertLine(line: string, isConvertDisable: boolean, randomKeywords: st
       );
     })
     .join("");
-  // シングルクォートはハッシュタグより後で変換する
   item = item.replace(/'/g, "&#39;");
   for (const rule of ANCHOR_RULES) {
     item = item.replace(
@@ -90,7 +143,6 @@ function convertLine(line: string, isConvertDisable: boolean, randomKeywords: st
   return item;
 }
 
-/** 本文全体を表示用 HTML にする。 */
 export function toMessageHtml(
   content: string,
   isConvertDisable: boolean,
@@ -115,12 +167,8 @@ export function toMessageHtml(
   return mes;
 }
 
-/**
- * 死亡時の公開システムメッセージ中のユーザ ID をプロフィールリンクにする。
- * リンク先は SPA の `/user/{name}` (リンク規約: 未移行ページも SPA URL を指す)。
- */
 export function replaceIdLink(messageType: string, html: string): string {
-  if (messageType === "PUBLIC_SYSTEM" && html.includes("(master)、死亡")) {
+  if (messageType === MessageType.PUBLIC_SYSTEM && html.includes("(master)、死亡")) {
     const base = import.meta.env.BASE_URL.replace(/\/$/, "");
     return html.replace(
       / \(([^(]*)\)、/g,
@@ -131,7 +179,6 @@ export function replaceIdLink(messageType: string, html: string): string {
   return html;
 }
 
-/** ISO 日時 → `yyyy/MM/dd HH:mm:ss` 表示 (小数秒は落とす)。 */
 export function formatMessageTime(iso: string): string {
   return iso.split(".")[0].replace("T", " ").replace(/-/g, "/");
 }

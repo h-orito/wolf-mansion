@@ -3,20 +3,22 @@
  * パラメータ名は既存 (`fpid`/`typ`/`kwd`/`tpid`/`spl`) を踏襲する。
  */
 
+import { MessageType } from "~/features/village/components/message/messageType";
+
 /** 抽出モーダルの発言種別 (チェックボックスの並び順)。 */
 export const FILTER_TYPES: { value: string; label: string }[] = [
-  { value: "NORMAL_SAY", label: "通常" },
+  { value: MessageType.NORMAL_SAY, label: "通常" },
   { value: "GRAVE_SPECTATE_SAY", label: "墓下見学" },
-  { value: "MONOLOGUE_SAY", label: "独り言" },
-  { value: "CREATOR_SAY", label: "村建て発言" },
-  { value: "WEREWOLF_SAY", label: "囁き" },
-  { value: "MASON_SAY", label: "共鳴" },
-  { value: "LOVERS_SAY", label: "恋人" },
-  { value: "TELEPATHY", label: "念話" },
-  { value: "SECRET_SAY", label: "秘話" },
-  { value: "ACTION", label: "アクション" },
-  { value: "PUBLIC_SYSTEM", label: "公開シスメ" },
-  { value: "PRIVATE_SYSTEM", label: "非公開シスメ" },
+  { value: MessageType.MONOLOGUE_SAY, label: "独り言" },
+  { value: MessageType.CREATOR_SAY, label: "村建て発言" },
+  { value: MessageType.WEREWOLF_SAY, label: "囁き" },
+  { value: MessageType.MASON_SAY, label: "共鳴" },
+  { value: MessageType.LOVERS_SAY, label: "恋人" },
+  { value: MessageType.TELEPATHY, label: "念話" },
+  { value: MessageType.SECRET_SAY, label: "秘話" },
+  { value: MessageType.ACTION, label: "アクション" },
+  { value: MessageType.PUBLIC_SYSTEM, label: "公開シスメ" },
+  { value: MessageType.PRIVATE_SYSTEM, label: "非公開シスメ" },
 ];
 
 export type MessageFilter = {

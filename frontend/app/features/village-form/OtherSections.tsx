@@ -55,6 +55,7 @@ export function SpectateSection({
               プロデューサー機能 <RequiredAfterCreationMark />
             </>
           }
+          labelWidth="wide"
         >
           <p className="pt-[5px]">{fixedCreatorIsProducer ? "あり" : "なし"}</p>
         </FormRow>

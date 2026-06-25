@@ -9,6 +9,7 @@ import type {
   VillageActionRequest,
   VillageFilterParticipantContent,
 } from "~/features/village/api";
+import { MessageType } from "~/features/village/components/message/messageType";
 
 /**
  * アクション発言フォーム (発言とは別パネル)。「{自分}は、{対象}{本文}」を結合して投稿する。
@@ -27,7 +28,7 @@ export function ActionPanel({
 }) {
   const myself = mySituation.myself;
   const restrict = mySituation.say.selectableMessageTypeList?.find(
-    (t) => t.messageType.code === "ACTION",
+    (t) => t.messageType.code === MessageType.ACTION,
   )?.restrict;
 
   const [target, setTarget] = useState("");

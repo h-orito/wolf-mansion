@@ -12,9 +12,14 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { RequireAuth } from "~/features/auth/RequireAuth";
 import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
-import { fetchVillageSettingForUpdate, updateVillageSetting } from "~/features/village/api";
+import {
+  fetchVillageInfo,
+  fetchVillageSettingForUpdate,
+  updateVillageSetting,
+} from "~/features/village/api";
 import { fetchVillageSetting } from "~/features/villages/api";
 import { BasicSection } from "~/features/village-form/BasicSection";
+import { CharaChipSection } from "~/features/village-form/CharaChipSection";
 import { DetailRuleSection } from "~/features/village-form/DetailRuleSection";
 import { RequiredAfterCreationMark } from "~/features/village-form/fields";
 import {
@@ -55,6 +60,11 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
     queryFn: () => fetchVillageSetting(villageId),
     retry: false,
   });
+  const { data: villageInfo } = useQuery({
+    queryKey: ["village-info", villageId],
+    queryFn: () => fetchVillageInfo(villageId),
+    retry: false,
+  });
 
   if (skillsLoading || settingLoading) {
     return (
@@ -92,6 +102,8 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
       fixedSkillRequest={publicSetting?.rule.isPossibleSkillRequest ?? true}
       fixedCreatorIsProducer={publicSetting?.rule.isCreatorIsProducer ?? false}
       isOriginalCharachip={publicSetting?.chara.isOriginalCharachip ?? false}
+      charachipNames={villageInfo?.charachips?.map((c) => c.name) ?? []}
+      dummyCharaName={villageInfo?.dummyCharaName ?? ""}
     />
   );
 }
@@ -103,6 +115,8 @@ function VillageSettingsForm({
   fixedSkillRequest,
   fixedCreatorIsProducer,
   isOriginalCharachip,
+  charachipNames,
+  dummyCharaName,
 }: {
   villageId: number;
   skills: SimpleSkillView[];
@@ -110,6 +124,8 @@ function VillageSettingsForm({
   fixedSkillRequest: boolean;
   fixedCreatorIsProducer: boolean;
   isOriginalCharachip: boolean;
+  charachipNames: string[];
+  dummyCharaName: string;
 }) {
   const navigate = useNavigate();
   const nowYear = useMemo(() => new Date().getFullYear(), []);
@@ -155,6 +171,7 @@ function VillageSettingsForm({
         <FormProvider {...form}>
           <form noValidate onSubmit={onSubmit}>
             <BasicSection nowYear={nowYear} />
+            <CharaChipSection charachipNames={charachipNames} dummyCharaName={dummyCharaName} />
             <DetailRuleSection
               skills={skills}
               defaultCamps={defaultCamps}
@@ -170,7 +187,7 @@ function VillageSettingsForm({
               <LinkButton variant="default" to={`/village/${villageId}`}>
                 村画面へ戻る
               </LinkButton>
-              <Button type="submit" disabled={saving}>
+              <Button type="submit" disabled={saving} className="ml-[10px]">
                 {saving ? "変更中..." : "変更する"}
               </Button>
             </FormActions>
