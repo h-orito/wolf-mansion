@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import { AlertList, ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { ButtonRadioGroup } from "~/components/ui/ButtonRadioGroup";
+import { FileUpload } from "~/components/ui/FileUpload";
 import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -136,7 +137,7 @@ function AddFaceTypeForm({
 }) {
   const [faceTypeName, setFaceTypeName] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [uploadKey, setUploadKey] = useState(0);
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -146,7 +147,7 @@ function AddFaceTypeForm({
       showToast("表情差分を追加しました");
       setFaceTypeName("");
       setImageFile(null);
-      if (fileRef.current) fileRef.current.value = "";
+      setUploadKey((k) => k + 1);
       await onDone();
     }, "表情差分の追加に失敗しました");
 
@@ -172,12 +173,12 @@ function AddFaceTypeForm({
         />
       </VillageFormRow>
       <VillageFormRow label="画像">
-        <input
-          ref={fileRef}
-          type="file"
+        <FileUpload
+          key={uploadKey}
           accept="image/*"
-          onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
-          aria-label="表情差分画像"
+          maxSizeBytes={100_000}
+          imagePreviewSize={60}
+          onSelect={setImageFile}
         />
       </VillageFormRow>
       <div className="flex justify-end">
