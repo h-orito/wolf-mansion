@@ -3,12 +3,12 @@ import { Link } from "react-router";
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { Divider } from "~/components/ui/Divider";
 import { PageLayout } from "~/components/layout/PageLayout";
-import { type SimpleSkillView } from "~/features/skills/api";
+import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
-import { skillDescriptions, unimplementedSkills } from "~/features/skills/descriptions";
+import { unimplementedSkills } from "~/features/skills/descriptions";
+import { SkillItem } from "~/features/skills/SkillItem";
 import type { JudgeView } from "~/features/rule/api";
 import { useJudges } from "~/features/rule/useJudges";
-import { SkillMessage, SkillSayMessage } from "~/components/ui/SkillMessage";
 import { siteMeta } from "~/lib/meta";
 
 import { MansionSection } from "./sections/MansionSection";
@@ -262,41 +262,6 @@ function SkillDetailSection({ campGroups }: { campGroups: CampGroup[] }) {
       ))}
       <UnimplementedSkills />
     </ul>
-  );
-}
-
-function SkillItem({ skill }: { skill: SimpleSkillView }) {
-  const items = skillDescriptions[skill.code.toLowerCase()] ?? [];
-  return (
-    <li id={skill.code.toLowerCase()} className="mb-[10px]">
-      【{skill.shortName}】{skill.name}
-      <ul className="list-disc pl-[20px] leading-[17.14px]">
-        {items.map((item, i) =>
-          item.type === "message" ? (
-            <li key={i}>
-              <SkillMessage messageType={item.messageType} content={item.content} />
-            </li>
-          ) : item.type === "say" ? (
-            <li key={i}>
-              <SkillSayMessage
-                messageType={item.messageType}
-                content={item.content}
-                imageUrl={item.imageUrl}
-              />
-            </li>
-          ) : (
-            <li key={i}>
-              {item.content.split("\n").map((line, j) => (
-                <span key={j}>
-                  {j > 0 && <br />}
-                  {line}
-                </span>
-              ))}
-            </li>
-          ),
-        )}
-      </ul>
-    </li>
   );
 }
 
