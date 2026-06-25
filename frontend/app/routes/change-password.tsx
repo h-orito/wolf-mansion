@@ -7,6 +7,7 @@ import { FormActions, FormRow } from "~/components/ui/Form";
 import { changePassword } from "~/features/auth/api";
 import { authErrorMessage } from "~/features/auth/errorMessage";
 import { RequireAuth } from "~/features/auth/RequireAuth";
+import { useMe } from "~/features/auth/useMe";
 import { type ChangePasswordInput, changePasswordSchema } from "~/features/auth/schema";
 import {
   AuthLayout,
@@ -24,6 +25,7 @@ export function meta(_: Route.MetaArgs) {
 }
 
 function ChangePasswordForm() {
+  const { me } = useMe();
   const [formError, setFormError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
@@ -84,7 +86,7 @@ function ChangePasswordForm() {
         </FormActions>
       </form>
       <p className="mt-4">
-        <Link to="/mypage" className={linkClass}>
+        <Link to={me ? `/user/${me.name}` : "/"} className={linkClass}>
           マイページへ戻る
         </Link>
       </p>

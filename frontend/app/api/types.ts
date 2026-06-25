@@ -131,6 +131,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/players/me/detail": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations["updateMyPlayerDetail"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/players/{name}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getPlayerByName"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/random-keywords": {
     parameters: {
       query?: never;
@@ -1184,6 +1216,50 @@ export interface components {
       confirmPassword: string | null;
       password: string | null;
     };
+    PlayerCampRecord: {
+      campName: string;
+      stats: components["schemas"]["PlayerRecord"];
+    };
+    PlayerDetailRequest: {
+      introduction?: string | null;
+      twitterUserName?: string | null;
+    };
+    PlayerParticipateVillage: {
+      campName: string;
+      /** Format: int32 */
+      characterImgHeight: number;
+      characterImgUrl: string;
+      /** Format: int32 */
+      characterImgWidth: number;
+      characterName: string;
+      liveStatus: string;
+      skillName: string;
+      /** Format: int32 */
+      villageId: number;
+      villageName: string;
+      winStatus: string;
+    };
+    PlayerRecord: {
+      /** Format: int32 */
+      participateNum: number;
+      /** Format: int32 */
+      winNum: number;
+      /** Format: float */
+      winRate: number;
+    };
+    PlayerRecordsContent: {
+      campStatsList: components["schemas"]["PlayerCampRecord"][];
+      introduction?: string | null;
+      participateVillageList: components["schemas"]["PlayerParticipateVillage"][];
+      skillStatsList: components["schemas"]["PlayerSkillRecord"][];
+      spectateVillageList: components["schemas"]["PlayerParticipateVillage"][];
+      twitterUserName?: string | null;
+      wholeStats: components["schemas"]["PlayerRecord"];
+    };
+    PlayerSkillRecord: {
+      skillName: string;
+      stats: components["schemas"]["PlayerRecord"];
+    };
     PlayerView: {
       /** Format: int32 */
       id: number;
@@ -2187,6 +2263,50 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["Charachip"];
+        };
+      };
+    };
+  };
+  updateMyPlayerDetail: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["PlayerDetailRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getPlayerByName: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        name: string;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlayerRecordsContent"];
         };
       };
     };

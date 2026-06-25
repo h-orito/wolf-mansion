@@ -98,7 +98,7 @@ function AuthLinks() {
       <div>
         あといま表示しているお前のIDは「{me.name}」
         <br />
-        <Link to="/mypage" className={threadLink}>
+        <Link to={`/user/${me.name}`} className={threadLink}>
           マイページ
         </Link>
         <br />

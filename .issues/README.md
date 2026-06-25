@@ -25,6 +25,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
 | 8.20 | [オリジナルキャラチップ村のローカルテスト環境整備](step-8.20-original-charachip-local-test.md) | feat | open |
+| 9.1 | [プレイヤー詳細REST + プロフィール画面](step-9.1-player-profile.md) | feat | open |
 
 > **Step 8 完了 🎉 (2026-06-25)**: 統合 PR #89 merge 済。8.1〜8.19 全19サブstep ✅ (#71〜#88)。残: 8.12.1 表情差分のみ別 step 化。
 

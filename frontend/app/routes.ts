@@ -23,8 +23,8 @@ export default [
   route("archives/april-20250401", "routes/archives/april-20250401/route.tsx"),
   route("archives/april-20250402", "routes/archives/april-20250402/route.tsx"),
   route("archives/april-20260401", "routes/archives/april-20260401/route.tsx"),
+  route("user/:name", "routes/user-profile/route.tsx"),
   route("login", "routes/login.tsx"),
   route("signup", "routes/signup.tsx"),
-  route("mypage", "routes/mypage.tsx"),
   route("change-password", "routes/change-password.tsx"),
 ] satisfies RouteConfig;
