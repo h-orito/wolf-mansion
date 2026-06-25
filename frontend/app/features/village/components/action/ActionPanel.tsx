@@ -23,7 +23,7 @@ export function ActionPanel({
   mySituation: ParticipantSituationView;
   participants: VillageFilterParticipantContent[];
   onConfirm: (request: VillageActionRequest) => void;
-  registerOnDone: (fn: () => void) => void;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const myself = mySituation.myself;
   const restrict = mySituation.say.selectableMessageTypeList?.find(
@@ -33,7 +33,7 @@ export function ActionPanel({
   const [target, setTarget] = useState("");
   const [message, setMessage] = useState("");
   const [convertDisable, setConvertDisable] = useState(false);
-  registerOnDone(() => {
+  registerOnDone("action", () => {
     setTarget("");
     setMessage("");
   });

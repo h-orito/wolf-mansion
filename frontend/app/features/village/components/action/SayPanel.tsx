@@ -95,7 +95,7 @@ export function SayPanel({
   /** 確認画面へ (リクエスト内容を親へ渡し、プレビュー取得は親が行う) */
   onConfirm: (request: VillageSayRequest) => void;
   /** 発言完了時のクリア関数を登録する */
-  registerOnDone: (fn: () => void) => void;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const say = mySituation.say;
   const myself = mySituation.myself;
@@ -108,7 +108,7 @@ export function SayPanel({
     say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? "NORMAL_SAY";
   const [messageType, setMessageType] = useState(defaultType);
   const [message, setMessage] = useState("");
-  registerOnDone(() => setMessage(""));
+  registerOnDone("say", () => setMessage(""));
   const [faceType, setFaceType] = useState<string>(
     () =>
       faceTypeFor(

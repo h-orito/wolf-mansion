@@ -35,7 +35,7 @@ export function CreatorPanel({
   /** 村建て発言の確認画面へ進む (プレビュー取得は親が行う)。 */
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   onDone: () => Promise<unknown>;
-  registerOnDone: (fn: () => void) => void;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const creator = mySituation.creator;
 
@@ -180,10 +180,10 @@ function CreatorSaySection({
   registerOnDone,
 }: {
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
-  registerOnDone: (fn: () => void) => void;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const [message, setMessage] = useState("");
-  registerOnDone(() => setMessage(""));
+  registerOnDone("creatorSay", () => setMessage(""));
   const [convertDisable, setConvertDisable] = useState(false);
   const { error, submitting, execute } = useAsyncAction();
 
