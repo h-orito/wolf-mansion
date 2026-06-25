@@ -23,10 +23,11 @@ class AccessInfoCoordinator(
         // IPアドレスが重複している人がいたら通知
         if (!playerService.findPlayer(myself.playerId).shouldCheckAccessInfo) return
 
+        val dummyParticipant = village.participants.list.firstOrNull { it.charaId == village.setting.chara.dummyCharaId }
         val isContain =
             village
                 .allParticipants()
-                .filterNotDummy(village.dummyParticipant())
+                .let { if (dummyParticipant != null) it.filterNotDummy(dummyParticipant) else it }
                 .filterNotParticipant(myself)
                 .list
                 .flatMap { it.ipAddresses }
