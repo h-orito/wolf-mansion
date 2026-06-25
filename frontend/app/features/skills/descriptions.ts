@@ -8,7 +8,8 @@
 
 export type DescriptionItem =
   | { type: "text"; content: string }
-  | { type: "message"; messageType: string; content: string };
+  | { type: "message"; messageType: string; content: string }
+  | { type: "say"; messageType: string; content: string; imageUrl: string };
 
 export const skillDescriptions: Record<string, DescriptionItem[]> = {
   villager: [
@@ -1608,7 +1609,9 @@ export const skillDescriptions: Record<string, DescriptionItem[]> = {
       content: "他は人狼と同様です。",
     },
     {
-      type: "text",
+      type: "say",
+      messageType: "message-werewolf",
+      imageUrl: "https://wolfort.dev/wmansion/1/geruto.png",
       content: "ラーーーーーーン！！！！",
     },
   ],
@@ -1631,11 +1634,15 @@ export const skillDescriptions: Record<string, DescriptionItem[]> = {
       content: "他は人狼と同様です。",
     },
     {
-      type: "text",
+      type: "say",
+      messageType: "message-werewolf",
+      imageUrl: "https://wolfort.dev/wmansion/1/geruto.png",
       content: "ほー いいじゃないか こういうのでいいんだよ こういうので",
     },
     {
-      type: "text",
+      type: "say",
+      messageType: "message-werewolf",
+      imageUrl: "https://wolfort.dev/wmansion/1/geruto.png",
       content: "がーんだな…出鼻をくじかれた",
     },
   ],

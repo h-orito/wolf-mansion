@@ -10,7 +10,7 @@ import { useVillages } from "~/features/villages/useVillages";
 import { siteMeta } from "~/lib/meta";
 
 import { SearchPanel, type SearchValue } from "./SearchPanel";
-import { SkillMessage } from "~/components/ui/SkillMessage";
+import { SkillMessage, SkillSayMessage } from "~/components/ui/SkillMessage";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
@@ -159,6 +159,14 @@ function SkillItem({ skill }: { skill: SimpleSkillView }) {
           item.type === "message" ? (
             <li key={i}>
               <SkillMessage messageType={item.messageType} content={item.content} />
+            </li>
+          ) : item.type === "say" ? (
+            <li key={i}>
+              <SkillSayMessage
+                messageType={item.messageType}
+                content={item.content}
+                imageUrl={item.imageUrl}
+              />
             </li>
           ) : (
             <li key={i}>
