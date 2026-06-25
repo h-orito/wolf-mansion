@@ -13,45 +13,46 @@ import type {
 } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
+import { MessageType } from "~/features/village/components/message/messageType";
 import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 export type { ReplyDraft };
 
 /** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */
 const SAY_TYPE_ORDER: { code: string; label: string }[] = [
-  { code: "WEREWOLF_SAY", label: "囁き" },
-  { code: "MASON_SAY", label: "共鳴" },
-  { code: "LOVERS_SAY", label: "恋人" },
-  { code: "TELEPATHY", label: "念話" },
-  { code: "NORMAL_SAY", label: "通常" },
-  { code: "GRAVE_SAY", label: "呻き" },
-  { code: "SPECTATE_SAY", label: "見学" },
-  { code: "MONOLOGUE_SAY", label: "独り言" },
-  { code: "SECRET_SAY", label: "秘話" },
+  { code: MessageType.WEREWOLF_SAY, label: "囁き" },
+  { code: MessageType.MASON_SAY, label: "共鳴" },
+  { code: MessageType.LOVERS_SAY, label: "恋人" },
+  { code: MessageType.TELEPATHY, label: "念話" },
+  { code: MessageType.NORMAL_SAY, label: "通常" },
+  { code: MessageType.GRAVE_SAY, label: "呻き" },
+  { code: MessageType.SPECTATE_SAY, label: "見学" },
+  { code: MessageType.MONOLOGUE_SAY, label: "独り言" },
+  { code: MessageType.SECRET_SAY, label: "秘話" },
 ];
 
 /** 発言種別 → textarea の背景色 (吹き出しと同じ配色)。 */
 const TYPE_TO_STYLE_KEY: Record<string, string> = {
-  WEREWOLF_SAY: "message-werewolf",
-  MASON_SAY: "message-mason",
-  LOVERS_SAY: "message-lover",
-  TELEPATHY: "message-telepathy",
-  MONOLOGUE_SAY: "message-monologue",
-  SECRET_SAY: "message-secret",
-  GRAVE_SAY: "message-grave",
-  SPECTATE_SAY: "message-spectate",
+  [MessageType.WEREWOLF_SAY]: "message-werewolf",
+  [MessageType.MASON_SAY]: "message-mason",
+  [MessageType.LOVERS_SAY]: "message-lover",
+  [MessageType.TELEPATHY]: "message-telepathy",
+  [MessageType.MONOLOGUE_SAY]: "message-monologue",
+  [MessageType.SECRET_SAY]: "message-secret",
+  [MessageType.GRAVE_SAY]: "message-grave",
+  [MessageType.SPECTATE_SAY]: "message-spectate",
 };
 
 /** 発言種別 → 既定の表情種別コード。 */
 const TYPE_TO_FACE: Record<string, string> = {
-  NORMAL_SAY: "NORMAL",
-  WEREWOLF_SAY: "WEREWOLF",
-  MASON_SAY: "MASON",
-  LOVERS_SAY: "LOVER",
-  TELEPATHY: "SECRET",
-  MONOLOGUE_SAY: "MONOLOGUE",
-  SECRET_SAY: "SECRET",
-  GRAVE_SAY: "GRAVE",
-  SPECTATE_SAY: "NORMAL",
+  [MessageType.NORMAL_SAY]: "NORMAL",
+  [MessageType.WEREWOLF_SAY]: "WEREWOLF",
+  [MessageType.MASON_SAY]: "MASON",
+  [MessageType.LOVERS_SAY]: "LOVER",
+  [MessageType.TELEPATHY]: "SECRET",
+  [MessageType.MONOLOGUE_SAY]: "MONOLOGUE",
+  [MessageType.SECRET_SAY]: "SECRET",
+  [MessageType.GRAVE_SAY]: "GRAVE",
+  [MessageType.SPECTATE_SAY]: "NORMAL",
 };
 
 /** 装飾タグ (選択範囲を囲む)。 */
@@ -105,7 +106,7 @@ export function SayPanel({
 
   const displayImages = images.filter((i) => i.isDisplay);
   const defaultType =
-    say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? "NORMAL_SAY";
+    say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? MessageType.NORMAL_SAY;
   const [messageType, setMessageType] = useState(defaultType);
   const [message, setMessage] = useState("");
   registerOnDone("say", () => setMessage(""));
@@ -127,7 +128,7 @@ export function SayPanel({
   useEffect(() => {
     if (reply == null) return;
     if (reply.secretTargetCharaId != null) {
-      changeType("SECRET_SAY");
+      changeType(MessageType.SECRET_SAY);
       setSecretTargetCharaId(String(reply.secretTargetCharaId));
     } else if (reply.anchorText != null) {
       insertAtCursor(`${reply.anchorText}\n`);
@@ -138,7 +139,7 @@ export function SayPanel({
   const current = selectable.find((t) => t.messageType.code === messageType);
   const restrict = current?.restrict;
   const secretTargetCharaIds =
-    selectable.find((t) => t.messageType.code === "SECRET_SAY")?.targetCharaIds ?? [];
+    selectable.find((t) => t.messageType.code === MessageType.SECRET_SAY)?.targetCharaIds ?? [];
 
   const length = message.length;
   const lineCount = message.split("\n").length;
@@ -152,7 +153,7 @@ export function SayPanel({
   const submitDisabled =
     overLimit ||
     message.trim().length === 0 ||
-    (messageType === "SECRET_SAY" && secretTargetCharaId === "");
+    (messageType === MessageType.SECRET_SAY && secretTargetCharaId === "");
 
   function faceTypeFor(type: string, codes: string[]): string | null {
     const candidate = TYPE_TO_FACE[type];
@@ -209,7 +210,7 @@ export function SayPanel({
       faceType,
       convertDisable,
       secretSayTargetCharaId:
-        messageType === "SECRET_SAY" && secretTargetCharaId !== ""
+        messageType === MessageType.SECRET_SAY && secretTargetCharaId !== ""
           ? Number(secretTargetCharaId)
           : null,
     });
@@ -274,7 +275,7 @@ export function SayPanel({
         </div>
 
         {/* 秘話相手 */}
-        {messageType === "SECRET_SAY" && (
+        {messageType === MessageType.SECRET_SAY && (
           <div className="mt-[10px]">
             <select
               className={selectClass}

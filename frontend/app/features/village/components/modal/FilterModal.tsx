@@ -7,6 +7,7 @@ import { Modal } from "~/components/ui/Modal";
 import { TextButton } from "~/components/ui/TextButton";
 import type { VillageFilterParticipantContent } from "~/features/village/api";
 import { EMPTY_FILTER, FILTER_TYPES, type MessageFilter } from "~/features/village/filter";
+import { MessageType } from "~/features/village/components/message/messageType";
 
 const ALL_TYPE_VALUES = FILTER_TYPES.map((t) => t.value);
 
@@ -166,13 +167,13 @@ export function FilterModal({
         <div>
           <strong>ショートカット機能</strong>
           <div className="mt-[10px]">
-            <TextButton onClick={() => sayShortcut("WEREWOLF_SAY")}>囁き</TextButton>
+            <TextButton onClick={() => sayShortcut(MessageType.WEREWOLF_SAY)}>囁き</TextButton>
             &nbsp;/&nbsp;
-            <TextButton onClick={() => sayShortcut("MASON_SAY")}>共鳴</TextButton>
+            <TextButton onClick={() => sayShortcut(MessageType.MASON_SAY)}>共鳴</TextButton>
             &nbsp;/&nbsp;
-            <TextButton onClick={() => sayShortcut("LOVERS_SAY")}>恋人</TextButton>
+            <TextButton onClick={() => sayShortcut(MessageType.LOVERS_SAY)}>恋人</TextButton>
             &nbsp;/&nbsp;
-            <TextButton onClick={() => sayShortcut("TELEPATHY")}>念話</TextButton>
+            <TextButton onClick={() => sayShortcut(MessageType.TELEPATHY)}>念話</TextButton>
             {myselfId != null && (
               <>
                 &nbsp;/&nbsp;

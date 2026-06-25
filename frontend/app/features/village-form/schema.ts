@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import type { SimpleSkillView } from "~/features/skills/api";
+import { MessageType } from "~/features/village/components/message/messageType";
 import { addPersonCountPrefix, DEFAULT_FIXED_ORGANIZATION } from "./organization";
 
 /**
@@ -271,14 +272,14 @@ export type CampAllocationInput = NewVillageFormInput["campAllocationList"][numb
 
 /** 発言制限の対象 (発言種別)。正本は backend `NewVillageForm.initialize` の対象種別。 */
 export const SKILL_SAY_MESSAGE_TYPES = [
-  { messageTypeCode: "WEREWOLF_SAY", messageTypeName: "人狼の囁き" },
-  { messageTypeCode: "MASON_SAY", messageTypeName: "共鳴発言" },
-  { messageTypeCode: "LOVERS_SAY", messageTypeName: "恋人発言" },
-  { messageTypeCode: "TELEPATHY", messageTypeName: "念話" },
+  { messageTypeCode: MessageType.WEREWOLF_SAY, messageTypeName: "人狼の囁き" },
+  { messageTypeCode: MessageType.MASON_SAY, messageTypeName: "共鳴発言" },
+  { messageTypeCode: MessageType.LOVERS_SAY, messageTypeName: "恋人発言" },
+  { messageTypeCode: MessageType.TELEPATHY, messageTypeName: "念話" },
 ] as const;
 
 export const RP_SAY_MESSAGE_TYPES = [
-  { messageTypeCode: "ACTION", messageTypeName: "アクション" },
+  { messageTypeCode: MessageType.ACTION, messageTypeName: "アクション" },
 ] as const;
 
 type MessageTypeRef = { messageTypeCode: string; messageTypeName: string };

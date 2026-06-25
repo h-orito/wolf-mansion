@@ -28,6 +28,7 @@ import {
   useVillagePolling,
   useVillageSituation,
 } from "~/features/village/useVillage";
+import { MessageType } from "~/features/village/components/message/messageType";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
@@ -79,19 +80,19 @@ function villageNumber(id: number): string {
 /** 確認画面の投稿ボタンのラベル (発言種別ごと)。 */
 function sayLabel(messageType: string | null | undefined): string {
   switch (messageType) {
-    case "WEREWOLF_SAY":
+    case MessageType.WEREWOLF_SAY:
       return "発言する（囁き）";
-    case "MASON_SAY":
+    case MessageType.MASON_SAY:
       return "発言する（共鳴）";
-    case "LOVERS_SAY":
+    case MessageType.LOVERS_SAY:
       return "発言する（恋人）";
-    case "TELEPATHY":
+    case MessageType.TELEPATHY:
       return "発言する（念話）";
-    case "MONOLOGUE_SAY":
+    case MessageType.MONOLOGUE_SAY:
       return "発言する（独り言）";
-    case "SECRET_SAY":
+    case MessageType.SECRET_SAY:
       return "発言する（秘話）";
-    case "GRAVE_SAY":
+    case MessageType.GRAVE_SAY:
       return "呻く";
     default:
       return "発言する";
@@ -144,11 +145,13 @@ export default function Village({ params }: Route.ComponentProps) {
   const invalidate = useInvalidateVillage(villageId);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
   const canAction =
-    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageType.code === "ACTION") ??
-    false;
+    mySituation?.say.selectableMessageTypeList?.some(
+      (t) => t.messageType.code === MessageType.ACTION,
+    ) ?? false;
   const canSecretReply =
-    mySituation?.say.selectableMessageTypeList?.some((t) => t.messageType.code === "SECRET_SAY") ??
-    false;
+    mySituation?.say.selectableMessageTypeList?.some(
+      (t) => t.messageType.code === MessageType.SECRET_SAY,
+    ) ?? false;
 
   const {
     reply,
