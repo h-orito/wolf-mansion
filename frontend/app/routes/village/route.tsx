@@ -33,6 +33,7 @@ import { siteMeta } from "~/lib/meta";
 import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
 import { ActionPanel } from "~/features/village/components/action/ActionPanel";
 import { CommitPanel } from "~/features/village/components/action/CommitPanel";
+import { FaceTypePanel } from "~/features/village/components/action/FaceTypePanel";
 import { RpPanel } from "~/features/village/components/action/RpPanel";
 import { SayPanel } from "~/features/village/components/action/SayPanel";
 import { VotePanel } from "~/features/village/components/action/VotePanel";
@@ -434,6 +435,17 @@ export default function Village({ params }: Route.ComponentProps) {
               }}
             />
           )}
+
+        {mySituation != null && mySituation.rp.canAddImage && (
+          <FaceTypePanel
+            villageId={villageId}
+            mySituation={mySituation}
+            onDone={async () => {
+              await invalidate();
+              requestAnimationFrame(() => scrollToBottom());
+            }}
+          />
+        )}
 
         {mySituation != null && mySituation.creator.isCreator && (
           <CreatorPanel
