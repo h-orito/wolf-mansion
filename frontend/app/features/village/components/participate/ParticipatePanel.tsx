@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
+import { FileUpload } from "~/components/ui/FileUpload";
 import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -67,7 +68,17 @@ export function ParticipatePanel({
   const [agreeMind, setAgreeMind] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [charaModalOpen, setCharaModalOpen] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [charaImageFile, setCharaImageFile] = useState<File | null>(null);
+
+  const charaImageUrl = useMemo(
+    () => (charaImageFile ? URL.createObjectURL(charaImageFile) : null),
+    [charaImageFile],
+  );
+  useEffect(() => {
+    return () => {
+      if (charaImageUrl) URL.revokeObjectURL(charaImageUrl);
+    };
+  }, [charaImageUrl]);
 
   const currentChip = charachips.find((c) => c.id === charachipId) ?? charachips[0];
   const charas = currentChip?.charas?.list ?? [];
@@ -90,7 +101,8 @@ export function ParticipatePanel({
     joinMessage.trim().length === 0 ||
     charaName.trim().length === 0 ||
     charaShortName.trim().length !== 1 ||
-    (!isOriginal && charaId == null);
+    (!isOriginal && charaId == null) ||
+    (isOriginal && charaImageFile == null);
 
   const request: VillageParticipateRequest = {
     charaId,
@@ -122,7 +134,7 @@ export function ParticipatePanel({
     setSubmitting(true);
     onError(null);
     try {
-      await onParticipated(request, fileRef.current?.files?.[0] ?? null);
+      await onParticipated(request, charaImageFile);
     } finally {
       setSubmitting(false);
     }
@@ -213,20 +225,30 @@ export function ParticipatePanel({
 
         {isOriginal && (
           <VillageFormRow label="キャラクター画像" labelWidth="wide" align="start">
-            <ul className="list-disc pl-[20px]">
-              <li>キャラクター画像は参加確認画面でアップロードしてください。</li>
-              <li>
-                登録した時点で、
-                <Link
-                  to="/about#original"
-                  target="_blank"
-                  className="text-wm-accent hover:underline"
-                >
-                  オリジナルキャラクターおよび画像の登録
-                </Link>
-                について了承したものとみなします。
-              </li>
-            </ul>
+            <FileUpload
+              accept="image/*"
+              maxSizeBytes={100_000}
+              imagePreviewSize={60}
+              onSelect={setCharaImageFile}
+            >
+              <ul className="list-disc pl-[20px]">
+                <li>
+                  画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
+                </li>
+                <li>100kByteを超える画像はアップロードできません。</li>
+                <li>
+                  登録した時点で、
+                  <Link
+                    to="/about#original"
+                    target="_blank"
+                    className="text-wm-accent hover:underline"
+                  >
+                    オリジナルキャラクターおよび画像の登録
+                  </Link>
+                  について了承したものとみなします。
+                </li>
+              </ul>
+            </FileUpload>
           </VillageFormRow>
         )}
 
@@ -358,34 +380,31 @@ export function ParticipatePanel({
             onClick={(e) => e.stopPropagation()}
           >
             <h4 className="mb-[10px] font-bold">入村確認</h4>
-            {isOriginal && (
-              <div className="mb-[10px]">
-                <ul className="mb-[5px] list-disc pl-[20px]">
-                  <li>
-                    画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
-                  </li>
-                  <li>100kByteを超える画像はアップロードできません。</li>
-                </ul>
-                <input ref={fileRef} type="file" accept="image/*" className="block" />
-              </div>
-            )}
             <p className="text-village-sm">
               [{charaShortName}] {charaName}
             </p>
             <div className="flex pt-[5px]">
               <div>
-                {chara != null && (
+                {isOriginal && charaImageUrl ? (
+                  <img src={charaImageUrl} width={60} height={60} alt={charaName} />
+                ) : chara != null ? (
                   <img
                     src={defaultImageUrl(chara)}
                     width={chara.size.width}
                     height={chara.size.height}
                     alt={charaName}
                   />
-                )}
+                ) : null}
               </div>
               <div
                 className="message message-normal ml-[5px] flex-1 rounded-[5px] border bg-white p-[9px] break-words text-[#555]"
-                style={chara != null ? { minHeight: chara.size.height } : undefined}
+                style={
+                  chara != null
+                    ? { minHeight: chara.size.height }
+                    : isOriginal
+                      ? { minHeight: 60 }
+                      : undefined
+                }
                 dangerouslySetInnerHTML={{ __html: previewHtml }}
               />
             </div>

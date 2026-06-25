@@ -32,7 +32,7 @@ logging:
 app:
   debug: true
   original-image:
-    basedir: /var/www/html/wmansion/original
+    basedir: ../data/original
     baseurl: /wmansion/original
 
 mastodon:

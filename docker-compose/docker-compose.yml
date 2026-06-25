@@ -23,5 +23,14 @@ services:
       retries: 10
       start_period: 30s
 
+  nginx:
+    image: nginx:alpine
+    container_name: wolf-mansion-nginx
+    ports:
+      - "18080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../data/original:/var/www/html/wmansion/original:ro
+
 volumes:
   mysql-data:

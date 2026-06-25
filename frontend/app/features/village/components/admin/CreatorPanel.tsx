@@ -24,6 +24,7 @@ export function CreatorPanel({
   members,
   onConfirm,
   onDone,
+  registerOnDone,
 }: {
   villageId: number;
   mySituation: ParticipantSituationView;
@@ -34,6 +35,7 @@ export function CreatorPanel({
   /** 村建て発言の確認画面へ進む (プレビュー取得は親が行う)。 */
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   onDone: () => Promise<unknown>;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const creator = mySituation.creator;
 
@@ -60,7 +62,9 @@ export function CreatorPanel({
         {creator.isAvailableCancelVillage && (
           <CancelSection villageId={villageId} onDone={onDone} />
         )}
-        {creator.isAvailableCreatorSay && <CreatorSaySection onConfirm={onConfirm} />}
+        {creator.isAvailableCreatorSay && (
+          <CreatorSaySection onConfirm={onConfirm} registerOnDone={registerOnDone} />
+        )}
         {(creator.isAvailableExtendEpilogue || creator.isAvailableShortenEpilogue) && (
           <EpilogueSection
             villageId={villageId}
@@ -173,10 +177,13 @@ function CancelSection({
 
 function CreatorSaySection({
   onConfirm,
+  registerOnDone,
 }: {
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
+  registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const [message, setMessage] = useState("");
+  registerOnDone("creatorSay", () => setMessage(""));
   const [convertDisable, setConvertDisable] = useState(false);
   const { error, submitting, execute } = useAsyncAction();
 

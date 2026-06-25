@@ -367,6 +367,7 @@ export default function Village({ params }: Route.ComponentProps) {
             mySituation={mySituation}
             participants={situation?.participantList ?? []}
             onConfirm={onActionConfirm}
+            registerOnDone={registerSayDone}
           />
         )}
 
@@ -445,6 +446,7 @@ export default function Village({ params }: Route.ComponentProps) {
             members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
             onConfirm={onCreatorSayConfirm}
             onDone={invalidate}
+            registerOnDone={registerSayDone}
           />
         )}
 
@@ -507,7 +509,7 @@ export default function Village({ params }: Route.ComponentProps) {
         filter={filter}
         participants={situation?.participantList ?? []}
         myselfId={mySituation?.myself?.id ?? null}
-        notificationKeyword={mySituation?.myself?.notification?.keyword ?? null}
+        notificationKeyword={mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null}
         onApply={applyFilter}
         onApplyNewTab={applyFilterNewTab}
       />

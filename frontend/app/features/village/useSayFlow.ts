@@ -30,7 +30,8 @@ export function useSayFlow(
   const [sayPreview, setSayPreview] = useState<SayPreview>(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
-  const onSayDoneRef = useRef<(() => void) | null>(null);
+  type SayKind = "say" | "action" | "creatorSay";
+  const onSayDoneCallbacks = useRef<Map<SayKind, () => void>>(new Map());
 
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
@@ -39,8 +40,8 @@ export function useSayFlow(
 
   const clearReply = useCallback(() => setReply(null), []);
 
-  const registerSayDone = useCallback((fn: () => void) => {
-    onSayDoneRef.current = fn;
+  const registerSayDone = useCallback((kind: SayKind, fn: () => void) => {
+    onSayDoneCallbacks.current.set(kind, fn);
   }, []);
 
   const onSayConfirm = async (request: VillageSayRequest) => {
@@ -100,9 +101,10 @@ export function useSayFlow(
       } else {
         await sayVillageCreator(villageId, sayPreview.request);
       }
+      const kind = sayPreview.kind;
       setSayPreview(null);
       setReply(null);
-      onSayDoneRef.current?.();
+      onSayDoneCallbacks.current.get(kind)?.();
       await invalidate();
       requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
