@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router";
 
 import { Button } from "~/components/ui/Button";
+import { FileUpload } from "~/components/ui/FileUpload";
 import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -77,8 +78,7 @@ export function ParticipatePanel({
     };
   }, [charaImageUrl]);
 
-  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] ?? null;
+  const handleImageSelect = (file: File | null) => {
     setCharaImageError(null);
     if (charaImageUrl) URL.revokeObjectURL(charaImageUrl);
     if (file == null) {
@@ -90,7 +90,6 @@ export function ParticipatePanel({
       setCharaImageError("100kByteを超える画像はアップロードできません。");
       setCharaImageFile(null);
       setCharaImageUrl(null);
-      e.target.value = "";
       return;
     }
     setCharaImageFile(file);
@@ -242,7 +241,17 @@ export function ParticipatePanel({
 
         {isOriginal && (
           <VillageFormRow label="キャラクター画像" labelWidth="wide" align="start">
-            <div className="space-y-[5px]">
+            <FileUpload
+              accept="image/*"
+              maxSizeBytes={100_000}
+              onSelect={handleImageSelect}
+              error={charaImageError}
+              preview={
+                charaImageUrl ? (
+                  <img src={charaImageUrl} alt="プレビュー" width={60} height={60} />
+                ) : undefined
+              }
+            >
               <ul className="list-disc pl-[20px]">
                 <li>
                   画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
@@ -260,14 +269,7 @@ export function ParticipatePanel({
                   について了承したものとみなします。
                 </li>
               </ul>
-              <input type="file" accept="image/*" className="block" onChange={handleImageSelect} />
-              {charaImageError && (
-                <div className="text-[#e74c3c]">{charaImageError}</div>
-              )}
-              {charaImageUrl && (
-                <img src={charaImageUrl} alt="プレビュー" width={60} height={60} />
-              )}
-            </div>
+            </FileUpload>
           </VillageFormRow>
         )}
 
