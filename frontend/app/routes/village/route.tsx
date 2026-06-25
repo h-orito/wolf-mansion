@@ -521,7 +521,9 @@ export default function Village({ params }: Route.ComponentProps) {
         filter={filter}
         participants={situation?.participantList ?? []}
         myselfId={mySituation?.myself?.id ?? null}
-        notificationKeyword={mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null}
+        notificationKeyword={
+          mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null
+        }
         onApply={applyFilter}
         onApplyNewTab={applyFilterNewTab}
       />

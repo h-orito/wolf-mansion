@@ -85,7 +85,8 @@ class VillageRpRestController(
         if (!rpSituation(village, myself).canAddImage) {
             throw WolfMansionBusinessException("表情差分を追加できません")
         }
-        validateImageSize(image)
+        validateFaceTypeName(faceTypeName)
+        validateImage(image)
         charaService.registerOriginalCharaImage(
             village.setting.chara.charachipIds
                 .first(),
@@ -123,9 +124,18 @@ class VillageRpRestController(
         }
     }
 
-    private fun validateImageSize(image: MultipartFile) {
+    private fun validateFaceTypeName(name: String) {
+        if (name.isBlank() || name.length > 5) {
+            throw WolfMansionBusinessException("表情差分名は1～5文字で入力してください")
+        }
+    }
+
+    private fun validateImage(image: MultipartFile) {
         if (image.isEmpty || image.size > 100_000L) {
             throw WolfMansionBusinessException("画像は100KB以下のファイルを指定してください")
+        }
+        if (image.contentType?.startsWith("image/") != true) {
+            throw WolfMansionBusinessException("画像ファイルを指定してください")
         }
     }
 

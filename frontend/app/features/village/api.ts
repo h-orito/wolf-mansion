@@ -289,11 +289,7 @@ export function changeVillageMemo(id: number, request: VillageMemoRequest): Prom
 }
 
 /** 表情差分を追加する（原画村限定）。要認証 → 204。 */
-export function addVillageFaceType(
-  id: number,
-  faceTypeName: string,
-  image: File,
-): Promise<void> {
+export function addVillageFaceType(id: number, faceTypeName: string, image: File): Promise<void> {
   const form = new FormData();
   form.append("faceTypeName", faceTypeName);
   form.append("image", image);

@@ -27,7 +27,12 @@ export function FaceTypePanel({
     <Panel title="表情差分" storageKey="facetypeform" fixable>
       <div className="space-y-[15px]">
         {images.length > 0 && (
-          <ModifyFaceTypesForm villageId={villageId} images={images} onDone={onDone} />
+          <ModifyFaceTypesForm
+            key={images.length}
+            villageId={villageId}
+            images={images}
+            onDone={onDone}
+          />
         )}
         <AddFaceTypeForm villageId={villageId} onDone={onDone} />
       </div>
@@ -80,7 +85,9 @@ function ModifyFaceTypesForm({
       <strong>表情差分編集</strong>
       <AlertList>
         <li>表情差分名は1～5文字で入力してください。</li>
-        <li>非表示にした表情差分は発言欄の候補に出てこなくなります（過去の発言の画像は消えません）。</li>
+        <li>
+          非表示にした表情差分は発言欄の候補に出てこなくなります（過去の発言の画像は消えません）。
+        </li>
       </AlertList>
       <ErrorMessage error={error} />
       <div className="grid grid-cols-1 gap-[10px] sm:grid-cols-2 lg:grid-cols-3">
@@ -153,7 +160,9 @@ function AddFaceTypeForm({
       <strong>表情差分追加</strong>
       <AlertList>
         <li>表情差分名は1～5文字で入力してください。</li>
-        <li>画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。</li>
+        <li>
+          画像は60x60pxで表示されるため、解像度は60x60や120x120など60の倍数の大きさとすることを推奨します。
+        </li>
         <li>100kByteを超える画像はアップロードできません。</li>
       </AlertList>
       <ErrorMessage error={error} />
@@ -177,10 +186,7 @@ function AddFaceTypeForm({
         />
       </VillageFormRow>
       <div className="flex justify-end">
-        <Button
-          onClick={submit}
-          disabled={submitting || faceTypeName === "" || imageFile == null}
-        >
+        <Button onClick={submit} disabled={submitting || faceTypeName === "" || imageFile == null}>
           表情差分を追加する
         </Button>
       </div>
