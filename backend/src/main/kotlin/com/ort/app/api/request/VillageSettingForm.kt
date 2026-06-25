@@ -1,15 +1,24 @@
 package com.ort.app.api.request
 
 import com.ort.app.api.request.setting.*
+import com.ort.app.domain.model.camp.Camp
 import com.ort.app.domain.model.message.MessageType
+import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.model.village.setting.SayRestriction
+import com.ort.app.domain.model.village.setting.SecretSayRange
+import com.ort.app.domain.model.village.setting.VillageOrganize
+import com.ort.app.domain.model.village.setting.VillageRandomOrganize
+import com.ort.app.domain.model.village.setting.VillageTags
+import com.ort.app.domain.model.village.setting.toModel
 import com.ort.dbflute.allcommon.CDef
 import jakarta.validation.Valid
 import jakarta.validation.constraints.Max
 import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import org.hibernate.validator.constraints.Length
+import java.time.LocalDateTime
 
 data class VillageSettingForm(
     /** 村表示名 */
@@ -265,4 +274,129 @@ data class VillageSettingForm(
                 )
             },
     )
+
+    fun mergeTo(village: Village): Village {
+        val startDatetime =
+            LocalDateTime.of(
+                startYear!!,
+                startMonth!!,
+                startDay!!,
+                startHour!!,
+                startMinute!!,
+            )
+        val welcome =
+            if (welcomeRange.isNullOrBlank()) {
+                emptyList()
+            } else {
+                listOf(CDef.VillageTagItem.codeOf(welcomeRange).toModel())
+            }
+        val age =
+            if (ageLimit.isNullOrBlank()) {
+                emptyList()
+            } else {
+                listOf(CDef.VillageTagItem.codeOf(ageLimit).toModel())
+            }
+        return village.copy(
+            name = villageName!!,
+            days =
+                village.days.copy(
+                    list =
+                        village.days.list.map {
+                            if (it.day == 0) {
+                                it.copy(dayChangeDatetime = startDatetime)
+                            } else {
+                                it.copy()
+                            }
+                        },
+                ),
+            setting =
+                village.setting.copy(
+                    chara =
+                        village.setting.chara.copy(
+                            dummyDay1Message = dummyDay1Message,
+                        ),
+                    personMin = startPersonMinNum!!,
+                    personMax = personMaxNum!!,
+                    dayChangeIntervalSeconds =
+                        dayChangeIntervalHours!! * 3600 + dayChangeIntervalMinutes!! * 60 + dayChangeIntervalSeconds!!,
+                    startDatetime = startDatetime,
+                    rule =
+                        village.setting.rule.copy(
+                            isOpenVote = openVote!!,
+                            isAvailableSameWolfAttack = availableSameWolfAttack!!,
+                            isOpenSkillInGrave = openSkillInGrave!!,
+                            isVisibleGraveSpectateMessage = visibleGraveSpectateMessage!!,
+                            isAvailableSpectate = availableSpectate!!,
+                            isAvailableSuddenlyDeath = availableSuddonlyDeath!!,
+                            isAvailableCommit = availableCommit!!,
+                            isAvailableGuardSameTarget = availableGuardSameTarget!!,
+                            isAvailableAction = availableAction!!,
+                            isRandomOrganization = randomOrganization!!,
+                            isReincarnationSkillAll = reincarnationSkillAll!!,
+                            secretSayRange =
+                                SecretSayRange(
+                                    CDef.AllowedSecretSay.codeOf(allowedSecretSayCode!!),
+                                ),
+                        ),
+                    organize =
+                        VillageOrganize(
+                            fixedOrganization = organization.orEmpty(),
+                            randomOrganization =
+                                VillageRandomOrganize(
+                                    campAllocation =
+                                        campAllocationList?.map {
+                                            VillageRandomOrganize.CampAllocation(
+                                                camp = Camp(CDef.Camp.codeOf(it.campCode)),
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                                initAllocation = it.allocation!!,
+                                                reincarnationAllocation = it.reincarnationAllocation!!,
+                                            )
+                                        } ?: emptyList(),
+                                    skillAllocation =
+                                        campAllocationList?.flatMap { it.skillAllocation!! }?.map {
+                                            VillageRandomOrganize.SkillAllocation(
+                                                skill = Skill(CDef.Skill.codeOf(it.skillCode)),
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                                initAllocation = it.allocation!!,
+                                                reincarnationAllocation = it.reincarnationAllocation!!,
+                                            )
+                                        } ?: emptyList(),
+                                    wolfAllocation =
+                                        wolfAllocation?.let {
+                                            VillageRandomOrganize.WolfAllocation(
+                                                min = it.minNum!!,
+                                                max = it.maxNum,
+                                            )
+                                        },
+                                ),
+                        ),
+                    joinPassword = joinPassword,
+                    sayRestriction =
+                        SayRestriction(
+                            normalSayRestriction =
+                                sayRestrictList!!.filter { it.restrict!! }.map {
+                                    SayRestriction.NormalSayRestriction(
+                                        skill = Skill(CDef.Skill.codeOf(it.skillCode)),
+                                        messageType = MessageType(CDef.MessageType.通常発言),
+                                        count = it.count!!,
+                                        length = it.length!!,
+                                    )
+                                },
+                            skillSayRestriction =
+                                (skillSayRestrictList!! + rpSayRestrictList!!)
+                                    .filter { it.restrict!! }
+                                    .map {
+                                        SayRestriction.SkillSayRestriction(
+                                            messageType = MessageType(CDef.MessageType.codeOf(it.messageTypeCode)),
+                                            count = it.count!!,
+                                            length = it.length!!,
+                                        )
+                                    },
+                        ),
+                    tags = VillageTags(list = welcome + age),
+                ),
+        )
+    }
 }

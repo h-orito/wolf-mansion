@@ -1,6 +1,6 @@
 import type { VillageCreateRequest } from "~/features/villages/api";
-import { stripPersonCountPrefix } from "./organization";
-import type { NewVillageFormInput } from "./schema";
+import { stripPersonCountPrefix } from "~/features/village-form/organization";
+import type { NewVillageFormInput } from "~/features/village-form/schema";
 
 /**
  * フォーム値を村作成リクエスト (JSON part) へ変換する。

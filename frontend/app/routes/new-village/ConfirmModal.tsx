@@ -5,7 +5,7 @@ import { Modal } from "~/components/ui/Modal";
 import type { Chara } from "~/features/charachips/api";
 import { useCharachipDetails, useCharachipList } from "~/features/charachips/useCharachips";
 import { assetUrl } from "~/lib/api";
-import type { NewVillageFormInput } from "./schema";
+import type { NewVillageFormInput } from "~/features/village-form/schema";
 
 const tableClass =
   "w-full border-collapse " +

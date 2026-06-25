@@ -14,21 +14,26 @@ import { createVillage, fetchVillageSetting } from "~/features/villages/api";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { zodResolver } from "~/lib/zodResolver";
-import { BasicSection } from "./BasicSection";
+import { BasicSection } from "~/features/village-form/BasicSection";
 import { CharachipSection } from "./CharachipSection";
 import { ConfirmModal } from "./ConfirmModal";
 import { toCreateRequest } from "./createRequest";
-import { DetailRuleSection } from "./DetailRuleSection";
+import { DetailRuleSection } from "~/features/village-form/DetailRuleSection";
 import { toDivertValues } from "./divert";
 import { DivertSection } from "./DivertSection";
-import { RequiredAfterCreationMark } from "./fields";
-import { RelativesSection, RpSection, SpecialRuleSection, SpectateSection } from "./OtherSections";
+import { RequiredAfterCreationMark } from "~/features/village-form/fields";
+import {
+  RelativesSection,
+  RpSection,
+  SpecialRuleSection,
+  SpectateSection,
+} from "~/features/village-form/OtherSections";
 import {
   createDefaultCampAllocations,
   createDefaultValues,
   type NewVillageFormInput,
   newVillageSchema,
-} from "./schema";
+} from "~/features/village-form/schema";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {

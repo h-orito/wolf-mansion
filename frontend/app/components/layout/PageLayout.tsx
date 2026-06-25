@@ -10,13 +10,26 @@ import { Header } from "~/components/layout/Header";
  *
  * ホーム (`/`) は大きいバナー画像を route 内に直接持つため、このシェルは使わない。
  */
-export function PageLayout({ children, header = true }: { children: ReactNode; header?: boolean }) {
+export function PageLayout({
+  children,
+  header = true,
+  noAd = false,
+  footerPaddingBottom,
+}: {
+  children: ReactNode;
+  header?: boolean;
+  /** R18 村など広告を出さないページで true。 */
+  noAd?: boolean;
+  /** fixed フッターメニュー等で共通 Footer が隠れる場合の下部余白 (px)。 */
+  footerPaddingBottom?: number;
+}) {
   return (
     <div className="min-h-screen bg-wm-base text-xs text-white">
       <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         {header && <Header />}
         {children}
-        <Footer />
+        <Footer noAd={noAd} />
+        {footerPaddingBottom != null && <div style={{ height: footerPaddingBottom }} />}
       </div>
     </div>
   );

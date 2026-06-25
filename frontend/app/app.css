@@ -12,6 +12,8 @@
   --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
   --color-wm-accent: #0ce3ac; /* アクセント (hover 文字・枠 / 誰歓タグ) */
   --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤 */
+
+  --font-size-village-sm: 0.75em;
 }
 
 /* ロゴフォント (font-anima)。frontend (/wolf-mansion) 配信の public/app/font の woff を参照する。 */
@@ -43,4 +45,72 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+}
+
+/* 発言本文の装飾 (messageHtml.ts が生成する HTML から参照する) */
+.msg-extra-small {
+  font-size: 6px;
+  font-weight: bold;
+}
+
+.netabare {
+  cursor: pointer;
+  background-color: #333;
+  color: #333 !important;
+}
+
+.transparency {
+  cursor: pointer;
+  opacity: 0;
+}
+
+/* 拡声能力を受けた発言 */
+.loud {
+  font-size: 300%;
+}
+
+/* 虹塗り能力を受けた発言 (グラデーションを文字でマスクして流す) */
+.rainbow {
+  background: linear-gradient(
+      to right,
+      #f00 0%,
+      #f80 14.28%,
+      #dd0 28.56%,
+      #0d0 42.85%,
+      #0dd 57.14%,
+      #00f 71.42%,
+      #e0e 85.71%,
+      #f00 100%
+    )
+    0% center / 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
+}
+
+@keyframes rainbow {
+  to {
+    background-position-x: 200%;
+  }
+}
+
+/* 新着発言を検知したときの更新ボタン点滅 */
+.flash {
+  animation: wm-flash 1s infinite;
+}
+
+@keyframes wm-flash {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 発言本文中のリンク色 (アンカー・ハッシュタグ・ユーザページ) */
+.message a {
+  color: #f00000;
+}
+
+.message.message-public-system a {
+  color: #0ce3ac;
 }

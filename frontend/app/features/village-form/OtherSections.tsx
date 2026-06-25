@@ -26,7 +26,12 @@ function toMessageTypeRows(
 }
 
 /** 見学、閲覧設定。 */
-export function SpectateSection() {
+export function SpectateSection({
+  fixedCreatorIsProducer,
+}: {
+  /** プロデューサー機能の現在値 (村作成後は変更不可のため、指定時は読み取り表示にする) */
+  fixedCreatorIsProducer?: boolean;
+} = {}) {
   return (
     <SettingSection title="見学、閲覧設定">
       <RadioRow
@@ -43,24 +48,36 @@ export function SpectateSection() {
           </p>
         }
       />
-      <RadioRow
-        name="creatorIsProducer"
-        label={
-          <>
-            プロデューサー機能 <RequiredAfterCreationMark />
-          </>
-        }
-        ariaLabel="プロデューサー機能"
-        options={[
-          { value: true, label: "あり" },
-          { value: false, label: "なし" },
-        ]}
-        note={
-          <p>
-            ありにした場合、村建ては見学でしか参加できなくなる代わりに、プロデューサー機能（ルール参照）を持ちます。
-          </p>
-        }
-      />
+      {fixedCreatorIsProducer != null ? (
+        <FormRow
+          label={
+            <>
+              プロデューサー機能 <RequiredAfterCreationMark />
+            </>
+          }
+        >
+          <p className="pt-[5px]">{fixedCreatorIsProducer ? "あり" : "なし"}</p>
+        </FormRow>
+      ) : (
+        <RadioRow
+          name="creatorIsProducer"
+          label={
+            <>
+              プロデューサー機能 <RequiredAfterCreationMark />
+            </>
+          }
+          ariaLabel="プロデューサー機能"
+          options={[
+            { value: true, label: "あり" },
+            { value: false, label: "なし" },
+          ]}
+          note={
+            <p>
+              ありにした場合、村建ては見学でしか参加できなくなる代わりに、プロデューサー機能（ルール参照）を持ちます。
+            </p>
+          }
+        />
+      )}
       <RadioRow
         name="openSkillInGrave"
         label="墓下見学役職公開"

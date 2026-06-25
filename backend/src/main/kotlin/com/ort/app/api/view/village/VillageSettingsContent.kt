@@ -10,8 +10,14 @@ import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.setting.VillageRandomOrganize
 import com.ort.dbflute.allcommon.CDef
+import io.swagger.v3.oas.annotations.media.Schema
 import java.time.LocalDateTime
 
+/**
+ * 村情報の設定表示 (表示ラベル組み立て・マスク込み)。SSR の村情報モーダルと REST が共用する。
+ * ネスト DTO はドメインの設定モデルや他 view と単純名が衝突しないよう `@Schema` で命名する
+ * (衝突すると SpringDoc がスキーマ定義を上書きしてしまう)。
+ */
 data class VillageSettingsContent(
     /** 最低開始人数 */
     var startPersonMinNum: Int,
@@ -190,6 +196,7 @@ data class VillageSettingsContent(
             listOf(RpSayRestriction(MessageType(CDef.MessageType.アクション), village))
     }
 
+    @Schema(name = "VillageSettingsCharachip")
     data class CharachipContent(
         val id: Int,
         val name: String,
@@ -202,6 +209,7 @@ data class VillageSettingsContent(
         )
     }
 
+    @Schema(name = "VillageSettingsRandomCampOrganization")
     data class RandomCampOrganization(
         /** 陣営 */
         val campCode: String,
@@ -239,6 +247,7 @@ data class VillageSettingsContent(
                     },
         )
 
+        @Schema(name = "VillageSettingsRandomSkillOrganization")
         data class RandomSkillOrganization(
             /** 役職 */
             val skillCode: String,
@@ -264,6 +273,7 @@ data class VillageSettingsContent(
         }
     }
 
+    @Schema(name = "VillageSettingsRandomWolfOrganization")
     data class RandomWolfOrganization(
         /** 最少人数 */
         val minNum: Int,
@@ -276,6 +286,7 @@ data class VillageSettingsContent(
         )
     }
 
+    @Schema(name = "VillageSettingsSayRestriction")
     data class SayRestriction(
         /** 役職名 */
         val skillName: String,
@@ -303,6 +314,7 @@ data class VillageSettingsContent(
         }
     }
 
+    @Schema(name = "VillageSettingsSkillSayRestriction")
     data class SkillSayRestriction(
         /** 発言種別名 */
         val messageTypeName: String,
@@ -332,6 +344,7 @@ data class VillageSettingsContent(
         }
     }
 
+    @Schema(name = "VillageSettingsRpSayRestriction")
     data class RpSayRestriction(
         /** 発言種別名 */
         val messageTypeName: String,

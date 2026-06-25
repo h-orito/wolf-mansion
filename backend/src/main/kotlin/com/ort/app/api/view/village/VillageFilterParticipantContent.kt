@@ -6,6 +6,8 @@ import com.ort.app.domain.model.village.participant.VillageParticipant
 
 data class VillageFilterParticipantContent(
     val id: Int,
+    /** キャラ ID (強制退村など参加者をキャラで指定する操作に使う) */
+    val charaId: Int,
     val name: String,
     val imgWidth: Int,
     val imgHeight: Int,
@@ -18,6 +20,7 @@ data class VillageFilterParticipantContent(
         charachips: Charachips,
     ) : this(
         id = participant.id,
+        charaId = participant.charaId,
         name = participant.name(),
         imgWidth = charachips.chara(participant.charaId).size.width,
         imgHeight = charachips.chara(participant.charaId).size.height,
