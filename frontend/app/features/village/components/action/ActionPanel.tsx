@@ -18,10 +18,12 @@ export function ActionPanel({
   mySituation,
   participants,
   onConfirm,
+  registerOnDone,
 }: {
   mySituation: ParticipantSituationView;
   participants: VillageFilterParticipantContent[];
   onConfirm: (request: VillageActionRequest) => void;
+  registerOnDone: (fn: () => void) => void;
 }) {
   const myself = mySituation.myself;
   const restrict = mySituation.say.selectableMessageTypeList?.find(
@@ -31,6 +33,10 @@ export function ActionPanel({
   const [target, setTarget] = useState("");
   const [message, setMessage] = useState("");
   const [convertDisable, setConvertDisable] = useState(false);
+  registerOnDone(() => {
+    setTarget("");
+    setMessage("");
+  });
 
   if (myself == null) return null;
   const prefix = `${myself.name}は、`;

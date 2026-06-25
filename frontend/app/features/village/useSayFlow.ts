@@ -30,7 +30,7 @@ export function useSayFlow(
   const [sayPreview, setSayPreview] = useState<SayPreview>(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
-  const onSayDoneRef = useRef<(() => void) | null>(null);
+  const onSayDoneCallbacks = useRef<Array<() => void>>([]);
 
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
@@ -40,7 +40,8 @@ export function useSayFlow(
   const clearReply = useCallback(() => setReply(null), []);
 
   const registerSayDone = useCallback((fn: () => void) => {
-    onSayDoneRef.current = fn;
+    onSayDoneCallbacks.current = onSayDoneCallbacks.current.filter((f) => f !== fn);
+    onSayDoneCallbacks.current.push(fn);
   }, []);
 
   const onSayConfirm = async (request: VillageSayRequest) => {
@@ -102,7 +103,7 @@ export function useSayFlow(
       }
       setSayPreview(null);
       setReply(null);
-      onSayDoneRef.current?.();
+      onSayDoneCallbacks.current.forEach((fn) => fn());
       await invalidate();
       requestAnimationFrame(() => scrollToBottom());
     } catch (e) {

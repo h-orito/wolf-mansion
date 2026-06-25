@@ -367,6 +367,7 @@ export default function Village({ params }: Route.ComponentProps) {
             mySituation={mySituation}
             participants={situation?.participantList ?? []}
             onConfirm={onActionConfirm}
+            registerOnDone={registerSayDone}
           />
         )}
 
@@ -445,6 +446,7 @@ export default function Village({ params }: Route.ComponentProps) {
             members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
             onConfirm={onCreatorSayConfirm}
             onDone={invalidate}
+            registerOnDone={registerSayDone}
           />
         )}
 
