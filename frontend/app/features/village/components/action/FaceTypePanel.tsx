@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 
 import { AlertList, ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
+import { ButtonRadioGroup } from "~/components/ui/ButtonRadioGroup";
 import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
@@ -103,22 +104,16 @@ function ModifyFaceTypesForm({
                 onChange={(e) => updateItem(index, { name: e.target.value })}
                 aria-label={`表情差分名 ${item.code}`}
               />
-              <div className="flex gap-[3px]">
-                <button
-                  type="button"
-                  className={`rounded border px-[8px] py-[2px] text-sm ${item.isDisplay ? "border-green-700 bg-green-700 text-white" : "border-gray-400 text-gray-500"}`}
-                  onClick={() => updateItem(index, { isDisplay: true })}
-                >
-                  表示
-                </button>
-                <button
-                  type="button"
-                  className={`rounded border px-[8px] py-[2px] text-sm ${!item.isDisplay ? "border-green-700 bg-green-700 text-white" : "border-gray-400 text-gray-500"}`}
-                  onClick={() => updateItem(index, { isDisplay: false })}
-                >
-                  非表示
-                </button>
-              </div>
+              <ButtonRadioGroup
+                options={[
+                  { value: true, label: "表示" },
+                  { value: false, label: "非表示" },
+                ]}
+                value={item.isDisplay}
+                onChange={(v) => updateItem(index, { isDisplay: v })}
+                ariaLabel={`表示切替 ${item.code}`}
+                variant="outline"
+              />
             </div>
           </div>
         ))}
