@@ -15,6 +15,8 @@ import org.springframework.web.client.RestTemplate
 class DiscordRepositoryImpl : DiscordRepository {
     companion object {
         private val logger = LoggerFactory.getLogger(DiscordRepositoryImpl::class.java)
+        private const val CONNECT_TIMEOUT_MS = 5000
+        private const val READ_TIMEOUT_MS = 5000
     }
 
     @Value("\${discord.webhook-url:}")
@@ -30,7 +32,7 @@ class DiscordRepositoryImpl : DiscordRepository {
     ) {
         if (webhookUrl.isEmpty()) return
         try {
-            val restTemplate = RestTemplate()
+            val restTemplate = restTemplate()
             val request =
                 Request(
                     content = "<@!$masterUserId>\n<https://wolfort.net/wolf-mansion/village/$villageId>\n$message",
@@ -47,11 +49,7 @@ class DiscordRepositoryImpl : DiscordRepository {
     override fun postToMaster(message: String) {
         if (webhookUrl.isEmpty()) return
         try {
-            // ハングする webhook がログイン等の呼び出し元を長くブロックしないよう短いタイムアウトを設定する
-            val factory = SimpleClientHttpRequestFactory()
-            factory.setConnectTimeout(2000)
-            factory.setReadTimeout(2000)
-            val restTemplate = RestTemplate(factory)
+            val restTemplate = restTemplate()
             val mention = if (masterUserId.isEmpty()) "" else "<@!$masterUserId>\n"
             val request = Request(content = "$mention$message")
             val formHeaders = HttpHeaders()
@@ -70,7 +68,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         shouldContainVillageUrl: Boolean,
     ) {
         try {
-            val restTemplate = RestTemplate()
+            val restTemplate = restTemplate()
             val content =
                 if (shouldContainVillageUrl) {
                     "<https://wolfort.net/wolf-mansion/village/$villageId>\n$message"
@@ -89,6 +87,13 @@ class DiscordRepositoryImpl : DiscordRepository {
         } catch (e: Exception) {
             logger.error("discord投稿に失敗しました", e)
         }
+    }
+
+    private fun restTemplate(): RestTemplate {
+        val factory = SimpleClientHttpRequestFactory()
+        factory.setConnectTimeout(CONNECT_TIMEOUT_MS)
+        factory.setReadTimeout(READ_TIMEOUT_MS)
+        return RestTemplate(factory)
     }
 
     data class Request(
