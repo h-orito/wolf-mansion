@@ -206,6 +206,27 @@
         "tags": ["charachip-rest-controller"]
       }
     },
+    "/api/v1/players/me/detail": {
+      "put": {
+        "operationId": "updateMyPlayerDetail",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlayerDetailRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["player-rest-controller"]
+      }
+    },
     "/api/v1/players/{name}": {
       "get": {
         "operationId": "getPlayerByName",
@@ -3034,6 +3055,21 @@
           }
         },
         "required": ["campName", "stats"]
+      },
+      "PlayerDetailRequest": {
+        "type": "object",
+        "properties": {
+          "introduction": {
+            "type": ["string", "null"],
+            "maxLength": 2000,
+            "minLength": 0
+          },
+          "twitterUserName": {
+            "type": ["string", "null"],
+            "maxLength": 50,
+            "minLength": 0
+          }
+        }
       },
       "PlayerParticipateVillage": {
         "type": "object",

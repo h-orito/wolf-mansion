@@ -1,9 +1,19 @@
+import { useState } from "react";
 import { useParams } from "react-router";
 
+import { Button } from "~/components/ui/Button";
 import { Heading, SubHeading } from "~/components/ui/Heading";
+import { Modal } from "~/components/ui/Modal";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { ExternalLink, TextLink } from "~/components/ui/TextLink";
-import { type PlayerProfile, usePlayerProfile } from "~/features/player/usePlayer";
+import { inputClass, textareaClass } from "~/components/ui/Input";
+import { useMe } from "~/features/auth/useMe";
+import {
+  type PlayerProfile,
+  usePlayerProfile,
+  useUpdatePlayerDetail,
+} from "~/features/player/usePlayer";
+import { useAsyncAction } from "~/lib/useAsyncAction";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
 
@@ -24,20 +34,32 @@ export default function UserProfilePage() {
 
 function UserProfile({ name }: { name: string }) {
   const { data, isLoading, error } = usePlayerProfile(name);
+  const { me } = useMe();
+  const isMyself = me != null && me.name === name;
 
   return (
     <div className="px-[15px]">
       <Heading>ユーザID: {name}</Heading>
       {isLoading && <p>読み込み中...</p>}
       {error != null && <p>ユーザが存在しません。</p>}
-      {data != null && <ProfileContent data={data} />}
+      {data != null && <ProfileContent data={data} name={name} isMyself={isMyself} />}
     </div>
   );
 }
 
 type VillageEntry = PlayerProfile["participateVillageList"][number];
 
-function ProfileContent({ data }: { data: PlayerProfile }) {
+function ProfileContent({
+  data,
+  name,
+  isMyself,
+}: {
+  data: PlayerProfile;
+  name: string;
+  isMyself: boolean;
+}) {
+  const [editOpen, setEditOpen] = useState(false);
+
   return (
     <>
       {data.twitterUserName != null && (
@@ -52,6 +74,13 @@ function ProfileContent({ data }: { data: PlayerProfile }) {
         <p className="mb-[10px] rounded border border-[#464545] p-[10px] whitespace-pre-line">
           {data.introduction}
         </p>
+      )}
+      {isMyself && (
+        <div className="mb-[10px]">
+          <Button size="sm" onClick={() => setEditOpen(true)}>
+            自己紹介編集
+          </Button>
+        </div>
       )}
 
       <div className="sm:flex sm:gap-[15px]">
@@ -103,7 +132,77 @@ function ProfileContent({ data }: { data: PlayerProfile }) {
           <VillageTable villages={data.spectateVillageList} />
         </>
       )}
+
+      {editOpen && (
+        <EditDetailModal
+          name={name}
+          twitterUserName={data.twitterUserName ?? ""}
+          introduction={data.introduction ?? ""}
+          onClose={() => setEditOpen(false)}
+        />
+      )}
     </>
+  );
+}
+
+function EditDetailModal({
+  name,
+  twitterUserName: initialTwitter,
+  introduction: initialIntro,
+  onClose,
+}: {
+  name: string;
+  twitterUserName: string;
+  introduction: string;
+  onClose: () => void;
+}) {
+  const [twitterUserName, setTwitterUserName] = useState(initialTwitter);
+  const [introduction, setIntroduction] = useState(initialIntro);
+  const updateDetail = useUpdatePlayerDetail(name);
+  const { error, submitting, execute } = useAsyncAction();
+
+  const submit = () =>
+    execute(async () => {
+      await updateDetail({
+        twitterUserName: twitterUserName || null,
+        introduction: introduction || null,
+      });
+      onClose();
+    }, "保存に失敗しました");
+
+  return (
+    <Modal open title="自己紹介編集" onClose={onClose}>
+      <div className="space-y-[15px]">
+        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        <div>
+          <label className="mb-[5px] block">Twitterユーザ名</label>
+          <input
+            type="text"
+            className={inputClass}
+            value={twitterUserName}
+            maxLength={50}
+            onChange={(e) => setTwitterUserName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="mb-[5px] block">自己紹介（2000字以内）</label>
+          <textarea
+            className={`${textareaClass} min-h-[150px]`}
+            value={introduction}
+            maxLength={2000}
+            onChange={(e) => setIntroduction(e.target.value)}
+          />
+        </div>
+        <div className="flex justify-end gap-[10px]">
+          <Button variant="default" onClick={onClose}>
+            閉じる
+          </Button>
+          <Button onClick={submit} disabled={submitting}>
+            保存
+          </Button>
+        </div>
+      </div>
+    </Modal>
   );
 }
 
