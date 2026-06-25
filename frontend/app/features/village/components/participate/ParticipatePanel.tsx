@@ -69,32 +69,16 @@ export function ParticipatePanel({
   const [submitting, setSubmitting] = useState(false);
   const [charaModalOpen, setCharaModalOpen] = useState(false);
   const [charaImageFile, setCharaImageFile] = useState<File | null>(null);
-  const [charaImageUrl, setCharaImageUrl] = useState<string | null>(null);
-  const [charaImageError, setCharaImageError] = useState<string | null>(null);
 
+  const charaImageUrl = useMemo(
+    () => (charaImageFile ? URL.createObjectURL(charaImageFile) : null),
+    [charaImageFile],
+  );
   useEffect(() => {
     return () => {
       if (charaImageUrl) URL.revokeObjectURL(charaImageUrl);
     };
   }, [charaImageUrl]);
-
-  const handleImageSelect = (file: File | null) => {
-    setCharaImageError(null);
-    if (charaImageUrl) URL.revokeObjectURL(charaImageUrl);
-    if (file == null) {
-      setCharaImageFile(null);
-      setCharaImageUrl(null);
-      return;
-    }
-    if (file.size === 0 || file.size > 100_000) {
-      setCharaImageError("100kByteを超える画像はアップロードできません。");
-      setCharaImageFile(null);
-      setCharaImageUrl(null);
-      return;
-    }
-    setCharaImageFile(file);
-    setCharaImageUrl(URL.createObjectURL(file));
-  };
 
   const currentChip = charachips.find((c) => c.id === charachipId) ?? charachips[0];
   const charas = currentChip?.charas?.list ?? [];
@@ -244,13 +228,8 @@ export function ParticipatePanel({
             <FileUpload
               accept="image/*"
               maxSizeBytes={100_000}
-              onSelect={handleImageSelect}
-              error={charaImageError}
-              preview={
-                charaImageUrl ? (
-                  <img src={charaImageUrl} alt="プレビュー" width={60} height={60} />
-                ) : undefined
-              }
+              imagePreviewSize={60}
+              onSelect={setCharaImageFile}
             >
               <ul className="list-disc pl-[20px]">
                 <li>

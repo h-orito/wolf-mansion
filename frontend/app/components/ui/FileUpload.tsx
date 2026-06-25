@@ -1,46 +1,61 @@
-import { useCallback, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
 
 type FileUploadProps = {
   accept?: string;
   maxSizeBytes?: number;
+  maxSizeMessage?: string;
   onSelect: (file: File | null) => void;
-  preview?: ReactNode;
-  error?: string | null;
+  /** 画像プレビューのサイズ (px)。指定すると選択後に画像プレビューを表示する。 */
+  imagePreviewSize?: number;
   children?: ReactNode;
 };
 
 /**
  * ファイルアップロード。クリックまたはドラッグ＆ドロップで選択できる。
- * 選択後は差し替え・削除が可能。
+ * 選択後は差し替え・削除が可能。サイズ超過時はエラー表示する。
  */
 export function FileUpload({
   accept,
   maxSizeBytes,
+  maxSizeMessage,
   onSelect,
-  preview,
-  error,
+  imagePreviewSize,
   children,
 }: FileUploadProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragging, setDragging] = useState(false);
   const [fileName, setFileName] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
 
   const handleFile = useCallback(
     (file: File | null) => {
+      setError(null);
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
       if (file == null) {
         setFileName(null);
+        setPreviewUrl(null);
         onSelect(null);
         return;
       }
       if (maxSizeBytes != null && (file.size === 0 || file.size > maxSizeBytes)) {
-        onSelect(null);
+        setError(maxSizeMessage ?? `${Math.floor(maxSizeBytes / 1000)}kByteを超えるファイルはアップロードできません。`);
         setFileName(null);
+        setPreviewUrl(null);
+        onSelect(null);
         return;
       }
       setFileName(file.name);
+      setPreviewUrl(imagePreviewSize ? URL.createObjectURL(file) : null);
       onSelect(file);
     },
-    [maxSizeBytes, onSelect],
+    [maxSizeBytes, maxSizeMessage, imagePreviewSize, onSelect, previewUrl],
   );
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -76,7 +91,10 @@ export function FileUpload({
   };
 
   const clear = () => {
+    setError(null);
     setFileName(null);
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    setPreviewUrl(null);
     onSelect(null);
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -104,7 +122,14 @@ export function FileUpload({
         />
         {fileName ? (
           <div className="flex items-center gap-[10px]">
-            {preview}
+            {previewUrl && imagePreviewSize && (
+              <img
+                src={previewUrl}
+                alt="プレビュー"
+                width={imagePreviewSize}
+                height={imagePreviewSize}
+              />
+            )}
             <div>
               <p className="text-[13px]">{fileName}</p>
               <button
