@@ -26,7 +26,7 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 | --- | --- | --- | --- |
 | 8.20 | [オリジナルキャラチップ村のローカルテスト環境整備](step-8.20-original-charachip-local-test.md) | feat | open |
 
-> **Step 8 は統合ブランチ方式 (ユーザー指示 2026-06-12)**: `feature/monorepo-step8` を base にサブ step PR を積み、同ブランチへの squash merge は Claude 単独で可。`feature/monorepo` への merge は最終 PR でユーザー承認。8.1 ✅ #71 / 8.2 ✅ #72 / 8.3 ✅ #73 / 8.4 ✅ #74 / 8.5 ✅ #75 / 8.6 ✅ #76 / 8.7+8.8 ✅ #77 / 8.9 ✅ #78 / 8.10 ✅ #79 / 8.11 ✅ #80 / 8.12 ✅ #81 (表情差分は 8.12.1 に分割・未実装) / 8.13 ✅ #82 / 8.14 ✅ #83 / 8.15 ✅ #84 / 8.16 ✅ #85 / 8.17 ✅ #86 / 8.18 ✅ #87 / 8.19 ✅ #88。**Step 8 全サブ step 完了** (残: 8.12.1 表情差分のみ別 step 化)。
+> **Step 8 完了 🎉 (2026-06-25)**: 統合 PR #89 merge 済。8.1〜8.19 全19サブstep ✅ (#71〜#88)。残: 8.12.1 表情差分のみ別 step 化。
 
 > **Step 0・1・2 完了** 🎉 — Step 1 は `.java-version` 21 化 / README 整備 (PR #46)。
 > **Step 2 (monorepo 化) は 4 サブ step すべて完了**: 2.1 backend/ 移動 (PR #47 ✅) / 2.2 ktlint+hook+per-dir .gitignore (PR #48 ✅) / 2.3 frontend 雛形 (PR #49 ✅) / 2.4 e2e 雛形 (PR #50 ✅)。次は **Step 3 (認証 REST 化)**。
@@ -48,7 +48,12 @@ monorepo 移行作業中につき **階層番号方式** (`step-<N>(.M)-<slug>.m
 | step-1 | 環境整備 (.java-version, README, skill 採番) | **完了** (PR #46) |
 | step-2 | monorepo 化 (backend/ frontend/ e2e/、ktlint、hooks) | **完了** (2.1 移動 #47 ✅ / 2.2 ktlint+hook+gitignore #48 ✅ / 2.3 frontend #49 ✅ / 2.4 e2e #50 ✅) |
 | step-3 | 認証 REST 化 (JWT, /api/v1/auth/*) | **完了** (3.0 DBFlute再生成+REFRESH_TOKEN ✅ #51 / 3.1 JWT基盤 ✅ #52 / 3.2 signup・password+レート制限 ✅ #53 / 3.3 frontend認証フロー+e2e ✅ #54 / 3.4 OpenAPI→TS型生成+CI drift ✅ #55) |
-| step-4+ | 画面別 REST 化 (ホーム→情報系→ランダム→新規村→村画面→プロフィール) | 未着手 |
+| step-4 | ホーム + 村一覧 + intro | **完了** (4.1 #56 / 3.6 #57 / 4.2 #58 / 4.3 #59) |
+| step-5 | 情報・静的ページ (役職/ルール/About/FAQ/キャラチップ/エイプリル) | **完了** (5.1〜5.5 ✅ #60〜#64) |
+| step-6 | ランダムキーワード CRUD | **完了** (#65) |
+| step-7 | 新規村作成 | **完了** (7.1〜7.5 ✅ #66〜#70) |
+| step-8 | 村画面 (最重量: 19 サブ step) | **完了** (8.1〜8.19 ✅ #71〜#88、統合 PR #89 merge 済) |
+| step-9+ | プロフィール・戦績 → cutover | 未着手 |
 
 ## frontend テスト基盤メモ
 
