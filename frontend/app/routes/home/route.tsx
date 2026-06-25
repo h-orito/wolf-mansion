@@ -120,7 +120,7 @@ export default function Home() {
         <MenuSection title="登録/ログイン">
           {me ? (
             <div className="grid grid-cols-3">
-              <TileRoute to="/mypage" icon={UserIcon} jp="マイページ" en="My Page" />
+              <TileRoute to={`/user/${me.name}`} icon={UserIcon} jp="マイページ" en="My Page" />
               <TileRoute
                 to="/change-password"
                 icon={WrenchIcon}
