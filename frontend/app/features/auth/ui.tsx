@@ -12,7 +12,7 @@ export const linkClass = "text-wm-accent hover:underline";
 /** 認証画面の外枠: 共通レイアウトシェル + 見出し。 */
 export function AuthLayout({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <PageLayout>
+    <PageLayout noAd>
       <div className="px-[15px]">
         <Heading>{title}</Heading>
         {children}

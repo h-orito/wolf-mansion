@@ -1,15 +1,7 @@
 import { useState } from "react";
 
+import { AdSense } from "~/components/ui/AdSense";
 import { Modal } from "~/components/ui/Modal";
-
-/**
- * 共通フッター (Step 4.1)。SSR `layout/footer::footer` のフル移植。
- * 連絡先 / 投げ銭モーダル / プライバシーポリシーモーダル (10条本文)。
- * AdSense は **プレースホルダー** (script 連携は Step 11 / モダナイズで本結線。`noAd` で出し分け)。
- *
- * 配色は `:8091` 準拠: フッター本文は白文字 + リンクはアクセント teal (#0ce3ac)。モーダルはダークダイアログ
- * (#303030 / 白文字) で、本文リンクもアクセント teal、投げ銭の各導線は btn-success 相当の緑ボタン (#00bc8c)。
- */
 
 // フッター (暗色地) 上のリンク = アクセント teal。
 const footerLink = "cursor-pointer text-wm-accent hover:underline";
@@ -26,13 +18,7 @@ export function Footer({ noAd = false }: { noAd?: boolean }) {
   return (
     // 既存はフッターも col の 15px padding で本文・広告が帯/トップ画像と同幅 (940px) になる。
     <footer className="mt-4 w-full px-[15px] text-white">
-      {!noAd && (
-        // TODO(step-11/modernize): Google AdSense (ca-pub-0917187897820609 / slot 1022209690) の本結線。
-        // 移行中はレイアウト確保のためのプレースホルダーのみ。
-        <div className="my-4 min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
-          広告（移行中はプレースホルダー）
-        </div>
-      )}
+      {!noAd && <AdSense slot="1022209690" className="my-4" />}
 
       <hr className="my-3 border-wm-band" />
       <p>

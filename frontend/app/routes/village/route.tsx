@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
+import { AdSense } from "~/components/ui/AdSense";
 import { Button, LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
@@ -339,11 +340,7 @@ export default function Village({ params }: Route.ComponentProps) {
           epilogueDay={village.epilogueDay}
           onInfo={() => setInfoOpen(true)}
         />
-        {!noAd && (
-          <div className="mt-[15px] min-h-[90px] border border-dashed border-gray-600 p-2 text-center text-gray-400">
-            広告（移行中はプレースホルダー）
-          </div>
-        )}
+        {!noAd && <AdSense slot="2768254717" className="mt-[15px]" />}
         <div id="bottom" />
         <hr className="mt-[5px] mb-[10px] border-[#464545]" />
 
