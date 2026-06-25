@@ -1,4 +1,4 @@
-package com.ort.app.api.village
+package com.ort.app.api.player
 
 import com.ort.app.api.view.PlayerRecordsContent
 import com.ort.app.application.coordinator.PlayerCoordinator

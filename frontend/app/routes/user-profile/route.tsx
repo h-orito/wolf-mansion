@@ -1,7 +1,8 @@
-import { Link, useParams } from "react-router";
+import { useParams } from "react-router";
 
 import { Heading, SubHeading } from "~/components/ui/Heading";
 import { PageLayout } from "~/components/layout/PageLayout";
+import { ExternalLink, TextLink } from "~/components/ui/TextLink";
 import { type PlayerProfile, usePlayerProfile } from "~/features/player/usePlayer";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
@@ -42,14 +43,9 @@ function ProfileContent({ data }: { data: PlayerProfile }) {
       {data.twitterUserName != null && (
         <div className="mb-[10px]">
           Twitter:{" "}
-          <a
-            href={`https://twitter.com/${data.twitterUserName}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-wm-accent hover:underline"
-          >
+          <ExternalLink href={`https://twitter.com/${data.twitterUserName}`}>
             @{data.twitterUserName}
-          </a>
+          </ExternalLink>
         </div>
       )}
       {data.introduction != null && (
@@ -200,9 +196,9 @@ function VillageTable({
           {villages.map((v) => (
             <tr key={v.villageId} className="odd:bg-[#2a2a2a]">
               <td className={`${rightCellClass} align-middle`}>
-                <Link to={`/village/${v.villageId}`} className="text-wm-accent hover:underline">
+                <TextLink to={`/village/${v.villageId}`}>
                   {String(v.villageId).padStart(4, "0")}
-                </Link>
+                </TextLink>
               </td>
               <td className={`${cellClass} align-middle`}>{v.villageName}</td>
               <td className={`${cellClass} align-middle`}>
