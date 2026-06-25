@@ -45,7 +45,10 @@ export function FileUpload({
         return;
       }
       if (maxSizeBytes != null && (file.size === 0 || file.size > maxSizeBytes)) {
-        setError(maxSizeMessage ?? `${Math.floor(maxSizeBytes / 1000)}kByteを超えるファイルはアップロードできません。`);
+        setError(
+          maxSizeMessage ??
+            `${Math.floor(maxSizeBytes / 1000)}kByteを超えるファイルはアップロードできません。`,
+        );
         setFileName(null);
         setPreviewUrl(null);
         onSelect(null);
@@ -104,9 +107,7 @@ export function FileUpload({
       {children}
       <div
         className={`flex cursor-pointer flex-col items-center rounded border-2 border-dashed px-[10px] py-[15px] text-center transition-colors ${
-          dragging
-            ? "border-[#00bc8c] bg-[#00bc8c]/10"
-            : "border-gray-500 hover:border-gray-400"
+          dragging ? "border-[#00bc8c] bg-[#00bc8c]/10" : "border-gray-500 hover:border-gray-400"
         }`}
         onClick={() => inputRef.current?.click()}
         onDragOver={handleDragOver}
