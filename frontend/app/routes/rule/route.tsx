@@ -8,7 +8,7 @@ import { useSkillList } from "~/features/skills/useSkillList";
 import { skillDescriptions, unimplementedSkills } from "~/features/skills/descriptions";
 import type { JudgeView } from "~/features/rule/api";
 import { useJudges } from "~/features/rule/useJudges";
-import { SkillMessage } from "~/components/ui/SkillMessage";
+import { SkillMessage, SkillSayMessage } from "~/components/ui/SkillMessage";
 import { siteMeta } from "~/lib/meta";
 
 import { MansionSection } from "./sections/MansionSection";
@@ -275,6 +275,14 @@ function SkillItem({ skill }: { skill: SimpleSkillView }) {
           item.type === "message" ? (
             <li key={i}>
               <SkillMessage messageType={item.messageType} content={item.content} />
+            </li>
+          ) : item.type === "say" ? (
+            <li key={i}>
+              <SkillSayMessage
+                messageType={item.messageType}
+                content={item.content}
+                imageUrl={item.imageUrl}
+              />
             </li>
           ) : (
             <li key={i}>
