@@ -437,14 +437,7 @@ export default function Village({ params }: Route.ComponentProps) {
           )}
 
         {mySituation != null && mySituation.rp.canAddImage && (
-          <FaceTypePanel
-            villageId={villageId}
-            mySituation={mySituation}
-            onDone={async () => {
-              await invalidate();
-              requestAnimationFrame(() => scrollToBottom());
-            }}
-          />
+          <FaceTypePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
 
         {mySituation != null && mySituation.creator.isCreator && (
