@@ -426,14 +426,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null &&
           (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-            <RpPanel
-              villageId={villageId}
-              mySituation={mySituation}
-              onDone={async () => {
-                await invalidate();
-                requestAnimationFrame(() => scrollToBottom());
-              }}
-            />
+            <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
           )}
 
         {mySituation != null && mySituation.rp.canAddImage && (
