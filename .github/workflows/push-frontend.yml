@@ -1,6 +1,7 @@
 name: push_frontend
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - feature/monorepo
