@@ -25,7 +25,7 @@ export function RoomAssignedTab({
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
         <table
-          className={`${cellBorderClass} border-collapse text-village-sm`}
+          className={`${cellBorderClass} border-collapse text-[0.75rem]`}
           style={{ tableLayout: "fixed" }}
         >
           <tbody>
