@@ -354,7 +354,7 @@ export function SayPanel({
           </div>
           <textarea
             ref={textareaRef}
-            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] ${textareaStyle}`}
+            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] font-[sans-serif] ${textareaStyle}`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-label="発言"

@@ -206,7 +206,7 @@ function CreatorSaySection({
       <ErrorMessage error={error} />
       <VillageFormRow label="村建て発言" align="start">
         <textarea
-          className="min-h-[77px] w-full rounded border border-[#464545] bg-white p-[9px] text-[#555]"
+          className="min-h-[77px] w-full rounded border border-[#464545] bg-white p-[9px] font-[sans-serif] text-[#555]"
           rows={5}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
