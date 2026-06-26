@@ -16,7 +16,10 @@ export function MessagePagination({
   if (content.allPageCount === 1) return null;
 
   const currentPageNum = content.currentPageNum ?? 0;
-  const goto = (pageNum: number) => onChange({ pageNum, isDispLatest: false });
+  const goto = (pageNum: number) => {
+    if (pageNum < 1) return;
+    onChange({ pageNum, isDispLatest: false });
+  };
 
   return (
     <Pagination
