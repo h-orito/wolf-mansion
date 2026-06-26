@@ -12,6 +12,10 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/06/27 サイトをリニューアルしました。"],
+    items: [],
+  },
+  {
     lead: ["2026/06/11 以下を変更しました。"],
     items: [
       [

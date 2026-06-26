@@ -15,6 +15,20 @@ import {
 import type { ReplyDraft } from "~/features/village/components/message/MessageCard";
 import { ApiError } from "~/lib/api";
 
+function isSayPanelFixed(): boolean {
+  try {
+    return localStorage.getItem("village_panel_bottom_fix") === "sayform";
+  } catch {
+    return false;
+  }
+}
+
+function scrollToSayPanel() {
+  if (!isSayPanelFixed()) {
+    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }
+}
+
 type SayPreview =
   | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
   | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
@@ -35,7 +49,7 @@ export function useSayFlow(
 
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
-    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
+    scrollToSayPanel();
   }, []);
 
   const clearReply = useCallback(() => setReply(null), []);
@@ -116,7 +130,7 @@ export function useSayFlow(
 
   const onSayCancel = () => {
     setSayPreview(null);
-    document.getElementById("say-panel")?.scrollIntoView({ behavior: "smooth", block: "end" });
+    scrollToSayPanel();
   };
 
   return {
