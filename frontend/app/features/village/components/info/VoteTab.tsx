@@ -23,7 +23,9 @@ export function VoteTab({
 
   const sortedList = useMemo(() => {
     const voteList = vote.voteList ?? [];
-    if (sortDayIndex === 0) return voteList;
+    if (sortDayIndex === 0) {
+      return [...voteList].sort((a, b) => (a.charaName ?? "").localeCompare(b.charaName ?? ""));
+    }
     // クリックした日の投票先 (なし = 末尾) で並べ替える
     const targetIndex = sortDayIndex - 1;
     return [...voteList].sort((a, b) => {
