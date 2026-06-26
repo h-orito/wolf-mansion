@@ -11,8 +11,8 @@ description: ローカル `.issues/step-<N>(.M)-<slug>.md` を新規作成する
 
 ファイル名は `step-<N>(.M)-<slug>.md`。番号は **自動採番しない**。どの step に属するかを文脈から決める:
 
-- step 番号は `doc/migration/08-step-plan.md` の Step 0〜N に対応
-  - `step-0` = 調査 (Discovery)、`step-1` = 環境整備、`step-2` = monorepo 化、`step-3` = 認証 REST 化、`step-4` 以降 = 画面別
+- step 番号は `.issues/HANDOFF.md` の進捗状況を参照
+  - `step-0` = 調査、`step-1` = 環境整備、`step-2` = monorepo 化、`step-3` = 認証 REST 化、`step-4` 以降 = 画面別
 - 中間に差し込むタスクは **マイナー番号** で吸収 (`step-1.5-...`, `step-3.1-...`)
 - どの step / マイナー番号にするか不明な場合は **ユーザーに確認**する
 - 同一 step 内の連番が必要なら既存ファイルを見て最大マイナー番号 + 1:

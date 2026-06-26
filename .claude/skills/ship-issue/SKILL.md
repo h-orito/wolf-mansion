@@ -19,9 +19,8 @@ monorepo 移行作業中の Issue を 1 つ受け取り、PR まで持ってい�
   ```
 - 着手優先順:
   1. `.issues/HANDOFF.md` の「次セッションでやること」で示された step
-  2. `doc/migration/08-step-plan.md` の step 順 (依存: step N が merge 済みであること)
-  3. `.issues/README.md` 一覧表の `status=open`
-- **Step 0 は完全完了してから Step 1 着手** (08-step-plan.md の順番厳守)。step 間はシーケンシャル。
+  2. `.issues/README.md` 一覧表の `status=open`（番号の小さい step 優先）
+- step 間はシーケンシャル（step N が merge 済みでないと step N+1 に着手しない）。
 
 ### base ブランチ (グローバル §1 を置き換え)
 
@@ -80,4 +79,4 @@ gh pr create --base feature/monorepo --title "<conventional commit>" --body "...
     - **指摘 (should 以上) が 0 件の巡があったら、そこで打ち切ってよい** (残りの巡は不要)
   - レビュー指摘 (must/should-fix) は省略せず反映、`.reviews/PR-<番号>.md` に出力
   - 指摘事項、修正内容、修正しなかった内容をユーザーに報告する
-- プロジェクト固有ルールは `.issues/HANDOFF.md` / `CLAUDE.md` / `doc/migration/` を最優先
+- プロジェクト固有ルールは `.issues/HANDOFF.md` / `CLAUDE.md` を最優先

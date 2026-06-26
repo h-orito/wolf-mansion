@@ -8,33 +8,49 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Monorepo 構成
 
-monorepo 移行中。Gradle プロジェクト一式は **`backend/` 配下に移動済み**（root に Gradle ファイルは無い）。`frontend/`（RR v7）/ `e2e/`（Playwright）は後続サブ step で追加予定。以下の Gradle コマンドは **`backend/` で実行**する。
+monorepo 移行中。3 層構成:
+
+- **`backend/`** — Spring Boot + Kotlin + DBFlute（Gradle プロジェクト）
+- **`frontend/`** — React Router v7 + Vite（pnpm）
+- **`e2e/`** — Playwright（pnpm）
 
 ## Build & Run Commands
 
+### Backend
+
 ```bash
 cd backend
-
-# ビルド（テストスキップ）
-./gradlew build -x test
-
-# テスト実行
-./gradlew test
-
-# 単一テストクラス実行
-./gradlew test --tests "com.ort.app.domain.model.village.room.RoomSizeTest"
-
-# アプリケーション起動（ローカル）
-./gradlew bootRun
-
-# Dockerイメージビルド（Jib、image 名 ghcr.io/h-orito/wolf-mansion-backend）
-./gradlew jibDockerBuild
+./gradlew build -x test          # ビルド（テストスキップ）
+./gradlew test                   # テスト実行
+./gradlew test --tests "com.ort.app.domain.model.village.room.RoomSizeTest"  # 単一テスト
+./gradlew bootRun                # アプリケーション起動（localhost:8089）
+./gradlew jibDockerBuild         # Docker イメージビルド（ghcr.io/h-orito/wolf-mansion-backend）
 ```
 
 - Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9
 - ローカルDB: MySQL `werewolf_mansiondb` (port 4306, user: wmansion)
 - アプリポート: 8089, コンテキストパス: `/wolf-mansion`
 - プロファイル: `playground`（Jib）、`production`（本番）
+
+### Frontend
+
+```bash
+cd frontend
+pnpm dev                         # 開発サーバー（localhost:5173）
+pnpm build                       # プロダクションビルド
+pnpm gen:api                     # OpenAPI クライアント生成（backend 8089 起動状態で実行）
+pnpm lint                        # oxlint
+pnpm format                      # oxfmt（整形実行）
+pnpm format:check                # oxfmt（チェックのみ）
+```
+
+### E2E
+
+```bash
+cd e2e
+pnpm test                        # Playwright e2e（backend 18089 / frontend 15173 を自動起動）
+pnpm test tests/xxx.spec.ts      # 単一スペック実行
+```
 
 ## Architecture
 
