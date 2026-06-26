@@ -50,7 +50,7 @@ export const SYSTEM_VARIANTS: Record<string, string> = {
   [MessageType.PRIVATE_ABILITY]: "message-private-ability",
 };
 
-const bubbleBaseClass = "message rounded-[5px] border p-[9px] break-words";
+const bubbleBaseClass = "message font-sans rounded-[5px] border p-[9px] break-words";
 
 export function bubbleClass(styleKey: string): string {
   return `${bubbleBaseClass} ${styleKey} ${MESSAGE_STYLES[styleKey] ?? DEFAULT_MESSAGE_STYLE}`;
