@@ -1,6 +1,7 @@
 import { Link, useSearchParams } from "react-router";
 
 import { Heading } from "~/components/ui/Heading";
+import { Pagination } from "~/components/ui/Pagination";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { usePlayers } from "~/features/player/usePlayer";
 import { siteMeta } from "~/lib/meta";
@@ -31,7 +32,14 @@ export default function UserList() {
         <Heading>ユーザー一覧</Heading>
 
         {allPageCount > 1 && (
-          <Pagination currentPage={pageNum} allPageCount={allPageCount} onPage={goToPage} />
+          <Pagination
+            currentPage={pageNum}
+            allPageCount={allPageCount}
+            pageNums={calcPageNums(pageNum, allPageCount)}
+            hasPrev={pageNum > 1}
+            hasNext={pageNum < allPageCount}
+            onPage={goToPage}
+          />
         )}
 
         {players.length > 0 && (
@@ -60,72 +68,17 @@ export default function UserList() {
         )}
 
         {allPageCount > 1 && (
-          <Pagination currentPage={pageNum} allPageCount={allPageCount} onPage={goToPage} />
+          <Pagination
+            currentPage={pageNum}
+            allPageCount={allPageCount}
+            pageNums={calcPageNums(pageNum, allPageCount)}
+            hasPrev={pageNum > 1}
+            hasNext={pageNum < allPageCount}
+            onPage={goToPage}
+          />
         )}
       </div>
     </PageLayout>
-  );
-}
-
-function Pagination({
-  currentPage,
-  allPageCount,
-  onPage,
-}: {
-  currentPage: number;
-  allPageCount: number;
-  onPage: (page: number) => void;
-}) {
-  const pageNums = calcPageNums(currentPage, allPageCount);
-  const hasPrev = currentPage > 1;
-  const hasNext = currentPage < allPageCount;
-
-  const btn = "px-[8px] py-[4px] border border-[#464545] text-[10.5px]";
-  const disabled = `${btn} text-gray-600 cursor-default`;
-  const active = `${btn} bg-wm-accent text-black`;
-  const normal = `${btn} text-wm-accent hover:underline cursor-pointer`;
-
-  return (
-    <div className="my-[10px] flex justify-end gap-[2px]">
-      <button
-        type="button"
-        className={hasPrev ? normal : disabled}
-        onClick={() => hasPrev && onPage(1)}
-      >
-        &laquo;
-      </button>
-      <button
-        type="button"
-        className={hasPrev ? normal : disabled}
-        onClick={() => hasPrev && onPage(currentPage - 1)}
-      >
-        &lsaquo;
-      </button>
-      {pageNums.map((n) => (
-        <button
-          key={n}
-          type="button"
-          className={n === currentPage ? active : normal}
-          onClick={() => onPage(n)}
-        >
-          {n}
-        </button>
-      ))}
-      <button
-        type="button"
-        className={hasNext ? normal : disabled}
-        onClick={() => hasNext && onPage(currentPage + 1)}
-      >
-        &rsaquo;
-      </button>
-      <button
-        type="button"
-        className={hasNext ? normal : disabled}
-        onClick={() => hasNext && onPage(allPageCount)}
-      >
-        &raquo;
-      </button>
-    </div>
   );
 }
 
