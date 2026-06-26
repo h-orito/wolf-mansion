@@ -30,3 +30,15 @@ jobs:
 
       - name: Push image
         run: docker push ghcr.io/h-orito/wolf-mansion-frontend
+
+  deploy:
+    needs: build
+    runs-on: [self-hosted, k8s]
+    steps:
+      - name: Setup kubectl
+        uses: azure/setup-kubectl@v4
+        with:
+          version: 'v1.26.8'
+
+      - name: Restart deployment
+        run: kubectl rollout restart deployment/wolf-mansion-frontend -n default
