@@ -1,7 +1,7 @@
 import { DEFAULT_MESSAGE_STYLE, MESSAGE_STYLES } from "./messageStyles";
 
 const bubbleStyle = (styleKey: string) =>
-  `rounded-[5px] border p-[9px] break-words ${MESSAGE_STYLES[styleKey] ?? DEFAULT_MESSAGE_STYLE}`;
+  `rounded-[5px] border p-[9px] break-words font-[sans-serif] ${MESSAGE_STYLES[styleKey] ?? DEFAULT_MESSAGE_STYLE}`;
 
 export function SkillMessage({ messageType, content }: { messageType: string; content: string }) {
   return (

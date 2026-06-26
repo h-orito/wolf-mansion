@@ -189,7 +189,7 @@ function MessageTypeExample({
             }}
           />
         )}
-        <div className={hasImage ? "ml-[5px] min-h-[77px] flex-1" : "w-full"}>
+        <div className={hasImage ? "ml-[5px] min-h-[77px] flex-1 [&>div]:min-h-[77px]" : "w-full"}>
           <SkillMessage messageType={messageType} content={text} />
         </div>
       </div>
