@@ -1,5 +1,7 @@
 package com.ort.app.api.player
 
+import com.ort.app.api.player.request.PlayerSearchRequest
+import com.ort.app.api.player.response.PlayerListResponse
 import com.ort.app.api.view.PlayerRecordsContent
 import com.ort.app.application.coordinator.PlayerCoordinator
 import com.ort.app.application.service.CharaService
@@ -7,6 +9,7 @@ import com.ort.app.application.service.PlayerService
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.constraints.Size
+import org.springdoc.core.annotations.ParameterObject
 import org.springframework.http.HttpStatus
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.GetMapping
@@ -25,6 +28,12 @@ class PlayerRestController(
     private val playerCoordinator: PlayerCoordinator,
     private val charaService: CharaService,
 ) {
+    @GetMapping
+    @Operation(operationId = "getPlayers")
+    fun list(
+        @ParameterObject request: PlayerSearchRequest,
+    ): PlayerListResponse = PlayerListResponse(playerService.findAllPlayers(pageSize = 30, pageNum = request.pageNum ?: 1))
+
     @GetMapping("/{name}")
     @Operation(operationId = "getPlayerByName")
     fun getPlayerByName(

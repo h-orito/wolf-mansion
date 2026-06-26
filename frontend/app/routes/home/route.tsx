@@ -21,8 +21,8 @@ import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/villages/api";
 import { participateNumLabel, villageListTags, villageNumber } from "~/features/villages/format";
 import { useVillages } from "~/features/villages/useVillages";
-import { assetUrl, legacyUrl } from "~/lib/api";
-import { MenuSection, TileAnchor, TileButton, TileRoute } from "./MenuTile";
+import { assetUrl } from "~/lib/api";
+import { MenuSection, TileButton, TileRoute } from "./MenuTile";
 import type { Route } from "./+types/route";
 
 export function meta(_: Route.MetaArgs) {
@@ -184,12 +184,7 @@ export default function Home() {
           </div>
           <div className="sm:flex-1">
             <MenuSection title="ユーザー">
-              <TileAnchor
-                href={legacyUrl("/user-list")}
-                icon={ListBulletIcon}
-                jp="一覧"
-                en="User list"
-              />
+              <TileRoute to="/user-list" icon={ListBulletIcon} jp="一覧" en="User list" />
             </MenuSection>
           </div>
         </div>
