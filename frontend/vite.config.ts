@@ -11,7 +11,7 @@ const BACKEND_ORIGIN = process.env.BACKEND_ORIGIN ?? "http://localhost:8089";
 
 export default defineConfig({
   // frontend を `/wolf-mansion` 配下で配信 (RR の basename と一致させる。末尾スラッシュ無し)。
-  base: "/wolf-mansion",
+  base: "/wolf-mansion/",
   plugins: [tailwindcss(), reactRouter()],
   resolve: {
     tsconfigPaths: true,
