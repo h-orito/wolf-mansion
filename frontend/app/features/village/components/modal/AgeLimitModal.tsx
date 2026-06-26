@@ -61,7 +61,7 @@ export function AgeLimitModal({
           暴力表現や性描写などが含まれる可能性があります。
         </p>
         <div className="flex justify-end gap-[10px] text-[12px]">
-          <LinkButton to="/" variant="info">
+          <LinkButton to="/" variant="default">
             表示せず戻る
           </LinkButton>
           <Button onClick={confirm}>表示する</Button>
