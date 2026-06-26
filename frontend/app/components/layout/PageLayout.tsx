@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 
 import { Footer } from "~/components/layout/Footer";
 import { Header } from "~/components/layout/Header";
+import { RenewalBanner } from "~/components/layout/RenewalBanner";
 
 /**
  * ホーム以外の画面で使う共通レイアウトシェル。ダーク地 + 共通ヘッダー (バナー) + 共通フッター +
@@ -27,6 +28,7 @@ export function PageLayout({
     <div className="min-h-screen bg-wm-base text-xs text-white">
       <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         {header && <Header />}
+        <RenewalBanner />
         {children}
         <Footer noAd={noAd} />
         {footerPaddingBottom != null && <div style={{ height: footerPaddingBottom }} />}

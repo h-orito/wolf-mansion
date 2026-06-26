@@ -1,0 +1,31 @@
+name: push_frontend
+
+on:
+  push:
+    branches:
+      - feature/monorepo
+    paths:
+      - frontend/**
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build image
+        run: docker build -t ghcr.io/h-orito/wolf-mansion-frontend frontend/
+
+      - name: Push image
+        run: docker push ghcr.io/h-orito/wolf-mansion-frontend

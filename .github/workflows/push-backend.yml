@@ -1,10 +1,11 @@
-name: deploy_to_ocl
+name: push_backend
 
 on:
-  workflow_dispatch:
   push:
     branches:
-      - main
+      - feature/monorepo
+    paths:
+      - backend/**
 
 jobs:
   build:
@@ -35,19 +36,3 @@ jobs:
 
       - name: Push image
         run: docker push ghcr.io/h-orito/wolf-mansion-backend
-
-  # NOTE (Step 2.1): Jib image は ghcr.io/h-orito/wolf-mansion-backend にリネーム済み。
-  # 下記 deployment 名 (wolf-mansion) と k8s 側 manifest の image 参照は Step 11 (cutover) で
-  # backend / frontend 分割と合わせて更新する。それまで本 workflow は main push 時のみ走る
-  # dormant 状態 (移行は feature/monorepo 上で進行)。
-  deploy:
-    needs: build
-    runs-on: [self-hosted, k8s]
-    steps:
-      - name: Setup kubectl
-        uses: azure/setup-kubectl@v4
-        with:
-          version: 'v1.26.8'
-
-      - name: Restart deployment
-        run: kubectl rollout restart deployment/wolf-mansion -n default
