@@ -173,18 +173,36 @@ internal class AuthCoordinatorTest {
     }
 
     @Test
-    fun reusing_rotated_token_revokes_all_player_tokens() {
+    fun reusing_rotated_token_within_grace_period_reissues() {
+        val repo = FakeRefreshTokenRepository()
+        val coordinator = newCoordinator(repo)
+        val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
+        coordinator.refresh(first.refreshToken) // first は使用済みに
+
+        // grace period 内に旧トークンを再提示 → 新しいトークンが発行される (全 revoke しない)
+        val reissued = coordinator.refresh(first.refreshToken)
+        assertEquals(1, reissued.principal.playerId)
+        val reissuedStored = repo.findByHash(refreshFactory.hash(reissued.refreshToken))
+        assertTrue(reissuedStored != null && reissuedStored.isUsable(LocalDateTime.now()))
+    }
+
+    @Test
+    fun reusing_rotated_token_after_grace_period_revokes_all() {
         val repo = FakeRefreshTokenRepository()
         val coordinator = newCoordinator(repo)
         val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
         val second = coordinator.refresh(first.refreshToken) // first は使用済みに
 
-        // 使用済みの first を再提示 → 漏洩疑いで例外 + 全失効
+        // grace period 超過を再現: usedDatetime を 2 分前に巻き戻す
+        val firstStored = repo.findByHash(refreshFactory.hash(first.refreshToken))!!
+        repo.overwriteUsedDatetime(firstStored.id, LocalDateTime.now().minusMinutes(2))
+
+        // grace period 外の再提示 → 漏洩疑いで例外 + 全失効
         assertThrows<WolfMansionAuthException> { coordinator.refresh(first.refreshToken) }
 
         // second (まだ有効だった) も失効している
-        val new = repo.findByHash(refreshFactory.hash(second.refreshToken))
-        assertTrue(new != null && new.isRevoked)
+        val secondStored = repo.findByHash(refreshFactory.hash(second.refreshToken))
+        assertTrue(secondStored != null && secondStored.isRevoked)
     }
 
     @Test
@@ -342,6 +360,11 @@ private class FakeRefreshTokenRepository : RefreshTokenRepository {
     }
 
     fun hasAny(): Boolean = tokens.isNotEmpty()
+
+    fun overwriteUsedDatetime(
+        id: Int,
+        usedDatetime: LocalDateTime,
+    ) = replace(id) { it.copy(usedDatetime = usedDatetime) }
 
     private fun replace(
         id: Int,

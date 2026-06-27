@@ -131,6 +131,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/players": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getPlayers"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/players/me/detail": {
     parameters: {
       query?: never;
@@ -1240,6 +1256,15 @@ export interface components {
       introduction?: string | null;
       twitterUserName?: string | null;
     };
+    PlayerListResponse: {
+      /** Format: int32 */
+      allPageCount: number;
+      /** Format: int32 */
+      currentPageNum: number;
+      isExistNextPage: boolean;
+      isExistPrePage: boolean;
+      players: components["schemas"]["PlayerView"][];
+    };
     PlayerParticipateVillage: {
       campName: string;
       /** Format: int32 */
@@ -2287,6 +2312,28 @@ export interface operations {
         };
         content: {
           "*/*": components["schemas"]["Charachip"];
+        };
+      };
+    };
+  };
+  getPlayers: {
+    parameters: {
+      query?: {
+        pageNum?: number;
+      };
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["PlayerListResponse"];
         };
       };
     };

@@ -27,7 +27,6 @@ logging:
     org.springframework: INFO
     root: INFO
     org.seasar.dbflute: ERROR
-  file.name: /var/log/werewolf-mansion/tomcat.log
 
 app:
   debug: true
