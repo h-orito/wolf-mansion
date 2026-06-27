@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from "react";
 import type { VillageRoomAssignedRow, VillageSituationContent } from "~/features/village/api";
 import { deadMark } from "./dead";
 
@@ -21,8 +22,50 @@ export function RoomAssignedTab({
   /** ネタバレ防止 (役職名を隠す) */
   spoiled?: boolean;
 }) {
+  const [tooltip, setTooltip] = useState<{ name: string; top: number; left: number } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  const handleCellClick = (
+    e: React.MouseEvent<HTMLTableCellElement>,
+    charaName: string | null | undefined,
+  ) => {
+    if (!charaName || !wrapperRef.current) {
+      setTooltip(null);
+      return;
+    }
+    const wrapperRect = wrapperRef.current.getBoundingClientRect();
+    const cellRect = e.currentTarget.getBoundingClientRect();
+    setTooltip({
+      name: charaName,
+      top: cellRect.top - wrapperRect.top,
+      left: cellRect.left - wrapperRect.left + cellRect.width / 2,
+    });
+  };
+
+  useEffect(() => {
+    if (!tooltip || !tooltipRef.current || !wrapperRef.current) return;
+    const el = tooltipRef.current;
+    const elWidth = el.offsetWidth;
+    const wrapperWidth = wrapperRef.current.offsetWidth;
+    const minLeft = elWidth / 2;
+    const maxLeft = wrapperWidth - elWidth / 2;
+    const clamped = Math.max(minLeft, Math.min(tooltip.left, maxLeft));
+    el.style.left = `${clamped}px`;
+  }, [tooltip]);
+
+  useEffect(() => {
+    if (!tooltip) return;
+    const dismiss = (e: PointerEvent) => {
+      if (tooltipRef.current?.contains(e.target as Node)) return;
+      setTooltip(null);
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [tooltip]);
+
   return (
-    <div className="pt-[10px] pb-[10px]">
+    <div ref={wrapperRef} className="relative pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
         <table
           className={`${cellBorderClass} border-collapse text-[0.75rem]`}
@@ -34,12 +77,13 @@ export function RoomAssignedTab({
                 {(row.roomAssignedList ?? []).map((room) => (
                   <td
                     key={room.roomNumber}
-                    className={`${cellBorderClass} relative p-0 text-center align-middle`}
+                    className={`${cellBorderClass} relative p-0 text-center align-middle cursor-pointer`}
                     style={{
                       width: room.maxWidth ?? undefined,
                       minWidth: room.maxWidth ?? undefined,
                       height: room.maxHeight ?? undefined,
                     }}
+                    onClick={(e) => handleCellClick(e, room.charaName)}
                   >
                     <div
                       title={room.charaName ?? undefined}
@@ -87,6 +131,19 @@ export function RoomAssignedTab({
           </tbody>
         </table>
       </div>
+      {tooltip && (
+        <div
+          ref={tooltipRef}
+          className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
+          style={{
+            top: tooltip.top - 4,
+            left: tooltip.left,
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          {tooltip.name}
+        </div>
+      )}
       {situationList.length > 0 && (
         <div className="mt-[10px]">
           <table className={`${cellBorderClass} border-collapse text-village-sm`}>
