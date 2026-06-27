@@ -9,8 +9,6 @@ function shortenSkillName(skillName: string): string {
   return skillName.length > 5 ? `${skillName.slice(0, 4)}...` : skillName;
 }
 
-const TOOLTIP_MARGIN = 8;
-
 /** 部屋割りグリッド + 日別状況テーブル。 */
 export function RoomAssignedTab({
   rows,
@@ -25,40 +23,35 @@ export function RoomAssignedTab({
   spoiled?: boolean;
 }) {
   const [tooltip, setTooltip] = useState<{ name: string; top: number; left: number } | null>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
 
   const handleCellClick = (
     e: React.MouseEvent<HTMLTableCellElement>,
     charaName: string | null | undefined,
   ) => {
-    if (!charaName) {
+    if (!charaName || !wrapperRef.current) {
       setTooltip(null);
       return;
     }
+    const wrapperRect = wrapperRef.current.getBoundingClientRect();
     const cellRect = e.currentTarget.getBoundingClientRect();
-    const rawLeft = cellRect.left + cellRect.width / 2;
     setTooltip({
       name: charaName,
-      top: cellRect.top - 4,
-      left: rawLeft,
+      top: cellRect.top - wrapperRect.top,
+      left: cellRect.left - wrapperRect.left + cellRect.width / 2,
     });
   };
 
   useEffect(() => {
-    if (!tooltip || !tooltipRef.current) return;
+    if (!tooltip || !tooltipRef.current || !wrapperRef.current) return;
     const el = tooltipRef.current;
-    const elRect = el.getBoundingClientRect();
-    let clamped = false;
-    if (elRect.left < TOOLTIP_MARGIN) {
-      el.style.left = `${TOOLTIP_MARGIN + elRect.width / 2}px`;
-      clamped = true;
-    } else if (elRect.right > window.innerWidth - TOOLTIP_MARGIN) {
-      el.style.left = `${window.innerWidth - TOOLTIP_MARGIN - elRect.width / 2}px`;
-      clamped = true;
-    }
-    if (!clamped) {
-      el.style.left = `${tooltip.left}px`;
-    }
+    const elWidth = el.offsetWidth;
+    const wrapperWidth = wrapperRef.current.offsetWidth;
+    const minLeft = elWidth / 2;
+    const maxLeft = wrapperWidth - elWidth / 2;
+    const clamped = Math.max(minLeft, Math.min(tooltip.left, maxLeft));
+    el.style.left = `${clamped}px`;
   }, [tooltip]);
 
   useEffect(() => {
@@ -72,7 +65,7 @@ export function RoomAssignedTab({
   }, [tooltip]);
 
   return (
-    <div className="pt-[10px] pb-[10px]">
+    <div ref={wrapperRef} className="relative pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
         <table
           className={`${cellBorderClass} border-collapse text-[0.75rem]`}
@@ -141,9 +134,9 @@ export function RoomAssignedTab({
       {tooltip && (
         <div
           ref={tooltipRef}
-          className="fixed z-50 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
+          className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
           style={{
-            top: tooltip.top,
+            top: tooltip.top - 4,
             left: tooltip.left,
             transform: "translate(-50%, -100%)",
           }}
