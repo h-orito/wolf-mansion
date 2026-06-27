@@ -16,7 +16,7 @@
 
 ### REST API
 
-- **設計方針**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 `doc/migration/01-overview.md`
+- **設計方針**: 画面専用の API やレスポンスを作らない。ドメインモデルをそのまま返す。Response DTO は「隠すべき情報がある」「大量取得で削ぎ落とす」場合のみ。複数ドメイン情報が要る画面は個別 API → frontend 組み立て。正本 `CLAUDE.md`
 - **認証付き CRUD**: write 系は GET のみ permitAll に足し、書き込みは `/api/v1/**` チェーンの `authenticated()` に乗せる。frontend は作成系 = `RequireAuth`、公開ページ内の書き込みは 401 → メッセージ + ログイン誘導
 - **コレクション要素の制約**: 型引数 `@Size` (`List<@Size(...) String>`) は実行時検証されない → コード検証 + `@ArraySchema` で spec に出す
 - **複数テーブル書き込み**: service に `@Transactional` (coordinator でなくてよい場合)
@@ -59,6 +59,5 @@
 
 ## 関連ファイル
 
-- 全体 index: `migration.md`
-- 領域別: `doc/migration/01-overview.md` 〜 `doc/migration/08-step-plan.md`
-- 各 md の「確定」セクション = 決定事項、「未確定事項 / 要調査」セクション = Step 0/1 で詰める残課題
+- REST API 設計方針・コーディング規約: `CLAUDE.md`
+- Issue 運用: `.issues/README.md`

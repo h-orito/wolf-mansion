@@ -12,7 +12,7 @@ import { MessagePagination, type PageState } from "./MessagePagination";
 function Announce({ text }: { text: string }) {
   return (
     <div
-      className={`message mb-[20px] rounded-[5px] border p-[9px] break-words ${MESSAGE_STYLES["message-announce"]}`}
+      className={`message mb-[20px] rounded-[5px] border p-[9px] break-words break-all ${MESSAGE_STYLES["message-announce"]}`}
     >
       {text.split("\n").map((line, i) => (
         <span key={i}>

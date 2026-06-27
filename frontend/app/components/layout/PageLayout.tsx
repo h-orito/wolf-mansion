@@ -25,7 +25,7 @@ export function PageLayout({
   footerPaddingBottom?: number;
 }) {
   return (
-    <div className="min-h-screen bg-wm-base text-xs text-white">
+    <div className="min-h-screen bg-wm-base text-xs min-[768px]:text-sm text-white">
       <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         {header && <Header />}
         <RenewalBanner />
