@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { VillageRoomAssignedRow, VillageSituationContent } from "~/features/village/api";
 import { deadMark } from "./dead";
 
@@ -22,11 +22,35 @@ export function RoomAssignedTab({
   /** ネタバレ防止 (役職名を隠す) */
   spoiled?: boolean;
 }) {
-  const [selectedCharaName, setSelectedCharaName] = useState<string | null>(null);
+  const [tooltip, setTooltip] = useState<{ name: string; top: number; left: number } | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleCellClick = (
+    e: React.MouseEvent<HTMLTableCellElement>,
+    charaName: string | null | undefined,
+  ) => {
+    if (!charaName || !containerRef.current) {
+      setTooltip(null);
+      return;
+    }
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const cellRect = e.currentTarget.getBoundingClientRect();
+    setTooltip({
+      name: charaName,
+      top: cellRect.top - containerRect.top,
+      left: cellRect.left - containerRect.left + cellRect.width / 2,
+    });
+  };
 
   return (
     <div className="pt-[10px] pb-[10px]">
-      <div className="overflow-x-auto">
+      <div
+        ref={containerRef}
+        className="overflow-x-auto relative"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setTooltip(null);
+        }}
+      >
         <table
           className={`${cellBorderClass} border-collapse text-[0.75rem]`}
           style={{ tableLayout: "fixed" }}
@@ -43,7 +67,7 @@ export function RoomAssignedTab({
                       minWidth: room.maxWidth ?? undefined,
                       height: room.maxHeight ?? undefined,
                     }}
-                    onClick={() => setSelectedCharaName(room.charaName ?? null)}
+                    onClick={(e) => handleCellClick(e, room.charaName)}
                   >
                     <div
                       title={room.charaName ?? undefined}
@@ -90,8 +114,19 @@ export function RoomAssignedTab({
             ))}
           </tbody>
         </table>
+        {tooltip && (
+          <div
+            className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
+            style={{
+              top: tooltip.top - 4,
+              left: tooltip.left,
+              transform: "translate(-50%, -100%)",
+            }}
+          >
+            {tooltip.name}
+          </div>
+        )}
       </div>
-      {selectedCharaName != null && <p className="mt-1 text-village-sm">{selectedCharaName}</p>}
       {situationList.length > 0 && (
         <div className="mt-[10px]">
           <table className={`${cellBorderClass} border-collapse text-village-sm`}>
