@@ -47,6 +47,12 @@ body {
   }
 }
 
+@media (min-width: 1024px) {
+  html {
+    font-size: 14px;
+  }
+}
+
 /* 発言本文の装飾 (messageHtml.ts が生成する HTML から参照する) */
 .msg-extra-small {
   font-size: 6px;
