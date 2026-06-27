@@ -206,6 +206,35 @@
         "tags": ["charachip-rest-controller"]
       }
     },
+    "/api/v1/players": {
+      "get": {
+        "operationId": "getPlayers",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "pageNum",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlayerListResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["player-rest-controller"]
+      }
+    },
     "/api/v1/players/me/detail": {
       "put": {
         "operationId": "updateMyPlayerDetail",
@@ -3141,6 +3170,38 @@
             "minLength": 0
           }
         }
+      },
+      "PlayerListResponse": {
+        "type": "object",
+        "properties": {
+          "allPageCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "currentPageNum": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isExistNextPage": {
+            "type": "boolean"
+          },
+          "isExistPrePage": {
+            "type": "boolean"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlayerView"
+            }
+          }
+        },
+        "required": [
+          "allPageCount",
+          "currentPageNum",
+          "isExistNextPage",
+          "isExistPrePage",
+          "players"
+        ]
       },
       "PlayerParticipateVillage": {
         "type": "object",
