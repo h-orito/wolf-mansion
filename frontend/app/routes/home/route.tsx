@@ -68,7 +68,7 @@ export default function Home() {
   return (
     // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する。
     // body 自体は変えない (旧方針で作った認証画面 (明色) を壊さないため。認証画面は step-3.6 で忠実再現)。
-    <div className="min-h-screen bg-wm-base text-xs">
+    <div className="min-h-screen bg-wm-base text-xs min-[768px]:text-sm">
       {/* 既存 Bootstrap3 .container と同じレスポンシブ最大幅 (768→750 / 992→970 / 1200→1170)。 */}
       <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
         {/* トップ画像 + ロゴ + (ログイン中) ユーザID。

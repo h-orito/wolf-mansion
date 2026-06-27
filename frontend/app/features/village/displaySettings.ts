@@ -18,12 +18,6 @@ export type DisplaySettings = {
   largeText: boolean;
 };
 
-/** 文字サイズだけは画面サイズで初期値を変える (小さい画面で大きい文字は崩れるため)。 */
-function defaultLargeText(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(min-width: 1024px)").matches;
-}
-
 function defaults(): DisplaySettings {
   return {
     isPaging: true,
@@ -31,7 +25,7 @@ function defaults(): DisplaySettings {
     autoReload: true,
     showDecorationButtons: true,
     largeImage: false,
-    largeText: defaultLargeText(),
+    largeText: false,
   };
 }
 
