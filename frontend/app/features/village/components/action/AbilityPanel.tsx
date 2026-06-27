@@ -72,30 +72,48 @@ export function AbilityPanel({
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
-  // 襲撃の対象候補と現在対象の足音候補は situation に含まれないため、初期表示時に取得する
+  const abilityKey = `${ability.canUseAbility}-${ability.attackerCharaId}-${ability.targetCharaId}-${ability.targetCharaIds.join(",")}-${ability.targetFootstepList?.join(",")}`;
+
   useEffect(() => {
+    const newAttacker = ability.attackerCharaId != null ? String(ability.attackerCharaId) : "";
+    const newTarget = ability.targetCharaId != null ? String(ability.targetCharaId) : "";
+    setAttackerCharaId(newAttacker);
+    setTargetCharaId(newTarget);
+    setFootstep(
+      ability.targetFootstep ?? ability.footstep ?? ability.targetFootstepList?.[0] ?? "",
+    );
+    const current = ability.footstep;
+    setDisturbRooms(current == null || current === NO_FOOTSTEP ? [] : current.split(","));
+    setTargets(
+      ability.targetCharaIds.map((id) => ({
+        charaId: id,
+        name: resolveParticipantName(village, id),
+      })),
+    );
+    setFootstepOptions(ability.targetFootstepList ?? []);
+
     if (!ability.canUseAbility) return;
-    if (isAttack && attackerCharaId !== "") {
-      fetchAttackTargets(villageId, Number(attackerCharaId))
+    const newIsAttack = ability.attackerCharaIds.length > 0;
+    if (newIsAttack && newAttacker !== "") {
+      fetchAttackTargets(villageId, Number(newAttacker))
         .then((response) => setTargets(response.targets ?? []))
         .catch(() => {});
     }
-    if ((isAttack || ability.isTargetingAndFootstep) && targetCharaId !== "") {
+    if ((newIsAttack || ability.isTargetingAndFootstep) && newTarget !== "") {
       fetchAbilityFootsteps(
         villageId,
-        isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-        Number(targetCharaId),
+        newIsAttack && newAttacker !== "" ? Number(newAttacker) : null,
+        Number(newTarget),
       )
         .then((response) => {
           const opts = response.footsteps ?? [];
           setFootstepOptions(opts);
-          if (!footstep && opts.length > 0) setFootstep(opts[0]);
+          if (opts.length > 0) setFootstep(opts[0]);
         })
         .catch(() => {});
     }
-    // 初期表示のみ。以降の変更は onAttackerChange / onTargetChange が取得する
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [abilityKey, villageId]);
 
   // 襲撃者を選ぶと対象候補が変わり、対象を選ぶと足音候補が変わる
   const onAttackerChange = async (value: string) => {
