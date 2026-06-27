@@ -383,6 +383,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.myself?.skill != null && (
           <AbilityPanel
+            key={currentDay}
             villageId={villageId}
             village={village}
             mySituation={mySituation}
