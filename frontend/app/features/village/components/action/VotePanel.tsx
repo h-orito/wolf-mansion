@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
@@ -18,17 +18,25 @@ export function VotePanel({
   villageId,
   village,
   mySituation,
+  refreshKey = 0,
   onDone,
 }: {
   villageId: number;
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
+  refreshKey?: number;
   onDone: () => Promise<unknown>;
 }) {
   const vote = mySituation.vote;
   const [targetCharaId, setTargetCharaId] = useState<string>(
     vote.targetCharaId != null ? String(vote.targetCharaId) : "",
   );
+
+  useEffect(() => {
+    if (refreshKey > 0) {
+      setTargetCharaId(vote.targetCharaId != null ? String(vote.targetCharaId) : "");
+    }
+  }, [refreshKey, vote.targetCharaId]);
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 

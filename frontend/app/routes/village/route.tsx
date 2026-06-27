@@ -379,6 +379,7 @@ export default function Village({ params }: Route.ComponentProps) {
             villageId={villageId}
             village={village}
             mySituation={mySituation}
+            refreshKey={refreshKey}
             onDone={invalidate}
           />
         )}
