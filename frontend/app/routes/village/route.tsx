@@ -144,6 +144,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: debugInfo } = useVillageDebugInfo(villageId);
   const { data: randomKeywords } = useRandomKeywords();
   const invalidate = useInvalidateVillage(villageId);
+  const [refreshKey, setRefreshKey] = useState(0);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
   const canAction =
     mySituation?.say.selectableMessageTypeList?.some(
@@ -293,6 +294,7 @@ export default function Village({ params }: Route.ComponentProps) {
         <MessageArea
           villageId={villageId}
           day={dayParam}
+          refreshKey={refreshKey}
           randomKeywords={keywordList}
           filter={filter}
           allParticipants={[
@@ -383,6 +385,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.myself?.skill != null && (
           <AbilityPanel
+            key={currentDay}
             villageId={villageId}
             village={village}
             mySituation={mySituation}
@@ -477,7 +480,10 @@ export default function Village({ params }: Route.ComponentProps) {
       </div>
 
       <FooterMenu
-        onRefresh={() => invalidate()}
+        onRefresh={() => {
+          invalidate();
+          setRefreshKey((k) => k + 1);
+        }}
         hasNewMessage={hasNewMessage}
         onFilter={() => setFilterOpen(true)}
         filtering={isFiltering(filter)}

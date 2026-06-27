@@ -9,6 +9,8 @@ import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
 
+const LATEST_PAGE: PageState = { pageNum: 1, isDispLatest: true };
+
 function Announce({ text }: { text: string }) {
   return (
     <div
@@ -31,6 +33,7 @@ function Announce({ text }: { text: string }) {
 export function MessageArea({
   villageId,
   day,
+  refreshKey = 0,
   randomKeywords,
   filter = EMPTY_FILTER,
   allParticipants,
@@ -42,6 +45,7 @@ export function MessageArea({
 }: {
   villageId: number;
   day: number | undefined;
+  refreshKey?: number;
   randomKeywords: string[];
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
@@ -55,7 +59,7 @@ export function MessageArea({
 }) {
   // 日付指定 (`/day/{day}`) で開いたら 1 ページ目、最新日 URL なら最新ページを初期表示する
   const initialPage = (d: number | undefined): PageState =>
-    d == null ? { pageNum: 1, isDispLatest: true } : { pageNum: 1, isDispLatest: false };
+    d == null ? LATEST_PAGE : { pageNum: 1, isDispLatest: false };
   const [page, setPage] = useState<PageState>(() => initialPage(day));
 
   const isPaging = useDisplaySettings((s) => s.isPaging);
@@ -67,6 +71,11 @@ export function MessageArea({
     setPage(initialPage(day));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [day, filterKey, isPaging, pageSize]);
+
+  // footer「更新」ボタンでページングを「最新」にリセット
+  useEffect(() => {
+    if (refreshKey > 0) setPage(LATEST_PAGE);
+  }, [refreshKey]);
 
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
