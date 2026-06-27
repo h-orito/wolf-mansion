@@ -376,7 +376,6 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.vote.canVote && (
           <VotePanel
-            key={`${currentDay}-${refreshKey}`}
             villageId={villageId}
             village={village}
             mySituation={mySituation}
