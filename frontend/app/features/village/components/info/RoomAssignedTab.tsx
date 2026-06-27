@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { VillageRoomAssignedRow, VillageSituationContent } from "~/features/village/api";
 import { deadMark } from "./dead";
 
@@ -21,6 +22,8 @@ export function RoomAssignedTab({
   /** ネタバレ防止 (役職名を隠す) */
   spoiled?: boolean;
 }) {
+  const [selectedCharaName, setSelectedCharaName] = useState<string | null>(null);
+
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
@@ -34,12 +37,13 @@ export function RoomAssignedTab({
                 {(row.roomAssignedList ?? []).map((room) => (
                   <td
                     key={room.roomNumber}
-                    className={`${cellBorderClass} relative p-0 text-center align-middle`}
+                    className={`${cellBorderClass} relative p-0 text-center align-middle cursor-pointer`}
                     style={{
                       width: room.maxWidth ?? undefined,
                       minWidth: room.maxWidth ?? undefined,
                       height: room.maxHeight ?? undefined,
                     }}
+                    onClick={() => setSelectedCharaName(room.charaName ?? null)}
                   >
                     <div
                       title={room.charaName ?? undefined}
@@ -87,6 +91,7 @@ export function RoomAssignedTab({
           </tbody>
         </table>
       </div>
+      {selectedCharaName != null && <p className="mt-1 text-village-sm">{selectedCharaName}</p>}
       {situationList.length > 0 && (
         <div className="mt-[10px]">
           <table className={`${cellBorderClass} border-collapse text-village-sm`}>
