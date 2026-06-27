@@ -385,7 +385,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
         {mySituation != null && mySituation.myself?.skill != null && (
           <AbilityPanel
-            key={currentDay}
+            key={`${currentDay}-${refreshKey}`}
             villageId={villageId}
             village={village}
             mySituation={mySituation}
@@ -480,8 +480,8 @@ export default function Village({ params }: Route.ComponentProps) {
       </div>
 
       <FooterMenu
-        onRefresh={() => {
-          invalidate();
+        onRefresh={async () => {
+          await invalidate();
           setRefreshKey((k) => k + 1);
         }}
         hasNewMessage={hasNewMessage}
