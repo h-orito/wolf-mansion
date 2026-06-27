@@ -103,7 +103,15 @@ class AuthCoordinator(
             refreshTokenRepository.findByHash(tokenHash)
                 ?: throw WolfMansionAuthException(INVALID_REFRESH)
         if (refreshToken.isUsed) {
-            // rotation 済みトークンの再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
+            val usedAt = refreshToken.usedDatetime
+            if (usedAt != null && java.time.Duration.between(usedAt, now) <= ROTATION_GRACE_PERIOD) {
+                // Broken pipe 等でレスポンスが届かなかった可能性が高い。新しいトークンを再発行する
+                val playerAuth =
+                    playerAuthRepository.findById(refreshToken.playerId)
+                        ?: throw WolfMansionAuthException(INVALID_REFRESH)
+                return issueTokens(playerAuth)
+            }
+            // grace period 超過の再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
             refreshTokenRepository.revokeAllByPlayer(refreshToken.playerId, now)
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
@@ -165,5 +173,6 @@ class AuthCoordinator(
 
     companion object {
         private const val INVALID_REFRESH = "リフレッシュトークンが無効です"
+        private val ROTATION_GRACE_PERIOD = java.time.Duration.ofSeconds(60)
     }
 }

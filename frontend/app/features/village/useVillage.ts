@@ -50,6 +50,7 @@ export function useMyVillageSituation(id: number, day: number | undefined) {
     queryFn: () => fetchMyVillageSituation(id, day),
     enabled: !isLoading && me != null,
     retry: false,
+    refetchInterval: 5 * 60 * 1000,
   });
 }
 
