@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { VillageRoomAssignedRow, VillageSituationContent } from "~/features/village/api";
 import { deadMark } from "./dead";
 
@@ -8,6 +8,8 @@ const cellBorderClass = "border border-[#464545]";
 function shortenSkillName(skillName: string): string {
   return skillName.length > 5 ? `${skillName.slice(0, 4)}...` : skillName;
 }
+
+const TOOLTIP_MARGIN = 8;
 
 /** 部屋割りグリッド + 日別状況テーブル。 */
 export function RoomAssignedTab({
@@ -23,34 +25,55 @@ export function RoomAssignedTab({
   spoiled?: boolean;
 }) {
   const [tooltip, setTooltip] = useState<{ name: string; top: number; left: number } | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   const handleCellClick = (
     e: React.MouseEvent<HTMLTableCellElement>,
     charaName: string | null | undefined,
   ) => {
-    if (!charaName || !containerRef.current) {
+    if (!charaName) {
       setTooltip(null);
       return;
     }
-    const containerRect = containerRef.current.getBoundingClientRect();
     const cellRect = e.currentTarget.getBoundingClientRect();
+    const rawLeft = cellRect.left + cellRect.width / 2;
     setTooltip({
       name: charaName,
-      top: cellRect.top - containerRect.top,
-      left: cellRect.left - containerRect.left + cellRect.width / 2,
+      top: cellRect.top - 4,
+      left: rawLeft,
     });
   };
 
+  useEffect(() => {
+    if (!tooltip || !tooltipRef.current) return;
+    const el = tooltipRef.current;
+    const elRect = el.getBoundingClientRect();
+    let clamped = false;
+    if (elRect.left < TOOLTIP_MARGIN) {
+      el.style.left = `${TOOLTIP_MARGIN + elRect.width / 2}px`;
+      clamped = true;
+    } else if (elRect.right > window.innerWidth - TOOLTIP_MARGIN) {
+      el.style.left = `${window.innerWidth - TOOLTIP_MARGIN - elRect.width / 2}px`;
+      clamped = true;
+    }
+    if (!clamped) {
+      el.style.left = `${tooltip.left}px`;
+    }
+  }, [tooltip]);
+
+  useEffect(() => {
+    if (!tooltip) return;
+    const dismiss = (e: PointerEvent) => {
+      if (tooltipRef.current?.contains(e.target as Node)) return;
+      setTooltip(null);
+    };
+    document.addEventListener("pointerdown", dismiss);
+    return () => document.removeEventListener("pointerdown", dismiss);
+  }, [tooltip]);
+
   return (
     <div className="pt-[10px] pb-[10px]">
-      <div
-        ref={containerRef}
-        className="overflow-x-auto relative"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setTooltip(null);
-        }}
-      >
+      <div className="overflow-x-auto">
         <table
           className={`${cellBorderClass} border-collapse text-[0.75rem]`}
           style={{ tableLayout: "fixed" }}
@@ -114,19 +137,20 @@ export function RoomAssignedTab({
             ))}
           </tbody>
         </table>
-        {tooltip && (
-          <div
-            className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
-            style={{
-              top: tooltip.top - 4,
-              left: tooltip.left,
-              transform: "translate(-50%, -100%)",
-            }}
-          >
-            {tooltip.name}
-          </div>
-        )}
       </div>
+      {tooltip && (
+        <div
+          ref={tooltipRef}
+          className="fixed z-50 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
+          style={{
+            top: tooltip.top,
+            left: tooltip.left,
+            transform: "translate(-50%, -100%)",
+          }}
+        >
+          {tooltip.name}
+        </div>
+      )}
       {situationList.length > 0 && (
         <div className="mt-[10px]">
           <table className={`${cellBorderClass} border-collapse text-village-sm`}>
