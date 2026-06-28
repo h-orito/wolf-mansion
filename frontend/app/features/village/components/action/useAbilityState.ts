@@ -1,3 +1,4 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useRegisterRefresh } from "~/features/village/useRefresh";
@@ -13,6 +14,8 @@ type Ability = ParticipantSituationView["ability"];
 type Skill = NonNullable<ParticipantSituationView["myself"]>["skill"];
 
 const NO_FOOTSTEP = "なし";
+const ATTACK_TARGETS_QUERY_KEY = "attack-targets";
+const ABILITY_FOOTSTEPS_QUERY_KEY = "ability-footsteps";
 
 export function useAbilityState(
   villageId: number,
@@ -38,44 +41,57 @@ export function useAbilityState(
     const current = ability?.footstep;
     return current == null || current === NO_FOOTSTEP ? [] : current.split(",");
   });
-  const [targets, setTargets] = useState<{ charaId: number; name: string }[]>(
+
+  const queryClient = useQueryClient();
+
+  const attackerIdNum = attackerCharaId !== "" ? Number(attackerCharaId) : null;
+  const targetIdNum = targetCharaId !== "" ? Number(targetCharaId) : null;
+
+  const attackTargetsQuery = useQuery({
+    queryKey: [ATTACK_TARGETS_QUERY_KEY, villageId, attackerCharaId],
+    queryFn: () => fetchAttackTargets(villageId, attackerIdNum!),
+    enabled: !!ability?.canUseAbility && isAttack && attackerIdNum != null,
+    retry: false,
+  });
+
+  const needsFootstep = isAttack || !!ability?.isTargetingAndFootstep;
+  const footstepsQuery = useQuery({
+    queryKey: [ABILITY_FOOTSTEPS_QUERY_KEY, villageId, attackerCharaId, targetCharaId],
+    queryFn: () => fetchAbilityFootsteps(villageId, isAttack ? attackerIdNum : null, targetIdNum),
+    enabled: !!ability?.canUseAbility && needsFootstep && targetIdNum != null,
+    retry: false,
+  });
+
+  const targets =
+    attackTargetsQuery.data?.targets ??
     (ability?.targetCharaIds ?? []).map((id) => ({
       charaId: id,
       name: resolveParticipantName(village, id),
-    })),
-  );
-  const [footstepOptions, setFootstepOptions] = useState<string[]>(
-    ability?.targetFootstepList ?? [],
-  );
+    }));
+
+  const footstepOptions = footstepsQuery.data?.footsteps ?? ability?.targetFootstepList ?? [];
+
+  useEffect(() => {
+    if (targetCharaId !== "") return;
+    const t = attackTargetsQuery.data?.targets;
+    if (t && t.length > 0) {
+      setTargetCharaId(String(t[0].charaId));
+    }
+  }, [attackTargetsQuery.data, targetCharaId]);
+
+  useEffect(() => {
+    if (footstep !== "") return;
+    const opts = footstepsQuery.data?.footsteps;
+    if (opts && opts.length > 0) {
+      setFootstep(opts[0]);
+    }
+  }, [footstepsQuery.data, footstep]);
 
   const dataRef = useRef({ villageId, village, ability, skill });
   dataRef.current = { villageId, village, ability, skill };
 
-  useEffect(() => {
-    if (ability == null || !ability.canUseAbility) return;
-    if (isAttack && attackerCharaId !== "") {
-      fetchAttackTargets(villageId, Number(attackerCharaId))
-        .then((response) => setTargets(response.targets ?? []))
-        .catch(() => {});
-    }
-    if ((isAttack || ability.isTargetingAndFootstep) && targetCharaId !== "") {
-      fetchAbilityFootsteps(
-        villageId,
-        isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-        Number(targetCharaId),
-      )
-        .then((response) => {
-          const opts = response.footsteps ?? [];
-          setFootstepOptions(opts);
-          if (!footstep && opts.length > 0) setFootstep(opts[0]);
-        })
-        .catch(() => {});
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const initialize = useCallback(() => {
-    const { villageId: vid, village: v, ability: a } = dataRef.current;
+    const { villageId: vid, ability: a } = dataRef.current;
     if (a == null) return;
 
     const atkId = a.attackerCharaId != null ? String(a.attackerCharaId) : "";
@@ -85,74 +101,22 @@ export function useAbilityState(
     setFootstep(a.targetFootstep ?? a.footstep ?? a.targetFootstepList?.[0] ?? "");
     const current = a.footstep;
     setDisturbRooms(current == null || current === NO_FOOTSTEP ? [] : current.split(","));
-    setTargets(
-      a.targetCharaIds.map((id) => ({
-        charaId: id,
-        name: resolveParticipantName(v, id),
-      })),
-    );
-    setFootstepOptions(a.targetFootstepList ?? []);
 
-    if (!a.canUseAbility) return;
-
-    const isAtk = a.attackerCharaIds.length > 0;
-    if (isAtk && atkId !== "") {
-      fetchAttackTargets(vid, Number(atkId))
-        .then((response) => setTargets(response.targets ?? []))
-        .catch(() => {});
-    }
-    if ((isAtk || a.isTargetingAndFootstep) && tgtId !== "") {
-      fetchAbilityFootsteps(vid, isAtk && atkId !== "" ? Number(atkId) : null, Number(tgtId))
-        .then((response) => {
-          const opts = response.footsteps ?? [];
-          setFootstepOptions(opts);
-          if (opts.length > 0 && !a.targetFootstep && !a.footstep) setFootstep(opts[0]);
-        })
-        .catch(() => {});
-    }
-  }, []);
+    void queryClient.invalidateQueries({ queryKey: [ATTACK_TARGETS_QUERY_KEY, vid] });
+    void queryClient.invalidateQueries({ queryKey: [ABILITY_FOOTSTEPS_QUERY_KEY, vid] });
+  }, [queryClient]);
 
   useRegisterRefresh(initialize);
 
-  const onAttackerChange = async (value: string) => {
+  const onAttackerChange = (value: string) => {
     setAttackerCharaId(value);
     setTargetCharaId("");
     setFootstep("");
-    setFootstepOptions([]);
-    if (value === "") return;
-    try {
-      const response = await fetchAttackTargets(villageId, Number(value));
-      const newTargets = response.targets ?? [];
-      setTargets(newTargets);
-      if (newTargets.length > 0) {
-        const firstTargetId = newTargets[0].charaId;
-        setTargetCharaId(String(firstTargetId));
-        const fsResponse = await fetchAbilityFootsteps(villageId, Number(value), firstTargetId);
-        const opts = fsResponse.footsteps ?? [];
-        setFootstepOptions(opts);
-        setFootstep(opts.length > 0 ? opts[0] : "");
-      }
-    } catch {
-      setTargets([]);
-    }
   };
 
-  const onTargetChange = async (value: string) => {
+  const onTargetChange = (value: string) => {
     setTargetCharaId(value);
     setFootstep("");
-    if (!(isAttack || (ability?.isTargetingAndFootstep ?? false)) || value === "") return;
-    try {
-      const response = await fetchAbilityFootsteps(
-        villageId,
-        isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-        Number(value),
-      );
-      const opts = response.footsteps ?? [];
-      setFootstepOptions(opts);
-      setFootstep(opts.length > 0 ? opts[0] : "");
-    } catch {
-      setFootstepOptions([]);
-    }
   };
 
   return {
