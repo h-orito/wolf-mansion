@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 
 import { useInvalidateVillage } from "~/features/village/useVillage";
 
@@ -10,6 +10,7 @@ export const RefreshContext = createContext<RegisterFn | null>(null);
 export function useRefresh(villageId: number) {
   const invalidate = useInvalidateVillage(villageId);
   const initializersRef = useRef<Array<() => void>>([]);
+  const [initSignal, setInitSignal] = useState(0);
 
   const register = useCallback<RegisterFn>((fn) => {
     initializersRef.current = [...initializersRef.current, fn];
@@ -18,11 +19,14 @@ export function useRefresh(villageId: number) {
     };
   }, []);
 
+  useEffect(() => {
+    if (initSignal === 0) return;
+    for (const init of initializersRef.current) init();
+  }, [initSignal]);
+
   const refresh = useCallback(async () => {
     await invalidate();
-    requestAnimationFrame(() => {
-      for (const init of initializersRef.current) init();
-    });
+    setInitSignal((n) => n + 1);
   }, [invalidate]);
 
   return { refresh, invalidate, register };
