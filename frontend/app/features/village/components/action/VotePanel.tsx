@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
@@ -12,6 +10,7 @@ import {
 } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useAsyncAction } from "~/lib/useAsyncAction";
+import { useVoteState } from "./useVoteState";
 
 /** 処刑対象への投票。未セットのまま日付が更新されると突然死するため警告を出す。 */
 export function VotePanel({
@@ -26,9 +25,7 @@ export function VotePanel({
   onDone: () => Promise<unknown>;
 }) {
   const vote = mySituation.vote;
-  const [targetCharaId, setTargetCharaId] = useState<string>(
-    vote.targetCharaId != null ? String(vote.targetCharaId) : "",
-  );
+  const { targetCharaId, setTargetCharaId } = useVoteState(vote);
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 

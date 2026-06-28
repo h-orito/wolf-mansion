@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
 import { Alert, AlertList, ErrorMessage } from "~/components/ui/Alert";
@@ -8,8 +7,6 @@ import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
 import {
-  fetchAbilityFootsteps,
-  fetchAttackTargets,
   setVillageAbility,
   type ParticipantSituationView,
   type VillageAbilityRequest,
@@ -18,6 +15,7 @@ import {
 } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useAsyncAction } from "~/lib/useAsyncAction";
+import { useAbilityState } from "./useAbilityState";
 
 const NO_FOOTSTEP = "なし";
 
@@ -42,102 +40,24 @@ export function AbilityPanel({
   const ability = mySituation.ability;
   const skill = mySituation.myself?.skill;
 
-  const isAttack = ability.attackerCharaIds.length > 0;
-  const isInvestigate = skill?.hasInvestigateAbility ?? false;
-  const isDisturb = (skill?.hasDisturbAbility ?? false) && ability.targetCharaIds.length === 0;
+  const {
+    isAttack,
+    isInvestigate,
+    isDisturb,
+    attackerCharaId,
+    targetCharaId,
+    footstep,
+    setFootstep,
+    disturbRooms,
+    setDisturbRooms,
+    targets,
+    footstepOptions,
+    onAttackerChange,
+    onTargetChange,
+  } = useAbilityState(villageId, village, ability, skill);
 
-  const [attackerCharaId, setAttackerCharaId] = useState<string>(
-    ability.attackerCharaId != null ? String(ability.attackerCharaId) : "",
-  );
-  const [targetCharaId, setTargetCharaId] = useState<string>(
-    ability.targetCharaId != null ? String(ability.targetCharaId) : "",
-  );
-  const [footstep, setFootstep] = useState<string>(
-    ability.targetFootstep ?? ability.footstep ?? ability.targetFootstepList?.[0] ?? "",
-  );
-  // 徘徊の通過部屋 (CSV をトグル選択で組み立てる)
-  const [disturbRooms, setDisturbRooms] = useState<string[]>(() => {
-    const current = ability.footstep;
-    return current == null || current === NO_FOOTSTEP ? [] : current.split(",");
-  });
-  const [targets, setTargets] = useState<{ charaId: number; name: string }[]>(
-    ability.targetCharaIds.map((id) => ({
-      charaId: id,
-      name: resolveParticipantName(village, id),
-    })),
-  );
-  const [footstepOptions, setFootstepOptions] = useState<string[]>(
-    ability.targetFootstepList ?? [],
-  );
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
-
-  // 襲撃の対象候補と現在対象の足音候補は situation に含まれないため、初期表示時に取得する
-  useEffect(() => {
-    if (!ability.canUseAbility) return;
-    if (isAttack && attackerCharaId !== "") {
-      fetchAttackTargets(villageId, Number(attackerCharaId))
-        .then((response) => setTargets(response.targets ?? []))
-        .catch(() => {});
-    }
-    if ((isAttack || ability.isTargetingAndFootstep) && targetCharaId !== "") {
-      fetchAbilityFootsteps(
-        villageId,
-        isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-        Number(targetCharaId),
-      )
-        .then((response) => {
-          const opts = response.footsteps ?? [];
-          setFootstepOptions(opts);
-          if (!footstep && opts.length > 0) setFootstep(opts[0]);
-        })
-        .catch(() => {});
-    }
-    // 初期表示のみ。以降の変更は onAttackerChange / onTargetChange が取得する
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // 襲撃者を選ぶと対象候補が変わり、対象を選ぶと足音候補が変わる
-  const onAttackerChange = async (value: string) => {
-    setAttackerCharaId(value);
-    setTargetCharaId("");
-    setFootstep("");
-    setFootstepOptions([]);
-    if (value === "") return;
-    try {
-      const response = await fetchAttackTargets(villageId, Number(value));
-      const newTargets = response.targets ?? [];
-      setTargets(newTargets);
-      if (newTargets.length > 0) {
-        const firstTargetId = newTargets[0].charaId;
-        setTargetCharaId(String(firstTargetId));
-        const fsResponse = await fetchAbilityFootsteps(villageId, Number(value), firstTargetId);
-        const opts = fsResponse.footsteps ?? [];
-        setFootstepOptions(opts);
-        setFootstep(opts.length > 0 ? opts[0] : "");
-      }
-    } catch {
-      setTargets([]);
-    }
-  };
-
-  const onTargetChange = async (value: string) => {
-    setTargetCharaId(value);
-    setFootstep("");
-    if (!(isAttack || ability.isTargetingAndFootstep) || value === "") return;
-    try {
-      const response = await fetchAbilityFootsteps(
-        villageId,
-        isAttack && attackerCharaId !== "" ? Number(attackerCharaId) : null,
-        Number(value),
-      );
-      const opts = response.footsteps ?? [];
-      setFootstepOptions(opts);
-      setFootstep(opts.length > 0 ? opts[0] : "");
-    } catch {
-      setFootstepOptions([]);
-    }
-  };
 
   const submit = () =>
     execute(async () => {
