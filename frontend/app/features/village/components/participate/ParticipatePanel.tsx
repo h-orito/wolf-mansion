@@ -81,7 +81,14 @@ export function ParticipatePanel({
   }, [charaImageUrl]);
 
   const currentChip = charachips.find((c) => c.id === charachipId) ?? charachips[0];
-  const charas = currentChip?.charas?.list ?? [];
+  const selectableCharaIds = useMemo(
+    () => new Set((participate.selectableCharaList ?? []).map((c) => c.id)),
+    [participate.selectableCharaList],
+  );
+  const charas = useMemo(
+    () => (currentChip?.charas?.list ?? []).filter((c) => selectableCharaIds.has(c.id)),
+    [currentChip, selectableCharaIds],
+  );
   const chara = charas.find((c) => c.id === charaId) ?? null;
 
   const selectChara = (id: number | null) => {
