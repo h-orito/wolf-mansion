@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
@@ -220,7 +220,7 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   }, [daychangeDetected, showToast]);
 
-  const { onMessagesLoaded, hasNewMessage } = useMessageSync(
+  const { onMessagesLoaded: onMessagesLoadedBase, hasNewMessage } = useMessageSync(
     villageId,
     dayParam,
     latestDay,
@@ -229,6 +229,18 @@ export default function Village({ params }: Route.ComponentProps) {
     invalidate,
     showToast,
     sayPreview == null,
+  );
+
+  const pendingScroll = useRef(false);
+  const onMessagesLoaded = useCallback(
+    (content: Parameters<typeof onMessagesLoadedBase>[0]) => {
+      onMessagesLoadedBase(content);
+      if (pendingScroll.current) {
+        pendingScroll.current = false;
+        setTimeout(() => scrollToBottom(false), 0);
+      }
+    },
+    [onMessagesLoadedBase, scrollToBottom],
   );
 
   const largeText = useDisplaySettings((s) => s.largeText);
@@ -486,10 +498,11 @@ export default function Village({ params }: Route.ComponentProps) {
       <FooterMenu
         onRefresh={() => {
           resetToLatest();
+          pendingScroll.current = true;
           if (dayParam != null) {
-            navigate(`/village/${villageId}#bottom`);
+            navigate(`/village/${villageId}`);
           } else {
-            void invalidate().then(() => scrollToBottom());
+            void invalidate();
           }
         }}
         hasNewMessage={hasNewMessage}
