@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import type { components } from "~/api/types";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
-import { useDisplaySettings } from "~/features/village/displaySettings";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
@@ -34,6 +33,10 @@ export function MessageArea({
   randomKeywords,
   filter = EMPTY_FILTER,
   allParticipants,
+  page,
+  setPage,
+  isPaging,
+  pageSize,
   onHashtagClick,
   onReply,
   onSecret,
@@ -46,6 +49,10 @@ export function MessageArea({
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
   allParticipants?: components["schemas"]["VillageParticipantView"][];
+  page: PageState;
+  setPage: (page: PageState) => void;
+  isPaging: boolean;
+  pageSize: number;
   onHashtagClick?: (tag: string) => void;
   onReply?: (reply: ReplyDraft) => void;
   onSecret?: (reply: ReplyDraft) => void;
@@ -53,21 +60,6 @@ export function MessageArea({
   onLoaded: (content: VillageMessageListContent) => void;
   confirmArea?: React.ReactNode;
 }) {
-  // 日付指定 (`/day/{day}`) で開いたら 1 ページ目、最新日 URL なら最新ページを初期表示する
-  const initialPage = (d: number | undefined): PageState =>
-    d == null ? { pageNum: 1, isDispLatest: true } : { pageNum: 1, isDispLatest: false };
-  const [page, setPage] = useState<PageState>(() => initialPage(day));
-
-  const isPaging = useDisplaySettings((s) => s.isPaging);
-  const pageSize = useDisplaySettings((s) => s.pageSize);
-
-  // 日付遷移・抽出条件・ページ設定の変更で先頭ページに戻す (存在しないページを引かないため)
-  const filterKey = JSON.stringify(filter);
-  useEffect(() => {
-    setPage(initialPage(day));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [day, filterKey, isPaging, pageSize]);
-
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,

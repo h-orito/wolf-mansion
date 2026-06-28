@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { AdSense } from "~/components/ui/AdSense";
@@ -19,6 +19,7 @@ import {
   parseFilter,
   type MessageFilter,
 } from "~/features/village/filter";
+import { useMessagePaging } from "~/features/village/useMessagePaging";
 import { useMessageSync } from "~/features/village/useMessageSync";
 import { useSayFlow } from "~/features/village/useSayFlow";
 import {
@@ -136,6 +137,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const dayParam = params.day != null ? Number(params.day) : undefined;
 
+  const navigate = useNavigate();
   const { scrollToBottom } = useVillageScroll();
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
@@ -172,6 +174,7 @@ export default function Village({ params }: Route.ComponentProps) {
   // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
   const [searchParams, setSearchParams] = useSearchParams();
   const filter = parseFilter(searchParams);
+  const { page, setPage, isPaging, pageSize, resetToLatest } = useMessagePaging(dayParam, filter);
   const [filterOpen, setFilterOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
@@ -217,7 +220,7 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   }, [daychangeDetected, showToast]);
 
-  const { onMessagesLoaded, hasNewMessage } = useMessageSync(
+  const { onMessagesLoaded: onMessagesLoadedBase, hasNewMessage } = useMessageSync(
     villageId,
     dayParam,
     latestDay,
@@ -226,6 +229,18 @@ export default function Village({ params }: Route.ComponentProps) {
     invalidate,
     showToast,
     sayPreview == null,
+  );
+
+  const pendingScroll = useRef(false);
+  const onMessagesLoaded = useCallback(
+    (content: Parameters<typeof onMessagesLoadedBase>[0]) => {
+      onMessagesLoadedBase(content);
+      if (pendingScroll.current) {
+        pendingScroll.current = false;
+        setTimeout(() => scrollToBottom(false), 0);
+      }
+    },
+    [onMessagesLoadedBase, scrollToBottom],
   );
 
   const largeText = useDisplaySettings((s) => s.largeText);
@@ -299,6 +314,10 @@ export default function Village({ params }: Route.ComponentProps) {
             ...(village.participants.list ?? []),
             ...(village.spectators.list ?? []),
           ]}
+          page={page}
+          setPage={setPage}
+          isPaging={isPaging}
+          pageSize={pageSize}
           onHashtagClick={onHashtagClick}
           onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
           onSecret={canSecretReply ? onReply : undefined}
@@ -477,7 +496,15 @@ export default function Village({ params }: Route.ComponentProps) {
       </div>
 
       <FooterMenu
-        onRefresh={() => invalidate()}
+        onRefresh={() => {
+          resetToLatest();
+          pendingScroll.current = true;
+          if (dayParam != null) {
+            navigate(`/village/${villageId}`);
+          } else {
+            void invalidate();
+          }
+        }}
         hasNewMessage={hasNewMessage}
         onFilter={() => setFilterOpen(true)}
         filtering={isFiltering(filter)}
