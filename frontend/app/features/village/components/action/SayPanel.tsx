@@ -15,6 +15,7 @@ import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageType } from "~/features/village/components/message/messageType";
 import { MessageCard, type ReplyDraft } from "../message/MessageCard";
+import { useSayState } from "./useSayState";
 export type { ReplyDraft };
 
 /** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */
@@ -74,7 +75,6 @@ export function SayPanel({
   onClearReply,
   onConfirm,
   registerOnDone,
-  sayState,
 }: {
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
@@ -85,18 +85,6 @@ export function SayPanel({
   onConfirm: (request: VillageSayRequest) => void;
   /** 発言完了時のクリア関数を登録する */
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
-  sayState: {
-    messageType: string;
-    message: string;
-    setMessage: (value: string | ((prev: string) => string)) => void;
-    faceType: string;
-    setFaceType: (value: string) => void;
-    convertDisable: boolean;
-    setConvertDisable: (value: boolean) => void;
-    secretTargetCharaId: string;
-    setSecretTargetCharaId: (value: string) => void;
-    changeType: (type: string) => void;
-  };
 }) {
   const say = mySituation.say;
   const myself = mySituation.myself;
@@ -116,7 +104,7 @@ export function SayPanel({
     secretTargetCharaId,
     setSecretTargetCharaId,
     changeType,
-  } = sayState;
+  } = useSayState(say);
   registerOnDone("say", () => setMessage(""));
   const [faceModalOpen, setFaceModalOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);

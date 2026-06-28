@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useRegisterRefresh } from "~/features/village/useRefresh";
 import {
   fetchAbilityFootsteps,
   fetchAttackTargets,
@@ -74,7 +75,7 @@ export function useAbilityState(
   }, []);
 
   const initialize = useCallback(() => {
-    const { villageId: vid, village: v, ability: a, skill: s } = dataRef.current;
+    const { villageId: vid, village: v, ability: a } = dataRef.current;
     if (a == null) return;
 
     const atkId = a.attackerCharaId != null ? String(a.attackerCharaId) : "";
@@ -95,7 +96,6 @@ export function useAbilityState(
     if (!a.canUseAbility) return;
 
     const isAtk = a.attackerCharaIds.length > 0;
-    const isDisturb2 = (s?.hasDisturbAbility ?? false) && a.targetCharaIds.length === 0;
     if (isAtk && atkId !== "") {
       fetchAttackTargets(vid, Number(atkId))
         .then((response) => setTargets(response.targets ?? []))
@@ -110,8 +110,9 @@ export function useAbilityState(
         })
         .catch(() => {});
     }
-    void isDisturb2;
   }, []);
+
+  useRegisterRefresh(initialize);
 
   const onAttackerChange = async (value: string) => {
     setAttackerCharaId(value);
@@ -168,6 +169,5 @@ export function useAbilityState(
     footstepOptions,
     onAttackerChange,
     onTargetChange,
-    initialize,
   };
 }

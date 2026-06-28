@@ -15,7 +15,7 @@ import {
 } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useAsyncAction } from "~/lib/useAsyncAction";
-import type { useAbilityState } from "./useAbilityState";
+import { useAbilityState } from "./useAbilityState";
 
 const NO_FOOTSTEP = "なし";
 
@@ -29,14 +29,12 @@ export function AbilityPanel({
   village,
   mySituation,
   roomAssignedRows,
-  abilityState,
   onDone,
 }: {
   villageId: number;
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
   roomAssignedRows: VillageRoomAssignedRow[] | null | undefined;
-  abilityState: ReturnType<typeof useAbilityState>;
   onDone: () => Promise<unknown>;
 }) {
   const ability = mySituation.ability;
@@ -56,7 +54,7 @@ export function AbilityPanel({
     footstepOptions,
     onAttackerChange,
     onTargetChange,
-  } = abilityState;
+  } = useAbilityState(villageId, village, ability, skill);
 
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();

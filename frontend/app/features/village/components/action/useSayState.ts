@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 
 import type { ParticipantSituationView } from "~/features/village/api";
 import { MessageType } from "~/features/village/components/message/messageType";
+import { useRegisterRefresh } from "~/features/village/useRefresh";
 
 type Say = ParticipantSituationView["say"];
 
@@ -55,6 +56,8 @@ export function useSayState(say: Say | undefined) {
     setSecretTargetCharaId("");
   }, []);
 
+  useRegisterRefresh(initialize);
+
   const changeType = useCallback(
     (type: string) => {
       setMessageType(type);
@@ -80,6 +83,5 @@ export function useSayState(say: Say | undefined) {
     secretTargetCharaId,
     setSecretTargetCharaId,
     changeType,
-    initialize,
   };
 }
