@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { ErrorMessage } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
@@ -18,17 +16,18 @@ export function VotePanel({
   villageId,
   village,
   mySituation,
+  targetCharaId,
+  setTargetCharaId,
   onDone,
 }: {
   villageId: number;
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
+  targetCharaId: string;
+  setTargetCharaId: (value: string) => void;
   onDone: () => Promise<unknown>;
 }) {
   const vote = mySituation.vote;
-  const [targetCharaId, setTargetCharaId] = useState<string>(
-    vote.targetCharaId != null ? String(vote.targetCharaId) : "",
-  );
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 

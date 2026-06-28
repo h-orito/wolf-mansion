@@ -73,7 +73,7 @@ export function useVillageDebugInfo(id: number) {
   });
 }
 
-/** 村系クエリをまとめて無効化する (日付更新・手動更新時)。発言一覧も含む。 */
+/** 村系クエリをまとめて無効化する (日付更新・手動更新時)。発言一覧・デバッグ情報も含む。 */
 export function useInvalidateVillage(id: number) {
   const queryClient = useQueryClient();
   return useCallback(
@@ -83,6 +83,7 @@ export function useInvalidateVillage(id: number) {
         queryClient.invalidateQueries({ queryKey: [VILLAGE_SITUATION_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id] }),
         queryClient.invalidateQueries({ queryKey: [VILLAGE_MESSAGES_QUERY_KEY, id] }),
+        queryClient.invalidateQueries({ queryKey: ["village-debug", id] }),
       ]),
     [queryClient, id],
   );

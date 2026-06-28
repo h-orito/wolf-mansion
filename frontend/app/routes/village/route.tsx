@@ -21,9 +21,9 @@ import {
 } from "~/features/village/filter";
 import { useMessagePaging } from "~/features/village/useMessagePaging";
 import { useMessageSync } from "~/features/village/useMessageSync";
+import { useRefresh } from "~/features/village/useRefresh";
 import { useSayFlow } from "~/features/village/useSayFlow";
 import {
-  useInvalidateVillage,
   useMyVillageSituation,
   useVillage,
   useVillageDebugInfo,
@@ -39,6 +39,9 @@ import { CommitPanel } from "~/features/village/components/action/CommitPanel";
 import { FaceTypePanel } from "~/features/village/components/action/FaceTypePanel";
 import { RpPanel } from "~/features/village/components/action/RpPanel";
 import { SayPanel } from "~/features/village/components/action/SayPanel";
+import { useAbilityState } from "~/features/village/components/action/useAbilityState";
+import { useSayState } from "~/features/village/components/action/useSayState";
+import { useVoteState } from "~/features/village/components/action/useVoteState";
 import { VotePanel } from "~/features/village/components/action/VotePanel";
 import { AdminPanel } from "~/features/village/components/admin/AdminPanel";
 import { CreatorPanel } from "~/features/village/components/admin/CreatorPanel";
@@ -145,7 +148,19 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
   const { data: debugInfo } = useVillageDebugInfo(villageId);
   const { data: randomKeywords } = useRandomKeywords();
-  const invalidate = useInvalidateVillage(villageId);
+  const voteState = useVoteState(mySituation?.vote);
+  const abilityState = useAbilityState(
+    villageId,
+    village!,
+    mySituation?.ability,
+    mySituation?.myself?.skill,
+  );
+  const sayState = useSayState(mySituation?.say);
+  const { refresh, invalidate } = useRefresh(villageId, [
+    voteState.initialize,
+    abilityState.initialize,
+    sayState.initialize,
+  ]);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
   const canAction =
     mySituation?.say.selectableMessageTypeList?.some(
@@ -208,6 +223,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
+  const isLatestDay = latestDay != null && currentDay === latestDay;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
   const showToast = useToast((s) => s.show);
@@ -378,6 +394,7 @@ export default function Village({ params }: Route.ComponentProps) {
               onClearReply={clearReply}
               onConfirm={onSayConfirm}
               registerOnDone={registerSayDone}
+              sayState={sayState}
             />
           </div>
         )}
@@ -391,21 +408,24 @@ export default function Village({ params }: Route.ComponentProps) {
           />
         )}
 
-        {mySituation != null && mySituation.vote.canVote && (
+        {isLatestDay && mySituation != null && mySituation.vote.canVote && (
           <VotePanel
             villageId={villageId}
             village={village}
             mySituation={mySituation}
+            targetCharaId={voteState.targetCharaId}
+            setTargetCharaId={voteState.setTargetCharaId}
             onDone={invalidate}
           />
         )}
 
-        {mySituation != null && mySituation.myself?.skill != null && (
+        {isLatestDay && mySituation != null && mySituation.myself?.skill != null && (
           <AbilityPanel
             villageId={villageId}
             village={village}
             mySituation={mySituation}
             roomAssignedRows={situation?.roomAssignedRowList}
+            abilityState={abilityState}
             onDone={invalidate}
           />
         )}
@@ -439,7 +459,7 @@ export default function Village({ params }: Route.ComponentProps) {
           <LeavePanel villageId={villageId} onDone={invalidate} />
         )}
 
-        {mySituation != null && mySituation.commit.isAvailableCommit && (
+        {isLatestDay && mySituation != null && mySituation.commit.isAvailableCommit && (
           <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
         )}
 
@@ -476,7 +496,7 @@ export default function Village({ params }: Route.ComponentProps) {
             villageId={villageId}
             currentDay={currentDay}
             debugInfo={debugInfo}
-            onDone={invalidate}
+            onDone={refresh}
           />
         )}
 
@@ -502,7 +522,7 @@ export default function Village({ params }: Route.ComponentProps) {
           if (dayParam != null) {
             navigate(`/village/${villageId}`);
           } else {
-            void invalidate();
+            void refresh();
           }
         }}
         hasNewMessage={hasNewMessage}

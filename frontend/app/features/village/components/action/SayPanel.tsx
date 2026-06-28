@@ -42,19 +42,6 @@ const TYPE_TO_STYLE_KEY: Record<string, string> = {
   [MessageType.SPECTATE_SAY]: "message-spectate",
 };
 
-/** 発言種別 → 既定の表情種別コード。 */
-const TYPE_TO_FACE: Record<string, string> = {
-  [MessageType.NORMAL_SAY]: "NORMAL",
-  [MessageType.WEREWOLF_SAY]: "WEREWOLF",
-  [MessageType.MASON_SAY]: "MASON",
-  [MessageType.LOVERS_SAY]: "LOVER",
-  [MessageType.TELEPATHY]: "SECRET",
-  [MessageType.MONOLOGUE_SAY]: "MONOLOGUE",
-  [MessageType.SECRET_SAY]: "SECRET",
-  [MessageType.GRAVE_SAY]: "GRAVE",
-  [MessageType.SPECTATE_SAY]: "NORMAL",
-};
-
 /** 装飾タグ (選択範囲を囲む)。 */
 const DECORATION_TAGS: { name: string; label: string; color?: string }[] = [
   { name: "b", label: "B" },
@@ -87,6 +74,7 @@ export function SayPanel({
   onClearReply,
   onConfirm,
   registerOnDone,
+  sayState,
 }: {
   village: VillageDetailView;
   mySituation: ParticipantSituationView;
@@ -97,6 +85,18 @@ export function SayPanel({
   onConfirm: (request: VillageSayRequest) => void;
   /** 発言完了時のクリア関数を登録する */
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
+  sayState: {
+    messageType: string;
+    message: string;
+    setMessage: (value: string | ((prev: string) => string)) => void;
+    faceType: string;
+    setFaceType: (value: string) => void;
+    convertDisable: boolean;
+    setConvertDisable: (value: boolean) => void;
+    secretTargetCharaId: string;
+    setSecretTargetCharaId: (value: string) => void;
+    changeType: (type: string) => void;
+  };
 }) {
   const say = mySituation.say;
   const myself = mySituation.myself;
@@ -105,22 +105,19 @@ export function SayPanel({
   const images = say.selectableCharaImageList ?? [];
 
   const displayImages = images.filter((i) => i.isDisplay);
-  const defaultType =
-    say.defaultMessageType?.code ?? selectable[0]?.messageType.code ?? MessageType.NORMAL_SAY;
-  const [messageType, setMessageType] = useState(defaultType);
-  const [message, setMessage] = useState("");
+  const {
+    messageType,
+    message,
+    setMessage,
+    faceType,
+    setFaceType,
+    convertDisable,
+    setConvertDisable,
+    secretTargetCharaId,
+    setSecretTargetCharaId,
+    changeType,
+  } = sayState;
   registerOnDone("say", () => setMessage(""));
-  const [faceType, setFaceType] = useState<string>(
-    () =>
-      faceTypeFor(
-        defaultType,
-        displayImages.map((i) => i.faceType.code),
-      ) ??
-      displayImages[0]?.faceType.code ??
-      "NORMAL",
-  );
-  const [convertDisable, setConvertDisable] = useState(false);
-  const [secretTargetCharaId, setSecretTargetCharaId] = useState<string>("");
   const [faceModalOpen, setFaceModalOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -154,20 +151,6 @@ export function SayPanel({
     overLimit ||
     message.trim().length === 0 ||
     (messageType === MessageType.SECRET_SAY && secretTargetCharaId === "");
-
-  function faceTypeFor(type: string, codes: string[]): string | null {
-    const candidate = TYPE_TO_FACE[type];
-    return candidate != null && codes.includes(candidate) ? candidate : null;
-  }
-
-  const changeType = (type: string) => {
-    setMessageType(type);
-    const face = faceTypeFor(
-      type,
-      displayImages.map((i) => i.faceType.code),
-    );
-    if (face != null) setFaceType(face);
-  };
 
   const insertAtCursor = (text: string, wrap?: { close: string }) => {
     const textarea = textareaRef.current;
