@@ -315,7 +315,12 @@ export default function Village({ params }: Route.ComponentProps) {
             allParticipants={[
               ...(village.participants.list ?? []),
               ...(village.spectators.list ?? []),
-            ]}
+            ].sort(
+              (a, b) =>
+                Number(a.isSpectator) - Number(b.isSpectator) ||
+                (a.room?.number ?? 0) - (b.room?.number ?? 0) ||
+                a.charaId - b.charaId,
+            )}
             page={page}
             setPage={setPage}
             isPaging={isPaging}
