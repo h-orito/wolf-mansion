@@ -19,6 +19,7 @@ import {
   parseFilter,
   type MessageFilter,
 } from "~/features/village/filter";
+import { useMessagePaging } from "~/features/village/useMessagePaging";
 import { useMessageSync } from "~/features/village/useMessageSync";
 import { useSayFlow } from "~/features/village/useSayFlow";
 import {
@@ -173,6 +174,7 @@ export default function Village({ params }: Route.ComponentProps) {
   // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
   const [searchParams, setSearchParams] = useSearchParams();
   const filter = parseFilter(searchParams);
+  const { page, setPage, isPaging, pageSize, resetToLatest } = useMessagePaging(dayParam, filter);
   const [filterOpen, setFilterOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
@@ -300,6 +302,10 @@ export default function Village({ params }: Route.ComponentProps) {
             ...(village.participants.list ?? []),
             ...(village.spectators.list ?? []),
           ]}
+          page={page}
+          setPage={setPage}
+          isPaging={isPaging}
+          pageSize={pageSize}
           onHashtagClick={onHashtagClick}
           onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
           onSecret={canSecretReply ? onReply : undefined}
@@ -479,6 +485,7 @@ export default function Village({ params }: Route.ComponentProps) {
 
       <FooterMenu
         onRefresh={() => {
+          resetToLatest();
           if (dayParam != null) {
             navigate(`/village/${villageId}#bottom`);
           } else {
