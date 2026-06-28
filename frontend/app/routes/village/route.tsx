@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { AdSense } from "~/components/ui/AdSense";
@@ -136,6 +136,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const dayParam = params.day != null ? Number(params.day) : undefined;
 
+  const navigate = useNavigate();
   const { scrollToBottom } = useVillageScroll();
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
@@ -477,7 +478,13 @@ export default function Village({ params }: Route.ComponentProps) {
       </div>
 
       <FooterMenu
-        onRefresh={() => invalidate()}
+        onRefresh={() => {
+          if (dayParam != null) {
+            navigate(`/village/${villageId}#bottom`);
+          } else {
+            void invalidate().then(() => scrollToBottom());
+          }
+        }}
         hasNewMessage={hasNewMessage}
         onFilter={() => setFilterOpen(true)}
         filtering={isFiltering(filter)}

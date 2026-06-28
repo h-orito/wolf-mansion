@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import type { VillageMessageListContent } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -15,13 +15,12 @@ export function useMessageSync(
   canAutoReload: boolean,
 ) {
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
-  const hashScrolled = useRef(false);
 
   const onMessagesLoaded = useCallback(
     (content: VillageMessageListContent) => {
       setLoadedMessages(content);
-      if (!hashScrolled.current && window.location.hash === "#bottom") {
-        hashScrolled.current = true;
+      if (window.location.hash === "#bottom") {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
         setTimeout(() => scrollToBottom(false), 0);
       }
     },
