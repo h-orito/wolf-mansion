@@ -26,6 +26,7 @@ export function MessageCard({
   onHashtagClick,
   onReply,
   onSecret,
+  onAnchorExpand,
 }: {
   villageId: number;
   message: VillageMessageContent;
@@ -35,6 +36,7 @@ export function MessageCard({
   onHashtagClick?: (tag: string) => void;
   onReply?: (reply: ReplyDraft) => void;
   onSecret?: (reply: ReplyDraft) => void;
+  onAnchorExpand?: (type: string, number: number) => void;
 }) {
   const [expandedAnchors, setExpandedAnchors] = useState<ExpandedAnchor[]>([]);
   const largeImage = useDisplaySettings((s) => s.largeImage);
@@ -50,6 +52,10 @@ export function MessageCard({
   }, [message, randomKeywords]);
 
   const toggleAnchor = async (type: string, number: number) => {
+    if (onAnchorExpand) {
+      onAnchorExpand(type, number);
+      return;
+    }
     const key = `${type}_${number}`;
     const existing = expandedAnchors.find((a) => a.key === key);
     if (existing) {
@@ -149,6 +155,7 @@ export function MessageCard({
                 villageId={villageId}
                 message={a.message}
                 randomKeywords={randomKeywords}
+                onAnchorExpand={(type, number) => toggleAnchor(type, number)}
               />
             </div>
           </div>
