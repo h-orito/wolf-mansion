@@ -104,23 +104,25 @@ Clean Architecture + DDD に基づき、**画面専用の API やレスポンス
 
 ### デプロイ
 
-mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ。
+- mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ。
+- feature/monorepoへのpushで `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバーへ自動デプロイ（ステージング環境）。
 
 ## Key Conventions
 
+- セッション開始時に、Serena の `initial_instructions` を呼び出し、関連するプロジェクトメモリを読み込んでからコンテキストを把握すること
+- コードベースの構造や規約に変更があった場合は、Serena の edit_memory / write_memory で該当メモリを更新すること
+- タスク/Issue ごとに必ず新しいブランチを作成してから変更する。feature/monorepo やその他の共有ブランチに直接コミットしない
+- API の型を編集する場合は types.ts を直接編集せず、gen:api で再生成する
+- バグ調査時は、まず正確な根本原因を特定してユーザーに説明し、修正方針（特にUIの見た目・挙動に関わる場合）についてユーザーの合意を得てから編集する
 - 出力が長くなるコマンド（build/test/e2e 等）はログをファイルにリダイレクトし、失敗箇所だけ抽出して読む（ログ全文を会話に持ち込まない）
 - ドメインモデルはKotlin data classで不変（状態変更は`copy()`で新インスタンスを返す）
 - ゲーム内テキスト（ステータスメッセージ、役職名など）は日本語
 - テンプレートは`backend/src/main/resources/templates/`にThymeleaf HTML
 - 静的ファイルは`backend/src/main/resources/static/`
 
-### リンクの規約（最重要・再発防止）
-
-- **未移行画面へのリンクも SPA URL（react-router `<Link>` / `<LinkButton>`）を使う**。`legacyUrl` + `<a>` は「SPA ルート化の予定が無い」ページだけに限定する。`/rule` `/practice` `/skill` 等、今後 Step 5+ で移行予定のページは**現時点で未実装でも SPA URL を指す**（一時的に 404 になっても構わない）。
-
 ### コメント・実装の規約（重要・レビュー指摘の再発防止）
 
-- **コメントに移行 step 番号を書かない**（`(Step 4)` `step-4.1 で…` 等）。step は Issue / git 履歴で追う。コードのコメントは恒久的に正しい説明だけにする。
+- **コメントに移行 step/issue 番号を書かない**（`(Step 4)` `step-4.1 で…` 等）。step は Issue / git 履歴で追う。コードのコメントは恒久的に正しい説明だけにする。
 - **「既存を再現する」旨のコメントを書かない**（``:8091` 基準で再現` `既存 `<h1 class="h4">` 相当` `legacy の◯◯相当` 等）。見た目の再現は **コンポーネント（Button / Heading / Panel / FormRow など）や CSS class の単位**に閉じ込め、その primitive を使い回す。レイアウト（`AuthLayout` 等）の単位で個々の見出し・ボタンを再現するのは誤り。コメントは「なぜそうするか（非自明な理由）」だけを書く。
 - **その場しのぎ（inline・重複）の実装をしない**。ボタン・フォーム行・ラジオ・パネル・見出しなどの UI 部品は `frontend/app/components/ui/` に再利用可能なコンポーネントとして作り、画面側はそれを組み合わせる。
 - **GET の検索系パラメータは個別 `@RequestParam` で受けず、`XxxRequest` クラスでまとめて受ける**。ドメインクエリへの変換（`toQuery()` 等）もその Request クラスに閉じ込め、Controller は薄く保つ。
