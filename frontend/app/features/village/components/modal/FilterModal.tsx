@@ -5,11 +5,42 @@ import { ButtonCheckboxGroup } from "~/components/ui/ButtonCheckboxGroup";
 import { inputClass } from "~/components/ui/Input";
 import { Modal } from "~/components/ui/Modal";
 import { TextButton } from "~/components/ui/TextButton";
-import type { FilterParticipant } from "~/features/village/participants";
+import type { VillageParticipantView } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
+import { allParticipants } from "~/features/village/participants";
+import { useMyVillageSituation } from "~/features/village/useVillage";
 import { EMPTY_FILTER, FILTER_TYPES, type MessageFilter } from "~/features/village/filter";
 import { MessageType } from "~/features/village/components/message/messageType";
 
 const ALL_TYPE_VALUES = FILTER_TYPES.map((t) => t.value);
+
+type FilterParticipant = {
+  id: number;
+  name: string;
+  imgWidth: number;
+  imgHeight: number;
+  imgUrl: string;
+  deadStatus: string | null;
+};
+
+function toFilterParticipant(p: VillageParticipantView): FilterParticipant {
+  return {
+    id: p.id,
+    name: p.name,
+    imgWidth: p.chara.size.width,
+    imgHeight: p.chara.size.height,
+    imgUrl: p.chara.images.list[0]?.url ?? "",
+    deadStatus: toDeadStatus(p),
+  };
+}
+
+function toDeadStatus(p: VillageParticipantView): string | null {
+  if (p.isSpectator) return "見学";
+  if (!p.dead.isDead) return "生存";
+  const name = p.dead.reason?.name ?? "";
+  const reason = name.endsWith("死") ? name : `${name}死`;
+  return `${p.dead.deadDay}d${reason}`;
+}
 
 /** チェック状態。フィルタの「空 = 全選択」と UI の「全チェック」を相互変換する。 */
 type Draft = {
@@ -120,35 +151,30 @@ export function FilterModal({
   open,
   onClose,
   filter,
-  participants,
-  myselfId,
-  notificationKeyword,
+  dayParam,
   onApply,
   onApplyNewTab,
 }: {
   open: boolean;
   onClose: () => void;
   filter: MessageFilter;
-  participants: FilterParticipant[];
-  /** 参加中の自分の参加者 ID (自分宛ショートカット用、未参加は null) */
-  myselfId: number | null;
-  /** Discord 通知キーワード (未設定は null) */
-  notificationKeyword: string | null;
+  dayParam: number | undefined;
   onApply: (filter: MessageFilter) => void;
   onApplyNewTab: (filter: MessageFilter) => void;
 }) {
+  const village = useVillageContext();
+  const { data: mySituation } = useMyVillageSituation(village.id, dayParam);
+  const participants = allParticipants(village).map(toFilterParticipant);
+  const myselfId = mySituation?.myself?.id ?? null;
+  const notificationKeyword =
+    mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null;
+
   const allParticipantIds = participants.map((p) => p.id);
   const [draft, setDraft] = useState<Draft>(() => toDraft(filter, allParticipantIds));
 
   // モーダルを開くたびに現在の適用状態から編集を始める
   useEffect(() => {
-    if (open)
-      setDraft(
-        toDraft(
-          filter,
-          participants.map((p) => p.id),
-        ),
-      );
+    if (open) setDraft(toDraft(filter, allParticipantIds));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 

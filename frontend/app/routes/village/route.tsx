@@ -19,7 +19,6 @@ import { useMessagePaging } from "~/features/village/useMessagePaging";
 import { useMessageSync } from "~/features/village/useMessageSync";
 import { RefreshContext, useRefresh } from "~/features/village/useRefresh";
 import { useVillageContext, VillageProvider } from "~/features/village/VillageContext";
-import { toFilterParticipants } from "~/features/village/participants";
 import { useSayFlow } from "~/features/village/useSayFlow";
 import {
   useMyVillageSituation,
@@ -326,11 +325,7 @@ export default function Village({ params }: Route.ComponentProps) {
             open={filterOpen}
             onClose={() => setFilterOpen(false)}
             filter={filter}
-            participants={toFilterParticipants(village)}
-            myselfId={mySituation?.myself?.id ?? null}
-            notificationKeyword={
-              mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null
-            }
+            dayParam={dayParam}
             onApply={applyFilter}
             onApplyNewTab={applyFilterNewTab}
           />

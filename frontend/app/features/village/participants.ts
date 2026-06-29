@@ -8,33 +8,3 @@ export function resolveParticipantName(village: VillageDetailView, charaId: numb
 export function allParticipants(village: VillageDetailView): VillageParticipantView[] {
   return [...(village.participants.list ?? []), ...(village.spectators.list ?? [])];
 }
-
-export type FilterParticipant = {
-  id: number;
-  charaId: number;
-  name: string;
-  imgWidth: number;
-  imgHeight: number;
-  imgUrl: string;
-  deadStatus: string | null;
-};
-
-export function toFilterParticipants(village: VillageDetailView): FilterParticipant[] {
-  return allParticipants(village).map((p) => ({
-    id: p.id,
-    charaId: p.chara.id,
-    name: p.name,
-    imgWidth: p.chara.size.width,
-    imgHeight: p.chara.size.height,
-    imgUrl: p.chara.images.list[0]?.url ?? "",
-    deadStatus: toDeadStatus(p),
-  }));
-}
-
-function toDeadStatus(p: VillageParticipantView): string | null {
-  if (p.isSpectator) return "見学";
-  if (!p.dead.isDead) return "生存";
-  const name = p.dead.reason?.name ?? "";
-  const reason = name.endsWith("死") ? name : `${name}死`;
-  return `${p.dead.deadDay}d${reason}`;
-}
