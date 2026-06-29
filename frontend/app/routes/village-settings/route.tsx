@@ -13,7 +13,7 @@ import { RequireAuth } from "~/features/auth/RequireAuth";
 import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
 import {
-  fetchVillageInfo,
+  fetchVillage,
   fetchVillageSettingForUpdate,
   updateVillageSetting,
 } from "~/features/village/api";
@@ -60,9 +60,9 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
     queryFn: () => fetchVillageSetting(villageId),
     retry: false,
   });
-  const { data: villageInfo } = useQuery({
-    queryKey: ["village-info", villageId],
-    queryFn: () => fetchVillageInfo(villageId),
+  const { data: villageDetail } = useQuery({
+    queryKey: ["village", villageId],
+    queryFn: () => fetchVillage(villageId),
     retry: false,
   });
 
@@ -102,8 +102,8 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
       fixedSkillRequest={publicSetting?.rule.isPossibleSkillRequest ?? true}
       fixedCreatorIsProducer={publicSetting?.rule.isCreatorIsProducer ?? false}
       isOriginalCharachip={publicSetting?.chara.isOriginalCharachip ?? false}
-      charachipNames={villageInfo?.charachips?.map((c) => c.name) ?? []}
-      dummyCharaName={villageInfo?.dummyCharaName ?? ""}
+      charachipNames={villageDetail?.info.charachips?.map((c) => c.name) ?? []}
+      dummyCharaName={villageDetail?.info.dummyCharaName ?? ""}
     />
   );
 }

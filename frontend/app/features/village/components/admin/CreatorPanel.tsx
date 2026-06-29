@@ -13,31 +13,33 @@ import {
   shortenVillageEpilogue,
   type ParticipantSituationView,
   type VillageCreatorSayRequest,
+  type VillageSituationView,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
+import { allParticipants } from "~/features/village/participants";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 村建て機能パネル。村建てプレイヤーのみ表示する。 */
 export function CreatorPanel({
-  villageId,
   mySituation,
-  participants,
-  members,
+  situation,
   onConfirm,
   onDone,
   registerOnDone,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView;
-  /** 強制退村の選択肢 (charaId と name を持つリスト)。 */
-  participants: { charaId: number; name: string }[];
-  /** 最終アクセス日時テーブル用メンバー一覧。 */
-  members: { charaName: string; lastAccess: string | null }[];
-  /** 村建て発言の確認画面へ進む (プレビュー取得は親が行う)。 */
+  situation: VillageSituationView | undefined;
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   onDone: () => Promise<unknown>;
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
+  const village = useVillageContext();
   const creator = mySituation.creator;
+  const participants = allParticipants(village).map((p) => ({
+    charaId: p.chara.id,
+    name: p.name,
+  }));
+  const members = (situation?.memberList ?? []).flatMap((m) => m.statusMemberList);
 
   return (
     <Panel title="村建て機能" storageKey="creatorform" fixable>
@@ -45,7 +47,7 @@ export function CreatorPanel({
         {creator.isAvailableModifySetting && (
           <VillageFormRow label="設定変更">
             <div className="flex justify-end">
-              <LinkButton to={`/village/${villageId}/settings`} target="_blank" variant="success">
+              <LinkButton to={`/village/${village.id}/settings`} target="_blank" variant="success">
                 村設定変更
               </LinkButton>
             </div>
@@ -53,21 +55,21 @@ export function CreatorPanel({
         )}
         {creator.isAvailableKick && (
           <KickSection
-            villageId={villageId}
+            villageId={village.id}
             participants={participants}
             members={members}
             onDone={onDone}
           />
         )}
         {creator.isAvailableCancelVillage && (
-          <CancelSection villageId={villageId} onDone={onDone} />
+          <CancelSection villageId={village.id} onDone={onDone} />
         )}
         {creator.isAvailableCreatorSay && (
           <CreatorSaySection onConfirm={onConfirm} registerOnDone={registerOnDone} />
         )}
         {(creator.isAvailableExtendEpilogue || creator.isAvailableShortenEpilogue) && (
           <EpilogueSection
-            villageId={villageId}
+            villageId={village.id}
             canExtend={creator.isAvailableExtendEpilogue}
             canShorten={creator.isAvailableShortenEpilogue}
             onDone={onDone}

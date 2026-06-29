@@ -11,22 +11,18 @@ import {
   fetchAdminVillagePlayers,
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 管理者機能パネル。管理者プレイヤーのみ表示する。 */
-export function AdminPanel({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+export function AdminPanel({ onDone }: { onDone: () => Promise<unknown> }) {
+  const village = useVillageContext();
   return (
     <Panel title="管理者メニュー" storageKey="adminform">
       <div className="space-y-[15px]">
-        <AccessSection villageId={villageId} onDone={onDone} />
-        <SelfVoteSection villageId={villageId} onDone={onDone} />
-        <PlayersSection villageId={villageId} />
+        <AccessSection villageId={village.id} onDone={onDone} />
+        <SelfVoteSection villageId={village.id} onDone={onDone} />
+        <PlayersSection villageId={village.id} />
       </div>
     </Panel>
   );

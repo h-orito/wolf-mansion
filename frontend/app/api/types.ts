@@ -675,22 +675,6 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
-  "/api/v1/villages/{id}/info": {
-    parameters: {
-      query?: never;
-      header?: never;
-      path?: never;
-      cookie?: never;
-    };
-    get: operations["getVillageInfo"];
-    put?: never;
-    post?: never;
-    delete?: never;
-    options?: never;
-    head?: never;
-    patch?: never;
-    trace?: never;
-  };
   "/api/v1/villages/{id}/leave": {
     parameters: {
       query?: never;
@@ -1683,25 +1667,13 @@ export interface components {
       epilogueDay?: number | null;
       /** Format: int32 */
       id: number;
+      info: components["schemas"]["VillageSettingsContent"];
       name: string;
       participants: components["schemas"]["VillageParticipantsView"];
       roomSize?: components["schemas"]["RoomSize"] | null;
       setting: components["schemas"]["VillageSettingView"];
       spectators: components["schemas"]["VillageParticipantsView"];
       status: components["schemas"]["VillageStatus"];
-    };
-    VillageFilterParticipantContent: {
-      /** Format: int32 */
-      charaId: number;
-      deadStatus?: string | null;
-      /** Format: int32 */
-      id: number;
-      /** Format: int32 */
-      imgHeight: number;
-      imgUrl: string;
-      /** Format: int32 */
-      imgWidth: number;
-      name: string;
     };
     VillageFootstepContent: {
       /** Format: int32 */
@@ -2086,7 +2058,6 @@ export interface components {
       footstepList: components["schemas"]["VillageFootstepContent"][];
       isViewableSpoilerContent: boolean;
       memberList: components["schemas"]["VillageMemberContent"][];
-      participantList: components["schemas"]["VillageFilterParticipantContent"][];
       roomAssignedRowList?: components["schemas"]["VillageRoomAssignedRow"][] | null;
       /** Format: int32 */
       roomWidth?: number | null;
@@ -3234,28 +3205,6 @@ export interface operations {
           [name: string]: unknown;
         };
         content?: never;
-      };
-    };
-  };
-  getVillageInfo: {
-    parameters: {
-      query?: never;
-      header?: never;
-      path: {
-        id: number;
-      };
-      cookie?: never;
-    };
-    requestBody?: never;
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown;
-        };
-        content: {
-          "*/*": components["schemas"]["VillageSettingsContent"];
-        };
       };
     };
   };

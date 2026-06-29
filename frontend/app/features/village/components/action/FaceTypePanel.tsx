@@ -13,17 +13,17 @@ import {
   modifyVillageFaceTypes,
   type ParticipantSituationView,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 export function FaceTypePanel({
-  villageId,
   mySituation,
   onDone,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   const images = mySituation.myself?.chara.images.list ?? [];
   return (
     <Panel title="表情差分" storageKey="facetypeform" fixable>
@@ -31,12 +31,12 @@ export function FaceTypePanel({
         {images.length > 0 && (
           <ModifyFaceTypesForm
             key={images.length}
-            villageId={villageId}
+            villageId={village.id}
             images={images}
             onDone={onDone}
           />
         )}
-        <AddFaceTypeForm villageId={villageId} onDone={onDone} />
+        <AddFaceTypeForm villageId={village.id} onDone={onDone} />
       </div>
     </Panel>
   );

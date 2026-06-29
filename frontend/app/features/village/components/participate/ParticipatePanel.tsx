@@ -9,9 +9,9 @@ import { Panel } from "~/components/ui/Panel";
 import {
   confirmVillageParticipate,
   type ParticipantSituationView,
-  type VillageDetailView,
   type VillageParticipateRequest,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
 import { toMessageHtml } from "../message/message";
 
@@ -38,17 +38,16 @@ type Step = "input" | "confirm";
  * 確認 (ルール/礼節の 2 つの同意チェックで「入村する」が活性化) → 入村。
  */
 export function ParticipatePanel({
-  village,
   mySituation,
   onParticipated,
   onError,
 }: {
-  village: VillageDetailView;
   mySituation: ParticipantSituationView;
   onParticipated: (request: VillageParticipateRequest, charaImage: File | null) => Promise<void>;
   /** 確認 (サーバ検証) のエラーメッセージ表示用 */
   onError: (message: string | null) => void;
 }) {
+  const village = useVillageContext();
   const participate = mySituation.participate;
   const skillRequest = mySituation.skillRequest;
   const isOriginal = village.setting.chara.isOriginalCharachip;

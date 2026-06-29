@@ -6,7 +6,6 @@ import {
   fetchMyVillageSituation,
   fetchVillage,
   fetchVillageDebugInfo,
-  fetchVillageInfo,
   fetchVillageSituation,
   postVillageUpdate,
 } from "./api";
@@ -51,16 +50,6 @@ export function useMyVillageSituation(id: number, day: number | undefined) {
     enabled: !isLoading && me != null,
     retry: false,
     refetchInterval: 5 * 60 * 1000,
-  });
-}
-
-/** 村情報モーダル用の設定表示。モーダルを開いたときだけ取得する。 */
-export function useVillageInfo(id: number, enabled: boolean) {
-  return useQuery({
-    queryKey: ["village-info", id],
-    queryFn: () => fetchVillageInfo(id),
-    enabled,
-    retry: false,
   });
 }
 

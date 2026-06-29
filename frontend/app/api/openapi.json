@@ -1442,35 +1442,6 @@
         "tags": ["village-rp-rest-controller"]
       }
     },
-    "/api/v1/villages/{id}/info": {
-      "get": {
-        "operationId": "getVillageInfo",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "id",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/VillageSettingsContent"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
-        "tags": ["village-rest-controller"]
-      }
-    },
     "/api/v1/villages/{id}/leave": {
       "post": {
         "operationId": "leaveVillage",
@@ -4606,6 +4577,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "info": {
+            "$ref": "#/components/schemas/VillageSettingsContent"
+          },
           "name": {
             "type": "string"
           },
@@ -4632,38 +4606,16 @@
             "$ref": "#/components/schemas/VillageStatus"
           }
         },
-        "required": ["days", "id", "name", "participants", "setting", "spectators", "status"]
-      },
-      "VillageFilterParticipantContent": {
-        "type": "object",
-        "properties": {
-          "charaId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "deadStatus": {
-            "type": ["string", "null"]
-          },
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "imgHeight": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "imgUrl": {
-            "type": "string"
-          },
-          "imgWidth": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          }
-        },
-        "required": ["charaId", "id", "imgHeight", "imgUrl", "imgWidth", "name"]
+        "required": [
+          "days",
+          "id",
+          "info",
+          "name",
+          "participants",
+          "setting",
+          "spectators",
+          "status"
+        ]
       },
       "VillageFootstepContent": {
         "type": "object",
@@ -5963,12 +5915,6 @@
               "$ref": "#/components/schemas/VillageMemberContent"
             }
           },
-          "participantList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageFilterParticipantContent"
-            }
-          },
           "roomAssignedRowList": {
             "type": ["array", "null"],
             "items": {
@@ -5996,13 +5942,7 @@
             ]
           }
         },
-        "required": [
-          "footstepList",
-          "isViewableSpoilerContent",
-          "memberList",
-          "participantList",
-          "situationList"
-        ]
+        "required": ["footstepList", "isViewableSpoilerContent", "memberList", "situationList"]
       },
       "VillageStatus": {
         "type": "object",

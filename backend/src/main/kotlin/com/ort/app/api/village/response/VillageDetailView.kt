@@ -1,6 +1,7 @@
 package com.ort.app.api.village.response
 
 import com.ort.app.api.view.village.VillageParticipantsView
+import com.ort.app.api.view.village.VillageSettingsContent
 import com.ort.app.domain.model.chara.Charachips
 import com.ort.app.domain.model.player.Players
 import com.ort.app.domain.model.village.Village
@@ -23,6 +24,7 @@ data class VillageDetailView(
     val setting: VillageSettingView,
     val participants: VillageParticipantsView,
     val spectators: VillageParticipantsView,
+    val info: VillageSettingsContent,
 ) {
     constructor(village: Village, charachips: Charachips, players: Players) : this(
         id = village.id,
@@ -34,5 +36,6 @@ data class VillageDetailView(
         setting = VillageSettingView(village.setting),
         participants = VillageParticipantsView(village.participants, charachips, !village.status.isSettled(), players),
         spectators = VillageParticipantsView(village.spectators, charachips, !village.status.isSettled(), players),
+        info = VillageSettingsContent(village, charachips),
     )
 }

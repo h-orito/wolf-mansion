@@ -11,6 +11,7 @@ import {
   changeVillageMemo,
   type ParticipantSituationView,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /**
@@ -18,14 +19,13 @@ import { useAsyncAction } from "~/lib/useAsyncAction";
  * 自分専用メモではない。
  */
 export function RpPanel({
-  villageId,
   mySituation,
   onDone,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   const rp = mySituation.rp;
   return (
     <Panel title="名前変更・簡易メモ" storageKey="changenameform" fixable>
@@ -38,10 +38,10 @@ export function RpPanel({
           )}
         </AlertList>
         {rp.isAvailableChangeName && (
-          <ChangeNameForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
+          <ChangeNameForm villageId={village.id} myself={mySituation.myself} onDone={onDone} />
         )}
         {rp.isAvailableMemo && (
-          <MemoForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
+          <MemoForm villageId={village.id} myself={mySituation.myself} onDone={onDone} />
         )}
       </div>
     </Panel>

@@ -122,9 +122,8 @@ export function fetchAnchorMessages(
   );
 }
 
-/** 発言抽出用の参加者ビュー (村状況 API の participantList)。 */
-export type VillageFilterParticipantContent =
-  components["schemas"]["VillageFilterParticipantContent"];
+export type VillageParticipantView = components["schemas"]["VillageParticipantView"];
+export type VillageSettingsContent = components["schemas"]["VillageSettingsContent"];
 
 /** 発言の確認/投稿のリクエスト。 */
 export type VillageSayRequest = components["schemas"]["VillageSayRequest"];
@@ -302,14 +301,6 @@ export function modifyVillageFaceTypes(
   list: { code: string; name: string; isDisplay: boolean }[],
 ): Promise<void> {
   return apiFetch<void>(`/api/v1/villages/${id}/face-types`, { method: "PUT", body: { list } });
-}
-
-/** 村情報モーダル用の設定表示 (表示ラベル組み立て・マスク済み)。 */
-export type VillageSettingsContent = components["schemas"]["VillageSettingsContent"];
-
-/** 村情報モーダル用の設定表示を取得する。 */
-export function fetchVillageInfo(id: number): Promise<VillageSettingsContent> {
-  return apiFetch<VillageSettingsContent>(`/api/v1/villages/${id}/info`);
 }
 
 /** Discord 通知設定のリクエスト。 */

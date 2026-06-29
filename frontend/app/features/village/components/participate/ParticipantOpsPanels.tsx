@@ -12,21 +12,17 @@ import {
   switchVillageParticipate,
   type ParticipantSituationView,
 } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 参加 ⇄ 見学の切替。 */
-export function SwitchParticipatePanel({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+export function SwitchParticipatePanel({ onDone }: { onDone: () => Promise<unknown> }) {
+  const village = useVillageContext();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
   const submit = () =>
     execute(async () => {
-      await switchVillageParticipate(villageId);
+      await switchVillageParticipate(village.id);
       showToast("参加見学を切り替えました");
       await onDone();
     }, "切り替えに失敗しました");
@@ -46,14 +42,13 @@ export function SwitchParticipatePanel({
 
 /** 希望役職 (第 1/第 2) の変更。 */
 export function ChangeSkillPanel({
-  villageId,
   mySituation,
   onDone,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   const skillRequest = mySituation.skillRequest;
   const skills = skillRequest.selectableSkillList ?? [];
   const [first, setFirst] = useState(skillRequest.skillRequest?.first?.code ?? "LEFTOVER");
@@ -68,7 +63,7 @@ export function ChangeSkillPanel({
 
   const submit = () =>
     execute(async () => {
-      await changeVillageRequestSkill(villageId, {
+      await changeVillageRequestSkill(village.id, {
         requestedSkill: first,
         secondRequestedSkill: second,
       });
@@ -122,19 +117,14 @@ export function ChangeSkillPanel({
 }
 
 /** 退村。 */
-export function LeavePanel({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+export function LeavePanel({ onDone }: { onDone: () => Promise<unknown> }) {
+  const village = useVillageContext();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
   const submit = () => {
     if (!window.confirm("本当に退村してよろしいですか？")) return;
     void execute(async () => {
-      await leaveVillage(villageId);
+      await leaveVillage(village.id);
       showToast("退村しました");
       await onDone();
     }, "退村に失敗しました");

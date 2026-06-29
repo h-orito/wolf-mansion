@@ -3,27 +3,21 @@ import { Button } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { useToast } from "~/components/ui/Toast";
-import {
-  setVillageVote,
-  type ParticipantSituationView,
-  type VillageDetailView,
-} from "~/features/village/api";
+import { setVillageVote, type ParticipantSituationView } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 import { useVoteState } from "./useVoteState";
 
 /** 処刑対象への投票。未セットのまま日付が更新されると突然死するため警告を出す。 */
 export function VotePanel({
-  villageId,
-  village,
   mySituation,
   onDone,
 }: {
-  villageId: number;
-  village: VillageDetailView;
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   const vote = mySituation.vote;
   const { targetCharaId, setTargetCharaId } = useVoteState(vote);
   const showToast = useToast((s) => s.show);
@@ -32,7 +26,7 @@ export function VotePanel({
   const submit = () => {
     if (targetCharaId === "") return;
     void execute(async () => {
-      await setVillageVote(villageId, { targetCharaId: Number(targetCharaId) });
+      await setVillageVote(village.id, { targetCharaId: Number(targetCharaId) });
       showToast("投票をセットしました");
       await onDone();
     }, "投票セットに失敗しました");

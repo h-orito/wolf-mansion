@@ -6,17 +6,36 @@ import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
-import type {
-  ParticipantSituationView,
-  VillageDetailView,
-  VillageSayRequest,
-} from "~/features/village/api";
+import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageType } from "~/features/village/components/message/messageType";
 import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 import { useSayState } from "./useSayState";
 export type { ReplyDraft };
+
+/** 確認画面の投稿ボタンのラベル (発言種別ごと)。 */
+export function sayLabel(messageType: string | null | undefined): string {
+  switch (messageType) {
+    case MessageType.WEREWOLF_SAY:
+      return "発言する（囁き）";
+    case MessageType.MASON_SAY:
+      return "発言する（共鳴）";
+    case MessageType.LOVERS_SAY:
+      return "発言する（恋人）";
+    case MessageType.TELEPATHY:
+      return "発言する（念話）";
+    case MessageType.MONOLOGUE_SAY:
+      return "発言する（独り言）";
+    case MessageType.SECRET_SAY:
+      return "発言する（秘話）";
+    case MessageType.GRAVE_SAY:
+      return "呻く";
+    default:
+      return "発言する";
+  }
+}
 
 /** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */
 const SAY_TYPE_ORDER: { code: string; label: string }[] = [
@@ -68,7 +87,6 @@ const RANDOM_TAGS = ["fortune", "1d6", "or", "who", "allwho", "gwho"];
  * 制限超過でも入力はできるが確認ボタンを無効にする。
  */
 export function SayPanel({
-  village,
   mySituation,
   randomKeywords,
   reply,
@@ -76,7 +94,6 @@ export function SayPanel({
   onConfirm,
   registerOnDone,
 }: {
-  village: VillageDetailView;
   mySituation: ParticipantSituationView;
   randomKeywords: string[];
   reply: ReplyDraft | null;
@@ -86,6 +103,7 @@ export function SayPanel({
   /** 発言完了時のクリア関数を登録する */
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
+  const village = useVillageContext();
   const say = mySituation.say;
   const myself = mySituation.myself;
   const showDecorationButtons = useDisplaySettings((s) => s.showDecorationButtons);

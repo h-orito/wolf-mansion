@@ -4,11 +4,9 @@ import { AlertList } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
-import type {
-  ParticipantSituationView,
-  VillageActionRequest,
-  VillageFilterParticipantContent,
-} from "~/features/village/api";
+import type { ParticipantSituationView, VillageActionRequest } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
+import { allParticipants } from "~/features/village/participants";
 import { MessageType } from "~/features/village/components/message/messageType";
 
 /**
@@ -17,15 +15,14 @@ import { MessageType } from "~/features/village/components/message/messageType";
  */
 export function ActionPanel({
   mySituation,
-  participants,
   onConfirm,
   registerOnDone,
 }: {
   mySituation: ParticipantSituationView;
-  participants: VillageFilterParticipantContent[];
   onConfirm: (request: VillageActionRequest) => void;
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
+  const village = useVillageContext();
   const myself = mySituation.myself;
   const restrict = mySituation.say.selectableMessageTypeList?.find(
     (t) => t.messageType.code === MessageType.ACTION,
@@ -41,8 +38,9 @@ export function ActionPanel({
 
   if (myself == null) return null;
   const prefix = `${myself.name}は、`;
-  // 対象は自分以外の参加者を表示名で指定する
-  const targets = participants.filter((p) => p.id !== myself.id).map((p) => p.name ?? "");
+  const targets = allParticipants(village)
+    .filter((p) => p.id !== myself.id)
+    .map((p) => p.name ?? "");
 
   const totalLength = (prefix + target + message).length;
   const maxLength = restrict?.maxLength ?? 400;

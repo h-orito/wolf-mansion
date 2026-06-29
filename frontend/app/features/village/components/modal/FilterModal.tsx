@@ -5,7 +5,7 @@ import { ButtonCheckboxGroup } from "~/components/ui/ButtonCheckboxGroup";
 import { inputClass } from "~/components/ui/Input";
 import { Modal } from "~/components/ui/Modal";
 import { TextButton } from "~/components/ui/TextButton";
-import type { VillageFilterParticipantContent } from "~/features/village/api";
+import type { FilterParticipant } from "~/features/village/participants";
 import { EMPTY_FILTER, FILTER_TYPES, type MessageFilter } from "~/features/village/filter";
 import { MessageType } from "~/features/village/components/message/messageType";
 
@@ -56,7 +56,7 @@ function ParticipantCheckList({
   checked,
   onChange,
 }: {
-  participants: VillageFilterParticipantContent[];
+  participants: FilterParticipant[];
   checked: number[];
   onChange: (ids: number[]) => void;
 }) {
@@ -129,7 +129,7 @@ export function FilterModal({
   open: boolean;
   onClose: () => void;
   filter: MessageFilter;
-  participants: VillageFilterParticipantContent[];
+  participants: FilterParticipant[];
   /** 参加中の自分の参加者 ID (自分宛ショートカット用、未参加は null) */
   myselfId: number | null;
   /** Discord 通知キーワード (未設定は null) */
