@@ -30,17 +30,8 @@ export function CreatorPanel({
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
-  const village = useVillageContext();
+  const villageId = useVillageId();
   const creator = mySituation.creator;
-  const all = allParticipants(village);
-  const participants = all.map((p) => ({
-    charaId: p.chara.id,
-    name: p.name,
-  }));
-  const members = all.map((p) => ({
-    charaName: p.name,
-    lastAccess: p.lastAccessDatetime != null ? formatLastAccess(p.lastAccessDatetime) : null,
-  }));
 
   return (
     <Panel title="村建て機能" storageKey="creatorform" fixable>
@@ -48,13 +39,13 @@ export function CreatorPanel({
         {creator.isAvailableModifySetting && (
           <VillageFormRow label="設定変更">
             <div className="flex justify-end">
-              <LinkButton to={`/village/${village.id}/settings`} target="_blank" variant="success">
+              <LinkButton to={`/village/${villageId}/settings`} target="_blank" variant="success">
                 村設定変更
               </LinkButton>
             </div>
           </VillageFormRow>
         )}
-        {creator.isAvailableKick && <KickSection participants={participants} members={members} />}
+        {creator.isAvailableKick && <KickSection />}
         {creator.isAvailableCancelVillage && <CancelSection />}
         {creator.isAvailableCreatorSay && (
           <CreatorSaySection onConfirm={onConfirm} registerOnDone={registerOnDone} />
@@ -70,15 +61,15 @@ export function CreatorPanel({
   );
 }
 
-function KickSection({
-  participants,
-  members,
-}: {
-  participants: { charaId: number; name: string }[];
-  members: { charaName: string; lastAccess: string | null }[];
-}) {
-  const villageId = useVillageId();
+function KickSection() {
+  const village = useVillageContext();
   const invalidate = useVillageInvalidate();
+  const all = allParticipants(village);
+  const participants = all.map((p) => ({ charaId: p.chara.id, name: p.name }));
+  const members = all.map((p) => ({
+    charaName: p.name,
+    lastAccess: p.lastAccessDatetime != null ? formatLastAccess(p.lastAccessDatetime) : null,
+  }));
   const [selectedCharaId, setSelectedCharaId] = useState<string>("");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
@@ -87,7 +78,7 @@ function KickSection({
     if (selectedCharaId === "") return;
     if (!window.confirm("本当に退村させてよろしいですか？")) return;
     void execute(async () => {
-      await kickVillageParticipant(villageId, { charaId: Number(selectedCharaId) });
+      await kickVillageParticipant(village.id, { charaId: Number(selectedCharaId) });
       showToast("退村させました");
       await invalidate();
     }, "強制退村に失敗しました");
