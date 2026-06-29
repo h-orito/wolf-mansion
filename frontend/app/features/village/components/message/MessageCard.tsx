@@ -1,7 +1,7 @@
 import { type MouseEvent, useMemo, useState } from "react";
 
-import type { components } from "~/api/types";
 import { fetchAnchorMessage, type VillageMessageContent } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { SAY_TYPES, SPOILED_TYPES } from "./messageType";
 import { type ReplyDraft, replaceIdLink, toMessageHtml } from "./message";
@@ -18,26 +18,23 @@ type ExpandedAnchor = {
 };
 
 export function MessageCard({
-  villageId,
   message,
   randomKeywords,
   spoiled = false,
-  allParticipants,
   onHashtagClick,
   onReply,
   onSecret,
   onAnchorExpand,
 }: {
-  villageId: number;
   message: VillageMessageContent;
   randomKeywords: string[];
   spoiled?: boolean;
-  allParticipants?: components["schemas"]["VillageParticipantView"][];
   onHashtagClick?: (tag: string) => void;
   onReply?: (reply: ReplyDraft) => void;
   onSecret?: (reply: ReplyDraft) => void;
   onAnchorExpand?: (type: string, number: number) => void;
 }) {
+  const village = useVillageContext();
   const [expandedAnchors, setExpandedAnchors] = useState<ExpandedAnchor[]>([]);
   const largeImage = useDisplaySettings((s) => s.largeImage);
   const imageScale = largeImage ? 2 : 1;
@@ -65,7 +62,7 @@ export function MessageCard({
       return;
     }
     try {
-      const response = await fetchAnchorMessage(villageId, type, number);
+      const response = await fetchAnchorMessage(village.id, type, number);
       if (response.message == null) return;
       const anchorMessage = response.message;
       setExpandedAnchors((prev) => [...prev, { key, message: anchorMessage, visible: true }]);
@@ -119,12 +116,7 @@ export function MessageCard({
         onSecret={onSecret}
       />
     ) : (
-      <SystemMessage
-        message={message}
-        html={html}
-        onContentClick={onContentClick}
-        allParticipants={allParticipants}
-      />
+      <SystemMessage message={message} html={html} onContentClick={onContentClick} />
     );
 
   return (
@@ -152,7 +144,6 @@ export function MessageCard({
             </div>
             <div className="[&>div]:mb-0">
               <MessageCard
-                villageId={villageId}
                 message={a.message}
                 randomKeywords={randomKeywords}
                 onAnchorExpand={(type, number) => toggleAnchor(type, number)}

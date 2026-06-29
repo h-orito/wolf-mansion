@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-import type { components } from "~/api/types";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
@@ -32,7 +31,6 @@ export function MessageArea({
   day,
   randomKeywords,
   filter = EMPTY_FILTER,
-  allParticipants,
   page,
   setPage,
   isPaging,
@@ -48,7 +46,6 @@ export function MessageArea({
   randomKeywords: string[];
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
-  allParticipants?: components["schemas"]["VillageParticipantView"][];
   page: PageState;
   setPage: (page: PageState) => void;
   isPaging: boolean;
@@ -89,11 +86,9 @@ export function MessageArea({
       {(data.messageList ?? []).map((message, index) => (
         <MessageCard
           key={`${message.messageType}-${message.messageNumber ?? index}`}
-          villageId={villageId}
           message={message}
           randomKeywords={randomKeywords}
           spoiled={filter.spoiled}
-          allParticipants={allParticipants}
           onHashtagClick={onHashtagClick}
           onReply={onReply}
           onSecret={onSecret}

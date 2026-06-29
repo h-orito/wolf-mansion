@@ -1,7 +1,7 @@
-import type { MouseEvent } from "react";
+import { type MouseEvent, useMemo } from "react";
 
-import type { components } from "~/api/types";
 import type { VillageMessageContent } from "~/features/village/api";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { ParticipantsTable } from "../info/ParticipantsTable";
 import { MessageType } from "./messageType";
 import { SYSTEM_VARIANTS, bubbleClass } from "./message";
@@ -11,17 +11,25 @@ export function SystemMessage({
   message,
   html,
   onContentClick,
-  allParticipants,
 }: {
   message: VillageMessageContent;
   html: string;
   onContentClick: (e: MouseEvent<HTMLDivElement>) => void;
-  allParticipants?: components["schemas"]["VillageParticipantView"][];
 }) {
-  if (message.messageType === MessageType.PARTICIPANTS && allParticipants != null) {
+  const village = useVillageContext();
+  const sortedParticipants = useMemo(() => {
+    return [...(village.participants.list ?? []), ...(village.spectators.list ?? [])].sort(
+      (a, b) =>
+        Number(a.isSpectator) - Number(b.isSpectator) ||
+        (a.room?.number ?? 0) - (b.room?.number ?? 0) ||
+        a.charaId - b.charaId,
+    );
+  }, [village.participants.list, village.spectators.list]);
+
+  if (message.messageType === MessageType.PARTICIPANTS && sortedParticipants.length > 0) {
     return (
       <div className={`mb-[20px] ${bubbleClass("message-public-system")}`}>
-        <ParticipantsTable participants={allParticipants} />
+        <ParticipantsTable participants={sortedParticipants} />
       </div>
     );
   }
