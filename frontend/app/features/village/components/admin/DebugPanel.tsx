@@ -7,23 +7,22 @@ import { inlineInputClass, selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { login, logout } from "~/features/auth/api";
 import { debugAllParticipate, debugDayChange, type VillageDebugView } from "~/features/village/api";
-import { useVillageId } from "~/features/village/VillageContext";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** ローカル開発向けデバッグメニュー。app.debug 有効時のみ表示する。 */
 export function DebugPanel({
-  currentDay,
   debugInfo,
   onDone,
 }: {
-  currentDay: number;
   debugInfo: VillageDebugView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   return (
     <Panel title="デバッグメニュー" storageKey="debugform">
       <div className="space-y-[15px]">
-        {currentDay === 0 && <ParticipateSection onDone={onDone} />}
+        {village.status.isPrologue && <ParticipateSection onDone={onDone} />}
         <DayChangeSection onDone={onDone} />
         <DummyLoginSection players={debugInfo.players} />
         <LogoutSection />

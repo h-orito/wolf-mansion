@@ -163,9 +163,7 @@ export function ActionPanels({
 
       {mySituation != null && mySituation.admin.isAdmin && <AdminPanel />}
 
-      {debugInfo?.isDebugMode && (
-        <DebugPanel currentDay={currentDay} debugInfo={debugInfo} onDone={refresh} />
-      )}
+      {debugInfo?.isDebugMode && <DebugPanel debugInfo={debugInfo} onDone={refresh} />}
     </>
   );
 }
