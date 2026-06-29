@@ -367,11 +367,7 @@ export function SayPanel({
                 ×
               </Button>
             </div>
-            <MessageCard
-              villageId={village.id}
-              message={reply.message}
-              randomKeywords={randomKeywords}
-            />
+            <MessageCard message={reply.message} randomKeywords={randomKeywords} />
           </div>
         )}
       </div>

@@ -22,7 +22,7 @@ export function SystemMessage({
       (a, b) =>
         Number(a.isSpectator) - Number(b.isSpectator) ||
         (a.room?.number ?? 0) - (b.room?.number ?? 0) ||
-        a.charaId - b.charaId,
+        a.chara.id - b.chara.id,
     );
   }, [village.participants.list, village.spectators.list]);
 
