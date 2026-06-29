@@ -2,6 +2,7 @@ import { useEffect } from "react";
 
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageId } from "~/features/village/VillageContext";
 import { useVillageMessages } from "~/features/village/useMessages";
@@ -29,7 +30,6 @@ function Announce({ text }: { text: string }) {
  */
 export function MessageArea({
   day,
-  randomKeywords,
   filter = EMPTY_FILTER,
   page,
   setPage,
@@ -42,7 +42,6 @@ export function MessageArea({
   confirmArea,
 }: {
   day: number | undefined;
-  randomKeywords: string[];
   /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
   page: PageState;
@@ -57,6 +56,7 @@ export function MessageArea({
   confirmArea?: React.ReactNode;
 }) {
   const villageId = useVillageId();
+  const randomKeywords = useRandomKeywordList();
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,

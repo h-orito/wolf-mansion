@@ -5,7 +5,6 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { AdSense } from "~/components/ui/AdSense";
 import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
-import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import type { VillageDetailView } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
@@ -94,7 +93,6 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
-  const keywordList = useRandomKeywordList();
   const { refresh, invalidate, register } = useRefresh(villageId);
   const canSecretReply =
     mySituation?.say.selectableMessageTypeList?.some(
@@ -236,7 +234,6 @@ export default function Village({ params }: Route.ComponentProps) {
 
             <MessageArea
               day={dayParam}
-              randomKeywords={keywordList}
               filter={filter}
               page={page}
               setPage={setPage}
