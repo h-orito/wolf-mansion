@@ -9,6 +9,7 @@ import {
   type ParticipantSituationView,
 } from "~/features/village/api";
 import { PAGE_SIZE_OPTIONS, useDisplaySettings } from "~/features/village/displaySettings";
+import { useVillageId } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
 
 function SettingRow({ label, children }: { label: string; children: ReactNode }) {
@@ -57,12 +58,10 @@ function SectionTitle({ children }: { children: ReactNode }) {
 export function SettingsModal({
   open,
   onClose,
-  villageId,
   mySituation,
 }: {
   open: boolean;
   onClose: () => void;
-  villageId: number;
   mySituation: ParticipantSituationView | null | undefined;
 }) {
   const settings = useDisplaySettings();
@@ -134,9 +133,7 @@ export function SettingsModal({
           </Button>
         </div>
 
-        {mySituation?.myself != null && (
-          <NotificationSection villageId={villageId} mySituation={mySituation} />
-        )}
+        {mySituation?.myself != null && <NotificationSection mySituation={mySituation} />}
 
         <hr className="my-[15px] border-[#464545]" />
         <div className="flex justify-end">
@@ -149,13 +146,8 @@ export function SettingsModal({
   );
 }
 
-function NotificationSection({
-  villageId,
-  mySituation,
-}: {
-  villageId: number;
-  mySituation: ParticipantSituationView;
-}) {
+function NotificationSection({ mySituation }: { mySituation: ParticipantSituationView }) {
+  const villageId = useVillageId();
   const current = mySituation.myself?.notification;
   const [webhookUrl, setWebhookUrl] = useState(current?.discordWebhookUrl ?? "");
   const [villageStart, setVillageStart] = useState(current?.village?.start ?? false);

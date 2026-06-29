@@ -14,7 +14,7 @@ import {
   type ParticipantSituationView,
   type VillageCreatorSayRequest,
 } from "~/features/village/api";
-import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
 import { allParticipants } from "~/features/village/participants";
 import { formatLastAccess } from "~/lib/datetime";
 import { useAsyncAction } from "~/lib/useAsyncAction";
@@ -56,22 +56,14 @@ export function CreatorPanel({
           </VillageFormRow>
         )}
         {creator.isAvailableKick && (
-          <KickSection
-            villageId={village.id}
-            participants={participants}
-            members={members}
-            onDone={onDone}
-          />
+          <KickSection participants={participants} members={members} onDone={onDone} />
         )}
-        {creator.isAvailableCancelVillage && (
-          <CancelSection villageId={village.id} onDone={onDone} />
-        )}
+        {creator.isAvailableCancelVillage && <CancelSection onDone={onDone} />}
         {creator.isAvailableCreatorSay && (
           <CreatorSaySection onConfirm={onConfirm} registerOnDone={registerOnDone} />
         )}
         {(creator.isAvailableExtendEpilogue || creator.isAvailableShortenEpilogue) && (
           <EpilogueSection
-            villageId={village.id}
             canExtend={creator.isAvailableExtendEpilogue}
             canShorten={creator.isAvailableShortenEpilogue}
             onDone={onDone}
@@ -83,16 +75,15 @@ export function CreatorPanel({
 }
 
 function KickSection({
-  villageId,
   participants,
   members,
   onDone,
 }: {
-  villageId: number;
   participants: { charaId: number; name: string }[];
   members: { charaName: string; lastAccess: string | null }[];
   onDone: () => Promise<unknown>;
 }) {
+  const villageId = useVillageId();
   const [selectedCharaId, setSelectedCharaId] = useState<string>("");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
@@ -146,13 +137,8 @@ function KickSection({
   );
 }
 
-function CancelSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function CancelSection({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -242,16 +228,15 @@ function CreatorSaySection({
 }
 
 function EpilogueSection({
-  villageId,
   canExtend,
   canShorten,
   onDone,
 }: {
-  villageId: number;
   canExtend: boolean;
   canShorten: boolean;
   onDone: () => Promise<unknown>;
 }) {
+  const villageId = useVillageId();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 

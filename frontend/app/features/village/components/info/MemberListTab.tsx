@@ -9,6 +9,9 @@ type MemberGroup = {
   members: { name: string; deadDay: string | null; memo: string | null }[];
 };
 
+const sortByRoom = (a: VillageParticipantView, b: VillageParticipantView) =>
+  (a.room?.number ?? 0) - (b.room?.number ?? 0) || a.chara.id - b.chara.id;
+
 function groupParticipants(participants: VillageParticipantView[]): MemberGroup[] {
   const alive: VillageParticipantView[] = [];
   const deadByReason = new Map<string, VillageParticipantView[]>();
@@ -20,8 +23,7 @@ function groupParticipants(participants: VillageParticipantView[]): MemberGroup[
     } else if (!p.dead.isDead) {
       alive.push(p);
     } else {
-      const reason = p.dead.reason?.name ?? "";
-      const reasonLabel = reason.endsWith("死") ? reason : `${reason}死`;
+      const reasonLabel = p.dead.reason?.name ?? "不明";
       const group = deadByReason.get(reasonLabel) ?? [];
       group.push(p);
       deadByReason.set(reasonLabel, group);
@@ -35,15 +37,17 @@ function groupParticipants(participants: VillageParticipantView[]): MemberGroup[
       memo: p.memo ?? null,
     }));
 
-  const groups: MemberGroup[] = [{ status: "生存", members: toMembers(alive) }];
+  const groups: MemberGroup[] = [
+    { status: "生存", members: toMembers([...alive].sort(sortByRoom)) },
+  ];
   for (const [reason, list] of deadByReason) {
     const sorted = [...list].sort(
-      (a, b) => (a.dead.deadDay ?? 0) - (b.dead.deadDay ?? 0) || (a.room?.number ?? 0) - (b.room?.number ?? 0),
+      (a, b) => (a.dead.deadDay ?? 0) - (b.dead.deadDay ?? 0) || sortByRoom(a, b),
     );
     groups.push({ status: reason, members: toMembers(sorted) });
   }
   if (spectators.length > 0) {
-    groups.push({ status: "見学", members: toMembers(spectators) });
+    groups.push({ status: "見学", members: toMembers([...spectators].sort(sortByRoom)) });
   }
   return groups;
 }

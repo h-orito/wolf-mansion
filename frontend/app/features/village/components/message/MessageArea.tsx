@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
+import { useVillageId } from "~/features/village/VillageContext";
 import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
@@ -27,7 +28,6 @@ function Announce({ text }: { text: string }) {
  * 取得した一覧の最新発言日時は新着検知の基準として親へ渡す。
  */
 export function MessageArea({
-  villageId,
   day,
   randomKeywords,
   filter = EMPTY_FILTER,
@@ -41,7 +41,6 @@ export function MessageArea({
   onLoaded,
   confirmArea,
 }: {
-  villageId: number;
   day: number | undefined;
   randomKeywords: string[];
   /** 発言抽出の条件 (URL searchParams 由来)。 */
@@ -57,6 +56,7 @@ export function MessageArea({
   onLoaded: (content: VillageMessageListContent) => void;
   confirmArea?: React.ReactNode;
 }) {
+  const villageId = useVillageId();
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,

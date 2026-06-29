@@ -11,7 +11,7 @@ import {
   changeVillageMemo,
   type ParticipantSituationView,
 } from "~/features/village/api";
-import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageId } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /**
@@ -25,7 +25,6 @@ export function RpPanel({
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
-  const village = useVillageContext();
   const rp = mySituation.rp;
   return (
     <Panel title="名前変更・簡易メモ" storageKey="changenameform" fixable>
@@ -37,26 +36,21 @@ export function RpPanel({
             <li>このキャラチップは制作者様の意向により名前変更ができません。</li>
           )}
         </AlertList>
-        {rp.isAvailableChangeName && (
-          <ChangeNameForm villageId={village.id} myself={mySituation.myself} onDone={onDone} />
-        )}
-        {rp.isAvailableMemo && (
-          <MemoForm villageId={village.id} myself={mySituation.myself} onDone={onDone} />
-        )}
+        {rp.isAvailableChangeName && <ChangeNameForm myself={mySituation.myself} onDone={onDone} />}
+        {rp.isAvailableMemo && <MemoForm myself={mySituation.myself} onDone={onDone} />}
       </div>
     </Panel>
   );
 }
 
 function ChangeNameForm({
-  villageId,
   myself,
   onDone,
 }: {
-  villageId: number;
   myself: ParticipantSituationView["myself"];
   onDone: () => Promise<unknown>;
 }) {
+  const villageId = useVillageId();
   const [name, setName] = useState(myself?.charaName.name ?? "");
   const [shortName, setShortName] = useState(myself?.charaName.shortName ?? "");
   const showToast = useToast((s) => s.show);
@@ -103,14 +97,13 @@ function ChangeNameForm({
 }
 
 function MemoForm({
-  villageId,
   myself,
   onDone,
 }: {
-  villageId: number;
   myself: ParticipantSituationView["myself"];
   onDone: () => Promise<unknown>;
 }) {
+  const villageId = useVillageId();
   const [memo, setMemo] = useState(myself?.memo ?? "");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();

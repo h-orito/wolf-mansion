@@ -13,7 +13,7 @@ import {
   modifyVillageFaceTypes,
   type ParticipantSituationView,
 } from "~/features/village/api";
-import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageId } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 export function FaceTypePanel({
@@ -23,20 +23,14 @@ export function FaceTypePanel({
   mySituation: ParticipantSituationView;
   onDone: () => Promise<unknown>;
 }) {
-  const village = useVillageContext();
   const images = mySituation.myself?.chara.images.list ?? [];
   return (
     <Panel title="表情差分" storageKey="facetypeform" fixable>
       <div className="space-y-[15px]">
         {images.length > 0 && (
-          <ModifyFaceTypesForm
-            key={images.length}
-            villageId={village.id}
-            images={images}
-            onDone={onDone}
-          />
+          <ModifyFaceTypesForm key={images.length} images={images} onDone={onDone} />
         )}
-        <AddFaceTypeForm villageId={village.id} onDone={onDone} />
+        <AddFaceTypeForm onDone={onDone} />
       </div>
     </Panel>
   );
@@ -49,14 +43,13 @@ type CharaImage = {
 };
 
 function ModifyFaceTypesForm({
-  villageId,
   images,
   onDone,
 }: {
-  villageId: number;
   images: CharaImage[];
   onDone: () => Promise<unknown>;
 }) {
+  const villageId = useVillageId();
   const [items, setItems] = useState(() =>
     images.map((img) => ({
       code: img.faceType.code,
@@ -128,13 +121,8 @@ function ModifyFaceTypesForm({
   );
 }
 
-function AddFaceTypeForm({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function AddFaceTypeForm({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const [faceTypeName, setFaceTypeName] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploadKey, setUploadKey] = useState(0);

@@ -237,7 +237,6 @@ export default function Village({ params }: Route.ComponentProps) {
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
             <MessageArea
-              villageId={villageId}
               day={dayParam}
               randomKeywords={keywordList}
               filter={filter}
@@ -313,7 +312,6 @@ export default function Village({ params }: Route.ComponentProps) {
           <SettingsModal
             open={settingsOpen}
             onClose={() => setSettingsOpen(false)}
-            villageId={villageId}
             mySituation={mySituation}
           />
           <VillageInfoModal
@@ -322,7 +320,6 @@ export default function Village({ params }: Route.ComponentProps) {
             canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
           />
           <InitialSkillModal
-            villageId={villageId}
             mySituation={mySituation}
             suppressed={ageLimit != null && !ageLimitResolved}
           />
@@ -339,11 +336,7 @@ export default function Village({ params }: Route.ComponentProps) {
             onApplyNewTab={applyFilterNewTab}
           />
           {ageLimit != null && (
-            <AgeLimitModal
-              villageId={villageId}
-              ageLimit={ageLimit}
-              onResolved={() => setAgeLimitResolved(true)}
-            />
+            <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
           )}
 
           {/* ステータス表示 */}

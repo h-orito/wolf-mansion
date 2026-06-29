@@ -11,30 +11,24 @@ import {
   fetchAdminVillagePlayers,
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
-import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageId } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 管理者機能パネル。管理者プレイヤーのみ表示する。 */
 export function AdminPanel({ onDone }: { onDone: () => Promise<unknown> }) {
-  const village = useVillageContext();
   return (
     <Panel title="管理者メニュー" storageKey="adminform">
       <div className="space-y-[15px]">
-        <AccessSection villageId={village.id} onDone={onDone} />
-        <SelfVoteSection villageId={village.id} onDone={onDone} />
-        <PlayersSection villageId={village.id} />
+        <AccessSection onDone={onDone} />
+        <SelfVoteSection onDone={onDone} />
+        <PlayersSection />
       </div>
     </Panel>
   );
 }
 
-function AccessSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function AccessSection({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -59,13 +53,8 @@ function AccessSection({
   );
 }
 
-function SelfVoteSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function SelfVoteSection({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -90,7 +79,8 @@ function SelfVoteSection({
   );
 }
 
-function PlayersSection({ villageId }: { villageId: number }) {
+function PlayersSection() {
+  const villageId = useVillageId();
   const [players, setPlayers] = useState<AdminVillagePlayersResponse | null>(null);
   const { error, submitting: loading, execute } = useAsyncAction();
 

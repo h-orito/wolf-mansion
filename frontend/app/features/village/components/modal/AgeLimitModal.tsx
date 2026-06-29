@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Button, LinkButton } from "~/components/ui/Button";
+import { useVillageId } from "~/features/village/VillageContext";
 
 const STORAGE_KEY = "already_agelimit_confirm";
 
@@ -18,15 +19,14 @@ function confirmedVillages(): string[] {
  * 確認済みの村 ID はブラウザに記憶し、次回以降は出さない。
  */
 export function AgeLimitModal({
-  villageId,
   ageLimit,
   onResolved,
 }: {
-  villageId: number;
   ageLimit: string;
   /** 確認済み (表示不要含む) になったら呼ぶ。後続モーダルの抑制解除に使う */
   onResolved?: () => void;
 }) {
+  const villageId = useVillageId();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {

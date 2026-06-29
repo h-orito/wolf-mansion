@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { skillDescriptions } from "~/features/skills/descriptions";
 import type { ParticipantSituationView } from "~/features/village/api";
-import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
 import { RestrictionTable, Row } from "../modal/VillageInfoModal";
 
 const STORAGE_KEY = "already_skill_confirm";
@@ -22,15 +22,14 @@ function confirmedVillages(): string[] {
  * 確認済みの村 ID はブラウザに記憶し、次回以降は出さない。
  */
 export function InitialSkillModal({
-  villageId,
   mySituation,
   suppressed = false,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView | null | undefined;
   /** 年齢制限確認が済むまで出さない (確認モーダルの逐次表示) */
   suppressed?: boolean;
 }) {
+  const villageId = useVillageId();
   const village = useVillageContext();
   const settings = village.info;
   const skill = mySituation?.myself?.skill;
