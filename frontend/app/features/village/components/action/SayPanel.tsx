@@ -7,7 +7,7 @@ import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
-import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -81,8 +81,7 @@ export function SayPanel({
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const village = useVillageContext();
-  const { data: randomKeywordsData } = useRandomKeywords();
-  const randomKeywords = (randomKeywordsData ?? []).map((k) => k.keyword ?? "").filter(Boolean);
+  const randomKeywords = useRandomKeywordList();
   const say = mySituation.say;
   const myself = mySituation.myself;
   const showDecorationButtons = useDisplaySettings((s) => s.showDecorationButtons);

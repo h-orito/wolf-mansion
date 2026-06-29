@@ -12,6 +12,11 @@ export function useRandomKeywords(q: string = "") {
   });
 }
 
+export function useRandomKeywordList(): string[] {
+  const { data } = useRandomKeywords();
+  return (data ?? []).map((k) => k.keyword ?? "").filter(Boolean);
+}
+
 export function useRandomKeyword(id: number, enabled: boolean = true) {
   return useQuery({
     queryKey: [...QUERY_KEY_PREFIX, "detail", id],

@@ -1,5 +1,5 @@
 import { Button } from "~/components/ui/Button";
-import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { MessageCard } from "~/features/village/components/message/MessageCard";
 import { MessageType } from "~/features/village/components/message/messageType";
 import type {
@@ -52,8 +52,7 @@ export function SayPreviewArea({
   onDetermine: () => void;
   onCancel: () => void;
 }) {
-  const { data: randomKeywordsData } = useRandomKeywords();
-  const randomKeywords = (randomKeywordsData ?? []).map((k) => k.keyword ?? "").filter(Boolean);
+  const randomKeywords = useRandomKeywordList();
   if (preview == null) return null;
   return (
     <div
