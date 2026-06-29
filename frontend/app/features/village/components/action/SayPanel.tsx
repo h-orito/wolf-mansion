@@ -15,28 +15,6 @@ import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 import { useSayState } from "./useSayState";
 export type { ReplyDraft };
 
-/** 確認画面の投稿ボタンのラベル (発言種別ごと)。 */
-export function sayLabel(messageType: string | null | undefined): string {
-  switch (messageType) {
-    case MessageType.WEREWOLF_SAY:
-      return "発言する（囁き）";
-    case MessageType.MASON_SAY:
-      return "発言する（共鳴）";
-    case MessageType.LOVERS_SAY:
-      return "発言する（恋人）";
-    case MessageType.TELEPATHY:
-      return "発言する（念話）";
-    case MessageType.MONOLOGUE_SAY:
-      return "発言する（独り言）";
-    case MessageType.SECRET_SAY:
-      return "発言する（秘話）";
-    case MessageType.GRAVE_SAY:
-      return "呻く";
-    default:
-      return "発言する";
-  }
-}
-
 /** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */
 const SAY_TYPE_ORDER: { code: string; label: string }[] = [
   { code: MessageType.WEREWOLF_SAY, label: "囁き" },

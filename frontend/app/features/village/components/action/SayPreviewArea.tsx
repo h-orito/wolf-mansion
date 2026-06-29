@@ -1,6 +1,6 @@
 import { Button } from "~/components/ui/Button";
 import { MessageCard } from "~/features/village/components/message/MessageCard";
-import { sayLabel } from "./SayPanel";
+import { MessageType } from "~/features/village/components/message/messageType";
 import type {
   VillageActionRequest,
   VillageCreatorSayRequest,
@@ -12,6 +12,27 @@ export type SayPreview =
   | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
   | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
   | { kind: "creatorSay"; message: VillageMessageContent; request: VillageCreatorSayRequest };
+
+function sayLabel(messageType: string | null | undefined): string {
+  switch (messageType) {
+    case MessageType.WEREWOLF_SAY:
+      return "発言する（囁き）";
+    case MessageType.MASON_SAY:
+      return "発言する（共鳴）";
+    case MessageType.LOVERS_SAY:
+      return "発言する（恋人）";
+    case MessageType.TELEPATHY:
+      return "発言する（念話）";
+    case MessageType.MONOLOGUE_SAY:
+      return "発言する（独り言）";
+    case MessageType.SECRET_SAY:
+      return "発言する（秘話）";
+    case MessageType.GRAVE_SAY:
+      return "呻く";
+    default:
+      return "発言する";
+  }
+}
 
 function determineLabel(preview: SayPreview): string {
   if (preview.kind === "action") return "アクション";
