@@ -6,6 +6,7 @@ import { PageLayout } from "~/components/layout/PageLayout";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import { fetchAnchorMessages } from "~/features/village/api";
 import { useVillage } from "~/features/village/useVillage";
+import { VillageProvider } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import { MessageCard } from "~/features/village/components/message/MessageCard";
@@ -52,25 +53,26 @@ export default function VillageMessagePermalink({ params }: Route.ComponentProps
 
   return (
     <PageLayout noAd>
-      <div className="px-[15px] pb-[30px]">
-        {village != null && (
-          <>
+      {village != null ? (
+        <VillageProvider value={village}>
+          <div className="px-[15px] pb-[30px]">
             <h1 className="my-[10.5px] text-[15px] font-normal">
               {String(village.id).padStart(4, "0")}. {village.name}
             </h1>
             <hr className="mt-[5px] mb-[10px] border-[#464545]" />
-          </>
-        )}
-        {(data?.messageList ?? []).map((message, index) => (
-          <MessageCard
-            key={`${message.messageType}-${message.messageNumber ?? index}`}
-            villageId={villageId}
-            message={message}
-            randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
-          />
-        ))}
-      </div>
-      {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
+            {(data?.messageList ?? []).map((message, index) => (
+              <MessageCard
+                key={`${message.messageType}-${message.messageNumber ?? index}`}
+                message={message}
+                randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
+              />
+            ))}
+          </div>
+          {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
+        </VillageProvider>
+      ) : (
+        <div className="px-[15px] pb-[30px]" />
+      )}
     </PageLayout>
   );
 }

@@ -1,5 +1,6 @@
 import { Link, useLocation } from "react-router";
 
+import { useVillageContext } from "~/features/village/VillageContext";
 import { dayLabel } from "./dayLabel";
 
 /**
@@ -7,19 +8,15 @@ import { dayLabel } from "./dayLabel";
  * 先頭の「情報」は村情報モーダルを開く導線。
  */
 export function DayList({
-  villageId,
-  dayList,
   currentDay,
-  epilogueDay,
   onInfo,
 }: {
-  villageId: number;
-  dayList: number[];
   currentDay: number;
-  epilogueDay: number | null | undefined;
   /** 村情報モーダルを開く。 */
   onInfo?: () => void;
 }) {
+  const village = useVillageContext();
+  const dayList = (village.days.list ?? []).map((d) => d.day);
   // 抽出条件 (searchParams) は日付遷移後も引き継ぐ
   const { search } = useLocation();
   return (
@@ -40,13 +37,13 @@ export function DayList({
       {dayList.map((day) => (
         <li key={day} className="mr-[10px] inline list-none">
           {day === currentDay ? (
-            <span>{dayLabel(day, epilogueDay)}</span>
+            <span>{dayLabel(day, village.epilogueDay)}</span>
           ) : (
             <Link
-              to={`/village/${villageId}/day/${day}${search}`}
+              to={`/village/${village.id}/day/${day}${search}`}
               className="text-wm-accent hover:underline"
             >
-              {dayLabel(day, epilogueDay)}
+              {dayLabel(day, village.epilogueDay)}
             </Link>
           )}
         </li>

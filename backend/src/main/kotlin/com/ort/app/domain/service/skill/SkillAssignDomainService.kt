@@ -68,7 +68,7 @@ class SkillAssignDomainService(
                                 if (!CDef.Skill.村人.existsIn(countMap) && CDef.Skill.霊能者.existsIn(countMap)) {
                                     par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
                                 } else if (CDef.Skill.村人.existsIn(countMap) && !CDef.Skill.霊能者.existsIn(countMap)) {
-                                    par = par.changeRequestSkillIfNeeded(CDef.Skill.村人, CDef.Skill.霊能者)
+                                    par = par.changeRequestSkillIfNeeded(CDef.Skill.霊能者, CDef.Skill.村人)
                                 }
                                 par = par.changeRequestSkillByPriority(Skill.madmanPriorityList, countMap)
                                 par = par.changeRequestSkillByPriority(Skill.wolfPriorityList, countMap)
