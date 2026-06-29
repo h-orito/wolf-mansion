@@ -8,10 +8,13 @@ import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import {
   confirmVillageParticipate,
+  participateVillage,
   type ParticipantSituationView,
   type VillageParticipateRequest,
 } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
+import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { ApiError } from "~/lib/api";
 import { toMessageHtml } from "../message/message";
 
@@ -37,17 +40,11 @@ type Step = "input" | "confirm";
  * 入村フォーム。キャラ選択 → 名前/略称 (キャラから自動補完) → 希望役職 → 入村発言 →
  * 確認 (ルール/礼節の 2 つの同意チェックで「入村する」が活性化) → 入村。
  */
-export function ParticipatePanel({
-  mySituation,
-  onParticipated,
-  onError,
-}: {
-  mySituation: ParticipantSituationView;
-  onParticipated: (request: VillageParticipateRequest, charaImage: File | null) => Promise<void>;
-  /** 確認 (サーバ検証) のエラーメッセージ表示用 */
-  onError: (message: string | null) => void;
-}) {
+export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSituationView }) {
   const village = useVillageContext();
+  const invalidate = useVillageInvalidate();
+  const { scrollToBottom } = useVillageScroll();
+  const [participateError, setParticipateError] = useState<string | null>(null);
   const participate = mySituation.participate;
   const skillRequest = mySituation.skillRequest;
   const isOriginal = village.setting.chara.isOriginalCharachip;
@@ -124,23 +121,27 @@ export function ParticipatePanel({
   const previewHtml = useMemo(() => toMessageHtml(joinMessage, false, []), [joinMessage]);
 
   const toConfirm = async () => {
-    onError(null);
+    setParticipateError(null);
     try {
       await confirmVillageParticipate(village.id, request);
       setAgreeRule(false);
       setAgreeMind(false);
       setStep("confirm");
     } catch (e) {
-      onError(e instanceof ApiError ? e.detail : "入村の確認に失敗しました");
+      setParticipateError(e instanceof ApiError ? e.detail : "入村の確認に失敗しました");
     }
   };
 
   const submit = async () => {
     if (submitting) return;
     setSubmitting(true);
-    onError(null);
+    setParticipateError(null);
     try {
-      await onParticipated(request, charaImageFile);
+      await participateVillage(village.id, request, charaImageFile);
+      await invalidate();
+      requestAnimationFrame(() => scrollToBottom());
+    } catch (e) {
+      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
     } finally {
       setSubmitting(false);
     }
@@ -151,6 +152,7 @@ export function ParticipatePanel({
   return (
     <Panel title="入村" storageKey="participateform">
       <div className="space-y-[10px]">
+        {participateError != null && <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>}
         {participate.isAvailableSpectate && (
           <VillageFormRow label="見学" labelWidth="wide">
             <label className="flex cursor-pointer items-center gap-[5px]">

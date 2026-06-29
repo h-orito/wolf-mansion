@@ -1,24 +1,17 @@
-import { useState } from "react";
-
 import type {
   VillageActionRequest,
   VillageCreatorSayRequest,
-  VillageParticipateRequest,
   VillageSayRequest,
 } from "~/features/village/api";
-import { participateVillage } from "~/features/village/api";
 import type { ReplyDraft } from "~/features/village/components/message/MessageCard";
 import { MessageType } from "~/features/village/components/message/messageType";
 import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
 import {
-  useInvalidateVillage,
   useMyVillageSituation,
   useVillageDebugInfo,
   useVillageSituation,
 } from "~/features/village/useVillage";
-import { useVillageScroll } from "~/features/village/useVillageScroll";
-import { ApiError } from "~/lib/api";
 import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
 import { ActionPanel } from "~/features/village/components/action/ActionPanel";
 import { CommitPanel } from "~/features/village/components/action/CommitPanel";
@@ -62,8 +55,6 @@ export function ActionPanels({
   const { data: mySituation } = useMyVillageSituation(village.id, dayParam);
   const { data: situation } = useVillageSituation(village.id, dayParam, me?.name ?? null);
   const { data: debugInfo } = useVillageDebugInfo(village.id);
-  const invalidate = useInvalidateVillage(village.id);
-  const { scrollToBottom } = useVillageScroll();
 
   const latestDay = village.days.list?.at(-1)?.day ?? 0;
   const currentDay = dayParam ?? latestDay;
@@ -72,18 +63,6 @@ export function ActionPanels({
     mySituation?.say.selectableMessageTypeList?.some(
       (t) => t.messageType.code === MessageType.ACTION,
     ) ?? false;
-
-  const [participateError, setParticipateError] = useState<string | null>(null);
-  const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
-    try {
-      await participateVillage(village.id, request, charaImage);
-      await invalidate();
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
-      throw e;
-    }
-  };
 
   return (
     <>
@@ -120,16 +99,7 @@ export function ActionPanels({
         !mySituation.participate.isParticipating &&
         (mySituation.participate.isAvailableParticipate ||
           mySituation.participate.isAvailableSpectate) && (
-          <div>
-            {participateError != null && (
-              <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>
-            )}
-            <ParticipatePanel
-              mySituation={mySituation}
-              onParticipated={onParticipated}
-              onError={setParticipateError}
-            />
-          </div>
+          <ParticipatePanel mySituation={mySituation} />
         )}
 
       {mySituation != null &&
