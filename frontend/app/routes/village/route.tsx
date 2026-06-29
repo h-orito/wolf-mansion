@@ -301,13 +301,7 @@ export default function Village({ params }: Route.ComponentProps) {
             </div>
             <hr className="mt-[5px] mb-[10px] border-[#464545]" />
 
-            <DayList
-              villageId={villageId}
-              dayList={(village.days.list ?? []).map((d) => d.day)}
-              currentDay={currentDay}
-              epilogueDay={village.epilogueDay}
-              onInfo={() => setInfoOpen(true)}
-            />
+            <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
             <MessageArea
               villageId={villageId}
@@ -348,13 +342,7 @@ export default function Village({ params }: Route.ComponentProps) {
                 ) : null
               }
             />
-            <DayList
-              villageId={villageId}
-              dayList={(village.days.list ?? []).map((d) => d.day)}
-              currentDay={currentDay}
-              epilogueDay={village.epilogueDay}
-              onInfo={() => setInfoOpen(true)}
-            />
+            <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
             {!noAd && <AdSense slot="2768254717" className="mt-[15px]" />}
             <div id="bottom" />
             <hr className="mt-[5px] mb-[10px] border-[#464545]" />
