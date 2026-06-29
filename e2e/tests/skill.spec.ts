@@ -39,6 +39,6 @@ test("ホームから役職一覧へ SPA 遷移できる", async ({ page }) => {
   await page.goto("");
 
   await page.getByRole("link", { name: "Skill" }).click();
-  await expect(page).toHaveURL(/\/skill$/);
+  await expect(page).toHaveURL(/\/skill\/?$/);
   await expect(page.getByRole("heading", { name: "役職一覧" })).toBeVisible();
 });

@@ -79,15 +79,16 @@ test("設定モーダルで表示設定を変更でき、ブラウザに保存�
 
   // ページサイズ変更が保存される
   await dialog.getByLabel("ページあたりの表示発言数").selectOption("10");
-  const stored = await page.evaluate(() =>
-    localStorage.getItem("wolf-mansion-display-settings"),
+  await page.waitForFunction(
+    () => localStorage.getItem("wolf-mansion-display-settings")?.includes('"pageSize":10'),
   );
-  expect(stored).toContain('"pageSize":10');
 
   // リセットでデフォルト (50) に戻る
+  page.on("dialog", (d) => d.accept());
   await dialog.getByRole("button", { name: "リセット" }).click();
-  const reset = await page.evaluate(() => localStorage.getItem("wolf-mansion-display-settings"));
-  expect(reset).toContain('"pageSize":50');
+  await page.waitForFunction(
+    () => localStorage.getItem("wolf-mansion-display-settings")?.includes('"pageSize":50'),
+  );
 
   // 未ログイン or 未参加では Discord 通知設定が出ない (このテストは未ログイン)
   await expect(dialog.getByText("Discord通知設定")).toHaveCount(0);

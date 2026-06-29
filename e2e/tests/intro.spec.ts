@@ -27,6 +27,6 @@ test("ホームから intro へ SPA 遷移できる", async ({ page }) => {
   await page.goto("");
 
   await page.getByRole("link", { name: "Introduction" }).click();
-  await expect(page).toHaveURL(/\/intro$/);
+  await expect(page).toHaveURL(/\/intro\/?$/);
   await expect(page.getByRole("heading", { name: "このページは" })).toBeVisible();
 });

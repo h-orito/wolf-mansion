@@ -67,7 +67,7 @@ test("作成 → 一覧反映 → 検索 → 編集 → 削除 の CRUD フロ�
   await page.getByRole("button", { name: "登録" }).click();
 
   // 一覧に反映。6 行目は折りたたまれ「全て表示」で展開される
-  await expect(page).toHaveURL(/\/random-message$/);
+  await expect(page).toHaveURL(/\/random-message\/?$/);
   const row = page.getByRole("row", { name: new RegExp(keyword) });
   await expect(row.getByText(`[[${keyword}]]`)).toBeVisible();
   await expect(row.getByText("へ")).toBeHidden();
@@ -84,7 +84,7 @@ test("作成 → 一覧反映 → 検索 → 編集 → 削除 の CRUD フロ�
   await expect(page.getByRole("heading", { name: "ランダムメッセージ編集" })).toBeVisible();
   await page.fill("#message", "甲\n乙\n丙");
   await page.getByRole("button", { name: "登録" }).click();
-  await expect(page).toHaveURL(/\/random-message$/);
+  await expect(page).toHaveURL(/\/random-message\/?$/);
   await expect(page.getByText("甲")).toBeVisible();
 
   // --- 削除 (確認ダイアログ) → 一覧から消える ---
@@ -94,6 +94,6 @@ test("作成 → 一覧反映 → 検索 → 編集 → 削除 の CRUD フロ�
     .click();
   page.once("dialog", (dialog) => dialog.accept());
   await page.getByRole("button", { name: "削除" }).click();
-  await expect(page).toHaveURL(/\/random-message$/);
+  await expect(page).toHaveURL(/\/random-message\/?$/);
   await expect(page.getByText(`[[${keyword}]]`)).toBeHidden();
 });

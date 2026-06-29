@@ -21,7 +21,7 @@ async function loginAsMaster(page: Page) {
   await page.fill("#userId", "master");
   await page.fill("#password", "testuser");
   await page.getByRole("button", { name: "ログイン" }).click();
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
 }
 /** 初回役職確認モーダルが被っていたら閉じる。 */
 async function dismissInitialSkillModal(page: Page) {

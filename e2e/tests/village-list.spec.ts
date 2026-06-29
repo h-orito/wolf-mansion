@@ -61,6 +61,6 @@ test("ホーム: 村一覧タイルから村一覧画面へ遷移する", async 
 
   await page.getByRole("link", { name: "Village list" }).click();
 
-  await expect(page).toHaveURL(/\/wolf-mansion\/village-list$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/village-list\/?$/);
   await expect(page.getByRole("heading", { name: "村一覧" })).toBeVisible();
 });

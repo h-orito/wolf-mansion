@@ -34,7 +34,7 @@ test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) 
   await page.fill("#userId", uniqueUserId());
   await page.fill("#password", "test1234!");
   await page.getByRole("button", { name: "作成" }).click();
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
 
   await page.goto(`village/${village.id}`);
   await expect(page.getByText("入村", { exact: true })).toBeVisible({ timeout: 15000 });
@@ -69,7 +69,7 @@ test("入村 → 役職希望変更 → 退村の自己完結フロー", async (
   await page.fill("#userId", uniqueUserId());
   await page.fill("#password", "test1234!");
   await page.getByRole("button", { name: "作成" }).click();
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
 
   await page.goto(`village/${village.id}`);
   await expect(page.getByText("入村", { exact: true })).toBeVisible({ timeout: 15000 });

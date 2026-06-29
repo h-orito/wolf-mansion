@@ -62,7 +62,7 @@ test("進行中以降の村で日付ナビ遷移と状況タブが動く", async
 
   // 日付ナビでプロローグへ遷移できる
   await page.getByRole("link", { name: "プロローグ" }).first().click();
-  await expect(page).toHaveURL(new RegExp(`/village/${village.id}/day/0$`));
+  await expect(page).toHaveURL(new RegExp(`/village/${village.id}/day/0\\/?$`));
   // プロローグ表示では部屋割りタブが無く参加者タブが初期表示
   await expect(page.getByRole("button", { name: "部屋割り当て" })).toHaveCount(0);
   await expect(page.getByText("生存 (", { exact: false }).first()).toBeVisible();

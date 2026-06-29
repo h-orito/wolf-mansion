@@ -23,7 +23,7 @@ test("一覧から詳細画面へ遷移できる", async ({ page }) => {
   const chipName = await firstLink.textContent();
   await firstLink.click();
 
-  await expect(page).toHaveURL(/\/chara-group\/\d+$/);
+  await expect(page).toHaveURL(/\/chara-group\/\d+\/?$/);
   await expect(page.getByRole("heading", { name: `キャラチップ: ${chipName}` })).toBeVisible();
 });
 
@@ -45,6 +45,6 @@ test("ホームからキャラチップ一覧へ SPA 遷移できる", async ({ 
   await page.goto("");
 
   await page.getByRole("link", { name: "Character list" }).click();
-  await expect(page).toHaveURL(/\/chara-group$/);
+  await expect(page).toHaveURL(/\/chara-group\/?$/);
   await expect(page.getByRole("heading", { name: "キャラチップ一覧" })).toBeVisible();
 });

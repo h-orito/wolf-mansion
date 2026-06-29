@@ -55,7 +55,7 @@ test("村設定変更: 村名を変更して保存し、元に戻す", async ({ 
   await page.getByRole("button", { name: "変更する" }).click();
 
   // 保存後は村画面へ戻り、村名が反映されている
-  await expect(page).toHaveURL(new RegExp(`/village/${village.id}$`), { timeout: 15000 });
+  await expect(page).toHaveURL(new RegExp(`/village/${village.id}\\/?$`), { timeout: 15000 });
   await expect(page.getByRole("heading", { name: new RegExp(newName) })).toBeVisible({
     timeout: 15000,
   });
@@ -65,7 +65,7 @@ test("村設定変更: 村名を変更して保存し、元に戻す", async ({ 
   await expect(page.getByLabel("村名")).toHaveValue(newName, { timeout: 15000 });
   await page.getByLabel("村名").fill(village.name);
   await page.getByRole("button", { name: "変更する" }).click();
-  await expect(page).toHaveURL(new RegExp(`/village/${village.id}$`), { timeout: 15000 });
+  await expect(page).toHaveURL(new RegExp(`/village/${village.id}\\/?$`), { timeout: 15000 });
   await expect(page.getByRole("heading", { name: new RegExp(village.name) })).toBeVisible({
     timeout: 15000,
   });

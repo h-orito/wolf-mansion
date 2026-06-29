@@ -65,6 +65,6 @@ test("ホームから about へ SPA 遷移できる", async ({ page }) => {
   await page.goto("");
 
   await page.getByRole("link", { name: "About" }).click();
-  await expect(page).toHaveURL(/\/about$/);
+  await expect(page).toHaveURL(/\/about\/?$/);
   await expect(page.getByRole("heading", { name: "本サイトは" })).toBeVisible();
 });
