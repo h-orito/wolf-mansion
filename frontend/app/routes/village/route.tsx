@@ -6,11 +6,7 @@ import { AdSense } from "~/components/ui/AdSense";
 import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
-import {
-  participateVillage,
-  type VillageDetailView,
-  type VillageParticipateRequest,
-} from "~/features/village/api";
+import type { VillageDetailView } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
   applyFilterToParams,
@@ -28,7 +24,6 @@ import { useSayFlow } from "~/features/village/useSayFlow";
 import {
   useMyVillageSituation,
   useVillage,
-  useVillageDebugInfo,
   useVillagePolling,
   useVillageSituation,
 } from "~/features/village/useVillage";
@@ -100,14 +95,9 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
-  const { data: debugInfo } = useVillageDebugInfo(villageId);
   const { data: randomKeywords } = useRandomKeywords();
   const { refresh, invalidate, register } = useRefresh(villageId);
   const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
-  const canAction =
-    mySituation?.say.selectableMessageTypeList?.some(
-      (t) => t.messageType.code === MessageType.ACTION,
-    ) ?? false;
   const canSecretReply =
     mySituation?.say.selectableMessageTypeList?.some(
       (t) => t.messageType.code === MessageType.SECRET_SAY,
@@ -151,21 +141,8 @@ export default function Village({ params }: Route.ComponentProps) {
     [setSearchParams],
   );
 
-  const [participateError, setParticipateError] = useState<string | null>(null);
-  const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
-    try {
-      await participateVillage(villageId, request, charaImage);
-      await invalidate();
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
-      throw e;
-    }
-  };
-
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
-  const isLatestDay = latestDay != null && currentDay === latestDay;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
   const showToast = useToast((s) => s.show);
@@ -275,7 +252,6 @@ export default function Village({ params }: Route.ComponentProps) {
               confirmArea={
                 <SayPreviewArea
                   preview={sayPreview}
-                  randomKeywords={keywordList}
                   submitting={saySubmitting}
                   onDetermine={onSayDetermine}
                   onCancel={onSayCancel}
@@ -292,25 +268,15 @@ export default function Village({ params }: Route.ComponentProps) {
             )}
 
             <ActionPanels
-              mySituation={mySituation}
-              situation={situation}
-              debugInfo={debugInfo}
-              isLatestDay={isLatestDay}
-              canAction={canAction}
-              currentDay={currentDay}
+              dayParam={dayParam}
               sayError={sayError}
-              keywordList={keywordList}
               reply={reply}
               clearReply={clearReply}
               onSayConfirm={onSayConfirm}
               onActionConfirm={onActionConfirm}
               onCreatorSayConfirm={onCreatorSayConfirm}
               registerSayDone={registerSayDone}
-              invalidate={invalidate}
               refresh={refresh}
-              participateError={participateError}
-              onParticipated={onParticipated}
-              setParticipateError={setParticipateError}
             />
 
             <div className="mb-[10px]">

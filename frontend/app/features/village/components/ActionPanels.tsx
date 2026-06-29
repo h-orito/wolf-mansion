@@ -1,13 +1,24 @@
+import { useState } from "react";
+
 import type {
-  ParticipantSituationView,
   VillageActionRequest,
   VillageCreatorSayRequest,
-  VillageDebugView,
   VillageParticipateRequest,
   VillageSayRequest,
-  VillageSituationView,
 } from "~/features/village/api";
+import { participateVillage } from "~/features/village/api";
 import type { ReplyDraft } from "~/features/village/components/message/MessageCard";
+import { MessageType } from "~/features/village/components/message/messageType";
+import { useMe } from "~/features/auth/useMe";
+import { useVillageContext } from "~/features/village/VillageContext";
+import {
+  useInvalidateVillage,
+  useMyVillageSituation,
+  useVillageDebugInfo,
+  useVillageSituation,
+} from "~/features/village/useVillage";
+import { useVillageScroll } from "~/features/village/useVillageScroll";
+import { ApiError } from "~/lib/api";
 import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
 import { ActionPanel } from "~/features/village/components/action/ActionPanel";
 import { CommitPanel } from "~/features/village/components/action/CommitPanel";
@@ -26,46 +37,54 @@ import {
 import { ParticipatePanel } from "~/features/village/components/participate/ParticipatePanel";
 
 export function ActionPanels({
-  mySituation,
-  situation,
-  debugInfo,
-  isLatestDay,
-  canAction,
-  currentDay,
+  dayParam,
   sayError,
-  keywordList,
   reply,
   clearReply,
   onSayConfirm,
   onActionConfirm,
   onCreatorSayConfirm,
   registerSayDone,
-  invalidate,
   refresh,
-  participateError,
-  onParticipated,
-  setParticipateError,
 }: {
-  mySituation: ParticipantSituationView | undefined;
-  situation: VillageSituationView | undefined;
-  debugInfo: VillageDebugView | undefined;
-  isLatestDay: boolean;
-  canAction: boolean;
-  currentDay: number;
+  dayParam: number | undefined;
   sayError: string | null;
-  keywordList: string[];
   reply: ReplyDraft | null;
   clearReply: () => void;
   onSayConfirm: (request: VillageSayRequest) => void;
   onActionConfirm: (request: VillageActionRequest) => void;
   onCreatorSayConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   registerSayDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
-  invalidate: () => Promise<unknown>;
   refresh: () => Promise<unknown>;
-  participateError: string | null;
-  onParticipated: (request: VillageParticipateRequest, charaImage: File | null) => Promise<void>;
-  setParticipateError: (error: string | null) => void;
 }) {
+  const village = useVillageContext();
+  const { me } = useMe();
+  const { data: mySituation } = useMyVillageSituation(village.id, dayParam);
+  const { data: situation } = useVillageSituation(village.id, dayParam, me?.name ?? null);
+  const { data: debugInfo } = useVillageDebugInfo(village.id);
+  const invalidate = useInvalidateVillage(village.id);
+  const { scrollToBottom } = useVillageScroll();
+
+  const latestDay = village.days.list?.at(-1)?.day ?? 0;
+  const currentDay = dayParam ?? latestDay;
+  const isLatestDay = currentDay === latestDay;
+  const canAction =
+    mySituation?.say.selectableMessageTypeList?.some(
+      (t) => t.messageType.code === MessageType.ACTION,
+    ) ?? false;
+
+  const [participateError, setParticipateError] = useState<string | null>(null);
+  const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
+    try {
+      await participateVillage(village.id, request, charaImage);
+      await invalidate();
+      requestAnimationFrame(() => scrollToBottom());
+    } catch (e) {
+      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
+      throw e;
+    }
+  };
+
   return (
     <>
       {mySituation?.say.isAvailableSay && (
@@ -73,7 +92,6 @@ export function ActionPanels({
           {sayError != null && <p className="mb-[5px] text-[#e74c3c]">{sayError}</p>}
           <SayPanel
             mySituation={mySituation}
-            randomKeywords={keywordList}
             reply={reply}
             onClearReply={clearReply}
             onConfirm={onSayConfirm}

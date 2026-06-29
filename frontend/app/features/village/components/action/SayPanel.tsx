@@ -7,6 +7,7 @@ import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
+import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -66,14 +67,12 @@ const RANDOM_TAGS = ["fortune", "1d6", "or", "who", "allwho", "gwho"];
  */
 export function SayPanel({
   mySituation,
-  randomKeywords,
   reply,
   onClearReply,
   onConfirm,
   registerOnDone,
 }: {
   mySituation: ParticipantSituationView;
-  randomKeywords: string[];
   reply: ReplyDraft | null;
   onClearReply: () => void;
   /** 確認画面へ (リクエスト内容を親へ渡し、プレビュー取得は親が行う) */
@@ -82,6 +81,8 @@ export function SayPanel({
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const village = useVillageContext();
+  const { data: randomKeywordsData } = useRandomKeywords();
+  const randomKeywords = (randomKeywordsData ?? []).map((k) => k.keyword ?? "").filter(Boolean);
   const say = mySituation.say;
   const myself = mySituation.myself;
   const showDecorationButtons = useDisplaySettings((s) => s.showDecorationButtons);
