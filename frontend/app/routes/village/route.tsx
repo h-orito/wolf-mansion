@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { AdSense } from "~/components/ui/AdSense";
-import { Button, LinkButton } from "~/components/ui/Button";
+import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
 import {
@@ -36,13 +36,12 @@ import { MessageType } from "~/features/village/components/message/messageType";
 import { ApiError } from "~/lib/api";
 import { formatStartDatetime } from "~/lib/datetime";
 import { siteMeta } from "~/lib/meta";
-import { sayLabel } from "~/features/village/components/action/SayPanel";
+import { SayPreviewArea } from "~/features/village/components/action/SayPreviewArea";
 import { ActionPanels } from "~/features/village/components/ActionPanels";
 import { DayList } from "~/features/village/components/info/DayList";
 import { SituationPanel } from "~/features/village/components/info/SituationPanel";
 import { FooterMenu } from "~/features/village/components/layout/FooterMenu";
 import { MessageArea } from "~/features/village/components/message/MessageArea";
-import { MessageCard } from "~/features/village/components/message/MessageCard";
 import { AgeLimitModal } from "~/features/village/components/modal/AgeLimitModal";
 import { FilterModal } from "~/features/village/components/modal/FilterModal";
 import { SettingsModal } from "~/features/village/components/modal/SettingsModal";
@@ -274,29 +273,13 @@ export default function Village({ params }: Route.ComponentProps) {
               onSecret={canSecretReply ? onReply : undefined}
               onLoaded={onMessagesLoaded}
               confirmArea={
-                sayPreview != null ? (
-                  <div
-                    id="message-confirm-area"
-                    className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
-                  >
-                    <p className="mb-[10px]">
-                      以下の内容で発言してよろしいですか？（まだ発言されていません）
-                    </p>
-                    <MessageCard message={sayPreview.message} randomKeywords={keywordList} />
-                    <div className="flex justify-end gap-[10px]">
-                      <Button variant="default" onClick={onSayCancel}>
-                        キャンセル
-                      </Button>
-                      <Button onClick={onSayDetermine} disabled={saySubmitting}>
-                        {sayPreview.kind === "action"
-                          ? "アクション"
-                          : sayPreview.kind === "creatorSay"
-                            ? "発言する（村建て）"
-                            : sayLabel(sayPreview.request.messageType)}
-                      </Button>
-                    </div>
-                  </div>
-                ) : null
+                <SayPreviewArea
+                  preview={sayPreview}
+                  randomKeywords={keywordList}
+                  submitting={saySubmitting}
+                  onDetermine={onSayDetermine}
+                  onCancel={onSayCancel}
+                />
               }
             />
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
