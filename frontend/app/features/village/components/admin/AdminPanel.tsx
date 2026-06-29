@@ -12,23 +12,25 @@ import {
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
 import { useVillageId } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 管理者機能パネル。管理者プレイヤーのみ表示する。 */
-export function AdminPanel({ onDone }: { onDone: () => Promise<unknown> }) {
+export function AdminPanel() {
   return (
     <Panel title="管理者メニュー" storageKey="adminform">
       <div className="space-y-[15px]">
-        <AccessSection onDone={onDone} />
-        <SelfVoteSection onDone={onDone} />
+        <AccessSection />
+        <SelfVoteSection />
         <PlayersSection />
       </div>
     </Panel>
   );
 }
 
-function AccessSection({ onDone }: { onDone: () => Promise<unknown> }) {
+function AccessSection() {
   const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -36,7 +38,7 @@ function AccessSection({ onDone }: { onDone: () => Promise<unknown> }) {
     execute(async () => {
       await adminUpdateAllAccess(villageId);
       showToast("全員アクセスを更新しました");
-      await onDone();
+      await invalidate();
     }, "全員アクセスに失敗しました");
 
   return (
@@ -53,8 +55,9 @@ function AccessSection({ onDone }: { onDone: () => Promise<unknown> }) {
   );
 }
 
-function SelfVoteSection({ onDone }: { onDone: () => Promise<unknown> }) {
+function SelfVoteSection() {
   const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -62,7 +65,7 @@ function SelfVoteSection({ onDone }: { onDone: () => Promise<unknown> }) {
     execute(async () => {
       await adminInsertSelfVotes(villageId);
       showToast("全員自投票をセットしました");
-      await onDone();
+      await invalidate();
     }, "全員自分投票に失敗しました");
 
   return (

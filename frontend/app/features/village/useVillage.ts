@@ -11,6 +11,8 @@ import {
 } from "./api";
 import { VILLAGE_MESSAGES_QUERY_KEY } from "./useMessages";
 
+import { useVillageId } from "./VillageContext";
+
 export const VILLAGE_QUERY_KEY = "village";
 export const VILLAGE_SITUATION_QUERY_KEY = "village-situation";
 export const MY_VILLAGE_SITUATION_QUERY_KEY = "my-village-situation";
@@ -76,6 +78,10 @@ export function useInvalidateVillage(id: number) {
       ]),
     [queryClient, id],
   );
+}
+
+export function useVillageInvalidate() {
+  return useInvalidateVillage(useVillageId());
 }
 
 const POLLING_INTERVAL_MS = 30_000;

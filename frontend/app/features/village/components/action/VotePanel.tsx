@@ -6,18 +6,14 @@ import { useToast } from "~/components/ui/Toast";
 import { setVillageVote, type ParticipantSituationView } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 import { useVoteState } from "./useVoteState";
 
 /** 処刑対象への投票。未セットのまま日付が更新されると突然死するため警告を出す。 */
-export function VotePanel({
-  mySituation,
-  onDone,
-}: {
-  mySituation: ParticipantSituationView;
-  onDone: () => Promise<unknown>;
-}) {
+export function VotePanel({ mySituation }: { mySituation: ParticipantSituationView }) {
   const village = useVillageContext();
+  const invalidate = useVillageInvalidate();
   const vote = mySituation.vote;
   const { targetCharaId, setTargetCharaId } = useVoteState(vote);
   const showToast = useToast((s) => s.show);
@@ -28,7 +24,7 @@ export function VotePanel({
     void execute(async () => {
       await setVillageVote(village.id, { targetCharaId: Number(targetCharaId) });
       showToast("投票をセットしました");
-      await onDone();
+      await invalidate();
     }, "投票セットに失敗しました");
   };
 

@@ -109,15 +109,11 @@ export function ActionPanels({
       )}
 
       {isLatestDay && mySituation != null && mySituation.vote.canVote && (
-        <VotePanel mySituation={mySituation} onDone={invalidate} />
+        <VotePanel mySituation={mySituation} />
       )}
 
       {isLatestDay && mySituation != null && mySituation.myself?.skill != null && (
-        <AbilityPanel
-          mySituation={mySituation}
-          roomAssignedRows={situation?.roomAssignedRowList}
-          onDone={invalidate}
-        />
+        <AbilityPanel mySituation={mySituation} roomAssignedRows={situation?.roomAssignedRowList} />
       )}
 
       {mySituation != null &&
@@ -139,36 +135,33 @@ export function ActionPanels({
       {mySituation != null &&
         mySituation.participate.isParticipating &&
         mySituation.skillRequest.isAvailableSkillRequest && (
-          <ChangeSkillPanel mySituation={mySituation} onDone={invalidate} />
+          <ChangeSkillPanel mySituation={mySituation} />
         )}
-      {mySituation?.participate.isAvailableSwitchParticipate && (
-        <SwitchParticipatePanel onDone={invalidate} />
-      )}
-      {mySituation?.participate.isAvailableLeave && <LeavePanel onDone={invalidate} />}
+      {mySituation?.participate.isAvailableSwitchParticipate && <SwitchParticipatePanel />}
+      {mySituation?.participate.isAvailableLeave && <LeavePanel />}
 
       {isLatestDay && mySituation != null && mySituation.commit.isAvailableCommit && (
-        <CommitPanel mySituation={mySituation} onDone={invalidate} />
+        <CommitPanel mySituation={mySituation} />
       )}
 
       {mySituation != null &&
         (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-          <RpPanel mySituation={mySituation} onDone={invalidate} />
+          <RpPanel mySituation={mySituation} />
         )}
 
       {mySituation != null && mySituation.rp.canAddImage && (
-        <FaceTypePanel mySituation={mySituation} onDone={invalidate} />
+        <FaceTypePanel mySituation={mySituation} />
       )}
 
       {mySituation != null && mySituation.creator.isCreator && (
         <CreatorPanel
           mySituation={mySituation}
           onConfirm={onCreatorSayConfirm}
-          onDone={invalidate}
           registerOnDone={registerSayDone}
         />
       )}
 
-      {mySituation != null && mySituation.admin.isAdmin && <AdminPanel onDone={invalidate} />}
+      {mySituation != null && mySituation.admin.isAdmin && <AdminPanel />}
 
       {debugInfo?.isDebugMode && (
         <DebugPanel currentDay={currentDay} debugInfo={debugInfo} onDone={refresh} />

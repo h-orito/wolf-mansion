@@ -15,6 +15,7 @@ import {
 } from "~/features/village/api";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useVillageContext } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 import { useAbilityState } from "./useAbilityState";
 
@@ -28,13 +29,12 @@ const NO_FOOTSTEP = "なし";
 export function AbilityPanel({
   mySituation,
   roomAssignedRows,
-  onDone,
 }: {
   mySituation: ParticipantSituationView;
   roomAssignedRows: VillageRoomAssignedRow[] | null | undefined;
-  onDone: () => Promise<unknown>;
 }) {
   const village = useVillageContext();
+  const invalidate = useVillageInvalidate();
   const ability = mySituation.ability;
   const skill = mySituation.myself?.skill;
 
@@ -70,7 +70,7 @@ export function AbilityPanel({
             };
       await setVillageAbility(village.id, request);
       showToast("能力をセットしました");
-      await onDone();
+      await invalidate();
     }, "能力セットに失敗しました");
 
   const needsFootstepSelect = isAttack || ability.isTargetingAndFootstep;
