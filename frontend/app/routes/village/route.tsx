@@ -9,7 +9,6 @@ import type { VillageDetailView } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
   applyFilterToParams,
-  EMPTY_FILTER,
   isFiltering,
   parseFilter,
   type MessageFilter,
@@ -25,7 +24,6 @@ import {
   useVillagePolling,
   useVillageSituation,
 } from "~/features/village/useVillage";
-import { MessageType } from "~/features/village/components/message/messageType";
 import { ApiError } from "~/lib/api";
 import { formatStartDatetime } from "~/lib/datetime";
 import { siteMeta } from "~/lib/meta";
@@ -94,10 +92,6 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
   const { refresh, invalidate, register } = useRefresh(villageId);
-  const canSecretReply =
-    mySituation?.say.selectableMessageTypeList?.some(
-      (t) => t.messageType.code === MessageType.SECRET_SAY,
-    ) ?? false;
 
   const {
     reply,
@@ -130,13 +124,6 @@ export default function Village({ params }: Route.ComponentProps) {
     const query = params.toString();
     window.open(`${window.location.pathname}${query !== "" ? `?${query}` : ""}`);
   };
-  const onHashtagClick = useCallback(
-    (tag: string) => {
-      setSearchParams((prev) => applyFilterToParams(prev, { ...EMPTY_FILTER, keywords: tag }));
-    },
-    [setSearchParams],
-  );
-
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
 
@@ -239,9 +226,7 @@ export default function Village({ params }: Route.ComponentProps) {
               setPage={setPage}
               isPaging={isPaging}
               pageSize={pageSize}
-              onHashtagClick={onHashtagClick}
-              onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
-              onSecret={canSecretReply ? onReply : undefined}
+              onReply={onReply}
               onLoaded={onMessagesLoaded}
               confirmArea={
                 <SayPreviewArea

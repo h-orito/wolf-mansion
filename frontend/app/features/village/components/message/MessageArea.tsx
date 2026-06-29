@@ -1,11 +1,14 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { useSearchParams } from "react-router";
 
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
-import { EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
+import { applyFilterToParams, EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
 import { useVillageId } from "~/features/village/VillageContext";
+import { useMyVillageSituation } from "~/features/village/useVillage";
 import { useVillageMessages } from "~/features/village/useMessages";
+import { MessageType } from "~/features/village/components/message/messageType";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
 
@@ -35,28 +38,37 @@ export function MessageArea({
   setPage,
   isPaging,
   pageSize,
-  onHashtagClick,
   onReply,
-  onSecret,
   onLoaded,
   confirmArea,
 }: {
   day: number | undefined;
-  /** 発言抽出の条件 (URL searchParams 由来)。 */
   filter?: MessageFilter;
   page: PageState;
   setPage: (page: PageState) => void;
   isPaging: boolean;
   pageSize: number;
-  onHashtagClick?: (tag: string) => void;
   onReply?: (reply: ReplyDraft) => void;
-  onSecret?: (reply: ReplyDraft) => void;
-  /** 一覧取得のたびに呼ぶ (新着検知の基準更新用)。 */
   onLoaded: (content: VillageMessageListContent) => void;
   confirmArea?: React.ReactNode;
 }) {
   const villageId = useVillageId();
   const randomKeywords = useRandomKeywordList();
+  const { data: mySituation } = useMyVillageSituation(villageId, day);
+  const canReply = onReply != null && (mySituation?.say.isAvailableSay ?? false);
+  const canSecretReply =
+    onReply != null &&
+    (mySituation?.say.selectableMessageTypeList?.some(
+      (t) => t.messageType.code === MessageType.SECRET_SAY,
+    ) ??
+      false);
+  const [, setSearchParams] = useSearchParams();
+  const onHashtagClick = useCallback(
+    (tag: string) => {
+      setSearchParams((prev) => applyFilterToParams(prev, { ...EMPTY_FILTER, keywords: tag }));
+    },
+    [setSearchParams],
+  );
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,
@@ -90,8 +102,8 @@ export function MessageArea({
           randomKeywords={randomKeywords}
           spoiled={filter.spoiled}
           onHashtagClick={onHashtagClick}
-          onReply={onReply}
-          onSecret={onSecret}
+          onReply={canReply ? onReply : undefined}
+          onSecret={canSecretReply ? onReply : undefined}
         />
       ))}
       {confirmArea}
