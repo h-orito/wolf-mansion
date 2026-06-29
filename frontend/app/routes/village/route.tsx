@@ -32,13 +32,13 @@ import { ActionPanels } from "~/features/village/components/ActionPanels";
 import { DayList } from "~/features/village/components/info/DayList";
 import { SituationPanel } from "~/features/village/components/info/SituationPanel";
 import { FooterMenu } from "~/features/village/components/layout/FooterMenu";
+import { LeftTime } from "~/features/village/components/layout/LeftTime";
 import { MessageArea } from "~/features/village/components/message/MessageArea";
 import { AgeLimitModal } from "~/features/village/components/modal/AgeLimitModal";
 import { FilterModal } from "~/features/village/components/modal/FilterModal";
 import { SettingsModal } from "~/features/village/components/modal/SettingsModal";
 import { VillageInfoModal } from "~/features/village/components/modal/VillageInfoModal";
 import { InitialSkillModal } from "~/features/village/components/participate/InitialSkillModal";
-import { useCountdown } from "~/features/village/useCountdown";
 import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { Toast, useToast } from "~/components/ui/Toast";
 import type { Route } from "./+types/route";
@@ -170,12 +170,6 @@ export default function Village({ params }: Route.ComponentProps) {
       showToast("要再ログイン", { variant: "error", persistent: true });
     }
   }, [sessionExpired, showToast]);
-
-  const dayChangeDatetime =
-    village != null && !village.status.isFinished
-      ? (village.days.list?.[village.days.list.length - 1]?.dayChangeDatetime ?? null)
-      : null;
-  const leftTime = useCountdown(dayChangeDatetime);
 
   useEffect(() => {
     if (village != null) document.title = `WOLF MANSION | ${village.name}`;
@@ -316,11 +310,7 @@ export default function Village({ params }: Route.ComponentProps) {
           )}
 
           {/* ステータス表示 */}
-          {leftTime != null && (
-            <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
-              更新まで <span>{leftTime}</span>
-            </div>
-          )}
+          <LeftTime />
           {me != null && !sessionExpired && (
             <Link to={`/user/${me.name}`} target="_blank">
               <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
