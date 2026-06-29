@@ -36,6 +36,6 @@ test("ホームからルールへ SPA 遷移できる", async ({ page }) => {
   await page.goto("");
 
   await page.getByRole("link", { name: "ルール Rule" }).click();
-  await expect(page).toHaveURL(/\/rule$/);
+  await expect(page).toHaveURL(/\/rule\/?$/);
   await expect(page.getByRole("heading", { name: "ルール", exact: true })).toBeVisible();
 });

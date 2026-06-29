@@ -55,7 +55,7 @@ test("ログイン後: マイページ/ログアウトタイルに切り替わ�
   // signup ボタンは `:8091` の new-player.html に合わせ「作成」。
   await page.getByRole("button", { name: "作成" }).click();
 
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
   // トップ画像にユーザID、ログイン専用タイル
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
   await expect(page.getByRole("link", { name: "マイページ" })).toBeVisible();

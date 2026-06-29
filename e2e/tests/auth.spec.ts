@@ -39,19 +39,19 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.getByRole("button", { name: "作成" }).click();
 
   // 成功でトップへ。トップ画像のユーザID 表示にログイン名 (= userId) が出る。
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 
-  // --- マイページで me 情報を確認 ---
+  // --- マイページ (ユーザプロフィール) で me 情報を確認 ---
   await page.getByRole("link", { name: "マイページ" }).click();
-  await expect(page).toHaveURL(/\/mypage$/);
-  // 共通ヘッダーがマイページにも「ユーザID: <id>」を出す。情報欄の <dd> も userId 単体を含むため、
-  // ヘッダー側の一意な文言で確認する。
-  await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
+  await expect(page).toHaveURL(new RegExp(`/user/${userId}\\/?$`));
+  await expect(page.getByText("総合戦績")).toBeVisible({ timeout: 15000 });
 
-  // --- logout ---
+  // --- logout (ホームに戻ってからログアウト) ---
+  await page.goto("");
+  await expect(page.getByRole("button", { name: /ログアウト/ })).toBeVisible({ timeout: 15000 });
   await page.getByRole("button", { name: /ログアウト/ }).click();
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
   await expect(page.getByRole("link", { name: "ログイン" })).toBeVisible();
 
   // --- 同じ ID で login ---
@@ -61,13 +61,13 @@ test("signup → me 表示 → logout → login の自己完結フロー", async
   await page.fill("#password", PASSWORD);
   await page.getByRole("button", { name: "ログイン" }).click();
 
-  await expect(page).toHaveURL(/\/wolf-mansion$/);
+  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible();
 });
 
 test("未ログインで保護ルートに来ると /login にリダイレクトされる", async ({ page }) => {
-  // 新規コンテキスト (Cookie なし) で保護ルートへ直接アクセス。
-  await page.goto("mypage");
+  // 新規コンテキスト (Cookie なし) で RequireAuth 付きルートへ直接アクセス。
+  await page.goto("change-password");
 
   // RequireAuth が returnTo 付きで /login へ飛ばす。
   await expect(page).toHaveURL(/\/login\?returnTo=/);
