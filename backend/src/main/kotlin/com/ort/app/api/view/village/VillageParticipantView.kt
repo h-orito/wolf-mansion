@@ -10,6 +10,7 @@ import com.ort.app.domain.model.village.participant.VillageParticipantName
 import com.ort.app.domain.model.village.participant.VillageParticipantNotificationCondition
 import com.ort.app.domain.model.village.room.Room
 import io.swagger.v3.oas.annotations.media.Schema
+import java.time.LocalDateTime
 
 data class VillageParticipantView(
     val id: Int,
@@ -33,6 +34,8 @@ data class VillageParticipantView(
     val player: PlayerView?,
     /** エピローグ以降のみ公開 */
     val isWin: Boolean?,
+    /** プロローグ中のみ公開 */
+    val lastAccessDatetime: LocalDateTime?,
 ) {
     /** 参加者一覧向け（SSR 互換）。非公開フィールドは null */
     constructor(
@@ -53,6 +56,7 @@ data class VillageParticipantView(
         notification = null,
         player = null,
         isWin = null,
+        lastAccessDatetime = null,
     )
 
     /**
@@ -66,6 +70,7 @@ data class VillageParticipantView(
         shouldHidePrivate: Boolean,
         includeNotification: Boolean = false,
         player: Player? = null,
+        isPrologue: Boolean = false,
     ) : this(
         id = participant.id,
         charaName = participant.charaName,
@@ -86,6 +91,7 @@ data class VillageParticipantView(
         notification = if (includeNotification && !shouldHidePrivate) participant.notification else null,
         player = if (shouldHidePrivate || player == null) null else PlayerView(player),
         isWin = if (shouldHidePrivate) null else participant.isWin,
+        lastAccessDatetime = if (isPrologue) participant.lastAccessDatetime else null,
     )
 
     @Schema(name = "VillageParticipantViewSkill")

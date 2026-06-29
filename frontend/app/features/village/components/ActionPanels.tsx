@@ -162,7 +162,6 @@ export function ActionPanels({
       {mySituation != null && mySituation.creator.isCreator && (
         <CreatorPanel
           mySituation={mySituation}
-          situation={situation}
           onConfirm={onCreatorSayConfirm}
           onDone={invalidate}
           registerOnDone={registerSayDone}

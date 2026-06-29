@@ -104,7 +104,7 @@ export function SituationPanel({
                 spoiled={spoiled}
               />
             )}
-            {activeTab === "member" && <MemberListTab memberList={situation.memberList ?? []} />}
+            {activeTab === "member" && <MemberListTab />}
             {activeTab === "vote" && situation.vote != null && (
               <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
             )}

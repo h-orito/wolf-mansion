@@ -12,7 +12,6 @@ export type VillageUpdateResponse = components["schemas"]["VillageUpdateResponse
 
 export type VillageRoomAssignedRow = components["schemas"]["VillageRoomAssignedRow"];
 export type VillageRoomAssigned = components["schemas"]["VillageRoomAssigned"];
-export type VillageMemberContent = components["schemas"]["VillageMemberContent"];
 export type VillageVoteContent = components["schemas"]["VillageVoteContent"];
 export type VillageFootstepContent = components["schemas"]["VillageFootstepContent"];
 export type VillageSituationContent = components["schemas"]["VillageSituationContent"];

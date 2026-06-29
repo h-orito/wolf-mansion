@@ -4661,43 +4661,6 @@
         },
         "required": ["villages"]
       },
-      "VillageMemberContent": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string"
-          },
-          "statusMemberList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageMemberDetailContent"
-            }
-          }
-        },
-        "required": ["status", "statusMemberList"]
-      },
-      "VillageMemberDetailContent": {
-        "type": "object",
-        "properties": {
-          "charaName": {
-            "type": "string"
-          },
-          "deadDay": {
-            "type": ["string", "null"]
-          },
-          "lastAccess": {
-            "type": "string"
-          },
-          "lastAccessDatetime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "memo": {
-            "type": ["string", "null"]
-          }
-        },
-        "required": ["charaName", "lastAccess", "lastAccessDatetime"]
-      },
       "VillageMemberVoteContent": {
         "type": "object",
         "properties": {
@@ -4993,6 +4956,10 @@
           },
           "isWin": {
             "type": ["boolean", "null"]
+          },
+          "lastAccessDatetime": {
+            "type": ["string", "null"],
+            "format": "date-time"
           },
           "memo": {
             "type": ["string", "null"]
@@ -5909,12 +5876,6 @@
           "isViewableSpoilerContent": {
             "type": "boolean"
           },
-          "memberList": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/VillageMemberContent"
-            }
-          },
           "roomAssignedRowList": {
             "type": ["array", "null"],
             "items": {
@@ -5942,7 +5903,7 @@
             ]
           }
         },
-        "required": ["footstepList", "isViewableSpoilerContent", "memberList", "situationList"]
+        "required": ["footstepList", "isViewableSpoilerContent", "situationList"]
       },
       "VillageStatus": {
         "type": "object",

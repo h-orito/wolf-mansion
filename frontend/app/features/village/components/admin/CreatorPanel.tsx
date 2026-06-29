@@ -13,33 +13,35 @@ import {
   shortenVillageEpilogue,
   type ParticipantSituationView,
   type VillageCreatorSayRequest,
-  type VillageSituationView,
 } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { allParticipants } from "~/features/village/participants";
+import { formatLastAccess } from "~/lib/datetime";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 村建て機能パネル。村建てプレイヤーのみ表示する。 */
 export function CreatorPanel({
   mySituation,
-  situation,
   onConfirm,
   onDone,
   registerOnDone,
 }: {
   mySituation: ParticipantSituationView;
-  situation: VillageSituationView | undefined;
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
   onDone: () => Promise<unknown>;
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
   const village = useVillageContext();
   const creator = mySituation.creator;
-  const participants = allParticipants(village).map((p) => ({
+  const all = allParticipants(village);
+  const participants = all.map((p) => ({
     charaId: p.chara.id,
     name: p.name,
   }));
-  const members = (situation?.memberList ?? []).flatMap((m) => m.statusMemberList);
+  const members = all.map((p) => ({
+    charaName: p.name,
+    lastAccess: p.lastAccessDatetime != null ? formatLastAccess(p.lastAccessDatetime) : null,
+  }));
 
   return (
     <Panel title="村建て機能" storageKey="creatorform" fixable>

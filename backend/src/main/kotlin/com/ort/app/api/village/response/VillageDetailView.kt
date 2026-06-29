@@ -34,8 +34,22 @@ data class VillageDetailView(
         epilogueDay = village.epilogueDay,
         roomSize = village.roomSize,
         setting = VillageSettingView(village.setting),
-        participants = VillageParticipantsView(village.participants, charachips, !village.status.isSettled(), players),
-        spectators = VillageParticipantsView(village.spectators, charachips, !village.status.isSettled(), players),
+        participants =
+            VillageParticipantsView(
+                village.participants,
+                charachips,
+                !village.status.isSettled(),
+                players,
+                village.status.isPrologue(),
+            ),
+        spectators =
+            VillageParticipantsView(
+                village.spectators,
+                charachips,
+                !village.status.isSettled(),
+                players,
+                village.status.isPrologue(),
+            ),
         info = VillageSettingsContent(village, charachips),
     )
 }

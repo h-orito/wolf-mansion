@@ -1690,18 +1690,6 @@ export interface components {
     VillageListResponse: {
       villages: components["schemas"]["SimpleVillageView"][];
     };
-    VillageMemberContent: {
-      status: string;
-      statusMemberList: components["schemas"]["VillageMemberDetailContent"][];
-    };
-    VillageMemberDetailContent: {
-      charaName: string;
-      deadDay?: string | null;
-      lastAccess: string;
-      /** Format: date-time */
-      lastAccessDatetime: string;
-      memo?: string | null;
-    };
     VillageMemberVoteContent: {
       charaName: string;
       voteTargetList: string[];
@@ -1791,6 +1779,8 @@ export interface components {
       id: number;
       isSpectator: boolean;
       isWin?: boolean | null;
+      /** Format: date-time */
+      lastAccessDatetime?: string | null;
       memo?: string | null;
       name: string;
       notification?: components["schemas"]["VillageParticipantNotificationCondition"] | null;
@@ -2057,7 +2047,6 @@ export interface components {
     VillageSituationView: {
       footstepList: components["schemas"]["VillageFootstepContent"][];
       isViewableSpoilerContent: boolean;
-      memberList: components["schemas"]["VillageMemberContent"][];
       roomAssignedRowList?: components["schemas"]["VillageRoomAssignedRow"][] | null;
       /** Format: int32 */
       roomWidth?: number | null;
