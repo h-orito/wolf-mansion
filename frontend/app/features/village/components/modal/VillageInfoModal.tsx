@@ -3,6 +3,7 @@ import { Fragment, type ReactNode } from "react";
 import { Button, LinkButton } from "~/components/ui/Button";
 import { Modal } from "~/components/ui/Modal";
 import { TextLink } from "~/components/ui/TextLink";
+import type { VillageSettingsContent } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { formatStartDatetime } from "~/lib/datetime";
 

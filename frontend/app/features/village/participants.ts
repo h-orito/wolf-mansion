@@ -34,5 +34,7 @@ export function toFilterParticipants(village: VillageDetailView): FilterParticip
 function toDeadStatus(p: VillageParticipantView): string | null {
   if (p.isSpectator) return "見学";
   if (!p.dead.isDead) return "生存";
-  return `${p.dead.deadDay}d${p.dead.reason?.name ?? ""}`;
+  const name = p.dead.reason?.name ?? "";
+  const reason = name.endsWith("死") ? name : `${name}死`;
+  return `${p.dead.deadDay}d${reason}`;
 }
