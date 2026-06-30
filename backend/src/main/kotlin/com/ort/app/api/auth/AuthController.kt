@@ -15,6 +15,8 @@ import com.ort.app.fw.security.jwt.JwtPrincipal
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpStatus
+import org.springframework.http.ProblemDetail
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.validation.annotation.Validated
@@ -82,11 +84,15 @@ class AuthController(
     fun refresh(
         @CookieValue(name = AuthCookieFactory.REFRESH_TOKEN, required = false) refreshToken: String?,
         response: HttpServletResponse,
-    ): MeResponse {
-        if (refreshToken.isNullOrBlank()) throw WolfMansionAuthException("リフレッシュトークンがありません")
+    ): ResponseEntity<Any> {
+        if (refreshToken.isNullOrBlank()) {
+            val problem = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, "リフレッシュトークンがありません")
+            problem.setProperty("error", "authentication_failed")
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problem)
+        }
         val tokens = authCoordinator.refresh(refreshToken)
         writeAuthCookies(response, tokens)
-        return toMeResponse(tokens.principal)
+        return ResponseEntity.ok(toMeResponse(tokens.principal))
     }
 
     /** 両 Cookie を消去し、DB 側の refresh token も失効させる。 */
