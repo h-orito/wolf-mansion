@@ -180,14 +180,14 @@ export default function Village({ params }: Route.ComponentProps) {
   if (villageError instanceof ApiError && villageError.status === 404) {
     return (
       <PageLayout>
-        <div className="px-[15px] py-[30px]">村が見つかりませんでした。</div>
+        <div className="px-[10px] md:px-[15px] py-[30px]">村が見つかりませんでした。</div>
       </PageLayout>
     );
   }
   if (village == null) {
     return (
       <PageLayout>
-        <div className="px-[15px] py-[30px] text-gray-400">読み込み中...</div>
+        <div className="px-[10px] md:px-[15px] py-[30px] text-gray-400">読み込み中...</div>
       </PageLayout>
     );
   }
@@ -201,7 +201,7 @@ export default function Village({ params }: Route.ComponentProps) {
     <PageLayout noAd={noAd} footerPaddingBottom={50}>
       <VillageProvider value={village}>
         <RefreshContext.Provider value={register}>
-          <div className={`px-[15px] ${largeText ? "text-[150%]" : ""}`}>
+          <div className={`px-[10px] md:px-[15px] ${largeText ? "text-[150%]" : ""}`}>
             {/* 村タイトル */}
             <div className="flex">
               <h1 className="my-[10.5px] flex-1 text-[1.125em]">
