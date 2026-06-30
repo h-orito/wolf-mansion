@@ -36,12 +36,12 @@ export function InitialSkillModal({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if (skill == null || suppressed) {
+    if (skill == null || suppressed || !village.status.isProgress) {
       setOpen(false);
       return;
     }
     setOpen(!confirmedVillages().includes(String(villageId)));
-  }, [villageId, skill, suppressed]);
+  }, [villageId, skill, suppressed, village.status.isProgress]);
 
   if (!open || skill == null) return null;
 
