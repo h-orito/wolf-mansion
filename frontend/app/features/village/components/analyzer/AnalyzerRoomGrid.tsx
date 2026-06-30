@@ -49,9 +49,8 @@ export function AnalyzerRoomGrid({
     return participantMemos.find((pm) => pm.participantId === participantId) ?? null;
   };
 
-  const charas = Object.values(participantIdToChara);
-  const cellW = charas.length > 0 ? Math.max(...charas.map((c) => c.size.width)) : 100;
-  const cellH = charas.length > 0 ? Math.max(...charas.map((c) => c.size.height)) : 100;
+  const cellW = 100;
+  const cellH = 100;
 
   const rows: AnalyzerDayRoom[][] = [];
   for (let y = 0; y < roomSize.height; y++) {
