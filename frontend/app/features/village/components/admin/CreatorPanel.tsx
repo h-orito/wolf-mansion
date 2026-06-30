@@ -14,29 +14,23 @@ import {
   type ParticipantSituationView,
   type VillageCreatorSayRequest,
 } from "~/features/village/api";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
+import { allParticipants } from "~/features/village/participants";
+import { formatLastAccess } from "~/lib/datetime";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 村建て機能パネル。村建てプレイヤーのみ表示する。 */
 export function CreatorPanel({
-  villageId,
   mySituation,
-  participants,
-  members,
   onConfirm,
-  onDone,
   registerOnDone,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView;
-  /** 強制退村の選択肢 (charaId と name を持つリスト)。 */
-  participants: { charaId: number; name: string }[];
-  /** 最終アクセス日時テーブル用メンバー一覧。 */
-  members: { charaName: string; lastAccess: string | null }[];
-  /** 村建て発言の確認画面へ進む (プレビュー取得は親が行う)。 */
   onConfirm: (request: VillageCreatorSayRequest) => Promise<void>;
-  onDone: () => Promise<unknown>;
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
+  const villageId = useVillageId();
   const creator = mySituation.creator;
 
   return (
@@ -51,26 +45,15 @@ export function CreatorPanel({
             </div>
           </VillageFormRow>
         )}
-        {creator.isAvailableKick && (
-          <KickSection
-            villageId={villageId}
-            participants={participants}
-            members={members}
-            onDone={onDone}
-          />
-        )}
-        {creator.isAvailableCancelVillage && (
-          <CancelSection villageId={villageId} onDone={onDone} />
-        )}
+        {creator.isAvailableKick && <KickSection />}
+        {creator.isAvailableCancelVillage && <CancelSection />}
         {creator.isAvailableCreatorSay && (
           <CreatorSaySection onConfirm={onConfirm} registerOnDone={registerOnDone} />
         )}
         {(creator.isAvailableExtendEpilogue || creator.isAvailableShortenEpilogue) && (
           <EpilogueSection
-            villageId={villageId}
             canExtend={creator.isAvailableExtendEpilogue}
             canShorten={creator.isAvailableShortenEpilogue}
-            onDone={onDone}
           />
         )}
       </div>
@@ -78,17 +61,15 @@ export function CreatorPanel({
   );
 }
 
-function KickSection({
-  villageId,
-  participants,
-  members,
-  onDone,
-}: {
-  villageId: number;
-  participants: { charaId: number; name: string }[];
-  members: { charaName: string; lastAccess: string | null }[];
-  onDone: () => Promise<unknown>;
-}) {
+function KickSection() {
+  const village = useVillageContext();
+  const invalidate = useVillageInvalidate();
+  const all = allParticipants(village);
+  const participants = all.map((p) => ({ charaId: p.chara.id, name: p.name }));
+  const members = all.map((p) => ({
+    charaName: p.name,
+    lastAccess: p.lastAccessDatetime != null ? formatLastAccess(p.lastAccessDatetime) : null,
+  }));
   const [selectedCharaId, setSelectedCharaId] = useState<string>("");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
@@ -97,9 +78,9 @@ function KickSection({
     if (selectedCharaId === "") return;
     if (!window.confirm("本当に退村させてよろしいですか？")) return;
     void execute(async () => {
-      await kickVillageParticipant(villageId, { charaId: Number(selectedCharaId) });
+      await kickVillageParticipant(village.id, { charaId: Number(selectedCharaId) });
       showToast("退村させました");
-      await onDone();
+      await invalidate();
     }, "強制退村に失敗しました");
   };
 
@@ -142,13 +123,9 @@ function KickSection({
   );
 }
 
-function CancelSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function CancelSection() {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -157,7 +134,7 @@ function CancelSection({
     void execute(async () => {
       await cancelVillage(villageId);
       showToast("廃村にしました");
-      await onDone();
+      await invalidate();
     }, "廃村に失敗しました");
   };
 
@@ -237,17 +214,9 @@ function CreatorSaySection({
   );
 }
 
-function EpilogueSection({
-  villageId,
-  canExtend,
-  canShorten,
-  onDone,
-}: {
-  villageId: number;
-  canExtend: boolean;
-  canShorten: boolean;
-  onDone: () => Promise<unknown>;
-}) {
+function EpilogueSection({ canExtend, canShorten }: { canExtend: boolean; canShorten: boolean }) {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -255,14 +224,14 @@ function EpilogueSection({
     execute(async () => {
       await extendVillageEpilogue(villageId);
       showToast("エピローグを延長しました");
-      await onDone();
+      await invalidate();
     }, "エピローグ延長に失敗しました");
 
   const shorten = () =>
     execute(async () => {
       await shortenVillageEpilogue(villageId);
       showToast("エピローグを短縮しました");
-      await onDone();
+      await invalidate();
     }, "エピローグ短縮に失敗しました");
 
   return (

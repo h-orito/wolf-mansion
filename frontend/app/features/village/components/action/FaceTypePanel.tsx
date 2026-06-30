@@ -13,30 +13,17 @@ import {
   modifyVillageFaceTypes,
   type ParticipantSituationView,
 } from "~/features/village/api";
+import { useVillageId } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
-export function FaceTypePanel({
-  villageId,
-  mySituation,
-  onDone,
-}: {
-  villageId: number;
-  mySituation: ParticipantSituationView;
-  onDone: () => Promise<unknown>;
-}) {
+export function FaceTypePanel({ mySituation }: { mySituation: ParticipantSituationView }) {
   const images = mySituation.myself?.chara.images.list ?? [];
   return (
     <Panel title="表情差分" storageKey="facetypeform" fixable>
       <div className="space-y-[15px]">
-        {images.length > 0 && (
-          <ModifyFaceTypesForm
-            key={images.length}
-            villageId={villageId}
-            images={images}
-            onDone={onDone}
-          />
-        )}
-        <AddFaceTypeForm villageId={villageId} onDone={onDone} />
+        {images.length > 0 && <ModifyFaceTypesForm key={images.length} images={images} />}
+        <AddFaceTypeForm />
       </div>
     </Panel>
   );
@@ -48,15 +35,9 @@ type CharaImage = {
   isDisplay: boolean;
 };
 
-function ModifyFaceTypesForm({
-  villageId,
-  images,
-  onDone,
-}: {
-  villageId: number;
-  images: CharaImage[];
-  onDone: () => Promise<unknown>;
-}) {
+function ModifyFaceTypesForm({ images }: { images: CharaImage[] }) {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const [items, setItems] = useState(() =>
     images.map((img) => ({
       code: img.faceType.code,
@@ -79,7 +60,7 @@ function ModifyFaceTypesForm({
         items.map((item) => ({ code: item.code, name: item.name, isDisplay: item.isDisplay })),
       );
       showToast("表情差分を更新しました");
-      await onDone();
+      await invalidate();
     }, "表情差分の更新に失敗しました");
 
   return (
@@ -128,13 +109,9 @@ function ModifyFaceTypesForm({
   );
 }
 
-function AddFaceTypeForm({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function AddFaceTypeForm() {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const [faceTypeName, setFaceTypeName] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploadKey, setUploadKey] = useState(0);
@@ -148,7 +125,7 @@ function AddFaceTypeForm({
       setFaceTypeName("");
       setImageFile(null);
       setUploadKey((k) => k + 1);
-      await onDone();
+      await invalidate();
     }, "表情差分の追加に失敗しました");
 
   return (

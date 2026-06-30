@@ -3,18 +3,12 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { AdSense } from "~/components/ui/AdSense";
-import { Button, LinkButton } from "~/components/ui/Button";
+import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
-import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
-import {
-  participateVillage,
-  type VillageDetailView,
-  type VillageParticipateRequest,
-} from "~/features/village/api";
+import type { VillageDetailView } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
   applyFilterToParams,
-  EMPTY_FILTER,
   isFiltering,
   parseFilter,
   type MessageFilter,
@@ -22,45 +16,29 @@ import {
 import { useMessagePaging } from "~/features/village/useMessagePaging";
 import { useMessageSync } from "~/features/village/useMessageSync";
 import { RefreshContext, useRefresh } from "~/features/village/useRefresh";
-import { VillageProvider } from "~/features/village/VillageContext";
+import { useVillageContext, VillageProvider } from "~/features/village/VillageContext";
 import { useSayFlow } from "~/features/village/useSayFlow";
 import {
   useMyVillageSituation,
   useVillage,
-  useVillageDebugInfo,
   useVillagePolling,
   useVillageSituation,
 } from "~/features/village/useVillage";
-import { MessageType } from "~/features/village/components/message/messageType";
 import { ApiError } from "~/lib/api";
+import { formatStartDatetime } from "~/lib/datetime";
 import { siteMeta } from "~/lib/meta";
-import { AbilityPanel } from "~/features/village/components/action/AbilityPanel";
-import { ActionPanel } from "~/features/village/components/action/ActionPanel";
-import { CommitPanel } from "~/features/village/components/action/CommitPanel";
-import { FaceTypePanel } from "~/features/village/components/action/FaceTypePanel";
-import { RpPanel } from "~/features/village/components/action/RpPanel";
-import { SayPanel } from "~/features/village/components/action/SayPanel";
-import { VotePanel } from "~/features/village/components/action/VotePanel";
-import { AdminPanel } from "~/features/village/components/admin/AdminPanel";
-import { CreatorPanel } from "~/features/village/components/admin/CreatorPanel";
-import { DebugPanel } from "~/features/village/components/admin/DebugPanel";
+import { SayPreviewArea } from "~/features/village/components/action/SayPreviewArea";
+import { ActionPanels } from "~/features/village/components/ActionPanels";
 import { DayList } from "~/features/village/components/info/DayList";
 import { SituationPanel } from "~/features/village/components/info/SituationPanel";
 import { FooterMenu } from "~/features/village/components/layout/FooterMenu";
+import { LeftTime } from "~/features/village/components/layout/LeftTime";
 import { MessageArea } from "~/features/village/components/message/MessageArea";
-import { MessageCard } from "~/features/village/components/message/MessageCard";
 import { AgeLimitModal } from "~/features/village/components/modal/AgeLimitModal";
 import { FilterModal } from "~/features/village/components/modal/FilterModal";
 import { SettingsModal } from "~/features/village/components/modal/SettingsModal";
 import { VillageInfoModal } from "~/features/village/components/modal/VillageInfoModal";
 import { InitialSkillModal } from "~/features/village/components/participate/InitialSkillModal";
-import {
-  ChangeSkillPanel,
-  LeavePanel,
-  SwitchParticipatePanel,
-} from "~/features/village/components/participate/ParticipantOpsPanels";
-import { ParticipatePanel } from "~/features/village/components/participate/ParticipatePanel";
-import { useCountdown } from "~/features/village/useCountdown";
 import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { Toast, useToast } from "~/components/ui/Toast";
 import type { Route } from "./+types/route";
@@ -80,39 +58,8 @@ function villageNumber(id: number): string {
   return String(id).padStart(4, "0");
 }
 
-/** 確認画面の投稿ボタンのラベル (発言種別ごと)。 */
-function sayLabel(messageType: string | null | undefined): string {
-  switch (messageType) {
-    case MessageType.WEREWOLF_SAY:
-      return "発言する（囁き）";
-    case MessageType.MASON_SAY:
-      return "発言する（共鳴）";
-    case MessageType.LOVERS_SAY:
-      return "発言する（恋人）";
-    case MessageType.TELEPATHY:
-      return "発言する（念話）";
-    case MessageType.MONOLOGUE_SAY:
-      return "発言する（独り言）";
-    case MessageType.SECRET_SAY:
-      return "発言する（秘話）";
-    case MessageType.GRAVE_SAY:
-      return "呻く";
-    default:
-      return "発言する";
-  }
-}
-
-function formatStartDatetime(iso: string): string {
-  const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}/${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
-}
-
-/**
- * 村の共有ツイートボタン。村名 (募集中は開始予定日時も) + ハッシュタグを共有する。
- * 公式 widget script は読み込まず、同じ共有 URL を開くボタンで代替する。
- */
-function XPostButton({ village }: { village: VillageDetailView }) {
+function XPostButton() {
+  const village = useVillageContext();
   const lines = [village.name];
   if (latestDayOf(village) === 0) {
     lines.push(`開始予定: ${formatStartDatetime(village.setting.startDatetime)}`);
@@ -144,18 +91,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
   const { data: mySituation, error: mySituationError } = useMyVillageSituation(villageId, dayParam);
-  const { data: debugInfo } = useVillageDebugInfo(villageId);
-  const { data: randomKeywords } = useRandomKeywords();
   const { refresh, invalidate, register } = useRefresh(villageId);
-  const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
-  const canAction =
-    mySituation?.say.selectableMessageTypeList?.some(
-      (t) => t.messageType.code === MessageType.ACTION,
-    ) ?? false;
-  const canSecretReply =
-    mySituation?.say.selectableMessageTypeList?.some(
-      (t) => t.messageType.code === MessageType.SECRET_SAY,
-    ) ?? false;
 
   const {
     reply,
@@ -188,28 +124,8 @@ export default function Village({ params }: Route.ComponentProps) {
     const query = params.toString();
     window.open(`${window.location.pathname}${query !== "" ? `?${query}` : ""}`);
   };
-  const onHashtagClick = useCallback(
-    (tag: string) => {
-      setSearchParams((prev) => applyFilterToParams(prev, { ...EMPTY_FILTER, keywords: tag }));
-    },
-    [setSearchParams],
-  );
-
-  const [participateError, setParticipateError] = useState<string | null>(null);
-  const onParticipated = async (request: VillageParticipateRequest, charaImage: File | null) => {
-    try {
-      await participateVillage(villageId, request, charaImage);
-      await invalidate();
-      requestAnimationFrame(() => scrollToBottom());
-    } catch (e) {
-      setParticipateError(e instanceof ApiError ? e.detail : "入村に失敗しました");
-      throw e;
-    }
-  };
-
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
-  const isLatestDay = latestDay != null && currentDay === latestDay;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
   const showToast = useToast((s) => s.show);
@@ -255,12 +171,6 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   }, [sessionExpired, showToast]);
 
-  const dayChangeDatetime =
-    village != null && !village.status.isFinished
-      ? (village.days.list?.[village.days.list.length - 1]?.dayChangeDatetime ?? null)
-      : null;
-  const leftTime = useCountdown(dayChangeDatetime);
-
   useEffect(() => {
     if (village != null) document.title = `WOLF MANSION | ${village.name}`;
   }, [village]);
@@ -296,7 +206,7 @@ export default function Village({ params }: Route.ComponentProps) {
                 {villageNumber(village.id)}. {village.name}
               </h1>
               <div className="my-[10.5px]">
-                <XPostButton village={village} />
+                <XPostButton />
               </div>
             </div>
             <hr className="mt-[5px] mb-[10px] border-[#464545]" />
@@ -304,42 +214,21 @@ export default function Village({ params }: Route.ComponentProps) {
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
             <MessageArea
-              villageId={villageId}
               day={dayParam}
-              randomKeywords={keywordList}
               filter={filter}
               page={page}
               setPage={setPage}
               isPaging={isPaging}
               pageSize={pageSize}
-              onHashtagClick={onHashtagClick}
-              onReply={mySituation?.say.isAvailableSay ? onReply : undefined}
-              onSecret={canSecretReply ? onReply : undefined}
+              onReply={onReply}
               onLoaded={onMessagesLoaded}
               confirmArea={
-                sayPreview != null ? (
-                  <div
-                    id="message-confirm-area"
-                    className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
-                  >
-                    <p className="mb-[10px]">
-                      以下の内容で発言してよろしいですか？（まだ発言されていません）
-                    </p>
-                    <MessageCard message={sayPreview.message} randomKeywords={keywordList} />
-                    <div className="flex justify-end gap-[10px]">
-                      <Button variant="default" onClick={onSayCancel}>
-                        キャンセル
-                      </Button>
-                      <Button onClick={onSayDetermine} disabled={saySubmitting}>
-                        {sayPreview.kind === "action"
-                          ? "アクション"
-                          : sayPreview.kind === "creatorSay"
-                            ? "発言する（村建て）"
-                            : sayLabel(sayPreview.request.messageType)}
-                      </Button>
-                    </div>
-                  </div>
-                ) : null
+                <SayPreviewArea
+                  preview={sayPreview}
+                  submitting={saySubmitting}
+                  onDetermine={onSayDetermine}
+                  onCancel={onSayCancel}
+                />
               }
             />
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
@@ -351,122 +240,17 @@ export default function Village({ params }: Route.ComponentProps) {
               <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
             )}
 
-            {mySituation?.say.isAvailableSay && (
-              <div id="say-panel">
-                {sayError != null && <p className="mb-[5px] text-[#e74c3c]">{sayError}</p>}
-                <SayPanel
-                  village={village}
-                  mySituation={mySituation}
-                  randomKeywords={keywordList}
-                  reply={reply}
-                  onClearReply={clearReply}
-                  onConfirm={onSayConfirm}
-                  registerOnDone={registerSayDone}
-                />
-              </div>
-            )}
-
-            {mySituation != null && canAction && (
-              <ActionPanel
-                mySituation={mySituation}
-                participants={situation?.participantList ?? []}
-                onConfirm={onActionConfirm}
-                registerOnDone={registerSayDone}
-              />
-            )}
-
-            {isLatestDay && mySituation != null && mySituation.vote.canVote && (
-              <VotePanel
-                villageId={villageId}
-                village={village}
-                mySituation={mySituation}
-                onDone={invalidate}
-              />
-            )}
-
-            {isLatestDay && mySituation != null && mySituation.myself?.skill != null && (
-              <AbilityPanel
-                villageId={villageId}
-                village={village}
-                mySituation={mySituation}
-                roomAssignedRows={situation?.roomAssignedRowList}
-                onDone={invalidate}
-              />
-            )}
-
-            {mySituation != null &&
-              !mySituation.participate.isParticipating &&
-              (mySituation.participate.isAvailableParticipate ||
-                mySituation.participate.isAvailableSpectate) && (
-                <div>
-                  {participateError != null && (
-                    <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>
-                  )}
-                  <ParticipatePanel
-                    village={village}
-                    mySituation={mySituation}
-                    onParticipated={onParticipated}
-                    onError={setParticipateError}
-                  />
-                </div>
-              )}
-
-            {mySituation != null &&
-              mySituation.participate.isParticipating &&
-              mySituation.skillRequest.isAvailableSkillRequest && (
-                <ChangeSkillPanel
-                  villageId={villageId}
-                  mySituation={mySituation}
-                  onDone={invalidate}
-                />
-              )}
-            {mySituation?.participate.isAvailableSwitchParticipate && (
-              <SwitchParticipatePanel villageId={villageId} onDone={invalidate} />
-            )}
-            {mySituation?.participate.isAvailableLeave && (
-              <LeavePanel villageId={villageId} onDone={invalidate} />
-            )}
-
-            {isLatestDay && mySituation != null && mySituation.commit.isAvailableCommit && (
-              <CommitPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-            )}
-
-            {mySituation != null &&
-              (mySituation.rp.isAvailableChangeName || mySituation.rp.isAvailableMemo) && (
-                <RpPanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-              )}
-
-            {mySituation != null && mySituation.rp.canAddImage && (
-              <FaceTypePanel villageId={villageId} mySituation={mySituation} onDone={invalidate} />
-            )}
-
-            {mySituation != null && mySituation.creator.isCreator && (
-              <CreatorPanel
-                villageId={villageId}
-                mySituation={mySituation}
-                participants={(situation?.participantList ?? []).map((p) => ({
-                  charaId: p.charaId,
-                  name: p.name,
-                }))}
-                members={(situation?.memberList ?? []).flatMap((m) => m.statusMemberList)}
-                onConfirm={onCreatorSayConfirm}
-                onDone={invalidate}
-                registerOnDone={registerSayDone}
-              />
-            )}
-
-            {mySituation != null && mySituation.admin.isAdmin && (
-              <AdminPanel villageId={villageId} onDone={invalidate} />
-            )}
-
-            {debugInfo?.isDebugMode && (
-              <DebugPanel
-                villageId={villageId}
-                currentDay={currentDay}
-                debugInfo={debugInfo}
-                onDone={refresh}
-              />
-            )}
+            <ActionPanels
+              dayParam={dayParam}
+              sayError={sayError}
+              reply={reply}
+              clearReply={clearReply}
+              onSayConfirm={onSayConfirm}
+              onActionConfirm={onActionConfirm}
+              onCreatorSayConfirm={onCreatorSayConfirm}
+              registerSayDone={registerSayDone}
+              refresh={refresh}
+            />
 
             <div className="mb-[10px]">
               <LinkButton to="/" variant="default">
@@ -502,17 +286,14 @@ export default function Village({ params }: Route.ComponentProps) {
           <SettingsModal
             open={settingsOpen}
             onClose={() => setSettingsOpen(false)}
-            villageId={villageId}
             mySituation={mySituation}
           />
           <VillageInfoModal
             open={infoOpen}
             onClose={() => setInfoOpen(false)}
-            villageId={villageId}
             canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
           />
           <InitialSkillModal
-            villageId={villageId}
             mySituation={mySituation}
             suppressed={ageLimit != null && !ageLimitResolved}
           />
@@ -520,28 +301,16 @@ export default function Village({ params }: Route.ComponentProps) {
             open={filterOpen}
             onClose={() => setFilterOpen(false)}
             filter={filter}
-            participants={situation?.participantList ?? []}
-            myselfId={mySituation?.myself?.id ?? null}
-            notificationKeyword={
-              mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null
-            }
+            dayParam={dayParam}
             onApply={applyFilter}
             onApplyNewTab={applyFilterNewTab}
           />
           {ageLimit != null && (
-            <AgeLimitModal
-              villageId={villageId}
-              ageLimit={ageLimit}
-              onResolved={() => setAgeLimitResolved(true)}
-            />
+            <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
           )}
 
           {/* ステータス表示 */}
-          {leftTime != null && (
-            <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
-              更新まで <span>{leftTime}</span>
-            </div>
-          )}
+          <LeftTime />
           {me != null && !sessionExpired && (
             <Link to={`/user/${me.name}`} target="_blank">
               <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">

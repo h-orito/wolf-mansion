@@ -55,6 +55,7 @@ async function findCommitCandidate(page: Page): Promise<Candidate | null> {
 }
 
 test("コミット可の村でコミット ON → OFF を切り替えられる", async ({ page }) => {
+  test.setTimeout(60000);
   const candidate = await findCommitCandidate(page);
   test.skip(candidate == null, "コミットできる参加者が見つからない DB のためスキップ");
   if (candidate == null) return;

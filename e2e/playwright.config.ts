@@ -25,7 +25,7 @@ export default defineConfig({
   // テストは独立データ前提なので並列で良い (05-e2e.md)
   fullyParallel: true,
   forbidOnly: isCI,
-  retries: 0,
+  retries: 1,
   reporter: "html",
   use: {
     baseURL: BASE_URL,

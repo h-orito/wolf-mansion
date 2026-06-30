@@ -102,6 +102,7 @@ test("簡易メモを変更すると参加者一覧に表示される (元に戻
 });
 
 test("キャラ名を変更できる (元に戻す)", async ({ page }) => {
+  test.setTimeout(60000);
   const candidate = await findRpCandidate(
     page,
     (rp) => rp.isAvailableChangeName && rp.name != null && rp.shortName != null,

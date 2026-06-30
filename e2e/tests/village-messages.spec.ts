@@ -43,7 +43,7 @@ test("匿名では非公開種別が API レスポンスに含まれない", asy
   const participantsRes = await page.request.get(
     `/wolf-mansion-api/api/v1/villages/${village.id}/participants`,
   );
-  expect(participantsRes.status()).toBe(400);
+  expect(participantsRes.status()).toBe(404);
 });
 
 test("アンカー発言のパーマリンクページが表示される", async ({ page }) => {

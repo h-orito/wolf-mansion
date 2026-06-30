@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Button, LinkButton } from "~/components/ui/Button";
 
@@ -13,10 +13,11 @@ import { RequireAuth } from "~/features/auth/RequireAuth";
 import type { SimpleSkillView } from "~/features/skills/api";
 import { useSkillList } from "~/features/skills/useSkillList";
 import {
-  fetchVillageInfo,
+  fetchVillage,
   fetchVillageSettingForUpdate,
   updateVillageSetting,
 } from "~/features/village/api";
+import { VILLAGE_QUERY_KEY } from "~/features/village/useVillage";
 import { fetchVillageSetting } from "~/features/villages/api";
 import { BasicSection } from "~/features/village-form/BasicSection";
 import { CharaChipSection } from "~/features/village-form/CharaChipSection";
@@ -60,9 +61,9 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
     queryFn: () => fetchVillageSetting(villageId),
     retry: false,
   });
-  const { data: villageInfo } = useQuery({
-    queryKey: ["village-info", villageId],
-    queryFn: () => fetchVillageInfo(villageId),
+  const { data: villageDetail } = useQuery({
+    queryKey: ["village", villageId],
+    queryFn: () => fetchVillage(villageId),
     retry: false,
   });
 
@@ -102,8 +103,8 @@ function VillageSettingsPage({ villageId }: { villageId: number }) {
       fixedSkillRequest={publicSetting?.rule.isPossibleSkillRequest ?? true}
       fixedCreatorIsProducer={publicSetting?.rule.isCreatorIsProducer ?? false}
       isOriginalCharachip={publicSetting?.chara.isOriginalCharachip ?? false}
-      charachipNames={villageInfo?.charachips?.map((c) => c.name) ?? []}
-      dummyCharaName={villageInfo?.dummyCharaName ?? ""}
+      charachipNames={villageDetail?.info.charachips?.map((c) => c.name) ?? []}
+      dummyCharaName={villageDetail?.info.dummyCharaName ?? ""}
     />
   );
 }
@@ -128,6 +129,7 @@ function VillageSettingsForm({
   dummyCharaName: string;
 }) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const nowYear = useMemo(() => new Date().getFullYear(), []);
   const defaultCamps = useMemo(() => createDefaultCampAllocations(skills), [skills]);
   const initialValues = useMemo(
@@ -149,6 +151,7 @@ function VillageSettingsForm({
     setSaveError(null);
     try {
       await updateVillageSetting(villageId, toUpdateRequest(values));
+      await queryClient.invalidateQueries({ queryKey: [VILLAGE_QUERY_KEY, villageId] });
       navigate(`/village/${villageId}`);
     } catch (e) {
       setSaveError(

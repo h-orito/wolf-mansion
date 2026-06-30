@@ -11,34 +11,26 @@ import {
   fetchAdminVillagePlayers,
   type AdminVillagePlayersResponse,
 } from "~/features/village/api";
+import { useVillageId } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** 管理者機能パネル。管理者プレイヤーのみ表示する。 */
-export function AdminPanel({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+export function AdminPanel() {
   return (
     <Panel title="管理者メニュー" storageKey="adminform">
       <div className="space-y-[15px]">
-        <AccessSection villageId={villageId} onDone={onDone} />
-        <SelfVoteSection villageId={villageId} onDone={onDone} />
-        <PlayersSection villageId={villageId} />
+        <AccessSection />
+        <SelfVoteSection />
+        <PlayersSection />
       </div>
     </Panel>
   );
 }
 
-function AccessSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function AccessSection() {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -46,7 +38,7 @@ function AccessSection({
     execute(async () => {
       await adminUpdateAllAccess(villageId);
       showToast("全員アクセスを更新しました");
-      await onDone();
+      await invalidate();
     }, "全員アクセスに失敗しました");
 
   return (
@@ -63,13 +55,9 @@ function AccessSection({
   );
 }
 
-function SelfVoteSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function SelfVoteSection() {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -77,7 +65,7 @@ function SelfVoteSection({
     execute(async () => {
       await adminInsertSelfVotes(villageId);
       showToast("全員自投票をセットしました");
-      await onDone();
+      await invalidate();
     }, "全員自分投票に失敗しました");
 
   return (
@@ -94,7 +82,8 @@ function SelfVoteSection({
   );
 }
 
-function PlayersSection({ villageId }: { villageId: number }) {
+function PlayersSection() {
+  const villageId = useVillageId();
   const [players, setPlayers] = useState<AdminVillagePlayersResponse | null>(null);
   const { error, submitting: loading, execute } = useAsyncAction();
 

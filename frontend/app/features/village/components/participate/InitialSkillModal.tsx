@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button } from "~/components/ui/Button";
 import { skillDescriptions } from "~/features/skills/descriptions";
 import type { ParticipantSituationView } from "~/features/village/api";
-import { useVillageInfo } from "~/features/village/useVillage";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
 import { RestrictionTable, Row } from "../modal/VillageInfoModal";
 
 const STORAGE_KEY = "already_skill_confirm";
@@ -22,15 +22,16 @@ function confirmedVillages(): string[] {
  * 確認済みの村 ID はブラウザに記憶し、次回以降は出さない。
  */
 export function InitialSkillModal({
-  villageId,
   mySituation,
   suppressed = false,
 }: {
-  villageId: number;
   mySituation: ParticipantSituationView | null | undefined;
   /** 年齢制限確認が済むまで出さない (確認モーダルの逐次表示) */
   suppressed?: boolean;
 }) {
+  const villageId = useVillageId();
+  const village = useVillageContext();
+  const settings = village.info;
   const skill = mySituation?.myself?.skill;
   const [open, setOpen] = useState(false);
 
@@ -41,8 +42,6 @@ export function InitialSkillModal({
     }
     setOpen(!confirmedVillages().includes(String(villageId)));
   }, [villageId, skill, suppressed]);
-
-  const { data: settings } = useVillageInfo(villageId, open);
 
   if (!open || skill == null) return null;
 
@@ -75,60 +74,56 @@ export function InitialSkillModal({
           </p>
         ))}
         <h5 className="mt-[15px] mb-[5px] text-[14px]">村の設定</h5>
-        {settings == null ? (
-          <p className="text-gray-400">読み込み中...</p>
-        ) : (
-          <table className="w-full border-collapse">
-            <tbody>
-              <Row label="更新間隔">{settings.dayChangeInterval}</Row>
-              <Row label="投票形式">{settings.voteType}</Row>
-              <Row label="同一人狼による連続襲撃">
-                {settings.isAvailableSameWolfAttack
-                  ? "可能"
-                  : "不可(狼2以下編成の場合は可能に変更されます)"}
-              </Row>
-              <Row label="狩人による連続護衛">
-                {settings.isAvailableGuardSameTarget ? "可能" : "不可"}
-              </Row>
-              <Row label="突然死">{settings.isAvailableSuddenlyDeath ? "あり" : "なし"}</Row>
-              <Row label="コミット">{settings.isAvailableCommit ? "あり" : "なし"}</Row>
-              <Row label="ダミーキャラ">{settings.dummyCharaName}</Row>
-              <Row label="役職構成">
-                {settings.isRandomOrganization ? (
-                  "闇鍋編成のため非表示"
-                ) : (
-                  <span className="whitespace-pre-line">{settings.organization}</span>
-                )}
-              </Row>
-              <Row label="発言制限（通常発言）">
-                <RestrictionTable
-                  headerLabel="役職"
-                  rows={(settings.sayRestrictList ?? []).map((r) => ({
-                    name: r.skillName,
-                    isRestrict: r.isRestrict,
-                    length: r.length ?? undefined,
-                    count: r.count ?? undefined,
-                  }))}
-                  emptyText="制限がかかっている役職はありません。"
-                  leadText="制限がかかっている役職のみ表示しています。"
-                />
-              </Row>
-              <Row label="発言制限（役職発言）">
-                <RestrictionTable
-                  headerLabel="発言種別"
-                  rows={(settings.skillSayRestrictList ?? []).map((r) => ({
-                    name: r.messageTypeName,
-                    isRestrict: r.isRestrict,
-                    length: r.length ?? undefined,
-                    count: r.count ?? undefined,
-                  }))}
-                  emptyText="制限がかかっている発言種別はありません。"
-                  leadText="制限がかかっている発言種別のみ表示しています。"
-                />
-              </Row>
-            </tbody>
-          </table>
-        )}
+        <table className="w-full border-collapse">
+          <tbody>
+            <Row label="更新間隔">{settings.dayChangeInterval}</Row>
+            <Row label="投票形式">{settings.voteType}</Row>
+            <Row label="同一人狼による連続襲撃">
+              {settings.isAvailableSameWolfAttack
+                ? "可能"
+                : "不可(狼2以下編成の場合は可能に変更されます)"}
+            </Row>
+            <Row label="狩人による連続護衛">
+              {settings.isAvailableGuardSameTarget ? "可能" : "不可"}
+            </Row>
+            <Row label="突然死">{settings.isAvailableSuddenlyDeath ? "あり" : "なし"}</Row>
+            <Row label="コミット">{settings.isAvailableCommit ? "あり" : "なし"}</Row>
+            <Row label="ダミーキャラ">{settings.dummyCharaName}</Row>
+            <Row label="役職構成">
+              {settings.isRandomOrganization ? (
+                "闇鍋編成のため非表示"
+              ) : (
+                <span className="whitespace-pre-line">{settings.organization}</span>
+              )}
+            </Row>
+            <Row label="発言制限（通常発言）">
+              <RestrictionTable
+                headerLabel="役職"
+                rows={(settings.sayRestrictList ?? []).map((r) => ({
+                  name: r.skillName,
+                  isRestrict: r.isRestrict,
+                  length: r.length ?? undefined,
+                  count: r.count ?? undefined,
+                }))}
+                emptyText="制限がかかっている役職はありません。"
+                leadText="制限がかかっている役職のみ表示しています。"
+              />
+            </Row>
+            <Row label="発言制限（役職発言）">
+              <RestrictionTable
+                headerLabel="発言種別"
+                rows={(settings.skillSayRestrictList ?? []).map((r) => ({
+                  name: r.messageTypeName,
+                  isRestrict: r.isRestrict,
+                  length: r.length ?? undefined,
+                  count: r.count ?? undefined,
+                }))}
+                emptyText="制限がかかっている発言種別はありません。"
+                leadText="制限がかかっている発言種別のみ表示しています。"
+              />
+            </Row>
+          </tbody>
+        </table>
         <div className="mt-[15px] flex justify-end">
           <Button onClick={confirm}>確認したので次回以降表示しない</Button>
         </div>

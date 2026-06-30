@@ -60,7 +60,8 @@ test("管理者メニュー: 参加プレイヤーのインライン表示と全
   await expect(page).toHaveURL(new RegExp(`/village/${villageId}`));
 
   // 全員アクセス (lastAccess 更新のみで無害)
-  await page.getByRole("button", { name: "全員アクセス" }).click();
+  const accessSection = page.getByText("全員アクセス").locator("..").locator("..");
+  await accessSection.getByRole("button", { name: "更新" }).click();
   await expect(page.getByText(/に失敗しました/)).toHaveCount(0);
 });
 

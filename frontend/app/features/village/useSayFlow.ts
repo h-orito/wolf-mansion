@@ -9,10 +9,10 @@ import {
   sayVillageCreator,
   type VillageActionRequest,
   type VillageCreatorSayRequest,
-  type VillageMessageContent,
   type VillageSayRequest,
 } from "~/features/village/api";
 import type { ReplyDraft } from "~/features/village/components/message/MessageCard";
+import type { SayPreview } from "~/features/village/components/action/SayPreviewArea";
 import { ApiError } from "~/lib/api";
 
 function isSayPanelFixed(): boolean {
@@ -29,19 +29,13 @@ function scrollToSayPanel() {
   }
 }
 
-type SayPreview =
-  | { kind: "say"; message: VillageMessageContent; request: VillageSayRequest }
-  | { kind: "action"; message: VillageMessageContent; request: VillageActionRequest }
-  | { kind: "creatorSay"; message: VillageMessageContent; request: VillageCreatorSayRequest }
-  | null;
-
 export function useSayFlow(
   villageId: number,
   invalidate: () => Promise<unknown>,
   scrollToBottom: () => void,
 ) {
   const [reply, setReply] = useState<ReplyDraft | null>(null);
-  const [sayPreview, setSayPreview] = useState<SayPreview>(null);
+  const [sayPreview, setSayPreview] = useState<SayPreview | null>(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
   type SayKind = "say" | "action" | "creatorSay";

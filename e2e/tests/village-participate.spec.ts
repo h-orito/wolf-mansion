@@ -45,17 +45,17 @@ test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) 
   await expect(page.getByLabel("キャラクター名")).not.toHaveValue("");
   await expect(page.getByLabel("略称")).not.toHaveValue("");
 
-  await page.getByLabel("入村発言").fill("e2e の入村確認テストです。");
-  await page.getByRole("button", { name: "確認画面へ" }).click();
+  await page.getByLabel("入村発言").fill("e2e テストです。");
+  await page.getByRole("button", { name: "入村確認へ" }).click();
 
   // サーバ検証 (assertParticipate) を通って確認画面へ
-  await expect(page.getByText("入村確認")).toBeVisible();
+  await expect(page.getByText("入村確認", { exact: true })).toBeVisible();
   const submit = page.getByRole("button", { name: "入村する" });
   await expect(submit).toBeDisabled();
 
   // 2 つの同意チェックで活性化する (実際の入村はしない)
-  await page.getByText("ルールを確認し、同意します").click();
-  await page.getByText("他の参加者への礼節を守り、迷惑をかけないことに同意します").click();
+  await page.getByText(/ルールを確認し/).click();
+  await page.getByText(/他者への礼節/).click();
   await expect(submit).toBeEnabled();
 });
 
@@ -76,9 +76,9 @@ test("入村 → 役職希望変更 → 退村の自己完結フロー", async (
 
   await page.getByLabel("キャラクター", { exact: true }).selectOption({ index: 1 });
   await page.getByLabel("入村発言").fill("e2e の入村テストです。後で退村します。");
-  await page.getByRole("button", { name: "確認画面へ" }).click();
-  await page.getByText("ルールを確認し、同意します").click();
-  await page.getByText("他の参加者への礼節を守り、迷惑をかけないことに同意します").click();
+  await page.getByRole("button", { name: "入村確認へ" }).click();
+  await page.getByText(/ルールを確認し/).click();
+  await page.getByText(/他者への礼節/).click();
   await page.getByRole("button", { name: "入村する" }).click();
 
   // 入村後は退村パネルが出る (= 参加状態になった)

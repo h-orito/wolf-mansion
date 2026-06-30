@@ -6,11 +6,9 @@ import { Button } from "~/components/ui/Button";
 import { Panel } from "~/components/ui/Panel";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
-import type {
-  ParticipantSituationView,
-  VillageDetailView,
-  VillageSayRequest,
-} from "~/features/village/api";
+import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageType } from "~/features/village/components/message/messageType";
@@ -68,17 +66,13 @@ const RANDOM_TAGS = ["fortune", "1d6", "or", "who", "allwho", "gwho"];
  * 制限超過でも入力はできるが確認ボタンを無効にする。
  */
 export function SayPanel({
-  village,
   mySituation,
-  randomKeywords,
   reply,
   onClearReply,
   onConfirm,
   registerOnDone,
 }: {
-  village: VillageDetailView;
   mySituation: ParticipantSituationView;
-  randomKeywords: string[];
   reply: ReplyDraft | null;
   onClearReply: () => void;
   /** 確認画面へ (リクエスト内容を親へ渡し、プレビュー取得は親が行う) */
@@ -86,6 +80,8 @@ export function SayPanel({
   /** 発言完了時のクリア関数を登録する */
   registerOnDone: (kind: "say" | "action" | "creatorSay", fn: () => void) => void;
 }) {
+  const village = useVillageContext();
+  const randomKeywords = useRandomKeywordList();
   const say = mySituation.say;
   const myself = mySituation.myself;
   const showDecorationButtons = useDisplaySettings((s) => s.showDecorationButtons);

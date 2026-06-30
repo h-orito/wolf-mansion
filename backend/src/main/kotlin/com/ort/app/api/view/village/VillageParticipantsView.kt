@@ -24,6 +24,7 @@ data class VillageParticipantsView(
         charachips: Charachips,
         shouldHidePrivate: Boolean,
         players: Players? = null,
+        isPrologue: Boolean = false,
     ) : this(
         count = org.count,
         list =
@@ -33,6 +34,7 @@ data class VillageParticipantsView(
                     charachips.chara(it.charaId),
                     shouldHidePrivate,
                     player = players?.list?.firstOrNull { p -> p.id == it.playerId },
+                    isPrologue = isPrologue,
                 )
             },
     )

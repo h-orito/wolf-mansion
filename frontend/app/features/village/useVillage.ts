@@ -6,11 +6,12 @@ import {
   fetchMyVillageSituation,
   fetchVillage,
   fetchVillageDebugInfo,
-  fetchVillageInfo,
   fetchVillageSituation,
   postVillageUpdate,
 } from "./api";
 import { VILLAGE_MESSAGES_QUERY_KEY } from "./useMessages";
+
+import { useVillageId } from "./VillageContext";
 
 export const VILLAGE_QUERY_KEY = "village";
 export const VILLAGE_SITUATION_QUERY_KEY = "village-situation";
@@ -54,16 +55,6 @@ export function useMyVillageSituation(id: number, day: number | undefined) {
   });
 }
 
-/** 村情報モーダル用の設定表示。モーダルを開いたときだけ取得する。 */
-export function useVillageInfo(id: number, enabled: boolean) {
-  return useQuery({
-    queryKey: ["village-info", id],
-    queryFn: () => fetchVillageInfo(id),
-    enabled,
-    retry: false,
-  });
-}
-
 /** デバッグ情報を取得する。debug 無効時は isDebugMode=false が返る。 */
 export function useVillageDebugInfo(id: number) {
   return useQuery({
@@ -87,6 +78,10 @@ export function useInvalidateVillage(id: number) {
       ]),
     [queryClient, id],
   );
+}
+
+export function useVillageInvalidate() {
+  return useInvalidateVillage(useVillageId());
 }
 
 const POLLING_INTERVAL_MS = 30_000;

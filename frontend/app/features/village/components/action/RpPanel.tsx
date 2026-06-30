@@ -11,21 +11,15 @@ import {
   changeVillageMemo,
   type ParticipantSituationView,
 } from "~/features/village/api";
+import { useVillageId } from "~/features/village/VillageContext";
+import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /**
  * RP 支援 (名前変更・簡易メモ)。簡易メモは参加者一覧に表示される公開情報で、
  * 自分専用メモではない。
  */
-export function RpPanel({
-  villageId,
-  mySituation,
-  onDone,
-}: {
-  villageId: number;
-  mySituation: ParticipantSituationView;
-  onDone: () => Promise<unknown>;
-}) {
+export function RpPanel({ mySituation }: { mySituation: ParticipantSituationView }) {
   const rp = mySituation.rp;
   return (
     <Panel title="名前変更・簡易メモ" storageKey="changenameform" fixable>
@@ -37,26 +31,16 @@ export function RpPanel({
             <li>このキャラチップは制作者様の意向により名前変更ができません。</li>
           )}
         </AlertList>
-        {rp.isAvailableChangeName && (
-          <ChangeNameForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
-        )}
-        {rp.isAvailableMemo && (
-          <MemoForm villageId={villageId} myself={mySituation.myself} onDone={onDone} />
-        )}
+        {rp.isAvailableChangeName && <ChangeNameForm myself={mySituation.myself} />}
+        {rp.isAvailableMemo && <MemoForm myself={mySituation.myself} />}
       </div>
     </Panel>
   );
 }
 
-function ChangeNameForm({
-  villageId,
-  myself,
-  onDone,
-}: {
-  villageId: number;
-  myself: ParticipantSituationView["myself"];
-  onDone: () => Promise<unknown>;
-}) {
+function ChangeNameForm({ myself }: { myself: ParticipantSituationView["myself"] }) {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const [name, setName] = useState(myself?.charaName.name ?? "");
   const [shortName, setShortName] = useState(myself?.charaName.shortName ?? "");
   const showToast = useToast((s) => s.show);
@@ -66,7 +50,7 @@ function ChangeNameForm({
     execute(async () => {
       await changeVillageCharaName(villageId, { name, shortName });
       showToast("名前を変更しました");
-      await onDone();
+      await invalidate();
     }, "名前の変更に失敗しました");
 
   return (
@@ -102,15 +86,9 @@ function ChangeNameForm({
   );
 }
 
-function MemoForm({
-  villageId,
-  myself,
-  onDone,
-}: {
-  villageId: number;
-  myself: ParticipantSituationView["myself"];
-  onDone: () => Promise<unknown>;
-}) {
+function MemoForm({ myself }: { myself: ParticipantSituationView["myself"] }) {
+  const villageId = useVillageId();
+  const invalidate = useVillageInvalidate();
   const [memo, setMemo] = useState(myself?.memo ?? "");
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
@@ -119,7 +97,7 @@ function MemoForm({
     execute(async () => {
       await changeVillageMemo(villageId, { memo });
       showToast("簡易メモを変更しました");
-      await onDone();
+      await invalidate();
     }, "簡易メモの変更に失敗しました");
 
   return (

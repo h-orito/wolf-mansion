@@ -7,25 +7,23 @@ import { inlineInputClass, selectClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { login, logout } from "~/features/auth/api";
 import { debugAllParticipate, debugDayChange, type VillageDebugView } from "~/features/village/api";
+import { useVillageContext, useVillageId } from "~/features/village/VillageContext";
 import { useAsyncAction } from "~/lib/useAsyncAction";
 
 /** ローカル開発向けデバッグメニュー。app.debug 有効時のみ表示する。 */
 export function DebugPanel({
-  villageId,
-  currentDay,
   debugInfo,
   onDone,
 }: {
-  villageId: number;
-  currentDay: number;
   debugInfo: VillageDebugView;
   onDone: () => Promise<unknown>;
 }) {
+  const village = useVillageContext();
   return (
     <Panel title="デバッグメニュー" storageKey="debugform">
       <div className="space-y-[15px]">
-        {currentDay === 0 && <ParticipateSection villageId={villageId} onDone={onDone} />}
-        <DayChangeSection villageId={villageId} onDone={onDone} />
+        {village.status.isPrologue && <ParticipateSection onDone={onDone} />}
+        <DayChangeSection onDone={onDone} />
         <DummyLoginSection players={debugInfo.players} />
         <LogoutSection />
       </div>
@@ -33,13 +31,8 @@ export function DebugPanel({
   );
 }
 
-function ParticipateSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function ParticipateSection({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const [personNumber, setPersonNumber] = useState(16);
   const { error, submitting, execute } = useAsyncAction();
 
@@ -72,13 +65,8 @@ function ParticipateSection({
   );
 }
 
-function DayChangeSection({
-  villageId,
-  onDone,
-}: {
-  villageId: number;
-  onDone: () => Promise<unknown>;
-}) {
+function DayChangeSection({ onDone }: { onDone: () => Promise<unknown> }) {
+  const villageId = useVillageId();
   const { error, submitting, execute } = useAsyncAction();
 
   const submit = () =>

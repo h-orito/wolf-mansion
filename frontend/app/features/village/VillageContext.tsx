@@ -11,3 +11,7 @@ export function useVillageContext(): VillageDetailView {
   if (village == null) throw new Error("useVillageContext must be used within VillageProvider");
   return village;
 }
+
+export function useVillageId(): number {
+  return useVillageContext().id;
+}
