@@ -31,6 +31,7 @@ export function AnalyzerRoomGrid({
   footsteps,
   participantMemos,
   participantIdToChara,
+  participants,
   dummyCharaId,
   onParticipantClick,
 }: {
