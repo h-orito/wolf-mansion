@@ -86,12 +86,14 @@ export function MessageCard({
       if (tag !== "" && onHashtagClick != null) onHashtagClick(tag);
       return;
     }
-    if (target.classList.contains("netabare")) {
-      target.classList.remove("netabare");
+    const netabare = target.closest(".netabare") as HTMLElement | null;
+    if (netabare != null) {
+      netabare.classList.remove("netabare");
       return;
     }
-    if (target.classList.contains("transparency")) {
-      target.classList.remove("transparency");
+    const transparency = target.closest(".transparency") as HTMLElement | null;
+    if (transparency != null) {
+      transparency.classList.remove("transparency");
     }
   };
 
