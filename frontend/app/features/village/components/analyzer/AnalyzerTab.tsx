@@ -2,7 +2,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
 import type { VillageSituationView } from "~/features/village/api";
-import { fetchVillageSituation } from "~/features/village/api";
+import {
+  fetchAnalyzerVillage,
+  type AnalyzerDaySituation,
+} from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep } from "~/features/village/analyzer/types";
 import { Button } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
@@ -18,7 +21,6 @@ type BottomTab = "vote" | "memo";
 
 export function AnalyzerTab({
   situation: initialSituation,
-  day: pageDay,
 }: {
   situation: VillageSituationView;
   day: number;
@@ -26,24 +28,35 @@ export function AnalyzerTab({
   const { me } = useMe();
   const village = useVillageContext();
 
+  const { data: analyzerData } = useQuery({
+    queryKey: ["analyzer-village", village.id],
+    queryFn: () => fetchAnalyzerVillage(village.id),
+  });
+
   const allParticipants = useMemo(
     () => [...village.participants.list, ...village.spectators.list],
     [village],
   );
   const participantIds = useMemo(() => allParticipants.map((p) => p.id), [allParticipants]);
-  const days = useMemo(
-    () =>
-      village.days.list
-        .map((d) => d.day)
-        .filter((d) => d >= 1)
-        .sort((a, b) => a - b),
-    [village],
-  );
 
-  const footstepList = useMemo(
-    () => initialSituation.footstepList ?? [],
-    [initialSituation.footstepList],
-  );
+  const analyzerDays = useMemo(() => {
+    if (!analyzerData) return [];
+    const epilogueDay = analyzerData.village.epilogueDay;
+    return analyzerData.days
+      .filter((d) => d.day >= 1)
+      .filter((d) => (epilogueDay != null ? d.day <= epilogueDay : true))
+      .sort((a, b) => a.day - b.day);
+  }, [analyzerData]);
+
+  const rawFootstepsByDay = useMemo(() => {
+    if (!analyzerData) return [];
+    return analyzerData.days
+      .filter((d) => d.day >= 1)
+      .map((d) => ({
+        day: d.day,
+        footsteps: d.footsteps,
+      }));
+  }, [analyzerData]);
 
   const {
     loaded,
@@ -56,38 +69,33 @@ export function AnalyzerTab({
     setDailyFootstepMemos,
     setWholeMemo,
     save,
-  } = useAnalyzerMemos(me?.playerId ?? null, village.id, participantIds, days, footstepList);
+  } = useAnalyzerMemos(me?.playerId ?? null, village.id, participantIds, rawFootstepsByDay);
 
-  const [selectedDay, setSelectedDay] = useState(() => {
-    const epilogueDay = village.epilogueDay;
-    const available = days.filter((d) => (epilogueDay != null ? d <= epilogueDay : true));
-    return available.length > 0 ? available[available.length - 1] : pageDay;
-  });
+  const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const activeDay =
+    selectedDay ?? (analyzerDays.length > 0 ? analyzerDays[analyzerDays.length - 1].day : 1);
 
-  const { data: daySituation } = useQuery({
-    queryKey: ["analyzer-situation", village.id, selectedDay, me?.name],
-    queryFn: () => fetchVillageSituation(village.id, selectedDay),
-    placeholderData: selectedDay === pageDay ? initialSituation : undefined,
-  });
+  const currentDaySituation: AnalyzerDaySituation | undefined = useMemo(
+    () => analyzerData?.days.find((d) => d.day === activeDay),
+    [analyzerData, activeDay],
+  );
 
   const [memoParticipantId, setMemoParticipantId] = useState<number | null>(null);
   const [bottomTab, setBottomTab] = useState<BottomTab>("vote");
 
-  const hasRooms = daySituation?.roomAssignedRowList != null && selectedDay > 0;
-
   const currentDayFootsteps = useMemo(() => {
-    const dfm = dailyFootstepMemos.find((m) => m.day === selectedDay);
+    const dfm = dailyFootstepMemos.find((m) => m.day === activeDay);
     return dfm?.footsteps ?? [];
-  }, [dailyFootstepMemos, selectedDay]);
+  }, [dailyFootstepMemos, activeDay]);
 
   const onFootstepsChange = useCallback(
     (updated: DayFootstep[]) => {
-      setDailyFootstepMemos(selectedDay, updated);
+      setDailyFootstepMemos(activeDay, updated);
     },
-    [setDailyFootstepMemos, selectedDay],
+    [setDailyFootstepMemos, activeDay],
   );
 
-  const currentDailyMemo = dailyMemos.find((m) => m.day === selectedDay)?.memo ?? "";
+  const currentDailyMemo = dailyMemos.find((m) => m.day === activeDay)?.memo ?? "";
 
   const openMemoParticipant = useMemo(
     () =>
@@ -108,7 +116,7 @@ export function AnalyzerTab({
     [memoParticipantId, participantMemos],
   );
 
-  const dayLabel = (d: number) => (d === village.epilogueDay ? "EP" : `${d}d`);
+  const dayLabel = (d: number) => (d === analyzerData?.village.epilogueDay ? "EP" : `${d}d`);
 
   if (!me) {
     return (
@@ -118,7 +126,7 @@ export function AnalyzerTab({
     );
   }
 
-  if (!loaded) {
+  if (!analyzerData || !loaded) {
     return <p className="py-[10px] text-village-sm text-gray-400">読み込み中...</p>;
   }
 
@@ -127,53 +135,53 @@ export function AnalyzerTab({
       {/* Day tabs + save button */}
       <div className="mb-[8px] flex items-center gap-[4px]">
         <div className="flex flex-1 flex-wrap">
-          {days
-            .filter((d) => (village.epilogueDay != null ? d <= village.epilogueDay : true))
-            .map((d) => (
-              <button
-                key={d}
-                type="button"
-                onClick={() => setSelectedDay(d)}
-                className={`min-w-[36px] cursor-pointer border-0 px-[8px] py-[6px] text-[13px] text-white first:rounded-l last:rounded-r ${
-                  selectedDay === d
-                    ? "border-b-2 border-b-[#00ff00] bg-[#304562] text-[#00ff00]"
-                    : "bg-[#304562] hover:bg-[#3a5572]"
-                }`}
-              >
-                {dayLabel(d)}
-              </button>
-            ))}
+          {analyzerDays.map((d) => (
+            <button
+              key={d.day}
+              type="button"
+              onClick={() => setSelectedDay(d.day)}
+              className={`min-w-[36px] cursor-pointer border-0 px-[8px] py-[6px] text-[13px] text-white first:rounded-l last:rounded-r ${
+                activeDay === d.day
+                  ? "border-b-2 border-b-[#00ff00] bg-[#304562] text-[#00ff00]"
+                  : "bg-[#304562] hover:bg-[#3a5572]"
+              }`}
+            >
+              {dayLabel(d.day)}
+            </button>
+          ))}
         </div>
         <Button variant="default" size="xs" onClick={() => save()}>
           保存
         </Button>
       </div>
 
-      {/* Day content: Room grid + Footsteps/Daily memo — responsive */}
-      {daySituation && (
+      {/* Day content: Room grid + Footsteps/Daily memo */}
+      {currentDaySituation && analyzerData.village.roomSize && (
         <div className="flex flex-col gap-[10px] lg:flex-row">
           {/* Room grid */}
-          {hasRooms && (
-            <div className="min-w-0 flex-shrink-0 lg:max-w-[60%]">
-              <AnalyzerRoomGrid
-                rows={daySituation.roomAssignedRowList!}
-                footsteps={currentDayFootsteps}
-                participantMemos={participantMemos}
-                onParticipantClick={setMemoParticipantId}
-              />
-            </div>
-          )}
+          <div className="min-w-0 flex-shrink-0 lg:max-w-[60%]">
+            <AnalyzerRoomGrid
+              rooms={currentDaySituation.rooms}
+              roomSize={analyzerData.village.roomSize}
+              footsteps={currentDayFootsteps}
+              participantMemos={participantMemos}
+              participantIdToChara={analyzerData.participantIdToChara}
+              participants={analyzerData.village.participants.list}
+              dummyCharaId={analyzerData.village.setting.chara.dummyCharaId}
+              onParticipantClick={setMemoParticipantId}
+            />
+          </div>
 
           {/* Footstep analysis + Daily memo */}
           <div className="min-w-0 flex-1 space-y-[10px]">
             <AnalyzerFootsteps footsteps={currentDayFootsteps} onChange={onFootstepsChange} />
             <div>
               <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
-                {dayLabel(selectedDay)} メモ
+                {dayLabel(activeDay)} メモ
               </label>
               <textarea
                 value={currentDailyMemo}
-                onChange={(e) => setDailyMemo(selectedDay, e.target.value)}
+                onChange={(e) => setDailyMemo(activeDay, e.target.value)}
                 rows={3}
                 className="w-full rounded border border-[#464545] bg-[#303030] p-[8px] text-village-sm text-white"
                 placeholder="この日のメモ..."
@@ -183,7 +191,7 @@ export function AnalyzerTab({
         </div>
       )}
 
-      {/* Bottom section: Vote + Whole memo + Participant memos */}
+      {/* Bottom section: Vote + Memos */}
       <div className="mt-[10px] border-t border-[#464545] pt-[10px]">
         <div className="mb-[8px] flex gap-[4px]">
           {(["vote", "memo"] as const).map((tab) => (
@@ -205,7 +213,7 @@ export function AnalyzerTab({
         {bottomTab === "vote" && initialSituation.vote != null && (
           <VoteTab
             vote={initialSituation.vote}
-            roomAssignedRows={daySituation?.roomAssignedRowList}
+            roomAssignedRows={initialSituation.roomAssignedRowList}
           />
         )}
 

@@ -1,8 +1,6 @@
 import { useMemo } from "react";
 
-import type { VillageRoomAssigned } from "~/features/village/api";
-
-type Room = { roomNumber: string; x: number; y: number };
+import type { AnalyzerDayRoom } from "~/features/village/analyzer/analyzerApi";
 
 function parseRoomNumbers(footstep: string): number[] {
   return footstep
@@ -11,29 +9,32 @@ function parseRoomNumbers(footstep: string): number[] {
     .filter((n) => !Number.isNaN(n));
 }
 
-function buildRoomMap(rows: { roomAssignedList: VillageRoomAssigned[] }[]): Map<number, Room> {
-  const map = new Map<number, Room>();
-  for (let y = 0; y < rows.length; y++) {
-    const list = rows[y].roomAssignedList ?? [];
-    for (let x = 0; x < list.length; x++) {
-      const rn = Number.parseInt(list[x].roomNumber, 10);
-      if (!Number.isNaN(rn)) map.set(rn, { roomNumber: list[x].roomNumber, x, y });
-    }
-  }
-  return map;
-}
-
 function lineStyle(
   direction: "up" | "right" | "down" | "left" | "dot",
   index: number,
   color: string,
   isRound: boolean,
 ): React.CSSProperties {
-  const offset = index % 2 === 0 ? 50 - 4 * Math.floor(index / 2) : 54 + 4 * Math.floor(index / 2);
-  const offsetInv =
-    index % 2 === 0 ? 51 + 4 * Math.floor(index / 2) : 47 - 4 * Math.floor(index / 2);
+  const half = Math.floor(index / 2);
+  const isEven = index % 2 === 0;
   const borderStyle = isRound ? "dashed" : "solid";
   const c = color.startsWith("#") ? color : `#${color}`;
+
+  if (direction === "dot") {
+    return {
+      position: "absolute",
+      left: isEven ? 44 + 4 * half : 40 - 4 * half,
+      top: isEven ? 44 - 4 * half : 40 + 4 * half,
+      width: 12,
+      height: 12,
+      borderRadius: 10,
+      backgroundColor: c,
+      zIndex: 5,
+    };
+  }
+
+  const upRightSize = isEven ? 50 - 4 * half : 54 + 4 * half;
+  const downLeftSize = isEven ? 51 + 4 * half : 47 - 4 * half;
 
   switch (direction) {
     case "up":
@@ -41,8 +42,8 @@ function lineStyle(
         position: "absolute",
         right: 0,
         top: 0,
-        width: offset,
-        height: offset + 1,
+        width: upRightSize,
+        height: upRightSize + 1,
         border: 0,
         borderLeft: `2px ${borderStyle} ${c}`,
         zIndex: 5,
@@ -52,8 +53,8 @@ function lineStyle(
         position: "absolute",
         right: 0,
         top: 0,
-        width: offset,
-        height: offset + 1,
+        width: upRightSize,
+        height: upRightSize + 1,
         border: 0,
         borderBottom: `2px ${borderStyle} ${c}`,
         zIndex: 5,
@@ -63,8 +64,8 @@ function lineStyle(
         position: "absolute",
         left: 0,
         bottom: 0,
-        width: offsetInv,
-        height: offsetInv - 1,
+        width: downLeftSize,
+        height: downLeftSize - 1,
         border: 0,
         borderRight: `2px ${borderStyle} ${c}`,
         zIndex: 5,
@@ -74,28 +75,12 @@ function lineStyle(
         position: "absolute",
         left: 0,
         bottom: 0,
-        width: offsetInv,
-        height: offsetInv - 1,
+        width: downLeftSize,
+        height: downLeftSize - 1,
         border: 0,
         borderTop: `2px ${borderStyle} ${c}`,
         zIndex: 5,
       };
-    case "dot": {
-      const dotLeft =
-        index % 2 === 0 ? 44 + 4 * Math.floor(index / 2) : 40 - 4 * Math.floor(index / 2);
-      const dotTop =
-        index % 2 === 0 ? 44 - 4 * Math.floor(index / 2) : 40 + 4 * Math.floor(index / 2);
-      return {
-        position: "absolute",
-        left: dotLeft,
-        top: dotTop,
-        width: 12,
-        height: 12,
-        borderRadius: 10,
-        backgroundColor: c,
-        zIndex: 5,
-      };
-    }
   }
 }
 
@@ -104,33 +89,33 @@ export function FootstepLines({
   color,
   show,
   room,
-  rows,
+  allRooms,
   index,
 }: {
   footstep: string;
   color: string;
   show: boolean;
-  room: VillageRoomAssigned;
-  rows: { roomAssignedList: VillageRoomAssigned[] }[];
+  room: AnalyzerDayRoom;
+  allRooms: AnalyzerDayRoom[];
   index: number;
 }) {
-  const roomMap = useMemo(() => buildRoomMap(rows), [rows]);
+  const roomMap = useMemo(() => {
+    const map = new Map<number, AnalyzerDayRoom>();
+    for (const r of allRooms) map.set(r.roomNumber, r);
+    return map;
+  }, [allRooms]);
 
   if (!show) return null;
 
   const roomNumbers = parseRoomNumbers(footstep);
-  const currentRn = Number.parseInt(room.roomNumber, 10);
-  if (!roomNumbers.includes(currentRn)) return null;
+  if (!roomNumbers.includes(room.roomNumber)) return null;
 
-  const currentRoom = roomMap.get(currentRn);
-  if (!currentRoom) return null;
+  const pathRooms = roomNumbers.map((rn) => roomMap.get(rn)).filter(Boolean) as AnalyzerDayRoom[];
 
-  const pathRooms = roomNumbers.map((rn) => roomMap.get(rn)).filter(Boolean) as Room[];
-
-  const hasUp = pathRooms.some((r) => r.x === currentRoom.x && r.y < currentRoom.y);
-  const hasRight = pathRooms.some((r) => r.y === currentRoom.y && r.x > currentRoom.x);
-  const hasDown = pathRooms.some((r) => r.x === currentRoom.x && r.y > currentRoom.y);
-  const hasLeft = pathRooms.some((r) => r.y === currentRoom.y && r.x < currentRoom.x);
+  const hasUp = pathRooms.some((r) => r.x === room.x && r.y < room.y);
+  const hasRight = pathRooms.some((r) => r.y === room.y && r.x > room.x);
+  const hasDown = pathRooms.some((r) => r.x === room.x && r.y > room.y);
+  const hasLeft = pathRooms.some((r) => r.y === room.y && r.x < room.x);
   const showDot = roomNumbers.length === 1 || !(hasUp || hasRight || hasDown || hasLeft);
 
   const xs = new Set(pathRooms.map((r) => r.x));

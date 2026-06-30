@@ -1,50 +1,83 @@
-import type { VillageRoomAssignedRow } from "~/features/village/api";
+import type { AnalyzerDayRoom, AnalyzerVillageData } from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep, ParticipantMemo } from "~/features/village/analyzer/types";
-import { deadMark } from "~/features/village/components/info/dead";
 import { FootstepLines } from "./FootstepLines";
 
-const cellBorderClass = "border border-[#464545]";
+const DEAD_MARK: Record<string, string> = {
+  SUDDON: "凸",
+  EXECUTE: "▼",
+  SUICIDE: "❤︎",
+};
+
+function deadMark(reason: { code: string } | null): string {
+  if (!reason) return "▲";
+  return DEAD_MARK[reason.code] ?? "▲";
+}
+
+function charaImageUrl(
+  participantId: number,
+  participantIdToChara: AnalyzerVillageData["participantIdToChara"],
+): { url: string; width: number; height: number } | null {
+  const chara = participantIdToChara[String(participantId)];
+  if (!chara) return null;
+  const img = chara.images.list.find((i) => i.faceType.code === "NORMAL") ?? chara.images.list[0];
+  if (!img) return null;
+  const url = img.url.startsWith("http") ? img.url : `https://wolfort.net${img.url}`;
+  return { url, width: chara.size.width, height: chara.size.height };
+}
 
 export function AnalyzerRoomGrid({
-  rows,
+  rooms,
+  roomSize,
   footsteps,
   participantMemos,
+  participantIdToChara,
+  dummyCharaId,
   onParticipantClick,
 }: {
-  rows: VillageRoomAssignedRow[];
+  rooms: AnalyzerDayRoom[];
+  roomSize: { width: number; height: number };
   footsteps: DayFootstep[];
   participantMemos: ParticipantMemo[];
+  participantIdToChara: AnalyzerVillageData["participantIdToChara"];
+  participants: { id: number; charaName: { shortName: string } }[];
+  dummyCharaId: number;
   onParticipantClick: (participantId: number) => void;
 }) {
-  const getMemo = (participantId: number | null | undefined) => {
+  const getMemo = (participantId: number | null) => {
     if (participantId == null) return null;
     return participantMemos.find((pm) => pm.participantId === participantId) ?? null;
   };
 
+  const rows: AnalyzerDayRoom[][] = [];
+  for (let y = 0; y < roomSize.height; y++) {
+    rows.push(rooms.filter((r) => r.y === y).sort((a, b) => a.x - b.x));
+  }
+
   return (
-    <div className="overflow-x-auto pt-[10px] pb-[10px]">
-      <table
-        className={`${cellBorderClass} border-collapse text-[0.75rem]`}
-        style={{ tableLayout: "fixed" }}
-      >
+    <div className="overflow-x-auto">
+      <table className="border border-[#464545] border-collapse" style={{ tableLayout: "fixed" }}>
         <tbody>
-          {rows.map((row, rowIndex) => (
-            <tr key={rowIndex}>
-              {(row.roomAssignedList ?? []).map((room) => {
+          {rows.map((row, y) => (
+            <tr key={y}>
+              {row.map((room) => {
                 const pMemo = getMemo(room.participantId);
                 const memoText = pMemo?.memo ?? "";
                 const memoColor = pMemo?.color ?? "ffffff";
                 const displayMemo = memoText.length > 24 ? `${memoText.slice(0, 23)}...` : memoText;
+                const img = room.participantId
+                  ? charaImageUrl(room.participantId, participantIdToChara)
+                  : null;
+                const cellW = img?.width ?? 100;
+                const cellH = img?.height ?? 100;
+                const isDummy =
+                  room.participantId != null &&
+                  participantIdToChara[String(room.participantId)]?.id === dummyCharaId;
 
                 return (
                   <td
                     key={room.roomNumber}
-                    className={`${cellBorderClass} relative p-0 text-center align-middle ${room.participantId != null ? "cursor-pointer" : ""}`}
-                    style={{
-                      width: room.maxWidth ?? undefined,
-                      minWidth: room.maxWidth ?? undefined,
-                      height: room.maxHeight ?? undefined,
-                    }}
+                    className={`relative border border-[#464545] p-0 text-center align-middle ${room.participantId != null ? "cursor-pointer" : ""}`}
+                    style={{ width: cellW, minWidth: cellW, height: cellH }}
                     onClick={() =>
                       room.participantId != null && onParticipantClick(room.participantId)
                     }
@@ -56,7 +89,7 @@ export function AnalyzerRoomGrid({
                         color={fs.color}
                         show={fs.show}
                         room={room}
-                        rows={rows}
+                        allRooms={rooms}
                         index={idx}
                       />
                     ))}
@@ -70,36 +103,35 @@ export function AnalyzerRoomGrid({
                         </p>
                       </div>
                     )}
-                    <div
-                      title={room.charaName ?? undefined}
-                      className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                      style={{
-                        width: room.charaImgWidth ?? room.maxWidth ?? undefined,
-                        height: room.charaImgHeight ?? room.maxHeight ?? undefined,
-                        ...(room.charaImgUrl
-                          ? {
-                              backgroundImage: `url(${room.charaImgUrl})`,
-                              backgroundRepeat: "no-repeat",
-                              backgroundSize: "contain",
-                            }
-                          : {}),
-                        ...(room.isDead == null || room.isDead
-                          ? { opacity: 0.2 }
-                          : { opacity: 0.7 }),
-                      }}
-                    />
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-80">
-                      <span className="bg-wm-base whitespace-nowrap">
-                        {room.roomNumber} {room.charaShortName ?? ""}
+                    {img && (
+                      <div
+                        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                        style={{
+                          width: img.width,
+                          height: img.height,
+                          backgroundImage: `url(${img.url})`,
+                          backgroundRepeat: "no-repeat",
+                          backgroundSize: "contain",
+                          opacity: room.isDead == null || room.isDead ? 0.2 : 0.7,
+                        }}
+                      />
+                    )}
+                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-80">
+                      <span className="bg-wm-base text-[11px]">
+                        {String(room.roomNumber).padStart(2, "0")}{" "}
+                        {room.participantId != null
+                          ? (participants.find((p) => p.id === room.participantId)?.charaName
+                              .shortName ?? "")
+                          : ""}
                       </span>
-                      {room.isDead && room.charaShortName != null && (
-                        <span className="bg-wm-base whitespace-nowrap">
+                      {room.isDead && (
+                        <span className="bg-wm-base text-[11px]">
                           <br />
                           {room.deadDay}d {deadMark(room.deadReason)}
                         </span>
                       )}
-                      {room.isDummy && (
-                        <span className="bg-wm-base whitespace-nowrap">
+                      {isDummy && (
+                        <span className="bg-wm-base text-[11px]">
                           <br />
                           ダミー
                         </span>

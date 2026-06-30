@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import type { VillageFootstepContent } from "~/features/village/api";
 import { fetchPlayerMemo, savePlayerMemo } from "./firebase";
 import type {
   DailyFootstepMemo,
@@ -35,15 +34,14 @@ function initDailyMemos(saved: PlayerMemo | null, days: number[]): DailyMemo[] {
 
 function initDailyFootstepMemos(
   saved: PlayerMemo | null,
-  footstepList: VillageFootstepContent[],
+  rawFootstepsByDay: { day: number; footsteps: string[] }[],
 ): DailyFootstepMemo[] {
-  return footstepList.map((fs) => {
-    const existing = saved?.dailyFootstepMemos?.find((dfm) => dfm.day === fs.day);
+  return rawFootstepsByDay.map((dayData) => {
+    const existing = saved?.dailyFootstepMemos?.find((dfm) => dfm.day === dayData.day);
     if (existing) return existing;
-    const footstepTexts = fs.footstep.split("\n").filter((s) => s.trim() !== "");
     return {
-      day: fs.day,
-      footsteps: footstepTexts.map(
+      day: dayData.day,
+      footsteps: dayData.footsteps.map(
         (text, i): DayFootstep => ({
           footstep: text,
           color: getColor(i),
@@ -72,8 +70,7 @@ export function useAnalyzerMemos(
   playerId: number | null,
   villageId: number,
   participantIds: number[],
-  days: number[],
-  footstepList: VillageFootstepContent[],
+  rawFootstepsByDay: { day: number; footsteps: string[] }[],
 ): AnalyzerMemosState {
   const [loaded, setLoaded] = useState(false);
   const [participantMemos, setParticipantMemos] = useState<ParticipantMemo[]>([]);
@@ -83,15 +80,15 @@ export function useAnalyzerMemos(
 
   const participantIdsRef = useRef(participantIds);
   participantIdsRef.current = participantIds;
-  const daysRef = useRef(days);
-  daysRef.current = days;
-  const footstepListRef = useRef(footstepList);
-  footstepListRef.current = footstepList;
+  const rawFootstepsRef = useRef(rawFootstepsByDay);
+  rawFootstepsRef.current = rawFootstepsByDay;
 
   const stateRef = useRef({ participantMemos, dailyMemos, dailyFootstepMemos, wholeMemo });
   stateRef.current = { participantMemos, dailyMemos, dailyFootstepMemos, wholeMemo };
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const days = rawFootstepsByDay.map((d) => d.day);
 
   useEffect(() => {
     if (!playerId) return;
@@ -100,30 +97,39 @@ export function useAnalyzerMemos(
       .then((saved) => {
         if (cancelled) return;
         setParticipantMemos(initParticipantMemos(saved, participantIdsRef.current));
-        setDailyMemos(initDailyMemos(saved, daysRef.current));
-        setDailyFootstepMemosState(initDailyFootstepMemos(saved, footstepListRef.current));
+        setDailyMemos(
+          initDailyMemos(
+            saved,
+            rawFootstepsRef.current.map((d) => d.day),
+          ),
+        );
+        setDailyFootstepMemosState(initDailyFootstepMemos(saved, rawFootstepsRef.current));
         setWholeMemoState(saved?.wholeMemo ?? "");
         setLoaded(true);
       })
       .catch(() => {
         if (cancelled) return;
         setParticipantMemos(initParticipantMemos(null, participantIdsRef.current));
-        setDailyMemos(initDailyMemos(null, daysRef.current));
-        setDailyFootstepMemosState(initDailyFootstepMemos(null, footstepListRef.current));
+        setDailyMemos(
+          initDailyMemos(
+            null,
+            rawFootstepsRef.current.map((d) => d.day),
+          ),
+        );
+        setDailyFootstepMemosState(initDailyFootstepMemos(null, rawFootstepsRef.current));
         setLoaded(true);
       });
     return () => {
       cancelled = true;
     };
-  }, [playerId, villageId]);
+  }, [playerId, villageId, days.length]);
 
   const scheduleSave = useCallback(() => {
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
     saveTimerRef.current = setTimeout(async () => {
       saveTimerRef.current = null;
       if (!playerId) return;
-      const s = stateRef.current;
-      await savePlayerMemo(playerId, villageId, s).catch(() => {});
+      await savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
     }, 2000);
   }, [playerId, villageId]);
 
