@@ -2,12 +2,13 @@ import { useCallback, useId, useState } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
 import { useLocalStorage } from "~/lib/useLocalStorage";
+import { AnalyzerTab } from "~/features/village/components/analyzer/AnalyzerTab";
 import { FootstepTab } from "./FootstepTab";
 import { MemberListTab } from "./MemberListTab";
 import { RoomAssignedTab } from "./RoomAssignedTab";
 import { VoteTab } from "./VoteTab";
 
-type TabKey = "room" | "member" | "vote" | "footstep";
+type TabKey = "room" | "member" | "vote" | "footstep" | "analyzer";
 
 const STORAGE_KEY = "village_panel_situation";
 const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
@@ -47,6 +48,7 @@ export function SituationPanel({
     { key: "member", label: "参加者" },
     ...(hasVoteTab ? [{ key: "vote" as const, label: "投票" }] : []),
     ...(hasFootstepTab ? [{ key: "footstep" as const, label: "足音" }] : []),
+    { key: "analyzer" as const, label: "推理補助" },
   ];
 
   return (
@@ -79,13 +81,13 @@ export function SituationPanel({
       >
         <div className="overflow-hidden">
           <div className="p-[15px]">
-            <ul className="flex border-b border-[#464545]">
+            <ul className="flex flex-wrap border-b border-[#464545]">
               {tabs.map((tab) => (
                 <li key={tab.key} className="-mb-px">
                   <button
                     type="button"
                     onClick={() => setActiveTab(tab.key)}
-                    className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] ${
+                    className={`mr-[2px] block rounded-t-[4px] border px-[10px] py-[8px] text-[13px] sm:px-[15px] sm:py-[10px] sm:text-[14px] ${
                       activeTab === tab.key
                         ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
                         : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"
@@ -115,6 +117,7 @@ export function SituationPanel({
                 spoiled={spoiled}
               />
             )}
+            {activeTab === "analyzer" && <AnalyzerTab situation={situation} day={day} />}
           </div>
         </div>
       </div>
