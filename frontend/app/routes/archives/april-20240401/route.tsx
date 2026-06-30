@@ -20,10 +20,18 @@ export default function April20240401() {
         </p>
         <div className="flex flex-col gap-[15px]">
           <Link to="/village/609">
-            <img src={assetUrl("/app/images/april-top.png")} alt="609村の部屋割り" className="max-w-full" />
+            <img
+              src={assetUrl("/app/images/april-top.png")}
+              alt="609村の部屋割り"
+              className="max-w-full"
+            />
           </Link>
           <Link to="/village/552">
-            <img src={assetUrl("/app/images/april-top2.png")} alt="552村の部屋割り" className="max-w-full" />
+            <img
+              src={assetUrl("/app/images/april-top2.png")}
+              alt="552村の部屋割り"
+              className="max-w-full"
+            />
           </Link>
         </div>
       </div>

@@ -19,10 +19,8 @@
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| 1 | Thymeleaf旧画面およびController methodの削除 | chore | open |
-| 4 | アンカー発言のネスト展開が入れ子表示になり領域が狭まる | fix | open |
-| 5 | #bottomスクロール位置が広告に隠れて最新発言や発言確認が見えない | fix | open |
-| 6 | 入村パネルのキャラ選択ですでに入村済みのキャラが表示される | fix | open |
+| 13 | 推理補助機能（wolf-mansion-analyzer）の移植 | enhance | open |
+| 14 | [[tp]]に[[#fff]]など色を重ねるとクリックしても内容が見られない | fix | open |
 
 
 ## frontend テスト基盤メモ
