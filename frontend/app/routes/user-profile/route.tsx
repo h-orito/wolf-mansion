@@ -306,6 +306,7 @@ function VillageTable({
                   width={v.characterImgWidth}
                   height={v.characterImgHeight}
                   alt={v.characterName}
+                  style={{ minWidth: v.characterImgWidth, minHeight: v.characterImgHeight }}
                 />
               </td>
               {showDetails && (
