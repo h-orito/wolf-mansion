@@ -1,63 +1,39 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  findVillages,
+  loginApi,
+  dismissInitialSkillModal,
+  provisionInProgressVillage,
+  CANDIDATE_USERS,
+  type SimpleVillage,
+} from "./helpers/provision";
 
 /**
  * 役職能力セットの e2e。能力を使える参加者が必要なため、進行中の村と
  * ローカル開発 DB のテストユーザー (testuser01〜16 / password=testuser) を
- * 走査して能力者を動的に探し、見つからなければスキップする。
+ * 走査して能力者を動的に探す。見つからなければ村を作成して再走査する。
  * セットは現在値の再セットに留め、共有 DB の進行状態を変えない。
  */
 
-type SimpleVillage = { id: number; name: string };
-
 type AbilityView = {
   canUseAbility: boolean;
-  attackerList: { charaId: number; name: string }[];
+  attackerCharaIds: number[];
   attackerCharaId: number | null;
   targetCharaId: number | null;
   footstep: string | null;
   targetingMessage: string | null;
-  werewolfNames: string;
+  wolfCharaIds: number[];
 };
 
 type Candidate = { villageId: number; userId: string; ability: AbilityView };
 
-const CANDIDATE_USERS = Array.from(
-  { length: 16 },
-  (_, i) => `testuser${String(i + 1).padStart(2, "0")}`,
-);
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-async function login(page: Page, userId: string): Promise<boolean> {
-  const res = await page.request.post(`/wolf-mansion-api/api/v1/auth/login`, {
-    data: { userId, password: "testuser" },
-  });
-  return res.ok();
-}
-/** 初回役職確認モーダルが被っていたら閉じる。 */
-async function dismissInitialSkillModal(page: Page) {
-  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
-  if ((await confirm.count()) > 0) {
-    await confirm.click();
-  }
-}
-
-
-/** 能力を使える (user, village) の組を探す。filter で絞り込み条件を追加できる。 */
-async function findAbilityCandidate(
+async function scanAbilityCandidate(
   page: Page,
+  villages: SimpleVillage[],
   filter: (ability: AbilityView) => boolean,
 ): Promise<Candidate | null> {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  if (villages.length === 0) return null;
   for (const userId of CANDIDATE_USERS) {
-    if (!(await login(page, userId))) continue;
+    if (!(await loginApi(page, userId))) continue;
     for (const village of villages) {
       const res = await page.request.get(
         `/wolf-mansion-api/api/v1/villages/${village.id}/situation/me`,
@@ -72,49 +48,51 @@ async function findAbilityCandidate(
   return null;
 }
 
+async function findAbilityCandidate(
+  page: Page,
+  filter: (ability: AbilityView) => boolean,
+): Promise<Candidate | null> {
+  const existing = await findVillages(page, ["IN_PROGRESS"]);
+  const result = await scanAbilityCandidate(page, existing, filter);
+  if (result) return result;
+  const provisioned = await provisionInProgressVillage(page);
+  return scanAbilityCandidate(page, [provisioned], filter);
+}
+
 test("能力者で村画面を開くと役職パネルが表示される", async ({ page }) => {
-  test.setTimeout(60000);
+  test.setTimeout(180000);
   const candidate = await findAbilityCandidate(page, () => true);
-  test.skip(candidate == null, "能力を使える参加者が見つからない DB のためスキップ");
+  expect(candidate, "能力を使える参加者が見つからない").not.toBeNull();
   if (candidate == null) return;
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByText("役職", { exact: true }).first()).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
 
-  // 現在のセット内容の説明文が出る (セット済みの場合)。「なし」等の短文は
-  // select の option などにも一致しうるため first で見る
   if (candidate.ability.targetingMessage != null) {
     await expect(
       page.getByText(candidate.ability.targetingMessage, { exact: true }).first(),
     ).toBeVisible();
   }
-  // 人狼系なら仲間の名前が見える
-  if (candidate.ability.werewolfNames != null && candidate.ability.werewolfNames !== "") {
-    await expect(page.getByText(`この村の人狼は、 ${candidate.ability.werewolfNames} です。`)).toBeVisible();
-  }
 });
 
 test("人狼が現在の襲撃セットを再セットできる (共有 DB の状態を変えない)", async ({ page }) => {
-  test.setTimeout(60000);
-  // 襲撃型で現在セット済み (再セットしても状態が変わらない) の参加者に限定する
+  test.setTimeout(180000);
   const candidate = await findAbilityCandidate(
     page,
     (ability) =>
-      ability.attackerList != null &&
-      ability.attackerList.length > 0 &&
+      ability.attackerCharaIds?.length > 0 &&
       ability.attackerCharaId != null &&
       ability.targetCharaId != null &&
       ability.footstep != null,
   );
-  test.skip(candidate == null, "襲撃をセット済みの人狼が見つからない DB のためスキップ");
+  expect(candidate, "襲撃をセット済みの人狼が見つからない").not.toBeNull();
   if (candidate == null) return;
 
   await page.goto(`village/${candidate.villageId}`);
   await expect(page.getByRole("button", { name: "能力セット" })).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
 
-  // 初期表示で現在のセット値が選択済みになるのを待つ (対象候補は遅延取得)
   const targetSelect = page.getByLabel("能力の対象");
   await expect(targetSelect).toHaveValue(String(candidate.ability.targetCharaId), {
     timeout: 15000,
@@ -131,7 +109,6 @@ test("人狼が現在の襲撃セットを再セットできる (共有 DB の�
   ]);
   expect(response.status()).toBe(204);
 
-  // 再セット後も同じセット内容の説明文が表示される
   if (candidate.ability.targetingMessage != null) {
     await expect(page.getByText(candidate.ability.targetingMessage)).toBeVisible();
   }

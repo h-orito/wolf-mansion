@@ -1,53 +1,29 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import {
+  ensureMasterInProgressVillage,
+  loginAsMasterUi,
+  dismissInitialSkillModal,
+} from "./helpers/provision";
 
 /**
- * 村画面の発言投稿 e2e。ローカル DB の master (testuser) でログインし、
+ * 村画面の発言投稿 e2e。master でログインし、
  * 発言できる村があれば 確認 → 投稿 → ログ反映 を通す。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-async function loginAsMaster(page: Page) {
-  await page.goto("login");
-  await page.waitForLoadState("networkidle");
-  await page.fill("#userId", "master");
-  await page.fill("#password", "testuser");
-  await page.getByRole("button", { name: "ログイン" }).click();
-  await expect(page).toHaveURL(/\/wolf-mansion\/?$/);
-}
-/** 初回役職確認モーダルが被っていたら閉じる。 */
-async function dismissInitialSkillModal(page: Page) {
-  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
-  if ((await confirm.count()) > 0) {
-    await confirm.click();
-  }
-}
-
-
 test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
-  const village = villages[0];
+  const village = await ensureMasterInProgressVillage(page);
 
-  await loginAsMaster(page);
+  await loginAsMasterUi(page);
   await page.goto(`village/${village.id}`);
 
   const sayPanel = page.locator("#say-panel");
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
-  test.skip((await sayPanel.count()) === 0, "発言できない状態のためスキップ");
+  expect(await sayPanel.count()).toBeGreaterThan(0);
 
   // 独り言で投稿する (種別が無ければスキップ)
   const monologue = sayPanel.getByRole("button", { name: "独り言" });
-  test.skip((await monologue.count()) === 0, "独り言が選択できないためスキップ");
+  expect(await monologue.count()).toBeGreaterThan(0);
   await monologue.click();
 
   const text = `e2e 発言テスト ${Date.now()}`;
@@ -72,42 +48,35 @@ test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) =
 });
 
 test("空入力では確認ボタンが無効", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
-  const village = villages[0];
+  const village = await ensureMasterInProgressVillage(page);
 
-  await loginAsMaster(page);
+  await loginAsMasterUi(page);
   await page.goto(`village/${village.id}`);
   const sayPanel = page.locator("#say-panel");
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
-  test.skip((await sayPanel.count()) === 0, "発言できない状態のためスキップ");
+  expect(await sayPanel.count()).toBeGreaterThan(0);
 
   await expect(sayPanel.getByRole("button", { name: "確認画面へ" })).toBeDisabled();
 });
 
 test("アクション: 対象選択 + 本文 → 確認 → 投稿 → ログ反映", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
-  const village = villages[0];
+  const village = await ensureMasterInProgressVillage(page);
 
-  await loginAsMaster(page);
+  await loginAsMasterUi(page);
   await page.goto(`village/${village.id}`);
   await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
 
   const actionInput = page.getByLabel("アクション本文");
-  test.skip((await actionInput.count()) === 0, "アクションできない状態のためスキップ");
+  expect(await actionInput.count()).toBeGreaterThan(0);
   const actionBodyId = await page
     .locator("button[aria-controls]")
     .filter({ hasText: /^アクション$/ })
     .getAttribute("aria-controls");
   const actionBody = page.locator(`[id="${actionBodyId}"]`);
-  // 共有 DB で繰り返し実行すると 1 日のアクション回数を使い切るため、枯渇時はスキップ
-  test.skip(
-    (await actionBody.getByText(/残り0\/\d+回/).count()) > 0,
-    "本日のアクション回数を使い切っているためスキップ",
-  );
+  // 共有 DB で繰り返し実行すると 1 日のアクション回数を使い切るため、枯渇時はアサーション失敗
+  expect(await actionBody.getByText(/残り0\/\d+回/).count()).toBe(0);
 
   const text = `に e2e アクション ${Date.now()}`;
   await page.getByLabel("アクションの対象").selectOption("全員");

@@ -1,45 +1,32 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  ensureVillagesExist,
+  findVillages,
+  loginApi,
+  type SimpleVillage,
+} from "./helpers/provision";
 
 /**
  * 村設定変更 (`/village/{id}/settings`、村主のみ) の e2e。
  * master が村建てした募集中の村を動的に探し、村名を変更して保存 → 元に戻す。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-async function login(page: Page, userId: string): Promise<boolean> {
-  const res = await page.request.post(`/wolf-mansion-api/api/v1/auth/login`, {
-    data: { userId, password: "testuser" },
-  });
-  return res.ok();
-}
-
-/** master が村建てした募集中の村を探す。 */
+/** master が設定変更できる募集中の村を返す（creator/setting が正常に返る村を選ぶ）。 */
 async function findEditableVillage(page: Page): Promise<SimpleVillage | null> {
-  if (!(await login(page, "master"))) return null;
+  await loginApi(page, "master");
   const villages = await findVillages(page, ["IN_PREPARATION"]);
   for (const village of villages) {
     const res = await page.request.get(
-      `/wolf-mansion-api/api/v1/villages/${village.id}/situation/me`,
+      `/wolf-mansion-api/api/v1/villages/${village.id}/creator/setting`,
     );
-    if (!res.ok()) continue;
-    const body = (await res.json()) as { creator: { isAvailableModifySetting: boolean } };
-    if (body.creator.isAvailableModifySetting) return village;
+    if (res.ok()) return village;
   }
   return null;
 }
 
 test("村設定変更: 村名を変更して保存し、元に戻す", async ({ page }) => {
   const village = await findEditableVillage(page);
-  test.skip(village == null, "master が設定変更できる募集中の村が無い DB のためスキップ");
+  expect(village, "master が設定変更できる募集中の村が無い").not.toBeNull();
   if (village == null) return;
 
   await page.goto(`village/${village.id}/settings`);
@@ -72,10 +59,9 @@ test("村設定変更: 村名を変更して保存し、元に戻す", async ({ 
 });
 
 test("村建てでないユーザーには設定変更ページが開けない", async ({ page }) => {
-  const ok = await login(page, "testuser01");
-  test.skip(!ok, "testuser01 が存在しない DB のためスキップ");
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  test.skip(villages.length === 0, "募集中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION"]);
+  const ok = await loginApi(page, "testuser01");
+  expect(ok, "testuser01 が存在しない").toBe(true);
 
   await page.goto(`village/${villages[0].id}/settings`);
   await expect(page.getByText("村建てプレイヤーのみ実行できます")).toBeVisible({

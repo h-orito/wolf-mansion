@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist, findVillages } from "./helpers/provision";
 
 /**
  * 村画面 (`/village/{id}`) e2e。
@@ -7,21 +8,11 @@ import { expect, test, type Page } from "@playwright/test";
  * 該当する村が無い場合はスキップする。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
 
 test("募集中の村画面が表示される (タイトル/日付ナビ/状況パネル/フッターメニュー)", async ({
   page,
 }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  test.skip(villages.length === 0, "募集中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION"]);
   const village = villages[villages.length - 1];
 
   await page.goto(`village/${village.id}`);
@@ -50,8 +41,7 @@ test("存在しない村はその旨を表示する", async ({ page }) => {
 });
 
 test("進行中以降の村で日付ナビ遷移と状況タブが動く", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
-  test.skip(villages.length === 0, "進行中以降の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
   const village = villages[0];
 
   await page.goto(`village/${village.id}`);
@@ -69,8 +59,7 @@ test("進行中以降の村で日付ナビ遷移と状況タブが動く", async
 });
 
 test("進行中以降の村で投票・足音タブを切り替えられる", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
-  test.skip(villages.length === 0, "進行中以降の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
   const village = villages[0];
 
   await page.goto(`village/${village.id}`);
@@ -92,8 +81,7 @@ test("進行中以降の村で投票・足音タブを切り替えられる", as
 });
 
 test("未ログインでは situation/me が 401 になる (公開 API はマスク済み)", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
-  test.skip(villages.length === 0, "進行中以降の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
   const village = villages[0];
 
   const meRes = await page.request.get(

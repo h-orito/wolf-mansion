@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { ensureVillagesExist, uniqueUserId } from "./helpers/provision";
 
 /**
  * 村作成フォーム e2e。
@@ -8,15 +9,6 @@ import { expect, test } from "@playwright/test";
  * ページはログイン必須のため、テスト内で signup して自前のアカウントを使う
  * (ページ閲覧は認証のみで可。村作成可否の条件は作成時にサーバーで検証される)。
  */
-
-// userId 制約: 3〜12 文字 / 英字始まり / 英数 - _ (backend SignupRequest)。
-function uniqueUserId(): string {
-  const stamp = Date.now().toString(36).slice(-7);
-  const rand = Math.floor(Math.random() * 36 ** 2)
-    .toString(36)
-    .padStart(2, "0");
-  return `v${stamp}${rand}`;
-}
 
 const PASSWORD = "test1234!";
 
@@ -204,13 +196,15 @@ test("設定流用セクションが表示され、流用で選択した村の�
   await expect(select).toBeVisible();
   await expect(page.getByRole("button", { name: "流用する" })).toBeVisible();
 
-  // 流用候補 (エピローグ/終了/廃村の村) は API から非同期に入る。候補が無い DB ではスキップ
+  // 流用候補 (エピローグ/終了/廃村の村) が存在することを保証する
+  await ensureVillagesExist(page, ["EPILOGUE", "COMPLETED", "CANCEL"]);
+
+  // 流用候補が select に入るまで待つ
   const listRes = await page.request.get(
     "/wolf-mansion-api/api/v1/villages?status=EPILOGUE&status=COMPLETED&status=CANCEL&order=asc",
   );
   expect(listRes.ok()).toBe(true);
   const candidates = (await listRes.json()).villages as { id: number }[];
-  test.skip(candidates.length === 0, "流用候補 (終了村) が無い DB のためスキップ");
 
   // 先頭候補が select に入るまで待つ (既定で選択される)
   await expect(select).toHaveValue(String(candidates[0].id));
