@@ -117,7 +117,7 @@ export function SituationPanel({
                 spoiled={spoiled}
               />
             )}
-            {activeTab === "analyzer" && <AnalyzerTab situation={situation} day={day} />}
+            {activeTab === "analyzer" && <AnalyzerTab situation={situation} />}
           </div>
         </div>
       </div>

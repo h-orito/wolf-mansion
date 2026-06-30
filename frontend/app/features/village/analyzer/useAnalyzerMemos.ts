@@ -88,6 +88,16 @@ export function useAnalyzerMemos(
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  // タイマーをアンマウント時にクリアし、未保存データをフラッシュする
+  useEffect(() => {
+    return () => {
+      if (saveTimerRef.current) {
+        clearTimeout(saveTimerRef.current);
+        saveTimerRef.current = null;
+      }
+    };
+  }, []);
+
   const days = rawFootstepsByDay.map((d) => d.day);
 
   useEffect(() => {

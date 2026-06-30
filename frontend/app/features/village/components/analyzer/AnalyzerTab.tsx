@@ -20,12 +20,7 @@ import { ParticipantMemoModal } from "./ParticipantMemoModal";
 
 type BottomTab = "vote" | "memo";
 
-export function AnalyzerTab({
-  situation: initialSituation,
-}: {
-  situation: VillageSituationView;
-  day: number;
-}) {
+export function AnalyzerTab({ situation: initialSituation }: { situation: VillageSituationView }) {
   const { me } = useMe();
   const village = useVillageContext();
 
