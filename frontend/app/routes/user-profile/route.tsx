@@ -275,18 +275,18 @@ function VillageTable({
 }) {
   return (
     <div className="mb-[10px] overflow-x-auto">
-      <table className="w-full border-collapse border border-[#464545]">
+      <table className="min-w-full border-collapse border border-[#464545]">
         <thead>
           <tr>
-            <th className={`${cellClass} text-right`}>村番号</th>
-            <th className={headerClass}>村名</th>
+            <th className={`${cellClass} text-right whitespace-nowrap`}>村番号</th>
+            <th className={`${headerClass} whitespace-nowrap`}>村名</th>
             <th className={headerClass} />
             {showDetails && (
               <>
-                <th className={headerClass}>役職</th>
-                <th className={headerClass}>生死</th>
-                <th className={headerClass}>陣営</th>
-                <th className={headerClass}>勝敗</th>
+                <th className={`${headerClass} whitespace-nowrap`}>役職</th>
+                <th className={`${headerClass} whitespace-nowrap`}>生死</th>
+                <th className={`${headerClass} whitespace-nowrap`}>陣営</th>
+                <th className={`${headerClass} whitespace-nowrap`}>勝敗</th>
               </>
             )}
           </tr>
@@ -294,26 +294,27 @@ function VillageTable({
         <tbody>
           {villages.map((v) => (
             <tr key={v.villageId} className="odd:bg-[#2a2a2a]">
-              <td className={`${rightCellClass} align-middle`}>
+              <td className={`${rightCellClass} align-middle whitespace-nowrap`}>
                 <TextLink to={`/village/${v.villageId}`}>
                   {String(v.villageId).padStart(4, "0")}
                 </TextLink>
               </td>
-              <td className={`${cellClass} align-middle`}>{v.villageName}</td>
+              <td className={`${cellClass} align-middle whitespace-nowrap`}>{v.villageName}</td>
               <td className={`${cellClass} align-middle`}>
                 <img
                   src={v.characterImgUrl}
                   width={v.characterImgWidth}
                   height={v.characterImgHeight}
                   alt={v.characterName}
+                  style={{ minWidth: v.characterImgWidth, minHeight: v.characterImgHeight }}
                 />
               </td>
               {showDetails && (
                 <>
-                  <td className={`${cellClass} align-middle`}>{v.skillName}</td>
-                  <td className={`${cellClass} align-middle`}>{v.liveStatus}</td>
-                  <td className={`${cellClass} align-middle`}>{v.campName}</td>
-                  <td className={`${cellClass} align-middle`}>{v.winStatus}</td>
+                  <td className={`${cellClass} align-middle whitespace-nowrap`}>{v.skillName}</td>
+                  <td className={`${cellClass} align-middle whitespace-nowrap`}>{v.liveStatus}</td>
+                  <td className={`${cellClass} align-middle whitespace-nowrap`}>{v.campName}</td>
+                  <td className={`${cellClass} align-middle whitespace-nowrap`}>{v.winStatus}</td>
                 </>
               )}
             </tr>
