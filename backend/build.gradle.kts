@@ -30,13 +30,9 @@ dependencies {
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    // thymeleaf
-    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.3.0")
     // dbflute, mysql
     implementation("org.dbflute:dbflute-runtime:1.3.1")
     implementation("com.mysql:mysql-connector-j")

@@ -20,6 +20,7 @@ export default [
   route("random-message", "routes/random-message/route.tsx"),
   route("new-random-keyword", "routes/new-random-keyword/route.tsx"),
   route("random-keyword/:id", "routes/random-keyword/route.tsx"),
+  route("archives/april-20240401", "routes/archives/april-20240401/route.tsx"),
   route("archives/april-20250401", "routes/archives/april-20250401/route.tsx"),
   route("archives/april-20250402", "routes/archives/april-20250402/route.tsx"),
   route("archives/april-20260401", "routes/archives/april-20260401/route.tsx"),

@@ -46,7 +46,7 @@ export default defineConfig({
       // 別ポートで起動。context-path は /wolf-mansion-api。
       command: `./gradlew bootRun --args='--server.port=${BACKEND_PORT}'`,
       cwd: "../backend",
-      url: `http://localhost:${BACKEND_PORT}/wolf-mansion-api/`,
+      url: `http://localhost:${BACKEND_PORT}/wolf-mansion-api/recruiting`,
       // ローカルで既に起動済みの backend があれば使い回す
       reuseExistingServer: !isCI,
       // Spring Boot + DBFlute 初期化に時間がかかるため長めに
