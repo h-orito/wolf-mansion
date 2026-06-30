@@ -1,6 +1,5 @@
 package com.ort.app.api.village
 
-import com.ort.app.api.VillageMessageController
 import com.ort.app.api.view.VillageAnchorMessageContent
 import com.ort.app.api.view.VillageAnchorMessagesContent
 import com.ort.app.api.view.VillageLatestMessageDatetimeContent
@@ -18,6 +17,7 @@ import com.ort.app.domain.model.player.Player
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.vote.Votes
+import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.fw.security.UserInfo
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import io.swagger.v3.oas.annotations.Operation
@@ -31,12 +31,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.server.ResponseStatusException
 import java.time.format.DateTimeFormatter
+import java.util.regex.Pattern
 
-/**
- * 村のメッセージ REST。可視範囲はサーバ側で決定する (囁きは人狼のみ、墓下は死者のみ等)。
- * 認証不要 (匿名は公開発言のみ) だが、ログインしていれば視点を可視判定に反映する。
- * レスポンスはテンプレート向けに整形済みの既存 View をそのまま使う (マスク済みの正本)。
- */
 @RestController
 @RequestMapping("/api/v1/villages/{id}")
 class VillageMessageRestController(
@@ -48,7 +44,6 @@ class VillageMessageRestController(
     private val messageService: MessageService,
     private val abilityService: AbilityService,
 ) {
-    /** 日別の発言一覧 (ページング + アナウンス素材付き)。 */
     @Operation(operationId = "getVillageMessages")
     @GetMapping("/messages")
     fun messages(
@@ -91,7 +86,6 @@ class VillageMessageRestController(
         )
     }
 
-    /** 最新発言日時 (新着検知用)。可視範囲・絞り込みを反映する。 */
     @Operation(operationId = "getVillageLatestMessageDatetime")
     @GetMapping("/messages/latest-datetime")
     fun latestMessageDatetime(
@@ -108,7 +102,6 @@ class VillageMessageRestController(
         )
     }
 
-    /** 単一アンカー発言。閲覧できない発言は message が null。 */
     @Operation(operationId = "getVillageAnchorMessage")
     @GetMapping("/messages/anchor")
     fun anchorMessage(
@@ -130,7 +123,6 @@ class VillageMessageRestController(
         return VillageAnchorMessageContent(message, village, fromPlayer, charas, abilities)
     }
 
-    /** 複数アンカー発言 (`anchors=n123_w45` 形式)。通知のパーマリンクページが使う。 */
     @Operation(operationId = "getVillageAnchorMessages")
     @GetMapping("/messages/anchors")
     fun anchorMessages(
@@ -140,7 +132,7 @@ class VillageMessageRestController(
     ): VillageAnchorMessagesContent {
         val village = findVillageOrThrow(id)
         val (_, myself, myselfPlayer) = resolveViewer(principal, village)
-        val parsed = VillageMessageController.Anchors.of(anchors)
+        val parsed = Anchors.of(anchors)
         val messages =
             parsed.list.mapNotNull {
                 messageService.findMessage(village, myself, myselfPlayer, it.messageType, it.messageNumber)
@@ -156,10 +148,6 @@ class VillageMessageRestController(
         villageService.findVillage(id, excludeGone = false)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
 
-    /**
-     * ビューア情報。[VillageMessageListContent] が SSR の [UserInfo] を要求するため、
-     * JWT principal から最小の互換オブジェクトを作る (ログイン有無の判定にしか使われない)。
-     */
     private fun resolveViewer(
         principal: JwtPrincipal?,
         village: Village,
@@ -169,5 +157,31 @@ class VillageMessageRestController(
         val player = playerService.findPlayer(principal.name)
         val user = UserInfo().apply { setUsername(principal.name) }
         return Triple(user, myself, player)
+    }
+
+    data class Anchors(
+        val list: List<Anchor>,
+    ) {
+        data class Anchor(
+            val messageType: String,
+            val messageNumber: Int,
+        )
+
+        companion object {
+            fun of(anchorStr: String): Anchors {
+                val anchors =
+                    anchorStr.split("_").mapNotNull {
+                        if (it.isBlank()) return@mapNotNull null
+                        val matcher = Pattern.compile("([nwmflgsMSca])(\\d{1,5})").matcher(it)
+                        if (!matcher.find()) return@mapNotNull null
+                        val type =
+                            MessageDomainService.convertMessageUrlTypeToMessageType(matcher.group(1))?.code
+                                ?: return@mapNotNull null
+                        val number = matcher.group(2).toInt()
+                        Anchor(type, number)
+                    }
+                return Anchors(anchors)
+            }
+        }
     }
 }

@@ -88,7 +88,7 @@ class WolfMansionWebSecurityConfig {
 
     /**
      * 既存 SSR チェーン (`/api/v1` 配下 以外すべて)。セッション + formLogin。
-     * 旧 Thymeleaf 画面と公開 API (`/api/login` 等) は Step 10 までこの構成で動かす。
+     * 公開 API (`/recruiting`, `/api/login` 等) はこの構成で動かす。
      */
     @Bean
     @Order(2)
