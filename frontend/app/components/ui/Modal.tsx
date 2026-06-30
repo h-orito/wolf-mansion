@@ -1,9 +1,5 @@
-import type { ReactNode } from "react";
+import { type ReactNode, useRef } from "react";
 
-/**
- * 軽量モーダルダイアログ (Step 4.1)。Bootstrap JS は使わず state 駆動で開閉する
- * (挙動・見た目が同等なら現状踏襲とみなす。04-frontend.md UI/UX 現状維持原則)。
- */
 type ModalSize = "default" | "wide";
 
 const sizeClass: Record<ModalSize, string> = {
@@ -24,6 +20,8 @@ export function Modal({
   size?: ModalSize;
   children: ReactNode;
 }) {
+  const mouseDownOnBackdrop = useRef(false);
+
   if (!open) return null;
   return (
     <div
@@ -31,7 +29,14 @@ export function Modal({
       role="dialog"
       aria-modal="true"
       aria-label={title}
-      onClick={onClose}
+      onMouseDown={(e) => {
+        mouseDownOnBackdrop.current = e.target === e.currentTarget;
+      }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget && mouseDownOnBackdrop.current) {
+          onClose();
+        }
+      }}
     >
       <div
         // 既存 (:8091 の bootstrap modal・ダークテーマ) に合わせる:
