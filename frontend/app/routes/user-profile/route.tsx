@@ -275,7 +275,7 @@ function VillageTable({
 }) {
   return (
     <div className="mb-[10px] overflow-x-auto">
-      <table className="border-collapse border border-[#464545]">
+      <table className="min-w-full border-collapse border border-[#464545]">
         <thead>
           <tr>
             <th className={`${cellClass} text-right whitespace-nowrap`}>村番号</th>
