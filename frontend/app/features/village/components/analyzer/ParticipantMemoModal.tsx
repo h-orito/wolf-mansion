@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 import type { VillageParticipantView } from "~/features/village/api";
 import type { ParticipantMemo } from "~/features/village/analyzer/types";
+import { Button } from "~/components/ui/Button";
 import { Modal } from "~/components/ui/Modal";
 
 export function ParticipantMemoModal({
@@ -66,20 +67,10 @@ export function ParticipantMemoModal({
         placeholder="メモを入力..."
       />
       <div className="flex justify-end gap-[8px]">
-        <button
-          type="button"
-          onClick={onClose}
-          className="cursor-pointer rounded border border-[#464545] bg-[#303030] px-[12px] py-[6px] text-village-sm text-white hover:bg-[#404040]"
-        >
+        <Button variant="default" onClick={onClose}>
           キャンセル
-        </button>
-        <button
-          type="button"
-          onClick={handleSave}
-          className="cursor-pointer rounded bg-[#00bc8c] px-[12px] py-[6px] text-village-sm text-white hover:bg-[#00a87d]"
-        >
-          保存
-        </button>
+        </Button>
+        <Button onClick={handleSave}>保存</Button>
       </div>
     </Modal>
   );

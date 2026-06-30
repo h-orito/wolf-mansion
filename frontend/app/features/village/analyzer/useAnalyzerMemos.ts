@@ -81,55 +81,75 @@ export function useAnalyzerMemos(
   const [dailyFootstepMemos, setDailyFootstepMemosState] = useState<DailyFootstepMemo[]>([]);
   const [wholeMemo, setWholeMemoState] = useState("");
 
+  const participantIdsRef = useRef(participantIds);
+  participantIdsRef.current = participantIds;
+  const daysRef = useRef(days);
+  daysRef.current = days;
+  const footstepListRef = useRef(footstepList);
+  footstepListRef.current = footstepList;
+
+  const stateRef = useRef({ participantMemos, dailyMemos, dailyFootstepMemos, wholeMemo });
+  stateRef.current = { participantMemos, dailyMemos, dailyFootstepMemos, wholeMemo };
+
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!playerId) return;
     let cancelled = false;
-    fetchPlayerMemo(playerId, villageId).then((saved) => {
-      if (cancelled) return;
-      setParticipantMemos(initParticipantMemos(saved, participantIds));
-      setDailyMemos(initDailyMemos(saved, days));
-      setDailyFootstepMemosState(initDailyFootstepMemos(saved, footstepList));
-      setWholeMemoState(saved?.wholeMemo ?? "");
-      setLoaded(true);
-    });
+    fetchPlayerMemo(playerId, villageId)
+      .then((saved) => {
+        if (cancelled) return;
+        setParticipantMemos(initParticipantMemos(saved, participantIdsRef.current));
+        setDailyMemos(initDailyMemos(saved, daysRef.current));
+        setDailyFootstepMemosState(initDailyFootstepMemos(saved, footstepListRef.current));
+        setWholeMemoState(saved?.wholeMemo ?? "");
+        setLoaded(true);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setParticipantMemos(initParticipantMemos(null, participantIdsRef.current));
+        setDailyMemos(initDailyMemos(null, daysRef.current));
+        setDailyFootstepMemosState(initDailyFootstepMemos(null, footstepListRef.current));
+        setLoaded(true);
+      });
     return () => {
       cancelled = true;
     };
-  }, [playerId, villageId, participantIds, days, footstepList]);
+  }, [playerId, villageId]);
 
-  const debouncedSave = useCallback(() => {
+  const scheduleSave = useCallback(() => {
     if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
-    saveTimerRef.current = setTimeout(() => {
+    saveTimerRef.current = setTimeout(async () => {
       saveTimerRef.current = null;
+      if (!playerId) return;
+      const s = stateRef.current;
+      await savePlayerMemo(playerId, villageId, s).catch(() => {});
     }, 2000);
-  }, []);
+  }, [playerId, villageId]);
 
-  const doSave = useCallback(async () => {
+  const save = useCallback(async () => {
+    if (saveTimerRef.current) {
+      clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = null;
+    }
     if (!playerId) return;
-    await savePlayerMemo(playerId, villageId, {
-      participantMemos,
-      dailyMemos,
-      dailyFootstepMemos,
-      wholeMemo,
-    });
-  }, [playerId, villageId, participantMemos, dailyMemos, dailyFootstepMemos, wholeMemo]);
+    await savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
+  }, [playerId, villageId]);
 
   const setParticipantMemoFn = useCallback(
     (id: number, memo: ParticipantMemo) => {
       setParticipantMemos((prev) => prev.map((m) => (m.participantId === id ? memo : m)));
-      debouncedSave();
+      scheduleSave();
     },
-    [debouncedSave],
+    [scheduleSave],
   );
 
   const setDailyMemoFn = useCallback(
     (day: number, memo: string) => {
       setDailyMemos((prev) => prev.map((m) => (m.day === day ? { day, memo } : m)));
-      debouncedSave();
+      scheduleSave();
     },
-    [debouncedSave],
+    [scheduleSave],
   );
 
   const setDailyFootstepMemosFn = useCallback(
@@ -137,17 +157,17 @@ export function useAnalyzerMemos(
       setDailyFootstepMemosState((prev) =>
         prev.map((m) => (m.day === day ? { day, footsteps } : m)),
       );
-      debouncedSave();
+      scheduleSave();
     },
-    [debouncedSave],
+    [scheduleSave],
   );
 
   const setWholeMemoFn = useCallback(
     (memo: string) => {
       setWholeMemoState(memo);
-      debouncedSave();
+      scheduleSave();
     },
-    [debouncedSave],
+    [scheduleSave],
   );
 
   return {
@@ -160,6 +180,6 @@ export function useAnalyzerMemos(
     setDailyMemo: setDailyMemoFn,
     setDailyFootstepMemos: setDailyFootstepMemosFn,
     setWholeMemo: setWholeMemoFn,
-    save: doSave,
+    save,
   };
 }

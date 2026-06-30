@@ -1,14 +1,13 @@
 import { useCallback } from "react";
 
 import type { DayFootstep } from "~/features/village/analyzer/types";
+import { TextButton } from "~/components/ui/TextButton";
 
 function FootstepRow({
   fs,
-  _index,
   onChange,
 }: {
   fs: DayFootstep;
-  _index: number;
   onChange: (updated: DayFootstep) => void;
 }) {
   return (
@@ -79,38 +78,15 @@ export function AnalyzerFootsteps({
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="mb-[8px] flex gap-[8px] text-village-sm">
-        <button
-          type="button"
-          onClick={showAll}
-          className="text-wm-accent cursor-pointer hover:underline"
-        >
-          全てON
-        </button>
-        <button
-          type="button"
-          onClick={hideAll}
-          className="text-wm-accent cursor-pointer hover:underline"
-        >
-          全てOFF
-        </button>
-        <button
-          type="button"
-          onClick={reverseAll}
-          className="text-wm-accent cursor-pointer hover:underline"
-        >
-          反転
-        </button>
+        <TextButton onClick={showAll}>全てON</TextButton>
+        <TextButton onClick={hideAll}>全てOFF</TextButton>
+        <TextButton onClick={reverseAll}>反転</TextButton>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <tbody>
             {footsteps.map((fs, idx) => (
-              <FootstepRow
-                key={idx}
-                fs={fs}
-                index={idx}
-                onChange={(updated) => updateAt(idx, updated)}
-              />
+              <FootstepRow key={idx} fs={fs} onChange={(updated) => updateAt(idx, updated)} />
             ))}
           </tbody>
         </table>

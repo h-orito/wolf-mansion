@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
 import type { DayFootstep } from "~/features/village/analyzer/types";
+import { Button } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
@@ -113,13 +114,9 @@ export function AnalyzerTab({ situation, day }: { situation: VillageSituationVie
             {tab.label}
           </button>
         ))}
-        <button
-          type="button"
-          onClick={() => save()}
-          className="ml-auto cursor-pointer rounded border border-[#464545] bg-[#303030] px-[10px] py-[4px] text-village-sm text-gray-300 hover:bg-[#404040]"
-        >
+        <Button variant="default" size="xs" onClick={() => save()} className="ml-auto">
           保存
-        </button>
+        </Button>
       </div>
 
       {activeSubTab === "room" && hasRooms && (
