@@ -80,7 +80,11 @@ export function AnalyzerTab({ situation, day }: { situation: VillageSituationVie
   const openMemoData = useMemo(
     () =>
       memoParticipantId != null
-        ? (participantMemos.find((m) => m.participantId === memoParticipantId) ?? null)
+        ? (participantMemos.find((m) => m.participantId === memoParticipantId) ?? {
+            participantId: memoParticipantId,
+            memo: "",
+            color: "ffffff",
+          })
         : null,
     [memoParticipantId, participantMemos],
   );
