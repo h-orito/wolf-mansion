@@ -28,6 +28,8 @@ export const releases: Release[] = [
     items: [
       [
         "エイプリルフール企画をアーカイブページに移動: ",
+        { to: "/archives/april-20240401", text: "2024/04/01" },
+        " / ",
         { to: "/archives/april-20250401", text: "2025/04/01" },
         " / ",
         { to: "/archives/april-20250402", text: "2025/04/02" },
