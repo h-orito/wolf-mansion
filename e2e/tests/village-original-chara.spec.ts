@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
+import { loginApi, uniqueUserId } from "./helpers/provision";
 
 /**
  * オリジナルキャラチップ村の e2e。
@@ -14,14 +15,6 @@ const API = "/wolf-mansion-api/api/v1";
 const SSR = "/wolf-mansion-api";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const TEST_IMAGE = path.resolve(__dirname, "fixtures/test-chara.png");
-
-function uniqueUserId(): string {
-  const stamp = Date.now().toString(36).slice(-6);
-  const rand = Math.floor(Math.random() * 36 ** 2)
-    .toString(36)
-    .padStart(2, "0");
-  return `o${stamp}${rand}`;
-}
 
 async function loginViaUi(page: Page, userId: string, password: string) {
   await page.goto("login");
@@ -41,19 +34,12 @@ async function signupViaUi(page: Page, userId: string, password: string) {
   await expect(page.getByText(`ユーザID: ${userId}`)).toBeVisible({ timeout: 15000 });
 }
 
-async function loginJwt(page: Page, userId: string, password: string): Promise<boolean> {
-  const res = await page.request.post(`${API}/auth/login`, {
-    data: { userId, password },
-  });
-  return res.ok();
-}
-
 test("オリジナルキャラチップ村: 作成 → 入村 (画像) → 表情差分追加 → 画像配信確認 → 廃村", async ({
   page,
 }) => {
   // --- master でログインして村作成ページへ ---
-  const ok = await loginJwt(page, "master", "testuser");
-  test.skip(!ok, "master が存在しない DB のためスキップ");
+  const ok = await loginApi(page, "master", "testuser");
+  expect(ok, "master が存在しない").toBe(true);
 
   await loginViaUi(page, "master", "testuser");
   await page.goto("new-village");
@@ -185,7 +171,7 @@ test("オリジナルキャラチップ村: 作成 → 入村 (画像) → 表�
         expect(faceRes.ok(), `表情差分追加失敗: ${faceRes.status()}`).toBe(true);
 
         // 表情差分追加後の画像リストを確認
-        await loginJwt(page, joinUserId, "testpass1");
+        await loginApi(page, joinUserId, "testpass1");
         const meRes2 = await page.request.get(`${API}/villages/${villageId}/situation/me`);
         expect(meRes2.ok()).toBe(true);
         const me2 = (await meRes2.json()) as {
@@ -208,7 +194,7 @@ test("オリジナルキャラチップ村: 作成 → 入村 (画像) → 表�
     }
   } finally {
     // --- 後片付け: 廃村 ---
-    await loginJwt(page, "master", "testuser");
+    await loginApi(page, "master", "testuser");
     const cancelRes = await page.request.post(`${API}/villages/${villageId}/creator/cancel`);
     expect(cancelRes.ok(), `廃村失敗: ${cancelRes.status()}`).toBe(true);
   }

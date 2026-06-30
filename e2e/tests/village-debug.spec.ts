@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist, dismissInitialSkillModal } from "./helpers/provision";
 
 /**
  * デバッグメニュー (ローカル開発向け、app.debug 有効時のみ) の e2e。
@@ -6,26 +7,9 @@ import { expect, test, type Page } from "@playwright/test";
  * メニュー表示とダミーログイン (なりすまし視点切替) のみ確認する。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-async function dismissInitialSkillModal(page: Page) {
-  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
-  if ((await confirm.count()) > 0) {
-    await confirm.click();
-  }
-}
 
 test("デバッグメニュー: ダミーログインで任意プレイヤー視点に切り替えられる", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
   const village = villages[0];
 
   // デバッグモードでなければスキップ (本番相当設定の DB/環境)
@@ -35,8 +19,8 @@ test("デバッグメニュー: ダミーログインで任意プレイヤー視
     isDebugMode: boolean;
     players: { userId: string; label: string }[];
   };
-  test.skip(!debug.isDebugMode, "デバッグモードが無効のためスキップ");
-  test.skip(debug.players.length === 0, "参加者がいないためスキップ");
+  expect(debug.isDebugMode).toBe(true);
+  expect(debug.players.length).toBeGreaterThan(0);
 
   await page.goto(`village/${village.id}`);
   await expect(page.getByText("デバッグメニュー")).toBeVisible({ timeout: 15000 });

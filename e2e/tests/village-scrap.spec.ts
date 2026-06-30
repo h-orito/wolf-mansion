@@ -1,4 +1,5 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist } from "./helpers/provision";
 
 /**
  * 村切り抜き画面 (`/village/{id}/scrap`) e2e。
@@ -6,19 +7,9 @@ import { expect, test, type Page } from "@playwright/test";
  * 該当する村が無い場合はスキップする。読み取りのみで DB を変更しない。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
 
 test("切り抜き画面が表示され、村タイトルが見える", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "COMPLETED"]);
-  test.skip(villages.length === 0, "進行中/終了の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "COMPLETED"]);
   const village = villages[0];
 
   await page.goto(`village/${village.id}/scrap`);
@@ -29,8 +20,7 @@ test("切り抜き画面が表示され、村タイトルが見える", async ({
 });
 
 test("アンカー追加で URL に反映され、全消去で anchors が消える", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "COMPLETED"]);
-  test.skip(villages.length === 0, "進行中/終了の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "COMPLETED"]);
   const village = villages[0];
 
   await page.goto(`village/${village.id}/scrap`);

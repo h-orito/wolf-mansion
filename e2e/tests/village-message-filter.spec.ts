@@ -1,22 +1,13 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist } from "./helpers/provision";
 
 /**
  * 村画面の発言抽出 e2e。村はローカル DB から動的に探し、無ければスキップする。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
 
 test("URL の typ パラメータで種別が絞り込まれる (共有 URL の再現)", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION", "IN_PROGRESS"]);
-  test.skip(villages.length === 0, "表示できる村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION", "IN_PROGRESS"]);
   const village = villages[villages.length - 1];
 
   // 公開システムメッセージのみに絞る (どの村にも村オープン時の定型文がある)
@@ -30,8 +21,7 @@ test("URL の typ パラメータで種別が絞り込まれる (共有 URL の�
 });
 
 test("抽出モーダルからキーワード抽出すると URL に保存される", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION", "IN_PROGRESS"]);
-  test.skip(villages.length === 0, "表示できる村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION", "IN_PROGRESS"]);
   const village = villages[villages.length - 1];
 
   await page.goto(`village/${village.id}`);

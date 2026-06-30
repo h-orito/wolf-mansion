@@ -1,23 +1,14 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist } from "./helpers/provision";
 
 /**
  * 村画面の発言ログ e2e。村・発言の有無はローカル DB 依存のため、
  * 村一覧 API から対象を動的に探し、無ければスキップする。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
 
 test("発言ログが表示される (公開システムメッセージ)", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION", "IN_PROGRESS"]);
-  test.skip(villages.length === 0, "表示できる村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION", "IN_PROGRESS"]);
   const village = villages[villages.length - 1];
 
   await page.goto(`village/${village.id}`);
@@ -27,8 +18,7 @@ test("発言ログが表示される (公開システムメッセージ)", async
 });
 
 test("匿名では非公開種別が API レスポンスに含まれない", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  test.skip(villages.length === 0, "進行中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
   const village = villages[0];
 
   const res = await page.request.get(`/wolf-mansion-api/api/v1/villages/${village.id}/messages`);
@@ -47,8 +37,7 @@ test("匿名では非公開種別が API レスポンスに含まれない", asy
 });
 
 test("アンカー発言のパーマリンクページが表示される", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION", "IN_PROGRESS"]);
-  test.skip(villages.length === 0, "表示できる村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION", "IN_PROGRESS"]);
   const village = villages[villages.length - 1];
 
   // 1 件目の通常発言 (ダミーキャラの第一声) があるか確認してから開く

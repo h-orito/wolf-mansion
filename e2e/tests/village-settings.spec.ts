@@ -1,4 +1,11 @@
 import { expect, test, type Page } from "@playwright/test";
+import {
+  ensureVillagesExist,
+  loginApi,
+  dismissAgeLimitModal,
+  dismissInitialSkillModal,
+  CANDIDATE_USERS,
+} from "./helpers/provision";
 
 /**
  * 設定モーダル (表示設定 / Discord 通知設定) の e2e。
@@ -6,36 +13,13 @@ import { expect, test, type Page } from "@playwright/test";
  * 通知設定はサーバ保存のため保存はせず、参加者にフォームが出ることまでを確認する。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-const CANDIDATE_USERS = Array.from(
-  { length: 16 },
-  (_, i) => `testuser${String(i + 1).padStart(2, "0")}`,
-);
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-async function login(page: Page, userId: string): Promise<boolean> {
-  const res = await page.request.post(`/wolf-mansion-api/api/v1/auth/login`, {
-    data: { userId, password: "testuser" },
-  });
-  return res.ok();
-}
-
 /** 村に参加している (myself が返る) ユーザーと村の組を探す。 */
 async function findParticipant(
   page: Page,
 ): Promise<{ villageId: number; userId: string } | null> {
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  if (villages.length === 0) return null;
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
   for (const userId of CANDIDATE_USERS) {
-    if (!(await login(page, userId))) continue;
+    if (!(await loginApi(page, userId))) continue;
     for (const village of villages) {
       const res = await page.request.get(
         `/wolf-mansion-api/api/v1/villages/${village.id}/situation/me`,
@@ -48,24 +32,8 @@ async function findParticipant(
   return null;
 }
 
-async function dismissAgeLimitModal(page: Page) {
-  const ageLimitConfirm = page.getByRole("button", { name: "表示する", exact: true });
-  if ((await ageLimitConfirm.count()) > 0) {
-    await ageLimitConfirm.click();
-  }
-}
-/** 初回役職確認モーダルが被っていたら閉じる。 */
-async function dismissInitialSkillModal(page: Page) {
-  const confirm = page.getByRole("button", { name: "確認したので次回以降表示しない" });
-  if ((await confirm.count()) > 0) {
-    await confirm.click();
-  }
-}
-
-
 test("設定モーダルで表示設定を変更でき、ブラウザに保存される", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PROGRESS", "IN_PREPARATION"]);
-  test.skip(villages.length === 0, "村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "IN_PREPARATION"]);
   const village = villages[0];
 
   await page.goto(`village/${village.id}`);
@@ -99,7 +67,7 @@ test("設定モーダルで表示設定を変更でき、ブラウザに保存�
 
 test("参加者の設定モーダルには Discord 通知設定が表示される", async ({ page }) => {
   const candidate = await findParticipant(page);
-  test.skip(candidate == null, "進行中の村の参加者が見つからない DB のためスキップ");
+  expect(candidate, "進行中の村の参加者が見つからない").not.toBeNull();
   if (candidate == null) return;
 
   await page.goto(`village/${candidate.villageId}`);

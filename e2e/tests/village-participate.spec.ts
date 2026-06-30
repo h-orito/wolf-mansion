@@ -1,31 +1,14 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
+import { ensureVillagesExist, uniqueUserId } from "./helpers/provision";
 
 /**
  * 村画面の入村フォーム e2e。新規ユーザーで確認画面 (サーバ検証 204) まで進み、
  * 実際の入村はしない (共有 DB を汚さない)。
  */
 
-type SimpleVillage = { id: number; name: string };
-
-async function findVillages(page: Page, statuses: string[]): Promise<SimpleVillage[]> {
-  const query = statuses.map((s) => `status=${s}`).join("&");
-  const res = await page.request.get(`/wolf-mansion-api/api/v1/villages?${query}`);
-  expect(res.ok()).toBeTruthy();
-  const body = (await res.json()) as { villages: SimpleVillage[] };
-  return body.villages;
-}
-
-function uniqueUserId(): string {
-  const stamp = Date.now().toString(36).slice(-6);
-  const rand = Math.floor(Math.random() * 36 ** 2)
-    .toString(36)
-    .padStart(2, "0");
-  return `e${stamp}${rand}`;
-}
 
 test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) まで", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  test.skip(villages.length === 0, "募集中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION"]);
   const village = villages[villages.length - 1];
 
   // 新規ユーザー (終了村参加なし = 村作成不可だが入村は可能)
@@ -60,8 +43,7 @@ test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) 
 });
 
 test("入村 → 役職希望変更 → 退村の自己完結フロー", async ({ page }) => {
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  test.skip(villages.length === 0, "募集中の村が無い DB のためスキップ");
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION"]);
   const village = villages[villages.length - 1];
 
   await page.goto("signup");
