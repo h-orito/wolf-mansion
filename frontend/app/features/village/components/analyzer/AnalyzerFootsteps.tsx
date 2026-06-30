@@ -2,6 +2,7 @@ import { useCallback } from "react";
 
 import type { DayFootstep } from "~/features/village/analyzer/types";
 import { TextButton } from "~/components/ui/TextButton";
+import { ColorPicker } from "./ColorPicker";
 
 function FootstepRow({
   fs,
@@ -12,7 +13,7 @@ function FootstepRow({
 }) {
   return (
     <tr>
-      <td className="w-[30px] p-[4px] text-center align-middle">
+      <td className="w-[28px] p-[3px] text-center align-middle">
         <input
           type="checkbox"
           checked={fs.show}
@@ -20,18 +21,13 @@ function FootstepRow({
           className="cursor-pointer"
         />
       </td>
-      <td className="p-[4px] align-middle text-village-sm" style={{ color: `#${fs.color}` }}>
+      <td className="p-[3px] align-middle text-village-sm" style={{ color: `#${fs.color}` }}>
         {fs.footstep}
       </td>
-      <td className="w-[40px] p-[4px] text-center align-middle">
-        <input
-          type="color"
-          value={`#${fs.color}`}
-          onChange={(e) => onChange({ ...fs, color: e.target.value.replace("#", "") })}
-          className="h-[24px] w-[24px] cursor-pointer border-none bg-transparent p-0"
-        />
+      <td className="w-[34px] p-[3px] text-center align-middle">
+        <ColorPicker value={fs.color} onChange={(color) => onChange({ ...fs, color })} />
       </td>
-      <td className="w-[120px] p-[4px] align-middle sm:w-[180px]">
+      <td className="w-[100px] p-[3px] align-middle sm:w-[160px]">
         <input
           type="text"
           value={fs.memo}
@@ -72,15 +68,22 @@ export function AnalyzerFootsteps({
   }, [footsteps, onChange]);
 
   if (footsteps.length === 0) {
-    return <p className="py-[10px] text-village-sm text-gray-400">足音情報がありません</p>;
+    return <p className="py-[5px] text-village-sm text-gray-400">足音情報がありません</p>;
   }
 
   return (
-    <div className="pt-[10px] pb-[10px]">
-      <div className="mb-[8px] flex gap-[8px] text-village-sm">
-        <TextButton onClick={showAll}>全てON</TextButton>
-        <TextButton onClick={hideAll}>全てOFF</TextButton>
-        <TextButton onClick={reverseAll}>反転</TextButton>
+    <div>
+      <div className="mb-[6px] flex items-center gap-[8px]">
+        <label className="text-village-sm font-bold text-gray-300">足音</label>
+        <TextButton onClick={showAll} className="text-village-sm">
+          全ON
+        </TextButton>
+        <TextButton onClick={hideAll} className="text-village-sm">
+          全OFF
+        </TextButton>
+        <TextButton onClick={reverseAll} className="text-village-sm">
+          反転
+        </TextButton>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">

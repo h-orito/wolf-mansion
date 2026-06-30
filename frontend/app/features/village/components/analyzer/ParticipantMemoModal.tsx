@@ -4,6 +4,7 @@ import type { VillageParticipantView } from "~/features/village/api";
 import type { ParticipantMemo } from "~/features/village/analyzer/types";
 import { Button } from "~/components/ui/Button";
 import { Modal } from "~/components/ui/Modal";
+import { ColorPicker } from "./ColorPicker";
 
 export function ParticipantMemoModal({
   participant,
@@ -51,12 +52,7 @@ export function ParticipantMemoModal({
     >
       <div className="mb-[10px] flex items-center gap-[8px]">
         <label className="text-village-sm text-gray-300">表示色</label>
-        <input
-          type="color"
-          value={`#${color}`}
-          onChange={(e) => setColor(e.target.value.replace("#", ""))}
-          className="h-[30px] w-[30px] cursor-pointer border-none bg-transparent p-0"
-        />
+        <ColorPicker value={color} onChange={setColor} />
       </div>
       <textarea
         ref={textareaRef}
