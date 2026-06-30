@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { Button, LinkButton } from "~/components/ui/Button";
 
@@ -17,6 +17,7 @@ import {
   fetchVillageSettingForUpdate,
   updateVillageSetting,
 } from "~/features/village/api";
+import { VILLAGE_QUERY_KEY } from "~/features/village/useVillage";
 import { fetchVillageSetting } from "~/features/villages/api";
 import { BasicSection } from "~/features/village-form/BasicSection";
 import { CharaChipSection } from "~/features/village-form/CharaChipSection";
@@ -128,6 +129,7 @@ function VillageSettingsForm({
   dummyCharaName: string;
 }) {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const nowYear = useMemo(() => new Date().getFullYear(), []);
   const defaultCamps = useMemo(() => createDefaultCampAllocations(skills), [skills]);
   const initialValues = useMemo(
@@ -149,6 +151,7 @@ function VillageSettingsForm({
     setSaveError(null);
     try {
       await updateVillageSetting(villageId, toUpdateRequest(values));
+      await queryClient.invalidateQueries({ queryKey: [VILLAGE_QUERY_KEY, villageId] });
       navigate(`/village/${villageId}`);
     } catch (e) {
       setSaveError(

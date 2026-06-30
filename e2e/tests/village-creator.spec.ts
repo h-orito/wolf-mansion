@@ -60,12 +60,13 @@ test("村建て発言: 入力 → 確認 → 投稿 → ログ反映", async ({ 
   await expect(page.getByText(/文字数: \d+\/1000/)).toBeVisible();
 
   // 村建て機能パネルの確認画面へ (発言フォーム等にも同名ボタンがあるため、パネル内に限定)
-  const creatorPanel = page
-    .locator("div")
-    .filter({ hasText: /^村建て機能$/ })
-    .first()
-    .locator("..");
-  await creatorPanel.getByRole("button", { name: "確認画面へ" }).click();
+  const creatorBodyId = await page
+    .getByRole("button", { name: "村建て機能", exact: true })
+    .getAttribute("aria-controls");
+  await page
+    .locator(`[id="${creatorBodyId}"]`)
+    .getByRole("button", { name: "確認画面へ" })
+    .click();
 
   const confirmArea = page.locator("#message-confirm-area");
   await expect(confirmArea).toBeVisible();

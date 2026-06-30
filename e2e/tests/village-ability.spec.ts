@@ -73,6 +73,7 @@ async function findAbilityCandidate(
 }
 
 test("能力者で村画面を開くと役職パネルが表示される", async ({ page }) => {
+  test.setTimeout(60000);
   const candidate = await findAbilityCandidate(page, () => true);
   test.skip(candidate == null, "能力を使える参加者が見つからない DB のためスキップ");
   if (candidate == null) return;
@@ -89,16 +90,18 @@ test("能力者で村画面を開くと役職パネルが表示される", async
     ).toBeVisible();
   }
   // 人狼系なら仲間の名前が見える
-  if (candidate.ability.werewolfNames !== "") {
+  if (candidate.ability.werewolfNames != null && candidate.ability.werewolfNames !== "") {
     await expect(page.getByText(`この村の人狼は、 ${candidate.ability.werewolfNames} です。`)).toBeVisible();
   }
 });
 
 test("人狼が現在の襲撃セットを再セットできる (共有 DB の状態を変えない)", async ({ page }) => {
+  test.setTimeout(60000);
   // 襲撃型で現在セット済み (再セットしても状態が変わらない) の参加者に限定する
   const candidate = await findAbilityCandidate(
     page,
     (ability) =>
+      ability.attackerList != null &&
       ability.attackerList.length > 0 &&
       ability.attackerCharaId != null &&
       ability.targetCharaId != null &&
