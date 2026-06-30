@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
-import { AdSense } from "~/components/ui/AdSense";
+import { ResponsiveAdSense } from "~/components/ui/AdSense";
 import { LinkButton } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import type { VillageDetailView } from "~/features/village/api";
@@ -232,7 +232,13 @@ export default function Village({ params }: Route.ComponentProps) {
               }
             />
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
-            {!noAd && <AdSense slot="2768254717" className="mt-[15px]" />}
+            {!noAd && (
+              <ResponsiveAdSense
+                sm={{ slot: "2553009704", width: 300, height: 90 }}
+                lg={{ slot: "2768254717", width: 728, height: 90 }}
+                className="mt-[15px]"
+              />
+            )}
             <div id="bottom" />
             <hr className="mt-[5px] mb-[10px] border-[#464545]" />
 
