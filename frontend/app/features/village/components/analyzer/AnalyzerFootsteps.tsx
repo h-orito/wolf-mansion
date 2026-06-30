@@ -85,7 +85,7 @@ export function AnalyzerFootsteps({
           反転
         </TextButton>
       </div>
-      <div className="overflow-x-auto">
+      <div>
         <table className="w-full border-collapse">
           <tbody>
             {footsteps.map((fs, idx) => (
