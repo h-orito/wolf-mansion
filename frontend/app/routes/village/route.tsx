@@ -129,14 +129,16 @@ export default function Village({ params }: Route.ComponentProps) {
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
   const showToast = useToast((s) => s.show);
+  const autoReload = useDisplaySettings((s) => s.autoReload);
   useEffect(() => {
     if (daychangeDetected) {
-      showToast("日付が更新されました。ページを再読み込みしてください。", {
+      showToast("日付が更新されました。", {
         variant: "info",
-        persistent: true,
+        persistent: !autoReload,
+        duration: autoReload ? 10_000 : undefined,
       });
     }
-  }, [daychangeDetected, showToast]);
+  }, [daychangeDetected, showToast, autoReload]);
 
   const { onMessagesLoaded: onMessagesLoadedBase, hasNewMessage } = useMessageSync(
     villageId,

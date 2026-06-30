@@ -6,12 +6,16 @@ type ToastItem = {
   message: string;
   variant: "success" | "info" | "error";
   persistent: boolean;
+  duration?: number;
 };
 
 type ToastState = {
   items: ToastItem[];
   nextId: number;
-  show: (message: string, opts?: { variant?: ToastItem["variant"]; persistent?: boolean }) => void;
+  show: (
+    message: string,
+    opts?: { variant?: ToastItem["variant"]; persistent?: boolean; duration?: number },
+  ) => void;
   dismiss: (id: number) => void;
 };
 
@@ -27,6 +31,7 @@ export const useToast = create<ToastState>((set) => ({
           message,
           variant: opts?.variant ?? "success",
           persistent: opts?.persistent ?? false,
+          duration: opts?.duration,
         },
       ],
       nextId: s.nextId + 1,
@@ -44,10 +49,10 @@ function ToastEntry({ item }: { item: ToastItem }) {
   const dismiss = useToast((s) => s.dismiss);
 
   useEffect(() => {
-    if (item.persistent) return;
-    const timer = setTimeout(() => dismiss(item.id), 3000);
+    if (item.persistent && item.duration == null) return;
+    const timer = setTimeout(() => dismiss(item.id), item.duration ?? 3000);
     return () => clearTimeout(timer);
-  }, [item.id, item.persistent, dismiss]);
+  }, [item.id, item.persistent, item.duration, dismiss]);
 
   return (
     <div
