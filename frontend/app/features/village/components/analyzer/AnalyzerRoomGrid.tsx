@@ -49,6 +49,10 @@ export function AnalyzerRoomGrid({
     return participantMemos.find((pm) => pm.participantId === participantId) ?? null;
   };
 
+  const charas = Object.values(participantIdToChara);
+  const cellW = charas.length > 0 ? Math.max(...charas.map((c) => c.size.width)) : 100;
+  const cellH = charas.length > 0 ? Math.max(...charas.map((c) => c.size.height)) : 100;
+
   const rows: AnalyzerDayRoom[][] = [];
   for (let y = 0; y < roomSize.height; y++) {
     rows.push(rooms.filter((r) => r.y === y).sort((a, b) => a.x - b.x));
@@ -68,8 +72,6 @@ export function AnalyzerRoomGrid({
                 const img = room.participantId
                   ? charaImageUrl(room.participantId, participantIdToChara)
                   : null;
-                const cellW = img?.width ?? 100;
-                const cellH = img?.height ?? 100;
                 const isDummy =
                   room.participantId != null &&
                   participantIdToChara[String(room.participantId)]?.id === dummyCharaId;
