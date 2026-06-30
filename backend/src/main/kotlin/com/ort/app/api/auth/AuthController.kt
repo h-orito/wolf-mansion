@@ -12,6 +12,9 @@ import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.security.jwt.AuthCookieFactory
 import com.ort.app.fw.security.jwt.JwtPrincipal
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.media.Schema
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpHeaders
@@ -80,6 +83,10 @@ class AuthController(
     }
 
     /** refresh Cookie から新しい access + refresh を発行する (使い捨て rotation)。 */
+    @ApiResponse(
+        responseCode = "200",
+        content = [Content(schema = Schema(implementation = MeResponse::class))],
+    )
     @PostMapping("/refresh")
     fun refresh(
         @CookieValue(name = AuthCookieFactory.REFRESH_TOKEN, required = false) refreshToken: String?,
