@@ -11,6 +11,7 @@ import { Button } from "~/components/ui/Button";
 import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
+import { dayLabel } from "~/features/village/components/info/dayLabel";
 import { VoteTab } from "~/features/village/components/info/VoteTab";
 import { AnalyzerFootsteps } from "./AnalyzerFootsteps";
 import { AnalyzerMemos } from "./AnalyzerMemos";
@@ -116,7 +117,7 @@ export function AnalyzerTab({
     [memoParticipantId, participantMemos],
   );
 
-  const dayLabel = (d: number) => (d === analyzerData?.village.epilogueDay ? "EP" : `${d}d`);
+  const epilogueDay = analyzerData?.village.epilogueDay ?? null;
 
   if (!me) {
     return (
@@ -132,24 +133,24 @@ export function AnalyzerTab({
 
   return (
     <div className="pt-[8px] pb-[10px]">
-      {/* Day tabs + save button */}
-      <div className="mb-[8px] flex items-center gap-[4px]">
-        <div className="flex flex-1 flex-wrap">
+      <div className="mb-[8px] flex items-center">
+        <ul className="flex-1 pl-0">
           {analyzerDays.map((d) => (
-            <button
-              key={d.day}
-              type="button"
-              onClick={() => setSelectedDay(d.day)}
-              className={`min-w-[36px] cursor-pointer border-0 px-[8px] py-[6px] text-[13px] text-white first:rounded-l last:rounded-r ${
-                activeDay === d.day
-                  ? "border-b-2 border-b-[#00ff00] bg-[#304562] text-[#00ff00]"
-                  : "bg-[#304562] hover:bg-[#3a5572]"
-              }`}
-            >
-              {dayLabel(d.day)}
-            </button>
+            <li key={d.day} className="mr-[10px] inline list-none">
+              {activeDay === d.day ? (
+                <span>{dayLabel(d.day, epilogueDay)}</span>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setSelectedDay(d.day)}
+                  className="text-wm-accent cursor-pointer hover:underline"
+                >
+                  {dayLabel(d.day, epilogueDay)}
+                </button>
+              )}
+            </li>
           ))}
-        </div>
+        </ul>
         <Button variant="default" size="xs" onClick={() => save()}>
           保存
         </Button>
@@ -177,7 +178,7 @@ export function AnalyzerTab({
             <AnalyzerFootsteps footsteps={currentDayFootsteps} onChange={onFootstepsChange} />
             <div>
               <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
-                {dayLabel(activeDay)} メモ
+                {dayLabel(activeDay, epilogueDay)} メモ
               </label>
               <textarea
                 value={currentDailyMemo}
