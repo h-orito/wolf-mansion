@@ -216,7 +216,7 @@ export async function provisionCompletedVillage(
 
 // ─── Cache (globalSetup で作成した村を全テストで共有) ────
 
-type ProvisionCache = {
+export type ProvisionCache = {
   inProgress: SimpleVillage;
   recruiting: SimpleVillage;
 };

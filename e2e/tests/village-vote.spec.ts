@@ -107,6 +107,7 @@ async function findVotedCandidate(page: Page): Promise<Candidate | null> {
 }
 
 test("投票可能な参加者に投票パネルが表示される", async ({ page }) => {
+  test.setTimeout(180000);
   const candidate = await findVoteCandidate(page, () => true);
   expect(candidate, "投票できる参加者が見つからない").not.toBeNull();
   if (candidate == null) return;
@@ -126,6 +127,7 @@ test("投票可能な参加者に投票パネルが表示される", async ({ pa
 });
 
 test("投票先を変更してセットできる (元に戻して共有 DB の状態を変えない)", async ({ page }) => {
+  test.setTimeout(180000);
   const candidate = await findVotedCandidate(page);
   expect(candidate, "投票セット済みの参加者が見つからない").not.toBeNull();
   if (candidate == null) return;

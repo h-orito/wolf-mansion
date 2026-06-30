@@ -6,13 +6,9 @@ import {
   findVillages,
   provisionInProgressVillage,
   provisionRecruitingVillage,
+  type ProvisionCache,
   type SimpleVillage,
 } from "./helpers/provision";
-
-export type ProvisionCache = {
-  inProgress: SimpleVillage;
-  recruiting: SimpleVillage;
-};
 
 const CACHE_PATH = path.join(
   path.dirname(fileURLToPath(import.meta.url)),

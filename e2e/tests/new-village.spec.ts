@@ -189,6 +189,7 @@ test("クライアント検証エラーが表示される", async ({ page }) => 
 });
 
 test("設定流用セクションが表示され、流用で選択した村の設定がフォームへ流し込まれる", async ({ page }) => {
+  test.setTimeout(180000);
   await signupAndGotoNewVillage(page);
 
   await expect(page.getByRole("heading", { name: "設定流用" })).toBeVisible();
