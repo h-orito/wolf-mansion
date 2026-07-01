@@ -25,7 +25,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
   const village = useVillageContext();
 
   const { data: analyzerData } = useQuery({
-    queryKey: ["analyzer-village", village.id],
+    queryKey: ["analyzer-village", village.id, village.days.list.length],
     queryFn: () => fetchAnalyzerVillage(village.id),
   });
 
