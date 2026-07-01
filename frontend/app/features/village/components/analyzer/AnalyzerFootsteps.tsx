@@ -36,7 +36,7 @@ function FootstepRow({
           value={fs.memo}
           onChange={(e) => onChange({ ...fs, memo: e.target.value })}
           placeholder="メモ"
-          className="w-full rounded border border-[#464545] bg-[#303030] px-[6px] py-[2px] text-village-sm text-white"
+          className="w-full rounded border px-[6px] py-[2px] text-village-sm"
         />
       </td>
     </tr>
