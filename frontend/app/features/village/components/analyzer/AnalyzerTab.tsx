@@ -8,6 +8,7 @@ import {
 } from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep } from "~/features/village/analyzer/types";
 import { Button } from "~/components/ui/Button";
+import { textareaClass } from "~/components/ui/Input";
 import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
@@ -179,7 +180,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
                 value={currentDailyMemo}
                 onChange={(e) => setDailyMemo(activeDay, e.target.value)}
                 rows={3}
-                className="w-full rounded border border-[#464545] bg-[#303030] p-[8px] text-village-sm text-white"
+                className={textareaClass}
                 placeholder="この日のメモ..."
               />
             </div>

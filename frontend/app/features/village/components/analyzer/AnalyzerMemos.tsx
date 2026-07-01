@@ -1,5 +1,6 @@
 import type { VillageParticipantView } from "~/features/village/api";
 import type { ParticipantMemo } from "~/features/village/analyzer/types";
+import { textareaClass } from "~/components/ui/Input";
 
 export function AnalyzerMemos({
   wholeMemo,
@@ -22,7 +23,7 @@ export function AnalyzerMemos({
           value={wholeMemo}
           onChange={(e) => onWholeMemoChange(e.target.value)}
           rows={4}
-          className="w-full rounded border border-[#464545] bg-[#303030] p-[8px] text-village-sm text-white"
+          className={textareaClass}
           placeholder="村全体のメモ..."
         />
       </div>
