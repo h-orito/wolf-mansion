@@ -13,7 +13,7 @@ function FootstepRow({
 }) {
   return (
     <tr>
-      <td className="w-[28px] p-[3px] text-center align-middle">
+      <td className="w-[28px] border border-[#464545] p-[3px] text-center align-middle">
         <input
           type="checkbox"
           checked={fs.show}
@@ -22,15 +22,15 @@ function FootstepRow({
         />
       </td>
       <td
-        className="min-w-[100px] p-[3px] align-middle text-village-sm whitespace-nowrap"
+        className="min-w-[100px] border border-[#464545] p-[3px] align-middle text-village-sm whitespace-nowrap"
         style={{ color: `#${fs.color}` }}
       >
         {fs.footstep}
       </td>
-      <td className="w-[34px] p-[3px] text-center align-middle">
+      <td className="w-[34px] border border-[#464545] p-[3px] text-center align-middle">
         <ColorPicker value={fs.color} onChange={(color) => onChange({ ...fs, color })} />
       </td>
-      <td className="p-[3px] align-middle">
+      <td className="border border-[#464545] p-[3px] align-middle">
         <input
           type="text"
           value={fs.memo}
