@@ -2,6 +2,7 @@ import { useCallback, useId, useState } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
 import { useLocalStorage } from "~/lib/useLocalStorage";
+import { useVillageContext } from "~/features/village/VillageContext";
 import { AnalyzerTab } from "~/features/village/components/analyzer/AnalyzerTab";
 import { FootstepTab } from "./FootstepTab";
 import { MemberListTab } from "./MemberListTab";
@@ -27,9 +28,11 @@ export function SituationPanel({
   /** ネタバレ防止 (役職名・能力欄・足音詳細を隠す) */
   spoiled?: boolean;
 }) {
+  const village = useVillageContext();
   const hasRoomTab = situation.roomWidth != null && day > 0;
   const hasVoteTab = situation.vote != null;
   const hasFootstepTab = (situation.footstepList ?? []).length > 0;
+  const hasAnalyzerTab = !village.status.isPrologue && !village.status.isCanceled;
 
   const bodyId = useId();
 
@@ -48,7 +51,7 @@ export function SituationPanel({
     { key: "member", label: "参加者" },
     ...(hasVoteTab ? [{ key: "vote" as const, label: "投票" }] : []),
     ...(hasFootstepTab ? [{ key: "footstep" as const, label: "足音" }] : []),
-    { key: "analyzer" as const, label: "推理補助" },
+    ...(hasAnalyzerTab ? [{ key: "analyzer" as const, label: "推理補助" }] : []),
   ];
 
   return (
