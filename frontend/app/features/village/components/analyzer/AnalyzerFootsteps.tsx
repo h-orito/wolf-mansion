@@ -21,13 +21,16 @@ function FootstepRow({
           className="cursor-pointer"
         />
       </td>
-      <td className="p-[3px] align-middle text-village-sm" style={{ color: `#${fs.color}` }}>
+      <td
+        className="min-w-[100px] p-[3px] align-middle text-village-sm whitespace-nowrap"
+        style={{ color: `#${fs.color}` }}
+      >
         {fs.footstep}
       </td>
       <td className="w-[34px] p-[3px] text-center align-middle">
         <ColorPicker value={fs.color} onChange={(color) => onChange({ ...fs, color })} />
       </td>
-      <td className="w-[100px] p-[3px] align-middle sm:w-[160px]">
+      <td className="p-[3px] align-middle">
         <input
           type="text"
           value={fs.memo}
