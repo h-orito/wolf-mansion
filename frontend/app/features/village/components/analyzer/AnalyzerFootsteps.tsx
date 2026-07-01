@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 
 import type { DayFootstep } from "~/features/village/analyzer/types";
+import { inlineInputClass } from "~/components/ui/Input";
 import { TextButton } from "~/components/ui/TextButton";
 import { ColorPicker } from "./ColorPicker";
 
@@ -36,7 +37,7 @@ function FootstepRow({
           value={fs.memo}
           onChange={(e) => onChange({ ...fs, memo: e.target.value })}
           placeholder="メモ"
-          className="w-full rounded border px-[6px] py-[2px] text-village-sm"
+          className={`w-full ${inlineInputClass}`}
         />
       </td>
     </tr>
