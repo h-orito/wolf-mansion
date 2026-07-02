@@ -31,7 +31,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     /** REFRESH_TOKEN_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _refreshTokenId;
 
-    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
     /** TOKEN_HASH: {UQ, NotNull, CHAR(64)} */
@@ -71,7 +71,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "REFRESH_TOKEN";
+        return "refresh_token";
     }
 
     // ===================================================================================
@@ -219,7 +219,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -229,7 +229,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
+     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

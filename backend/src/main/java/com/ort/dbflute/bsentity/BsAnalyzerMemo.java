@@ -14,7 +14,7 @@ import com.ort.dbflute.exentity.*;
 
 /**
  * The entity of ANALYZER_MEMO as TABLE. <br>
- * æŽ¨ç†è£œåŠ©ãƒ¡ãƒ¢
+ * 推理補助メモ
  * @author DBFlute(AutoGenerator)
  */
 public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEntity, EntityDefinedCommonColumn {
@@ -31,10 +31,10 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     /** ANALYZER_MEMO_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _analyzerMemoId;
 
-    /** PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER} */
+    /** PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player} */
     protected Integer _playerId;
 
-    /** VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
     /** MEMO_JSON: {NotNull, MEDIUMTEXT(16777215)} */
@@ -62,7 +62,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "ANALYZER_MEMO";
+        return "analyzer_memo";
     }
 
     // ===================================================================================
@@ -77,8 +77,8 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
-     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      */
     public void uniqueBy(Integer playerId, Integer villageId) {
         __uniqueDrivenProperties.clear();
@@ -215,7 +215,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     //                                                                            ========
     /**
      * [get] ANALYZER_MEMO_ID: {PK, ID, NotNull, INT UNSIGNED(10)} <br>
-     * æŽ¨ç†è£œåŠ©ãƒ¡ãƒ¢ID
+     * 推理補助メモID
      * @return The value of the column 'ANALYZER_MEMO_ID'. (basically NotNull if selected: for the constraint)
      */
     public Integer getAnalyzerMemoId() {
@@ -225,7 +225,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] ANALYZER_MEMO_ID: {PK, ID, NotNull, INT UNSIGNED(10)} <br>
-     * æŽ¨ç†è£œåŠ©ãƒ¡ãƒ¢ID
+     * 推理補助メモID
      * @param analyzerMemoId The value of the column 'ANALYZER_MEMO_ID'. (basically NotNull if update: for the constraint)
      */
     public void setAnalyzerMemoId(Integer analyzerMemoId) {
@@ -234,8 +234,8 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
-     * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ID
+     * [get] PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
     public Integer getPlayerId() {
@@ -244,8 +244,8 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
-     * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ID
+     * [set] PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
     public void setPlayerId(Integer playerId) {
@@ -254,8 +254,8 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
-     * æ‘ID
+     * [get] VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
     public Integer getVillageId() {
@@ -264,8 +264,8 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
-     * æ‘ID
+     * [set] VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village} <br>
+     * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
     public void setVillageId(Integer villageId) {
@@ -275,7 +275,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [get] MEMO_JSON: {NotNull, MEDIUMTEXT(16777215)} <br>
-     * æŽ¨ç†è£œåŠ©ãƒ¡ãƒ¢ã®å†…å®¹(JSON)
+     * 推理補助メモの内容(JSON)
      * @return The value of the column 'MEMO_JSON'. (basically NotNull if selected: for the constraint)
      */
     public String getMemoJson() {
@@ -285,7 +285,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] MEMO_JSON: {NotNull, MEDIUMTEXT(16777215)} <br>
-     * æŽ¨ç†è£œåŠ©ãƒ¡ãƒ¢ã®å†…å®¹(JSON)
+     * 推理補助メモの内容(JSON)
      * @param memoJson The value of the column 'MEMO_JSON'. (basically NotNull if update: for the constraint)
      */
     public void setMemoJson(String memoJson) {
@@ -295,7 +295,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [get] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
-     * ç™»éŒ²æ—¥æ™‚
+     * 登録日時
      * @return The value of the column 'REGISTER_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     public java.time.LocalDateTime getRegisterDatetime() {
@@ -305,7 +305,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] REGISTER_DATETIME: {NotNull, DATETIME(19)} <br>
-     * ç™»éŒ²æ—¥æ™‚
+     * 登録日時
      * @param registerDatetime The value of the column 'REGISTER_DATETIME'. (basically NotNull if update: for the constraint)
      */
     public void setRegisterDatetime(java.time.LocalDateTime registerDatetime) {
@@ -315,7 +315,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [get] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
-     * ç™»éŒ²ãƒˆãƒ¬ãƒ¼ã‚¹
+     * 登録トレース
      * @return The value of the column 'REGISTER_TRACE'. (basically NotNull if selected: for the constraint)
      */
     public String getRegisterTrace() {
@@ -325,7 +325,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] REGISTER_TRACE: {NotNull, VARCHAR(64)} <br>
-     * ç™»éŒ²ãƒˆãƒ¬ãƒ¼ã‚¹
+     * 登録トレース
      * @param registerTrace The value of the column 'REGISTER_TRACE'. (basically NotNull if update: for the constraint)
      */
     public void setRegisterTrace(String registerTrace) {
@@ -335,7 +335,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [get] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
-     * æ›´æ–°æ—¥æ™‚
+     * 更新日時
      * @return The value of the column 'UPDATE_DATETIME'. (basically NotNull if selected: for the constraint)
      */
     public java.time.LocalDateTime getUpdateDatetime() {
@@ -345,7 +345,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] UPDATE_DATETIME: {NotNull, DATETIME(19)} <br>
-     * æ›´æ–°æ—¥æ™‚
+     * 更新日時
      * @param updateDatetime The value of the column 'UPDATE_DATETIME'. (basically NotNull if update: for the constraint)
      */
     public void setUpdateDatetime(java.time.LocalDateTime updateDatetime) {
@@ -355,7 +355,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [get] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
-     * æ›´æ–°ãƒˆãƒ¬ãƒ¼ã‚¹
+     * 更新トレース
      * @return The value of the column 'UPDATE_TRACE'. (basically NotNull if selected: for the constraint)
      */
     public String getUpdateTrace() {
@@ -365,7 +365,7 @@ public abstract class BsAnalyzerMemo extends AbstractEntity implements DomainEnt
 
     /**
      * [set] UPDATE_TRACE: {NotNull, VARCHAR(64)} <br>
-     * æ›´æ–°ãƒˆãƒ¬ãƒ¼ã‚¹
+     * 更新トレース
      * @param updateTrace The value of the column 'UPDATE_TRACE'. (basically NotNull if update: for the constraint)
      */
     public void setUpdateTrace(String updateTrace) {

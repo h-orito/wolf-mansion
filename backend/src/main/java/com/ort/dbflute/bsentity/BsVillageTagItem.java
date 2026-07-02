@@ -45,7 +45,7 @@ public abstract class BsVillageTagItem extends AbstractEntity implements DomainE
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_TAG_ITEM";
+        return "village_tag_item";
     }
 
     // ===================================================================================

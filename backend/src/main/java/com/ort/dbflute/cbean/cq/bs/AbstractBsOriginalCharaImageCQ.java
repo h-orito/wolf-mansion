@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of ORIGINAL_CHARA_IMAGE.
+ * The abstract condition-query of original_chara_image.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
     }
 
     public String asTableDbName() {
-        return "ORIGINAL_CHARA_IMAGE";
+        return "original_chara_image";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_Equal(Integer originalCharaId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_NotEqual(Integer originalCharaId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_GreaterThan(Integer originalCharaId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_LessThan(Integer originalCharaId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_GreaterEqual(Integer originalCharaId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaId The value of originalCharaId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaId_LessEqual(Integer originalCharaId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param minNumber The min number of originalCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of originalCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param minNumber The min number of originalCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of originalCharaId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaIdList The collection of originalCharaId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOriginalCharaId_InScope(Collection<Integer> originalCharaIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsOriginalCharaImageCQ extends AbstractConditionQu
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
      * @param originalCharaIdList The collection of originalCharaId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOriginalCharaId_NotInScope(Collection<Integer> originalCharaIdList) {

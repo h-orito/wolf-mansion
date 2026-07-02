@@ -39,7 +39,7 @@ public abstract class BsAnalyzerMemoBhv extends AbstractBehaviorWritable<Analyze
     /** {@inheritDoc} */
     public AnalyzerMemoDbm asDBMeta() { return AnalyzerMemoDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "ANALYZER_MEMO"; }
+    public String asTableDbName() { return "analyzer_memo"; }
 
     // ===================================================================================
     //                                                                        New Instance
@@ -160,8 +160,8 @@ public abstract class BsAnalyzerMemoBhv extends AbstractBehaviorWritable<Analyze
 
     /**
      * Select the entity by the unique-key value.
-     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
-     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return The optional entity selected by the unique key. (NotNull: if no data, empty entity)
      * @throws EntityAlreadyDeletedException When get(), alwaysPresent() of return value is called and the value is null, which means entity has already been deleted (not found).
      * @throws EntityDuplicatedException When the entity has been duplicated.

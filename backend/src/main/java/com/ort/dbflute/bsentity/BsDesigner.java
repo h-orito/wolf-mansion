@@ -54,7 +54,7 @@ public abstract class BsDesigner extends AbstractEntity implements DomainEntity,
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "DESIGNER";
+        return "designer";
     }
 
     // ===================================================================================

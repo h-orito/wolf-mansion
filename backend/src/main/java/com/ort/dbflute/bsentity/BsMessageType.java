@@ -42,7 +42,7 @@ public abstract class BsMessageType extends AbstractEntity implements DomainEnti
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "MESSAGE_TYPE";
+        return "message_type";
     }
 
     // ===================================================================================

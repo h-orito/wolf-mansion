@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of COMMIT. (Singleton)
+ * The DB meta of commit. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class CommitDbm extends AbstractDBMeta {
@@ -70,7 +70,7 @@ public class CommitDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "COMMIT";
+    protected final String _tableDbName = "commit";
     protected final String _tableDispName = "COMMIT";
     protected final String _tablePropertyName = "commit";
     protected final TableSqlName _tableSqlName = new TableSqlName("COMMIT", _tableDbName);
@@ -92,17 +92,17 @@ public class CommitDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * VILLAGE_PLAYER_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {PK, IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }

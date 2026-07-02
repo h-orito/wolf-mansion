@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of RANDOM_KEYWORD.
+ * The condition-query for in-line of random_keyword.
  * @author DBFlute(AutoGenerator)
  */
 public class RandomKeywordCIQ extends AbstractBsRandomKeywordCQ {

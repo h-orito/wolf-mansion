@@ -13,7 +13,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of LOGIN_FAILURE. (Singleton)
+ * The DB meta of login_failure. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class LoginFailureDbm extends AbstractDBMeta {
@@ -57,7 +57,7 @@ public class LoginFailureDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "LOGIN_FAILURE";
+    protected final String _tableDbName = "login_failure";
     protected final String _tableDispName = "LOGIN_FAILURE";
     protected final String _tablePropertyName = "loginFailure";
     protected final TableSqlName _tableSqlName = new TableSqlName("LOGIN_FAILURE", _tableDbName);

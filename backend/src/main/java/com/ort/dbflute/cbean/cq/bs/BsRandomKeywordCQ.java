@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of RANDOM_KEYWORD.
+ * The base condition-query of random_keyword.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRandomKeywordCQ extends AbstractBsRandomKeywordCQ {
@@ -35,7 +35,7 @@ public class BsRandomKeywordCQ extends AbstractBsRandomKeywordCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from RANDOM_KEYWORD) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from random_keyword) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsRandomKeywordCQ extends AbstractBsRandomKeywordCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join RANDOM_KEYWORD on ... and FOO = [value] ...}
+     * {select ... from ... left outer join random_keyword on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>

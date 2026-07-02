@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VOTE.
+ * The base condition-bean of vote.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVoteCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVoteCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VOTE";
+        return "vote";
     }
 
     // ===================================================================================
@@ -85,8 +85,8 @@ public class BsVoteCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
-     * @param day : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
+     * @param day : PK, NotNull, INT UNSIGNED(10), FK to village_day. (NotNull)
      * @param charaId : PK, NotNull, INT UNSIGNED(10). (NotNull)
      * @return this. (NotNull)
      */
@@ -321,12 +321,12 @@ public class BsVoteCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
+         * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnDay() { return doColumn("DAY"); }
@@ -369,7 +369,7 @@ public class BsVoteCB extends AbstractConditionBean {
             columnCharaId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "VOTE"; }
+        protected String getTableDbName() { return "vote"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_DAY by my VILLAGE_ID, DAY, named 'villageDay'.

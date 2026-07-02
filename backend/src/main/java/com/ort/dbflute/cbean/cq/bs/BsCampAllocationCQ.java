@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of CAMP_ALLOCATION.
+ * The base condition-query of camp_allocation.
  * @author DBFlute(AutoGenerator)
  */
 public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
@@ -35,7 +35,7 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from CAMP_ALLOCATION) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from camp_allocation) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join CAMP_ALLOCATION on ... and FOO = [value] ...}
+     * {select ... from ... left outer join camp_allocation on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsCampAllocationCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsCampAllocationCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -101,14 +101,14 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsCampAllocationCQ addOrderBy_CampCode_Asc() { regOBA("CAMP_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to CAMP, classification=Camp}
+     * CAMP_CODE: {PK, IX, NotNull, VARCHAR(20), FK to camp, classification=Camp}
      * @return this. (NotNull)
      */
     public BsCampAllocationCQ addOrderBy_CampCode_Desc() { regOBD("CAMP_CODE"); return this; }
@@ -339,7 +339,7 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
         return xgetQueRlMap(prop);
     }
     protected CampCQ xcreateQueryCamp() {
-        String nrp = xresolveNRP("CAMP_ALLOCATION", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("camp_allocation", "camp"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new CampCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "camp", nrp);
     }
     protected void xsetupOuterJoinCamp() { xregOutJo("camp"); }
@@ -359,7 +359,7 @@ public class BsCampAllocationCQ extends AbstractBsCampAllocationCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("CAMP_ALLOCATION", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("camp_allocation", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

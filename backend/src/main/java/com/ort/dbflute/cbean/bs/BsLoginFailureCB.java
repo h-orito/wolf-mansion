@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of LOGIN_FAILURE.
+ * The base condition-bean of login_failure.
  * @author DBFlute(AutoGenerator)
  */
 public class BsLoginFailureCB extends AbstractConditionBean {
@@ -76,7 +76,7 @@ public class BsLoginFailureCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "LOGIN_FAILURE";
+        return "login_failure";
     }
 
     // ===================================================================================
@@ -333,7 +333,7 @@ public class BsLoginFailureCB extends AbstractConditionBean {
             columnLoginFailureId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "LOGIN_FAILURE"; }
+        protected String getTableDbName() { return "login_failure"; }
         /**
          * Prepare for (Specify)MyselfDerived (SubQuery).
          * @return The object to set up a function for myself table. (NotNull)

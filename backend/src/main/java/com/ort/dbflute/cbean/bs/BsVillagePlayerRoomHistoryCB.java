@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of VILLAGE_PLAYER_ROOM_HISTORY.
+ * The base condition-bean of village_player_room_history.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerRoomHistoryCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerRoomHistoryCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_ROOM_HISTORY";
+        return "village_player_room_history";
     }
 
     // ===================================================================================
@@ -323,7 +323,7 @@ public class BsVillagePlayerRoomHistoryCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerRoomHistoryId() { return doColumn("VILLAGE_PLAYER_ROOM_HISTORY_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
@@ -368,7 +368,7 @@ public class BsVillagePlayerRoomHistoryCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "VILLAGE_PLAYER_ROOM_HISTORY"; }
+        protected String getTableDbName() { return "village_player_room_history"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_PLAYER by my VILLAGE_PLAYER_ID, named 'villagePlayer'.

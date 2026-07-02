@@ -5,6 +5,9 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_general_ci
+      # DBFlute のコード生成が実 DB のテーブル名の大文字小文字に依存するため、
+      # 大文字小文字を区別しない設定で初期化する (変更時は volume の再作成が必要)
+      - --lower-case-table-names=1
     environment:
       MYSQL_DATABASE: werewolf_mansiondb
       MYSQL_USER: wmansion

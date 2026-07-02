@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of ANALYZER_MEMO.
+ * The abstract condition-query of analyzer_memo.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "ANALYZER_MEMO";
+        return "analyzer_memo";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_Equal(Integer playerId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_NotEqual(Integer playerId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterThan(Integer playerId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessThan(Integer playerId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterEqual(Integer playerId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerId The value of playerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessEqual(Integer playerId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerIdList The collection of playerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_InScope(Collection<Integer> playerIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @param playerIdList The collection of playerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_NotInScope(Collection<Integer> playerIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -304,7 +304,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -317,7 +317,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -326,7 +326,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -335,7 +335,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -344,7 +344,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -355,7 +355,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -368,7 +368,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -379,7 +379,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -392,7 +392,7 @@ public abstract class AbstractBsAnalyzerMemoCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {

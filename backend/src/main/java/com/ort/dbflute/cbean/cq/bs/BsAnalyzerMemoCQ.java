@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of ANALYZER_MEMO.
+ * The base condition-query of analyzer_memo.
  * @author DBFlute(AutoGenerator)
  */
 public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
@@ -35,7 +35,7 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from ANALYZER_MEMO) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from analyzer_memo) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join ANALYZER_MEMO on ... and FOO = [value] ...}
+     * {select ... from ... left outer join analyzer_memo on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsAnalyzerMemoCQ addOrderBy_PlayerId_Asc() { regOBA("PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsAnalyzerMemoCQ addOrderBy_PlayerId_Desc() { regOBD("PLAYER_ID"); return this; }
@@ -121,14 +121,14 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsAnalyzerMemoCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return this. (NotNull)
      */
     public BsAnalyzerMemoCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -299,7 +299,7 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
         return xgetQueRlMap(prop);
     }
     protected PlayerCQ xcreateQueryPlayer() {
-        String nrp = xresolveNRP("ANALYZER_MEMO", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("analyzer_memo", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new PlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "player", nrp);
     }
     protected void xsetupOuterJoinPlayer() { xregOutJo("player"); }
@@ -319,7 +319,7 @@ public class BsAnalyzerMemoCQ extends AbstractBsAnalyzerMemoCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("ANALYZER_MEMO", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("analyzer_memo", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

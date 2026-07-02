@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of ORIGINAL_CHARA.
+ * The base condition-bean of original_chara.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaCB extends AbstractConditionBean {
@@ -76,7 +76,7 @@ public class BsOriginalCharaCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "ORIGINAL_CHARA";
+        return "original_chara";
     }
 
     // ===================================================================================
@@ -323,7 +323,7 @@ public class BsOriginalCharaCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnOriginalCharaShortName() { return doColumn("ORIGINAL_CHARA_SHORT_NAME"); }
         /**
-         * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
+         * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnOriginalCharaGroupId() { return doColumn("ORIGINAL_CHARA_GROUP_ID"); }
@@ -368,7 +368,7 @@ public class BsOriginalCharaCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "ORIGINAL_CHARA"; }
+        protected String getTableDbName() { return "original_chara"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * ORIGINAL_CHARA_GROUP by my ORIGINAL_CHARA_GROUP_ID, named 'originalCharaGroup'.
@@ -391,7 +391,7 @@ public class BsOriginalCharaCB extends AbstractConditionBean {
         }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from ORIGINAL_CHARA_IMAGE where ...) as FOO_MAX} <br>
+         * {select max(FOO) from original_chara_image where ...) as FOO_MAX} <br>
          * ORIGINAL_CHARA_IMAGE by ORIGINAL_CHARA_ID, named 'originalCharaImageList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

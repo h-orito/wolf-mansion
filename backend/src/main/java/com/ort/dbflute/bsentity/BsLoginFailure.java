@@ -60,7 +60,7 @@ public abstract class BsLoginFailure extends AbstractEntity implements DomainEnt
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "LOGIN_FAILURE";
+        return "login_failure";
     }
 
     // ===================================================================================

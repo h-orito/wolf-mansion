@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of MESSAGE_SENDTO.
+ * The abstract condition-query of message_sendto.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "MESSAGE_SENDTO";
+        return "message_sendto";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_Equal(Integer messageId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_NotEqual(Integer messageId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_GreaterThan(Integer messageId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_LessThan(Integer messageId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_GreaterEqual(Integer messageId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageId The value of messageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setMessageId_LessEqual(Integer messageId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param minNumber The min number of messageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of messageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param minNumber The min number of messageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of messageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageIdList The collection of messageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageId_InScope(Collection<Integer> messageIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @param messageIdList The collection of messageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setMessageId_NotInScope(Collection<Integer> messageIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_Equal(Integer villagePlayerId) {
@@ -304,7 +304,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_NotEqual(Integer villagePlayerId) {
@@ -317,7 +317,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_GreaterThan(Integer villagePlayerId) {
@@ -326,7 +326,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_LessThan(Integer villagePlayerId) {
@@ -335,7 +335,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_GreaterEqual(Integer villagePlayerId) {
@@ -344,7 +344,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerId The value of villagePlayerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillagePlayerId_LessEqual(Integer villagePlayerId) {
@@ -355,7 +355,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -368,7 +368,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param minNumber The min number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villagePlayerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -379,7 +379,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerIdList The collection of villagePlayerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillagePlayerId_InScope(Collection<Integer> villagePlayerIdList) {
@@ -392,7 +392,7 @@ public abstract class AbstractBsMessageSendtoCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @param villagePlayerIdList The collection of villagePlayerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillagePlayerId_NotInScope(Collection<Integer> villagePlayerIdList) {

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of ANALYZER_MEMO.
+ * The base condition-bean of analyzer_memo.
  * @author DBFlute(AutoGenerator)
  */
 public class BsAnalyzerMemoCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsAnalyzerMemoCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "ANALYZER_MEMO";
+        return "analyzer_memo";
     }
 
     // ===================================================================================
@@ -97,8 +97,8 @@ public class BsAnalyzerMemoCB extends AbstractConditionBean {
 
     /**
      * Accept the query condition of unique key as equal.
-     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER. (NotNull)
-     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
+     * @param playerId : UQ+, NotNull, INT UNSIGNED(10), FK to player. (NotNull)
+     * @param villageId : +UQ, IX, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
      * @return this. (NotNull)
      */
     public AnalyzerMemoCB acceptUniqueOf(Integer playerId, Integer villageId) {
@@ -366,12 +366,12 @@ public class BsAnalyzerMemoCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnAnalyzerMemoId() { return doColumn("ANALYZER_MEMO_ID"); }
         /**
-         * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+         * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
         /**
-         * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+         * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -415,7 +415,7 @@ public class BsAnalyzerMemoCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "ANALYZER_MEMO"; }
+        protected String getTableDbName() { return "analyzer_memo"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * PLAYER by my PLAYER_ID, named 'player'.

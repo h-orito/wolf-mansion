@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of VILLAGE_TAG.
+ * The abstract condition-query of village_tag.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "VILLAGE_TAG";
+        return "village_tag";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_Equal(Integer villageId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_NotEqual(Integer villageId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterThan(Integer villageId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessThan(Integer villageId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_GreaterEqual(Integer villageId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageId The value of villageId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setVillageId_LessEqual(Integer villageId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param minNumber The min number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of villageId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_InScope(Collection<Integer> villageIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
      * @param villageIdList The collection of villageId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setVillageId_NotInScope(Collection<Integer> villageIdList) {
@@ -291,7 +291,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @param villageTagItemCode The value of villageTagItemCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageTagItemCode_Equal(String villageTagItemCode) {
@@ -300,7 +300,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As VillageTagItem. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -346,7 +346,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @param villageTagItemCode The value of villageTagItemCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageTagItemCode_NotEqual(String villageTagItemCode) {
@@ -355,7 +355,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As VillageTagItem. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -401,7 +401,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @param villageTagItemCodeList The collection of villageTagItemCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageTagItemCode_InScope(Collection<String> villageTagItemCodeList) {
@@ -410,7 +410,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As VillageTagItem. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -424,7 +424,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
      * @param villageTagItemCodeList The collection of villageTagItemCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setVillageTagItemCode_NotInScope(Collection<String> villageTagItemCodeList) {
@@ -433,7 +433,7 @@ public abstract class AbstractBsVillageTagCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As VillageTagItem. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem} <br>
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem} <br>
      * 村タグ種別
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */

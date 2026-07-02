@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_PLAYER_ROOM_HISTORY. (Singleton)
+ * The DB meta of village_player_room_history. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerRoomHistoryDbm extends AbstractDBMeta {
@@ -70,7 +70,7 @@ public class VillagePlayerRoomHistoryDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_PLAYER_ROOM_HISTORY";
+    protected final String _tableDbName = "village_player_room_history";
     protected final String _tableDispName = "VILLAGE_PLAYER_ROOM_HISTORY";
     protected final String _tablePropertyName = "villagePlayerRoomHistory";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER_ROOM_HISTORY", _tableDbName);
@@ -98,7 +98,7 @@ public class VillagePlayerRoomHistoryDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerRoomHistoryId() { return _columnVillagePlayerRoomHistoryId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }

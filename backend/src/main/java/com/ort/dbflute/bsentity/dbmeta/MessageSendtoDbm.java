@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of MESSAGE_SENDTO. (Singleton)
+ * The DB meta of message_sendto. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageSendtoDbm extends AbstractDBMeta {
@@ -70,7 +70,7 @@ public class MessageSendtoDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "MESSAGE_SENDTO";
+    protected final String _tableDbName = "message_sendto";
     protected final String _tableDispName = "MESSAGE_SENDTO";
     protected final String _tablePropertyName = "messageSendto";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE_SENDTO", _tableDbName);
@@ -97,12 +97,12 @@ public class MessageSendtoDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageReplytoId() { return _columnMessageReplytoId; }
     /**
-     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to MESSAGE}
+     * MESSAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to message}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }

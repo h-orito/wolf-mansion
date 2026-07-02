@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of LOGIN_FAILURE.
+ * The condition-query for in-line of login_failure.
  * @author DBFlute(AutoGenerator)
  */
 public class LoginFailureCIQ extends AbstractBsLoginFailureCQ {

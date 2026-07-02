@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of PLAYER.
+ * The abstract condition-query of player.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "PLAYER";
+        return "player";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select PLAYER_ID from ANALYZER_MEMO where ...)} <br>
-     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * {exists (select PLAYER_ID from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsAnalyzerMemo</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     memoCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select PLAYER_ID from MESSAGE where ...)} <br>
-     * MESSAGE by PLAYER_ID, named 'messageAsOne'.
+     * {exists (select PLAYER_ID from message where ...)} <br>
+     * message by PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -197,8 +197,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select PLAYER_ID from REFRESH_TOKEN where ...)} <br>
-     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenAsOne'.
+     * {exists (select PLAYER_ID from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsRefreshToken</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tokenCB.query().set...
@@ -216,8 +216,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select PLAYER_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerAsOne'.
+     * {exists (select PLAYER_ID from village_player where ...)} <br>
+     * village_player by PLAYER_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -235,8 +235,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select PLAYER_ID from ANALYZER_MEMO where ...)} <br>
-     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * {not exists (select PLAYER_ID from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsAnalyzerMemo</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     memoCB.query().set...
@@ -254,8 +254,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select PLAYER_ID from MESSAGE where ...)} <br>
-     * MESSAGE by PLAYER_ID, named 'messageAsOne'.
+     * {not exists (select PLAYER_ID from message where ...)} <br>
+     * message by PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsMessage</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.query().set...
@@ -273,8 +273,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select PLAYER_ID from REFRESH_TOKEN where ...)} <br>
-     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenAsOne'.
+     * {not exists (select PLAYER_ID from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsRefreshToken</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tokenCB.query().set...
@@ -292,8 +292,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select PLAYER_ID from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerAsOne'.
+     * {not exists (select PLAYER_ID from village_player where ...)} <br>
+     * village_player by PLAYER_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillagePlayer</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.query().set...
@@ -343,8 +343,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from ANALYZER_MEMO where ...)} <br>
-     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * {FOO &lt;= (select max(BAR) from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedAnalyzerMemo()</span>.<span style="color: #CC4747">max</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     memoCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -370,8 +370,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from MESSAGE where ...)} <br>
-     * MESSAGE by PLAYER_ID, named 'messageAsOne'.
+     * {FOO &lt;= (select max(BAR) from message where ...)} <br>
+     * message by PLAYER_ID, named 'messageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedMessage()</span>.<span style="color: #CC4747">max</span>(messageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     messageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -397,8 +397,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from REFRESH_TOKEN where ...)} <br>
-     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenAsOne'.
+     * {FOO &lt;= (select max(BAR) from refresh_token where ...)} <br>
+     * refresh_token by PLAYER_ID, named 'refreshTokenAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedRefreshToken()</span>.<span style="color: #CC4747">max</span>(tokenCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     tokenCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -424,8 +424,8 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from VILLAGE_PLAYER where ...)} <br>
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerAsOne'.
+     * {FOO &lt;= (select max(BAR) from village_player where ...)} <br>
+     * village_player by PLAYER_ID, named 'villagePlayerAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillagePlayer()</span>.<span style="color: #CC4747">max</span>(playerCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     playerCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -736,7 +736,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
      * @param authorityCode The value of authorityCode as equal. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_Equal(String authorityCode) {
@@ -745,7 +745,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -775,7 +775,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
      * @param authorityCode The value of authorityCode as notEqual. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_NotEqual(String authorityCode) {
@@ -784,7 +784,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). As Authority. And NullOrEmptyIgnored, OnlyOnceRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
      * 権限
      * @param cdef The instance of classification definition (as ENUM type). (basically NotNull: error as default, or no condition as option)
      */
@@ -814,7 +814,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
      * @param authorityCodeList The collection of authorityCode as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_InScope(Collection<String> authorityCodeList) {
@@ -823,7 +823,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
      * 権限
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
@@ -837,7 +837,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
      * @param authorityCodeList The collection of authorityCode as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     protected void setAuthorityCode_NotInScope(Collection<String> authorityCodeList) {
@@ -846,7 +846,7 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in ('a', 'b')}. As Authority. And NullOrEmptyIgnored, NullOrEmptyElementIgnored, SeveralRegistered. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority} <br>
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority} <br>
      * 権限
      * @param cdefList The list of classification definition (as ENUM type). (basically NotNull, NotEmpty: error as default, or no condition as option)
      */

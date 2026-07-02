@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of VILLAGE_TAG_ITEM.
+ * The condition-query for in-line of village_tag_item.
  * @author DBFlute(AutoGenerator)
  */
 public class VillageTagItemCIQ extends AbstractBsVillageTagItemCQ {

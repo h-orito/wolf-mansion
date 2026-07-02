@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of LOGIN_FAILURE.
+ * The base condition-query of login_failure.
  * @author DBFlute(AutoGenerator)
  */
 public class BsLoginFailureCQ extends AbstractBsLoginFailureCQ {
@@ -35,7 +35,7 @@ public class BsLoginFailureCQ extends AbstractBsLoginFailureCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from LOGIN_FAILURE) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from login_failure) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsLoginFailureCQ extends AbstractBsLoginFailureCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join LOGIN_FAILURE on ... and FOO = [value] ...}
+     * {select ... from ... left outer join login_failure on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>

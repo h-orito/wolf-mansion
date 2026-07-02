@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of VILLAGE_DAY. (Singleton)
+ * The DB meta of village_day. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageDayDbm extends AbstractDBMeta {
@@ -69,7 +69,7 @@ public class VillageDayDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "VILLAGE_DAY";
+    protected final String _tableDbName = "village_day";
     protected final String _tableDispName = "VILLAGE_DAY";
     protected final String _tablePropertyName = "villageDay";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_DAY", _tableDbName);
@@ -91,7 +91,7 @@ public class VillageDayDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }

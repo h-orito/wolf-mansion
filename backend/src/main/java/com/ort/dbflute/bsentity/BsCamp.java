@@ -42,7 +42,7 @@ public abstract class BsCamp extends AbstractEntity implements DomainEntity {
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "CAMP";
+        return "camp";
     }
 
     // ===================================================================================

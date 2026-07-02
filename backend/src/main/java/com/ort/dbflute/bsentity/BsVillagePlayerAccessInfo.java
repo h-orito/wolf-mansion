@@ -31,7 +31,7 @@ public abstract class BsVillagePlayerAccessInfo extends AbstractEntity implement
     /** VILLAGE_PLAYER_ACCESS_INFO_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villagePlayerAccessInfoId;
 
-    /** VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} */
+    /** VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player} */
     protected Integer _villagePlayerId;
 
     /** IP_ADDRESS: {+UQ, NotNull, VARCHAR(64)} */
@@ -59,7 +59,7 @@ public abstract class BsVillagePlayerAccessInfo extends AbstractEntity implement
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_PLAYER_ACCESS_INFO";
+        return "village_player_access_info";
     }
 
     // ===================================================================================
@@ -74,7 +74,7 @@ public abstract class BsVillagePlayerAccessInfo extends AbstractEntity implement
     /**
      * To be unique by the unique column. <br>
      * You can update the entity by the key when entity update (NOT batch update).
-     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER. (NotNull)
+     * @param villagePlayerId : UQ+, NotNull, INT UNSIGNED(10), FK to village_player. (NotNull)
      * @param ipAddress : +UQ, NotNull, VARCHAR(64). (NotNull)
      */
     public void uniqueBy(Integer villagePlayerId, String ipAddress) {
@@ -205,7 +205,7 @@ public abstract class BsVillagePlayerAccessInfo extends AbstractEntity implement
     }
 
     /**
-     * [get] VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [get] VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @return The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -215,7 +215,7 @@ public abstract class BsVillagePlayerAccessInfo extends AbstractEntity implement
     }
 
     /**
-     * [set] VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER} <br>
+     * [set] VILLAGE_PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to village_player} <br>
      * 村参加者ID
      * @param villagePlayerId The value of the column 'VILLAGE_PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

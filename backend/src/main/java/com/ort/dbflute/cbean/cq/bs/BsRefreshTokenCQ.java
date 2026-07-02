@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of REFRESH_TOKEN.
+ * The base condition-query of refresh_token.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
@@ -35,7 +35,7 @@ public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from REFRESH_TOKEN) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from refresh_token) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join REFRESH_TOKEN on ... and FOO = [value] ...}
+     * {select ... from ... left outer join refresh_token on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsRefreshTokenCQ addOrderBy_PlayerId_Asc() { regOBA("PLAYER_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
      * @return this. (NotNull)
      */
     public BsRefreshTokenCQ addOrderBy_PlayerId_Desc() { regOBD("PLAYER_ID"); return this; }
@@ -356,7 +356,7 @@ public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
         return xgetQueRlMap(prop);
     }
     protected PlayerCQ xcreateQueryPlayer() {
-        String nrp = xresolveNRP("REFRESH_TOKEN", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("refresh_token", "player"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new PlayerCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "player", nrp);
     }
     protected void xsetupOuterJoinPlayer() { xregOutJo("player"); }

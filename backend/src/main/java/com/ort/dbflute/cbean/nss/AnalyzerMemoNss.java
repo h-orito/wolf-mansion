@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.AnalyzerMemoCQ;
 
 /**
- * The nest select set-upper of ANALYZER_MEMO.
+ * The nest select set-upper of analyzer_memo.
  * @author DBFlute(AutoGenerator)
  */
 public class AnalyzerMemoNss {

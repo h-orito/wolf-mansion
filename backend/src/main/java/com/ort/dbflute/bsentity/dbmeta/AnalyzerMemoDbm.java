@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of ANALYZER_MEMO. (Singleton)
+ * The DB meta of analyzer_memo. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class AnalyzerMemoDbm extends AbstractDBMeta {
@@ -71,7 +71,7 @@ public class AnalyzerMemoDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "ANALYZER_MEMO";
+    protected final String _tableDbName = "analyzer_memo";
     protected final String _tableDispName = "ANALYZER_MEMO";
     protected final String _tablePropertyName = "analyzerMemo";
     protected final TableSqlName _tableSqlName = new TableSqlName("ANALYZER_MEMO", _tableDbName);
@@ -99,12 +99,12 @@ public class AnalyzerMemoDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnAnalyzerMemoId() { return _columnAnalyzerMemoId; }
     /**
-     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to PLAYER}
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
+     * VILLAGE_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to village}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }

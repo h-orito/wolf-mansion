@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of ORIGINAL_CHARA_GROUP.
+ * The base condition-query of original_chara_group.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaGroupCQ extends AbstractBsOriginalCharaGroupCQ {
@@ -35,7 +35,7 @@ public class BsOriginalCharaGroupCQ extends AbstractBsOriginalCharaGroupCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from ORIGINAL_CHARA_GROUP) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from original_chara_group) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsOriginalCharaGroupCQ extends AbstractBsOriginalCharaGroupCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join ORIGINAL_CHARA_GROUP on ... and FOO = [value] ...}
+     * {select ... from ... left outer join original_chara_group on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>

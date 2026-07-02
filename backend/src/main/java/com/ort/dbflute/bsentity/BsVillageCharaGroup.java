@@ -31,10 +31,10 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
     /** VILLAGE_CHARA_GROUP_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _villageCharaGroupId;
 
-    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} */
+    /** VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} */
     protected Integer _villageId;
 
-    /** CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} */
+    /** CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} */
     protected Integer _charaGroupId;
 
     /** REGISTER_DATETIME: {NotNull, DATETIME(19)} */
@@ -59,7 +59,7 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "VILLAGE_CHARA_GROUP";
+        return "village_chara_group";
     }
 
     // ===================================================================================
@@ -217,7 +217,7 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
     }
 
     /**
-     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [get] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @return The value of the column 'VILLAGE_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -227,7 +227,7 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
     }
 
     /**
-     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE} <br>
+     * [set] VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village} <br>
      * 村ID
      * @param villageId The value of the column 'VILLAGE_ID'. (basically NotNull if update: for the constraint)
      */
@@ -237,7 +237,7 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
     }
 
     /**
-     * [get] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [get] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @return The value of the column 'CHARA_GROUP_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -247,7 +247,7 @@ public abstract class BsVillageCharaGroup extends AbstractEntity implements Doma
     }
 
     /**
-     * [set] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP} <br>
+     * [set] CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group} <br>
      * キャラクターグループID
      * @param charaGroupId The value of the column 'CHARA_GROUP_ID'. (basically NotNull if update: for the constraint)
      */

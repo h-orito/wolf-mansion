@@ -41,7 +41,7 @@ public abstract class BsRandomKeyword extends AbstractEntity implements DomainEn
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "RANDOM_KEYWORD";
+        return "random_keyword";
     }
 
     // ===================================================================================
