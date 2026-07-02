@@ -3,18 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import type { AnalyzerDayRoom, AnalyzerVillageData } from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep, ParticipantMemo } from "~/features/village/analyzer/types";
 import { TextButton } from "~/components/ui/TextButton";
+import { deadColor, deadMark } from "~/features/village/components/info/dead";
 import { FootstepLines } from "./FootstepLines";
-
-const DEAD_MARK: Record<string, string> = {
-  SUDDON: "凸",
-  EXECUTE: "▼",
-  SUICIDE: "❤︎",
-};
-
-function deadMark(reason: { code: string } | null): string {
-  if (!reason) return "▲";
-  return DEAD_MARK[reason.code] ?? "▲";
-}
 
 // 簡易部屋割テキスト。空室は「＿」、メモなしは「□」、メモありはメモの1文字目で表す
 function buildSimpleRoomMap(
@@ -151,7 +141,7 @@ export function AnalyzerRoomGrid({
                       {displayMemo && (
                         <div className="absolute top-0 left-0 right-0 z-[3] px-[2px]">
                           <p
-                            className="my-0 whitespace-normal text-[10px] leading-tight"
+                            className="my-0 whitespace-normal text-[0.75rem] leading-tight"
                             style={{ color: `#${memoColor}` }}
                           >
                             {displayMemo}
@@ -180,9 +170,12 @@ export function AnalyzerRoomGrid({
                             : ""}
                         </span>
                         {room.isDead && (
-                          <span className="bg-wm-base text-[11px]">
+                          <span
+                            className="bg-wm-base text-[11px]"
+                            style={{ color: deadColor(room.deadReason?.code) ?? undefined }}
+                          >
                             <br />
-                            {room.deadDay}d {deadMark(room.deadReason)}
+                            {room.deadDay}d {deadMark(room.deadReason?.code)}
                           </span>
                         )}
                         {isDummy && (
