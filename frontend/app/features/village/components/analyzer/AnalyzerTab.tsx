@@ -176,7 +176,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
               <textarea
                 value={currentDailyMemo}
                 onChange={(e) => setDailyMemo(activeDay, e.target.value)}
-                rows={3}
+                rows={5}
                 className={`${textareaClass} lg:flex-1`}
                 placeholder="この日のメモ..."
               />
@@ -202,7 +202,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
             <textarea
               value={wholeMemo}
               onChange={(e) => setWholeMemo(e.target.value)}
-              rows={4}
+              rows={10}
               className={`${textareaClass} lg:flex-1`}
               placeholder="村全体のメモ..."
             />
