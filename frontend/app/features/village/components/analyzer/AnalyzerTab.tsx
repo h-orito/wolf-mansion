@@ -15,11 +15,8 @@ import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
 import { dayLabel } from "~/features/village/components/info/dayLabel";
 import { VoteTab } from "~/features/village/components/info/VoteTab";
 import { AnalyzerFootsteps } from "./AnalyzerFootsteps";
-import { AnalyzerMemos } from "./AnalyzerMemos";
 import { AnalyzerRoomGrid } from "./AnalyzerRoomGrid";
 import { ParticipantMemoModal } from "./ParticipantMemoModal";
-
-type BottomTab = "vote" | "memo";
 
 export function AnalyzerTab({ situation: initialSituation }: { situation: VillageSituationView }) {
   const { me } = useMe();
@@ -78,7 +75,6 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
   );
 
   const [memoParticipantId, setMemoParticipantId] = useState<number | null>(null);
-  const [bottomTab, setBottomTab] = useState<BottomTab>("vote");
 
   const currentDayFootsteps = useMemo(() => {
     const dfm = dailyFootstepMemos.find((m) => m.day === activeDay);
@@ -170,9 +166,10 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
           </div>
 
           {/* Footstep analysis + Daily memo */}
-          <div className="min-w-0 flex-1 space-y-[10px]">
+          <div className="flex min-w-0 flex-1 flex-col gap-[10px]">
             <AnalyzerFootsteps footsteps={currentDayFootsteps} onChange={onFootstepsChange} />
-            <div>
+            {/* 横並び時は日次メモを部屋割の下端まで伸ばす */}
+            <div className="lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
               <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
                 {dayLabel(activeDay, epilogueDay)} メモ
               </label>
@@ -180,7 +177,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
                 value={currentDailyMemo}
                 onChange={(e) => setDailyMemo(activeDay, e.target.value)}
                 rows={3}
-                className={textareaClass}
+                className={`${textareaClass} lg:flex-1`}
                 placeholder="この日のメモ..."
               />
             </div>
@@ -188,41 +185,29 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
         </div>
       )}
 
-      {/* Bottom section: Vote + Memos */}
-      <div className="mt-[10px] border-t border-[#464545] pt-[10px]">
-        <div className="mb-[8px] flex gap-[4px]">
-          {(["vote", "memo"] as const).map((tab) => (
-            <button
-              key={tab}
-              type="button"
-              onClick={() => setBottomTab(tab)}
-              className={`rounded px-[10px] py-[4px] text-village-sm ${
-                bottomTab === tab
-                  ? "bg-[#00bc8c] text-white"
-                  : "cursor-pointer border border-[#464545] bg-[#303030] text-gray-300 hover:bg-[#404040]"
-              }`}
-            >
-              {tab === "vote" ? "投票" : "メモ"}
-            </button>
-          ))}
+      {/* Bottom section: Vote + Whole memo */}
+      <div className="mt-[10px] border-t border-[#464545]">
+        <div className="flex flex-col lg:flex-row lg:gap-[10px]">
+          {initialSituation.vote != null && (
+            <div className="min-w-0 flex-shrink-0 lg:max-w-[60%]">
+              <VoteTab vote={initialSituation.vote} roomAssignedRows={null} />
+            </div>
+          )}
+
+          {/* 横並び時は全体メモを投票欄の下端まで伸ばす。py は VoteTab 内の上下パディングと揃える */}
+          <div className="flex min-w-0 flex-1 flex-col py-[10px]">
+            <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
+              全体メモ
+            </label>
+            <textarea
+              value={wholeMemo}
+              onChange={(e) => setWholeMemo(e.target.value)}
+              rows={4}
+              className={`${textareaClass} lg:flex-1`}
+              placeholder="村全体のメモ..."
+            />
+          </div>
         </div>
-
-        {bottomTab === "vote" && initialSituation.vote != null && (
-          <VoteTab
-            vote={initialSituation.vote}
-            roomAssignedRows={initialSituation.roomAssignedRowList}
-          />
-        )}
-
-        {bottomTab === "memo" && (
-          <AnalyzerMemos
-            wholeMemo={wholeMemo}
-            participantMemos={participantMemos}
-            participants={allParticipants}
-            onWholeMemoChange={setWholeMemo}
-            onParticipantClick={setMemoParticipantId}
-          />
-        )}
       </div>
 
       <ParticipantMemoModal
