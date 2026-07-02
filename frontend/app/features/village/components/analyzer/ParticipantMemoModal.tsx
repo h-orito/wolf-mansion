@@ -34,7 +34,7 @@ export function ParticipantMemoModal({
     <Modal
       open={participant != null && memo != null}
       onClose={onClose}
-      title={`${participant?.charaName.shortName ?? ""} メモ`}
+      title={participant?.name ?? ""}
     >
       <div className="mb-[10px] flex items-center gap-[8px]">
         <label className="text-village-sm text-gray-300">表示色</label>
