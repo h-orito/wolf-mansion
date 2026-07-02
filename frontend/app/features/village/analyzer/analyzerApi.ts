@@ -1,3 +1,4 @@
+import type { components } from "~/api/types";
 import { apiFetch } from "~/lib/api";
 
 import type { PlayerMemo } from "./types";
@@ -64,13 +65,14 @@ export function saveAnalyzerMemo(
   villageId: number,
   memo: Omit<PlayerMemo, "villageId">,
 ): Promise<void> {
+  const body: components["schemas"]["AnalyzerMemoUpdateRequest"] = {
+    wholeMemo: memo.wholeMemo,
+    participantMemos: memo.participantMemos,
+    dailyMemos: memo.dailyMemos,
+    dailyFootstepMemos: memo.dailyFootstepMemos,
+  };
   return apiFetch<void>(`/api/v1/villages/${villageId}/analyzer-memo`, {
     method: "PUT",
-    body: {
-      wholeMemo: memo.wholeMemo,
-      participantMemos: memo.participantMemos,
-      dailyMemos: memo.dailyMemos,
-      dailyFootstepMemos: memo.dailyFootstepMemos,
-    },
+    body,
   });
 }
