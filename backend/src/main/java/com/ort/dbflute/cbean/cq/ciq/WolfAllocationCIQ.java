@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of wolf_allocation.
+ * The condition-query for in-line of WOLF_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class WolfAllocationCIQ extends AbstractBsWolfAllocationCQ {

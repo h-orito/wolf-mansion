@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of normal_say_restriction.
+ * The condition-query for in-line of NORMAL_SAY_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public class NormalSayRestrictionCIQ extends AbstractBsNormalSayRestrictionCQ {

@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_player_skill_history. (Singleton)
+ * The DB meta of VILLAGE_PLAYER_SKILL_HISTORY. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerSkillHistoryDbm extends AbstractDBMeta {
@@ -78,7 +78,7 @@ public class VillagePlayerSkillHistoryDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_player_skill_history";
+    protected final String _tableDbName = "VILLAGE_PLAYER_SKILL_HISTORY";
     protected final String _tableDispName = "VILLAGE_PLAYER_SKILL_HISTORY";
     protected final String _tablePropertyName = "villagePlayerSkillHistory";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_PLAYER_SKILL_HISTORY", _tableDbName);
@@ -106,7 +106,7 @@ public class VillagePlayerSkillHistoryDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillagePlayerSkillHistoryId() { return _columnVillagePlayerSkillHistoryId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
@@ -116,7 +116,7 @@ public class VillagePlayerSkillHistoryDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to skill, classification=Skill}
+     * SKILL_CODE: {IX, NotNull, VARCHAR(20), FK to SKILL, classification=Skill}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnSkillCode() { return _columnSkillCode; }

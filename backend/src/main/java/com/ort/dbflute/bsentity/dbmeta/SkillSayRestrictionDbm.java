@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of skill_say_restriction. (Singleton)
+ * The DB meta of SKILL_SAY_RESTRICTION. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class SkillSayRestrictionDbm extends AbstractDBMeta {
@@ -78,7 +78,7 @@ public class SkillSayRestrictionDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "skill_say_restriction";
+    protected final String _tableDbName = "SKILL_SAY_RESTRICTION";
     protected final String _tableDispName = "SKILL_SAY_RESTRICTION";
     protected final String _tablePropertyName = "skillSayRestriction";
     protected final TableSqlName _tableSqlName = new TableSqlName("SKILL_SAY_RESTRICTION", _tableDbName);
@@ -101,12 +101,12 @@ public class SkillSayRestrictionDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {PK, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }

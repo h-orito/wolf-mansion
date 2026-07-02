@@ -31,7 +31,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     /** REFRESH_TOKEN_ID: {PK, ID, NotNull, INT UNSIGNED(10)} */
     protected Integer _refreshTokenId;
 
-    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} */
+    /** PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} */
     protected Integer _playerId;
 
     /** TOKEN_HASH: {UQ, NotNull, CHAR(64)} */
@@ -40,7 +40,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     /** ISSUED_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _issuedDatetime;
 
-    /** EXPIRES_DATETIME: {NotNull, DATETIME(19)} */
+    /** EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _expiresDatetime;
 
     /** USED_DATETIME: {DATETIME(19)} */
@@ -71,7 +71,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "refresh_token";
+        return "REFRESH_TOKEN";
     }
 
     // ===================================================================================
@@ -219,7 +219,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [get] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -229,7 +229,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [set] PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */
@@ -279,7 +279,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] EXPIRES_DATETIME: {NotNull, DATETIME(19)} <br>
+     * [get] EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} <br>
      * 有効期限
      * @return The value of the column 'EXPIRES_DATETIME'. (basically NotNull if selected: for the constraint)
      */
@@ -289,7 +289,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] EXPIRES_DATETIME: {NotNull, DATETIME(19)} <br>
+     * [set] EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} <br>
      * 有効期限
      * @param expiresDatetime The value of the column 'EXPIRES_DATETIME'. (basically NotNull if update: for the constraint)
      */

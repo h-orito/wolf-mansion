@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of message. (Singleton)
+ * The DB meta of MESSAGE. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class MessageDbm extends AbstractDBMeta {
@@ -95,7 +95,7 @@ public class MessageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "message";
+    protected final String _tableDbName = "MESSAGE";
     protected final String _tableDispName = "MESSAGE";
     protected final String _tablePropertyName = "message";
     protected final TableSqlName _tableSqlName = new TableSqlName("MESSAGE", _tableDbName);
@@ -135,32 +135,32 @@ public class MessageDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnMessageId() { return _columnMessageId; }
     /**
-     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {UQ+, IX+, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+     * VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillagePlayerId() { return _columnVillagePlayerId; }
     /**
-     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+     * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnToVillagePlayerId() { return _columnToVillagePlayerId; }
     /**
-     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, INT UNSIGNED(10), FK to PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * DAY: {NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }
     /**
-     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to message_type, classification=MessageType}
+     * MESSAGE_TYPE_CODE: {+UQ, IX, NotNull, VARCHAR(20), FK to MESSAGE_TYPE, classification=MessageType}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnMessageTypeCode() { return _columnMessageTypeCode; }

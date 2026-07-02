@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of allowed_secret_say.
+ * The base condition-bean of ALLOWED_SECRET_SAY.
  * @author DBFlute(AutoGenerator)
  */
 public class BsAllowedSecretSayCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsAllowedSecretSayCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "allowed_secret_say";
+        return "ALLOWED_SECRET_SAY";
     }
 
     // ===================================================================================
@@ -304,10 +304,10 @@ public class BsAllowedSecretSayCB extends AbstractConditionBean {
             columnAllowedSecretSayCode(); // PK
         }
         @Override
-        protected String getTableDbName() { return "allowed_secret_say"; }
+        protected String getTableDbName() { return "ALLOWED_SECRET_SAY"; }
         /**
          * Prepare for (Specify)DerivedReferrer (correlated sub-query). <br>
-         * {select max(FOO) from village_settings where ...) as FOO_MAX} <br>
+         * {select max(FOO) from VILLAGE_SETTINGS where ...) as FOO_MAX} <br>
          * VILLAGE_SETTINGS by ALLOWED_SECRET_SAY_CODE, named 'villageSettingsList'.
          * <pre>
          * cb.specify().<span style="color: #CC4747">derived${relationMethodIdentityName}()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {

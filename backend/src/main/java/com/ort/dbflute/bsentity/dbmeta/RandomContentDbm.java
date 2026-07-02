@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of random_content. (Singleton)
+ * The DB meta of RANDOM_CONTENT. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class RandomContentDbm extends AbstractDBMeta {
@@ -65,7 +65,7 @@ public class RandomContentDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "random_content";
+    protected final String _tableDbName = "RANDOM_CONTENT";
     protected final String _tableDispName = "RANDOM_CONTENT";
     protected final String _tablePropertyName = "randomContent";
     protected final TableSqlName _tableSqlName = new TableSqlName("RANDOM_CONTENT", _tableDbName);
@@ -88,7 +88,7 @@ public class RandomContentDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnRandomContentId() { return _columnRandomContentId; }
     /**
-     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
+     * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnRandomKeywordId() { return _columnRandomKeywordId; }

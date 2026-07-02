@@ -20,7 +20,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-bean of random_content.
+ * The base condition-bean of RANDOM_CONTENT.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRandomContentCB extends AbstractConditionBean {
@@ -76,7 +76,7 @@ public class BsRandomContentCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "random_content";
+        return "RANDOM_CONTENT";
     }
 
     // ===================================================================================
@@ -313,7 +313,7 @@ public class BsRandomContentCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnRandomContentId() { return doColumn("RANDOM_CONTENT_ID"); }
         /**
-         * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to random_keyword}
+         * RANDOM_KEYWORD_ID: {IX, NotNull, INT UNSIGNED(10), FK to RANDOM_KEYWORD}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnRandomKeywordId() { return doColumn("RANDOM_KEYWORD_ID"); }
@@ -333,7 +333,7 @@ public class BsRandomContentCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "random_content"; }
+        protected String getTableDbName() { return "RANDOM_CONTENT"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * RANDOM_KEYWORD by my RANDOM_KEYWORD_ID, named 'randomKeyword'.

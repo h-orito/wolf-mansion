@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of original_chara.
+ * The abstract condition-query of ORIGINAL_CHARA.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "original_chara";
+        return "ORIGINAL_CHARA";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ORIGINAL_CHARA_ID from original_chara_image where ...)} <br>
-     * original_chara_image by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
+     * {exists (select ORIGINAL_CHARA_ID from ORIGINAL_CHARA_IMAGE where ...)} <br>
+     * ORIGINAL_CHARA_IMAGE by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsOriginalCharaImage</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     imageCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ORIGINAL_CHARA_ID from original_chara_image where ...)} <br>
-     * original_chara_image by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
+     * {not exists (select ORIGINAL_CHARA_ID from ORIGINAL_CHARA_IMAGE where ...)} <br>
+     * ORIGINAL_CHARA_IMAGE by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsOriginalCharaImage</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     imageCB.query().set...
@@ -205,8 +205,8 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from original_chara_image where ...)} <br>
-     * original_chara_image by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
+     * {FOO &lt;= (select max(BAR) from ORIGINAL_CHARA_IMAGE where ...)} <br>
+     * ORIGINAL_CHARA_IMAGE by ORIGINAL_CHARA_ID, named 'originalCharaImageAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedOriginalCharaImage()</span>.<span style="color: #CC4747">max</span>(imageCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     imageCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -517,7 +517,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_Equal(Integer originalCharaGroupId) {
@@ -530,7 +530,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_NotEqual(Integer originalCharaGroupId) {
@@ -543,7 +543,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_GreaterThan(Integer originalCharaGroupId) {
@@ -552,7 +552,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_LessThan(Integer originalCharaGroupId) {
@@ -561,7 +561,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_GreaterEqual(Integer originalCharaGroupId) {
@@ -570,7 +570,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupId The value of originalCharaGroupId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_LessEqual(Integer originalCharaGroupId) {
@@ -581,7 +581,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param minNumber The min number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -594,7 +594,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param minNumber The min number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of originalCharaGroupId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -605,7 +605,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupIdList The collection of originalCharaGroupId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_InScope(Collection<Integer> originalCharaGroupIdList) {
@@ -618,7 +618,7 @@ public abstract class AbstractBsOriginalCharaCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara_group}
+     * ORIGINAL_CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA_GROUP}
      * @param originalCharaGroupIdList The collection of originalCharaGroupId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setOriginalCharaGroupId_NotInScope(Collection<Integer> originalCharaGroupIdList) {

@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of wolf_allocation.
+ * The base condition-bean of WOLF_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsWolfAllocationCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsWolfAllocationCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "wolf_allocation";
+        return "WOLF_ALLOCATION";
     }
 
     // ===================================================================================
@@ -85,7 +85,7 @@ public class BsWolfAllocationCB extends AbstractConditionBean {
     //                                                                 ===================
     /**
      * Accept the query condition of primary key as equal.
-     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to village. (NotNull)
+     * @param villageId : PK, NotNull, INT UNSIGNED(10), FK to VILLAGE. (NotNull)
      * @return this. (NotNull)
      */
     public WolfAllocationCB acceptPK(Integer villageId) {
@@ -315,7 +315,7 @@ public class BsWolfAllocationCB extends AbstractConditionBean {
                              , HpSDRFunctionFactory sdrFuncFactory)
         { super(baseCB, qyCall, purpose, dbmetaProvider, sdrFuncFactory); }
         /**
-         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
@@ -356,7 +356,7 @@ public class BsWolfAllocationCB extends AbstractConditionBean {
             columnVillageId(); // PK
         }
         @Override
-        protected String getTableDbName() { return "wolf_allocation"; }
+        protected String getTableDbName() { return "WOLF_ALLOCATION"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE by my VILLAGE_ID, named 'village'.

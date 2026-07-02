@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of refresh_token.
+ * The condition-query for in-line of REFRESH_TOKEN.
  * @author DBFlute(AutoGenerator)
  */
 public class RefreshTokenCIQ extends AbstractBsRefreshTokenCQ {

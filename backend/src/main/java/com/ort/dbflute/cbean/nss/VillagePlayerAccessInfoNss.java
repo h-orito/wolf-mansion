@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.VillagePlayerAccessInfoCQ;
 
 /**
- * The nest select set-upper of village_player_access_info.
+ * The nest select set-upper of VILLAGE_PLAYER_ACCESS_INFO.
  * @author DBFlute(AutoGenerator)
  */
 public class VillagePlayerAccessInfoNss {

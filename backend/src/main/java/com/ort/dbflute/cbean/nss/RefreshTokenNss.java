@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.RefreshTokenCQ;
 
 /**
- * The nest select set-upper of refresh_token.
+ * The nest select set-upper of REFRESH_TOKEN.
  * @author DBFlute(AutoGenerator)
  */
 public class RefreshTokenNss {

@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of wolf_allocation.
+ * The base condition-query of WOLF_ALLOCATION.
  * @author DBFlute(AutoGenerator)
  */
 public class BsWolfAllocationCQ extends AbstractBsWolfAllocationCQ {
@@ -35,7 +35,7 @@ public class BsWolfAllocationCQ extends AbstractBsWolfAllocationCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from wolf_allocation) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from WOLF_ALLOCATION) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsWolfAllocationCQ extends AbstractBsWolfAllocationCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join wolf_allocation on ... and FOO = [value] ...}
+     * {select ... from ... left outer join WOLF_ALLOCATION on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -81,14 +81,14 @@ public class BsWolfAllocationCQ extends AbstractBsWolfAllocationCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsWolfAllocationCQ addOrderBy_VillageId_Asc() { regOBA("VILLAGE_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return this. (NotNull)
      */
     public BsWolfAllocationCQ addOrderBy_VillageId_Desc() { regOBD("VILLAGE_ID"); return this; }
@@ -276,7 +276,7 @@ public class BsWolfAllocationCQ extends AbstractBsWolfAllocationCQ {
         return xgetQueRlMap(prop);
     }
     protected VillageCQ xcreateQueryVillage() {
-        String nrp = xresolveNRP("wolf_allocation", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("WOLF_ALLOCATION", "village"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new VillageCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "village", nrp);
     }
     protected void xsetupOuterJoinVillage() { xregOutJo("village"); }

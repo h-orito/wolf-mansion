@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of original_chara_group.
+ * The abstract condition-query of ORIGINAL_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
     }
 
     public String asTableDbName() {
-        return "original_chara_group";
+        return "ORIGINAL_CHARA_GROUP";
     }
 
     // ===================================================================================
@@ -159,8 +159,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ORIGINAL_CHARA_GROUP_ID from original_chara where ...)} <br>
-     * original_chara by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
+     * {exists (select ORIGINAL_CHARA_GROUP_ID from ORIGINAL_CHARA where ...)} <br>
+     * ORIGINAL_CHARA by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsOriginalChara</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     charaCB.query().set...
@@ -178,8 +178,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
-     * {exists (select ORIGINAL_CHARA_GROUP_ID from village_settings where ...)} <br>
-     * village_settings by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
+     * {exists (select ORIGINAL_CHARA_GROUP_ID from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">existsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.query().set...
@@ -197,8 +197,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ORIGINAL_CHARA_GROUP_ID from original_chara where ...)} <br>
-     * original_chara by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
+     * {not exists (select ORIGINAL_CHARA_GROUP_ID from ORIGINAL_CHARA where ...)} <br>
+     * ORIGINAL_CHARA by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsOriginalChara</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     charaCB.query().set...
@@ -216,8 +216,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
-     * {not exists (select ORIGINAL_CHARA_GROUP_ID from village_settings where ...)} <br>
-     * village_settings by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
+     * {not exists (select ORIGINAL_CHARA_GROUP_ID from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">notExistsVillageSettings</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.query().set...
@@ -251,8 +251,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from original_chara where ...)} <br>
-     * original_chara by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
+     * {FOO &lt;= (select max(BAR) from ORIGINAL_CHARA where ...)} <br>
+     * ORIGINAL_CHARA by ORIGINAL_CHARA_GROUP_ID, named 'originalCharaAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedOriginalChara()</span>.<span style="color: #CC4747">max</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     charaCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
@@ -278,8 +278,8 @@ public abstract class AbstractBsOriginalCharaGroupCQ extends AbstractConditionQu
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
-     * {FOO &lt;= (select max(BAR) from village_settings where ...)} <br>
-     * village_settings by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
+     * {FOO &lt;= (select max(BAR) from VILLAGE_SETTINGS where ...)} <br>
+     * VILLAGE_SETTINGS by ORIGINAL_CHARA_GROUP_ID, named 'villageSettingsAsOne'.
      * <pre>
      * cb.query().<span style="color: #CC4747">derivedVillageSettings()</span>.<span style="color: #CC4747">max</span>(settingsCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
      *     settingsCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>

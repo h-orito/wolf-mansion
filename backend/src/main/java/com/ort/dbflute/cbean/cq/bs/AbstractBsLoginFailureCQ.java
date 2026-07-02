@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of login_failure.
+ * The abstract condition-query of LOGIN_FAILURE.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsLoginFailureCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsLoginFailureCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "login_failure";
+        return "LOGIN_FAILURE";
     }
 
     // ===================================================================================

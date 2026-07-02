@@ -16,7 +16,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The abstract condition-query of refresh_token.
+ * The abstract condition-query of REFRESH_TOKEN.
  * @author DBFlute(AutoGenerator)
  */
 public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
@@ -37,7 +37,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
     }
 
     public String asTableDbName() {
-        return "refresh_token";
+        return "REFRESH_TOKEN";
     }
 
     // ===================================================================================
@@ -174,7 +174,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_Equal(Integer playerId) {
@@ -187,7 +187,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * NotEqual(&lt;&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as notEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_NotEqual(Integer playerId) {
@@ -200,7 +200,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterThan(Integer playerId) {
@@ -209,7 +209,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessThan(Integer playerId) {
@@ -218,7 +218,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_GreaterEqual(Integer playerId) {
@@ -227,7 +227,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerId The value of playerId as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setPlayerId_LessEqual(Integer playerId) {
@@ -238,7 +238,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param opLambda The callback for option of range-of. (NotNull)
@@ -251,7 +251,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
      * RangeOf with various options. (versatile) <br>
      * {(default) minNumber &lt;= column &lt;= maxNumber} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param minNumber The min number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param maxNumber The max number of playerId. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param rangeOfOption The option of range-of. (NotNull)
@@ -262,7 +262,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * InScope {in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerIdList The collection of playerId as inScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_InScope(Collection<Integer> playerIdList) {
@@ -275,7 +275,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * NotInScope {not in (1, 2)}. And NullIgnored, NullElementIgnored, SeveralRegistered. <br>
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @param playerIdList The collection of playerId as notInScope. (basically NotNull, NotEmpty: error as default, or no condition as option)
      */
     public void setPlayerId_NotInScope(Collection<Integer> playerIdList) {
@@ -501,7 +501,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_Equal(java.time.LocalDateTime expiresDatetime) {
@@ -510,7 +510,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_GreaterThan(java.time.LocalDateTime expiresDatetime) {
@@ -519,7 +519,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_LessThan(java.time.LocalDateTime expiresDatetime) {
@@ -528,7 +528,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_GreaterEqual(java.time.LocalDateTime expiresDatetime) {
@@ -537,7 +537,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_LessEqual(java.time.LocalDateTime expiresDatetime) {
@@ -547,7 +547,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
     /**
      * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * <pre>e.g. setExpiresDatetime_FromTo(fromDate, toDate, op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">compareAsDate()</span>);</pre>
      * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
@@ -560,7 +560,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
     /**
      * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * <pre>e.g. setExpiresDatetime_FromTo(fromDate, toDate, new <span style="color: #CC4747">FromToOption</span>().compareAsDate());</pre>
      * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)

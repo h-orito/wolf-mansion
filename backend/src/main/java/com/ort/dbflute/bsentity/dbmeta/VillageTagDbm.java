@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of village_tag. (Singleton)
+ * The DB meta of VILLAGE_TAG. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class VillageTagDbm extends AbstractDBMeta {
@@ -77,7 +77,7 @@ public class VillageTagDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "village_tag";
+    protected final String _tableDbName = "VILLAGE_TAG";
     protected final String _tableDispName = "VILLAGE_TAG";
     protected final String _tablePropertyName = "villageTag";
     protected final TableSqlName _tableSqlName = new TableSqlName("VILLAGE_TAG", _tableDbName);
@@ -104,12 +104,12 @@ public class VillageTagDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnVillageTagId() { return _columnVillageTagId; }
     /**
-     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+     * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to village_tag_item, classification=VillageTagItem}
+     * VILLAGE_TAG_ITEM_CODE: {IX, NotNull, VARCHAR(50), FK to VILLAGE_TAG_ITEM, classification=VillageTagItem}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageTagItemCode() { return _columnVillageTagItemCode; }

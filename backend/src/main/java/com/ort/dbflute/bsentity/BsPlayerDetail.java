@@ -27,7 +27,7 @@ public abstract class BsPlayerDetail extends AbstractEntity implements DomainEnt
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    /** PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to player} */
+    /** PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to PLAYER} */
     protected Integer _playerId;
 
     /** TWITTER_USER_NAME: {VARCHAR(50)} */
@@ -46,7 +46,7 @@ public abstract class BsPlayerDetail extends AbstractEntity implements DomainEnt
 
     /** {@inheritDoc} */
     public String asTableDbName() {
-        return "player_detail";
+        return "PLAYER_DETAIL";
     }
 
     // ===================================================================================
@@ -155,7 +155,7 @@ public abstract class BsPlayerDetail extends AbstractEntity implements DomainEnt
     //                                                                            Accessor
     //                                                                            ========
     /**
-     * [get] PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [get] PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @return The value of the column 'PLAYER_ID'. (basically NotNull if selected: for the constraint)
      */
@@ -165,7 +165,7 @@ public abstract class BsPlayerDetail extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to player} <br>
+     * [set] PLAYER_ID: {PK, NotNull, INT UNSIGNED(10), FK to PLAYER} <br>
      * プレイヤーID
      * @param playerId The value of the column 'PLAYER_ID'. (basically NotNull if update: for the constraint)
      */

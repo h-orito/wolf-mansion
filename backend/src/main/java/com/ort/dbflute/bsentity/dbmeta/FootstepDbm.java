@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of footstep. (Singleton)
+ * The DB meta of FOOTSTEP. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class FootstepDbm extends AbstractDBMeta {
@@ -71,7 +71,7 @@ public class FootstepDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "footstep";
+    protected final String _tableDbName = "FOOTSTEP";
     protected final String _tableDispName = "FOOTSTEP";
     protected final String _tablePropertyName = "footstep";
     protected final TableSqlName _tableSqlName = new TableSqlName("FOOTSTEP", _tableDbName);
@@ -95,12 +95,12 @@ public class FootstepDbm extends AbstractDBMeta {
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * VILLAGE_ID: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnVillageId() { return _columnVillageId; }
     /**
-     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to village_day}
+     * DAY: {PK, NotNull, INT UNSIGNED(10), FK to VILLAGE_DAY}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnDay() { return _columnDay; }

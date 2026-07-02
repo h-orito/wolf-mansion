@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of skill_say_restriction.
+ * The condition-query for in-line of SKILL_SAY_RESTRICTION.
  * @author DBFlute(AutoGenerator)
  */
 public class SkillSayRestrictionCIQ extends AbstractBsSkillSayRestrictionCQ {

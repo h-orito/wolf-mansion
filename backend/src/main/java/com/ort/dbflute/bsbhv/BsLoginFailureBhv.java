@@ -39,7 +39,7 @@ public abstract class BsLoginFailureBhv extends AbstractBehaviorWritable<LoginFa
     /** {@inheritDoc} */
     public LoginFailureDbm asDBMeta() { return LoginFailureDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "login_failure"; }
+    public String asTableDbName() { return "LOGIN_FAILURE"; }
 
     // ===================================================================================
     //                                                                        New Instance

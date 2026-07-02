@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of player.
+ * The base condition-query of PLAYER.
  * @author DBFlute(AutoGenerator)
  */
 public class BsPlayerCQ extends AbstractBsPlayerCQ {
@@ -35,7 +35,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from player) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from PLAYER) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join player on ... and FOO = [value] ...}
+     * {select ... from ... left outer join PLAYER on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -79,6 +79,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
       return _playerId; }
     protected ConditionValue xgetCValuePlayerId() { return xdfgetPlayerId(); }
 
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_ExistsReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_ExistsReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_ExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_ExistsReferrer_AnalyzerMemoList", sq); }
+
     public Map<String, MessageCQ> xdfgetPlayerId_ExistsReferrer_MessageList() { return xgetSQueMap("playerId_ExistsReferrer_MessageList"); }
     public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_ExistsReferrer_MessageList", sq); }
 
@@ -87,6 +90,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("playerId_ExistsReferrer_VillagePlayerList"); }
     public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_ExistsReferrer_VillagePlayerList", sq); }
+
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_NotExistsReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_NotExistsReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_NotExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_AnalyzerMemoList", sq); }
 
     public Map<String, MessageCQ> xdfgetPlayerId_NotExistsReferrer_MessageList() { return xgetSQueMap("playerId_NotExistsReferrer_MessageList"); }
     public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_MessageList", sq); }
@@ -97,6 +103,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("playerId_NotExistsReferrer_VillagePlayerList"); }
     public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_AnalyzerMemoList", sq); }
+
     public Map<String, MessageCQ> xdfgetPlayerId_SpecifyDerivedReferrer_MessageList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_MessageList"); }
     public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_MessageList", sq); }
 
@@ -105,6 +114,11 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_VillagePlayerList"); }
     public String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_QueryDerivedReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_QueryDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_QueryDerivedReferrer_AnalyzerMemoList", sq); }
+    public Map<String, Object> xdfgetPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter() { return xgetSQuePmMap("playerId_QueryDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter(Object pm) { return xkeepSQuePm("playerId_QueryDerivedReferrer_AnalyzerMemoList", pm); }
 
     public Map<String, MessageCQ> xdfgetPlayerId_QueryDerivedReferrer_MessageList() { return xgetSQueMap("playerId_QueryDerivedReferrer_MessageList"); }
     public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_QueryDerivedReferrer_MessageList", sq); }
@@ -183,14 +197,14 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
      * @return this. (NotNull)
      */
     public BsPlayerCQ addOrderBy_AuthorityCode_Asc() { regOBA("AUTHORITY_CODE"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
+     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to AUTHORITY, classification=Authority}
      * @return this. (NotNull)
      */
     public BsPlayerCQ addOrderBy_AuthorityCode_Desc() { regOBD("AUTHORITY_CODE"); return this; }
@@ -381,7 +395,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
         return xgetQueRlMap(prop);
     }
     protected AuthorityCQ xcreateQueryAuthority() {
-        String nrp = xresolveNRP("player", "authority"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("PLAYER", "authority"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new AuthorityCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "authority", nrp);
     }
     protected void xsetupOuterJoinAuthority() { xregOutJo("authority"); }
@@ -389,7 +403,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     /**
      * Get the condition-query for relation table. <br>
-     * player_detail by PLAYER_ID, named 'playerDetailAsOne'.
+     * PLAYER_DETAIL by PLAYER_ID, named 'playerDetailAsOne'.
      * @return The instance of condition-query. (NotNull)
      */
     public PlayerDetailCQ queryPlayerDetailAsOne() { return xdfgetConditionQueryPlayerDetailAsOne(); }
@@ -399,7 +413,7 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
         return xgetQueRlMap(prop);
     }
     protected PlayerDetailCQ xcreateQueryPlayerDetailAsOne() {
-        String nrp = xresolveNRP("player", "playerDetailAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("PLAYER", "playerDetailAsOne"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new PlayerDetailCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "playerDetailAsOne", nrp);
     }
     protected void xsetupOuterJoinPlayerDetailAsOne() { xregOutJo("playerDetailAsOne"); }

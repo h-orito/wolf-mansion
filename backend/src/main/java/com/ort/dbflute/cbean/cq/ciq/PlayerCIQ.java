@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of player.
+ * The condition-query for in-line of PLAYER.
  * @author DBFlute(AutoGenerator)
  */
 public class PlayerCIQ extends AbstractBsPlayerCQ {
@@ -62,24 +62,34 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     //                                                                Override about Query
     //                                                                ====================
     protected ConditionValue xgetCValuePlayerId() { return _myCQ.xdfgetPlayerId(); }
+    public String keepPlayerId_ExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepPlayerId_NotExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_MessageListParameter(Object vl)

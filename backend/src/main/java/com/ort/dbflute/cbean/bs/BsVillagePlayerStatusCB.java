@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_player_status.
+ * The base condition-bean of VILLAGE_PLAYER_STATUS.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillagePlayerStatusCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillagePlayerStatusCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_player_status";
+        return "VILLAGE_PLAYER_STATUS";
     }
 
     // ===================================================================================
@@ -374,17 +374,17 @@ public class BsVillagePlayerStatusCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillagePlayerStatusId() { return doColumn("VILLAGE_PLAYER_STATUS_ID"); }
         /**
-         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to village_player}
+         * VILLAGE_PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerId() { return doColumn("VILLAGE_PLAYER_ID"); }
         /**
-         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to village_player}
+         * TO_VILLAGE_PLAYER_ID: {IX, INT UNSIGNED(10), FK to VILLAGE_PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnToVillagePlayerId() { return doColumn("TO_VILLAGE_PLAYER_ID"); }
         /**
-         * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to village_player_status_type, classification=VillagePlayerStatusType}
+         * VILLAGE_PLAYER_STATUS_CODE: {IX, NotNull, VARCHAR(20), FK to VILLAGE_PLAYER_STATUS_TYPE, classification=VillagePlayerStatusType}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillagePlayerStatusCode() { return doColumn("VILLAGE_PLAYER_STATUS_CODE"); }
@@ -427,7 +427,7 @@ public class BsVillagePlayerStatusCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_player_status"; }
+        protected String getTableDbName() { return "VILLAGE_PLAYER_STATUS"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * VILLAGE_PLAYER by my TO_VILLAGE_PLAYER_ID, named 'villagePlayerByToVillagePlayerId'.

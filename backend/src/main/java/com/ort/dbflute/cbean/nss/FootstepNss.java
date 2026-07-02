@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.FootstepCQ;
 
 /**
- * The nest select set-upper of footstep.
+ * The nest select set-upper of FOOTSTEP.
  * @author DBFlute(AutoGenerator)
  */
 public class FootstepNss {

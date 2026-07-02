@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.MessageSendtoCQ;
 
 /**
- * The nest select set-upper of message_sendto.
+ * The nest select set-upper of MESSAGE_SENDTO.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageSendtoNss {

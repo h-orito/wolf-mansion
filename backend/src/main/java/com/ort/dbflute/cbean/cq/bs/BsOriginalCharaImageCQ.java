@@ -13,7 +13,7 @@ import com.ort.dbflute.cbean.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The base condition-query of original_chara_image.
+ * The base condition-query of ORIGINAL_CHARA_IMAGE.
  * @author DBFlute(AutoGenerator)
  */
 public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
@@ -35,7 +35,7 @@ public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
     //                                                                 ===================
     /**
      * Prepare InlineView query. <br>
-     * {select ... from ... left outer join (select * from original_chara_image) where FOO = [value] ...}
+     * {select ... from ... left outer join (select * from ORIGINAL_CHARA_IMAGE) where FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">inline()</span>.setFoo...;
      * </pre>
@@ -58,7 +58,7 @@ public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
 
     /**
      * Prepare OnClause query. <br>
-     * {select ... from ... left outer join original_chara_image on ... and FOO = [value] ...}
+     * {select ... from ... left outer join ORIGINAL_CHARA_IMAGE on ... and FOO = [value] ...}
      * <pre>
      * cb.query().queryMemberStatus().<span style="color: #CC4747">on()</span>.setFoo...;
      * </pre>
@@ -101,14 +101,14 @@ public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
      * @return this. (NotNull)
      */
     public BsOriginalCharaImageCQ addOrderBy_OriginalCharaId_Asc() { regOBA("ORIGINAL_CHARA_ID"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to original_chara}
+     * ORIGINAL_CHARA_ID: {IX, NotNull, INT UNSIGNED(10), FK to ORIGINAL_CHARA}
      * @return this. (NotNull)
      */
     public BsOriginalCharaImageCQ addOrderBy_OriginalCharaId_Desc() { regOBD("ORIGINAL_CHARA_ID"); return this; }
@@ -316,7 +316,7 @@ public class BsOriginalCharaImageCQ extends AbstractBsOriginalCharaImageCQ {
         return xgetQueRlMap(prop);
     }
     protected OriginalCharaCQ xcreateQueryOriginalChara() {
-        String nrp = xresolveNRP("original_chara_image", "originalChara"); String jan = xresolveJAN(nrp, xgetNNLvl());
+        String nrp = xresolveNRP("ORIGINAL_CHARA_IMAGE", "originalChara"); String jan = xresolveJAN(nrp, xgetNNLvl());
         return xinitRelCQ(new OriginalCharaCQ(this, xgetSqlClause(), jan, xgetNNLvl()), _baseCB, "originalChara", nrp);
     }
     protected void xsetupOuterJoinOriginalChara() { xregOutJo("originalChara"); }

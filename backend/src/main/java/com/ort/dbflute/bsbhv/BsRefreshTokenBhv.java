@@ -39,7 +39,7 @@ public abstract class BsRefreshTokenBhv extends AbstractBehaviorWritable<Refresh
     /** {@inheritDoc} */
     public RefreshTokenDbm asDBMeta() { return RefreshTokenDbm.getInstance(); }
     /** {@inheritDoc} */
-    public String asTableDbName() { return "refresh_token"; }
+    public String asTableDbName() { return "REFRESH_TOKEN"; }
 
     // ===================================================================================
     //                                                                        New Instance

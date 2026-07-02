@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of village_chara_group.
+ * The base condition-bean of VILLAGE_CHARA_GROUP.
  * @author DBFlute(AutoGenerator)
  */
 public class BsVillageCharaGroupCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsVillageCharaGroupCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "village_chara_group";
+        return "VILLAGE_CHARA_GROUP";
     }
 
     // ===================================================================================
@@ -353,12 +353,12 @@ public class BsVillageCharaGroupCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnVillageCharaGroupId() { return doColumn("VILLAGE_CHARA_GROUP_ID"); }
         /**
-         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to village}
+         * VILLAGE_ID: {IX, NotNull, INT UNSIGNED(10), FK to VILLAGE}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnVillageId() { return doColumn("VILLAGE_ID"); }
         /**
-         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to chara_group}
+         * CHARA_GROUP_ID: {IX, NotNull, INT UNSIGNED(10), FK to CHARA_GROUP}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnCharaGroupId() { return doColumn("CHARA_GROUP_ID"); }
@@ -397,7 +397,7 @@ public class BsVillageCharaGroupCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "village_chara_group"; }
+        protected String getTableDbName() { return "VILLAGE_CHARA_GROUP"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * CHARA_GROUP by my CHARA_GROUP_ID, named 'charaGroup'.

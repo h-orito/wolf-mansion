@@ -12,7 +12,7 @@ import com.ort.dbflute.cbean.cq.bs.*;
 import com.ort.dbflute.cbean.cq.*;
 
 /**
- * The condition-query for in-line of message_sendto.
+ * The condition-query for in-line of MESSAGE_SENDTO.
  * @author DBFlute(AutoGenerator)
  */
 public class MessageSendtoCIQ extends AbstractBsMessageSendtoCQ {

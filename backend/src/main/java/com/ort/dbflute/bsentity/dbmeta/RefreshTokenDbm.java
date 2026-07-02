@@ -14,7 +14,7 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of refresh_token. (Singleton)
+ * The DB meta of REFRESH_TOKEN. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
 public class RefreshTokenDbm extends AbstractDBMeta {
@@ -73,7 +73,7 @@ public class RefreshTokenDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "refresh_token";
+    protected final String _tableDbName = "REFRESH_TOKEN";
     protected final String _tableDispName = "REFRESH_TOKEN";
     protected final String _tablePropertyName = "refreshToken";
     protected final TableSqlName _tableSqlName = new TableSqlName("REFRESH_TOKEN", _tableDbName);
@@ -104,7 +104,7 @@ public class RefreshTokenDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnRefreshTokenId() { return _columnRefreshTokenId; }
     /**
-     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+     * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
@@ -119,7 +119,7 @@ public class RefreshTokenDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIssuedDatetime() { return _columnIssuedDatetime; }
     /**
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnExpiresDatetime() { return _columnExpiresDatetime; }

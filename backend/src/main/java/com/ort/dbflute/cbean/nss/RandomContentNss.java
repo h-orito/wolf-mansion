@@ -3,7 +3,7 @@ package com.ort.dbflute.cbean.nss;
 import com.ort.dbflute.cbean.cq.RandomContentCQ;
 
 /**
- * The nest select set-upper of random_content.
+ * The nest select set-upper of RANDOM_CONTENT.
  * @author DBFlute(AutoGenerator)
  */
 public class RandomContentNss {

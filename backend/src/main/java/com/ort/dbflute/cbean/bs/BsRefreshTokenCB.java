@@ -21,7 +21,7 @@ import com.ort.dbflute.cbean.cq.*;
 import com.ort.dbflute.cbean.nss.*;
 
 /**
- * The base condition-bean of refresh_token.
+ * The base condition-bean of REFRESH_TOKEN.
  * @author DBFlute(AutoGenerator)
  */
 public class BsRefreshTokenCB extends AbstractConditionBean {
@@ -77,7 +77,7 @@ public class BsRefreshTokenCB extends AbstractConditionBean {
     }
 
     public String asTableDbName() {
-        return "refresh_token";
+        return "REFRESH_TOKEN";
     }
 
     // ===================================================================================
@@ -335,7 +335,7 @@ public class BsRefreshTokenCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnRefreshTokenId() { return doColumn("REFRESH_TOKEN_ID"); }
         /**
-         * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to player}
+         * PLAYER_ID: {IX, NotNull, INT UNSIGNED(10), FK to PLAYER}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnPlayerId() { return doColumn("PLAYER_ID"); }
@@ -350,7 +350,7 @@ public class BsRefreshTokenCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIssuedDatetime() { return doColumn("ISSUED_DATETIME"); }
         /**
-         * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+         * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnExpiresDatetime() { return doColumn("EXPIRES_DATETIME"); }
@@ -395,7 +395,7 @@ public class BsRefreshTokenCB extends AbstractConditionBean {
             }
         }
         @Override
-        protected String getTableDbName() { return "refresh_token"; }
+        protected String getTableDbName() { return "REFRESH_TOKEN"; }
         /**
          * Prepare to specify functions about relation table. <br>
          * PLAYER by my PLAYER_ID, named 'player'.
