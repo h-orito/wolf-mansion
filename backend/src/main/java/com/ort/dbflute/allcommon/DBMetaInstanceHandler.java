@@ -34,6 +34,7 @@ public class DBMetaInstanceHandler implements DBMetaProvider {
         tmpMap.put("ability", "com.ort.dbflute.bsentity.dbmeta.AbilityDbm");
         tmpMap.put("ability_type", "com.ort.dbflute.bsentity.dbmeta.AbilityTypeDbm");
         tmpMap.put("allowed_secret_say", "com.ort.dbflute.bsentity.dbmeta.AllowedSecretSayDbm");
+        tmpMap.put("analyzer_memo", "com.ort.dbflute.bsentity.dbmeta.AnalyzerMemoDbm");
         tmpMap.put("authority", "com.ort.dbflute.bsentity.dbmeta.AuthorityDbm");
         tmpMap.put("camp", "com.ort.dbflute.bsentity.dbmeta.CampDbm");
         tmpMap.put("camp_allocation", "com.ort.dbflute.bsentity.dbmeta.CampAllocationDbm");

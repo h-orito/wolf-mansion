@@ -104,7 +104,7 @@ public class VillageDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "campAllocationList,normalSayRestrictionList,skillAllocationList,skillSayRestrictionList,villageCharaGroupList,villageDayList,villagePlayerList,villageTagList", null, false);
+    protected final ColumnInfo _columnVillageId = cci("VILLAGE_ID", "VILLAGE_ID", null, null, Integer.class, "villageId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "analyzerMemoList,campAllocationList,normalSayRestrictionList,skillAllocationList,skillSayRestrictionList,villageCharaGroupList,villageDayList,villagePlayerList,villageTagList", null, false);
     protected final ColumnInfo _columnVillageDisplayName = cci("VILLAGE_DISPLAY_NAME", "VILLAGE_DISPLAY_NAME", null, null, String.class, "villageDisplayName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCreatePlayerName = cci("CREATE_PLAYER_NAME", "CREATE_PLAYER_NAME", null, null, String.class, "createPlayerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnVillageStatusCode = cci("VILLAGE_STATUS_CODE", "VILLAGE_STATUS_CODE", null, null, String.class, "villageStatusCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "villageStatus", null, CDef.DefMeta.VillageStatus, false);
@@ -251,6 +251,14 @@ public class VillageDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    /**
+     * ANALYZER_MEMO by VILLAGE_ID, named 'analyzerMemoList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerAnalyzerMemoList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnVillageId(), AnalyzerMemoDbm.getInstance().columnVillageId());
+        return cri("FK_ANALYZER_MEMO_VILLAGE", "analyzerMemoList", this, AnalyzerMemoDbm.getInstance(), mp, false, "village");
+    }
     /**
      * CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'.
      * @return The information object of referrer property. (NotNull)

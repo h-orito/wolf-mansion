@@ -161,14 +161,14 @@ public class BsRefreshTokenCQ extends AbstractBsRefreshTokenCQ {
 
     /**
      * Add order-by as ascend. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @return this. (NotNull)
      */
     public BsRefreshTokenCQ addOrderBy_ExpiresDatetime_Asc() { regOBA("EXPIRES_DATETIME"); return this; }
 
     /**
      * Add order-by as descend. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @return this. (NotNull)
      */
     public BsRefreshTokenCQ addOrderBy_ExpiresDatetime_Desc() { regOBD("EXPIRES_DATETIME"); return this; }

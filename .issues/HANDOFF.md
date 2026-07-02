@@ -4,8 +4,8 @@
 
 ## 現在地
 
-- プロフィール・戦績画面の移行が進行中（戦績一覧が次の対象）
-- fix: 部屋割セルタップ時の参加者名ツールチップ表示を修正済み (PR #105)
+- fix: 日付更新通知が消えない問題を修正 (PR #122)。自動更新ON→10秒で消去、OFF→永続
+- 残 Issue: step-13（推理補助機能の移植）のみ
 
 ## 実装パターン・教訓
 
@@ -38,11 +38,12 @@
 
 ## ローカル開発環境
 
-- **docker-compose**: MySQL (4306) + nginx (18080、オリジナルキャラチップ画像配信)
+- **docker-compose**: MySQL (4306、lower_case_table_names=1) + nginx (18080、オリジナルキャラチップ画像配信)
+  - MySQL は大文字小文字を区別しない設定で初期化する (DBFlute のコード生成が実 DB のテーブル名の case に依存するため)。2026-07-03 に volume を再作成済み
 - **backend**: `cd backend && ./gradlew bootRun` (8089)。JDK 21 必須
 - **frontend**: `cd frontend && pnpm dev` (5173)。Vite proxy で `/wolf-mansion-api` → backend、`/wmansion/original` → nginx
 - **e2e**: `cd e2e && pnpm test` (backend 18089 / frontend 15173 を自動起動)
-- **フィクスチャ村**: 村 4 (CANCEL、流用テスト用) / 村 5 (進行中、メッセージ・操作テスト用) / 村 6 (進行中、コミットテスト用)
+- **フィクスチャ村**: 2026-07-03 の DB 再作成で消失。e2e の global.setup / ensureVillagesExist が必要な村を自動プロビジョニングする
 - **ローカル認証**: 全ユーザー password=`testuser`。master は ROLE_ADMIN
 - **DBFlute**: ReplaceSchema は共有 DB に厳禁。テーブル追加は `CREATE TABLE IF NOT EXISTS` → `manage.sh regenerate`
 

@@ -1,20 +1,21 @@
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId } from "react";
 
 import type { VillageSituationView } from "~/features/village/api";
 import { useLocalStorage } from "~/lib/useLocalStorage";
-import { FootstepTab } from "./FootstepTab";
+import { useVillageContext } from "~/features/village/VillageContext";
+import { AnalyzerTab } from "~/features/village/components/analyzer/AnalyzerTab";
 import { MemberListTab } from "./MemberListTab";
 import { RoomAssignedTab } from "./RoomAssignedTab";
-import { VoteTab } from "./VoteTab";
 
-type TabKey = "room" | "member" | "vote" | "footstep";
+type TabKey = "room" | "member" | "analyzer";
 
 const STORAGE_KEY = "village_panel_situation";
 const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
+const TAB_STORAGE_KEY = "village_panel_situation_tab";
 
 /**
- * 状況サマリ。部屋割り / 参加者 / 投票 / 足音 をタブで切り替える。
- * 部屋割りタブは部屋が割り当てられた 1 日目以降のみ表示する。
+ * 状況サマリ。部屋割り当て / 参加者 / 推理補助 をタブで切り替える。
+ * 部屋割り当てタブは部屋が割り当てられた 1 日目以降のみ表示する。
  */
 export function SituationPanel({
   situation,
@@ -26,9 +27,9 @@ export function SituationPanel({
   /** ネタバレ防止 (役職名・能力欄・足音詳細を隠す) */
   spoiled?: boolean;
 }) {
+  const village = useVillageContext();
   const hasRoomTab = situation.roomWidth != null && day > 0;
-  const hasVoteTab = situation.vote != null;
-  const hasFootstepTab = (situation.footstepList ?? []).length > 0;
+  const hasAnalyzerTab = !village.status.isPrologue && !village.status.isCanceled;
 
   const bodyId = useId();
 
@@ -40,14 +41,20 @@ export function SituationPanel({
   const isFixed = fixRaw === "situation";
   const toggleFix = useCallback(() => setFixRaw(isFixed ? "" : "situation"), [isFixed, setFixRaw]);
 
-  const [activeTab, setActiveTab] = useState<TabKey>(hasRoomTab ? "room" : "member");
-
   const tabs: { key: TabKey; label: string }[] = [
     ...(hasRoomTab ? [{ key: "room" as const, label: "部屋割り当て" }] : []),
     { key: "member", label: "参加者" },
-    ...(hasVoteTab ? [{ key: "vote" as const, label: "投票" }] : []),
-    ...(hasFootstepTab ? [{ key: "footstep" as const, label: "足音" }] : []),
+    ...(hasAnalyzerTab ? [{ key: "analyzer" as const, label: "推理補助" }] : []),
   ];
+
+  // 開いていたタブを記憶する。保存値がこの村で表示できないタブならデフォルトに戻す
+  const [savedTab, setSavedTab] = useLocalStorage(TAB_STORAGE_KEY, "");
+  const activeTab: TabKey = tabs.some((t) => t.key === savedTab)
+    ? (savedTab as TabKey)
+    : hasRoomTab
+      ? "room"
+      : "member";
+  const setActiveTab = setSavedTab;
 
   return (
     <div
@@ -79,13 +86,13 @@ export function SituationPanel({
       >
         <div className="overflow-hidden">
           <div className="p-[15px]">
-            <ul className="flex border-b border-[#464545]">
+            <ul className="flex flex-wrap border-b border-[#464545]">
               {tabs.map((tab) => (
                 <li key={tab.key} className="-mb-px">
                   <button
                     type="button"
                     onClick={() => setActiveTab(tab.key)}
-                    className={`mr-[2px] block rounded-t-[4px] border px-[15px] py-[10px] ${
+                    className={`mr-[2px] block rounded-t-[4px] border px-[10px] py-[8px] text-[13px] sm:px-[15px] sm:py-[10px] sm:text-[14px] ${
                       activeTab === tab.key
                         ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
                         : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"
@@ -105,16 +112,7 @@ export function SituationPanel({
               />
             )}
             {activeTab === "member" && <MemberListTab />}
-            {activeTab === "vote" && situation.vote != null && (
-              <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
-            )}
-            {activeTab === "footstep" && (
-              <FootstepTab
-                footstepList={situation.footstepList ?? []}
-                roomAssignedRows={situation.roomAssignedRowList}
-                spoiled={spoiled}
-              />
-            )}
+            {activeTab === "analyzer" && <AnalyzerTab situation={situation} />}
           </div>
         </div>
       </div>

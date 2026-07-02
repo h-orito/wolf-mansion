@@ -95,7 +95,7 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "messageList,refreshTokenList,villagePlayerList", null, false);
+    protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "analyzerMemoList,messageList,refreshTokenList,villagePlayerList", null, false);
     protected final ColumnInfo _columnPlayerName = cci("PLAYER_NAME", "PLAYER_NAME", null, null, String.class, "playerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnPlayerPassword = cci("PLAYER_PASSWORD", "PLAYER_PASSWORD", null, null, String.class, "playerPassword", null, false, false, true, "CHAR", 60, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "authority", null, CDef.DefMeta.Authority, false);
@@ -217,6 +217,14 @@ public class PlayerDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
+    /**
+     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerAnalyzerMemoList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), AnalyzerMemoDbm.getInstance().columnPlayerId());
+        return cri("FK_ANALYZER_MEMO_PLAYER", "analyzerMemoList", this, AnalyzerMemoDbm.getInstance(), mp, false, "player");
+    }
     /**
      * MESSAGE by PLAYER_ID, named 'messageList'.
      * @return The information object of referrer property. (NotNull)

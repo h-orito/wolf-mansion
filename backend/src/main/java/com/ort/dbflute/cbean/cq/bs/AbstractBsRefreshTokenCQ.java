@@ -501,7 +501,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * Equal(=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as equal. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_Equal(java.time.LocalDateTime expiresDatetime) {
@@ -510,7 +510,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterThan(&gt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as greaterThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_GreaterThan(java.time.LocalDateTime expiresDatetime) {
@@ -519,7 +519,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessThan(&lt;). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as lessThan. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_LessThan(java.time.LocalDateTime expiresDatetime) {
@@ -528,7 +528,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * GreaterEqual(&gt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as greaterEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_GreaterEqual(java.time.LocalDateTime expiresDatetime) {
@@ -537,7 +537,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
 
     /**
      * LessEqual(&lt;=). And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @param expiresDatetime The value of expiresDatetime as lessEqual. (basically NotNull: error as default, or no condition as option)
      */
     public void setExpiresDatetime_LessEqual(java.time.LocalDateTime expiresDatetime) {
@@ -547,7 +547,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
     /**
      * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * <pre>e.g. setExpiresDatetime_FromTo(fromDate, toDate, op <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> op.<span style="color: #CC4747">compareAsDate()</span>);</pre>
      * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
@@ -560,7 +560,7 @@ public abstract class AbstractBsRefreshTokenCQ extends AbstractConditionQuery {
     /**
      * FromTo with various options. (versatile) {(default) fromDatetime &lt;= column &lt;= toDatetime} <br>
      * And NullIgnored, OnlyOnceRegistered. <br>
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * <pre>e.g. setExpiresDatetime_FromTo(fromDate, toDate, new <span style="color: #CC4747">FromToOption</span>().compareAsDate());</pre>
      * @param fromDatetime The from-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)
      * @param toDatetime The to-datetime(yyyy/MM/dd HH:mm:ss.SSS) of expiresDatetime. (basically NotNull: if op.allowOneSide(), null allowed)

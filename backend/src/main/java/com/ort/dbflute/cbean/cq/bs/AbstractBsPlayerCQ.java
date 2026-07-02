@@ -159,6 +159,25 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
 
     /**
      * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select PLAYER_ID from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsAnalyzerMemo</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     memoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of AnalyzerMemoList for 'exists'. (NotNull)
+     */
+    public void existsAnalyzerMemo(SubQuery<AnalyzerMemoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        AnalyzerMemoCB cb = new AnalyzerMemoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepPlayerId_ExistsReferrer_AnalyzerMemoList(cb.query());
+        registerExistsReferrer(cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "analyzerMemoList");
+    }
+    public abstract String keepPlayerId_ExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq);
+
+    /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
      * {exists (select PLAYER_ID from message where ...)} <br>
      * message by PLAYER_ID, named 'messageAsOne'.
      * <pre>
@@ -213,6 +232,25 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
         registerExistsReferrer(cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "villagePlayerList");
     }
     public abstract String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
+
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select PLAYER_ID from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsAnalyzerMemo</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     memoCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of PlayerId_NotExistsReferrer_AnalyzerMemoList for 'not exists'. (NotNull)
+     */
+    public void notExistsAnalyzerMemo(SubQuery<AnalyzerMemoCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        AnalyzerMemoCB cb = new AnalyzerMemoCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepPlayerId_NotExistsReferrer_AnalyzerMemoList(cb.query());
+        registerNotExistsReferrer(cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "analyzerMemoList");
+    }
+    public abstract String keepPlayerId_NotExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq);
 
     /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
@@ -271,6 +309,14 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
     }
     public abstract String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq);
 
+    public void xsderiveAnalyzerMemoList(String fn, SubQuery<AnalyzerMemoCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        AnalyzerMemoCB cb = new AnalyzerMemoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "analyzerMemoList", al, op);
+    }
+    public abstract String keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq);
+
     public void xsderiveMessageList(String fn, SubQuery<MessageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         MessageCB cb = new MessageCB(); cb.xsetupForDerivedReferrer(this);
@@ -294,6 +340,33 @@ public abstract class AbstractBsPlayerCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", pp, "villagePlayerList", al, op);
     }
     public abstract String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from analyzer_memo where ...)} <br>
+     * analyzer_memo by PLAYER_ID, named 'analyzerMemoAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedAnalyzerMemo()</span>.<span style="color: #CC4747">max</span>(memoCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     memoCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     memoCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<AnalyzerMemoCB> derivedAnalyzerMemo() {
+        return xcreateQDRFunctionAnalyzerMemoList();
+    }
+    protected HpQDRFunction<AnalyzerMemoCB> xcreateQDRFunctionAnalyzerMemoList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderiveAnalyzerMemoList(fn, sq, rd, vl, op));
+    }
+    public void xqderiveAnalyzerMemoList(String fn, SubQuery<AnalyzerMemoCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        AnalyzerMemoCB cb = new AnalyzerMemoCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepPlayerId_QueryDerivedReferrer_AnalyzerMemoList(cb.query()); String prpp = keepPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "PLAYER_ID", "PLAYER_ID", sqpp, "analyzerMemoList", rd, vl, prpp, op);
+    }
+    public abstract String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq);
+    public abstract String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter(Object vl);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>

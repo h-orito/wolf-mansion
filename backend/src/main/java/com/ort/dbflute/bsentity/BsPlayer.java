@@ -279,6 +279,26 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'. */
+    protected List<AnalyzerMemo> _analyzerMemoList;
+
+    /**
+     * [get] ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
+     * @return The entity list of referrer property 'analyzerMemoList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<AnalyzerMemo> getAnalyzerMemoList() {
+        if (_analyzerMemoList == null) { _analyzerMemoList = newReferrerList(); }
+        return _analyzerMemoList;
+    }
+
+    /**
+     * [set] ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
+     * @param analyzerMemoList The entity list of referrer property 'analyzerMemoList'. (NullAllowed)
+     */
+    public void setAnalyzerMemoList(List<AnalyzerMemo> analyzerMemoList) {
+        _analyzerMemoList = analyzerMemoList;
+    }
+
     /** MESSAGE by PLAYER_ID, named 'messageList'. */
     protected List<Message> _messageList;
 
@@ -372,6 +392,8 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         { sb.append(li).append(xbRDS(_authority, "authority")); }
         if (_playerDetailAsOne != null && _playerDetailAsOne.isPresent())
         { sb.append(li).append(xbRDS(_playerDetailAsOne, "playerDetailAsOne")); }
+        if (_analyzerMemoList != null) { for (AnalyzerMemo et : _analyzerMemoList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "analyzerMemoList")); } } }
         if (_messageList != null) { for (Message et : _messageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "messageList")); } } }
         if (_refreshTokenList != null) { for (RefreshToken et : _refreshTokenList)
@@ -411,6 +433,8 @@ public abstract class BsPlayer extends AbstractEntity implements DomainEntity, E
         { sb.append(dm).append("authority"); }
         if (_playerDetailAsOne != null && _playerDetailAsOne.isPresent())
         { sb.append(dm).append("playerDetailAsOne"); }
+        if (_analyzerMemoList != null && !_analyzerMemoList.isEmpty())
+        { sb.append(dm).append("analyzerMemoList"); }
         if (_messageList != null && !_messageList.isEmpty())
         { sb.append(dm).append("messageList"); }
         if (_refreshTokenList != null && !_refreshTokenList.isEmpty())

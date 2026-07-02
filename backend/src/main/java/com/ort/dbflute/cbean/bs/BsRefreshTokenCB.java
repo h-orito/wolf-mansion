@@ -350,7 +350,7 @@ public class BsRefreshTokenCB extends AbstractConditionBean {
          */
         public SpecifiedColumn columnIssuedDatetime() { return doColumn("ISSUED_DATETIME"); }
         /**
-         * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+         * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
          * @return The information object of specified column. (NotNull)
          */
         public SpecifiedColumn columnExpiresDatetime() { return doColumn("EXPIRES_DATETIME"); }

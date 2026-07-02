@@ -79,6 +79,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
       return _playerId; }
     protected ConditionValue xgetCValuePlayerId() { return xdfgetPlayerId(); }
 
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_ExistsReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_ExistsReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_ExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_ExistsReferrer_AnalyzerMemoList", sq); }
+
     public Map<String, MessageCQ> xdfgetPlayerId_ExistsReferrer_MessageList() { return xgetSQueMap("playerId_ExistsReferrer_MessageList"); }
     public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_ExistsReferrer_MessageList", sq); }
 
@@ -87,6 +90,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_ExistsReferrer_VillagePlayerList() { return xgetSQueMap("playerId_ExistsReferrer_VillagePlayerList"); }
     public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_ExistsReferrer_VillagePlayerList", sq); }
+
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_NotExistsReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_NotExistsReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_NotExistsReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_AnalyzerMemoList", sq); }
 
     public Map<String, MessageCQ> xdfgetPlayerId_NotExistsReferrer_MessageList() { return xgetSQueMap("playerId_NotExistsReferrer_MessageList"); }
     public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_MessageList", sq); }
@@ -97,6 +103,9 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_NotExistsReferrer_VillagePlayerList() { return xgetSQueMap("playerId_NotExistsReferrer_VillagePlayerList"); }
     public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_NotExistsReferrer_VillagePlayerList", sq); }
 
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_AnalyzerMemoList", sq); }
+
     public Map<String, MessageCQ> xdfgetPlayerId_SpecifyDerivedReferrer_MessageList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_MessageList"); }
     public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_MessageList", sq); }
 
@@ -105,6 +114,11 @@ public class BsPlayerCQ extends AbstractBsPlayerCQ {
 
     public Map<String, VillagePlayerCQ> xdfgetPlayerId_SpecifyDerivedReferrer_VillagePlayerList() { return xgetSQueMap("playerId_SpecifyDerivedReferrer_VillagePlayerList"); }
     public String keepPlayerId_SpecifyDerivedReferrer_VillagePlayerList(VillagePlayerCQ sq) { return xkeepSQue("playerId_SpecifyDerivedReferrer_VillagePlayerList", sq); }
+
+    public Map<String, AnalyzerMemoCQ> xdfgetPlayerId_QueryDerivedReferrer_AnalyzerMemoList() { return xgetSQueMap("playerId_QueryDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq) { return xkeepSQue("playerId_QueryDerivedReferrer_AnalyzerMemoList", sq); }
+    public Map<String, Object> xdfgetPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter() { return xgetSQuePmMap("playerId_QueryDerivedReferrer_AnalyzerMemoList"); }
+    public String keepPlayerId_QueryDerivedReferrer_AnalyzerMemoListParameter(Object pm) { return xkeepSQuePm("playerId_QueryDerivedReferrer_AnalyzerMemoList", pm); }
 
     public Map<String, MessageCQ> xdfgetPlayerId_QueryDerivedReferrer_MessageList() { return xgetSQueMap("playerId_QueryDerivedReferrer_MessageList"); }
     public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq) { return xkeepSQue("playerId_QueryDerivedReferrer_MessageList", sq); }

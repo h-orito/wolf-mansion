@@ -33,6 +33,40 @@ public class LoaderOfVillage {
     // ===================================================================================
     //                                                                       Load Referrer
     //                                                                       =============
+    protected List<AnalyzerMemo> _referrerAnalyzerMemo;
+
+    /**
+     * Load referrer of analyzerMemoList by the set-upper of referrer. <br>
+     * ANALYZER_MEMO by VILLAGE_ID, named 'analyzerMemoList'.
+     * <pre>
+     * <span style="color: #0000C0">villageBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">villageList</span>, <span style="color: #553000">villageLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">villageLoader</span>.<span style="color: #CC4747">loadAnalyzerMemo</span>(<span style="color: #553000">memoCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">memoCB</span>.setupSelect...
+     *         <span style="color: #553000">memoCB</span>.query().set...
+     *         <span style="color: #553000">memoCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">memoLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    memoLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Village village : <span style="color: #553000">villageList</span>) {
+     *     ... = village.<span style="color: #CC4747">getAnalyzerMemoList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setVillageId_InScope(pkList);
+     * cb.query().addOrderBy_VillageId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfAnalyzerMemo> loadAnalyzerMemo(ReferrerConditionSetupper<AnalyzerMemoCB> refCBLambda) {
+        myBhv().loadAnalyzerMemo(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerAnalyzerMemo = refLs);
+        return hd -> hd.handle(new LoaderOfAnalyzerMemo().ready(_referrerAnalyzerMemo, _selector));
+    }
+
     protected List<CampAllocation> _referrerCampAllocation;
 
     /**

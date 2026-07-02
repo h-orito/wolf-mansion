@@ -437,6 +437,26 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
     // ===================================================================================
     //                                                                   Referrer Property
     //                                                                   =================
+    /** ANALYZER_MEMO by VILLAGE_ID, named 'analyzerMemoList'. */
+    protected List<AnalyzerMemo> _analyzerMemoList;
+
+    /**
+     * [get] ANALYZER_MEMO by VILLAGE_ID, named 'analyzerMemoList'.
+     * @return The entity list of referrer property 'analyzerMemoList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<AnalyzerMemo> getAnalyzerMemoList() {
+        if (_analyzerMemoList == null) { _analyzerMemoList = newReferrerList(); }
+        return _analyzerMemoList;
+    }
+
+    /**
+     * [set] ANALYZER_MEMO by VILLAGE_ID, named 'analyzerMemoList'.
+     * @param analyzerMemoList The entity list of referrer property 'analyzerMemoList'. (NullAllowed)
+     */
+    public void setAnalyzerMemoList(List<AnalyzerMemo> analyzerMemoList) {
+        _analyzerMemoList = analyzerMemoList;
+    }
+
     /** CAMP_ALLOCATION by VILLAGE_ID, named 'campAllocationList'. */
     protected List<CampAllocation> _campAllocationList;
 
@@ -634,6 +654,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(li).append(xbRDS(_villageSettingsAsOne, "villageSettingsAsOne")); }
         if (_wolfAllocationAsOne != null && _wolfAllocationAsOne.isPresent())
         { sb.append(li).append(xbRDS(_wolfAllocationAsOne, "wolfAllocationAsOne")); }
+        if (_analyzerMemoList != null) { for (AnalyzerMemo et : _analyzerMemoList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "analyzerMemoList")); } } }
         if (_campAllocationList != null) { for (CampAllocation et : _campAllocationList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "campAllocationList")); } } }
         if (_normalSayRestrictionList != null) { for (NormalSayRestriction et : _normalSayRestrictionList)
@@ -689,6 +711,8 @@ public abstract class BsVillage extends AbstractEntity implements DomainEntity, 
         { sb.append(dm).append("villageSettingsAsOne"); }
         if (_wolfAllocationAsOne != null && _wolfAllocationAsOne.isPresent())
         { sb.append(dm).append("wolfAllocationAsOne"); }
+        if (_analyzerMemoList != null && !_analyzerMemoList.isEmpty())
+        { sb.append(dm).append("analyzerMemoList"); }
         if (_campAllocationList != null && !_campAllocationList.isEmpty())
         { sb.append(dm).append("campAllocationList"); }
         if (_normalSayRestrictionList != null && !_normalSayRestrictionList.isEmpty())

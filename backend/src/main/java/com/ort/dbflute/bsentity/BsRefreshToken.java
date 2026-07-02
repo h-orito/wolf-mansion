@@ -40,7 +40,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     /** ISSUED_DATETIME: {NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _issuedDatetime;
 
-    /** EXPIRES_DATETIME: {NotNull, DATETIME(19)} */
+    /** EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} */
     protected java.time.LocalDateTime _expiresDatetime;
 
     /** USED_DATETIME: {DATETIME(19)} */
@@ -279,7 +279,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [get] EXPIRES_DATETIME: {NotNull, DATETIME(19)} <br>
+     * [get] EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} <br>
      * 有効期限
      * @return The value of the column 'EXPIRES_DATETIME'. (basically NotNull if selected: for the constraint)
      */
@@ -289,7 +289,7 @@ public abstract class BsRefreshToken extends AbstractEntity implements DomainEnt
     }
 
     /**
-     * [set] EXPIRES_DATETIME: {NotNull, DATETIME(19)} <br>
+     * [set] EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)} <br>
      * 有効期限
      * @param expiresDatetime The value of the column 'EXPIRES_DATETIME'. (basically NotNull if update: for the constraint)
      */

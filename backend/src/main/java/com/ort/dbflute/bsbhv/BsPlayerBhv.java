@@ -359,6 +359,70 @@ public abstract class BsPlayerBhv extends AbstractBehaviorWritable<Player, Playe
     }
 
     /**
+     * Load referrer of analyzerMemoList by the set-upper of referrer. <br>
+     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadAnalyzerMemo</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">memoCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">memoCB</span>.setupSelect...
+     *     <span style="color: #553000">memoCB</span>.query().set...
+     *     <span style="color: #553000">memoCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * <span style="color: #70226C">for</span> (Player player : <span style="color: #553000">playerList</span>) {
+     *     ... = player.<span style="color: #CC4747">getAnalyzerMemoList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param playerList The entity list of player. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<AnalyzerMemo> loadAnalyzerMemo(List<Player> playerList, ReferrerConditionSetupper<AnalyzerMemoCB> refCBLambda) {
+        xassLRArg(playerList, refCBLambda);
+        return doLoadAnalyzerMemo(playerList, new LoadReferrerOption<AnalyzerMemoCB, AnalyzerMemo>().xinit(refCBLambda));
+    }
+
+    /**
+     * Load referrer of analyzerMemoList by the set-upper of referrer. <br>
+     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #CC4747">loadAnalyzerMemo</span>(<span style="color: #553000">player</span>, <span style="color: #553000">memoCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">memoCB</span>.setupSelect...
+     *     <span style="color: #553000">memoCB</span>.query().set...
+     *     <span style="color: #553000">memoCB</span>.query().addOrderBy...
+     * }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     * <span style="color: #3F7E5E">//}).withNestedReferrer(referrerList -&gt; {</span>
+     * <span style="color: #3F7E5E">//    ...</span>
+     * <span style="color: #3F7E5E">//});</span>
+     * ... = <span style="color: #553000">player</span>.<span style="color: #CC4747">getAnalyzerMemoList()</span>;
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param player The entity of player. (NotNull)
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerListGateway<AnalyzerMemo> loadAnalyzerMemo(Player player, ReferrerConditionSetupper<AnalyzerMemoCB> refCBLambda) {
+        xassLRArg(player, refCBLambda);
+        return doLoadAnalyzerMemo(xnewLRLs(player), new LoadReferrerOption<AnalyzerMemoCB, AnalyzerMemo>().xinit(refCBLambda));
+    }
+
+    protected NestedReferrerListGateway<AnalyzerMemo> doLoadAnalyzerMemo(List<Player> playerList, LoadReferrerOption<AnalyzerMemoCB, AnalyzerMemo> option) {
+        return helpLoadReferrerInternally(playerList, option, "analyzerMemoList");
+    }
+
+    /**
      * Load referrer of messageList by the set-upper of referrer. <br>
      * MESSAGE by PLAYER_ID, named 'messageList'.
      * <pre>

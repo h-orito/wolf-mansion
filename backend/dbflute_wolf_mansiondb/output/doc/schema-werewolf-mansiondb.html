@@ -595,7 +595,7 @@ pre.spolicyviodisp {
 
 
 
-<h2 title="mainSchema=werewolf_mansiondb, tableCount=47, columnCountAll=365">Table List</h2>
+<h2 title="mainSchema=werewolf_mansiondb, tableCount=48, columnCountAll=373">Table List</h2>
 <div class="keywordsearch">
 	<input type="text" id="incremental-search-field" tabindex=1 value="" placeholder="Table Search" />
 	<ul id="suggestion-list" class="suggestionarea"></ul>
@@ -647,6 +647,16 @@ pre.spolicyviodisp {
 	</tr>
 	<tr>
 		<td class="rownumcell">4</td>
+		<td class="namecell" data-name="analyzer_memo"><a href="#analyzer_memo" title="type=TABLE, primaryKey={ANALYZER_MEMO_ID}, nameLength=13, columnCount=8">ANALYZER_MEMO</a></td>
+		<td class="typecell">TABLE</td>
+		<td class="relcell"><a href="#player" title="FK_ANALYZER_MEMO_PLAYER">PLAYER</a>, <a href="#village" title="FK_ANALYZER_MEMO_VILLAGE">VILLAGE</a></td>
+		<td class="relcell">&nbsp;</td>
+		<td class="commentcell analyzer_memo_comment"><pre>推理補助メモ</pre></td>
+		<td class="subcell">AnalyzerMemo</td>
+		<td class="subcell">2026/07/02</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
 		<td class="namecell" data-name="authority"><a href="#authority" title="type=TABLE, primaryKey={AUTHORITY_CODE}, nameLength=9, columnCount=2">AUTHORITY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -656,7 +666,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/15</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">5</td>
+		<td class="rownumcell">6</td>
 		<td class="namecell" data-name="camp"><a href="#camp" title="type=TABLE, primaryKey={CAMP_CODE}, nameLength=4, columnCount=2">CAMP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -666,7 +676,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">6</td>
+		<td class="rownumcell">7</td>
 		<td class="namecell" data-name="camp_allocation"><a href="#camp_allocation" title="type=TABLE, primaryKey={VILLAGE_ID, CAMP_CODE}, nameLength=15, columnCount=10">CAMP_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_CAMP_ALLOCATION_CAMP">CAMP</a>, <a href="#village" title="FK_CAMP_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -676,7 +686,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/07/27</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">7</td>
+		<td class="rownumcell">8</td>
 		<td class="namecell" data-name="chara"><a href="#chara" title="type=TABLE, primaryKey={CHARA_ID}, nameLength=5, columnCount=12">CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_CHARA_CHARA_GROUP">CHARA_GROUP</a></td>
@@ -686,7 +696,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">8</td>
+		<td class="rownumcell">9</td>
 		<td class="namecell" data-name="chara_group"><a href="#chara_group" title="type=TABLE, primaryKey={CHARA_GROUP_ID}, nameLength=11, columnCount=9">CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#designer" title="FK_CHARA_GROUP_DESIGNER">DESIGNER</a></td>
@@ -696,7 +706,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">9</td>
+		<td class="rownumcell">10</td>
 		<td class="namecell" data-name="chara_image"><a href="#chara_image" title="type=TABLE, primaryKey={CHARA_ID, FACE_TYPE_CODE}, nameLength=11, columnCount=3">CHARA_IMAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara" title="FK_CHARA_IMAGE_CHARA">CHARA</a>, <a href="#face_type" title="FK_CHARA_IMAGE_FACE_TYPE">FACE_TYPE</a></td>
@@ -706,7 +716,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/10/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">10</td>
+		<td class="rownumcell">11</td>
 		<td class="namecell" data-name="commit"><a href="#commit" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, VILLAGE_PLAYER_ID}, nameLength=6, columnCount=7">COMMIT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_COMMIT_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_COMMIT_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -716,7 +726,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/06/07</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">11</td>
+		<td class="rownumcell">12</td>
 		<td class="namecell" data-name="dead_reason"><a href="#dead_reason" title="type=TABLE, primaryKey={DEAD_REASON_CODE}, nameLength=11, columnCount=2">DEAD_REASON</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -726,7 +736,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">12</td>
+		<td class="rownumcell">13</td>
 		<td class="namecell" data-name="designer"><a href="#designer" title="type=TABLE, primaryKey={DESIGNER_ID}, nameLength=8, columnCount=6">DESIGNER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -736,7 +746,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">13</td>
+		<td class="rownumcell">14</td>
 		<td class="namecell" data-name="face_type"><a href="#face_type" title="type=TABLE, primaryKey={FACE_TYPE_CODE}, nameLength=9, columnCount=3">FACE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -746,7 +756,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/10/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">14</td>
+		<td class="rownumcell">15</td>
 		<td class="namecell" data-name="footstep"><a href="#footstep" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, REGISTER_CHARA_ID}, nameLength=8, columnCount=9">FOOTSTEP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_FOOTSTEP_VILLAGE_DAY">VILLAGE_DAY</a></td>
@@ -756,7 +766,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">15</td>
+		<td class="rownumcell">16</td>
 		<td class="namecell" data-name="login_failure"><a href="#login_failure" title="type=TABLE, primaryKey={LOGIN_FAILURE_ID}, nameLength=13, columnCount=8">LOGIN_FAILURE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -766,7 +776,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2026/06/05</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">16</td>
+		<td class="rownumcell">17</td>
 		<td class="namecell" data-name="message"><a href="#message" title="type=TABLE, primaryKey={MESSAGE_ID}, nameLength=7, columnCount=20">MESSAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_MESSAGE_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#player" title="FK_MESSAGE_PLAYER">PLAYER</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER_TO">VILLAGE_PLAYER</a>, <a href="#village_day" title="FK_MESSAGE_VILLAGE_DAY">VILLAGE_DAY</a>, <a href="#village_player" title="FK_MESSAGE_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -776,7 +786,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">17</td>
+		<td class="rownumcell">18</td>
 		<td class="namecell" data-name="message_sendto"><a href="#message_sendto" title="type=TABLE, primaryKey={MESSAGE_REPLYTO_ID}, nameLength=14, columnCount=7">MESSAGE_SENDTO</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message" title="FK_MESSAGE_SENDTO_MESSAGE">MESSAGE</a>, <a href="#village_player" title="FK_MESSAGE_SENDTO_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -786,7 +796,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/06/12</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">18</td>
+		<td class="rownumcell">19</td>
 		<td class="namecell" data-name="message_type"><a href="#message_type" title="type=TABLE, primaryKey={MESSAGE_TYPE_CODE}, nameLength=12, columnCount=2">MESSAGE_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -796,7 +806,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">19</td>
+		<td class="rownumcell">20</td>
 		<td class="namecell" data-name="normal_say_restriction"><a href="#normal_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE, MESSAGE_TYPE_CODE}, nameLength=22, columnCount=9">NORMAL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_NORMAL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#skill" title="FK_NORMAL_SAY_RESTRICTION_SKILL">SKILL</a>, <a href="#village" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
@@ -806,7 +816,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">20</td>
+		<td class="rownumcell">21</td>
 		<td class="namecell" data-name="original_chara"><a href="#original_chara" title="type=TABLE, primaryKey={ORIGINAL_CHARA_ID}, nameLength=14, columnCount=10">ORIGINAL_CHARA</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#original_chara_group" title="FK_ORIGINAL_CHARA_ORIGINAL_CHARA_GROUP">ORIGINAL_CHARA_GROUP</a></td>
@@ -816,7 +826,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/04/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">21</td>
+		<td class="rownumcell">22</td>
 		<td class="namecell" data-name="original_chara_group"><a href="#original_chara_group" title="type=TABLE, primaryKey={ORIGINAL_CHARA_GROUP_ID}, nameLength=20, columnCount=6">ORIGINAL_CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -826,7 +836,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/04/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">22</td>
+		<td class="rownumcell">23</td>
 		<td class="namecell" data-name="original_chara_image"><a href="#original_chara_image" title="type=TABLE, primaryKey={ORIGINAL_CHARA_IMAGE_ID}, nameLength=20, columnCount=9">ORIGINAL_CHARA_IMAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#original_chara" title="FK_ORIGINAL_CHARA_IMAGE_ORIGINAL_CHARA">ORIGINAL_CHARA</a></td>
@@ -836,17 +846,17 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/04/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">23</td>
+		<td class="rownumcell">24</td>
 		<td class="namecell" data-name="player"><a href="#player" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=6, columnCount=10">PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#authority" title="FK_PLAYER_AUTHORITY">AUTHORITY</a></td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>, <a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>, <a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a></td>
+		<td class="relcell"><a href="#analyzer_memo" title="FK_ANALYZER_MEMO_PLAYER">ANALYZER_MEMO</a>, <a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>, <a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>, <a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a></td>
 		<td class="commentcell player_comment"><pre>プレイヤー</pre></td>
 		<td class="subcell">Player</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">24</td>
+		<td class="rownumcell">25</td>
 		<td class="namecell" data-name="player_detail"><a href="#player_detail" title="type=TABLE, primaryKey={PLAYER_ID}, nameLength=13, columnCount=3">PLAYER_DETAIL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#player" title="FK_PLAYER_DETAIL_PLAYER">PLAYER</a></td>
@@ -856,7 +866,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/05/04</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">25</td>
+		<td class="rownumcell">26</td>
 		<td class="namecell" data-name="random_content"><a href="#random_content" title="type=TABLE, primaryKey={RANDOM_CONTENT_ID}, nameLength=14, columnCount=3">RANDOM_CONTENT</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#random_keyword" title="FK_RANDOM_CONTENT_RANDOM_KEYWORD">RANDOM_KEYWORD</a></td>
@@ -866,7 +876,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">26</td>
+		<td class="rownumcell">27</td>
 		<td class="namecell" data-name="random_keyword"><a href="#random_keyword" title="type=TABLE, primaryKey={RANDOM_KEYWORD_ID}, nameLength=14, columnCount=2">RANDOM_KEYWORD</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -876,7 +886,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2018/07/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">27</td>
+		<td class="rownumcell">28</td>
 		<td class="namecell" data-name="refresh_token"><a href="#refresh_token" title="type=TABLE, primaryKey={REFRESH_TOKEN_ID}, nameLength=13, columnCount=11">REFRESH_TOKEN</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#player" title="FK_REFRESH_TOKEN_PLAYER">PLAYER</a></td>
@@ -886,7 +896,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2026/06/05</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">28</td>
+		<td class="rownumcell">29</td>
 		<td class="namecell" data-name="skill"><a href="#skill" title="type=TABLE, primaryKey={SKILL_CODE}, nameLength=5, columnCount=5">SKILL</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#camp" title="FK_SKILL_CAMP">CAMP</a></td>
@@ -896,7 +906,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">29</td>
+		<td class="rownumcell">30</td>
 		<td class="namecell" data-name="skill_allocation"><a href="#skill_allocation" title="type=TABLE, primaryKey={VILLAGE_ID, SKILL_CODE}, nameLength=16, columnCount=10">SKILL_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#skill" title="FK_SKILL_ALLOCATION_SKILL">SKILL</a>, <a href="#village" title="FK_SKILL_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -906,7 +916,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/07/27</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">30</td>
+		<td class="rownumcell">31</td>
 		<td class="namecell" data-name="skill_say_restriction"><a href="#skill_say_restriction" title="type=TABLE, primaryKey={VILLAGE_ID, MESSAGE_TYPE_CODE}, nameLength=21, columnCount=8">SKILL_SAY_RESTRICTION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#message_type" title="FK_SKILL_SAY_RESTRICTION_MESSAGE_TYPE">MESSAGE_TYPE</a>, <a href="#village" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">VILLAGE</a></td>
@@ -916,17 +926,17 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">31</td>
+		<td class="rownumcell">32</td>
 		<td class="namecell" data-name="village"><a href="#village" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=7, columnCount=12">VILLAGE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_status" title="FK_VILLAGE_VILLAGE_STATUS">VILLAGE_STATUS</a>, <a href="#camp" title="FK_VILLAGE_CAMP">CAMP</a></td>
-		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>, <a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a>, <a href="#wolf_allocation" title="FK_WOLF_ALLOCATION_VILLAGE">WOLF_ALLOCATION</a></td>
+		<td class="relcell"><a href="#analyzer_memo" title="FK_ANALYZER_MEMO_VILLAGE">ANALYZER_MEMO</a>, <a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>, <a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>, <a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>, <a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>, <a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>, <a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>, <a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>, <a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a>, <a href="#wolf_allocation" title="FK_WOLF_ALLOCATION_VILLAGE">WOLF_ALLOCATION</a></td>
 		<td class="commentcell village_comment"><pre>村</pre></td>
 		<td class="subcell">Village</td>
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">32</td>
+		<td class="rownumcell">33</td>
 		<td class="namecell" data-name="village_chara_group"><a href="#village_chara_group" title="type=TABLE, primaryKey={VILLAGE_CHARA_GROUP_ID}, nameLength=19, columnCount=7">VILLAGE_CHARA_GROUP</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#chara_group" title="FK_VILLAGE_CHARA_GROUP_CHARA_GROUP_ID">CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE</a></td>
@@ -936,7 +946,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/14</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">33</td>
+		<td class="rownumcell">34</td>
 		<td class="namecell" data-name="village_day"><a href="#village_day" title="type=TABLE, primaryKey={VILLAGE_ID, DAY}, nameLength=11, columnCount=7">VILLAGE_DAY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE</a></td>
@@ -946,7 +956,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">34</td>
+		<td class="rownumcell">35</td>
 		<td class="namecell" data-name="village_player"><a href="#village_player" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=14, columnCount=23">VILLAGE_PLAYER</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_REASON">DEAD_REASON</a>, <a href="#player" title="FK_VILLAGE_PLAYER_PLAYER">PLAYER</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_REQUEST">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SECOND_SKILL_REQ">SKILL</a>, <a href="#skill" title="FK_VILLAGE_PLAYER_SKILL">SKILL</a>, <a href="#village" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE</a></td>
@@ -956,7 +966,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/20</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">35</td>
+		<td class="rownumcell">36</td>
 		<td class="namecell" data-name="village_player_access_info"><a href="#village_player_access_info" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ACCESS_INFO_ID}, nameLength=26, columnCount=7">VILLAGE_PLAYER_ACCESS_INFO</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ACCESS_INFO_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -966,7 +976,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2022/04/08</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">36</td>
+		<td class="rownumcell">37</td>
 		<td class="namecell" data-name="village_player_dead_history"><a href="#village_player_dead_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_DEAD_HISTORY_ID}, nameLength=27, columnCount=9">VILLAGE_PLAYER_DEAD_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#dead_reason" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_DEAD_REASON">DEAD_REASON</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_DEAD_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -976,7 +986,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">37</td>
+		<td class="rownumcell">38</td>
 		<td class="namecell" data-name="village_player_notification"><a href="#village_player_notification" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ID}, nameLength=27, columnCount=13">VILLAGE_PLAYER_NOTIFICATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_NOTIFICATION_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -986,7 +996,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2023/02/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">38</td>
+		<td class="rownumcell">39</td>
 		<td class="namecell" data-name="village_player_room_history"><a href="#village_player_room_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_ROOM_HISTORY_ID}, nameLength=27, columnCount=8">VILLAGE_PLAYER_ROOM_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_ROOM_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -996,7 +1006,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/10/02</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">39</td>
+		<td class="rownumcell">40</td>
 		<td class="namecell" data-name="village_player_skill_history"><a href="#village_player_skill_history" title="type=TABLE, primaryKey={VILLAGE_PLAYER_SKILL_HISTORY_ID}, nameLength=28, columnCount=8">VILLAGE_PLAYER_SKILL_HISTORY</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#skill" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_SKILL">SKILL</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_SKILL_HISTORY_VILLAGE_PLAYER">VILLAGE_PLAYER</a></td>
@@ -1006,7 +1016,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/03</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">40</td>
+		<td class="rownumcell">41</td>
 		<td class="namecell" data-name="village_player_status"><a href="#village_player_status" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_ID}, nameLength=21, columnCount=8">VILLAGE_PLAYER_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_TO_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER">VILLAGE_PLAYER</a>, <a href="#village_player_status_type" title="FK_VILLAGE_PLAYER_STATUS_VILLAGE_PLAYER_STATUS_TYPE">VILLAGE_PLAYER_STATUS_TYPE</a></td>
@@ -1016,7 +1026,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">41</td>
+		<td class="rownumcell">42</td>
 		<td class="namecell" data-name="village_player_status_type"><a href="#village_player_status_type" title="type=TABLE, primaryKey={VILLAGE_PLAYER_STATUS_TYPE_CODE}, nameLength=26, columnCount=2">VILLAGE_PLAYER_STATUS_TYPE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -1026,7 +1036,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2020/08/28</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">42</td>
+		<td class="rownumcell">43</td>
 		<td class="namecell" data-name="village_settings"><a href="#village_settings" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=16, columnCount=28">VILLAGE_SETTINGS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#allowed_secret_say" title="FK_VILLAGE_SETTINGS_ALLOWED_SECRET_SAY">ALLOWED_SECRET_SAY</a>, <a href="#original_chara_group" title="FK_VILLAGE_SETTINGS_ORIGINAL_CHARA_GROUP_ID">ORIGINAL_CHARA_GROUP</a>, <a href="#village" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE</a></td>
@@ -1036,7 +1046,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/18</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">43</td>
+		<td class="rownumcell">44</td>
 		<td class="namecell" data-name="village_status"><a href="#village_status" title="type=TABLE, primaryKey={VILLAGE_STATUS_CODE}, nameLength=14, columnCount=2">VILLAGE_STATUS</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -1046,7 +1056,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/19</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">44</td>
+		<td class="rownumcell">45</td>
 		<td class="namecell" data-name="village_tag"><a href="#village_tag" title="type=TABLE, primaryKey={VILLAGE_TAG_ID}, nameLength=11, columnCount=7">VILLAGE_TAG</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE</a>, <a href="#village_tag_item" title="FK_VILLAGE_TAG_VILLAGE_TAG_ITEM">VILLAGE_TAG_ITEM</a></td>
@@ -1056,7 +1066,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">45</td>
+		<td class="rownumcell">46</td>
 		<td class="namecell" data-name="village_tag_item"><a href="#village_tag_item" title="type=TABLE, primaryKey={VILLAGE_TAG_ITEM_CODE}, nameLength=16, columnCount=3">VILLAGE_TAG_ITEM</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell">&nbsp;</td>
@@ -1066,7 +1076,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2021/11/30</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">46</td>
+		<td class="rownumcell">47</td>
 		<td class="namecell" data-name="vote"><a href="#vote" title="type=TABLE, primaryKey={VILLAGE_ID, DAY, CHARA_ID}, nameLength=4, columnCount=8">VOTE</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village_day" title="FK_VOTE_VILLAGE_DAY">VILLAGE_DAY</a></td>
@@ -1076,7 +1086,7 @@ pre.spolicyviodisp {
 		<td class="subcell">2017/12/22</td>
 	</tr>
 	<tr>
-		<td class="rownumcell">47</td>
+		<td class="rownumcell">48</td>
 		<td class="namecell" data-name="wolf_allocation"><a href="#wolf_allocation" title="type=TABLE, primaryKey={VILLAGE_ID}, nameLength=15, columnCount=7">WOLF_ALLOCATION</a></td>
 		<td class="typecell">TABLE</td>
 		<td class="relcell"><a href="#village" title="FK_WOLF_ALLOCATION_VILLAGE">VILLAGE</a></td>
@@ -1499,6 +1509,181 @@ ALLOWED_SECRET_SAY
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>秘話可能範囲</pre></td>
 		<td class="subcell">allowedSecretSayName</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	</tbody>
+</table>
+
+<h2 id="analyzer_memo" title="type=TABLE, primaryKey={ANALYZER_MEMO_ID}, nameLength=13, columnCount=8">
+ANALYZER_MEMO
+&nbsp;<span class="tablefirstdatetitle">since 2026/07/02</span>
+</h2>
+<div class="tablecomment analyzer_memo_comment" data-name="analyzer_memo"><pre>推理補助メモ</pre></div>
+<input type="hidden" value="analyzer_memo">
+<table class="tablecontent">
+	<thead>
+	<tr>
+		<th class="rownumhead">No.</th>
+		<th>PK</th>
+		<th>ID</th>
+		<th>UQ</th>
+		<th>IX</th>
+		<th>Not<br />Null</th>
+		<th>Name</th>
+		<th>Type</th>
+		<th>Size</th>
+		<th>ForeignTable</th>
+		<th>ReferrerTable</th>
+		<th>Classification</th>
+		<th>ColumnComment</th>
+		<th>PropertyName</th>
+		<th>JavaType</th>
+		<th>Since</th>
+	</tr>
+	</thead>
+	<tbody id="analyzer_memo-body">
+	<tr>
+		<td class="rownumcell">1</td>
+		<td class="flgcell" title="PRIMARY">o</td>
+		<td class="flgcell">o</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="analyzer_memo_analyzer_memo_id">ANALYZER_MEMO_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>推理補助メモID</pre></td>
+		<td class="subcell">analyzerMemoId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">2</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_ANALYZER_MEMO(PLAYER_ID, VILLAGE_ID)">o<span class="flgplus">+</span></td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="analyzer_memo_player_id">PLAYER_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#player" title="FK_ANALYZER_MEMO_PLAYER">PLAYER</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>プレイヤーID</pre></td>
+		<td class="subcell">playerId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">3</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell" title="UQ_ANALYZER_MEMO(PLAYER_ID, VILLAGE_ID)"><span class="flgplus">+</span>o</td>
+		<td class="flgcell" title="FK_ANALYZER_MEMO_VILLAGE(VILLAGE_ID)">o</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="analyzer_memo_village_id">VILLAGE_ID</td>
+		<td class="typecell">INT UNSIGNED</td>
+		<td class="sizecell"> 10 </td>
+		<td class="relcell"><a href="#village" title="FK_ANALYZER_MEMO_VILLAGE">VILLAGE</a>&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>村ID</pre></td>
+		<td class="subcell">villageId</td>
+		<td class="subcell">Integer</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">4</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class=" columnnamecell" id="analyzer_memo_memo_json">MEMO_JSON</td>
+		<td class="typecell">MEDIUMTEXT</td>
+		<td class="sizecell"> 16777215 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>推理補助メモの内容(JSON)</pre></td>
+		<td class="subcell">memoJson</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">5</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="analyzer_memo_register_datetime">REGISTER_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録日時</pre></td>
+		<td class="subcell">registerDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">6</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="analyzer_memo_register_trace">REGISTER_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>登録トレース</pre></td>
+		<td class="subcell">registerTrace</td>
+		<td class="subcell">String</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">7</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="analyzer_memo_update_datetime">UPDATE_DATETIME</td>
+		<td class="typecell">DATETIME</td>
+		<td class="sizecell"> 19 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新日時</pre></td>
+		<td class="subcell">updateDatetime</td>
+		<td class="subcell">LocalDateTime</td>
+		<td class="subcell">first</td>
+	</tr>
+	<tr>
+		<td class="rownumcell">8</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell"> &nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell">*</td>
+		<td class="comcolcell columnnamecell" id="analyzer_memo_update_trace">UPDATE_TRACE</td>
+		<td class="typecell">VARCHAR</td>
+		<td class="sizecell"> 64 </td>
+		<td class="relcell">&nbsp;&nbsp;</td>
+		<td class="relcell">&nbsp;</td>
+		<td class="relcell"> &nbsp;</td>
+		<td class="commentcell"><pre>更新トレース</pre></td>
+		<td class="subcell">updateTrace</td>
 		<td class="subcell">String</td>
 		<td class="subcell">first</td>
 	</tr>
@@ -4581,7 +4766,7 @@ PLAYER
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>,<br><a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>,<br><a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
+		<td class="relcell"><a href="#analyzer_memo" title="FK_ANALYZER_MEMO_PLAYER">ANALYZER_MEMO</a>,<br><a href="#message" title="FK_MESSAGE_PLAYER">MESSAGE</a>,<br><a href="#player_detail" title="FK_PLAYER_DETAIL_PLAYER">PLAYER_DETAIL</a>,<br><a href="#refresh_token" title="FK_REFRESH_TOKEN_PLAYER">REFRESH_TOKEN</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_PLAYER">VILLAGE_PLAYER</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>プレイヤーID</pre></td>
 		<td class="subcell">playerId</td>
@@ -5095,7 +5280,7 @@ REFRESH_TOKEN
 		<td class="flgcell">&nbsp;</td>
 		<td class="flgcell"> &nbsp;</td>
 		<td class="flgcell">&nbsp;</td>
-		<td class="flgcell">&nbsp;</td>
+		<td class="flgcell" title="IX_REFRESH_TOKEN_EXPIRES(EXPIRES_DATETIME)">o</td>
 		<td class="flgcell">*</td>
 		<td class=" columnnamecell" id="refresh_token_expires_datetime">EXPIRES_DATETIME</td>
 		<td class="typecell">DATETIME</td>
@@ -5765,7 +5950,7 @@ VILLAGE
 		<td class="typecell">INT UNSIGNED</td>
 		<td class="sizecell"> 10 </td>
 		<td class="relcell">&nbsp;&nbsp;</td>
-		<td class="relcell"><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>,<br><a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a>,<br><a href="#wolf_allocation" title="FK_WOLF_ALLOCATION_VILLAGE">WOLF_ALLOCATION</a>&nbsp;</td>
+		<td class="relcell"><a href="#analyzer_memo" title="FK_ANALYZER_MEMO_VILLAGE">ANALYZER_MEMO</a>,<br><a href="#camp_allocation" title="FK_CAMP_ALLOCATION_VILLAGE">CAMP_ALLOCATION</a>,<br><a href="#normal_say_restriction" title="FK_NORMAL_SAY_RESTRICTION_VILLAGE">NORMAL_SAY_RESTRICTION</a>,<br><a href="#skill_allocation" title="FK_SKILL_ALLOCATION_VILLAGE">SKILL_ALLOCATION</a>,<br><a href="#skill_say_restriction" title="FK_SKILL_SAY_RESTRICTION_VILLAGE">SKILL_SAY_RESTRICTION</a>,<br><a href="#village_chara_group" title="FK_VILLAGE_CHARA_GROUP_VILLAGE_ID">VILLAGE_CHARA_GROUP</a>,<br><a href="#village_day" title="FK_VILLAGE_DAY_VILLAGE">VILLAGE_DAY</a>,<br><a href="#village_player" title="FK_VILLAGE_PLAYER_VILLAGE">VILLAGE_PLAYER</a>,<br><a href="#village_settings" title="FK_VILLAGE_SETTINGS_VILLAGE">VILLAGE_SETTINGS</a>,<br><a href="#village_tag" title="FK_VILLAGE_TAG_VILLAGE">VILLAGE_TAG</a>,<br><a href="#wolf_allocation" title="FK_WOLF_ALLOCATION_VILLAGE">WOLF_ALLOCATION</a>&nbsp;</td>
 		<td class="relcell"> &nbsp;</td>
 		<td class="commentcell"><pre>村ID</pre></td>
 		<td class="subcell">villageId</td>
@@ -13354,6 +13539,35 @@ function StoreClient() {
 				}
 				, 'ALLOWED_SECRET_SAY_NAME': {
 					'databaseComment': '秘話可能範囲'
+				}
+			}
+		}
+		, 'analyzer_memo': {
+			'databaseComment': '推理補助メモ'
+			, 'columns': {
+				'ANALYZER_MEMO_ID': {
+					'databaseComment': '推理補助メモID'
+				}
+				, 'PLAYER_ID': {
+					'databaseComment': 'プレイヤーID'
+				}
+				, 'VILLAGE_ID': {
+					'databaseComment': '村ID'
+				}
+				, 'MEMO_JSON': {
+					'databaseComment': '推理補助メモの内容(JSON)'
+				}
+				, 'REGISTER_DATETIME': {
+					'databaseComment': '登録日時'
+				}
+				, 'REGISTER_TRACE': {
+					'databaseComment': '登録トレース'
+				}
+				, 'UPDATE_DATETIME': {
+					'databaseComment': '更新日時'
+				}
+				, 'UPDATE_TRACE': {
+					'databaseComment': '更新トレース'
 				}
 			}
 		}

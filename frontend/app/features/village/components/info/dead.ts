@@ -12,8 +12,11 @@ export function deadMark(deadReason: string | null | undefined): string {
   }
 }
 
-/** 無惨系 (襲撃/呪殺/罠死/爆死/雑魚) の死因コード。部屋番号一覧で赤表示する。 */
-const MISERABLE_REASONS = ["ATTACK", "DIVINED", "TRAPPED", "BOMBED", "ZAKO"];
+/**
+ * 無惨系 (襲撃/呪殺/罠死/爆死/雑魚) の死因コード。部屋番号一覧で赤表示する。
+ * MISERABLE は analyzer API (DeadReasonView) が無惨系を集約したコード。
+ */
+const MISERABLE_REASONS = ["ATTACK", "DIVINED", "TRAPPED", "BOMBED", "ZAKO", "MISERABLE"];
 
 /** 死因コード → 部屋番号一覧の文字色 (生存・該当なしは null)。 */
 export function deadColor(deadReason: string | null | undefined): string | null {

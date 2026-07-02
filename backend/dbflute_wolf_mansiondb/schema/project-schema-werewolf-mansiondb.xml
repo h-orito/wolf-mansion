@@ -67,6 +67,46 @@
         <column comment="秘話可能範囲" dbType="VARCHAR" javaType="String"
             name="ALLOWED_SECRET_SAY_NAME" required="true" size="20" type="VARCHAR"/>
     </table>
+    <table comment="推理補助メモ" name="analyzer_memo"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="推理補助メモID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="ANALYZER_MEMO_ID" pkName="PRIMARY" pkPosition="1"
+            primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="プレイヤーID" dbType="INT UNSIGNED"
+            javaType="Integer" name="PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="村ID" dbType="INT UNSIGNED" javaType="Integer"
+            name="VILLAGE_ID" required="true" size="10" type="INTEGER"/>
+        <column comment="推理補助メモの内容(JSON)" dbType="MEDIUMTEXT"
+            javaType="String" name="MEMO_JSON" required="true"
+            size="16777215" type="LONGVARCHAR"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="player" name="FK_ANALYZER_MEMO_PLAYER">
+            <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="village" name="FK_ANALYZER_MEMO_VILLAGE">
+            <reference foreign="VILLAGE_ID" local="VILLAGE_ID"/>
+        </foreign-key>
+        <unique name="UQ_ANALYZER_MEMO">
+            <unique-column name="PLAYER_ID" position="1"/>
+            <unique-column name="VILLAGE_ID" position="2"/>
+        </unique>
+        <index name="FK_ANALYZER_MEMO_VILLAGE">
+            <index-column name="VILLAGE_ID" position="1"/>
+        </index>
+    </table>
     <table comment="権限" name="authority"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column comment="権限コード" dbType="VARCHAR" javaType="String"
@@ -747,6 +787,9 @@
         </unique>
         <index name="FK_REFRESH_TOKEN_PLAYER">
             <index-column name="PLAYER_ID" position="1"/>
+        </index>
+        <index name="IX_REFRESH_TOKEN_EXPIRES">
+            <index-column name="EXPIRES_DATETIME" position="1"/>
         </index>
     </table>
     <table comment="役職" name="skill"

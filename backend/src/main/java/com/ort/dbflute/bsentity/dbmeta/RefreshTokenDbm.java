@@ -119,7 +119,7 @@ public class RefreshTokenDbm extends AbstractDBMeta {
      */
     public ColumnInfo columnIssuedDatetime() { return _columnIssuedDatetime; }
     /**
-     * EXPIRES_DATETIME: {NotNull, DATETIME(19)}
+     * EXPIRES_DATETIME: {IX, NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnExpiresDatetime() { return _columnExpiresDatetime; }

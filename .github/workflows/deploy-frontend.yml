@@ -7,7 +7,7 @@ on:
       - feature/monorepo
     paths:
       - frontend/**
-      - .github/workflows/push-frontend.yml
+      - .github/workflows/deploy-frontend.yml
 
 jobs:
   build:

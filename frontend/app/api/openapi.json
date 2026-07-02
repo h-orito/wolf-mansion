@@ -2140,6 +2140,65 @@
         },
         "tags": ["village-vote-rest-controller"]
       }
+    },
+    "/api/v1/villages/{villageId}/analyzer-memo": {
+      "get": {
+        "operationId": "getMyAnalyzerMemo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "villageId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzerMemo"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["analyzer-memo-rest-controller"]
+      },
+      "put": {
+        "operationId": "updateMyAnalyzerMemo",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "villageId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzerMemoUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["analyzer-memo-rest-controller"]
+      }
     }
   },
   "components": {
@@ -2213,6 +2272,216 @@
           }
         },
         "required": ["players"]
+      },
+      "AnalyzerDailyFootstepMemo": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "footsteps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerFootstepMemo"
+            }
+          }
+        },
+        "required": ["day", "footsteps"]
+      },
+      "AnalyzerDailyFootstepMemoRequest": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "footsteps": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerFootstepMemoRequest"
+            },
+            "maxItems": 100,
+            "minItems": 0
+          }
+        },
+        "required": ["day", "footsteps"]
+      },
+      "AnalyzerDailyMemo": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "memo": {
+            "type": "string"
+          }
+        },
+        "required": ["day", "memo"]
+      },
+      "AnalyzerDailyMemoRequest": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          },
+          "memo": {
+            "type": ["string", "null"],
+            "maxLength": 10000,
+            "minLength": 0
+          }
+        },
+        "required": ["day", "memo"]
+      },
+      "AnalyzerFootstepMemo": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": "string"
+          },
+          "footstep": {
+            "type": "string"
+          },
+          "memo": {
+            "type": "string"
+          },
+          "show": {
+            "type": "boolean"
+          }
+        },
+        "required": ["color", "footstep", "memo", "show"]
+      },
+      "AnalyzerFootstepMemoRequest": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-fA-F]{6}$"
+          },
+          "footstep": {
+            "type": ["string", "null"],
+            "maxLength": 100,
+            "minLength": 0
+          },
+          "memo": {
+            "type": ["string", "null"],
+            "maxLength": 1000,
+            "minLength": 0
+          },
+          "show": {
+            "type": ["boolean", "null"]
+          }
+        },
+        "required": ["color", "footstep", "memo", "show"]
+      },
+      "AnalyzerMemo": {
+        "type": "object",
+        "properties": {
+          "dailyFootstepMemos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerDailyFootstepMemo"
+            }
+          },
+          "dailyMemos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerDailyMemo"
+            }
+          },
+          "participantMemos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerParticipantMemo"
+            }
+          },
+          "villageId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "wholeMemo": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "dailyFootstepMemos",
+          "dailyMemos",
+          "participantMemos",
+          "villageId",
+          "wholeMemo"
+        ]
+      },
+      "AnalyzerMemoUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "dailyFootstepMemos": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerDailyFootstepMemoRequest"
+            },
+            "maxItems": 100,
+            "minItems": 0
+          },
+          "dailyMemos": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerDailyMemoRequest"
+            },
+            "maxItems": 100,
+            "minItems": 0
+          },
+          "participantMemos": {
+            "type": ["array", "null"],
+            "items": {
+              "$ref": "#/components/schemas/AnalyzerParticipantMemoRequest"
+            },
+            "maxItems": 200,
+            "minItems": 0
+          },
+          "wholeMemo": {
+            "type": ["string", "null"],
+            "maxLength": 10000,
+            "minLength": 0
+          }
+        },
+        "required": ["dailyFootstepMemos", "dailyMemos", "participantMemos", "wholeMemo"]
+      },
+      "AnalyzerParticipantMemo": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": "string"
+          },
+          "memo": {
+            "type": "string"
+          },
+          "participantId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "required": ["color", "memo", "participantId"]
+      },
+      "AnalyzerParticipantMemoRequest": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": ["string", "null"],
+            "pattern": "^[0-9a-fA-F]{6}$"
+          },
+          "memo": {
+            "type": ["string", "null"],
+            "maxLength": 1000,
+            "minLength": 0
+          },
+          "participantId": {
+            "type": ["integer", "null"],
+            "format": "int32"
+          }
+        },
+        "required": ["color", "memo", "participantId"]
       },
       "Camp": {
         "type": "object",

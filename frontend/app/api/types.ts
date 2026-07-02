@@ -947,6 +947,22 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/villages/{villageId}/analyzer-memo": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyAnalyzerMemo"];
+    put: operations["updateMyAnalyzerMemo"];
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -971,6 +987,64 @@ export interface components {
     };
     AdminVillagePlayersResponse: {
       players: components["schemas"]["AdminVillageCharaPlayer"][];
+    };
+    AnalyzerDailyFootstepMemo: {
+      /** Format: int32 */
+      day: number;
+      footsteps: components["schemas"]["AnalyzerFootstepMemo"][];
+    };
+    AnalyzerDailyFootstepMemoRequest: {
+      /** Format: int32 */
+      day: number | null;
+      footsteps: components["schemas"]["AnalyzerFootstepMemoRequest"][] | null;
+    };
+    AnalyzerDailyMemo: {
+      /** Format: int32 */
+      day: number;
+      memo: string;
+    };
+    AnalyzerDailyMemoRequest: {
+      /** Format: int32 */
+      day: number | null;
+      memo: string | null;
+    };
+    AnalyzerFootstepMemo: {
+      color: string;
+      footstep: string;
+      memo: string;
+      show: boolean;
+    };
+    AnalyzerFootstepMemoRequest: {
+      color: string | null;
+      footstep: string | null;
+      memo: string | null;
+      show: boolean | null;
+    };
+    AnalyzerMemo: {
+      dailyFootstepMemos: components["schemas"]["AnalyzerDailyFootstepMemo"][];
+      dailyMemos: components["schemas"]["AnalyzerDailyMemo"][];
+      participantMemos: components["schemas"]["AnalyzerParticipantMemo"][];
+      /** Format: int32 */
+      villageId: number;
+      wholeMemo: string;
+    };
+    AnalyzerMemoUpdateRequest: {
+      dailyFootstepMemos: components["schemas"]["AnalyzerDailyFootstepMemoRequest"][] | null;
+      dailyMemos: components["schemas"]["AnalyzerDailyMemoRequest"][] | null;
+      participantMemos: components["schemas"]["AnalyzerParticipantMemoRequest"][] | null;
+      wholeMemo: string | null;
+    };
+    AnalyzerParticipantMemo: {
+      color: string;
+      memo: string;
+      /** Format: int32 */
+      participantId: number;
+    };
+    AnalyzerParticipantMemoRequest: {
+      color: string | null;
+      memo: string | null;
+      /** Format: int32 */
+      participantId: number | null;
     };
     Camp: {
       code: string;
@@ -3600,6 +3674,52 @@ export interface operations {
     requestBody: {
       content: {
         "application/json": components["schemas"]["VillageVoteRequest"];
+      };
+    };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getMyAnalyzerMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        villageId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["AnalyzerMemo"];
+        };
+      };
+    };
+  };
+  updateMyAnalyzerMemo: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        villageId: number;
+      };
+      cookie?: never;
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["AnalyzerMemoUpdateRequest"];
       };
     };
     responses: {
