@@ -41,7 +41,12 @@ function SimpleRoomMapCopyButton({
   }, []);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(buildSimpleRoomMap(rows, getMemo));
+    try {
+      await navigator.clipboard.writeText(buildSimpleRoomMap(rows, getMemo));
+    } catch {
+      // 非セキュアコンテキストや権限拒否ではコピーできない。「コピーしました」を出さずに終える
+      return;
+    }
     setCopied(true);
     if (timerRef.current != null) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setCopied(false), 1500);
