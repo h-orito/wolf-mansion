@@ -7,7 +7,6 @@ import {
   type AnalyzerDaySituation,
 } from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep } from "~/features/village/analyzer/types";
-import { Button } from "~/components/ui/Button";
 import { textareaClass } from "~/components/ui/Input";
 import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
@@ -62,7 +61,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
     setDailyMemo,
     setDailyFootstepMemos,
     setWholeMemo,
-    save,
+    flush,
   } = useAnalyzerMemos(me?.playerId ?? null, village.id, participantIds, rawFootstepsByDay);
 
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
@@ -124,29 +123,25 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
   }
 
   return (
-    <div className="pt-[8px] pb-[10px]">
-      <div className="mb-[8px] flex items-center">
-        <ul className="flex-1 pl-0">
-          {analyzerDays.map((d) => (
-            <li key={d.day} className="mr-[10px] inline list-none">
-              {activeDay === d.day ? (
-                <span>{dayLabel(d.day, epilogueDay)}</span>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setSelectedDay(d.day)}
-                  className="text-wm-accent cursor-pointer hover:underline"
-                >
-                  {dayLabel(d.day, epilogueDay)}
-                </button>
-              )}
-            </li>
-          ))}
-        </ul>
-        <Button variant="default" size="xs" onClick={() => save()}>
-          保存
-        </Button>
-      </div>
+    // メモ編集は2秒デバウンスで自動保存し、フォーカスが外れたタイミングで即時フラッシュする
+    <div className="pt-[8px] pb-[10px]" onBlur={() => void flush()}>
+      <ul className="mb-[8px] pl-0">
+        {analyzerDays.map((d) => (
+          <li key={d.day} className="mr-[10px] inline list-none">
+            {activeDay === d.day ? (
+              <span>{dayLabel(d.day, epilogueDay)}</span>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setSelectedDay(d.day)}
+                className="text-wm-accent cursor-pointer hover:underline"
+              >
+                {dayLabel(d.day, epilogueDay)}
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
 
       {/* Day content: Room grid + Footsteps/Daily memo */}
       {currentDaySituation && analyzerData.village.roomSize && (
@@ -213,8 +208,11 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
       <ParticipantMemoModal
         participant={openMemoParticipant}
         memo={openMemoData}
-        onSave={setParticipantMemo}
-        onClose={() => setMemoParticipantId(null)}
+        onChange={setParticipantMemo}
+        onClose={() => {
+          setMemoParticipantId(null);
+          void flush();
+        }}
       />
     </div>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import type { VillageParticipantView } from "~/features/village/api";
 import type { ParticipantMemo } from "~/features/village/analyzer/types";
@@ -9,24 +9,15 @@ import { ColorPicker } from "./ColorPicker";
 export function ParticipantMemoModal({
   participant,
   memo,
-  onSave,
+  onChange,
   onClose,
 }: {
   participant: VillageParticipantView | null;
   memo: ParticipantMemo | null;
-  onSave: (id: number, memo: ParticipantMemo) => void;
+  onChange: (id: number, memo: ParticipantMemo) => void;
   onClose: () => void;
 }) {
-  const [memoText, setMemoText] = useState("");
-  const [color, setColor] = useState("ffffff");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
-  useEffect(() => {
-    if (memo) {
-      setMemoText(memo.memo);
-      setColor(memo.color);
-    }
-  }, [memo]);
 
   useEffect(() => {
     if (participant && textareaRef.current) {
@@ -34,14 +25,9 @@ export function ParticipantMemoModal({
     }
   }, [participant]);
 
-  const handleSave = () => {
-    if (!participant) return;
-    onSave(participant.id, {
-      participantId: participant.id,
-      memo: memoText,
-      color,
-    });
-    onClose();
+  const update = (partial: Partial<ParticipantMemo>) => {
+    if (!participant || !memo) return;
+    onChange(participant.id, { ...memo, ...partial });
   };
 
   return (
@@ -52,21 +38,20 @@ export function ParticipantMemoModal({
     >
       <div className="mb-[10px] flex items-center gap-[8px]">
         <label className="text-village-sm text-gray-300">表示色</label>
-        <ColorPicker value={color} onChange={setColor} />
+        <ColorPicker value={memo?.color ?? "ffffff"} onChange={(color) => update({ color })} />
       </div>
       <textarea
         ref={textareaRef}
-        value={memoText}
-        onChange={(e) => setMemoText(e.target.value)}
+        value={memo?.memo ?? ""}
+        onChange={(e) => update({ memo: e.target.value })}
         rows={5}
         className="mb-[10px] w-full rounded border border-[#464545] bg-[#303030] p-[8px] text-village-sm text-white"
         placeholder="メモを入力..."
       />
-      <div className="flex justify-end gap-[8px]">
+      <div className="flex justify-end">
         <Button variant="default" onClick={onClose}>
-          キャンセル
+          閉じる
         </Button>
-        <Button onClick={handleSave}>保存</Button>
       </div>
     </Modal>
   );

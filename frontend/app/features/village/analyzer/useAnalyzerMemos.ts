@@ -63,7 +63,7 @@ export type AnalyzerMemosState = {
   setDailyMemo: (day: number, memo: string) => void;
   setDailyFootstepMemos: (day: number, footsteps: DayFootstep[]) => void;
   setWholeMemo: (memo: string) => void;
-  save: () => Promise<void>;
+  flush: () => Promise<void>;
 };
 
 export function useAnalyzerMemos(
@@ -88,15 +88,15 @@ export function useAnalyzerMemos(
 
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // タイマーをアンマウント時にクリアし、未保存データをフラッシュする
+  // アンマウント時・村切替時に、保存待ちの変更があればフラッシュする
   useEffect(() => {
     return () => {
-      if (saveTimerRef.current) {
-        clearTimeout(saveTimerRef.current);
-        saveTimerRef.current = null;
-      }
+      if (!saveTimerRef.current) return;
+      clearTimeout(saveTimerRef.current);
+      saveTimerRef.current = null;
+      if (playerId) void savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
     };
-  }, []);
+  }, [playerId, villageId]);
 
   const days = rawFootstepsByDay.map((d) => d.day);
 
@@ -143,11 +143,11 @@ export function useAnalyzerMemos(
     }, 2000);
   }, [playerId, villageId]);
 
-  const save = useCallback(async () => {
-    if (saveTimerRef.current) {
-      clearTimeout(saveTimerRef.current);
-      saveTimerRef.current = null;
-    }
+  // 保存待ちの変更があれば即座に保存する（なければ何もしない）
+  const flush = useCallback(async () => {
+    if (!saveTimerRef.current) return;
+    clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = null;
     if (!playerId) return;
     await savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
   }, [playerId, villageId]);
@@ -196,6 +196,6 @@ export function useAnalyzerMemos(
     setDailyMemo: setDailyMemoFn,
     setDailyFootstepMemos: setDailyFootstepMemosFn,
     setWholeMemo: setWholeMemoFn,
-    save,
+    flush,
   };
 }
