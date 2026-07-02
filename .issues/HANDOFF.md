@@ -5,7 +5,7 @@
 ## 現在地
 
 - enhance: 推理補助機能を村画面の状況欄タブに統合 (PR #123)。メモは backend API + MySQL (ANALYZER_MEMO) に永続化、Firebase 依存なし
-- 残 Issue: 14 ([[tp]]色重ね)、15 (タブ復帰後の未認証メッセージ取得)
+- 残 Issue: 15 (タブ復帰後の未認証メッセージ取得) のみ。14 ([[tp]]色重ね) は PR #124 で完了済み
 - **デプロイ注意**: ステージング/本番 DB に ANALYZER_MEMO の CREATE TABLE 適用が必要 (replace-schema-10-basic.sql 参照)
 
 ## 実装パターン・教訓
