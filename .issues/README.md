@@ -19,8 +19,8 @@
 
 | # | タイトル | type | status |
 | --- | --- | --- | --- |
-| 13 | 推理補助機能（wolf-mansion-analyzer）の移植 | enhance | open |
 | 14 | [[tp]]に[[#fff]]など色を重ねるとクリックしても内容が見られない | fix | open |
+| 15 | タブ復帰後の更新で1回だけ未認証状態のメッセージ取得が発生する | fix | open |
 
 
 ## frontend テスト基盤メモ

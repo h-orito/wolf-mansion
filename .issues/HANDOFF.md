@@ -4,8 +4,9 @@
 
 ## 現在地
 
-- fix: 日付更新通知が消えない問題を修正 (PR #122)。自動更新ON→10秒で消去、OFF→永続
-- 残 Issue: step-13（推理補助機能の移植）のみ
+- enhance: 推理補助機能を村画面の状況欄タブに統合 (PR #123)。メモは backend API + MySQL (ANALYZER_MEMO) に永続化、Firebase 依存なし
+- 残 Issue: 14 ([[tp]]色重ね)、15 (タブ復帰後の未認証メッセージ取得)
+- **デプロイ注意**: ステージング/本番 DB に ANALYZER_MEMO の CREATE TABLE 適用が必要 (replace-schema-10-basic.sql 参照)
 
 ## 実装パターン・教訓
 
