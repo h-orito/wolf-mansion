@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { fetchPlayerMemo, savePlayerMemo } from "./firebase";
+import { fetchAnalyzerMemo, saveAnalyzerMemo } from "./analyzerApi";
 import type {
   DailyFootstepMemo,
   DailyMemo,
@@ -94,7 +94,7 @@ export function useAnalyzerMemos(
       if (!saveTimerRef.current) return;
       clearTimeout(saveTimerRef.current);
       saveTimerRef.current = null;
-      if (playerId) void savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
+      if (playerId) void saveAnalyzerMemo(villageId, stateRef.current).catch(() => {});
     };
   }, [playerId, villageId]);
 
@@ -103,7 +103,7 @@ export function useAnalyzerMemos(
   useEffect(() => {
     if (!playerId) return;
     let cancelled = false;
-    fetchPlayerMemo(playerId, villageId)
+    fetchAnalyzerMemo(villageId)
       .then((saved) => {
         if (cancelled) return;
         setParticipantMemos(initParticipantMemos(saved, participantIdsRef.current));
@@ -139,7 +139,7 @@ export function useAnalyzerMemos(
     saveTimerRef.current = setTimeout(async () => {
       saveTimerRef.current = null;
       if (!playerId) return;
-      await savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
+      await saveAnalyzerMemo(villageId, stateRef.current).catch(() => {});
     }, 2000);
   }, [playerId, villageId]);
 
@@ -149,7 +149,7 @@ export function useAnalyzerMemos(
     clearTimeout(saveTimerRef.current);
     saveTimerRef.current = null;
     if (!playerId) return;
-    await savePlayerMemo(playerId, villageId, stateRef.current).catch(() => {});
+    await saveAnalyzerMemo(villageId, stateRef.current).catch(() => {});
   }, [playerId, villageId]);
 
   const setParticipantMemoFn = useCallback(

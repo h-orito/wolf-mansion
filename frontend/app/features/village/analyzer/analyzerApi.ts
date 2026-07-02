@@ -1,5 +1,7 @@
 import { apiFetch } from "~/lib/api";
 
+import type { PlayerMemo } from "./types";
+
 export type AnalyzerVillageData = {
   village: {
     id: number;
@@ -51,4 +53,24 @@ export type AnalyzerVote = {
 
 export function fetchAnalyzerVillage(villageId: number): Promise<AnalyzerVillageData> {
   return apiFetch<AnalyzerVillageData>(`/api/village/${villageId}`);
+}
+
+/** ログインプレイヤー本人の推理補助メモを取得する (未保存なら空のメモが返る)。 */
+export function fetchAnalyzerMemo(villageId: number): Promise<PlayerMemo> {
+  return apiFetch<PlayerMemo>(`/api/v1/villages/${villageId}/analyzer-memo`);
+}
+
+export function saveAnalyzerMemo(
+  villageId: number,
+  memo: Omit<PlayerMemo, "villageId">,
+): Promise<void> {
+  return apiFetch<void>(`/api/v1/villages/${villageId}/analyzer-memo`, {
+    method: "PUT",
+    body: {
+      wholeMemo: memo.wholeMemo,
+      participantMemos: memo.participantMemos,
+      dailyMemos: memo.dailyMemos,
+      dailyFootstepMemos: memo.dailyFootstepMemos,
+    },
+  });
 }

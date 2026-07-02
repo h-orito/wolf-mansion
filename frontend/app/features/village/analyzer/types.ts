@@ -1,29 +1,7 @@
-export type PlayerMemo = {
-  dailyMemos: DailyMemo[];
-  dailyFootstepMemos: DailyFootstepMemo[];
-  wholeMemo: string;
-  participantMemos: ParticipantMemo[];
-};
+import type { components } from "~/api/types";
 
-export type DailyMemo = {
-  day: number;
-  memo: string;
-};
-
-export type DailyFootstepMemo = {
-  day: number;
-  footsteps: DayFootstep[];
-};
-
-export type DayFootstep = {
-  footstep: string;
-  color: string;
-  show: boolean;
-  memo: string;
-};
-
-export type ParticipantMemo = {
-  participantId: number;
-  memo: string;
-  color: string;
-};
+export type PlayerMemo = components["schemas"]["AnalyzerMemo"];
+export type DailyMemo = components["schemas"]["AnalyzerDailyMemo"];
+export type DailyFootstepMemo = components["schemas"]["AnalyzerDailyFootstepMemo"];
+export type DayFootstep = components["schemas"]["AnalyzerFootstepMemo"];
+export type ParticipantMemo = components["schemas"]["AnalyzerParticipantMemo"];

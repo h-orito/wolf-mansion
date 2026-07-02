@@ -27,12 +27,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build image
-        run: |
-          docker build \
-            --build-arg VITE_FIREBASE_API_KEY="${{ secrets.VITE_FIREBASE_API_KEY }}" \
-            --build-arg VITE_FIREBASE_DATABASE_URL="${{ secrets.VITE_FIREBASE_DATABASE_URL }}" \
-            --build-arg VITE_FIREBASE_PROJECT_ID="${{ secrets.VITE_FIREBASE_PROJECT_ID }}" \
-            -t ghcr.io/h-orito/wolf-mansion-frontend frontend/
+        run: docker build -t ghcr.io/h-orito/wolf-mansion-frontend frontend/
 
       - name: Push image
         run: docker push ghcr.io/h-orito/wolf-mansion-frontend
