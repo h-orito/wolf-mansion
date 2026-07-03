@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import {
   actionVillage,
@@ -13,6 +13,7 @@ import {
 } from "~/features/village/api";
 import type { ReplyDraft } from "~/features/village/components/message/MessageCard";
 import type { SayPreview } from "~/features/village/components/action/SayPreviewArea";
+import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { ApiError } from "~/lib/api";
 
 function isSayPanelFixed(): boolean {
@@ -29,17 +30,21 @@ function scrollToSayPanel() {
   }
 }
 
-export function useSayFlow(
-  villageId: number,
-  invalidate: () => Promise<unknown>,
-  scrollToBottom: () => void,
-) {
+export function useSayFlow(villageId: number, invalidate: () => Promise<unknown>) {
+  const { scrollToMessageBottom } = useVillageScroll();
   const [reply, setReply] = useState<ReplyDraft | null>(null);
   const [sayPreview, setSayPreview] = useState<SayPreview | null>(null);
   const [sayError, setSayError] = useState<string | null>(null);
   const [saySubmitting, setSaySubmitting] = useState(false);
   type SayKind = "say" | "action" | "creatorSay";
   const onSayDoneCallbacks = useRef<Map<SayKind, () => void>>(new Map());
+
+  // ハンドラ内で state 更新直後にスクロールするとプレビューの DOM 反映前で位置計算がずれる。
+  // 反映後に走る effect から、レイアウト確定を待って次フレームでスクロールする
+  useEffect(() => {
+    if (sayPreview == null) return;
+    requestAnimationFrame(() => scrollToMessageBottom());
+  }, [sayPreview, scrollToMessageBottom]);
 
   const onReply = useCallback((draft: ReplyDraft) => {
     setReply(draft);
@@ -61,7 +66,6 @@ export function useSayFlow(
         return;
       }
       setSayPreview({ kind: "say", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言の確認に失敗しました");
     }
@@ -76,7 +80,6 @@ export function useSayFlow(
         return;
       }
       setSayPreview({ kind: "action", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "アクションの確認に失敗しました");
     }
@@ -91,7 +94,6 @@ export function useSayFlow(
         return;
       }
       setSayPreview({ kind: "creatorSay", message: response.message, request });
-      requestAnimationFrame(() => scrollToBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "村建て発言の確認に失敗しました");
     }
@@ -114,7 +116,7 @@ export function useSayFlow(
       setReply(null);
       onSayDoneCallbacks.current.get(kind)?.();
       await invalidate();
-      requestAnimationFrame(() => scrollToBottom());
+      requestAnimationFrame(() => scrollToMessageBottom());
     } catch (e) {
       setSayError(e instanceof ApiError ? e.detail : "発言に失敗しました");
     } finally {
