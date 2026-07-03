@@ -7,7 +7,7 @@ import { Modal } from "~/components/ui/Modal";
 import { TextButton } from "~/components/ui/TextButton";
 import type { VillageParticipantView } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
-import { allParticipants } from "~/features/village/participants";
+import { allParticipants, sortByRoomNumber } from "~/features/village/participants";
 import { useMyVillageSituation } from "~/features/village/useVillage";
 import { EMPTY_FILTER, FILTER_TYPES, type MessageFilter } from "~/features/village/filter";
 import { MessageType } from "~/features/village/components/message/messageType";
@@ -164,7 +164,8 @@ export function FilterModal({
 }) {
   const village = useVillageContext();
   const { data: mySituation } = useMyVillageSituation(village.id, dayParam);
-  const participants = allParticipants(village).map(toFilterParticipant);
+  // 部屋割りのある村では部屋番号と一覧の並びを一致させて対象を探しやすくする (表示専用のソート)
+  const participants = sortByRoomNumber(allParticipants(village)).map(toFilterParticipant);
   const myselfId = mySituation?.myself?.id ?? null;
   const notificationKeyword =
     mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null;
