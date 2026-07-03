@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useMe } from "~/features/auth/useMe";
+import { useEnsureFreshAuth, useMe } from "~/features/auth/useMe";
 import {
   fetchMyVillageSituation,
   fetchVillage,
@@ -64,20 +64,24 @@ export function useVillageDebugInfo(id: number) {
   });
 }
 
-/** 村系クエリをまとめて無効化する (日付更新・手動更新時)。発言一覧・デバッグ情報も含む。 */
+/**
+ * 村系クエリをまとめて無効化する (日付更新・手動更新時)。発言一覧・デバッグ情報も含む。
+ * 発言一覧などの公開 GET は access token が失効していても匿名視点の 200 を返してしまうため、
+ * 再取得の前に me を取り直して認証状態を立て直してから無効化する。
+ */
 export function useInvalidateVillage(id: number) {
   const queryClient = useQueryClient();
-  return useCallback(
-    () =>
-      Promise.all([
-        queryClient.invalidateQueries({ queryKey: [VILLAGE_QUERY_KEY, id] }),
-        queryClient.invalidateQueries({ queryKey: [VILLAGE_SITUATION_QUERY_KEY, id] }),
-        queryClient.invalidateQueries({ queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id] }),
-        queryClient.invalidateQueries({ queryKey: [VILLAGE_MESSAGES_QUERY_KEY, id] }),
-        queryClient.invalidateQueries({ queryKey: ["village-debug", id] }),
-      ]),
-    [queryClient, id],
-  );
+  const ensureFreshAuth = useEnsureFreshAuth();
+  return useCallback(async () => {
+    await ensureFreshAuth();
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: [VILLAGE_QUERY_KEY, id] }),
+      queryClient.invalidateQueries({ queryKey: [VILLAGE_SITUATION_QUERY_KEY, id] }),
+      queryClient.invalidateQueries({ queryKey: [MY_VILLAGE_SITUATION_QUERY_KEY, id] }),
+      queryClient.invalidateQueries({ queryKey: [VILLAGE_MESSAGES_QUERY_KEY, id] }),
+      queryClient.invalidateQueries({ queryKey: ["village-debug", id] }),
+    ]);
+  }, [queryClient, id, ensureFreshAuth]);
 }
 
 export function useVillageInvalidate() {

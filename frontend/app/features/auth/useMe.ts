@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { ApiError } from "~/lib/api";
 import { fetchMe, type MeResponse } from "./api";
@@ -60,4 +60,19 @@ export function useSetMe(): (me: MeResponse | null) => void {
 export function useInvalidateMe(): () => Promise<void> {
   const queryClient = useQueryClient();
   return () => queryClient.invalidateQueries({ queryKey: ME_QUERY_KEY });
+}
+
+/**
+ * ログイン中 (me キャッシュあり) なら me を取り直し、失効した access token を立て直す。
+ * 公開 GET は access token が失効していても 401 にならず匿名視点の 200 を返すため、
+ * 可視範囲がログイン状態に依存するクエリを再取得する前に await で呼ぶ。
+ * me は認証必須のため、失効していれば apiFetch の refresh → リトライで token が更新される。
+ * refresh も失効していた場合は me が null になり、呼び出し側は匿名視点として扱える。
+ */
+export function useEnsureFreshAuth(): () => Promise<void> {
+  const queryClient = useQueryClient();
+  return useCallback(async () => {
+    if (queryClient.getQueryData(ME_QUERY_KEY) == null) return;
+    await queryClient.refetchQueries({ queryKey: ME_QUERY_KEY });
+  }, [queryClient]);
 }
