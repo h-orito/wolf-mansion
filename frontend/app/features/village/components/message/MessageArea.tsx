@@ -107,6 +107,8 @@ export function MessageArea({
         />
       ))}
       {confirmArea}
+      {/* 発言確認・確定時のスクロール下端。メッセージエリア外の要素 (DayList・広告) を画面に入れない */}
+      <div id="message-bottom" />
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}
       {data.villageStatusMessage != null && <Announce text={data.villageStatusMessage} />}
       {data.commitStatusMessage != null && <Announce text={data.commitStatusMessage} />}

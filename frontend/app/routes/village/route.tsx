@@ -106,7 +106,7 @@ export default function Village({ params }: Route.ComponentProps) {
     onCreatorSayConfirm,
     onSayDetermine,
     onSayCancel,
-  } = useSayFlow(villageId, invalidate, scrollToBottom);
+  } = useSayFlow(villageId, invalidate);
 
   // 発言抽出。URL searchParams が正本 (共有 URL で再現できる)
   const [searchParams, setSearchParams] = useSearchParams();
