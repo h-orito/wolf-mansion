@@ -2,6 +2,7 @@ import { type MouseEvent, useMemo } from "react";
 
 import type { VillageMessageContent } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
+import { allParticipants, sortByRoomNumber } from "~/features/village/participants";
 import { ParticipantsTable } from "../info/ParticipantsTable";
 import { MessageType } from "./messageType";
 import { SYSTEM_VARIANTS, bubbleClass } from "./message";
@@ -17,14 +18,7 @@ export function SystemMessage({
   onContentClick: (e: MouseEvent<HTMLDivElement>) => void;
 }) {
   const village = useVillageContext();
-  const sortedParticipants = useMemo(() => {
-    return [...(village.participants.list ?? []), ...(village.spectators.list ?? [])].sort(
-      (a, b) =>
-        Number(a.isSpectator) - Number(b.isSpectator) ||
-        (a.room?.number ?? 0) - (b.room?.number ?? 0) ||
-        a.chara.id - b.chara.id,
-    );
-  }, [village.participants.list, village.spectators.list]);
+  const sortedParticipants = useMemo(() => sortByRoomNumber(allParticipants(village)), [village]);
 
   if (message.messageType === MessageType.PARTICIPANTS && sortedParticipants.length > 0) {
     return (
