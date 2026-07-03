@@ -1,6 +1,6 @@
 import type { VillageParticipantView } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
-import { allParticipants } from "~/features/village/participants";
+import { allParticipants, compareByRoomNumber } from "~/features/village/participants";
 
 const cellBorderClass = "border border-[#464545]";
 
@@ -8,9 +8,6 @@ type MemberGroup = {
   status: string;
   members: { name: string; deadDay: string | null; memo: string | null }[];
 };
-
-const sortByRoom = (a: VillageParticipantView, b: VillageParticipantView) =>
-  (a.room?.number ?? 0) - (b.room?.number ?? 0) || a.chara.id - b.chara.id;
 
 function groupParticipants(participants: VillageParticipantView[]): MemberGroup[] {
   const alive: VillageParticipantView[] = [];
@@ -38,16 +35,16 @@ function groupParticipants(participants: VillageParticipantView[]): MemberGroup[
     }));
 
   const groups: MemberGroup[] = [
-    { status: "生存", members: toMembers([...alive].sort(sortByRoom)) },
+    { status: "生存", members: toMembers([...alive].sort(compareByRoomNumber)) },
   ];
   for (const [reason, list] of deadByReason) {
     const sorted = [...list].sort(
-      (a, b) => (a.dead.deadDay ?? 0) - (b.dead.deadDay ?? 0) || sortByRoom(a, b),
+      (a, b) => (a.dead.deadDay ?? 0) - (b.dead.deadDay ?? 0) || compareByRoomNumber(a, b),
     );
     groups.push({ status: reason, members: toMembers(sorted) });
   }
   if (spectators.length > 0) {
-    groups.push({ status: "見学", members: toMembers([...spectators].sort(sortByRoom)) });
+    groups.push({ status: "見学", members: toMembers([...spectators].sort(compareByRoomNumber)) });
   }
   return groups;
 }
