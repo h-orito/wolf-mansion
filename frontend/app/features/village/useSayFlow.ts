@@ -39,8 +39,8 @@ export function useSayFlow(villageId: number, invalidate: () => Promise<unknown>
   type SayKind = "say" | "action" | "creatorSay";
   const onSayDoneCallbacks = useRef<Map<SayKind, () => void>>(new Map());
 
-  // state 更新直後はプレビューが DOM に反映される前でスクロール位置の計算がずれるため、
-  // 反映後の effect からスクロールする
+  // ハンドラ内で state 更新直後にスクロールするとプレビューの DOM 反映前で位置計算がずれる。
+  // 反映後に走る effect から、レイアウト確定を待って次フレームでスクロールする
   useEffect(() => {
     if (sayPreview == null) return;
     requestAnimationFrame(() => scrollToMessageBottom());
