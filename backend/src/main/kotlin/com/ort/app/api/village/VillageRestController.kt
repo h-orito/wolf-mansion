@@ -227,6 +227,9 @@ class VillageRestController(
         if (codeErrors.isNotEmpty()) throw WolfMansionValidationException(codeErrors)
 
         val form = request.toForm(dummyCharaImage)
+        // 未指定項目に SSR と同じデフォルトを補完する。特に陣営・役職配分は
+        // 通常編成でも保存される前提のデータなので、初期化しないと設定変更画面が壊れる
+        form.initialize()
         val errors = BeanPropertyBindingResult(form, "villageForm")
         newVillageFormValidator.validate(form, errors)
         if (errors.hasErrors()) {

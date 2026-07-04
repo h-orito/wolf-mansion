@@ -1,17 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
-  findVillages,
+  ensureVillagesExist,
   loginApi,
-  provisionInProgressVillage,
   CANDIDATE_USERS,
   type SimpleVillage,
 } from "./helpers/provision";
 
 /**
- * コミットの e2e。コミット可の村の参加者が必要なため、進行中の村と
- * ローカル開発 DB のテストユーザー (testuser01〜16 / password=testuser) を
- * 走査して動的に探す。見つからなければ村を作成して再走査する。
- * ON → OFF と元に戻して終わるため共有 DB の進行状態を変えない
+ * コミットの e2e。この実行用に provision された進行中の村を対象に、
+ * テストユーザー (testuser01〜16 / password=testuser) を走査して
+ * コミット可能な参加者を探す。ON → OFF と元に戻して終わる
  * (未コミットの参加者を選ぶので、自分のコミットで全員コミットが成立して
  * 日付更新が走ることもない)。
  */
@@ -41,11 +39,8 @@ async function scanCommitCandidate(
 }
 
 async function findCommitCandidate(page: Page): Promise<Candidate | null> {
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  const result = await scanCommitCandidate(page, existing);
-  if (result) return result;
-  const provisioned = await provisionInProgressVillage(page);
-  return scanCommitCandidate(page, [provisioned]);
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
+  return scanCommitCandidate(page, villages);
 }
 
 test("コミット可の村でコミット ON → OFF を切り替えられる", async ({ page }) => {

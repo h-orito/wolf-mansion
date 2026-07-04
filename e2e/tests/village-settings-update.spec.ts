@@ -1,33 +1,19 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 import {
   ensureVillagesExist,
-  findVillages,
   loginApi,
-  type SimpleVillage,
+  provisionRecruitingVillage,
 } from "./helpers/provision";
 
 /**
  * 村設定変更 (`/village/{id}/settings`、村主のみ) の e2e。
- * master が村建てした募集中の村を動的に探し、村名を変更して保存 → 元に戻す。
+ * master 村建ての村を provision して使う (既存村頼みだと編集可能な村が無く落ち続ける)。
  */
 
-/** master が設定変更できる募集中の村を返す（creator/setting が正常に返る村を選ぶ）。 */
-async function findEditableVillage(page: Page): Promise<SimpleVillage | null> {
-  await loginApi(page, "master");
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  for (const village of villages) {
-    const res = await page.request.get(
-      `/wolf-mansion-api/api/v1/villages/${village.id}/creator/setting`,
-    );
-    if (res.ok()) return village;
-  }
-  return null;
-}
-
 test("村設定変更: 村名を変更して保存し、元に戻す", async ({ page }) => {
-  const village = await findEditableVillage(page);
-  expect(village, "master が設定変更できる募集中の村が無い").not.toBeNull();
-  if (village == null) return;
+  // 村名を変更するため、共有村ではなくこのテスト専用の村を作る (master 村建て = 設定変更可)
+  const village = await provisionRecruitingVillage(page);
+  await loginApi(page, "master");
 
   await page.goto(`village/${village.id}/settings`);
   const nameInput = page.getByLabel("村名");

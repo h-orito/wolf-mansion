@@ -94,6 +94,56 @@ const DEFAULT_ORGANIZATION = [
   "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共",
 ].join("\n");
 
+// 作成した村の記録 (global.teardown が決着させて後片付けする)。
+// 並列 worker からの追記が混ざっても壊れないよう 1 行 1 村の NDJSON で追記する。
+// 意図的に実行を跨いで残す: 前回の teardown が中断などで走らなかった場合、
+// 次回の teardown が残骸の村も片付ける (決着済みの村の settle は即 return の no-op)
+const CREATED_PATH = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../.provision-created.ndjson",
+);
+
+function recordCreatedVillage(village: SimpleVillage): void {
+  fs.appendFileSync(CREATED_PATH, `${JSON.stringify(village)}\n`);
+}
+
+export function readCreatedVillages(): SimpleVillage[] {
+  try {
+    return fs
+      .readFileSync(CREATED_PATH, "utf-8")
+      .split("\n")
+      .filter(Boolean)
+      .map((line) => JSON.parse(line));
+  } catch {
+    return [];
+  }
+}
+
+export function clearCreatedVillages(): void {
+  fs.rmSync(CREATED_PATH, { force: true });
+}
+
+/**
+ * 村を終了状態に片付ける。廃村はプロローグ中しかできないため、
+ * 進行中・エピローグの村は debug の日送りで決着させる。
+ */
+export async function settleVillage(page: Page, villageId: number): Promise<void> {
+  await loginApi(page, "master");
+  for (let i = 0; i < 10; i++) {
+    const village = await fetchVillage(page, villageId);
+    const code: string = village.status?.code ?? "";
+    if (code === "IN_PREPARATION" || code === "WAITING") {
+      await page.request.post(`${API}/villages/${villageId}/creator/cancel`);
+      return;
+    }
+    if (code === "IN_PROGRESS" || code === "EPILOGUE") {
+      await page.request.post(`${API}/villages/${villageId}/debug/day-change`);
+      continue;
+    }
+    return;
+  }
+}
+
 async function createVillageApi(page: Page): Promise<SimpleVillage> {
   await loginApi(page, "master");
 
@@ -123,7 +173,11 @@ async function createVillageApi(page: Page): Promise<SimpleVillage> {
     availableSameWolfAttack: false,
     availableGuardSameTarget: false,
     reincarnationSkillAll: false,
-    availableSuddonlyDeath: true,
+    // 突然死ありにすると、片付け損ねた村の日送りでテストユーザーが突然死して
+    // 参加制限ペナルティを受け、以降の村プロビジョニングを壊す。
+    // 突然死なしの村は日付更新時に全生存者へ自投票が自動セットされるため、
+    // 投票系スペックの前提 (投票済み参加者の存在) はむしろ決定的になる
+    availableSuddonlyDeath: false,
     availableCommit: true,
     availableSpectate: true,
     creatorIsProducer: false,
@@ -152,7 +206,9 @@ async function createVillageApi(page: Page): Promise<SimpleVillage> {
     throw new Error(`Village creation failed: ${res.status()} ${body}`);
   }
   const id = ((await res.json()) as { id: number }).id;
-  return { id, name: villageName };
+  const village = { id, name: villageName };
+  recordCreatedVillage(village);
+  return village;
 }
 
 async function debugFillParticipants(
@@ -187,11 +243,27 @@ export async function provisionRecruitingVillage(
   return createVillageApi(page);
 }
 
+/**
+ * 進行中の村 (1日目) を作る。ダミーキャラは master (player_id=1) 名義で参加する
+ * 仕様のため、作成した村では master が最初からダミーとして参加者になっており、
+ * 村建て発言・独り言・村管理などの master 前提スペックがそのまま動く。
+ */
 export async function provisionInProgressVillage(
   page: Page,
 ): Promise<SimpleVillage> {
   const village = await createVillageApi(page);
   await debugFillParticipants(page, village.id, 7);
+  await debugForceDayChange(page, village.id);
+  return village;
+}
+
+/**
+ * 投票可能な村 (2日目) を作る。投票は2日目からのため、1日目の村では投票系の
+ * テストができない。突然死なし村は日付更新時に全生存者へ自投票が自動セット
+ * されるため、この村には「投票済みの参加者」が必ず存在する。
+ */
+export async function provisionVotingVillage(page: Page): Promise<SimpleVillage> {
+  const village = await provisionInProgressVillage(page);
   await debugForceDayChange(page, village.id);
   return village;
 }
@@ -219,6 +291,7 @@ export async function provisionCompletedVillage(
 export type ProvisionCache = {
   inProgress: SimpleVillage;
   recruiting: SimpleVillage;
+  voting: SimpleVillage;
 };
 
 const CACHE_PATH = path.join(
@@ -234,6 +307,11 @@ function readCache(): ProvisionCache | null {
   }
 }
 
+/**
+ * 状態に合う村を返す。募集中・進行中は「DB にたまたまある村」を拾わず、
+ * global.setup がこの実行用に作った村 (キャッシュ) を使う。
+ * 終了系 (EPILOGUE/COMPLETED/CANCEL) は状態が変わらないため既存村を再利用してよい。
+ */
 export async function ensureVillagesExist(
   page: Page,
   statuses: string[],
@@ -246,63 +324,42 @@ export async function ensureVillagesExist(
   if (statuses.includes("IN_PREPARATION") && cache?.recruiting) {
     return [cache.recruiting];
   }
-
-  const existing = await findVillages(page, statuses);
-  if (existing.length > 0) return existing;
-
   if (statuses.includes("IN_PREPARATION")) {
     return [await provisionRecruitingVillage(page)];
   }
   if (statuses.includes("IN_PROGRESS")) {
     return [await provisionInProgressVillage(page)];
   }
-  if (
-    statuses.some((s) => ["EPILOGUE", "COMPLETED", "CANCEL"].includes(s))
-  ) {
+  if (statuses.some((s) => ["EPILOGUE", "COMPLETED", "CANCEL"].includes(s))) {
+    const existing = await findVillages(page, statuses);
+    if (existing.length > 0) return existing;
     return [await provisionCompletedVillage(page)];
   }
 
   return [];
 }
 
-/** master が参加している IN_PROGRESS 村を返す。 */
+/** master が参加している IN_PROGRESS 村を返す (provision した村は master がダミーとして参加している)。 */
 export async function ensureMasterInProgressVillage(
   page: Page,
 ): Promise<SimpleVillage> {
   const cache = readCache();
   if (cache?.inProgress) return cache.inProgress;
-
-  const villages = await findVillages(page, ["IN_PROGRESS"]);
-  await loginApi(page, "master");
-  for (const v of villages) {
-    const res = await page.request.get(
-      `${API}/villages/${v.id}/situation/me`,
-    );
-    if (!res.ok()) continue;
-    const body = (await res.json()) as { myself: unknown };
-    if (body.myself != null) return v;
-  }
   return provisionInProgressVillage(page);
 }
 
-/** master が村建てした募集中の村を返す。 */
+/** master が村建てした募集中の村を返す (provision した村は master が村建てしている)。 */
 export async function ensureMasterRecruitingVillage(
   page: Page,
 ): Promise<SimpleVillage> {
   const cache = readCache();
   if (cache?.recruiting) return cache.recruiting;
-
-  const villages = await findVillages(page, ["IN_PREPARATION"]);
-  await loginApi(page, "master");
-  for (const v of villages) {
-    const res = await page.request.get(
-      `${API}/villages/${v.id}/situation/me`,
-    );
-    if (!res.ok()) continue;
-    const body = (await res.json()) as {
-      creator: { isAvailableModifySetting: boolean };
-    };
-    if (body.creator?.isAvailableModifySetting) return v;
-  }
   return provisionRecruitingVillage(page);
+}
+
+/** 投票可能な (2日目の) IN_PROGRESS 村を返す。 */
+export async function ensureVotingVillage(page: Page): Promise<SimpleVillage> {
+  const cache = readCache();
+  if (cache?.voting) return cache.voting;
+  return provisionVotingVillage(page);
 }

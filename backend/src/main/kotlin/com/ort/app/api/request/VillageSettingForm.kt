@@ -187,10 +187,14 @@ data class VillageSettingForm(
                 CDef.Camp.狐陣営,
                 CDef.Camp.恋人陣営,
                 CDef.Camp.愉快犯陣営,
-            ).map { cdefCamp ->
+            ).mapNotNull { cdefCamp ->
+                // 陣営配分は通常編成でも保存される前提だが、REST 作成経路の初期化漏れ
+                // (form.initialize() 未呼び出し) の期間に配分なしで作られた村が存在する。
+                // 無い陣営は返さず、frontend 側のデフォルト値補完に任せる
                 val campAllocation =
                     village.setting.organize.randomOrganization.campAllocation
-                        .first { it.camp.code == cdefCamp.code() }
+                        .firstOrNull { it.camp.code == cdefCamp.code() }
+                        ?: return@mapNotNull null
                 RandomOrganizationCampForm(
                     campCode = campAllocation.camp.code,
                     campName = campAllocation.camp.name,

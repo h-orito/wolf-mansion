@@ -1,18 +1,16 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
-  findVillages,
+  ensureVillagesExist,
   loginApi,
   dismissInitialSkillModal,
   dismissAgeLimitModal,
-  provisionInProgressVillage,
   CANDIDATE_USERS,
   type SimpleVillage,
 } from "./helpers/provision";
 
 /**
- * RP 支援 (名前変更・簡易メモ) の e2e。進行中の村の参加者を
- * ローカル開発 DB のテストユーザー (testuser01〜16 / password=testuser) から
- * 動的に探す。見つからなければ村を作成して再走査する。
+ * RP 支援 (名前変更・簡易メモ) の e2e。この実行用に provision された進行中の村を
+ * 対象に、テストユーザー (testuser01〜16 / password=testuser) から参加者を探す。
  * 変更後は元の値に戻して終わるため共有 DB の進行状態を変えない。
  */
 
@@ -58,11 +56,8 @@ async function findRpCandidate(
   page: Page,
   filter: (rpFlags: RpFlags, myself: Myself) => boolean,
 ): Promise<Candidate | null> {
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  const result = await scanRpCandidate(page, existing, filter);
-  if (result) return result;
-  const provisioned = await provisionInProgressVillage(page);
-  return scanRpCandidate(page, [provisioned], filter);
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
+  return scanRpCandidate(page, villages, filter);
 }
 
 test("簡易メモを変更すると参加者一覧に表示される (元に戻す)", async ({ page }) => {
