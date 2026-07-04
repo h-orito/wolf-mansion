@@ -7,10 +7,12 @@ import {
   parseFootstepRoomNumbers,
 } from "~/features/village/analyzer/footstepGaps";
 
-// FootstepLines の実線・破線と同じ index ごとのずらし量に合わせる
-function overlayOffset(index: number): number {
+// FootstepLines の実線・破線・ドットと同じ index ごとのずらし量に合わせる。
+// FootstepLines は縦線を x 方向、横線を y 方向に逆符号でずらすため、y は x の逆符号
+function overlayOffset(index: number): { x: number; y: number } {
   const half = Math.floor(index / 2);
-  return index % 2 === 0 ? 4 * half : -(4 * half + 4);
+  const x = index % 2 === 0 ? 4 * half : -(4 * half + 4);
+  return { x, y: -x };
 }
 
 // 鳴らなかった部屋（空き部屋・死亡者・防音者など）で途切れた足音経路の推定区間を、
@@ -48,7 +50,8 @@ export function FootstepGapLines({
       color,
       points: segment
         .map(
-          (cell) => `${cell.x * cellW + cellW / 2 + offset},${cell.y * cellH + cellH / 2 + offset}`,
+          (cell) =>
+            `${cell.x * cellW + cellW / 2 + offset.x},${cell.y * cellH + cellH / 2 + offset.y}`,
         )
         .join(" "),
     }));
