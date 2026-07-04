@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { ensureVillagesExist, uniqueUserId } from "./helpers/provision";
+import {
+  ensureVillagesExist,
+  provisionRecruitingVillage,
+  uniqueUserId,
+} from "./helpers/provision";
 
 /**
  * 村画面の入村フォーム e2e。新規ユーザーで確認画面 (サーバ検証 204) まで進み、
@@ -43,8 +47,8 @@ test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) 
 });
 
 test("入村 → 役職希望変更 → 退村の自己完結フロー", async ({ page }) => {
-  const villages = await ensureVillagesExist(page, ["IN_PREPARATION"]);
-  const village = villages[villages.length - 1];
+  // 入退村で参加者数を変えるため、共有村ではなくこのテスト専用の村を作る
+  const village = await provisionRecruitingVillage(page);
 
   await page.goto("signup");
   await page.waitForLoadState("networkidle");

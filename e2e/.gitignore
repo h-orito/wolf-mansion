@@ -12,5 +12,6 @@
 # ローカル実行ログ (動作確認用、git 管理外)
 /.logs/
 
-# globalSetup で生成する村プロビジョニングキャッシュ
+# globalSetup で生成する村プロビジョニングキャッシュ / 作成村の記録
 /tests/.provision-cache.json
+/tests/.provision-created.ndjson

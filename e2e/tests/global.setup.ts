@@ -3,11 +3,10 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  findVillages,
   provisionInProgressVillage,
   provisionRecruitingVillage,
+  provisionVotingVillage,
   type ProvisionCache,
-  type SimpleVillage,
 } from "./helpers/provision";
 
 const CACHE_PATH = path.join(
@@ -15,25 +14,18 @@ const CACHE_PATH = path.join(
   ".provision-cache.json",
 );
 
+// 共有村はこの実行専用に必ず新規作成する。DB にたまたまある村を拾うと、
+// 開始時刻超過・日数進行・master 不参加など前提の崩れた村に当たってフレークする
 setup("provision shared villages", async ({ page }) => {
   setup.setTimeout(180000);
 
-  let inProgress: SimpleVillage;
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  if (existing.length > 0) {
-    inProgress = existing[0];
-  } else {
-    inProgress = await provisionInProgressVillage(page);
-  }
+  // 過去の実行の古いキャッシュを specs に読ませないよう、provision 前に消しておく
+  fs.rmSync(CACHE_PATH, { force: true });
 
-  let recruiting: SimpleVillage;
-  const existingPrep = await findVillages(page, ["IN_PREPARATION"]);
-  if (existingPrep.length > 0) {
-    recruiting = existingPrep[0];
-  } else {
-    recruiting = await provisionRecruitingVillage(page);
-  }
+  const inProgress = await provisionInProgressVillage(page);
+  const voting = await provisionVotingVillage(page);
+  const recruiting = await provisionRecruitingVillage(page);
 
-  const cache: ProvisionCache = { inProgress, recruiting };
+  const cache: ProvisionCache = { inProgress, recruiting, voting };
   fs.writeFileSync(CACHE_PATH, JSON.stringify(cache));
 });

@@ -1,19 +1,17 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
-  findVillages,
+  ensureVotingVillage,
   loginApi,
   fetchVillage,
   dismissInitialSkillModal,
-  provisionInProgressVillage,
   CANDIDATE_USERS,
   type SimpleVillage,
 } from "./helpers/provision";
 
 /**
- * 投票セットの e2e。投票できる参加者が必要なため、進行中の村と
- * ローカル開発 DB のテストユーザー (testuser01〜16 / password=testuser) を
- * 走査して投票可能者を動的に探す。見つからなければ村を作成して再走査する。
- * 元の投票先に戻して終わるため共有 DB の進行状態を変えない。
+ * 投票セットの e2e。投票は2日目からのため、この実行用に provision された
+ * 投票可能な (2日目の) 村を対象に、テストユーザー (testuser01〜16 /
+ * password=testuser) を走査して投票可能者を探す。元の投票先に戻して終わる。
  */
 
 type VoteView = {
@@ -66,11 +64,8 @@ async function findVoteCandidate(
   page: Page,
   filter: (vote: VoteView) => boolean,
 ): Promise<Candidate | null> {
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  const result = await scanVoteCandidate(page, existing, filter);
-  if (result) return result;
-  const provisioned = await provisionInProgressVillage(page);
-  return scanVoteCandidate(page, [provisioned], filter);
+  const village = await ensureVotingVillage(page);
+  return scanVoteCandidate(page, [village], filter);
 }
 
 /** 投票可能な参加者を探し、投票をセットして返す。 */
@@ -78,28 +73,27 @@ async function findVotedCandidate(page: Page): Promise<Candidate | null> {
   const simpleFilter = (vote: VoteView) =>
     vote.targetCharaId != null && vote.targetCharaIds.length >= 2;
 
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  const result = await scanVoteCandidate(page, existing, simpleFilter);
+  const village = await ensureVotingVillage(page);
+  const result = await scanVoteCandidate(page, [village], simpleFilter);
   if (result) return result;
 
-  const provisioned = await provisionInProgressVillage(page);
-  // provisioned 村で投票可能な参加者を探し、API で投票をセットする
-  const unvoted = await scanVoteCandidate(page, [provisioned], (vote) =>
+  // まだ誰も投票していなければ、投票可能な参加者に API で投票をセットする
+  const unvoted = await scanVoteCandidate(page, [village], (vote) =>
     vote.canVote && vote.targetCharaIds.length >= 2,
   );
   if (!unvoted) return null;
 
   const targetCharaId = unvoted.vote.targetCharaIds[0];
-  const voteRes = await page.request.post(`${API}/villages/${provisioned.id}/vote`, {
+  const voteRes = await page.request.post(`${API}/villages/${unvoted.villageId}/vote`, {
     data: { targetCharaId },
   });
   if (!voteRes.ok()) return null;
 
-  const meRes = await page.request.get(`${API}/villages/${provisioned.id}/situation/me`);
+  const meRes = await page.request.get(`${API}/villages/${unvoted.villageId}/situation/me`);
   if (!meRes.ok()) return null;
   const updated = (await meRes.json()) as { vote: VoteView };
   return {
-    villageId: provisioned.id,
+    villageId: unvoted.villageId,
     userId: unvoted.userId,
     vote: updated.vote,
     village: unvoted.village,

@@ -24,9 +24,15 @@ export default defineConfig({
   testDir: "./tests",
   // テストは独立データ前提なので並列で良い (05-e2e.md)
   fullyParallel: true,
+  // デフォルト (コア数の半分) だと 2 コア環境で 1 worker = 直列になる。
+  // e2e は大半が HTTP 待ちなので、コア数が少なくても 2 worker で有意に短縮できる
+  workers: 2,
   forbidOnly: isCI,
   retries: 1,
   reporter: "html",
+  // 共有 2 コアに backend/frontend/MySQL/ブラウザが同居するため、負荷スパイク時の
+  // 描画遅延をフレーク扱いしないよう expect のデフォルト (5s) を延ばす
+  expect: { timeout: 10_000 },
   use: {
     baseURL: BASE_URL,
     // 失敗時のみ artifacts を残す (05-e2e.md)。video は取らない。
@@ -38,6 +44,11 @@ export default defineConfig({
     {
       name: "setup",
       testMatch: /global\.setup\.ts/,
+      teardown: "cleanup",
+    },
+    {
+      name: "cleanup",
+      testMatch: /global\.teardown\.ts/,
     },
     {
       name: "chromium",

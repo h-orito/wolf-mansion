@@ -1,18 +1,16 @@
 import { expect, test, type Page } from "@playwright/test";
 import {
-  findVillages,
+  ensureVillagesExist,
   loginApi,
   dismissInitialSkillModal,
-  provisionInProgressVillage,
   CANDIDATE_USERS,
   type SimpleVillage,
 } from "./helpers/provision";
 
 /**
- * 役職能力セットの e2e。能力を使える参加者が必要なため、進行中の村と
- * ローカル開発 DB のテストユーザー (testuser01〜16 / password=testuser) を
- * 走査して能力者を動的に探す。見つからなければ村を作成して再走査する。
- * セットは現在値の再セットに留め、共有 DB の進行状態を変えない。
+ * 役職能力セットの e2e。この実行用に provision された進行中の村を対象に、
+ * テストユーザー (testuser01〜16 / password=testuser) を走査して能力者を探す。
+ * セットは現在値の再セットに留め、村の進行状態を変えない。
  */
 
 type AbilityView = {
@@ -52,11 +50,8 @@ async function findAbilityCandidate(
   page: Page,
   filter: (ability: AbilityView) => boolean,
 ): Promise<Candidate | null> {
-  const existing = await findVillages(page, ["IN_PROGRESS"]);
-  const result = await scanAbilityCandidate(page, existing, filter);
-  if (result) return result;
-  const provisioned = await provisionInProgressVillage(page);
-  return scanAbilityCandidate(page, [provisioned], filter);
+  const villages = await ensureVillagesExist(page, ["IN_PROGRESS"]);
+  return scanAbilityCandidate(page, villages, filter);
 }
 
 test("能力者で村画面を開くと役職パネルが表示される", async ({ page }) => {
