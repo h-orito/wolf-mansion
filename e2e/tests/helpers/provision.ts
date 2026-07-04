@@ -94,8 +94,10 @@ const DEFAULT_ORGANIZATION = [
   "村狼狼狼狼魔狐賢導狩霊霊霊霊霊霊霊霊共共",
 ].join("\n");
 
-// このプロセスが作成した村の記録 (global.teardown が廃村して後片付けする)。
-// 並列 worker からの追記が混ざっても壊れないよう 1 行 1 村の NDJSON で追記する
+// 作成した村の記録 (global.teardown が決着させて後片付けする)。
+// 並列 worker からの追記が混ざっても壊れないよう 1 行 1 村の NDJSON で追記する。
+// 意図的に実行を跨いで残す: 前回の teardown が中断などで走らなかった場合、
+// 次回の teardown が残骸の村も片付ける (決着済みの村の settle は即 return の no-op)
 const CREATED_PATH = path.join(
   path.dirname(fileURLToPath(import.meta.url)),
   "../.provision-created.ndjson",

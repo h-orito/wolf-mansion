@@ -5,7 +5,8 @@ import { clearCreatedVillages, readCreatedVillages, settleVillage } from "./help
 // 日付更新スケジューラに日送りされてテストアカウントが突然死ペナルティを受けたり、
 // 村一覧を汚したりするため
 teardown("settle provisioned villages", async ({ page }) => {
-  teardown.setTimeout(180000);
+  // 全村を直列に settle するため、村数が多い実行 (前回残骸の回収時など) に備えて長めにとる
+  teardown.setTimeout(300000);
 
   for (const village of readCreatedVillages()) {
     try {
