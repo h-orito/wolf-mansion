@@ -20,7 +20,7 @@ type VoteView = {
   targetCharaId: number | null;
 };
 
-type Participant = { chara: { id: number }; name: string };
+type Participant = { id: number; chara: { id: number }; name: string };
 type VillageDetail = {
   participants: { list: Participant[] };
   spectators: { list: Participant[] };
@@ -138,13 +138,82 @@ test("投票先を変更してセットできる (元に戻して共有 DB の�
   await expect(page.getByRole("button", { name: "投票セット" })).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
 
-  await page.getByLabel("投票先").selectOption(String(anotherCharaId));
+  await page.getByRole("combobox", { name: "投票先" }).selectOption(String(anotherCharaId));
   await page.getByRole("button", { name: "投票セット" }).click();
   await expect(page.getByText(`現在の投票先: ${anotherName}`)).toBeVisible({ timeout: 15000 });
 
-  await page.getByLabel("投票先").selectOption(String(original));
+  await page.getByRole("combobox", { name: "投票先" }).selectOption(String(original));
   await page.getByRole("button", { name: "投票セット" }).click();
   await expect(page.getByText(`現在の投票先: ${originalName}`)).toBeVisible({
     timeout: 15000,
   });
+});
+
+type RoomAssigned = {
+  participantId: number | null;
+  roomNumber: string;
+  charaShortName: string | null;
+};
+
+function roomCellLabel(room: RoomAssigned): string {
+  return `${room.roomNumber} ${room.charaShortName ?? ""}`;
+}
+
+test("部屋割から選択で投票先をセットできる (元に戻して共有 DB の状態を変えない)", async ({
+  page,
+}) => {
+  test.setTimeout(180000);
+  const candidate = await findVotedCandidate(page);
+  expect(candidate, "投票セット済みの参加者が見つからない").not.toBeNull();
+  if (candidate == null) return;
+
+  const original = candidate.vote.targetCharaId;
+  const anotherCharaId = candidate.vote.targetCharaIds.find((id) => id !== original);
+  expect(anotherCharaId).toBeTruthy();
+  if (anotherCharaId == null) return;
+
+  // 部屋割データから対象参加者の部屋セルのラベルを組み立てる
+  const situationRes = await page.request.get(
+    `${API}/villages/${candidate.villageId}/situation`,
+  );
+  expect(situationRes.ok()).toBeTruthy();
+  const situation = (await situationRes.json()) as {
+    roomAssignedRowList: { roomAssignedList: RoomAssigned[] }[] | null;
+  };
+  const rooms = (situation.roomAssignedRowList ?? []).flatMap((row) => row.roomAssignedList);
+  expect(rooms.length, "部屋割のある村でないと検証できない").toBeGreaterThan(0);
+
+  const charaIdOf = (room: RoomAssigned): number | null =>
+    candidate.village.participants.list.find((p) => p.id === room.participantId)?.chara.id ?? null;
+  const targetRoom = rooms.find((room) => charaIdOf(room) === anotherCharaId);
+  expect(targetRoom, "変更先参加者の部屋が見つからない").toBeTruthy();
+  if (targetRoom == null) return;
+  // 候補にいない参加者の部屋と空き部屋は選択不可でグレーアウトする
+  const disabledCount = rooms.filter((room) => {
+    const charaId = charaIdOf(room);
+    return charaId == null || !candidate.vote.targetCharaIds.includes(charaId);
+  }).length;
+
+  await page.goto(`village/${candidate.villageId}`);
+  await expect(page.getByRole("button", { name: "投票セット" })).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+
+  await page.getByRole("button", { name: "部屋割から投票先を選択" }).click();
+  const dialog = page.getByRole("dialog", { name: "部屋割から選択" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.locator('td[aria-disabled="true"]')).toHaveCount(disabledCount);
+
+  await dialog.getByText(roomCellLabel(targetRoom), { exact: true }).click();
+  await expect(dialog).not.toBeVisible();
+  await expect(page.getByRole("combobox", { name: "投票先" })).toHaveValue(String(anotherCharaId));
+
+  await page.getByRole("button", { name: "投票セット" }).click();
+  const anotherName = resolveCharaName(candidate.village, anotherCharaId);
+  await expect(page.getByText(`現在の投票先: ${anotherName}`)).toBeVisible({ timeout: 15000 });
+
+  // 元に戻す
+  const restoreRes = await page.request.post(`${API}/villages/${candidate.villageId}/vote`, {
+    data: { targetCharaId: original },
+  });
+  expect(restoreRes.ok()).toBeTruthy();
 });

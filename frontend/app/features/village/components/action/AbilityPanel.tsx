@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router";
 
 import { Alert, AlertList, ErrorMessage } from "~/components/ui/Alert";
@@ -13,6 +14,8 @@ import {
   type VillageDetailView,
   type VillageRoomAssignedRow,
 } from "~/features/village/api";
+import { RoomGrid } from "~/features/village/components/RoomGrid";
+import { RoomSelectModal } from "~/features/village/components/modal/RoomSelectModal";
 import { resolveParticipantName } from "~/features/village/participants";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useVillageInvalidate } from "~/features/village/useVillage";
@@ -56,6 +59,8 @@ export function AbilityPanel({
 
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
+  const [roomSelectOpen, setRoomSelectOpen] = useState(false);
+  const hasRoomAssigned = roomAssignedRows != null && roomAssignedRows.length > 0;
 
   const submit = () =>
     execute(async () => {
@@ -131,50 +136,17 @@ export function AbilityPanel({
             </p>
             {roomAssignedRows != null && (
               <div className="mt-[10px] overflow-x-auto">
-                <table className="border-collapse border border-[#464545] text-village-sm">
-                  <tbody>
-                    {roomAssignedRows.map((row, rowIndex) => (
-                      <tr key={rowIndex}>
-                        {(row.roomAssignedList ?? []).map((room) => {
-                          const selected = disturbRooms.includes(room.roomNumber ?? "");
-                          return (
-                            <td
-                              key={room.roomNumber}
-                              className="cursor-pointer text-center align-bottom"
-                              style={{
-                                border: selected ? "2px solid #0ce3ac" : "1px solid #464545",
-                                width: room.charaImgWidth ?? 50,
-                                height: room.charaImgHeight ?? 60,
-                                ...(room.charaImgUrl
-                                  ? {
-                                      backgroundImage: `url(${room.charaImgUrl})`,
-                                      backgroundRepeat: "no-repeat",
-                                      backgroundSize: "contain",
-                                    }
-                                  : {}),
-                                ...(room.isDead == null || room.isDead ? { opacity: 0.3 } : {}),
-                              }}
-                              onClick={() =>
-                                setDisturbRooms((prev) =>
-                                  prev.includes(room.roomNumber ?? "")
-                                    ? prev.filter((r) => r !== room.roomNumber)
-                                    : [...prev, room.roomNumber ?? ""],
-                                )
-                              }
-                            >
-                              <span
-                                className="whitespace-nowrap"
-                                style={{ backgroundColor: "#222222", opacity: 0.8 }}
-                              >
-                                {room.roomNumber} {room.charaShortName ?? ""}
-                              </span>
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <RoomGrid
+                  rows={roomAssignedRows}
+                  isSelected={(room) => disturbRooms.includes(room.roomNumber)}
+                  onRoomClick={(room) =>
+                    setDisturbRooms((prev) =>
+                      prev.includes(room.roomNumber)
+                        ? prev.filter((r) => r !== room.roomNumber)
+                        : [...prev, room.roomNumber],
+                    )
+                  }
+                />
               </div>
             )}
             <p className="mt-[5px]">
@@ -252,6 +224,19 @@ export function AbilityPanel({
                   ))}
                 </select>
                 {ability.targetSuffix != null && <span>{ability.targetSuffix}</span>}
+                {hasRoomAssigned && targets.length > 0 && (
+                  <>
+                    {" "}
+                    <Button
+                      variant="info"
+                      size="xs"
+                      aria-label="部屋割から能力の対象を選択"
+                      onClick={() => setRoomSelectOpen(true)}
+                    >
+                      部屋割から選択
+                    </Button>
+                  </>
+                )}
               </div>
             )}
             {needsFootstepSelect && (
@@ -299,6 +284,16 @@ export function AbilityPanel({
           </div>
         )}
       </div>
+      {hasRoomAssigned && (
+        <RoomSelectModal
+          open={roomSelectOpen}
+          onClose={() => setRoomSelectOpen(false)}
+          rows={roomAssignedRows}
+          selectableCharaIds={targets.map((target) => target.charaId)}
+          selectedCharaId={targetCharaId === "" ? null : Number(targetCharaId)}
+          onSelect={(charaId) => onTargetChange(String(charaId))}
+        />
+      )}
     </Panel>
   );
 }

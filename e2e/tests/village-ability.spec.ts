@@ -88,7 +88,7 @@ test("人狼が現在の襲撃セットを再セットできる (共有 DB の�
   await expect(page.getByRole("button", { name: "能力セット" })).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
 
-  const targetSelect = page.getByLabel("能力の対象");
+  const targetSelect = page.getByRole("combobox", { name: "能力の対象" });
   await expect(targetSelect).toHaveValue(String(candidate.ability.targetCharaId), {
     timeout: 15000,
   });
