@@ -137,7 +137,7 @@ export default function VillageScrap({ params }: Route.ComponentProps) {
               </div>
             </div>
           </div>
-          {ageLimit != null && <AgeLimitModal villageId={villageId} ageLimit={ageLimit} />}
+          {ageLimit != null && <AgeLimitModal ageLimit={ageLimit} />}
         </VillageProvider>
       ) : (
         <div className="px-[15px] pb-[30px]" />
