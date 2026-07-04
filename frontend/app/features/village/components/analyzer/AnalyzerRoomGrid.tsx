@@ -4,6 +4,7 @@ import type { AnalyzerDayRoom, AnalyzerVillageData } from "~/features/village/an
 import type { DayFootstep, ParticipantMemo } from "~/features/village/analyzer/types";
 import { TextButton } from "~/components/ui/TextButton";
 import { deadColor, deadMark } from "~/features/village/components/info/dead";
+import { FootstepGapLines } from "./FootstepGapLines";
 import { FootstepLines } from "./FootstepLines";
 
 // 簡易部屋割テキスト。空室は「＿」、メモなしは「□」、メモありはメモの1文字目で表す
@@ -106,97 +107,106 @@ export function AnalyzerRoomGrid({
   return (
     <div>
       <div className="overflow-x-auto">
-        <table className="border-collapse">
-          <tbody>
-            {rows.map((row, y) => (
-              <tr key={y}>
-                {row.map((room) => {
-                  const pMemo = getMemo(room.participantId);
-                  const memoText = pMemo?.memo ?? "";
-                  const memoColor = pMemo?.color ?? "ffffff";
-                  const displayMemo =
-                    memoText.length > 24 ? `${memoText.slice(0, 23)}...` : memoText;
-                  const img = room.participantId
-                    ? charaImageUrl(room.participantId, participantIdToChara)
-                    : null;
-                  const isDummy =
-                    room.participantId != null &&
-                    participantIdToChara[String(room.participantId)]?.id === dummyCharaId;
+        <div className="relative inline-block">
+          <table className="border-collapse">
+            <tbody>
+              {rows.map((row, y) => (
+                <tr key={y}>
+                  {row.map((room) => {
+                    const pMemo = getMemo(room.participantId);
+                    const memoText = pMemo?.memo ?? "";
+                    const memoColor = pMemo?.color ?? "ffffff";
+                    const displayMemo =
+                      memoText.length > 24 ? `${memoText.slice(0, 23)}...` : memoText;
+                    const img = room.participantId
+                      ? charaImageUrl(room.participantId, participantIdToChara)
+                      : null;
+                    const isDummy =
+                      room.participantId != null &&
+                      participantIdToChara[String(room.participantId)]?.id === dummyCharaId;
 
-                  return (
-                    <td
-                      key={room.roomNumber}
-                      className={`relative border border-[#464545] p-0 text-center ${room.participantId != null ? "cursor-pointer" : ""}`}
-                      style={{ width: cellW, minWidth: cellW, height: cellH }}
-                      onClick={() =>
-                        room.participantId != null && onParticipantClick(room.participantId)
-                      }
-                    >
-                      {footsteps.map((fs, idx) => (
-                        <FootstepLines
-                          key={`${room.roomNumber}-fs-${idx}`}
-                          footstep={fs.footstep}
-                          color={fs.color}
-                          show={fs.show}
-                          room={room}
-                          allRooms={rooms}
-                          index={idx}
-                        />
-                      ))}
-                      {displayMemo && (
-                        <div className="absolute top-0 left-0 right-0 z-[3] px-[2px]">
-                          <p
-                            className="my-0 whitespace-normal text-[0.75rem] leading-tight"
-                            style={{ color: `#${memoColor}` }}
-                          >
-                            {displayMemo}
-                          </p>
-                        </div>
-                      )}
-                      {img && (
-                        <div
-                          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-                          style={{
-                            width: img.width,
-                            height: img.height,
-                            backgroundImage: `url(${img.url})`,
-                            backgroundRepeat: "no-repeat",
-                            backgroundSize: "contain",
-                            opacity: room.isDead == null || room.isDead ? 0.2 : 0.7,
-                          }}
-                        />
-                      )}
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-80">
-                        <span className="bg-wm-base text-[11px]">
-                          {String(room.roomNumber).padStart(2, "0")}{" "}
-                          {room.participantId != null
-                            ? (participants.find((p) => p.id === room.participantId)?.charaName
-                                .shortName ?? "")
-                            : ""}
-                        </span>
-                        {room.isDead && (
-                          <span
-                            className="bg-wm-base text-[11px]"
-                            style={{ color: deadColor(room.deadReason?.code) ?? undefined }}
-                          >
-                            <br />
-                            {room.deadDay}d {deadMark(room.deadReason?.code)}
-                          </span>
+                    return (
+                      <td
+                        key={room.roomNumber}
+                        className={`relative border border-[#464545] p-0 text-center ${room.participantId != null ? "cursor-pointer" : ""}`}
+                        style={{ width: cellW, minWidth: cellW, height: cellH }}
+                        onClick={() =>
+                          room.participantId != null && onParticipantClick(room.participantId)
+                        }
+                      >
+                        {footsteps.map((fs, idx) => (
+                          <FootstepLines
+                            key={`${room.roomNumber}-fs-${idx}`}
+                            footstep={fs.footstep}
+                            color={fs.color}
+                            show={fs.show}
+                            room={room}
+                            allRooms={rooms}
+                            index={idx}
+                          />
+                        ))}
+                        {displayMemo && (
+                          <div className="absolute top-0 left-0 right-0 z-[3] px-[2px]">
+                            <p
+                              className="my-0 whitespace-normal text-[0.75rem] leading-tight"
+                              style={{ color: `#${memoColor}` }}
+                            >
+                              {displayMemo}
+                            </p>
+                          </div>
                         )}
-                        {isDummy && (
+                        {img && (
+                          <div
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                            style={{
+                              width: img.width,
+                              height: img.height,
+                              backgroundImage: `url(${img.url})`,
+                              backgroundRepeat: "no-repeat",
+                              backgroundSize: "contain",
+                              opacity: room.isDead == null || room.isDead ? 0.2 : 0.7,
+                            }}
+                          />
+                        )}
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 whitespace-nowrap opacity-80">
                           <span className="bg-wm-base text-[11px]">
-                            <br />
-                            ダミー
+                            {String(room.roomNumber).padStart(2, "0")}{" "}
+                            {room.participantId != null
+                              ? (participants.find((p) => p.id === room.participantId)?.charaName
+                                  .shortName ?? "")
+                              : ""}
                           </span>
-                        )}
-                      </div>
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                          {room.isDead && (
+                            <span
+                              className="bg-wm-base text-[11px]"
+                              style={{ color: deadColor(room.deadReason?.code) ?? undefined }}
+                            >
+                              <br />
+                              {room.deadDay}d {deadMark(room.deadReason?.code)}
+                            </span>
+                          )}
+                          {isDummy && (
+                            <span className="bg-wm-base text-[11px]">
+                              <br />
+                              ダミー
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <FootstepGapLines
+            footsteps={footsteps}
+            rooms={rooms}
+            roomSize={roomSize}
+            cellW={cellW}
+            cellH={cellH}
+          />
+        </div>
       </div>
       <div className="mt-[4px]">
         <SimpleRoomMapCopyButton rows={rows} getMemo={getMemo} />
