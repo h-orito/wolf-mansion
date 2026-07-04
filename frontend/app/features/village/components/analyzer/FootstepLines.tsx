@@ -1,13 +1,7 @@
 import { useMemo } from "react";
 
 import type { AnalyzerDayRoom } from "~/features/village/analyzer/analyzerApi";
-
-function parseRoomNumbers(footstep: string): number[] {
-  return footstep
-    .split(",")
-    .map((s) => Number.parseInt(s.trim(), 10))
-    .filter((n) => !Number.isNaN(n));
-}
+import { parseFootstepRoomNumbers } from "~/features/village/analyzer/footstepGaps";
 
 function lineStyle(
   direction: "up" | "right" | "down" | "left" | "dot",
@@ -107,7 +101,7 @@ export function FootstepLines({
 
   if (!show) return null;
 
-  const roomNumbers = parseRoomNumbers(footstep);
+  const roomNumbers = parseFootstepRoomNumbers(footstep);
   if (!roomNumbers.includes(room.roomNumber)) return null;
 
   const pathRooms = roomNumbers.map((rn) => roomMap.get(rn)).filter(Boolean) as AnalyzerDayRoom[];
