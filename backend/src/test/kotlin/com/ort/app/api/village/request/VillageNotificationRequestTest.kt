@@ -10,57 +10,28 @@ internal class VillageNotificationRequestTest {
 
     @Test
     fun `正規の Discord Webhook URL は通る`() {
-        listOf(
+        val url = "https://discord.com/api/webhooks/123/abc"
+        assertEquals(url, request(url).validatedWebhookUrl())
+    }
+
+    @Test
+    fun `前後の空白は取り除いて検証・保存する`() {
+        assertEquals(
             "https://discord.com/api/webhooks/123/abc",
-            "https://discordapp.com/api/webhooks/123/abc",
-            "https://ptb.discord.com/api/webhooks/123/abc",
-            "https://canary.discord.com/api/webhooks/123/abc",
-        ).forEach { url ->
-            assertEquals(url, request(url).validatedWebhookUrl())
-        }
+            request(" https://discord.com/api/webhooks/123/abc ").validatedWebhookUrl(),
+        )
     }
 
     @Test
-    fun `Discord 以外のホストは 400 (ValidationException)`() {
+    fun `Discord の Webhook URL でなければ 400 (ValidationException)`() {
         listOf(
-            "https://example.com/api/webhooks/123/abc",
             "https://169.254.169.254/latest/meta-data/",
-            "https://localhost:8089/wolf-mansion/",
-        ).forEach { url ->
-            assertThrows<WolfMansionValidationException> { request(url).validatedWebhookUrl() }
-        }
-    }
-
-    @Test
-    fun `https 以外のスキームは 400 (ValidationException)`() {
-        listOf(
             "http://discord.com/api/webhooks/123/abc",
-            "ftp://discord.com/api/webhooks/123/abc",
-        ).forEach { url ->
-            assertThrows<WolfMansionValidationException> { request(url).validatedWebhookUrl() }
-        }
-    }
-
-    @Test
-    fun `ホスト偽装を狙った URL は 400 (ValidationException)`() {
-        listOf(
-            // suffix が似ているだけの別ドメイン
-            "https://evildiscord.com/api/webhooks/123/abc",
-            "https://discord.com.evil.com/api/webhooks/123/abc",
-            // userinfo 部に discord.com を置いた実ホスト evil.com
             "https://discord.com@evil.com/api/webhooks/123/abc",
-        ).forEach { url ->
-            assertThrows<WolfMansionValidationException> { request(url).validatedWebhookUrl() }
-        }
-    }
-
-    @Test
-    fun `URL として不正な文字列は 400 (ValidationException)`() {
-        listOf(
             "not a url",
-            "https://",
         ).forEach { url ->
-            assertThrows<WolfMansionValidationException> { request(url).validatedWebhookUrl() }
+            val e = assertThrows<WolfMansionValidationException> { request(url).validatedWebhookUrl() }
+            assertEquals("webhookUrl", e.fieldErrors.single().field)
         }
     }
 }

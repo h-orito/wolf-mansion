@@ -1,6 +1,7 @@
 package com.ort.app.infrastructure.discord
 
 import com.ort.app.domain.model.discord.DiscordRepository
+import com.ort.app.domain.model.discord.DiscordWebhookUrl
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -67,6 +68,11 @@ class DiscordRepositoryImpl : DiscordRepository {
         message: String,
         shouldContainVillageUrl: Boolean,
     ) {
+        // 検証導入前に保存された URL が残っている可能性があるため、送信側でも検証する (SSRF 対策)
+        if (!DiscordWebhookUrl.isValid(webhookUrl)) {
+            logger.warn("Discord 以外の webhook URL への通知をスキップしました: villageId={}", villageId)
+            return
+        }
         try {
             val restTemplate = restTemplate()
             val content =
