@@ -140,7 +140,11 @@ export default function Village({ params }: Route.ComponentProps) {
     }
   }, [daychangeDetected, showToast, autoReload]);
 
-  const { onMessagesLoaded: onMessagesLoadedBase, hasNewMessage } = useMessageSync(
+  const {
+    onMessagesLoaded: onMessagesLoadedBase,
+    hasNewMessage,
+    resetNewMessage,
+  } = useMessageSync(
     villageId,
     dayParam,
     latestDay,
@@ -149,6 +153,7 @@ export default function Village({ params }: Route.ComponentProps) {
     invalidate,
     showToast,
     sayPreview == null,
+    isFiltering(filter),
   );
 
   const pendingScroll = useRef(false);
@@ -280,6 +285,8 @@ export default function Village({ params }: Route.ComponentProps) {
 
           <FooterMenu
             onRefresh={() => {
+              // 抽出中は再取得結果が変わらないことがあり load 経由ではフラグが下りないため、更新操作で明示的に下ろす
+              resetNewMessage();
               resetToLatest();
               pendingScroll.current = true;
               if (dayParam != null) {
