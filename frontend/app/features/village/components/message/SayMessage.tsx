@@ -88,7 +88,7 @@ function BigEarsMessage({
       <div className="flex">
         <div className="h-[77px] w-[50px] rounded-[5px] border border-white" />
         <StableHtml
-          className={`ml-[5px] flex-1 ${bubbleClass("message-owl")}`}
+          className={`ml-[5px] min-w-0 flex-1 ${bubbleClass("message-owl")}`}
           onClick={onContentClick}
           html={html}
         />
@@ -251,7 +251,7 @@ function SayBubble({
           )}
         </div>
         <div
-          className={`ml-[5px] flex-1 ${bubbleClass(sayVariant.styleKey)} ${loud ? "loud" : ""}`}
+          className={`ml-[5px] min-w-0 flex-1 ${bubbleClass(sayVariant.styleKey)} ${loud ? "loud" : ""}`}
           onClick={onContentClick}
         >
           {rainbow ? <StableHtml className="rainbow" html={html} /> : <StableHtml html={html} />}
