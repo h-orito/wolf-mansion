@@ -1,6 +1,8 @@
 {
+  "id": "/wolf-mansion/",
   "name": "WOLF MANSION 〜人狼館の事件簿村〜",
   "short_name": "WOLF MANSION",
+  "description": "状況のみで推理・説得する、新しい人狼。人狼館で起きる事件の謎を推理しよう。",
   "start_url": "/wolf-mansion/",
   "scope": "/wolf-mansion/",
   "display": "standalone",

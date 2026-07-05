@@ -90,7 +90,7 @@ export function FooterMenu({
 
   return (
     <div id={FOOTER_MENU_ID} ref={rootRef} className="fixed bottom-0 left-0 z-20 w-screen">
-      <div className="flex rounded-[4px] bg-[#303030] p-[3px] pb-[calc(3px+env(safe-area-inset-bottom))]">
+      <div className="flex rounded-[4px] bg-[#303030] p-[3px] pb-[calc(3px+env(safe-area-inset-bottom))] pl-[calc(3px+env(safe-area-inset-left))] pr-[calc(3px+env(safe-area-inset-right))]">
         <MenuButton
           icon={<ArrowUpIcon className={iconClass} />}
           label="最上部へ"
