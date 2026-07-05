@@ -47,6 +47,12 @@ body {
   }
 }
 
+/* viewport-fit=cover 環境 (ノッチ付き iPhone の横向き等) で本文が画面端の下に潜らないようにする */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 /* 発言本文の装飾 (messageHtml.ts が生成する HTML から参照する) */
 .msg-extra-small {
   font-size: 6px;

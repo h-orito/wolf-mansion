@@ -21,3 +21,4 @@ data/*
 .context
 .reviews
 .playwright-mcp/
+.issues
