@@ -6,9 +6,11 @@ const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
  * パネル「固定」時に画面下端へ張り付けるための共通クラス。
  * viewport-fit=cover 環境で内容やスクロール下端が safe area (ホームインジケータ・ノッチ) の
  * 下に潜らないよう、三方向の inset 分 padding を確保する。
+ * 下端は同じく bottom 固定の FooterMenu に重なるため、その実高さ (--footer-menu-height、
+ * safe area 込み) 分を確保し、FooterMenu が無い画面では safe area のみ確保する。
  */
 export const bottomFixedPanelClass =
-  "fixed bottom-0 left-0 z-20 mb-0 w-screen max-h-[30vh] overflow-y-auto pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]";
+  "fixed bottom-0 left-0 z-20 mb-0 w-screen max-h-[30vh] overflow-y-auto pb-[var(--footer-menu-height,env(safe-area-inset-bottom))] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]";
 
 function readStorage(key: string): string | null {
   try {
