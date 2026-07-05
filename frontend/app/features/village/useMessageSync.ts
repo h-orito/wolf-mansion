@@ -43,6 +43,12 @@ export function useMessageSync(
     [scrollToBottom, resetNewMessage],
   );
 
+  // 抽出の適用・解除で一覧は再取得されるため、切替前の検知結果は持ち越さない
+  // (解除直後に自動リロード effect が即発火して再取得と重複するのを防ぐ)
+  useEffect(() => {
+    resetNewMessage();
+  }, [filtering, resetNewMessage]);
+
   const autoReload = useDisplaySettings((s) => s.autoReload);
   useEffect(() => {
     // 抽出中は自動リロードしない (点滅で新着を知らせ、手動更新に委ねる)

@@ -10,6 +10,7 @@ import { useDisplaySettings } from "~/features/village/displaySettings";
 import {
   applyFilterToParams,
   isFiltering,
+  isNarrowingFilter,
   parseFilter,
   type MessageFilter,
 } from "~/features/village/filter";
@@ -153,7 +154,7 @@ export default function Village({ params }: Route.ComponentProps) {
     invalidate,
     showToast,
     sayPreview == null,
-    isFiltering(filter),
+    isNarrowingFilter(filter),
   );
 
   const pendingScroll = useRef(false);

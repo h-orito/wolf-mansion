@@ -79,11 +79,18 @@ export function applyFilterToParams(
 
 /** 何らかの抽出条件が指定されているか (footer の「抽出中」表示用)。 */
 export function isFiltering(filter: MessageFilter): boolean {
+  return isNarrowingFilter(filter) || filter.spoiled;
+}
+
+/**
+ * 一覧を絞り込む抽出条件があるか (新着検知・自動リロード抑止用)。
+ * spoiled は表示だけを変えるトグルで一覧は村全体のまま絞られないため含めない。
+ */
+export function isNarrowingFilter(filter: MessageFilter): boolean {
   return (
     filter.participantIds.length > 0 ||
     filter.toParticipantIds.length > 0 ||
     filter.types.length > 0 ||
-    filter.keywords !== "" ||
-    filter.spoiled
+    filter.keywords !== ""
   );
 }
