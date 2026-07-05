@@ -46,11 +46,14 @@ Issue ファイルの「作業内容」に従って実装する。
 
 ## §3 動作確認
 
+- **UI に関わる変更は `/verify-ui` のフロー**（複数 viewport スクショ + console / 横スクロールの機械チェック + ユーザー提示）で確認し、合意を得てからコミットする
+- Issue の「動作確認」セクションの各項目を実測し、結果を報告する（未検証項目は未検証と明示）
 - backend lint: `cd backend && ./gradlew ktlintCheck`
 - frontend lint/format: `cd frontend && pnpm lint && pnpm format:check`
 - backend build: `cd backend && ./gradlew build -x test`
 - frontend build: `cd frontend && pnpm build`
 - e2e: `cd e2e && pnpm test`（ローカル専用、CI では走らせない）
+- **全チェック green が §4 以降への進行条件**。失敗を「既存の問題」と主張する場合は base ブランチ（feature/monorepo）で同コマンドを実行した失敗ログを添え、直すか issue 化するかユーザーの判断を仰ぐ。黙って先に進まない
 
 ## §4 コミット
 
