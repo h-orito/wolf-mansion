@@ -63,33 +63,32 @@ export function VotePanel({
         <hr className="border-[#464545]" />
         <p>一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
         <div>
-          <select
-            className={selectClass}
-            value={targetCharaId}
-            onChange={(e) => setTargetCharaId(e.target.value)}
-            aria-label="投票先"
-          >
-            {targetCharaId === "" && <option value="">選択してください</option>}
-            {(vote.targetCharaIds ?? []).map((charaId) => (
-              <option key={charaId} value={charaId}>
-                {resolveParticipantName(village, charaId)}
-              </option>
-            ))}
-          </select>{" "}
-          に投票する
-          {hasRoomAssigned && (
-            <>
-              {" "}
+          <div className="flex items-center gap-[5px]">
+            <select
+              className={`${selectClass} flex-1`}
+              value={targetCharaId}
+              onChange={(e) => setTargetCharaId(e.target.value)}
+              aria-label="投票先"
+            >
+              {targetCharaId === "" && <option value="">選択してください</option>}
+              {(vote.targetCharaIds ?? []).map((charaId) => (
+                <option key={charaId} value={charaId}>
+                  {resolveParticipantName(village, charaId)}
+                </option>
+              ))}
+            </select>
+            {hasRoomAssigned && (
               <Button
                 variant="info"
-                size="xs"
+                className="shrink-0"
                 aria-label="部屋割から投票先を選択"
                 onClick={() => setRoomSelectOpen(true)}
               >
                 部屋割から選択
               </Button>
-            </>
-          )}
+            )}
+          </div>
+          に投票する
         </div>
         <div className="flex justify-end">
           <Button onClick={submit} disabled={submitting || targetCharaId === ""}>

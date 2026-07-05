@@ -59,7 +59,7 @@ export function AbilityPanel({
 
   const showToast = useToast((s) => s.show);
   const { error, submitting, execute } = useAsyncAction();
-  const [roomSelectOpen, setRoomSelectOpen] = useState(false);
+  const [roomSelectFor, setRoomSelectFor] = useState<"attacker" | "target" | null>(null);
   const hasRoomAssigned = roomAssignedRows != null && roomAssignedRows.length > 0;
 
   const submit = () =>
@@ -193,50 +193,61 @@ export function AbilityPanel({
             {isAttack && (
               <div className="mb-[5px]">
                 <span>襲撃者 </span>
-                <select
-                  className={selectClass}
-                  value={attackerCharaId}
-                  onChange={(e) => onAttackerChange(e.target.value)}
-                  aria-label="襲撃者"
-                >
-                  {ability.attackerCharaIds.map((id) => (
-                    <option key={id} value={id}>
-                      {resolveParticipantName(village, id)}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center gap-[5px]">
+                  <select
+                    className={`${selectClass} flex-1`}
+                    value={attackerCharaId}
+                    onChange={(e) => onAttackerChange(e.target.value)}
+                    aria-label="襲撃者"
+                  >
+                    {ability.attackerCharaIds.map((id) => (
+                      <option key={id} value={id}>
+                        {resolveParticipantName(village, id)}
+                      </option>
+                    ))}
+                  </select>
+                  {hasRoomAssigned && (
+                    <Button
+                      variant="info"
+                      className="shrink-0"
+                      aria-label="部屋割から襲撃者を選択"
+                      onClick={() => setRoomSelectFor("attacker")}
+                    >
+                      部屋割から選択
+                    </Button>
+                  )}
+                </div>
               </div>
             )}
             {(targets.length > 0 || ability.isAvailableNoTarget) && (
               <div className="mb-[5px]">
                 {ability.targetPrefix != null && <span>{ability.targetPrefix}</span>}
-                <select
-                  className={selectClass}
-                  value={targetCharaId}
-                  onChange={(e) => onTargetChange(e.target.value)}
-                  aria-label="能力の対象"
-                >
-                  {ability.isAvailableNoTarget && <option value="">なし</option>}
-                  {targets.map((target) => (
-                    <option key={target.charaId} value={target.charaId}>
-                      {target.name}
-                    </option>
-                  ))}
-                </select>
-                {ability.targetSuffix != null && <span>{ability.targetSuffix}</span>}
-                {hasRoomAssigned && targets.length > 0 && (
-                  <>
-                    {" "}
+                <div className="flex items-center gap-[5px]">
+                  <select
+                    className={`${selectClass} flex-1`}
+                    value={targetCharaId}
+                    onChange={(e) => onTargetChange(e.target.value)}
+                    aria-label="能力の対象"
+                  >
+                    {ability.isAvailableNoTarget && <option value="">なし</option>}
+                    {targets.map((target) => (
+                      <option key={target.charaId} value={target.charaId}>
+                        {target.name}
+                      </option>
+                    ))}
+                  </select>
+                  {hasRoomAssigned && targets.length > 0 && (
                     <Button
                       variant="info"
-                      size="xs"
+                      className="shrink-0"
                       aria-label="部屋割から能力の対象を選択"
-                      onClick={() => setRoomSelectOpen(true)}
+                      onClick={() => setRoomSelectFor("target")}
                     >
                       部屋割から選択
                     </Button>
-                  </>
-                )}
+                  )}
+                </div>
+                {ability.targetSuffix != null && <span>{ability.targetSuffix}</span>}
               </div>
             )}
             {needsFootstepSelect && (
@@ -286,12 +297,28 @@ export function AbilityPanel({
       </div>
       {hasRoomAssigned && (
         <RoomSelectModal
-          open={roomSelectOpen}
-          onClose={() => setRoomSelectOpen(false)}
+          open={roomSelectFor != null}
+          onClose={() => setRoomSelectFor(null)}
           rows={roomAssignedRows}
-          selectableCharaIds={targets.map((target) => target.charaId)}
-          selectedCharaId={targetCharaId === "" ? null : Number(targetCharaId)}
-          onSelect={(charaId) => onTargetChange(String(charaId))}
+          selectableCharaIds={
+            roomSelectFor === "attacker"
+              ? ability.attackerCharaIds
+              : targets.map((target) => target.charaId)
+          }
+          selectedCharaId={
+            roomSelectFor === "attacker"
+              ? attackerCharaId === ""
+                ? null
+                : Number(attackerCharaId)
+              : targetCharaId === ""
+                ? null
+                : Number(targetCharaId)
+          }
+          onSelect={(charaId) =>
+            roomSelectFor === "attacker"
+              ? onAttackerChange(String(charaId))
+              : onTargetChange(String(charaId))
+          }
         />
       )}
     </Panel>
