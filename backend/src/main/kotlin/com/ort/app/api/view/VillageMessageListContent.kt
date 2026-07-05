@@ -56,7 +56,7 @@ data class VillageMessageListContent(
     ) : this(
         messageList =
             messages.list.map { message ->
-                VillageMessageContent(
+                VillageMessageContent.of(
                     village = village,
                     myself = myself,
                     myselfPlayer = myselfPlayer,

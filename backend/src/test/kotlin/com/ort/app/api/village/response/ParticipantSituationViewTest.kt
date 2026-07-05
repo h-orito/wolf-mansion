@@ -1,5 +1,11 @@
 package com.ort.app.api.village.response
 
+import com.ort.app.domain.model.chara.Chara
+import com.ort.app.domain.model.chara.CharaImages
+import com.ort.app.domain.model.chara.CharaSize
+import com.ort.app.domain.model.chara.Charachip
+import com.ort.app.domain.model.chara.Charachips
+import com.ort.app.domain.model.chara.Charas
 import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.situation.ParticipantSituation
 import com.ort.app.domain.model.situation.participant.ParticipantAbilitySituation
@@ -24,7 +30,12 @@ import org.junit.jupiter.api.Test
 internal class ParticipantSituationViewTest {
     @Test
     fun `未参加でもフラグがそのまま写像される`() {
-        val view = ParticipantSituationView(createSituation(myselfParticipant = null), createDay1Village())
+        val view =
+            ParticipantSituationView(
+                createSituation(myselfParticipant = null),
+                createDay1Village(),
+                Charachips(list = emptyList()),
+            )
 
         assertNull(view.myself)
         assertFalse(view.participate.isParticipating)
@@ -43,16 +54,46 @@ internal class ParticipantSituationViewTest {
             ParticipantSituationView(
                 createSituation(myselfParticipant = participant, isParticipating = true),
                 createDay1Village(),
+                charachipsWith(participant.charaId),
             )
 
         assertEquals(participant.id, view.myself!!.id)
-        assertEquals(participant.charaId, view.myself!!.charaId)
+        assertEquals(participant.charaId, view.myself!!.chara.id)
         assertEquals(participant.name(), view.myself!!.name)
         assertEquals(participant.shortName(), view.myself!!.shortName)
-        assertFalse(view.myself!!.isDead)
+        assertFalse(view.myself!!.dead.isDead)
         assertFalse(view.myself!!.isSpectator)
         assertTrue(view.participate.isParticipating)
     }
+
+    private fun charachipsWith(charaId: Int): Charachips =
+        Charachips(
+            list =
+                listOf(
+                    Charachip(
+                        id = 1,
+                        name = "chip",
+                        designer = null,
+                        descriptionUrl = null,
+                        isAvailableChangeName = false,
+                        charas =
+                            Charas(
+                                list =
+                                    listOf(
+                                        Chara(
+                                            id = charaId,
+                                            name = "name$charaId",
+                                            shortName = "s",
+                                            defaultJoinMessage = null,
+                                            defaultFirstdayMessage = null,
+                                            size = CharaSize(width = 50, height = 77),
+                                            images = CharaImages(list = emptyList()),
+                                        ),
+                                    ),
+                            ),
+                    ),
+                ),
+        )
 
     private fun createSituation(
         myselfParticipant: com.ort.app.domain.model.village.participant.VillageParticipant?,

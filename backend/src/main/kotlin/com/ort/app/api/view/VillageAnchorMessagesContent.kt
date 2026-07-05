@@ -25,7 +25,7 @@ data class VillageAnchorMessagesContent(
                     it.fromParticipantId?.let {
                         players.list.find { p -> p.id == participant?.playerId }
                     }
-                VillageMessageContent(
+                VillageMessageContent.of(
                     village = village,
                     myself = null,
                     myselfPlayer = null,

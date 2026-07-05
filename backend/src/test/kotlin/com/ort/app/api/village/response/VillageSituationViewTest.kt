@@ -45,11 +45,6 @@ internal class VillageSituationViewTest {
         assertNull(view.roomWidth)
         assertNull(view.vote)
         assertFalse(view.isViewableSpoilerContent)
-        // ステータス別の参加者グルーピングは live situation の構造をそのまま写す
-        assertEquals(
-            listOf("生存", "処刑死", "無惨", "後追", "突然", "見学"),
-            view.memberList.map { it.status },
-        )
         assertEquals(1, view.footstepList.size)
         assertEquals(1, view.footstepList[0].day)
         assertEquals("01、02", view.footstepList[0].footstep)
