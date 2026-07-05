@@ -1,5 +1,8 @@
 package com.ort.app.api.village.request
 
+import com.ort.app.domain.model.discord.DiscordWebhookUrl
+import com.ort.app.fw.exception.WolfMansionValidationException
+import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Size
 
@@ -22,4 +25,17 @@ data class VillageNotificationRequest(
     /** キーワード通知 (スペース区切り) */
     @field:Size(max = 30)
     val keyword: String? = null,
-)
+) {
+    companion object {
+        private const val INVALID_MESSAGE = "Discord の Webhook URL (https://discord.com/api/webhooks/...) を指定してください"
+    }
+
+    /** 検証済みの webhookUrl を返す。検証理由は [DiscordWebhookUrl] を参照。 */
+    fun validatedWebhookUrl(): String {
+        val url = webhookUrl!!.trim()
+        if (!DiscordWebhookUrl.isValid(url)) {
+            throw WolfMansionValidationException(listOf(FieldErrorItem("webhookUrl", INVALID_MESSAGE)))
+        }
+        return url
+    }
+}
