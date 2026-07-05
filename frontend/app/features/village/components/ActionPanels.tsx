@@ -88,7 +88,7 @@ export function ActionPanels({
       )}
 
       {isLatestDay && mySituation != null && mySituation.vote.canVote && (
-        <VotePanel mySituation={mySituation} />
+        <VotePanel mySituation={mySituation} roomAssignedRows={situation?.roomAssignedRowList} />
       )}
 
       {isLatestDay && mySituation != null && mySituation.myself?.skill != null && (
