@@ -34,6 +34,8 @@ export function RoomSelectModal({
             const charaId = charaIdOf(room);
             return charaId != null && selectableCharaIds.includes(charaId);
           }}
+          // 蘇生など死亡者が候補になる能力もあるため、候補かどうかだけで減光を決める
+          isDimmed={() => false}
           isSelected={(room) => selectedCharaId != null && charaIdOf(room) === selectedCharaId}
           onRoomClick={(room) => {
             const charaId = charaIdOf(room);
