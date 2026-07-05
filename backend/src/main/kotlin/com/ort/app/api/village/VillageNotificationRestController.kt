@@ -43,7 +43,7 @@ class VillageNotificationRestController(
         val myself =
             villageService.findVillageParticipant(village.id, principal.name)
                 ?: throw WolfMansionBusinessException("村に参加していません")
-        val webhookUrl = request.webhookUrl!!
+        val webhookUrl = request.validatedWebhookUrl()
 
         villageService.registerNotification(
             myself.copy(
