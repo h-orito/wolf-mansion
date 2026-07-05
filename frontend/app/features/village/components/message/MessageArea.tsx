@@ -1,7 +1,6 @@
 import { useCallback, useEffect } from "react";
 import { useSearchParams } from "react-router";
 
-import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { VillageMessageListContent } from "~/features/village/api";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { applyFilterToParams, EMPTY_FILTER, type MessageFilter } from "~/features/village/filter";
@@ -9,14 +8,13 @@ import { useVillageId } from "~/features/village/VillageContext";
 import { useMyVillageSituation } from "~/features/village/useVillage";
 import { useVillageMessages } from "~/features/village/useMessages";
 import { MessageType } from "~/features/village/components/message/messageType";
+import { bubbleClass } from "~/features/village/components/message/message";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
 import { MessagePagination, type PageState } from "./MessagePagination";
 
 function Announce({ text }: { text: string }) {
   return (
-    <div
-      className={`message mb-[20px] rounded-[5px] border p-[9px] break-words break-all ${MESSAGE_STYLES["message-announce"]}`}
-    >
+    <div className={`mb-[20px] ${bubbleClass("message-announce")}`}>
       {text.split("\n").map((line, i) => (
         <span key={i}>
           {i > 0 && <br />}

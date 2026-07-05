@@ -50,8 +50,9 @@ export const SYSTEM_VARIANTS: Record<string, string> = {
   [MessageType.PRIVATE_ABILITY]: "message-private-ability",
 };
 
-const bubbleBaseClass =
-  "message rounded-[5px] border p-[9px] break-words break-all font-[sans-serif]";
+// break-all は「！」「～」等の行頭禁則文字の連続に改行機会を作れず、緊急折り返し
+// (overflow-wrap) も無効化して吹き出しがはみ出すため、break-words のみで折り返す
+const bubbleBaseClass = "message rounded-[5px] border p-[9px] break-words font-[sans-serif]";
 
 export function bubbleClass(styleKey: string): string {
   return `${bubbleBaseClass} ${styleKey} ${MESSAGE_STYLES[styleKey] ?? DEFAULT_MESSAGE_STYLE}`;
