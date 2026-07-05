@@ -48,48 +48,75 @@ data class VillageMessageContent(
     /** css指定用  */
     fun getMinHeightCss(): String = "min-height: ${height}px;"
 
-    constructor(
-        village: Village,
-        myself: VillageParticipant?,
-        myselfPlayer: Player?,
-        message: Message,
-        fromParticipant: VillageParticipant?,
-        player: Player?,
-        charas: Charas,
-        hasBigEar: Boolean,
-        isRainbow: Boolean,
-        isLoud: Boolean,
-        isLatestDay: Boolean,
-    ) : this(
-        playerName = if (shouldDispPlayerName(village, myself, myselfPlayer)) player?.name else null,
-        characterName = message.fromCharacterName,
-        characterId = fromParticipant?.charaId,
-        characterImageUrl =
-            if (fromParticipant != null && message.content.faceTypeCode != null) {
-                charas
-                    .chara(fromParticipant.charaId)
-                    .images
-                    .findByFaceType(message.content.faceTypeCode)
-                    ?.url
-            } else {
-                null
-            },
-        messageType = message.content.type.code,
-        messageNumber = if (shouldDispMessageNumber(message, village)) message.content.num else null,
-        messageContent = message.content.text,
-        messageDatetime = message.time.datetime,
-        width = if (fromParticipant != null) charas.chara(fromParticipant.charaId).size.width else null,
-        height = if (fromParticipant != null) charas.chara(fromParticipant.charaId).size.height else null,
-        targetCharacterName = message.toCharacterName,
-        isConvertDisable = message.content.isConvertDisable,
-        isBigEars = hasBigEar && MessageType(CDef.MessageType.codeOf(message.content.type.code)).isOwlViewableType(),
-        isRainbow = isRainbow,
-        isLoud = isLoud,
-        canReply = isLatestDay && shouldDispMessageNumber(message, village),
-        canSecret = isLatestDay && (village.isSayableSecretSay() || myself?.isAdmin() ?: false),
-    )
-
     companion object {
+        /**
+         * 発言メッセージ 1 件を表示用に組み立てる。
+         *
+         * 梟の地獄耳で見えている発言 ([isBigEarsMasked]) は、発言者を特定できる情報
+         * (キャラ名・ID・画像・表示サイズ・プレイヤー名・発言番号・秘話相手・虹/大声) を
+         * レスポンスから除去する。表示上は「地獄耳」固定で発言者を伏せる仕様だが、これらを
+         * 残すと生 JSON から囁き主 (＝人狼等) を特定できてしまうため、API 層でマスクする。
+         */
+        fun of(
+            village: Village,
+            myself: VillageParticipant?,
+            myselfPlayer: Player?,
+            message: Message,
+            fromParticipant: VillageParticipant?,
+            player: Player?,
+            charas: Charas,
+            hasBigEar: Boolean,
+            isRainbow: Boolean,
+            isLoud: Boolean,
+            isLatestDay: Boolean,
+        ): VillageMessageContent {
+            val isBigEars = isBigEarsMasked(hasBigEar, message)
+            return VillageMessageContent(
+                playerName =
+                    if (isBigEars) {
+                        null
+                    } else if (shouldDispPlayerName(village, myself, myselfPlayer)) {
+                        player?.name
+                    } else {
+                        null
+                    },
+                characterName = if (isBigEars) null else message.fromCharacterName,
+                characterId = if (isBigEars) null else fromParticipant?.charaId,
+                characterImageUrl =
+                    if (!isBigEars && fromParticipant != null && message.content.faceTypeCode != null) {
+                        charas
+                            .chara(fromParticipant.charaId)
+                            .images
+                            .findByFaceType(message.content.faceTypeCode)
+                            ?.url
+                    } else {
+                        null
+                    },
+                // 地獄耳で見えている発言は種別も伏せる (囁き/共鳴/恋人/念話 のどれかが
+                // 分かると、共有・恋人・妖狐の活動が漏れる)。表示は isBigEars で「地獄耳」に倒れる
+                messageType = if (isBigEars) CDef.MessageType.通常発言.code() else message.content.type.code,
+                messageNumber =
+                    if (!isBigEars && shouldDispMessageNumber(message, village)) message.content.num else null,
+                messageContent = message.content.text,
+                messageDatetime = message.time.datetime,
+                width = if (!isBigEars && fromParticipant != null) charas.chara(fromParticipant.charaId).size.width else null,
+                height = if (!isBigEars && fromParticipant != null) charas.chara(fromParticipant.charaId).size.height else null,
+                targetCharacterName = if (isBigEars) null else message.toCharacterName,
+                isConvertDisable = message.content.isConvertDisable,
+                isBigEars = isBigEars,
+                isRainbow = if (isBigEars) false else isRainbow,
+                isLoud = if (isBigEars) false else isLoud,
+                canReply = !isBigEars && isLatestDay && shouldDispMessageNumber(message, village),
+                canSecret = isLatestDay && (village.isSayableSecretSay() || myself?.isAdmin() ?: false),
+            )
+        }
+
+        /** 梟の地獄耳で見えている (＝発言者を伏せるべき) 発言か。 */
+        fun isBigEarsMasked(
+            hasBigEar: Boolean,
+            message: Message,
+        ): Boolean = hasBigEar && MessageType(CDef.MessageType.codeOf(message.content.type.code)).isOwlViewableType()
+
         fun shouldDispMessageNumber(
             message: Message,
             village: Village,

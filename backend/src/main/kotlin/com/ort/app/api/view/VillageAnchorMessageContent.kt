@@ -20,7 +20,7 @@ data class VillageAnchorMessageContent(
     ) : this(
         message =
             message?.let {
-                VillageMessageContent(
+                VillageMessageContent.of(
                     village = village,
                     myself = null,
                     myselfPlayer = null,

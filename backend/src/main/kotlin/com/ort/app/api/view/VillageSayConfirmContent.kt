@@ -22,7 +22,7 @@ data class VillageSayConfirmContent(
         keywords: RandomKeywords,
     ) : this(
         message =
-            VillageMessageContent(
+            VillageMessageContent.of(
                 village = village,
                 myself = null,
                 myselfPlayer = null,
