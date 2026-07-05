@@ -19,7 +19,7 @@
 | 重大度 | 件数 | 対応 |
 | --- | --- | --- |
 | critical | 1 | 本 PR で修正 + 回帰テスト |
-| low | 3 | 別 Issue 化を推奨（うち 1 件は要ゲーム仕様確認） |
+| low | 3 | L-1 / L-2 は許容（対応不要・ユーザー判断）、L-3 は推奨 |
 | info | 3 | 記録のみ（過剰秘匿／設計意図） |
 
 視点別トークンでの実測により、**進行中の村における匿名・生存参加者視点での役職・陣営・囁き・独り言・墓下・秘話・投票先・能力履歴・分析メモの漏洩は、下記 critical 1 件を除き検出されなかった**。
@@ -31,15 +31,15 @@
 - 修正: `VillageMessageContent.of(...)` で big-ears 判定時に上記の発言者特定情報を null 化し、`messageType` は通常発言に倒し、`isRainbow` / `isLoud` を false、`canReply` を false にする。本文（`messageContent`）は梟が読める情報なので残す。表示は `isBigEars` で「地獄耳」に倒れ、これらを使わないため無影響。
 - 回帰テスト: `api/view/VillageMessageContentTest`（地獄耳マスク時に identity が全て null / 非地獄耳時は保持）。
 
-## low（別 Issue 化を推奨）
+## low
 
-### L-1: `situation/me` の恋人リストが自ペア以外の恋絆まで開示【要ゲーム仕様確認】
-`AbilityDomainService.getLoversList` は「村内の全恋人ペア」を返す。単一キューピッド編成では無害だが、求愛・略奪等で複数ペアが同時成立する編成では、あるペアが他ペアの恋絆相手を推測できる。恋人は本来「自分の相手」のみ知るべき。修正は `myself.status.loverIdList` 起点への絞り込みだが、仕様確認が必要。
+### L-1: `situation/me` の恋人リストが自ペア以外の恋絆まで開示【許容・対応不要】
+`AbilityDomainService.getLoversList` は「村内の全恋人ペア」を返す。単一キューピッド編成では無害だが、求愛・略奪等で複数ペアが同時成立する編成では、あるペアが他ペアの恋絆相手を推測できる。**ゲーム仕様上許容（ユーザー判断で対応不要）**。
 
-### L-2: `random-keywords` の update/delete が所有者/ロール検証なし
-`RandomKeywordRestController` の update/delete は存在確認のみで、共有グローバルマスタを全ログインユーザーが改変・削除可能（実測: 別ユーザーで PUT/DELETE 成功）。commit 履歴上は「認証付き CRUD」の設計意図だが、荒らし・データ破壊リスクがある。ADMIN 限定化 or 監査ログを推奨。PII 漏洩ではないため low。
+### L-2: `random-keywords` の update/delete が所有者/ロール検証なし【許容・対応不要】
+`RandomKeywordRestController` の update/delete は存在確認のみで、共有グローバルマスタを全ログインユーザーが改変・削除可能（実測: 別ユーザーで PUT/DELETE 成功）。「認証付き CRUD」の設計意図であり、**共有マスタ運用として許容（ユーザー判断で対応不要）**。
 
-### L-3: 通知設定 `webhookUrl` のドメイン非検証（ブラインド SSRF）
+### L-3: 通知設定 `webhookUrl` のドメイン非検証（ブラインド SSRF）【推奨】
 `VillageNotificationRequest.webhookUrl` は `@NotBlank` のみ。保存直後にサーバから任意 URL へ POST（`notifyTest`）するため、認証済みユーザーが内部エンドポイントを標的にできる。レスポンスは呼び出し元に返さないブラインド SSRF。`discord.com`/`discordapp.com` 系ホストのホワイトリスト検証を推奨。
 
 ## info（記録のみ・実害なし）
