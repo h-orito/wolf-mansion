@@ -92,7 +92,9 @@ data class VillageMessageContent(
                     } else {
                         null
                     },
-                messageType = message.content.type.code,
+                // 地獄耳で見えている発言は種別も伏せる (囁き/共鳴/恋人/念話 のどれかが
+                // 分かると、共有・恋人・妖狐の活動が漏れる)。表示は isBigEars で「地獄耳」に倒れる
+                messageType = if (isBigEars) CDef.MessageType.通常発言.code() else message.content.type.code,
                 messageNumber =
                     if (!isBigEars && shouldDispMessageNumber(message, village)) message.content.num else null,
                 messageContent = message.content.text,

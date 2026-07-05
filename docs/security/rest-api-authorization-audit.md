@@ -27,8 +27,8 @@
 ## critical: 梟（地獄耳）視点で囁き等の発言者 identity が漏洩【本 PR で修正】
 
 - 箇所: `api/view/VillageMessageContent.kt`、経路 `GET /api/v1/villages/{id}/messages`
-- 内容: 梟は進行中の村で人狼の囁き・共鳴発言・恋人発言・念話を「地獄耳」として閲覧できる。仕様上「名前も『地獄耳』固定となるため、誰がどの種別で発言したかはわからない」（`frontend/.../rule/sections/OtherSection.tsx`）。ところが `VillageMessageContent` は big-ears 対象でも `characterName` / `characterId` / `characterImageUrl` / `width` / `height` / `playerName` / `messageNumber` を素通しでシリアライズしていた。フロント（`BigEarsMessage`）は表示上マスクするが、**生 JSON（DevTools / curl）から囁き主＝人狼・共鳴/共有・恋人・念話メンバーを特定可能**。役職バランスを崩す、REST 化による生シリアライズ由来の新規リグレッション。
-- 修正: `VillageMessageContent.of(...)` で big-ears 判定時に上記の発言者特定情報を null 化し、`isRainbow` / `isLoud` を false、`canReply` を false にする。本文（`messageContent`）は梟が読める情報なので残す。表示は「地獄耳」固定でこれらを使わないため無影響。
+- 内容: 梟は進行中の村で人狼の囁き・共鳴発言・恋人発言・念話を「地獄耳」として閲覧できる。仕様上「名前も『地獄耳』固定となるため、誰がどの種別で発言したかはわからない」（`frontend/.../rule/sections/OtherSection.tsx`）。ところが `VillageMessageContent` は big-ears 対象でも `messageType`（発言種別）/ `characterName` / `characterId` / `characterImageUrl` / `width` / `height` / `playerName` / `messageNumber` を素通しでシリアライズしていた。フロント（`BigEarsMessage`）は表示上マスクするが、**生 JSON（DevTools / curl）から囁き主＝人狼・共鳴/共有・恋人・念話メンバーを特定可能**。役職バランスを崩す、REST 化による生シリアライズ由来の新規リグレッション。
+- 修正: `VillageMessageContent.of(...)` で big-ears 判定時に上記の発言者特定情報を null 化し、`messageType` は通常発言に倒し、`isRainbow` / `isLoud` を false、`canReply` を false にする。本文（`messageContent`）は梟が読める情報なので残す。表示は `isBigEars` で「地獄耳」に倒れ、これらを使わないため無影響。
 - 回帰テスト: `api/view/VillageMessageContentTest`（地獄耳マスク時に identity が全て null / 非地獄耳時は保持）。
 
 ## low（別 Issue 化を推奨）

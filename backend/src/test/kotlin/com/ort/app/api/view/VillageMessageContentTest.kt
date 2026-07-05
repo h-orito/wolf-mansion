@@ -77,6 +77,8 @@ internal class VillageMessageContentTest {
             )
 
         assertTrue(content.isBigEars)
+        // 種別も伏せる (囁き/共鳴/恋人/念話 の判別で共有・恋人・妖狐の活動が漏れるため)
+        assertEquals(CDef.MessageType.通常発言.code(), content.messageType)
         // 発言者の identity は一切出さない (生 JSON からの囁き主特定を防ぐ)
         assertNull(content.characterName)
         assertNull(content.characterId)
@@ -116,6 +118,7 @@ internal class VillageMessageContentTest {
             )
 
         assertFalse(content.isBigEars)
+        assertEquals(CDef.MessageType.人狼の囁き.code(), content.messageType)
         assertEquals("少年 ペーター", content.characterName)
         assertEquals(wolfCharaId, content.characterId)
         assertEquals(5, content.messageNumber)
