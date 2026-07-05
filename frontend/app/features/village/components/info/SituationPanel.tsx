@@ -1,5 +1,6 @@
 import { useCallback, useId } from "react";
 
+import { bottomFixedPanelClass } from "~/components/ui/Panel";
 import type { VillageSituationView } from "~/features/village/api";
 import { useLocalStorage } from "~/lib/useLocalStorage";
 import { useVillageContext } from "~/features/village/VillageContext";
@@ -58,7 +59,7 @@ export function SituationPanel({
 
   return (
     <div
-      className={`mb-[20px] rounded border border-[#464545] bg-[#303030] ${isFixed ? "fixed bottom-0 left-0 z-20 mb-0 w-screen max-h-[30vh] overflow-y-auto" : ""}`}
+      className={`mb-[20px] rounded border border-[#464545] bg-[#303030] ${isFixed ? bottomFixedPanelClass : ""}`}
     >
       <div className="flex items-center rounded-t bg-[#464545] px-[15px] py-[10px]">
         <div className="flex-1">
