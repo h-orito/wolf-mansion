@@ -39,7 +39,7 @@ import { FilterModal } from "~/features/village/components/modal/FilterModal";
 import { SettingsModal } from "~/features/village/components/modal/SettingsModal";
 import { VillageInfoModal } from "~/features/village/components/modal/VillageInfoModal";
 import { InitialSkillModal } from "~/features/village/components/participate/InitialSkillModal";
-import { useVillageScroll } from "~/features/village/useVillageScroll";
+import { FOOTER_MENU_HEIGHT_VAR, useVillageScroll } from "~/features/village/useVillageScroll";
 import { Toast, useToast } from "~/components/ui/Toast";
 import type { Route } from "./+types/route";
 
@@ -198,7 +198,10 @@ export default function Village({ params }: Route.ComponentProps) {
   )?.name;
 
   return (
-    <PageLayout noAd={noAd} footerPaddingBottom={50}>
+    <PageLayout
+      noAd={noAd}
+      footerPaddingBottom={`calc(var(${FOOTER_MENU_HEIGHT_VAR}, 45px) + 5px)`}
+    >
       <VillageProvider value={village}>
         <RefreshContext.Provider value={register}>
           <div className={`px-[10px] md:px-[15px] ${largeText ? "text-[150%]" : ""}`}>

@@ -1,6 +1,23 @@
 import { useCallback } from "react";
 
-const FOOTER_HEIGHT = 45;
+/** FooterMenu のルート要素 ID。スクロール位置計算で実高さを参照するために使う。 */
+export const FOOTER_MENU_ID = "footer-menu";
+
+/** FooterMenu が実高さを書き込む CSS 変数名。下部余白の確保に使う。 */
+export const FOOTER_MENU_HEIGHT_VAR = "--footer-menu-height";
+
+/** FooterMenu 未マウント時 (SSR 直後など) のフォールバック高さ。 */
+const DEFAULT_FOOTER_HEIGHT = 45;
+
+/** スクロール停止位置とフッター上端の間に確保する余白。 */
+const SCROLL_MARGIN = 8;
+
+/**
+ * FooterMenu の実高さ。safe area や画面幅でフッター高さが変わるため要素から都度取得する。
+ */
+function getFooterHeight(): number {
+  return document.getElementById(FOOTER_MENU_ID)?.offsetHeight ?? DEFAULT_FOOTER_HEIGHT;
+}
 
 /**
  * 指定 ID の要素が画面下端 (固定フッターの上) に来る位置までスクロールする。
@@ -9,7 +26,12 @@ const FOOTER_HEIGHT = 45;
 function scrollToElementBottom(id: string, smooth: boolean) {
   const el = document.getElementById(id);
   if (el == null) return;
-  const top = el.getBoundingClientRect().top + window.scrollY - window.innerHeight + FOOTER_HEIGHT;
+  const top =
+    el.getBoundingClientRect().top +
+    window.scrollY -
+    window.innerHeight +
+    getFooterHeight() +
+    SCROLL_MARGIN;
   window.scrollTo({ top: Math.max(0, top), behavior: smooth ? "smooth" : "instant" });
 }
 

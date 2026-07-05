@@ -21,8 +21,8 @@ export function PageLayout({
   header?: boolean;
   /** R18 村など広告を出さないページで true。 */
   noAd?: boolean;
-  /** fixed フッターメニュー等で共通 Footer が隠れる場合の下部余白 (px)。 */
-  footerPaddingBottom?: number;
+  /** fixed フッターメニュー等で共通 Footer が隠れる場合の下部余白 (px または CSS 長さ)。 */
+  footerPaddingBottom?: number | string;
 }) {
   return (
     <div className="min-h-screen bg-wm-base text-xs min-[768px]:text-sm text-white">

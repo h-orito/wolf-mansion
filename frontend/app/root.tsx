@@ -16,6 +16,8 @@ import "./app.css";
 
 export const links: Route.LinksFunction = () => [
   { rel: "shortcut icon", href: assetUrl("/app/images/favicon.ico") },
+  { rel: "manifest", href: assetUrl("/app/manifest.webmanifest") },
+  { rel: "apple-touch-icon", href: assetUrl("/app/images/pwa/apple-touch-icon.png") },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -33,7 +35,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
     <html lang="ja">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* viewport-fit=cover は env(safe-area-inset-*) の有効化に必須 */}
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+        <meta name="theme-color" content="#303030" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="WOLF MANSION" />
         <Meta />
         <Links />
       </head>
