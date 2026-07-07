@@ -131,7 +131,7 @@ export function MessageCard({
             <div className="flex justify-end">
               <button
                 type="button"
-                className="cursor-pointer rounded border border-border bg-surface-raised px-[8px] py-[2px] text-white"
+                className="cursor-pointer rounded border border-surface-raised bg-surface-raised px-[8px] py-[2px] text-white"
                 onClick={() =>
                   setExpandedAnchors((prev) =>
                     prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),

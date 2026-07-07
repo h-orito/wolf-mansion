@@ -39,7 +39,9 @@ export function RoomGrid({
                       : room.roomNumber
                   }
                   style={{
-                    border: isSelected(room) ? "2px solid #0ce3ac" : "1px solid #464545",
+                    border: isSelected(room)
+                      ? "2px solid var(--color-wm-accent)"
+                      : "1px solid var(--color-border)",
                     width: room.charaImgWidth ?? 50,
                     height: room.charaImgHeight ?? 60,
                     ...(room.charaImgUrl
@@ -64,7 +66,7 @@ export function RoomGrid({
                 >
                   <span
                     className="whitespace-nowrap"
-                    style={{ backgroundColor: "#222222", opacity: 0.8 }}
+                    style={{ backgroundColor: "var(--color-wm-base)", opacity: 0.8 }}
                   >
                     {room.roomNumber} {room.charaShortName ?? ""}
                   </span>

@@ -39,8 +39,6 @@ export function Modal({
       }}
     >
       <div
-        // 既存 (:8091 の bootstrap modal・ダークテーマ) に合わせる:
-        // ダイアログ #303030 / 白文字 / border 1px rgba(0,0,0,.2) / radius 6px、区切り線 #464545。
         className={`my-8 w-full ${sizeClass[size]} rounded-[6px] border border-black/20 bg-surface text-white shadow-lg`}
         onClick={(e) => e.stopPropagation()}
       >

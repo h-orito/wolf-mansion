@@ -6,7 +6,7 @@ type ButtonSize = "sm" | "xs";
 
 const variantStyle: Record<ButtonVariant, string> = {
   success: "border-success bg-success",
-  default: "border-border bg-surface-raised",
+  default: "border-surface-raised bg-surface-raised",
   danger: "border-danger bg-danger",
   info: "border-info bg-info",
 };
