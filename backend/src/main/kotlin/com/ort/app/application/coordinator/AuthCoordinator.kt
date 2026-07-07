@@ -123,11 +123,12 @@ class AuthCoordinator(
                         ?: throw WolfMansionAuthException(INVALID_REFRESH)
                 return issueTokens(playerAuth)
             }
-            // grace period 超過の再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
+            // grace period 超過 (または revoke 済み) の再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
             logger.warn(
-                "refresh token reused after grace period. revoking all tokens. playerId={}, usedAt={}",
+                "refresh token reuse detected. revoking all tokens. playerId={}, usedAt={}, revoked={}",
                 refreshToken.playerId,
                 usedAt,
+                refreshToken.isRevoked,
             )
             refreshTokenRepository.revokeAllByPlayer(refreshToken.playerId, now)
             throw WolfMansionAuthException(INVALID_REFRESH)
@@ -193,7 +194,10 @@ class AuthCoordinator(
         private const val INVALID_REFRESH = "リフレッシュトークンが無効です"
 
         // rotation のレスポンス消失 (端末スリープ・タブ破棄・回線断) 後の再提示を漏洩と誤検知して
-        // 全トークン失効させないための猶予。長いほど誤検知に強いが、本物の漏洩トークンの検知が遅れる
+        // 全トークン失効させないための猶予。長いほど誤検知に強いが、本物の漏洩トークンの検知が遅れる。
+        // 受容済みトレードオフ: logout は提示されたトークンしか revoke しないため、grace 内に使用済みの
+        // 前世代トークンが窃取されていた場合、logout 後もこの猶予内は再発行が成功しうる。
+        // 厳密に塞ぐにはトークン系列 (family) ID を導入して logout で系列ごと失効させる必要がある
         private val ROTATION_GRACE_PERIOD = java.time.Duration.ofMinutes(5)
     }
 }

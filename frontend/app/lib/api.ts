@@ -102,8 +102,11 @@ function postRefresh(): Promise<boolean> {
   return fetch(`${API_BASE}/api/v1/auth/refresh`, {
     method: "POST",
     credentials: "include",
-    // ロック保持中にハングすると全タブの 401 リトライがブロックされるため打ち切る
-    signal: AbortSignal.timeout(15_000),
+    // ロック保持中にハングすると全タブの 401 リトライがブロックされるため打ち切る (非対応環境は打ち切りなし)
+    signal:
+      typeof AbortSignal !== "undefined" && AbortSignal.timeout
+        ? AbortSignal.timeout(15_000)
+        : undefined,
   })
     .then(async (res) => {
       // body を消費しないとリクエストが完了扱いにならず残り続ける (中身は使わない)
