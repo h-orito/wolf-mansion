@@ -23,7 +23,7 @@
   --color-surface-alt: #3a3a3a; /* テーブルヘッダー等の淡い持ち上げ */
   --color-surface-dim: #2a2a2a; /* 縞テーブルの片側の行等の沈んだ面 */
   --color-border: #464545; /* 標準の境界線 */
-  --color-border-soft: #cccccc; /* 白地の上の淡い境界線 */
+  --color-border-soft: #cccccc; /* ダーク面上の淡い区切り線 (チェックリストの行区切り等) */
   --color-success: #00bc8c; /* 主ボタン・成功 */
   --color-success-light: #00dba3; /* success の hover / active */
   --color-success-dark: #009c6c; /* success 面同士の区切り線 */
