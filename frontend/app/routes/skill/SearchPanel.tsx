@@ -42,7 +42,7 @@ export function SearchPanel({
         <FormRow label="役職名" labelWidth="wide">
           <input
             type="text"
-            className="w-full rounded border-0 bg-white px-[12px] py-[6px] text-[#464545]"
+            className="w-full rounded border-0 bg-white px-[12px] py-[6px] text-ink-strong"
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="役職名（部分一致）"
@@ -57,7 +57,7 @@ export function SearchPanel({
                   type="button"
                   onClick={() => toggleTag(tag)}
                   className={`cursor-pointer rounded-[3px] px-[10px] py-[10px] text-[9px] leading-[9px] text-white ${
-                    selectedTags.includes(tag) ? "bg-[#00bc8c]" : "bg-[#464545]"
+                    selectedTags.includes(tag) ? "bg-success" : "bg-surface-raised"
                   }`}
                 >
                   {tag}
@@ -70,7 +70,7 @@ export function SearchPanel({
 
         <FormRow label="村に登場する役職" labelWidth="wide">
           <select
-            className="w-full rounded border-0 bg-white px-[12px] py-[6px] text-[#464545]"
+            className="w-full rounded border-0 bg-white px-[12px] py-[6px] text-ink-strong"
             value={villageId ?? ""}
             onChange={(e) => setVillageId(e.target.value ? Number(e.target.value) : null)}
           >

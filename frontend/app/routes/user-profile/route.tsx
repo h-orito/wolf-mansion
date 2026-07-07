@@ -71,7 +71,7 @@ function ProfileContent({
         </div>
       )}
       {data.introduction != null && (
-        <p className="mb-[10px] rounded border border-[#464545] p-[10px] whitespace-pre-line">
+        <p className="mb-[10px] rounded border border-border p-[10px] whitespace-pre-line">
           {data.introduction}
         </p>
       )}
@@ -173,7 +173,7 @@ function EditDetailModal({
   return (
     <Modal open title="自己紹介編集" onClose={onClose}>
       <div className="space-y-[15px]">
-        {error != null && <p className="text-[#e74c3c]">{error}</p>}
+        {error != null && <p className="text-danger">{error}</p>}
         <div>
           <label className="mb-[5px] block">Twitterユーザ名</label>
           <input
@@ -210,14 +210,14 @@ function formatRate(rate: number): string {
   return `${(rate * 100).toFixed(1)}%`;
 }
 
-const cellClass = "border border-[#464545] px-[8px] py-[4px]";
+const cellClass = "border border-border px-[8px] py-[4px]";
 const headerClass = `${cellClass} text-left`;
 const rightCellClass = `${cellClass} text-right`;
 
 function StatsTable({ rows }: { rows: { label: string; value: string }[] }) {
   return (
     <div className="mb-[10px] overflow-x-auto">
-      <table className="w-full border-collapse border border-[#464545]">
+      <table className="w-full border-collapse border border-border">
         <thead>
           <tr>
             <th className={headerClass}>項目</th>
@@ -226,7 +226,7 @@ function StatsTable({ rows }: { rows: { label: string; value: string }[] }) {
         </thead>
         <tbody>
           {rows.map((r) => (
-            <tr key={r.label} className="odd:bg-[#2a2a2a]">
+            <tr key={r.label} className="odd:bg-surface-dim">
               <td className={cellClass}>{r.label}</td>
               <td className={rightCellClass}>{r.value}</td>
             </tr>
@@ -240,7 +240,7 @@ function StatsTable({ rows }: { rows: { label: string; value: string }[] }) {
 function RecordTable({ headers, rows }: { headers: string[]; rows: string[][] }) {
   return (
     <div className="mb-[10px] overflow-x-auto">
-      <table className="w-full border-collapse border border-[#464545]">
+      <table className="w-full border-collapse border border-border">
         <thead>
           <tr>
             {headers.map((h, i) => (
@@ -252,7 +252,7 @@ function RecordTable({ headers, rows }: { headers: string[]; rows: string[][] })
         </thead>
         <tbody>
           {rows.map((row, i) => (
-            <tr key={i} className="odd:bg-[#2a2a2a]">
+            <tr key={i} className="odd:bg-surface-dim">
               {row.map((cell, j) => (
                 <td key={j} className={j === 0 ? cellClass : rightCellClass}>
                   {cell}
@@ -275,7 +275,7 @@ function VillageTable({
 }) {
   return (
     <div className="mb-[10px] overflow-x-auto">
-      <table className="min-w-full border-collapse border border-[#464545]">
+      <table className="min-w-full border-collapse border border-border">
         <thead>
           <tr>
             <th className={`${cellClass} text-right whitespace-nowrap`}>村番号</th>
@@ -293,7 +293,7 @@ function VillageTable({
         </thead>
         <tbody>
           {villages.map((v) => (
-            <tr key={v.villageId} className="odd:bg-[#2a2a2a]">
+            <tr key={v.villageId} className="odd:bg-surface-dim">
               <td className={`${rightCellClass} align-middle whitespace-nowrap`}>
                 <TextLink to={`/village/${v.villageId}`}>
                   {String(v.villageId).padStart(4, "0")}

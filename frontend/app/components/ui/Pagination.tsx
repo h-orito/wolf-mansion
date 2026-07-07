@@ -1,12 +1,12 @@
 import type { ReactNode } from "react";
 
 const itemBaseClass =
-  "-ml-px rounded-none border border-transparent px-[14px] py-[2px] text-white border-l-[#009c6c] mb-[2px]";
+  "-ml-px rounded-none border border-transparent px-[14px] py-[2px] text-white border-l-success-dark mb-[2px]";
 
 export const paginationStyles = {
-  enabled: `${itemBaseClass} cursor-pointer bg-[#00bc8c] hover:bg-[#00dba3]`,
-  active: `${itemBaseClass} bg-[#00dba3]`,
-  disabled: `${itemBaseClass} cursor-not-allowed bg-[#007053]`,
+  enabled: `${itemBaseClass} cursor-pointer bg-success hover:bg-success-light`,
+  active: `${itemBaseClass} bg-success-light`,
+  disabled: `${itemBaseClass} cursor-not-allowed bg-success-muted`,
 };
 
 export function Pagination({

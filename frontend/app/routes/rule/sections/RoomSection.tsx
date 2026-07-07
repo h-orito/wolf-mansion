@@ -20,7 +20,7 @@ export function RoomSection() {
       <p className="mb-[10.5px]">21名〜99名の部屋構成については管理者までお問い合わせください。</p>
       <table className="w-full border-collapse text-[12px]">
         <thead>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th className="p-[5px] text-left align-middle">人数</th>
             <th className="p-[5px] text-left align-middle">
               空き部屋の位置
@@ -31,7 +31,7 @@ export function RoomSection() {
         </thead>
         <tbody>
           {ROOMS.map((room) => (
-            <tr key={room.count} className="border-b border-[#464545]">
+            <tr key={room.count} className="border-b border-border">
               <td className="p-[5px] align-middle">{room.count}</td>
               <td className="p-[5px] align-middle font-mono">
                 {room.layout.split("\n").map((line, i) => (

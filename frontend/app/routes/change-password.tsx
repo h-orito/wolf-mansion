@@ -50,7 +50,7 @@ function ChangePasswordForm() {
   return (
     <AuthLayout title="パスワード変更">
       {done && (
-        <p className="mb-4 rounded bg-[#334033] px-3 py-2 text-wm-accent">
+        <p className="mb-4 rounded bg-success-tint px-3 py-2 text-wm-accent">
           パスワードを変更しました。
         </p>
       )}

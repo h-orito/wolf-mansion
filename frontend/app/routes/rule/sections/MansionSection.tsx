@@ -5,7 +5,7 @@ export function MansionSection() {
   return (
     <ul id="mansion" className="mb-[10.5px] list-disc pl-[40px]">
       <li>
-        <strong className="text-[#d9534f]">
+        <strong className="text-danger-soft">
           全員に見える発言での推理発言、まとめ行為、CO禁止です。（グレラン村）
         </strong>
         <ul className="list-disc pl-[20px]">
@@ -13,7 +13,7 @@ export function MansionSection() {
         </ul>
       </li>
       <li>
-        <strong className="text-[#d9534f]">
+        <strong className="text-danger-soft">
           ただし、導師と探偵のみCOおよび能力行使結果を白ログで報告することができます。（結果騙りもOKとします。）
         </strong>
         <ul className="list-disc pl-[20px]">

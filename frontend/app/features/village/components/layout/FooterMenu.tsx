@@ -15,7 +15,7 @@ import {
 } from "~/features/village/useVillageScroll";
 
 const buttonBaseClass =
-  "flex flex-1 items-center justify-center gap-[2px] border border-[#00bc8c] px-[5px] py-[10px] min-[768px]:py-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";
+  "flex flex-1 items-center justify-center gap-[2px] border border-success px-[5px] py-[10px] min-[768px]:py-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";
 
 function MenuButton({
   icon,
@@ -35,8 +35,8 @@ function MenuButton({
     <button
       type="button"
       className={`${buttonBaseClass} ${
-        active ? "bg-[#00bc8c] text-white" : "bg-wm-base text-[#00bc8c]"
-      } ${disabled ? "opacity-50" : "cursor-pointer hover:bg-[#00bc8c] hover:text-white"}`}
+        active ? "bg-success text-white" : "bg-wm-base text-success"
+      } ${disabled ? "opacity-50" : "cursor-pointer hover:bg-success hover:text-white"}`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -90,7 +90,7 @@ export function FooterMenu({
 
   return (
     <div id={FOOTER_MENU_ID} ref={rootRef} className="fixed bottom-0 left-0 z-20 w-screen">
-      <div className="flex rounded-[4px] bg-[#303030] p-[3px] pb-[calc(3px+env(safe-area-inset-bottom))] pl-[calc(3px+env(safe-area-inset-left))] pr-[calc(3px+env(safe-area-inset-right))]">
+      <div className="flex rounded-[4px] bg-surface p-[3px] pb-[calc(3px+env(safe-area-inset-bottom))] pl-[calc(3px+env(safe-area-inset-left))] pr-[calc(3px+env(safe-area-inset-right))]">
         <MenuButton
           icon={<ArrowUpIcon className={iconClass} />}
           label="最上部へ"

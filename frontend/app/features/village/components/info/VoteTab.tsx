@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import type { VillageRoomAssignedRow, VillageVoteContent } from "~/features/village/api";
 import { RoomLegend } from "./RoomLegend";
 
-const cellBorderClass = "border border-[#464545]";
+const cellBorderClass = "border border-border";
 
 /**
  * 投票表。日付見出しをクリックするとその日の投票先でソートし、セルをクリックすると
@@ -83,9 +83,7 @@ export function VoteTab({
               <tr key={member.charaName}>
                 <td
                   className={`${cellBorderClass} cursor-pointer p-[5px] ${
-                    highlightTarget != null && member.charaName === highlightTarget
-                      ? "bg-[#3498db]"
-                      : ""
+                    highlightTarget != null && member.charaName === highlightTarget ? "bg-info" : ""
                   }`}
                   onClick={() => onCellClick(member.charaName ?? "")}
                 >
@@ -95,7 +93,7 @@ export function VoteTab({
                   <td
                     key={targetIndex}
                     className={`${cellBorderClass} cursor-pointer p-[5px] ${
-                      highlightTarget != null && target === highlightTarget ? "bg-[#3498db]" : ""
+                      highlightTarget != null && target === highlightTarget ? "bg-info" : ""
                     }`}
                     onClick={() => onCellClick(target)}
                   >

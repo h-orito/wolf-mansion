@@ -13,8 +13,8 @@ export function CollapsiblePanel({
   const [open, setOpen] = useState(defaultOpen);
   const bodyId = useId();
   return (
-    <div className="mb-[15px] rounded border border-[#464545] bg-[#303030]">
-      <div className="rounded-t bg-[#464545] px-[15px] py-[10px]">
+    <div className="mb-[15px] rounded border border-border bg-surface">
+      <div className="rounded-t bg-surface-raised px-[15px] py-[10px]">
         <button
           type="button"
           aria-expanded={open}

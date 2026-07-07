@@ -45,7 +45,7 @@ export function ParticipantMemoModal({
         value={memo?.memo ?? ""}
         onChange={(e) => update({ memo: e.target.value })}
         rows={5}
-        className="mb-[10px] w-full rounded border border-[#464545] bg-[#303030] p-[8px] text-village-sm text-white"
+        className="mb-[10px] w-full rounded border border-border bg-surface p-[8px] text-village-sm text-white"
         placeholder="メモを入力..."
       />
       <div className="flex justify-end">

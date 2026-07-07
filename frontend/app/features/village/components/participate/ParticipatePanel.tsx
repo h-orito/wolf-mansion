@@ -152,7 +152,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
   return (
     <Panel title="入村" storageKey="participateform">
       <div className="space-y-[10px]">
-        {participateError != null && <p className="mb-[5px] text-[#e74c3c]">{participateError}</p>}
+        {participateError != null && <p className="mb-[5px] text-danger">{participateError}</p>}
         {participate.isAvailableSpectate && (
           <VillageFormRow label="見学" labelWidth="wide">
             <label className="flex cursor-pointer items-center gap-[5px]">
@@ -301,7 +301,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
             aria-label="入村発言"
             placeholder="人狼なんているわけないじゃん。みんな大げさだなあ"
           />
-          <div className={`mt-[3px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+          <div className={`mt-[3px] ${overLimit ? "text-danger" : ""}`}>
             文字数: {length}/400, 行数: {lineCount}/20
           </div>
         </VillageFormRow>
@@ -341,13 +341,13 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
           onClick={() => setCharaModalOpen(false)}
         >
           <div
-            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <h4 className="mb-[10px] font-bold">キャラクター選択</h4>
             <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
               {charas.map((c) => (
-                <div key={c.id} className="border border-[#464545] p-[5px] text-center">
+                <div key={c.id} className="border border-border p-[5px] text-center">
                   <div className="flex justify-center">
                     <img
                       src={defaultImageUrl(c)}
@@ -384,7 +384,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
           onClick={() => setStep("input")}
         >
           <div
-            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <h4 className="mb-[10px] font-bold">入村確認</h4>

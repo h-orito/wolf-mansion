@@ -72,7 +72,7 @@ function XPostButton() {
       href={url}
       target="_blank"
       rel="noreferrer"
-      className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
+      className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-wm-band"
     >
       <svg viewBox="0 0 24 24" className="h-[14px] w-[14px] fill-current" aria-hidden="true">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -220,7 +220,7 @@ export default function Village({ params }: Route.ComponentProps) {
                 <XPostButton />
               </div>
             </div>
-            <hr className="mt-[5px] mb-[10px] border-[#464545]" />
+            <hr className="mt-[5px] mb-[10px] border-border" />
 
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
@@ -251,7 +251,7 @@ export default function Village({ params }: Route.ComponentProps) {
               />
             )}
             <div id="bottom" />
-            <hr className="mt-[5px] mb-[10px] border-[#464545]" />
+            <hr className="mt-[5px] mb-[10px] border-border" />
 
             {situation != null && (
               <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
@@ -332,7 +332,7 @@ export default function Village({ params }: Route.ComponentProps) {
           <LeftTime />
           {me != null && !sessionExpired && (
             <Link to={`/user/${me.name}`} target="_blank">
-              <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
+              <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-info p-[5px] text-white">
                 ユーザID: {me.name}
               </div>
             </Link>

@@ -5,13 +5,39 @@
     ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
     "Noto Color Emoji";
 
-  /* WOLF MANSION ブランド配色 (既存 bootstrap-override.css 由来。`:8091` 忠実再現用トークン) */
-  --color-wm-base: #222222; /* ページ全体の地色 (既存 body 背景) */
+  /* WOLF MANSION ブランド配色 */
+  --color-wm-base: #222222; /* ページ全体の地色 (body 背景) */
   --color-wm-band: #333333; /* メニュー帯・タイル枠 */
   --color-wm-tile: #0b162a; /* タイル背景 */
   --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
   --color-wm-accent: #0ce3ac; /* アクセント (hover 文字・枠 / 誰歓タグ) */
-  --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤 */
+  --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤・未投票警告 */
+
+  /*
+   * 意味ベースの UI トークン。
+   * 発言 (メッセージ) の背景色・文字色はゲーム上の意味を持つ学習資産のためトークン化しない
+   * (messageStyles.ts / MessageBubble.tsx / SystemMessage.tsx に hex 直書きのまま保持する)。
+   */
+  --color-surface: #303030; /* パネル・モーダル本体の背景 */
+  --color-surface-raised: #464545; /* パネルヘッダー・タブ・デフォルトボタン等の持ち上がった面 */
+  --color-surface-alt: #3a3a3a; /* テーブルヘッダー等の淡い持ち上げ */
+  --color-surface-dim: #2a2a2a; /* 縞テーブルの片側の行等の沈んだ面 */
+  --color-border: #464545; /* 標準の境界線 */
+  --color-border-soft: #cccccc; /* 白地の上の淡い境界線 */
+  --color-success: #00bc8c; /* 主ボタン・成功 */
+  --color-success-light: #00dba3; /* success の hover / active */
+  --color-success-dark: #009c6c; /* success 面同士の区切り線 */
+  --color-success-muted: #007053; /* success 系の無効状態 */
+  --color-success-tint: #334033; /* 成功通知の背景 (濃緑) */
+  --color-danger: #e74c3c; /* 危険ボタン・エラー文字 */
+  --color-danger-soft: #d9534f; /* 強調文字の赤 (判定表・ルール強調) */
+  --color-info: #3498db;
+  --color-warning: #f39c12;
+  --color-warning-soft: #f0ad4e; /* 強調文字の橙 (判定表) */
+  --color-ink: #555555; /* 白地フォーム部品の上の文字 */
+  --color-ink-strong: #464545; /* 白地フォーム部品の上の文字 (濃) */
+  --color-attention: #ffff00; /* 返信引用・プレビューの注意枠 */
+  --color-disabled: #aaaaaa; /* 無効化された入力の背景 */
 
   --font-size-village-sm: 0.75em;
 }

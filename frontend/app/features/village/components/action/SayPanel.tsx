@@ -227,10 +227,10 @@ export function SayPanel({
                 <button
                   key={t.code}
                   type="button"
-                  className={`not-first:-ml-px cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
+                  className={`not-first:-ml-px cursor-pointer border border-success px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
                     active
-                      ? "bg-[#00bc8c] text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
-                      : "bg-[#222222] text-[#00bc8c]"
+                      ? "bg-success text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
+                      : "bg-wm-base text-success"
                   }`}
                   onClick={() => changeType(t.code)}
                 >
@@ -271,7 +271,7 @@ export function SayPanel({
               <button
                 key={tag.name}
                 type="button"
-                className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+                className="not-first:-ml-px cursor-pointer border border-success bg-wm-base px-[9px] py-[5px] text-success first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
                 style={tag.color != null ? { color: tag.color } : undefined}
                 onClick={() => addDecoration(tag.name)}
               >
@@ -280,7 +280,7 @@ export function SayPanel({
             ))}
             <button
               type="button"
-              className="not-first:-ml-px cursor-pointer border border-[#00bc8c] bg-[#222222] px-[9px] py-[5px] text-[#00bc8c] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
+              className="not-first:-ml-px cursor-pointer border border-success bg-wm-base px-[9px] py-[5px] text-success first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90"
               onClick={() => insertAtCursor("[[]]")}
             >
               [[]]
@@ -321,7 +321,7 @@ export function SayPanel({
           </div>
           <textarea
             ref={textareaRef}
-            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-[#464545] p-[9px] font-[sans-serif] ${textareaStyle}`}
+            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-border p-[9px] font-[sans-serif] ${textareaStyle}`}
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             aria-label="発言"
@@ -330,7 +330,7 @@ export function SayPanel({
 
         {/* 文字数・行数・残数 / 装飾・変換無効 / 確認画面へ */}
         <div className="mt-[5px]" style={{ marginLeft: (myself?.chara.size.width ?? 55) + 5 }}>
-          <span className={overLimit ? "text-[#e74c3c]" : ""}>
+          <span className={overLimit ? "text-danger" : ""}>
             {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
             文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
           </span>
@@ -357,7 +357,7 @@ export function SayPanel({
 
         {/* 返信元の引用 */}
         {reply != null && (
-          <div className="mt-[5px] rounded border border-[#ffff00] bg-[#303030] p-[10px]">
+          <div className="mt-[5px] rounded border border-attention bg-surface p-[10px]">
             <div className="mb-[5px] flex justify-end">
               <Button variant="default" size="xs" onClick={onClearReply}>
                 ×
@@ -373,7 +373,7 @@ export function SayPanel({
           onClick={() => setFaceModalOpen(false)}
         >
           <div
-            className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-white shadow-lg"
+            className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <h4 className="mb-[10px] font-bold">表情選択</h4>
@@ -381,7 +381,7 @@ export function SayPanel({
               {displayImages.map((image) => (
                 <div
                   key={image.faceType.code}
-                  className="inline-block border border-[#464545] p-[5px] text-center"
+                  className="inline-block border border-border p-[5px] text-center"
                 >
                   <img
                     src={image.url}

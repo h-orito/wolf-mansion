@@ -4,8 +4,8 @@ import { fieldErrorClass } from "~/components/ui/Form";
 import { inlineInputClass } from "~/components/ui/Input";
 import type { CampAllocationInput, NewVillageFormInput } from "./schema";
 
-const headerTdClass = "bg-[#e74c3c] text-white";
-const campTdClass = "bg-[#3498db] text-white";
+const headerTdClass = "bg-danger text-white";
+const campTdClass = "bg-info text-white";
 
 /** 配分セル (数値入力 + エラー表示)。 */
 function AllocationCell({
@@ -36,7 +36,7 @@ function AllocationCell({
 /** 闇鍋編成の配分テーブル (人狼カウント + 陣営ごと + 役職ごと)。 */
 export function RandomOrganizationTable({ camps }: { camps: CampAllocationInput[] }) {
   return (
-    <table className="border-collapse text-[10.32px] [&_td]:border [&_td]:border-[#464545] [&_td]:p-[5px]">
+    <table className="border-collapse text-[10.32px] [&_td]:border [&_td]:border-border [&_td]:p-[5px]">
       <tbody>
         <tr>
           <td className={headerTdClass} colSpan={9}>

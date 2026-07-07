@@ -48,7 +48,7 @@ function CheckRow({
 function SectionTitle({ children }: { children: ReactNode }) {
   return (
     <>
-      <hr className="my-[15px] border-[#464545]" />
+      <hr className="my-[15px] border-border" />
       <h5 className="mb-[10px] text-[14px] font-bold">{children}</h5>
     </>
   );
@@ -135,7 +135,7 @@ export function SettingsModal({
 
         {mySituation?.myself != null && <NotificationSection mySituation={mySituation} />}
 
-        <hr className="my-[15px] border-[#464545]" />
+        <hr className="my-[15px] border-border" />
         <div className="flex justify-end">
           <Button variant="default" onClick={onClose}>
             閉じる
@@ -187,10 +187,10 @@ function NotificationSection({ mySituation }: { mySituation: ParticipantSituatio
 
   return (
     <div className="space-y-[10px]">
-      <hr className="my-[15px] border-[#464545]" />
+      <hr className="my-[15px] border-border" />
       <h4 className="text-[16px] font-bold">Discord通知設定</h4>
       <ErrorMessage error={error} />
-      {saved && <p className="text-[#00bc8c]">保存しました。テスト通知を確認してください。</p>}
+      {saved && <p className="text-success">保存しました。テスト通知を確認してください。</p>}
       <SettingRow label="WebhookURL">
         <input
           type="text"

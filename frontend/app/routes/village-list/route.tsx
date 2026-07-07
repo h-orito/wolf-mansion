@@ -74,10 +74,10 @@ export default function VillageList() {
               </colgroup>
               <thead>
                 <tr>
-                  <th className="border border-[#464545] p-[5px] text-left font-bold">村番号</th>
-                  <th className="border border-[#464545] p-[5px] text-left font-bold">村名</th>
-                  <th className="border border-[#464545] p-[5px] text-left font-bold">人数</th>
-                  <th className="border border-[#464545] p-[5px] text-left font-bold">状態</th>
+                  <th className="border border-border p-[5px] text-left font-bold">村番号</th>
+                  <th className="border border-border p-[5px] text-left font-bold">村名</th>
+                  <th className="border border-border p-[5px] text-left font-bold">人数</th>
+                  <th className="border border-border p-[5px] text-left font-bold">状態</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,7 +94,7 @@ export default function VillageList() {
 }
 
 function VillageRow({ village }: { village: SimpleVillageView }) {
-  const cell = "border border-[#464545] p-[5px]";
+  const cell = "border border-border p-[5px]";
   return (
     <tr>
       <td className={cell}>{villageNumber(village.id)}</td>

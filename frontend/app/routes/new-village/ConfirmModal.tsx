@@ -9,13 +9,13 @@ import type { NewVillageFormInput } from "~/features/village-form/schema";
 
 const tableClass =
   "w-full border-collapse " +
-  "[&_th]:border [&_th]:border-[#464545] [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
-  "[&_td]:border [&_td]:border-[#464545] [&_td]:p-[5px] [&_td]:align-middle";
+  "[&_th]:border [&_th]:border-border [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
+  "[&_td]:border [&_td]:border-border [&_td]:p-[5px] [&_td]:align-middle";
 
 const nestedTableClass =
   "border-collapse text-[10.32px] " +
-  "[&_th]:border [&_th]:border-[#464545] [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
-  "[&_td]:border [&_td]:border-[#464545] [&_td]:p-[5px] [&_td]:align-middle";
+  "[&_th]:border [&_th]:border-border [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
+  "[&_td]:border [&_td]:border-border [&_td]:p-[5px] [&_td]:align-middle";
 
 function pad2(value: number): string {
   return String(value).padStart(2, "0");
@@ -117,7 +117,7 @@ function ReadOnlyRandomOrganizationTable({ values }: { values: NewVillageFormInp
     <table className={nestedTableClass}>
       <tbody>
         <tr>
-          <td className="bg-[#e74c3c] text-white" colSpan={9}>
+          <td className="bg-danger text-white" colSpan={9}>
             <strong>人狼カウント</strong>
           </td>
         </tr>
@@ -141,7 +141,7 @@ function ReadOnlyCampRows({ camp }: { camp: NewVillageFormInput["campAllocationL
   return (
     <>
       <tr>
-        <td className="bg-[#3498db] text-white" colSpan={9}>
+        <td className="bg-info text-white" colSpan={9}>
           <strong>{camp.campName}</strong>
         </td>
       </tr>

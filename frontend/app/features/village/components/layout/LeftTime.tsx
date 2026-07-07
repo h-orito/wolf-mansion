@@ -10,7 +10,7 @@ export function LeftTime() {
 
   if (leftTime == null) return null;
   return (
-    <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
+    <div className="fixed top-[5px] right-[5px] z-[100] rounded bg-info p-[5px] text-white">
       更新まで <span>{leftTime}</span>
     </div>
   );

@@ -3,7 +3,7 @@ import { UserPageLink } from "../message/MessageCard";
 
 type VillageParticipantView = components["schemas"]["VillageParticipantView"];
 
-const cellBorderClass = "border border-[#464545]";
+const cellBorderClass = "border border-border";
 
 function deadStatus(p: VillageParticipantView): string {
   if (p.isSpectator) return "";

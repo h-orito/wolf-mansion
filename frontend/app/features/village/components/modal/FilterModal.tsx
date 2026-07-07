@@ -103,11 +103,11 @@ function ParticipantCheckList({
           反転
         </TextButton>
       </div>
-      <div className="grid grid-cols-1 border-b border-[#ccc] min-[768px]:grid-cols-2 min-[1200px]:grid-cols-3">
+      <div className="grid grid-cols-1 border-b border-border-soft min-[768px]:grid-cols-2 min-[1200px]:grid-cols-3">
         {participants.map((participant) => (
           <label
             key={participant.id}
-            className="flex cursor-pointer items-center border-t border-[#ccc] px-[10px] py-[5px]"
+            className="flex cursor-pointer items-center border-t border-border-soft px-[10px] py-[5px]"
           >
             <input
               type="checkbox"
@@ -129,7 +129,7 @@ function ParticipantCheckList({
               <p
                 className={
                   participant.deadStatus !== "生存" && participant.deadStatus !== "見学"
-                    ? "text-[#e74c3c]"
+                    ? "text-danger"
                     : ""
                 }
               >
@@ -232,7 +232,7 @@ export function FilterModal({
               </>
             )}
           </div>
-          <hr className="my-[15px] border-[#464545]" />
+          <hr className="my-[15px] border-border" />
         </div>
 
         <div className="mt-[15px]">

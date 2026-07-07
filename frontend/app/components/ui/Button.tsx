@@ -5,10 +5,10 @@ type ButtonVariant = "success" | "default" | "danger" | "info";
 type ButtonSize = "sm" | "xs";
 
 const variantStyle: Record<ButtonVariant, string> = {
-  success: "border-[#00bc8c] bg-[#00bc8c]",
-  default: "border-[#464545] bg-[#464545]",
-  danger: "border-[#e74c3c] bg-[#e74c3c]",
-  info: "border-[#3498db] bg-[#3498db]",
+  success: "border-success bg-success",
+  default: "border-border bg-surface-raised",
+  danger: "border-danger bg-danger",
+  info: "border-info bg-info",
 };
 
 const sizeStyle: Record<ButtonSize, string> = {

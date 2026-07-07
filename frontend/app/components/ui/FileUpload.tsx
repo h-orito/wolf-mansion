@@ -107,7 +107,7 @@ export function FileUpload({
       {children}
       <div
         className={`flex cursor-pointer flex-col items-center rounded border-2 border-dashed px-[10px] py-[15px] text-center transition-colors ${
-          dragging ? "border-[#00bc8c] bg-[#00bc8c]/10" : "border-gray-500 hover:border-gray-400"
+          dragging ? "border-success bg-success/10" : "border-gray-500 hover:border-gray-400"
         }`}
         onClick={() => inputRef.current?.click()}
         onDragOver={handleDragOver}
@@ -135,7 +135,7 @@ export function FileUpload({
               <p className="text-[13px]">{fileName}</p>
               <button
                 type="button"
-                className="mt-[3px] text-[12px] text-[#e74c3c] hover:underline"
+                className="mt-[3px] text-[12px] text-danger hover:underline"
                 onClick={(e) => {
                   e.stopPropagation();
                   clear();
@@ -151,7 +151,7 @@ export function FileUpload({
           </p>
         )}
       </div>
-      {error && <div className="text-[13px] text-[#e74c3c]">{error}</div>}
+      {error && <div className="text-[13px] text-danger">{error}</div>}
     </div>
   );
 }

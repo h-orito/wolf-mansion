@@ -181,7 +181,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
       )}
 
       {/* Bottom section: Vote + Whole memo */}
-      <div className="mt-[10px] border-t border-[#464545]">
+      <div className="mt-[10px] border-t border-border">
         <div className="flex flex-col lg:flex-row lg:gap-[10px]">
           {initialSituation.vote != null && (
             <div className="min-w-0 flex-shrink-0 lg:max-w-[60%]">

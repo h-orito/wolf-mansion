@@ -17,14 +17,14 @@ function CampTable({ campGroups }: { campGroups: CampGroup[] }) {
       <h3 className="my-[10.5px] text-[14px] font-bold">陣営</h3>
       <table className="w-full border-collapse text-[12px]">
         <thead>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th className="p-[5px] text-left align-middle">陣営</th>
             <th className="p-[5px] text-left align-middle">陣営に所属する役職</th>
           </tr>
         </thead>
         <tbody>
           {campGroups.map((camp) => (
-            <tr key={camp.campCode} className="border-b border-[#464545]">
+            <tr key={camp.campCode} className="border-b border-border">
               <td className="p-[5px] align-middle">{camp.campName}</td>
               <td className="p-[5px] align-middle">
                 {camp.skills.map((skill, i) => (
@@ -66,7 +66,7 @@ function PersonalWinCondition() {
       <h3 className="my-[10.5px] text-[14px] font-bold">個人ごとの勝敗判定</h3>
       <table className="w-full border-collapse text-[12px]">
         <thead>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th className="p-[5px] text-left align-middle">
               個人ごとの勝敗判定（上にあるものほど優先度高）
             </th>
@@ -84,7 +84,7 @@ function PersonalWinCondition() {
             ["役職が愉快犯陣営に属している", "最後まで生存"],
             ["それ以外", "役職が属する陣営の勝利"],
           ].map(([condition, result]) => (
-            <tr key={condition} className="border-b border-[#464545]">
+            <tr key={condition} className="border-b border-border">
               <td className="p-[5px] align-middle">{condition}</td>
               <td className="p-[5px] align-middle">{result}</td>
             </tr>
@@ -101,12 +101,12 @@ function CampWinCondition() {
       <h3 className="my-[10.5px] text-[14px] font-bold">陣営の勝敗判定</h3>
       <table className="w-full border-collapse text-[12px]">
         <thead>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th colSpan={2} className="p-[5px] text-left align-middle">
               陣営の勝敗判定（同時に満たした場合は上にあるものほど優先度高）
             </th>
           </tr>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th className="p-[5px] text-left align-middle">陣営</th>
             <th className="p-[5px] text-left align-middle">勝利条件</th>
           </tr>
@@ -125,7 +125,7 @@ function CampWinCondition() {
               "なし（個人ごとに追加勝利判定を行うため、愉快犯陣営自体が勝利することはない）",
             ],
           ].map(([camp, condition]) => (
-            <tr key={camp} className="border-b border-[#464545]">
+            <tr key={camp} className="border-b border-border">
               <td className="p-[5px] align-middle">{camp}</td>
               <td className="p-[5px] align-middle">{condition}</td>
             </tr>

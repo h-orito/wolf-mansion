@@ -68,7 +68,7 @@ export function ActionPanels({
     <>
       {mySituation?.say.isAvailableSay && (
         <div id="say-panel">
-          {sayError != null && <p className="mb-[5px] text-[#e74c3c]">{sayError}</p>}
+          {sayError != null && <p className="mb-[5px] text-danger">{sayError}</p>}
           <SayPanel
             mySituation={mySituation}
             reply={reply}

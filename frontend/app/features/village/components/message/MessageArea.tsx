@@ -91,7 +91,7 @@ export function MessageArea({
 
   return (
     <div className="relative">
-      {showOverlay && <div className="absolute inset-0 z-10 bg-[#222222]/60" />}
+      {showOverlay && <div className="absolute inset-0 z-10 bg-wm-base/60" />}
       <MessagePagination content={data} onChange={setPage} />
       {(data.messageList ?? []).map((message, index) => (
         <MessageCard

@@ -2,7 +2,7 @@ import type { VillageParticipantView } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { allParticipants, compareByRoomNumber } from "~/features/village/participants";
 
-const cellBorderClass = "border border-[#464545]";
+const cellBorderClass = "border border-border";
 
 type MemberGroup = {
   status: string;

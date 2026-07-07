@@ -95,7 +95,7 @@ export default function VillageScrap({ params }: Route.ComponentProps) {
             <h1 className="my-[10.5px] text-[15px] font-normal">
               {String(village.id).padStart(4, "0")}. {village.name}
             </h1>
-            <hr className="mt-[5px] mb-[10px] border-[#464545]" />
+            <hr className="mt-[5px] mb-[10px] border-border" />
 
             {messages.map((message, index) => (
               <MessageCard

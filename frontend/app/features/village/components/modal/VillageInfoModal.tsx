@@ -7,10 +7,10 @@ import type { VillageSettingsContent } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { formatStartDatetime } from "~/lib/datetime";
 
-const thClass = "w-[40%] border border-[#464545] bg-[#3a3a3a] p-[5px] text-left align-top";
-const tdClass = "border border-[#464545] p-[5px]";
-const innerThClass = "border border-[#464545] bg-[#3a3a3a] p-[3px] text-left";
-const innerTdClass = "border border-[#464545] p-[3px]";
+const thClass = "w-[40%] border border-border bg-surface-alt p-[5px] text-left align-top";
+const tdClass = "border border-border p-[5px]";
+const innerThClass = "border border-border bg-surface-alt p-[3px] text-left";
+const innerTdClass = "border border-border p-[3px]";
 
 export function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
@@ -72,7 +72,7 @@ function RandomOrganizationTable({ settings }: { settings: VillageSettingsConten
     <table className="border-collapse text-[10.32px]">
       <tbody>
         <tr>
-          <td className="border border-[#464545] bg-[#e74c3c] p-[3px] text-white" colSpan={9}>
+          <td className="border border-border bg-danger p-[3px] text-white" colSpan={9}>
             <strong>人狼カウント</strong>
           </td>
         </tr>
@@ -87,7 +87,7 @@ function RandomOrganizationTable({ settings }: { settings: VillageSettingsConten
         {(settings.campAllocationList ?? []).map((camp) => (
           <Fragment key={camp.campCode}>
             <tr>
-              <td className="border border-[#464545] bg-[#3498db] p-[3px] text-white" colSpan={9}>
+              <td className="border border-border bg-info p-[3px] text-white" colSpan={9}>
                 <strong>{camp.campName}</strong>
               </td>
             </tr>
