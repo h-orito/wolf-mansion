@@ -193,9 +193,9 @@ internal class AuthCoordinatorTest {
         val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
         val second = coordinator.refresh(first.refreshToken) // first は使用済みに
 
-        // grace period 超過を再現: usedDatetime を 2 分前に巻き戻す
+        // grace period 超過を再現: usedDatetime を 6 分前に巻き戻す
         val firstStored = repo.findByHash(refreshFactory.hash(first.refreshToken))!!
-        repo.overwriteUsedDatetime(firstStored.id, LocalDateTime.now().minusMinutes(2))
+        repo.overwriteUsedDatetime(firstStored.id, LocalDateTime.now().minusMinutes(6))
 
         // grace period 外の再提示 → 漏洩疑いで例外 + 全失効
         assertThrows<WolfMansionAuthException> { coordinator.refresh(first.refreshToken) }
