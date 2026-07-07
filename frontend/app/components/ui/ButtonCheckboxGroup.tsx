@@ -5,10 +5,10 @@ export type ButtonCheckboxOption<T> = {
 };
 
 const buttonClass = (selected: boolean) =>
-  `not-first:-ml-px flex-1 cursor-pointer border border-[#00bc8c] px-[9px] py-[5px] text-[13px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
+  `not-first:-ml-px flex-1 cursor-pointer border border-success px-[9px] py-[5px] text-[13px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
     selected
-      ? "bg-[#00bc8c] text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
-      : "bg-[#222222] text-[#00bc8c]"
+      ? "bg-success text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
+      : "bg-wm-base text-success"
   }`;
 
 /**

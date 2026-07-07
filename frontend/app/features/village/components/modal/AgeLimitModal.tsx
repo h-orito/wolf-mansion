@@ -52,10 +52,10 @@ export function AgeLimitModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="mx-[10px] w-full max-w-[600px] rounded border border-[#464545] bg-[#303030] p-[15px] text-white">
+      <div className="mx-[10px] w-full max-w-[600px] rounded border border-border bg-surface p-[15px] text-white">
         <h5 className="mb-[10px] text-[14px]">年齢制限確認</h5>
         <p className="mb-[15px]">
-          この村は年齢制限が <strong className="text-[20px] text-[#e74c3c]">{ageLimit}</strong>{" "}
+          この村は年齢制限が <strong className="text-[20px] text-danger">{ageLimit}</strong>{" "}
           に設定されており、
           <br />
           暴力表現や性描写などが含まれる可能性があります。

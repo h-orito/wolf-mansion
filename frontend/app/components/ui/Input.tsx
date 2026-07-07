@@ -3,7 +3,7 @@
  * フォーム部品はダークテーマ画面共通でこれを使う。
  */
 
-const baseClass = "rounded border border-gray-400 bg-white px-[10px] py-[5px] text-[#555555]";
+const baseClass = "rounded border border-gray-400 bg-white px-[10px] py-[5px] text-ink";
 
 /** 1 行テキスト入力 (フォーム行いっぱいに広げる)。 */
 export const inputClass = `min-h-[30px] w-full ${baseClass}`;

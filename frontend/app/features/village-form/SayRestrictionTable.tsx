@@ -10,11 +10,11 @@ export type SayRestrictRowLabel = { key: string; label: string };
 
 const tableClass =
   "border-collapse text-[10.32px] " +
-  "[&_th]:border [&_th]:border-[#464545] [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
-  "[&_td]:border [&_td]:border-[#464545] [&_td]:p-[5px] [&_td]:align-middle";
+  "[&_th]:border [&_th]:border-border [&_th]:p-[5px] [&_th]:text-left [&_th]:align-middle " +
+  "[&_td]:border [&_td]:border-border [&_td]:p-[5px] [&_td]:align-middle";
 
 const numberInputClass =
-  "h-[30px] w-[135px] bg-white px-[10px] py-[5px] text-[#464545] disabled:bg-[#aaaaaa]";
+  "h-[30px] w-[135px] bg-white px-[10px] py-[5px] text-ink-strong disabled:bg-disabled";
 
 function toNullableNumber(value: unknown): number | null {
   return value === "" || value == null ? null : Number(value);
@@ -87,7 +87,7 @@ function SayRestrictRow({
             aria-label={`${label} 発言文字数`}
             {...register(`${name}.${index}.length`, { setValueAs: toNullableNumber })}
           />
-          <span className="flex items-center bg-[#464545] p-[5px] text-[12px]">{" * "}</span>
+          <span className="flex items-center bg-surface-raised p-[5px] text-[12px]">{" * "}</span>
           <input
             type="number"
             className={`${numberInputClass} rounded-r-[4px]`}

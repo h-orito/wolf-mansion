@@ -40,9 +40,9 @@ export const useToast = create<ToastState>((set) => ({
 }));
 
 const VARIANT_STYLE: Record<ToastItem["variant"], string> = {
-  success: "bg-[#00bc8c]",
-  info: "bg-[#3498db]",
-  error: "bg-[#e74c3c]",
+  success: "bg-success",
+  info: "bg-info",
+  error: "bg-danger",
 };
 
 function ToastEntry({ item }: { item: ToastItem }) {

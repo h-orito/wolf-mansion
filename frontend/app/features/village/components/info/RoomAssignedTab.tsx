@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { VillageRoomAssignedRow, VillageSituationContent } from "~/features/village/api";
 import { deadMark } from "./dead";
 
-const cellBorderClass = "border border-[#464545]";
+const cellBorderClass = "border border-border";
 
 /** 役職名は 5 文字を超えると先頭 4 文字 + 省略記号にする (部屋セル幅に収めるため)。 */
 function shortenSkillName(skillName: string): string {

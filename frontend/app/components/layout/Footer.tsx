@@ -9,7 +9,7 @@ const footerLink = "cursor-pointer text-wm-accent hover:underline";
 const modalLink = "text-wm-accent hover:underline";
 // 投げ銭モーダルの導線ボタン (既存 btn-sm btn-success)。
 const successBtn =
-  "inline-block rounded bg-[#00bc8c] px-3 py-1 text-[13px] text-white hover:opacity-90";
+  "inline-block rounded bg-success px-3 py-1 text-[13px] text-white hover:opacity-90";
 
 export function Footer({ noAd = false }: { noAd?: boolean }) {
   const [kampaOpen, setKampaOpen] = useState(false);
@@ -83,7 +83,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-[#464545]" />
+      <hr className="border-border" />
       <section>
         <h4 className="font-bold">Amazonギフト券（Eメールタイプ）を送る</h4>
         <ul className="list-disc pl-5">
@@ -103,7 +103,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-[#464545]" />
+      <hr className="border-border" />
       <section>
         <h4 className="font-bold">Amazonアソシエイト経由で買い物をする</h4>
         <ul className="list-disc pl-5">
@@ -117,7 +117,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-[#464545]" />
+      <hr className="border-border" />
       <section>
         <h4 className="font-bold">Pixiv Fanbox</h4>
         <div className="text-right">
@@ -126,7 +126,7 @@ function KampaContent() {
           </a>
         </div>
       </section>
-      <hr className="border-[#464545]" />
+      <hr className="border-border" />
       <section>
         <h4 className="font-bold">補足</h4>
         <ul className="list-disc pl-5">

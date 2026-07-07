@@ -88,12 +88,12 @@ function KickSection() {
     <div className="space-y-[10px]">
       <ErrorMessage error={error} />
       <VillageFormRow label="最終アクセス日時" align="start">
-        <table className="w-full border-collapse border border-[#464545]">
+        <table className="w-full border-collapse border border-border">
           <tbody>
             {members.map((m) => (
               <tr key={m.charaName}>
-                <td className="border border-[#464545] px-[8px] py-[4px]">{m.charaName}</td>
-                <td className="border border-[#464545] px-[8px] py-[4px]">{m.lastAccess ?? ""}</td>
+                <td className="border border-border px-[8px] py-[4px]">{m.charaName}</td>
+                <td className="border border-border px-[8px] py-[4px]">{m.lastAccess ?? ""}</td>
               </tr>
             ))}
           </tbody>
@@ -183,7 +183,7 @@ function CreatorSaySection({
       <ErrorMessage error={error} />
       <VillageFormRow label="村建て発言" align="start">
         <textarea
-          className="min-h-[77px] w-full rounded border border-[#464545] bg-white p-[9px] font-[sans-serif] text-[#555]"
+          className="min-h-[77px] w-full rounded border border-border bg-white p-[9px] font-[sans-serif] text-ink"
           rows={5}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -193,7 +193,7 @@ function CreatorSaySection({
       <VillageFormRow>
         <div className="flex items-center justify-between">
           <div>
-            <span className={overLimit ? "text-[#e74c3c]" : ""}>
+            <span className={overLimit ? "text-danger" : ""}>
               文字数: {length}/{maxLength}, 行数: {lineCount}/{maxLine}
             </span>
             <label className="ml-[10px] inline-flex cursor-pointer items-center gap-[5px]">

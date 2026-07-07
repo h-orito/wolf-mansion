@@ -59,9 +59,9 @@ export function SituationPanel({
 
   return (
     <div
-      className={`mb-[20px] rounded border border-[#464545] bg-[#303030] ${isFixed ? bottomFixedPanelClass : ""}`}
+      className={`mb-[20px] rounded border border-border bg-surface ${isFixed ? bottomFixedPanelClass : ""}`}
     >
-      <div className="flex items-center rounded-t bg-[#464545] px-[15px] py-[10px]">
+      <div className="flex items-center rounded-t bg-surface-raised px-[15px] py-[10px]">
         <div className="flex-1">
           <button
             type="button"
@@ -87,7 +87,7 @@ export function SituationPanel({
       >
         <div className="overflow-hidden">
           <div className="p-[15px]">
-            <ul className="flex flex-wrap border-b border-[#464545]">
+            <ul className="flex flex-wrap border-b border-border">
               {tabs.map((tab) => (
                 <li key={tab.key} className="-mb-px">
                   <button
@@ -95,8 +95,8 @@ export function SituationPanel({
                     onClick={() => setActiveTab(tab.key)}
                     className={`mr-[2px] block rounded-t-[4px] border px-[10px] py-[8px] text-[13px] sm:px-[15px] sm:py-[10px] sm:text-[14px] ${
                       activeTab === tab.key
-                        ? "bg-wm-base border-[#464545] border-b-transparent text-[#00bc8c]"
-                        : "text-wm-accent cursor-pointer border-transparent hover:border-[#464545] hover:bg-[#303030]"
+                        ? "bg-wm-base border-border border-b-transparent text-success"
+                        : "text-wm-accent cursor-pointer border-transparent hover:border-border hover:bg-surface"
                     }`}
                   >
                     {tab.label}

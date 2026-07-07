@@ -103,20 +103,18 @@ function PlayersSection() {
           </Button>
         </div>
         {players != null && (
-          <table className="mt-[10px] w-full border-collapse border border-[#464545]">
+          <table className="mt-[10px] w-full border-collapse border border-border">
             <thead>
               <tr>
-                <th className="border border-[#464545] px-[8px] py-[4px] text-left">キャラ名</th>
-                <th className="border border-[#464545] px-[8px] py-[4px] text-left">
-                  プレイヤー名
-                </th>
+                <th className="border border-border px-[8px] py-[4px] text-left">キャラ名</th>
+                <th className="border border-border px-[8px] py-[4px] text-left">プレイヤー名</th>
               </tr>
             </thead>
             <tbody>
               {players.players.map((p) => (
                 <tr key={p.charaName}>
-                  <td className="border border-[#464545] px-[8px] py-[4px]">{p.charaName}</td>
-                  <td className="border border-[#464545] px-[8px] py-[4px]">{p.playerName}</td>
+                  <td className="border border-border px-[8px] py-[4px]">{p.charaName}</td>
+                  <td className="border border-border px-[8px] py-[4px]">{p.playerName}</td>
                 </tr>
               ))}
             </tbody>

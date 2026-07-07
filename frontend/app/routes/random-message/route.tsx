@@ -16,8 +16,8 @@ export function meta(_: Route.MetaArgs) {
 /** 折りたたみ時に表示する変換後文字列の行数。 */
 const VISIBLE_LINES = 5;
 
-const thClass = "border border-[#464545] p-[5px] text-left align-bottom";
-const cellClass = "border border-[#464545] p-[5px]";
+const thClass = "border border-border p-[5px] text-left align-bottom";
+const cellClass = "border border-border p-[5px]";
 
 /** 変換後文字列セル。先頭 5 行のみ表示し、残りは「全て表示」で展開する。 */
 function ContentCell({ keyword }: { keyword: RandomKeyword }) {

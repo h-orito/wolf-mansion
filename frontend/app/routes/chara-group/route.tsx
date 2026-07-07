@@ -22,29 +22,27 @@ export default function CharaGroupList() {
             <table className="w-full border-collapse text-xs">
               <thead>
                 <tr>
-                  <th className="border border-[#464545] p-[5px] align-middle">キャラチップ名</th>
-                  <th className="border border-[#464545] p-[5px] align-middle">作者名</th>
-                  <th className="border border-[#464545] p-[5px] align-middle">
+                  <th className="border border-border p-[5px] align-middle">キャラチップ名</th>
+                  <th className="border border-border p-[5px] align-middle">作者名</th>
+                  <th className="border border-border p-[5px] align-middle">
                     キャラ
                     <br />
                     チップ数
                   </th>
-                  <th className="border border-[#464545] p-[5px] align-middle">例</th>
+                  <th className="border border-border p-[5px] align-middle">例</th>
                 </tr>
               </thead>
               <tbody>
                 {charachips.map((chip) => (
                   <tr key={chip.id}>
-                    <td className="border border-[#464545] p-[5px] align-middle">
+                    <td className="border border-border p-[5px] align-middle">
                       <TextLink to={`/chara-group/${chip.id}`}>{chip.name}</TextLink>
                     </td>
-                    <td className="border border-[#464545] p-[5px] align-middle">
+                    <td className="border border-border p-[5px] align-middle">
                       {chip.designerName}
                     </td>
-                    <td className="border border-[#464545] p-[5px] align-middle">
-                      {chip.charaNum}人
-                    </td>
-                    <td className="border border-[#464545] p-[5px] align-middle">
+                    <td className="border border-border p-[5px] align-middle">{chip.charaNum}人</td>
+                    <td className="border border-border p-[5px] align-middle">
                       <img
                         src={chip.dummyImgUrl}
                         width={chip.dummyImgWidth}

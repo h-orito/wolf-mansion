@@ -220,7 +220,7 @@ export default function Village({ params }: Route.ComponentProps) {
                 <XPostButton />
               </div>
             </div>
-            <hr className="mt-[5px] mb-[10px] border-[#464545]" />
+            <hr className="mt-[5px] mb-[10px] border-border" />
 
             <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
@@ -251,7 +251,7 @@ export default function Village({ params }: Route.ComponentProps) {
               />
             )}
             <div id="bottom" />
-            <hr className="mt-[5px] mb-[10px] border-[#464545]" />
+            <hr className="mt-[5px] mb-[10px] border-border" />
 
             {situation != null && (
               <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
@@ -332,7 +332,7 @@ export default function Village({ params }: Route.ComponentProps) {
           <LeftTime />
           {me != null && !sessionExpired && (
             <Link to={`/user/${me.name}`} target="_blank">
-              <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-[#3498db] p-[5px] text-white">
+              <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-info p-[5px] text-white">
                 ユーザID: {me.name}
               </div>
             </Link>

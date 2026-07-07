@@ -72,13 +72,13 @@ export function ActionPanel({
         </select>
         <input
           type="text"
-          className="mt-[10px] w-full rounded border border-[#464545] bg-white p-[6px] text-[#555]"
+          className="mt-[10px] w-full rounded border border-border bg-white p-[6px] text-ink"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           aria-label="アクション本文"
           placeholder="自由入力"
         />
-        <div className={`mt-[5px] ${overLimit ? "text-[#e74c3c]" : ""}`}>
+        <div className={`mt-[5px] ${overLimit ? "text-danger" : ""}`}>
           {leftCount != null && maxCount != null && `残り${leftCount}/${maxCount}回, `}
           文字数: {totalLength}/{maxLength}
         </div>

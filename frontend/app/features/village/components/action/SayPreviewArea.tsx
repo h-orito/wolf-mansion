@@ -57,7 +57,7 @@ export function SayPreviewArea({
   return (
     <div
       id="message-confirm-area"
-      className="mb-[20px] rounded border border-[#ffff00] bg-[#303030] p-[10px]"
+      className="mb-[20px] rounded border border-attention bg-surface p-[10px]"
     >
       <p className="mb-[10px]">以下の内容で発言してよろしいですか？（まだ発言されていません）</p>
       <MessageCard message={preview.message} randomKeywords={randomKeywords} />

@@ -128,7 +128,7 @@ export function AnalyzerRoomGrid({
                     return (
                       <td
                         key={room.roomNumber}
-                        className={`relative border border-[#464545] p-0 text-center ${room.participantId != null ? "cursor-pointer" : ""}`}
+                        className={`relative border border-border p-0 text-center ${room.participantId != null ? "cursor-pointer" : ""}`}
                         style={{ width: cellW, minWidth: cellW, height: cellH }}
                         onClick={() =>
                           room.participantId != null && onParticipantClick(room.participantId)

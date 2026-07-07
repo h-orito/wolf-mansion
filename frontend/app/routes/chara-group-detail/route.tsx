@@ -69,7 +69,7 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
           {charachip.charas.list.map((chara) => (
             <div
               key={chara.id}
-              className="box-border w-full border border-[#464545] p-[5px] min-[768px]:w-1/2"
+              className="box-border w-full border border-border p-[5px] min-[768px]:w-1/2"
             >
               <span className="block text-center">
                 {chara.images.list.map((img, i) => (
@@ -137,7 +137,7 @@ function RoomAssignmentTable({
               return (
                 <td
                   key={cell.roomNumber}
-                  className="relative border border-[#464545] p-0 text-center align-middle"
+                  className="relative border border-border p-0 text-center align-middle"
                   style={{
                     width: `${maxWidth}px`,
                     minWidth: `${maxWidth}px`,
@@ -154,7 +154,7 @@ function RoomAssignmentTable({
                     }}
                   />
                   <div className="absolute bottom-0 left-1/2 -translate-x-1/2 opacity-80">
-                    <span className="whitespace-nowrap bg-[#222222]">
+                    <span className="whitespace-nowrap bg-wm-base">
                       {String(cell.roomNumber).padStart(2, "0")} {cell.chara?.shortName ?? ""}
                     </span>
                   </div>

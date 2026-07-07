@@ -127,14 +127,11 @@ export function MessageCard({
       {expandedAnchors
         .filter((a) => a.visible)
         .map((a) => (
-          <div
-            key={a.key}
-            className="mb-[10px] rounded border border-[#464545] bg-[#303030] p-[10px]"
-          >
+          <div key={a.key} className="mb-[10px] rounded border border-border bg-surface p-[10px]">
             <div className="flex justify-end">
               <button
                 type="button"
-                className="cursor-pointer rounded border border-[#464545] bg-[#464545] px-[8px] py-[2px] text-white"
+                className="cursor-pointer rounded border border-surface-raised bg-surface-raised px-[8px] py-[2px] text-white"
                 onClick={() =>
                   setExpandedAnchors((prev) =>
                     prev.map((x) => (x.key === a.key ? { ...x, visible: false } : x)),

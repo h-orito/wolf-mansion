@@ -55,7 +55,7 @@ function useStorageString(key: string): string {
 
 export function Panel({
   title,
-  headerClassName = "bg-[#464545]",
+  headerClassName = "bg-surface-raised",
   headerExtra,
   storageKey,
   defaultOpen = true,
@@ -92,7 +92,7 @@ export function Panel({
 
   return (
     <div
-      className={`mb-[20px] rounded border border-[#464545] bg-[#303030] ${isFixed ? bottomFixedPanelClass : ""}`}
+      className={`mb-[20px] rounded border border-border bg-surface ${isFixed ? bottomFixedPanelClass : ""}`}
     >
       <div className={`flex items-center rounded-t px-[15px] py-[10px] ${headerClassName}`}>
         <div className="flex-1">

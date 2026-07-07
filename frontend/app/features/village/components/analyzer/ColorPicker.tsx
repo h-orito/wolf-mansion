@@ -24,11 +24,11 @@ export function ColorPicker({
       <button
         type="button"
         onClick={() => setShowPalette((v) => !v)}
-        className="h-[24px] w-[24px] cursor-pointer rounded border border-[#464545]"
+        className="h-[24px] w-[24px] cursor-pointer rounded border border-border"
         style={{ backgroundColor: `#${value}` }}
       />
       {showPalette && (
-        <div className="absolute top-[30px] left-0 z-10 flex gap-[3px] rounded border border-[#464545] bg-[#303030] p-[6px]">
+        <div className="absolute top-[30px] left-0 z-10 flex gap-[3px] rounded border border-border bg-surface p-[6px]">
           {TEMPLATE_COLORS.map((c) => (
             <button
               key={c}
@@ -37,14 +37,14 @@ export function ColorPicker({
                 onChange(c);
                 setShowPalette(false);
               }}
-              className="h-[20px] w-[20px] cursor-pointer rounded-[2px] border border-[#464545]"
+              className="h-[20px] w-[20px] cursor-pointer rounded-[2px] border border-border"
               style={{ backgroundColor: `#${c}` }}
             />
           ))}
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-[2px] border border-[#464545] bg-[#404040] text-[10px] text-white"
+            className="flex h-[20px] w-[20px] cursor-pointer items-center justify-center rounded-[2px] border border-border bg-[#404040] text-[10px] text-white"
             title="カスタム色"
           >
             ...

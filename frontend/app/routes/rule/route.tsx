@@ -108,7 +108,7 @@ export default function RulePage() {
 
 function TableOfContents({ campGroups }: { campGroups: CampGroup[] }) {
   return (
-    <div className="rounded bg-[#303030] px-[5px] pt-[5px] pb-[15px]">
+    <div className="rounded bg-surface px-[5px] pt-[5px] pb-[15px]">
       <ul className="list-none pl-0">
         <li>
           <a href="#basic" className="text-wm-accent hover:underline">
@@ -297,7 +297,7 @@ function JudgeSection({ judges }: { judges: JudgeView[] }) {
     <div id="judge" className="overflow-x-auto">
       <table className="w-full border-collapse text-[12px]">
         <thead>
-          <tr className="border-b border-[#464545]">
+          <tr className="border-b border-border">
             <th className="p-[5px] text-left align-middle">役職</th>
             <th className="p-[5px] text-left align-middle">占結果</th>
             <th className="p-[5px] text-left align-middle">霊結果</th>
@@ -311,7 +311,7 @@ function JudgeSection({ judges }: { judges: JudgeView[] }) {
         </thead>
         <tbody>
           {judges.map((judge, i) => (
-            <tr key={i} className="border-b border-[#464545]">
+            <tr key={i} className="border-b border-border">
               <td className="p-[5px] align-middle">
                 {judge.skills.map((skill, j) => (
                   <span key={skill.code}>
@@ -321,22 +321,22 @@ function JudgeSection({ judges }: { judges: JudgeView[] }) {
                 ))}
               </td>
               <td
-                className={`p-[5px] align-middle ${judge.divineResultWolf ? "text-[#d9534f]" : ""}`}
+                className={`p-[5px] align-middle ${judge.divineResultWolf ? "text-danger-soft" : ""}`}
               >
                 {judge.divineResultWolf ? "人狼" : "人間"}
               </td>
               <td
-                className={`p-[5px] align-middle ${judge.psychicResultWolf ? "text-[#d9534f]" : ""}`}
+                className={`p-[5px] align-middle ${judge.psychicResultWolf ? "text-danger-soft" : ""}`}
               >
                 {judge.psychicResultWolf ? "人狼" : "人間"}
               </td>
               <td
-                className={`p-[5px] align-middle ${judge.noDeadByAttack ? "text-[#f0ad4e]" : ""}`}
+                className={`p-[5px] align-middle ${judge.noDeadByAttack ? "text-warning-soft" : ""}`}
               >
                 {judge.noDeadByAttack ? "死亡しない" : "なし"}
               </td>
               <td
-                className={`p-[5px] align-middle ${judge.countType === "WOLF" ? "text-[#d9534f]" : judge.countType === "NO_COUNT" ? "text-[#f0ad4e]" : ""}`}
+                className={`p-[5px] align-middle ${judge.countType === "WOLF" ? "text-danger-soft" : judge.countType === "NO_COUNT" ? "text-warning-soft" : ""}`}
               >
                 {COUNT_TYPE_LABELS[judge.countType]}
               </td>

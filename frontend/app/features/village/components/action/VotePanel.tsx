@@ -49,7 +49,7 @@ export function VotePanel({
       title="投票"
       storageKey="voteform"
       fixable
-      headerClassName={isUnset ? "bg-[#ff0000]" : "bg-[#464545]"}
+      headerClassName={isUnset ? "bg-wm-danger" : "bg-surface-raised"}
       headerExtra={isUnset ? "(未セットのままだと突然死します)" : null}
     >
       <div className="space-y-[10px]">
@@ -60,7 +60,7 @@ export function VotePanel({
             ? resolveParticipantName(village, vote.targetCharaId)
             : "なし"}
         </p>
-        <hr className="border-[#464545]" />
+        <hr className="border-border" />
         <p>一番票を集めた人物が処刑されます。同数の場合はランダムで決定されます。</p>
         <div>
           <div className="flex items-center gap-[5px]">

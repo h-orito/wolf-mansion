@@ -10,7 +10,7 @@ import type { NewVillageFormInput } from "./schema";
 
 /** 村作成後に変更できない項目に付ける印。 */
 export function RequiredAfterCreationMark() {
-  return <span className="text-[#e74c3c]">*</span>;
+  return <span className="text-danger">*</span>;
 }
 
 /** 区切り線 + セクション見出し。 */

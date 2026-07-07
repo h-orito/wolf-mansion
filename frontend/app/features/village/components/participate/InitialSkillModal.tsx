@@ -60,7 +60,7 @@ export function InitialSkillModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4">
-      <div className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-[#303030] p-[15px] text-[12px] text-white shadow-lg">
+      <div className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-surface p-[15px] text-[12px] text-white shadow-lg">
         <h5 className="mb-[10px] text-[14px] font-bold">
           村が開始されました。役職とルールは以下の通りです。
         </h5>

@@ -90,7 +90,7 @@ function CampMenu({
   visibleCodes: Set<string> | null;
 }) {
   return (
-    <div className="rounded bg-[#303030] px-[5px] pt-[5px] pb-[15px]">
+    <div className="rounded bg-surface px-[5px] pt-[5px] pb-[15px]">
       {campGroups.map((camp) => {
         const visible = camp.skills.filter(
           (s) => visibleCodes === null || visibleCodes.has(s.code),

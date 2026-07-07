@@ -47,15 +47,13 @@ export default function UserList() {
             <table className="w-full border-collapse text-[10.5px]">
               <thead>
                 <tr>
-                  <th className="border border-[#464545] p-[5px] text-left font-bold">
-                    ユーザー名
-                  </th>
+                  <th className="border border-border p-[5px] text-left font-bold">ユーザー名</th>
                 </tr>
               </thead>
               <tbody>
                 {players.map((p) => (
                   <tr key={p.name}>
-                    <td className="border border-[#464545] p-[5px]">
+                    <td className="border border-border p-[5px]">
                       <Link to={`/user/${p.name}`} className="text-wm-accent hover:underline">
                         {p.name}
                       </Link>

@@ -176,11 +176,11 @@ function FaqItem({ q, a }: { q: ReactNode | ReactNode[]; a: ReactNode }) {
     <div className="mb-[10px]">
       {questions.map((question, i) => (
         <Fragment key={i}>
-          <span className={`${iconStyle} bg-[#3498db]`}>Q</span>
+          <span className={`${iconStyle} bg-info`}>Q</span>
           <p className="mb-[10.5px] pl-[25px]">{question}</p>
         </Fragment>
       ))}
-      <span className={`${iconStyle} bg-[#e74c3c]`}>A</span>
+      <span className={`${iconStyle} bg-danger`}>A</span>
       <p className="mb-[10.5px] pl-[25px]">{a}</p>
     </div>
   );
