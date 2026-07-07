@@ -102,6 +102,8 @@ function postRefresh(): Promise<boolean> {
   return fetch(`${API_BASE}/api/v1/auth/refresh`, {
     method: "POST",
     credentials: "include",
+    // ロック保持中にハングすると全タブの 401 リトライがブロックされるため打ち切る
+    signal: AbortSignal.timeout(15_000),
   })
     .then(async (res) => {
       // body を消費しないとリクエストが完了扱いにならず残り続ける (中身は使わない)
@@ -113,7 +115,8 @@ function postRefresh(): Promise<boolean> {
 
 async function postRefreshWithCrossTabLock(): Promise<boolean> {
   if (typeof navigator === "undefined" || navigator.locks == null) return postRefresh();
-  return navigator.locks.request(REFRESH_LOCK_NAME, postRefresh);
+  // ロック取得自体の失敗 (document が inactive 等) も「refresh 失敗 = 未ログイン扱い」に丸める
+  return navigator.locks.request(REFRESH_LOCK_NAME, postRefresh).catch(() => false);
 }
 
 function refreshTokens(): Promise<boolean> {

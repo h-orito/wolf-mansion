@@ -206,6 +206,18 @@ internal class AuthCoordinatorTest {
     }
 
     @Test
+    fun reusing_revoked_token_within_grace_period_is_rejected() {
+        val repo = FakeRefreshTokenRepository()
+        val coordinator = newCoordinator(repo)
+        val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
+        coordinator.refresh(first.refreshToken) // first は使用済みに
+
+        // revoke 済みトークンは使用から grace period 内でも再発行しない (revoke-all のバイパス防止)
+        repo.revokeAllByPlayer(1, LocalDateTime.now())
+        assertThrows<WolfMansionAuthException> { coordinator.refresh(first.refreshToken) }
+    }
+
+    @Test
     fun logout_revokes_presented_token() {
         val repo = FakeRefreshTokenRepository()
         val coordinator = newCoordinator(repo)

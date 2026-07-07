@@ -107,7 +107,11 @@ class AuthCoordinator(
                 ?: throw WolfMansionAuthException(INVALID_REFRESH)
         if (refreshToken.isUsed) {
             val usedAt = refreshToken.usedDatetime
-            if (usedAt != null && java.time.Duration.between(usedAt, now) <= ROTATION_GRACE_PERIOD) {
+            // revoke 済み (漏洩検知・logout) のトークンは grace で救済しない (revoke-all のバイパスになるため)
+            if (usedAt != null &&
+                !refreshToken.isRevoked &&
+                java.time.Duration.between(usedAt, now) <= ROTATION_GRACE_PERIOD
+            ) {
                 // Broken pipe 等でレスポンスが届かなかった可能性が高い。新しいトークンを再発行する
                 logger.info(
                     "refresh token reused within grace period. reissuing. playerId={}, usedAt={}",
