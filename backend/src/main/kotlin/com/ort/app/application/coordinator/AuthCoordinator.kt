@@ -10,6 +10,7 @@ import com.ort.app.fw.exception.WolfMansionTooManyRequestsException
 import com.ort.app.fw.security.jwt.JwtPrincipal
 import com.ort.app.fw.security.jwt.JwtTokenProvider
 import com.ort.app.fw.security.jwt.RefreshTokenFactory
+import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -31,6 +32,8 @@ class AuthCoordinator(
     private val playerService: PlayerService,
     private val loginRateLimiter: LoginRateLimiter,
 ) {
+    private val logger = LoggerFactory.getLogger(this::class.java)
+
     // 失敗試行の記録 (recordFailure) は 401 を投げた後もコミットさせる必要があるため、
     // WolfMansionAuthException ではロールバックしない。429 は記録前に投げるので書き込みは無い。
     @Transactional(
@@ -104,14 +107,29 @@ class AuthCoordinator(
                 ?: throw WolfMansionAuthException(INVALID_REFRESH)
         if (refreshToken.isUsed) {
             val usedAt = refreshToken.usedDatetime
-            if (usedAt != null && java.time.Duration.between(usedAt, now) <= ROTATION_GRACE_PERIOD) {
+            // revoke 済み (漏洩検知・logout) のトークンは grace で救済しない (revoke-all のバイパスになるため)
+            if (usedAt != null &&
+                !refreshToken.isRevoked &&
+                java.time.Duration.between(usedAt, now) <= ROTATION_GRACE_PERIOD
+            ) {
                 // Broken pipe 等でレスポンスが届かなかった可能性が高い。新しいトークンを再発行する
+                logger.info(
+                    "refresh token reused within grace period. reissuing. playerId={}, usedAt={}",
+                    refreshToken.playerId,
+                    usedAt,
+                )
                 val playerAuth =
                     playerAuthRepository.findById(refreshToken.playerId)
                         ?: throw WolfMansionAuthException(INVALID_REFRESH)
                 return issueTokens(playerAuth)
             }
-            // grace period 超過の再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
+            // grace period 超過 (または revoke 済み) の再提示 = 漏洩疑い。当該プレイヤーの未失効トークンを全て失効させる
+            logger.warn(
+                "refresh token reuse detected. revoking all tokens. playerId={}, usedAt={}, revoked={}",
+                refreshToken.playerId,
+                usedAt,
+                refreshToken.isRevoked,
+            )
             refreshTokenRepository.revokeAllByPlayer(refreshToken.playerId, now)
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
@@ -125,6 +143,7 @@ class AuthCoordinator(
         // 使い捨て: 未使用のものだけをアトミックに使用済みにする。
         // 並行リクエストに先を越された (= 二重消費) 場合は false → このリクエストは拒否する。
         if (!refreshTokenRepository.markUsed(refreshToken.id, now)) {
+            logger.warn("refresh token concurrent consumption detected. playerId={}", refreshToken.playerId)
             throw WolfMansionAuthException(INVALID_REFRESH)
         }
         return issueTokens(playerAuth)
@@ -173,6 +192,12 @@ class AuthCoordinator(
 
     companion object {
         private const val INVALID_REFRESH = "リフレッシュトークンが無効です"
-        private val ROTATION_GRACE_PERIOD = java.time.Duration.ofSeconds(60)
+
+        // rotation のレスポンス消失 (端末スリープ・タブ破棄・回線断) 後の再提示を漏洩と誤検知して
+        // 全トークン失効させないための猶予。長いほど誤検知に強いが、本物の漏洩トークンの検知が遅れる。
+        // 受容済みトレードオフ: logout は提示されたトークンしか revoke しないため、grace 内に使用済みの
+        // 前世代トークンが窃取されていた場合、logout 後もこの猶予内は再発行が成功しうる。
+        // 厳密に塞ぐにはトークン系列 (family) ID を導入して logout で系列ごと失効させる必要がある
+        private val ROTATION_GRACE_PERIOD = java.time.Duration.ofMinutes(5)
     }
 }

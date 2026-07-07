@@ -193,9 +193,9 @@ internal class AuthCoordinatorTest {
         val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
         val second = coordinator.refresh(first.refreshToken) // first は使用済みに
 
-        // grace period 超過を再現: usedDatetime を 2 分前に巻き戻す
+        // grace period 超過を再現: usedDatetime を 6 分前に巻き戻す
         val firstStored = repo.findByHash(refreshFactory.hash(first.refreshToken))!!
-        repo.overwriteUsedDatetime(firstStored.id, LocalDateTime.now().minusMinutes(2))
+        repo.overwriteUsedDatetime(firstStored.id, LocalDateTime.now().minusMinutes(6))
 
         // grace period 外の再提示 → 漏洩疑いで例外 + 全失効
         assertThrows<WolfMansionAuthException> { coordinator.refresh(first.refreshToken) }
@@ -203,6 +203,18 @@ internal class AuthCoordinatorTest {
         // second (まだ有効だった) も失効している
         val secondStored = repo.findByHash(refreshFactory.hash(second.refreshToken))
         assertTrue(secondStored != null && secondStored.isRevoked)
+    }
+
+    @Test
+    fun reusing_revoked_token_within_grace_period_is_rejected() {
+        val repo = FakeRefreshTokenRepository()
+        val coordinator = newCoordinator(repo)
+        val first = coordinator.login("alice", "correct-horse", CLIENT_IP)
+        coordinator.refresh(first.refreshToken) // first は使用済みに
+
+        // revoke 済みトークンは使用から grace period 内でも再発行しない (revoke-all のバイパス防止)
+        repo.revokeAllByPlayer(1, LocalDateTime.now())
+        assertThrows<WolfMansionAuthException> { coordinator.refresh(first.refreshToken) }
     }
 
     @Test

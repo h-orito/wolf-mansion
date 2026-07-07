@@ -85,26 +85,47 @@ type ApiFetchOptions = {
 };
 
 /**
- * access token (15分) 切れの 401 を refresh token で立て直す。並行リクエストが同時に 401 に
- * なっても refresh は 1 回だけ走らせる (rotation 方式のため同じ refresh token の二重提示は
- * 漏洩検知で全失効してしまう)。refresh 自体が失敗したら未ログインとして扱う。
+ * access token (15分) 切れの 401 を refresh token で立て直す。rotation 方式のため同じ refresh
+ * token を並行して二重提示すると片方が拒否される (先勝ち)。これを防ぐため 2 段で直列化する:
+ *
+ * - タブ内: singleton promise で同時 401 でも refresh は 1 回だけ走らせる
+ * - タブ間: Web Locks API で排他する。Cookie はタブ間共有なので、先行タブの rotation 完了を
+ *   待ってから提示すれば常に最新の refresh token を提示でき、二重消費 401 にならない
+ *
+ * refresh 自体が失敗したら未ログインとして扱う。
  */
 let refreshPromise: Promise<boolean> | null = null;
 
-function refreshTokens(): Promise<boolean> {
-  refreshPromise ??= fetch(`${API_BASE}/api/v1/auth/refresh`, {
+const REFRESH_LOCK_NAME = "wolf-mansion-auth-refresh";
+
+function postRefresh(): Promise<boolean> {
+  return fetch(`${API_BASE}/api/v1/auth/refresh`, {
     method: "POST",
     credentials: "include",
+    // ロック保持中にハングすると全タブの 401 リトライがブロックされるため打ち切る (非対応環境は打ち切りなし)
+    signal:
+      typeof AbortSignal !== "undefined" && AbortSignal.timeout
+        ? AbortSignal.timeout(15_000)
+        : undefined,
   })
     .then(async (res) => {
       // body を消費しないとリクエストが完了扱いにならず残り続ける (中身は使わない)
       await res.text().catch(() => {});
       return res.ok;
     })
-    .catch(() => false)
-    .finally(() => {
-      refreshPromise = null;
-    });
+    .catch(() => false);
+}
+
+async function postRefreshWithCrossTabLock(): Promise<boolean> {
+  if (typeof navigator === "undefined" || navigator.locks == null) return postRefresh();
+  // ロック取得自体の失敗 (document が inactive 等) も「refresh 失敗 = 未ログイン扱い」に丸める
+  return navigator.locks.request(REFRESH_LOCK_NAME, postRefresh).catch(() => false);
+}
+
+function refreshTokens(): Promise<boolean> {
+  refreshPromise ??= postRefreshWithCrossTabLock().finally(() => {
+    refreshPromise = null;
+  });
   return refreshPromise;
 }
 
