@@ -5,6 +5,7 @@ import { Heading } from "~/components/ui/Heading";
 import { ExternalLink } from "~/components/ui/TextLink";
 import { PageLayout } from "~/components/layout/PageLayout";
 import type { Chara, RoomAssignmentResponse } from "~/features/charachips/api";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import { useCharachipDetail, useRoomAssignment } from "~/features/charachips/useCharachips";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
@@ -131,9 +132,7 @@ function RoomAssignmentTable({
         {grid.map((row, rowIndex) => (
           <tr key={rowIndex}>
             {row.map((cell) => {
-              const defaultImg =
-                cell.chara?.images.list.find((img) => img.faceType.code === "NORMAL") ??
-                cell.chara?.images.list[0];
+              const defaultImg = findNormalImage(cell.chara?.images.list);
               return (
                 <td
                   key={cell.roomNumber}

@@ -6,6 +6,7 @@ import { FileUpload } from "~/components/ui/FileUpload";
 import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import {
   confirmVillageParticipate,
   participateVillage,
@@ -29,9 +30,7 @@ type CharaLike = {
 };
 
 function defaultImageUrl(c: CharaLike): string {
-  return (
-    c.images.list.find((i) => i.faceType.code === "NORMAL")?.url ?? c.images.list[0]?.url ?? ""
-  );
+  return findNormalImage(c.images.list)?.url ?? "";
 }
 
 type Step = "input" | "confirm";
