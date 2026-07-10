@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 import { PageLayout } from "~/components/layout/PageLayout";
-import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { fetchAnchorMessages } from "~/features/village/api";
 import { useVillage } from "~/features/village/useVillage";
 import { VillageProvider } from "~/features/village/VillageContext";
@@ -27,7 +27,7 @@ export default function VillageMessagePermalink({ params }: Route.ComponentProps
   const anchors = searchParams.get("anchors") ?? "";
 
   const { data: village, error: villageError } = useVillage(villageId);
-  const { data: randomKeywords } = useRandomKeywords();
+  const randomKeywords = useRandomKeywordList();
   const { data } = useQuery({
     queryKey: ["village-anchor-messages", villageId, anchors],
     queryFn: () => fetchAnchorMessages(villageId, anchors),
@@ -64,7 +64,7 @@ export default function VillageMessagePermalink({ params }: Route.ComponentProps
               <MessageCard
                 key={`${message.messageType}-${message.messageNumber ?? index}`}
                 message={message}
-                randomKeywords={(randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean)}
+                randomKeywords={randomKeywords}
               />
             ))}
           </div>
