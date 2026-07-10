@@ -29,7 +29,10 @@ function toFilterParticipant(p: VillageParticipantView): FilterParticipant {
     name: p.name,
     imgWidth: p.chara.size.width,
     imgHeight: p.chara.size.height,
-    imgUrl: p.chara.images.list[0]?.url ?? "",
+    imgUrl:
+      p.chara.images.list.find((i) => i.faceType.code === "NORMAL")?.url ??
+      p.chara.images.list[0]?.url ??
+      "",
     deadStatus: toDeadStatus(p),
   };
 }

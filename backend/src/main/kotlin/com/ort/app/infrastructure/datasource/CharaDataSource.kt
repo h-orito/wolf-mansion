@@ -176,8 +176,10 @@ class CharaDataSource(
                 .loadChara {
                     it.query().addOrderBy_DefaultJoinMessage_Asc().withNullsLast()
                     it.query().addOrderBy_CharaId_Asc()
-                }.withNestedReferrer { charaLoader ->
-                    charaLoader.loadCharaImage {}
+                }.withNestedReferrer { charaLoader: LoaderOfChara ->
+                    charaLoader.loadCharaImage { charaImageCB: CharaImageCB ->
+                        charaImageCB.query().queryFaceType().addOrderBy_DispOrder_Asc()
+                    }
                 }
         }
         return groupList
