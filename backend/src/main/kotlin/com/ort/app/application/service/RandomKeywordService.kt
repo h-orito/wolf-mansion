@@ -11,9 +11,13 @@ import org.springframework.transaction.annotation.Transactional
 class RandomKeywordService(
     val randomKeywordRepository: RandomKeywordRepository,
 ) {
-    fun findRandomKeywords(text: String? = null): RandomKeywords {
+    fun findRandomKeywords(
+        text: String? = null,
+        orderByKeyword: Boolean = false,
+    ): RandomKeywords {
         val keywords = randomKeywordRepository.findRandomKeywords()
-        return if (text.isNullOrBlank()) keywords else keywords.filterBy(text)
+        val filtered = if (text.isNullOrBlank()) keywords else keywords.filterBy(text)
+        return if (orderByKeyword) filtered.sortedByKeyword() else filtered
     }
 
     fun findRandomKeyword(id: Int): RandomKeyword? = randomKeywordRepository.findRandomKeyword(id)

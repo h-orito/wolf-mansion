@@ -60,4 +60,12 @@ internal class RandomKeywordRequestTest {
             RandomKeywordUpdateRequest(messages = listOf("ほげ", "ほげ")).toContents()
         }
     }
+
+    @Test
+    fun `search - order=keyword のときのみキーワード名昇順`() {
+        assertEquals(true, RandomKeywordSearchRequest(order = "keyword").isOrderByKeyword())
+        assertEquals(true, RandomKeywordSearchRequest(order = "KEYWORD").isOrderByKeyword())
+        assertEquals(false, RandomKeywordSearchRequest(order = null).isOrderByKeyword())
+        assertEquals(false, RandomKeywordSearchRequest(order = "id").isOrderByKeyword())
+    }
 }

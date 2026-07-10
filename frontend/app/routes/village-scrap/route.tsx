@@ -5,7 +5,7 @@ import { useSearchParams } from "react-router";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { Button, LinkButton } from "~/components/ui/Button";
 import { inputClass } from "~/components/ui/Input";
-import { useRandomKeywords } from "~/features/random-keywords/useRandomKeywords";
+import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { fetchAnchorMessages } from "~/features/village/api";
 import { useVillage } from "~/features/village/useVillage";
 import { VillageProvider } from "~/features/village/VillageContext";
@@ -46,14 +46,13 @@ export default function VillageScrap({ params }: Route.ComponentProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { data: village, error: villageError } = useVillage(villageId);
-  const { data: randomKeywords } = useRandomKeywords();
+  const keywordList = useRandomKeywordList();
   const { data } = useQuery({
     queryKey: ["village-anchor-messages", villageId, anchors],
     queryFn: () => fetchAnchorMessages(villageId, anchors),
     enabled: anchors !== "",
     retry: false,
   });
-  const keywordList = (randomKeywords ?? []).map((k) => k.keyword ?? "").filter(Boolean);
 
   useEffect(() => {
     if (village != null) document.title = `WOLF MANSION | ${village.name}`;
