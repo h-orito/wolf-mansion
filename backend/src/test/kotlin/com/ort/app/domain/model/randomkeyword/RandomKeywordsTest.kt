@@ -27,4 +27,9 @@ internal class RandomKeywordsTest {
     fun `filterBy - どちらにも一致しなければ空`() {
         assertEquals(emptyList<Int>(), keywords.filterBy("該当なし").list)
     }
+
+    @Test
+    fun `sortedByKeyword - キーワード名昇順に並べ替える`() {
+        assertEquals(listOf("coin", "omikuji"), keywords.sortedByKeyword().list.map { it.keyword })
+    }
 }

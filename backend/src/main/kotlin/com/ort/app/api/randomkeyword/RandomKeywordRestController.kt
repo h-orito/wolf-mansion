@@ -32,7 +32,7 @@ class RandomKeywordRestController(
     @GetMapping
     fun list(
         @ParameterObject request: RandomKeywordSearchRequest,
-    ): RandomKeywords = randomKeywordService.findRandomKeywords(request.q)
+    ): RandomKeywords = randomKeywordService.findRandomKeywords(request.q, request.isOrderByKeyword())
 
     @GetMapping("/{id}")
     fun detail(

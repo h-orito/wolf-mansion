@@ -11,4 +11,7 @@ data class RandomKeywords(
                     keyword.keyword.contains(text) || keyword.contents.any { it.message.contains(text) }
                 },
         )
+
+    /** キーワード名昇順に並べ替える。 */
+    fun sortedByKeyword(): RandomKeywords = RandomKeywords(list = list.sortedBy { it.keyword })
 }

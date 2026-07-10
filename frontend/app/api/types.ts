@@ -2420,6 +2420,7 @@ export interface operations {
     parameters: {
       query?: {
         q?: string;
+        order?: string;
       };
       header?: never;
       path?: never;
