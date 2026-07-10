@@ -7,6 +7,7 @@ import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { MultiSelect } from "~/components/ui/MultiSelect";
 import { TextLink } from "~/components/ui/TextLink";
 import type { Chara } from "~/features/charachips/api";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import { useCharachipDetails, useCharachipList } from "~/features/charachips/useCharachips";
 import { assetUrl } from "~/lib/api";
 import {
@@ -308,7 +309,7 @@ function DummyCharaImage({
     );
   }
   if (!chara) return null;
-  const image = chara.images.list.find((i) => i.faceType.code === "NORMAL") ?? chara.images.list[0];
+  const image = findNormalImage(chara.images.list);
   if (!image) return null;
   return (
     <img src={image.url} width={chara.size.width} height={chara.size.height} alt={chara.name} />

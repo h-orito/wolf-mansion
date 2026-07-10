@@ -5,6 +5,7 @@ import { ButtonCheckboxGroup } from "~/components/ui/ButtonCheckboxGroup";
 import { inputClass } from "~/components/ui/Input";
 import { Modal } from "~/components/ui/Modal";
 import { TextButton } from "~/components/ui/TextButton";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import type { VillageParticipantView } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { allParticipants, sortByRoomNumber } from "~/features/village/participants";
@@ -29,10 +30,7 @@ function toFilterParticipant(p: VillageParticipantView): FilterParticipant {
     name: p.name,
     imgWidth: p.chara.size.width,
     imgHeight: p.chara.size.height,
-    imgUrl:
-      p.chara.images.list.find((i) => i.faceType.code === "NORMAL")?.url ??
-      p.chara.images.list[0]?.url ??
-      "",
+    imgUrl: findNormalImage(p.chara.images.list)?.url ?? "",
     deadStatus: toDeadStatus(p),
   };
 }

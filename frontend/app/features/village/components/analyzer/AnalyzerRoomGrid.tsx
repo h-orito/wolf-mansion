@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import type { AnalyzerDayRoom, AnalyzerVillageData } from "~/features/village/analyzer/analyzerApi";
 import type { DayFootstep, ParticipantMemo } from "~/features/village/analyzer/types";
 import { TextButton } from "~/components/ui/TextButton";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import { deadColor, deadMark } from "~/features/village/components/info/dead";
 import { FootstepGapLines } from "./FootstepGapLines";
 import { FootstepLines } from "./FootstepLines";
@@ -66,7 +67,7 @@ function charaImageUrl(
 ): { url: string; width: number; height: number } | null {
   const chara = participantIdToChara[String(participantId)];
   if (!chara) return null;
-  const img = chara.images.list.find((i) => i.faceType.code === "NORMAL") ?? chara.images.list[0];
+  const img = findNormalImage(chara.images.list);
   if (!img) return null;
   const url = img.url.startsWith("http") ? img.url : `https://wolfort.net${img.url}`;
   return { url, width: chara.size.width, height: chara.size.height };

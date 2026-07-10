@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { Button } from "~/components/ui/Button";
 import { Modal } from "~/components/ui/Modal";
 import type { Chara } from "~/features/charachips/api";
+import { findNormalImage } from "~/features/charachips/charaImage";
 import { useCharachipDetails, useCharachipList } from "~/features/charachips/useCharachips";
 import { assetUrl } from "~/lib/api";
 import type { NewVillageFormInput } from "~/features/village-form/schema";
@@ -57,8 +58,7 @@ function MessagePreview({
     original || !chara
       ? { url: originalImageUrl ?? assetUrl("/app/images/placeholder.png"), width: 60, height: 60 }
       : {
-          url: (chara.images.list.find((i) => i.faceType.code === "NORMAL") ?? chara.images.list[0])
-            ?.url,
+          url: findNormalImage(chara.images.list)?.url,
           width: chara.size.width,
           height: chara.size.height,
         };
