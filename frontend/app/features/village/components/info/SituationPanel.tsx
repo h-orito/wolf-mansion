@@ -7,15 +7,16 @@ import { useVillageContext } from "~/features/village/VillageContext";
 import { AnalyzerTab } from "~/features/village/components/analyzer/AnalyzerTab";
 import { MemberListTab } from "./MemberListTab";
 import { RoomAssignedTab } from "./RoomAssignedTab";
+import { VoteTab } from "./VoteTab";
 
-type TabKey = "room" | "member" | "analyzer";
+type TabKey = "room" | "member" | "vote" | "analyzer";
 
 const STORAGE_KEY = "village_panel_situation";
 const BOTTOM_FIX_KEY = "village_panel_bottom_fix";
 const TAB_STORAGE_KEY = "village_panel_situation_tab";
 
 /**
- * 状況サマリ。部屋割り当て / 参加者 / 推理補助 をタブで切り替える。
+ * 状況サマリ。部屋割り当て / 参加者 / 投票 / 推理補助 をタブで切り替える。
  * 部屋割り当てタブは部屋が割り当てられた 1 日目以降のみ表示する。
  */
 export function SituationPanel({
@@ -30,6 +31,7 @@ export function SituationPanel({
 }) {
   const village = useVillageContext();
   const hasRoomTab = situation.roomWidth != null && day > 0;
+  const hasVoteTab = situation.vote != null;
   const hasAnalyzerTab = !village.status.isPrologue && !village.status.isCanceled;
 
   const bodyId = useId();
@@ -45,6 +47,7 @@ export function SituationPanel({
   const tabs: { key: TabKey; label: string }[] = [
     ...(hasRoomTab ? [{ key: "room" as const, label: "部屋割り当て" }] : []),
     { key: "member", label: "参加者" },
+    ...(hasVoteTab ? [{ key: "vote" as const, label: "投票" }] : []),
     ...(hasAnalyzerTab ? [{ key: "analyzer" as const, label: "推理補助" }] : []),
   ];
 
@@ -113,7 +116,10 @@ export function SituationPanel({
               />
             )}
             {activeTab === "member" && <MemberListTab />}
-            {activeTab === "analyzer" && <AnalyzerTab situation={situation} />}
+            {activeTab === "vote" && situation.vote != null && (
+              <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
+            )}
+            {activeTab === "analyzer" && <AnalyzerTab />}
           </div>
         </div>
       </div>

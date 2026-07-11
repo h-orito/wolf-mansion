@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-import type { VillageSituationView } from "~/features/village/api";
 import {
   fetchAnalyzerVillage,
   type AnalyzerDaySituation,
@@ -12,12 +11,11 @@ import { useMe } from "~/features/auth/useMe";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
 import { dayLabel } from "~/features/village/components/info/dayLabel";
-import { VoteTab } from "~/features/village/components/info/VoteTab";
 import { AnalyzerFootsteps } from "./AnalyzerFootsteps";
 import { AnalyzerRoomGrid } from "./AnalyzerRoomGrid";
 import { ParticipantMemoModal } from "./ParticipantMemoModal";
 
-export function AnalyzerTab({ situation: initialSituation }: { situation: VillageSituationView }) {
+export function AnalyzerTab() {
   const { me } = useMe();
   const village = useVillageContext();
 
@@ -143,7 +141,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
         ))}
       </ul>
 
-      {/* Day content: Room grid + Footsteps/Daily memo */}
+      {/* Day content: Room grid + Footsteps */}
       {currentDaySituation && analyzerData.village.roomSize && (
         <div className="flex flex-col gap-[10px] lg:flex-row">
           {/* Room grid */}
@@ -160,14 +158,22 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
             />
           </div>
 
-          {/* Footstep analysis + Daily memo */}
-          <div className="flex min-w-0 flex-1 flex-col gap-[10px]">
+          {/* Footstep analysis */}
+          <div className="min-w-0 flex-1">
             <AnalyzerFootsteps footsteps={currentDayFootsteps} onChange={onFootstepsChange} />
-            {/* 横並び時は日次メモを部屋割の下端まで伸ばす */}
-            <div className="lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+          </div>
+        </div>
+      )}
+
+      {/* Memos: Daily + Whole (lg では 2 カラム) */}
+      <div className="mt-[10px] border-t border-border">
+        <div className="flex flex-col gap-[10px] py-[10px] lg:flex-row">
+          {currentDaySituation && analyzerData.village.roomSize && (
+            <div className="flex min-w-0 flex-1 flex-col">
               <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
                 {dayLabel(activeDay, epilogueDay)} メモ
               </label>
+              {/* 横並び時は全体メモと同じ高さまで伸ばす */}
               <textarea
                 value={currentDailyMemo}
                 onChange={(e) => setDailyMemo(activeDay, e.target.value)}
@@ -176,21 +182,8 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
                 placeholder="この日のメモ..."
               />
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Bottom section: Vote + Whole memo */}
-      <div className="mt-[10px] border-t border-border">
-        <div className="flex flex-col lg:flex-row lg:gap-[10px]">
-          {initialSituation.vote != null && (
-            <div className="min-w-0 flex-shrink-0 lg:max-w-[60%]">
-              <VoteTab vote={initialSituation.vote} roomAssignedRows={null} />
-            </div>
           )}
-
-          {/* 横並び時は全体メモを投票欄の下端まで伸ばす。py は VoteTab 内の上下パディングと揃える */}
-          <div className="flex min-w-0 flex-1 flex-col py-[10px]">
+          <div className="flex min-w-0 flex-1 flex-col">
             <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
               全体メモ
             </label>
@@ -198,7 +191,7 @@ export function AnalyzerTab({ situation: initialSituation }: { situation: Villag
               value={wholeMemo}
               onChange={(e) => setWholeMemo(e.target.value)}
               rows={10}
-              className={`${textareaClass} lg:flex-1`}
+              className={textareaClass}
               placeholder="村全体のメモ..."
             />
           </div>
