@@ -7,6 +7,7 @@ import { applyFilterToParams, EMPTY_FILTER, type MessageFilter } from "~/feature
 import { useVillageId } from "~/features/village/VillageContext";
 import { useMyVillageSituation } from "~/features/village/useVillage";
 import { useVillageMessages } from "~/features/village/useMessages";
+import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { MessageType } from "~/features/village/components/message/messageType";
 import { bubbleClass } from "~/features/village/components/message/message";
 import { MessageCard, type ReplyDraft } from "./MessageCard";
@@ -67,6 +68,15 @@ export function MessageArea({
     },
     [setSearchParams],
   );
+  const { scrollToTop } = useVillageScroll();
+  // net 版はページ遷移 (フルリロード) で常に最上部から表示されていたため、SPA でも同じ体験にする
+  const changePage = useCallback(
+    (next: PageState) => {
+      setPage(next);
+      scrollToTop();
+    },
+    [setPage, scrollToTop],
+  );
   const { data, isLoading, isFetching } = useVillageMessages(villageId, {
     day,
     pageSize: isPaging ? pageSize : undefined,
@@ -92,7 +102,7 @@ export function MessageArea({
   return (
     <div className="relative">
       {showOverlay && <div className="absolute inset-0 z-10 bg-wm-base/60" />}
-      <MessagePagination content={data} onChange={setPage} />
+      <MessagePagination content={data} onChange={changePage} />
       {(data.messageList ?? []).map((message, index) => (
         <MessageCard
           key={`${message.messageType}-${message.messageNumber ?? index}`}
@@ -110,7 +120,7 @@ export function MessageArea({
       {data.suddenlyDeathMessage != null && <Announce text={data.suddenlyDeathMessage} />}
       {data.villageStatusMessage != null && <Announce text={data.villageStatusMessage} />}
       {data.commitStatusMessage != null && <Announce text={data.commitStatusMessage} />}
-      <MessagePagination content={data} onChange={setPage} />
+      <MessagePagination content={data} onChange={changePage} />
     </div>
   );
 }
