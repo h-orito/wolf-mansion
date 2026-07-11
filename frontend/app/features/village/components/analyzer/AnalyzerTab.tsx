@@ -8,6 +8,7 @@ import {
 import type { DayFootstep } from "~/features/village/analyzer/types";
 import { textareaClass } from "~/components/ui/Input";
 import { useMe } from "~/features/auth/useMe";
+import type { VillageSituationView } from "~/features/village/api";
 import { useVillageContext } from "~/features/village/VillageContext";
 import { useAnalyzerMemos } from "~/features/village/analyzer/useAnalyzerMemos";
 import { dayLabel } from "~/features/village/components/info/dayLabel";
@@ -15,7 +16,15 @@ import { AnalyzerFootsteps } from "./AnalyzerFootsteps";
 import { AnalyzerRoomGrid } from "./AnalyzerRoomGrid";
 import { ParticipantMemoModal } from "./ParticipantMemoModal";
 
-export function AnalyzerTab() {
+export function AnalyzerTab({
+  footstepList,
+  showsFootstepSpoiler,
+}: {
+  /** 日別の足音 (サーバ整形済み。エピローグ以降は誰が何の役職でどの足音を出したかの詳細になる) */
+  footstepList: NonNullable<VillageSituationView["footstepList"]>;
+  /** 足音の詳細 (ネタバレ) を表示してよいか */
+  showsFootstepSpoiler: boolean;
+}) {
   const { me } = useMe();
   const village = useVillageContext();
 
@@ -86,6 +95,9 @@ export function AnalyzerTab() {
   );
 
   const currentDailyMemo = dailyMemos.find((m) => m.day === activeDay)?.memo ?? "";
+
+  // 足音がない日はサーバが空文字を返すため非表示に落とす
+  const currentDayFootstepDetail = footstepList.find((f) => f.day === activeDay)?.footstep || null;
 
   const openMemoParticipant = useMemo(
     () =>
@@ -161,6 +173,13 @@ export function AnalyzerTab() {
           {/* Footstep analysis */}
           <div className="min-w-0 flex-1">
             <AnalyzerFootsteps footsteps={currentDayFootsteps} onChange={onFootstepsChange} />
+            {/* エピローグ前の footstepList は鳴った部屋番号のみで上の分析表と重複するため、詳細が公開されてからのみ表示する */}
+            {showsFootstepSpoiler && currentDayFootstepDetail != null && (
+              <div className="mt-[10px]">
+                <p className="mb-[4px] text-village-sm font-bold text-gray-300">足音の内訳</p>
+                <p className="text-village-sm whitespace-pre-line">{currentDayFootstepDetail}</p>
+              </div>
+            )}
           </div>
         </div>
       )}

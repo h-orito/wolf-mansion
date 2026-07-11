@@ -119,7 +119,12 @@ export function SituationPanel({
             {activeTab === "vote" && situation.vote != null && (
               <VoteTab vote={situation.vote} roomAssignedRows={situation.roomAssignedRowList} />
             )}
-            {activeTab === "analyzer" && <AnalyzerTab />}
+            {activeTab === "analyzer" && (
+              <AnalyzerTab
+                footstepList={situation.footstepList ?? []}
+                showsFootstepSpoiler={(situation.isViewableSpoilerContent ?? false) && !spoiled}
+              />
+            )}
           </div>
         </div>
       </div>
