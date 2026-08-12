@@ -18,6 +18,7 @@ import {
 } from "~/features/village/components/report/ReportPreview";
 import { allParticipants, sortByRoomNumber } from "~/features/village/participants";
 import { useMyVillageSituation, useVillage } from "~/features/village/useVillage";
+import { VillageProvider } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
@@ -167,182 +168,191 @@ export default function VillageReport({ params }: Route.ComponentProps) {
 
   return (
     <PageLayout noAd={noAd}>
-      <div className="px-[15px] pb-[30px]">
-        <h1 className="my-[10.5px] text-[15px] font-normal">
-          {String(village.id).padStart(4, "0")}. {village.name} - 参加報告メーカー
-        </h1>
-        <hr className="mt-[5px] mb-[10px] border-border" />
+      <VillageProvider value={village}>
+        <div className="px-[15px] pb-[30px]">
+          <h1 className="my-[10.5px] text-[15px] font-normal">
+            {String(village.id).padStart(4, "0")}. {village.name} - 参加報告メーカー
+          </h1>
+          <hr className="mt-[5px] mb-[10px] border-border" />
 
-        <p className="mb-[10px] text-village-sm text-gray-300">
-          発言欄と同じ見た目で好きな発言を入れた画像を作成できます。X
-          の投稿画面には画像は自動添付されないため、保存またはコピーした画像を添付してください。
-        </p>
+          <p className="mb-[10px] text-village-sm text-gray-300">
+            発言欄と同じ見た目で好きな発言を入れた画像を作成できます。X
+            の投稿画面には画像は自動添付されないため、保存またはコピーした画像を添付してください。
+          </p>
 
-        {/* キャラクター選択 */}
-        <div className="mb-[10px]">
-          <select
-            className={selectClass}
-            value={participantId ?? ""}
-            onChange={(e) => changeParticipant(Number(e.target.value))}
-            aria-label="キャラクター"
-          >
-            {participants.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* 発言種別 */}
-        <div className="mb-[10px] flex flex-wrap">
-          {SAY_TYPE_ORDER.map((t) => {
-            const active = messageType === t.code;
-            return (
-              <button
-                key={t.code}
-                type="button"
-                className={`not-first:-ml-px cursor-pointer border border-success px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
-                  active
-                    ? "bg-success text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
-                    : "bg-wm-base text-success"
-                }`}
-                onClick={() => setMessageType(t.code)}
-              >
-                {t.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* 表情 + 本文 */}
-        <div className="flex">
-          <div>
-            {faceImage != null && (
-              <img
-                src={faceImage.url}
-                alt={faceImage.faceType.name}
-                width={participant?.chara.size.width ?? 60}
-                height={participant?.chara.size.height ?? 77}
-              />
-            )}
+          {/* キャラクター選択 */}
+          <div className="mb-[10px]">
             <select
-              className={`${selectClass} mt-[5px]`}
-              style={{ maxWidth: participant?.chara.size.width ?? 80 }}
-              value={faceImage?.faceType.code ?? ""}
-              onChange={(e) => setFaceTypeCode(e.target.value)}
-              aria-label="表情"
+              className={selectClass}
+              value={participantId ?? ""}
+              onChange={(e) => changeParticipant(Number(e.target.value))}
+              aria-label="キャラクター"
             >
-              {images.map((image) => (
-                <option key={image.faceType.code} value={image.faceType.code}>
-                  {image.faceType.name}
+              {participants.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
                 </option>
               ))}
             </select>
           </div>
-          <textarea
-            className={`ml-[5px] min-h-[150px] flex-1 rounded border border-border p-[9px] font-[sans-serif] ${textareaStyle}`}
-            value={messageText}
-            onChange={(e) => setMessageText(e.target.value)}
-            placeholder="ロールプレイなど好きな発言を入力してください"
-            aria-label="発言"
-          />
-        </div>
-        <div className="mt-[5px] flex flex-wrap gap-x-[15px] gap-y-[5px]">
-          <label className="flex cursor-pointer items-center gap-[5px]">
-            <input
-              type="checkbox"
-              checked={convertDisable}
-              onChange={() => setConvertDisable(!convertDisable)}
+
+          {/* 発言種別 */}
+          <div className="mb-[10px] flex flex-wrap">
+            {SAY_TYPE_ORDER.map((t) => {
+              const active = messageType === t.code;
+              return (
+                <button
+                  key={t.code}
+                  type="button"
+                  className={`not-first:-ml-px cursor-pointer border border-success px-[9px] py-[5px] first:rounded-l-[3px] last:rounded-r-[3px] hover:opacity-90 ${
+                    active
+                      ? "bg-success text-white shadow-[inset_0_3px_5px_rgba(0,0,0,0.125)]"
+                      : "bg-wm-base text-success"
+                  }`}
+                  onClick={() => setMessageType(t.code)}
+                >
+                  {t.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 表情 + 本文 */}
+          <div className="flex">
+            <div>
+              {faceImage != null && (
+                <img
+                  src={faceImage.url}
+                  alt={faceImage.faceType.name}
+                  width={participant?.chara.size.width ?? 60}
+                  height={participant?.chara.size.height ?? 77}
+                />
+              )}
+              <select
+                className={`${selectClass} mt-[5px]`}
+                style={{ maxWidth: participant?.chara.size.width ?? 80 }}
+                value={faceImage?.faceType.code ?? ""}
+                onChange={(e) => setFaceTypeCode(e.target.value)}
+                aria-label="表情"
+              >
+                {images.map((image) => (
+                  <option key={image.faceType.code} value={image.faceType.code}>
+                    {image.faceType.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <textarea
+              className={`ml-[5px] min-h-[150px] flex-1 rounded border border-border p-[9px] font-[sans-serif] ${textareaStyle}`}
+              value={messageText}
+              onChange={(e) => setMessageText(e.target.value)}
+              placeholder="ロールプレイなど好きな発言を入力してください"
+              aria-label="発言"
             />
-            装飾・変換無効
-          </label>
-          <label className="flex cursor-pointer items-center gap-[5px]">
-            <input
-              type="checkbox"
-              checked={options.showSkillHistory}
-              onChange={() =>
-                setOptions((prev) => ({ ...prev, showSkillHistory: !prev.showSkillHistory }))
-              }
-            />
-            役職履歴
-          </label>
-          <label className="flex cursor-pointer items-center gap-[5px]">
-            <input
-              type="checkbox"
-              checked={options.showSkillDescription}
-              onChange={() =>
-                setOptions((prev) => ({
-                  ...prev,
-                  showSkillDescription: !prev.showSkillDescription,
-                }))
-              }
-            />
-            役職説明
-          </label>
-          {abilityHistories.length > 0 && (
+          </div>
+          <div className="mt-[5px] flex flex-wrap gap-x-[15px] gap-y-[5px]">
             <label className="flex cursor-pointer items-center gap-[5px]">
               <input
                 type="checkbox"
-                checked={options.showAbilityHistory}
+                checked={convertDisable}
+                onChange={() => setConvertDisable(!convertDisable)}
+              />
+              装飾・変換無効
+            </label>
+            <label className="flex cursor-pointer items-center gap-[5px]">
+              <input
+                type="checkbox"
+                checked={options.showSkillHistory}
                 onChange={() =>
-                  setOptions((prev) => ({ ...prev, showAbilityHistory: !prev.showAbilityHistory }))
+                  setOptions((prev) => ({ ...prev, showSkillHistory: !prev.showSkillHistory }))
                 }
               />
-              能力行使履歴
+              役職履歴
             </label>
-          )}
-        </div>
-
-        {/* プレビュー (このボックスがそのまま画像になる) */}
-        <p className="mt-[15px] mb-[5px] text-village-sm text-gray-300">
-          プレビュー（この内容がそのまま画像になります）
-        </p>
-        <div className="border border-border">
-          {participant != null && (
-            <div ref={previewRef}>
-              <ReportPreview
-                village={village}
-                participant={participant}
-                imageUrl={faceImage?.url ?? null}
-                messageType={messageType}
-                messageText={messageText}
-                convertDisable={convertDisable}
-                randomKeywords={randomKeywords}
-                abilityHistories={abilityHistories}
-                options={options}
+            <label className="flex cursor-pointer items-center gap-[5px]">
+              <input
+                type="checkbox"
+                checked={options.showSkillDescription}
+                onChange={() =>
+                  setOptions((prev) => ({
+                    ...prev,
+                    showSkillDescription: !prev.showSkillDescription,
+                  }))
+                }
               />
-            </div>
-          )}
-        </div>
+              役職説明
+            </label>
+            {abilityHistories.length > 0 && (
+              <label className="flex cursor-pointer items-center gap-[5px]">
+                <input
+                  type="checkbox"
+                  checked={options.showAbilityHistory}
+                  onChange={() =>
+                    setOptions((prev) => ({
+                      ...prev,
+                      showAbilityHistory: !prev.showAbilityHistory,
+                    }))
+                  }
+                />
+                能力行使履歴
+              </label>
+            )}
+          </div>
 
-        {notice != null && <p className="mt-[10px] text-attention">{notice}</p>}
+          {/* プレビュー (このボックスがそのまま画像になる) */}
+          <p className="mt-[15px] mb-[5px] text-village-sm text-gray-300">
+            プレビュー（この内容がそのまま画像になります）
+          </p>
+          <div className="border border-border">
+            {participant != null && (
+              <div ref={previewRef}>
+                <ReportPreview
+                  village={village}
+                  participant={participant}
+                  imageUrl={faceImage?.url ?? null}
+                  messageType={messageType}
+                  messageText={messageText}
+                  convertDisable={convertDisable}
+                  randomKeywords={randomKeywords}
+                  abilityHistories={abilityHistories}
+                  options={options}
+                />
+              </div>
+            )}
+          </div>
 
-        <div className="mt-[10px] flex flex-wrap items-center gap-[10px]">
-          <Button onClick={download}>画像を保存</Button>
-          <Button variant="default" onClick={copy}>
-            画像をコピー
-          </Button>
-          <a
-            href={postUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
-          >
-            <svg viewBox="0 0 24 24" className="h-[14px] w-[14px] fill-current" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-            </svg>
-            ポスト
-          </a>
-        </div>
+          {notice != null && <p className="mt-[10px] text-attention">{notice}</p>}
 
-        <div className="mt-[15px]">
-          <LinkButton to={`/village/${villageId}`} variant="default">
-            村へ
-          </LinkButton>
+          <div className="mt-[10px] flex flex-wrap items-center gap-[10px]">
+            <Button onClick={download}>画像を保存</Button>
+            <Button variant="default" onClick={copy}>
+              画像をコピー
+            </Button>
+            <a
+              href={postUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                className="h-[14px] w-[14px] fill-current"
+                aria-hidden="true"
+              >
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              ポスト
+            </a>
+          </div>
+
+          <div className="mt-[15px]">
+            <LinkButton to={`/village/${villageId}`} variant="default">
+              村へ
+            </LinkButton>
+          </div>
         </div>
-      </div>
-      {ageLimit != null && <AgeLimitModal ageLimit={ageLimit} />}
+        {ageLimit != null && <AgeLimitModal ageLimit={ageLimit} />}
+      </VillageProvider>
     </PageLayout>
   );
 }
