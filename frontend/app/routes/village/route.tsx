@@ -281,6 +281,16 @@ export default function Village({ params }: Route.ComponentProps) {
               >
                 切り抜き画面へ
               </LinkButton>
+              {village.status.isSettled && (
+                <LinkButton
+                  to={`/village/${villageId}/report`}
+                  target="_blank"
+                  variant="success"
+                  className="ml-[10px]"
+                >
+                  参加報告メーカーへ
+                </LinkButton>
+              )}
             </div>
           </div>
 

@@ -1,4 +1,5 @@
 import type { components } from "~/api/types";
+import { formatSkillHistory } from "~/features/village/participants";
 import { UserPageLink } from "../message/MessageCard";
 
 type VillageParticipantView = components["schemas"]["VillageParticipantView"];
@@ -16,11 +17,6 @@ function deadStatus(p: VillageParticipantView): string {
 function winStatus(p: VillageParticipantView): string {
   if (p.isWin == null) return "";
   return p.isWin ? "勝利" : "敗北";
-}
-
-function skillName(p: VillageParticipantView): string {
-  if (p.isSpectator) return "見学参加";
-  return p.skill?.name ?? "";
 }
 
 /**
@@ -49,7 +45,7 @@ export function ParticipantsTable({ participants }: { participants: VillageParti
                 <td className={`${cellBorderClass} p-[5px]`}>
                   {p.player?.name != null && <UserPageLink name={p.player.name} />}
                 </td>
-                <td className={`${cellBorderClass} p-[5px]`}>{skillName(p)}</td>
+                <td className={`${cellBorderClass} p-[5px]`}>{formatSkillHistory(p)}</td>
                 <td className={`${cellBorderClass} p-[5px]`}>{deadStatus(p)}</td>
                 <td className={`${cellBorderClass} p-[5px]`}>{winStatus(p)}</td>
               </tr>

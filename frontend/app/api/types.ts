@@ -1862,12 +1862,20 @@ export interface components {
       room?: components["schemas"]["Room"] | null;
       shortName: string;
       skill?: components["schemas"]["VillageParticipantViewSkill"] | null;
+      statuses?: string[] | null;
     };
     VillageParticipantViewSkill: {
       code: string;
       description: string;
       hasDisturbAbility: boolean;
       hasInvestigateAbility: boolean;
+      histories: components["schemas"]["VillageParticipantViewSkillHistory"][];
+      name: string;
+    };
+    VillageParticipantViewSkillHistory: {
+      code: string;
+      /** Format: int32 */
+      day: number;
       name: string;
     };
     VillageParticipantsView: {

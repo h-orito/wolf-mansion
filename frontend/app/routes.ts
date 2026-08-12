@@ -10,6 +10,7 @@ export default [
   route("village-list", "routes/village-list/route.tsx"),
   route("village/:villageId/message", "routes/village-message/route.tsx"),
   route("village/:villageId/scrap", "routes/village-scrap/route.tsx"),
+  route("village/:villageId/report", "routes/village-report/route.tsx"),
   route("village/:villageId/day?/:day?", "routes/village/route.tsx"),
   route("new-village", "routes/new-village/route.tsx"),
   route("village/:villageId/settings", "routes/village-settings/route.tsx"),

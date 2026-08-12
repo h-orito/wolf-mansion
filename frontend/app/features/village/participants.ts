@@ -30,3 +30,20 @@ export function compareByRoomNumber(a: VillageParticipantView, b: VillagePartici
 export function sortByRoomNumber(participants: VillageParticipantView[]): VillageParticipantView[] {
   return [...participants].sort(compareByRoomNumber);
 }
+
+/**
+ * 役職履歴＋状態の表示文字列 (エピローグ以降の参加者一覧向け)。
+ * 1 日目は役職名のみ、以降は `{day}d{役職名}` を " → " で連結し、
+ * 状態ラベルがあれば `（恋絆、狂気）` の形で付記する。
+ * 例: `人狼 → 3dトラック → 6d村人（恋絆）`
+ */
+export function formatSkillHistory(p: VillageParticipantView): string {
+  if (p.isSpectator) return "見学参加";
+  if (p.skill == null) return "";
+  const history =
+    p.skill.histories.length > 0
+      ? p.skill.histories.map((h) => (h.day === 1 ? h.name : `${h.day}d${h.name}`)).join(" → ")
+      : p.skill.name;
+  const statuses = p.statuses ?? [];
+  return statuses.length === 0 ? history : `${history}（${statuses.join("、")}）`;
+}
