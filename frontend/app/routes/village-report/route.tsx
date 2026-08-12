@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { Button, LinkButton } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
+import { XPostLink } from "~/components/ui/XPostLink";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
@@ -39,7 +40,7 @@ function displayImages(participant: VillageParticipantView) {
 export default function VillageReport({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const { data: village, error: villageError } = useVillage(villageId);
-  const { me } = useMe();
+  const { me, isLoading: meLoading } = useMe();
   const { data: mySituation } = useMyVillageSituation(villageId, undefined);
   const randomKeywords = useRandomKeywordList();
 
@@ -61,12 +62,15 @@ export default function VillageReport({ params }: Route.ComponentProps) {
   const [notice, setNotice] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  // 初期選択: ログイン中の自分の参加者、いなければ先頭
+  // 初期選択: ログイン中の自分の参加者、いなければ先頭。
+  // /situation/me の到着を待たず初期選択できるよう、村詳細に含まれる公開プレイヤー名
+  // (PLAYER_NAME は UNIQUE) で自分の参加者を引く。ログイン判定の確定前に先頭を
+  // 選んでしまわないよう meLoading の間は保留する。
   useEffect(() => {
-    if (participantId != null || participants.length === 0) return;
+    if (participantId != null || participants.length === 0 || meLoading) return;
     const mine = me != null ? participants.find((p) => p.player?.name === me.name) : null;
     setParticipantId((mine ?? participants[0]).id);
-  }, [participantId, participants, me]);
+  }, [participantId, participants, me, meLoading]);
 
   const participant = participants.find((p) => p.id === participantId) ?? null;
   const images = participant != null ? displayImages(participant) : [];
@@ -160,7 +164,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
   const postLines = [`【参加報告】${village.name}`, participant?.name ?? ""].filter(
     (line) => line !== "",
   );
-  const postUrl = `https://x.com/intent/post?text=${encodeURIComponent(postLines.join("\n") + "\n")}&hashtags=WOLF_MANSION&url=${encodeURIComponent(pageUrl)}`;
+  const postText = postLines.join("\n") + "\n";
 
   const textareaStyle =
     MESSAGE_STYLES[SAY_VARIANTS[messageType]?.styleKey ?? "message-normal"] ??
@@ -328,21 +332,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
             <Button variant="default" onClick={copy}>
               画像をコピー
             </Button>
-            <a
-              href={postUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                className="h-[14px] w-[14px] fill-current"
-                aria-hidden="true"
-              >
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-              ポスト
-            </a>
+            <XPostLink text={postText} pageUrl={pageUrl} />
           </div>
 
           <div className="mt-[15px]">
