@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
 
 const HASHTAG = "WOLF_MANSION";
@@ -34,6 +35,11 @@ function buildAppHref(text: string, pageUrl: string): string {
 export function XPostLink({ text, pageUrl }: { text: string; pageUrl: string }) {
   const webHref = buildWebHref(text, pageUrl);
 
+  // アンマウント（SPA 内の別ページへの遷移）後にフォールバックタイマーが発火して
+  // 遷移先ページごと Web intent に飛ばされないよう、後始末をクリーンアップで実行する
+  const cancelFallbackRef = useRef<(() => void) | null>(null);
+  useEffect(() => () => cancelFallbackRef.current?.(), []);
+
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
     if (!isMobile()) return; // PC は通常どおり別タブで intent URL を開く
 
@@ -42,24 +48,28 @@ export function XPostLink({ text, pageUrl }: { text: string; pageUrl: string }) 
     // フォールバック猶予は、iOS の「"X"で開きますか？」ダイアログの操作中も
     // タイマーが進むため、操作の余裕を持たせて 2 秒にしている。
     e.preventDefault();
+    cancelFallbackRef.current?.(); // 連打時は前回のフォールバックを破棄
 
-    let fallbackId: number | undefined;
+    const cancelFallback = () => {
+      window.clearTimeout(fallbackId);
+      document.removeEventListener("visibilitychange", onHide);
+      cancelFallbackRef.current = null;
+    };
     const onHide = () => {
       // アプリへ遷移してページが非表示になったらフォールバックを取り消す
-      if (document.visibilityState === "hidden" && fallbackId !== undefined) {
-        window.clearTimeout(fallbackId);
-        document.removeEventListener("visibilitychange", onHide);
-      }
+      if (document.visibilityState === "hidden") cancelFallback();
     };
     document.addEventListener("visibilitychange", onHide);
 
-    fallbackId = window.setTimeout(() => {
+    const fallbackId = window.setTimeout(() => {
       document.removeEventListener("visibilitychange", onHide);
+      cancelFallbackRef.current = null;
       // アプリ遷移後にスロットルされたタイマーが復帰発火した場合の保険
       if (document.visibilityState === "hidden") return;
       // ジェスチャ外なので window.open はブロックされる。同一タブ遷移はやむなし
       window.location.href = webHref;
     }, 2000);
+    cancelFallbackRef.current = cancelFallback;
 
     window.location.href = buildAppHref(text, pageUrl);
   };
