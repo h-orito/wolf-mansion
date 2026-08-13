@@ -1,12 +1,68 @@
+import type { MouseEvent } from "react";
+
+const HASHTAG = "WOLF_MANSION";
+
 /**
- * X (旧 Twitter) の投稿 intent を開くリンクボタン。
- * 本文とリンク先 URL を受け取り、ハッシュタグ #WOLF_MANSION を付けて投稿画面を開く。
+ * スマホ（iOS / Android）判定。
+ * スマホでは Web の投稿 intent URL を踏むと X アプリがアプリ内ブラウザで
+ * 横取りして開き、別セッション扱いでログイン画面に飛ばされてしまう。
+ * そのためスマホでは先にアプリ独自スキームでネイティブの投稿画面を開く。
+ */
+function isMobile(): boolean {
+  if (typeof navigator === "undefined") return false;
+  return /android|iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function buildWebHref(text: string, pageUrl: string): string {
+  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&hashtags=${HASHTAG}&url=${encodeURIComponent(pageUrl)}`;
+}
+
+/**
+ * アプリスキームは本文/URL/ハッシュタグを分けて渡せないため、
+ * すべて message にまとめる。
+ */
+function buildAppHref(text: string, pageUrl: string): string {
+  const message = `${text.replace(/\n+$/, "")}\n${pageUrl}\n#${HASHTAG}`;
+  return `twitter://post?message=${encodeURIComponent(message)}`;
+}
+
+/**
+ * X (旧 Twitter) の投稿画面を開くリンクボタン。
+ * スマホではアプリのネイティブ投稿画面（ログイン済み）を直接起動し、
+ * アプリ未インストール時や PC では Web の投稿 intent にフォールバックする。
  */
 export function XPostLink({ text, pageUrl }: { text: string; pageUrl: string }) {
-  const href = `https://x.com/intent/post?text=${encodeURIComponent(text)}&hashtags=WOLF_MANSION&url=${encodeURIComponent(pageUrl)}`;
+  const webHref = buildWebHref(text, pageUrl);
+
+  const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (!isMobile()) return; // PC は通常どおり別タブで intent URL を開く
+
+    // スマホはアプリスキームでネイティブ投稿画面を起動。
+    // 起動しなければ（未インストール）Web intent にフォールバックする。
+    e.preventDefault();
+
+    let fallbackId: number | undefined;
+    const onHide = () => {
+      // アプリへ遷移してページが非表示になったらフォールバックを取り消す
+      if (document.visibilityState === "hidden" && fallbackId !== undefined) {
+        window.clearTimeout(fallbackId);
+        document.removeEventListener("visibilitychange", onHide);
+      }
+    };
+    document.addEventListener("visibilitychange", onHide);
+
+    fallbackId = window.setTimeout(() => {
+      document.removeEventListener("visibilitychange", onHide);
+      window.location.href = webHref;
+    }, 1000);
+
+    window.location.href = buildAppHref(text, pageUrl);
+  };
+
   return (
     <a
-      href={href}
+      href={webHref}
+      onClick={handleClick}
       target="_blank"
       rel="noreferrer"
       className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
