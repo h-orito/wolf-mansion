@@ -5286,6 +5286,12 @@
                 "type": "null"
               }
             ]
+          },
+          "statuses": {
+            "type": ["array", "null"],
+            "items": {
+              "type": "string"
+            }
           }
         },
         "required": ["chara", "charaName", "dead", "id", "isSpectator", "name", "shortName"]
@@ -5305,11 +5311,40 @@
           "hasInvestigateAbility": {
             "type": "boolean"
           },
+          "histories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VillageParticipantViewSkillHistory"
+            }
+          },
           "name": {
             "type": "string"
           }
         },
-        "required": ["code", "description", "hasDisturbAbility", "hasInvestigateAbility", "name"]
+        "required": [
+          "code",
+          "description",
+          "hasDisturbAbility",
+          "hasInvestigateAbility",
+          "histories",
+          "name"
+        ]
+      },
+      "VillageParticipantViewSkillHistory": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "day", "name"]
       },
       "VillageParticipantsView": {
         "type": "object",

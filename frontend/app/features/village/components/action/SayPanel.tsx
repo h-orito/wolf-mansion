@@ -16,8 +16,8 @@ import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 import { useSayState } from "./useSayState";
 export type { ReplyDraft };
 
-/** 発言種別ラジオの表示順とラベル (フォーム上の並び)。 */
-const SAY_TYPE_ORDER: { code: string; label: string }[] = [
+/** 発言種別ラジオの表示順とラベル (フォーム上の並び)。参加報告メーカーでも共用。 */
+export const SAY_TYPE_ORDER: { code: string; label: string }[] = [
   { code: MessageType.WEREWOLF_SAY, label: "囁き" },
   { code: MessageType.MASON_SAY, label: "共鳴" },
   { code: MessageType.LOVERS_SAY, label: "恋人" },

@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { ResponsiveAdSense } from "~/components/ui/AdSense";
 import { LinkButton } from "~/components/ui/Button";
+import { XPostLink } from "~/components/ui/XPostLink";
 import { useMe } from "~/features/auth/useMe";
 import type { VillageDetailView } from "~/features/village/api";
 import { useDisplaySettings } from "~/features/village/displaySettings";
@@ -66,20 +67,7 @@ function XPostButton() {
     lines.push(`開始予定: ${formatStartDatetime(village.setting.startDatetime)}`);
   }
   const pageUrl = `${window.location.origin}/wolf-mansion/village/${village.id}`;
-  const url = `https://x.com/intent/post?text=${encodeURIComponent(lines.join("\n") + "\n")}&hashtags=WOLF_MANSION&url=${encodeURIComponent(pageUrl)}`;
-  return (
-    <a
-      href={url}
-      target="_blank"
-      rel="noreferrer"
-      className="inline-flex items-center gap-[5px] rounded-full bg-black px-[12px] py-[4px] font-bold text-white hover:bg-[#333]"
-    >
-      <svg viewBox="0 0 24 24" className="h-[14px] w-[14px] fill-current" aria-hidden="true">
-        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-      </svg>
-      ポスト
-    </a>
-  );
+  return <XPostLink text={lines.join("\n") + "\n"} pageUrl={pageUrl} />;
 }
 
 export default function Village({ params }: Route.ComponentProps) {
@@ -281,6 +269,16 @@ export default function Village({ params }: Route.ComponentProps) {
               >
                 切り抜き画面へ
               </LinkButton>
+              {village.status.isSettled && mySituation?.myself != null && (
+                <LinkButton
+                  to={`/village/${villageId}/report`}
+                  target="_blank"
+                  variant="success"
+                  className="ml-[10px]"
+                >
+                  参加報告メーカーへ
+                </LinkButton>
+              )}
             </div>
           </div>
 
