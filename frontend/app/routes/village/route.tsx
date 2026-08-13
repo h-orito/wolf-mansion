@@ -269,7 +269,7 @@ export default function Village({ params }: Route.ComponentProps) {
               >
                 切り抜き画面へ
               </LinkButton>
-              {village.status.isSettled && (
+              {village.status.isSettled && mySituation?.myself != null && (
                 <LinkButton
                   to={`/village/${villageId}/report`}
                   target="_blank"

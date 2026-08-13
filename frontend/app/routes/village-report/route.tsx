@@ -70,7 +70,8 @@ export default function VillageReport({ params }: Route.ComponentProps) {
       anchor.download = `wolf-mansion-${String(village.id).padStart(4, "0")}-report.png`;
       anchor.click();
       setNotice("画像を保存しました。X の投稿画面で添付してください。");
-    } catch {
+    } catch (e) {
+      console.error("参加報告画像の生成に失敗", e);
       setNotice(
         "画像の生成に失敗しました。キャラクター画像の読み込みがブロックされた可能性があります。",
       );
@@ -90,7 +91,8 @@ export default function VillageReport({ params }: Route.ComponentProps) {
       if (blob == null) throw new Error("blob is null");
       await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
       setNotice("画像をコピーしました。X の投稿画面に貼り付けてください。");
-    } catch {
+    } catch (e) {
+      console.error("参加報告画像のコピーに失敗", e);
       setNotice("画像のコピーに失敗しました。「画像を保存」を使ってください。");
     }
   };
