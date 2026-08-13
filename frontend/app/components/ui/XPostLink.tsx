@@ -39,6 +39,8 @@ export function XPostLink({ text, pageUrl }: { text: string; pageUrl: string }) 
 
     // スマホはアプリスキームでネイティブ投稿画面を起動。
     // 起動しなければ（未インストール）Web intent にフォールバックする。
+    // フォールバック猶予は、iOS の「"X"で開きますか？」ダイアログの操作中も
+    // タイマーが進むため、操作の余裕を持たせて 2 秒にしている。
     e.preventDefault();
 
     let fallbackId: number | undefined;
@@ -53,8 +55,11 @@ export function XPostLink({ text, pageUrl }: { text: string; pageUrl: string }) 
 
     fallbackId = window.setTimeout(() => {
       document.removeEventListener("visibilitychange", onHide);
+      // アプリ遷移後にスロットルされたタイマーが復帰発火した場合の保険
+      if (document.visibilityState === "hidden") return;
+      // ジェスチャ外なので window.open はブロックされる。同一タブ遷移はやむなし
       window.location.href = webHref;
-    }, 1000);
+    }, 2000);
 
     window.location.href = buildAppHref(text, pageUrl);
   };
