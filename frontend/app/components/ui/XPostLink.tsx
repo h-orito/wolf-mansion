@@ -1,21 +1,17 @@
 import { useEffect, useRef } from "react";
 import type { MouseEvent } from "react";
 
-const HASHTAG = "WOLF_MANSION";
+import { isMobile } from "~/lib/browser";
 
-/**
- * スマホ（iOS / Android）判定。
- * スマホでは Web の投稿 intent URL を踏むと X アプリがアプリ内ブラウザで
- * 横取りして開き、別セッション扱いでログイン画面に飛ばされてしまう。
- * そのためスマホでは先にアプリ独自スキームでネイティブの投稿画面を開く。
- */
-function isMobile(): boolean {
-  if (typeof navigator === "undefined") return false;
-  return /android|iphone|ipad|ipod/i.test(navigator.userAgent);
-}
+const HASHTAG = "WOLF_MANSION";
 
 function buildWebHref(text: string, pageUrl: string): string {
   return `https://x.com/intent/post?text=${encodeURIComponent(text)}&hashtags=${HASHTAG}&url=${encodeURIComponent(pageUrl)}`;
+}
+
+/** 本文・ページ URL・ハッシュタグをまとめた投稿文言を組み立てる。 */
+export function buildPostMessage(text: string, pageUrl: string): string {
+  return `${text.replace(/\n+$/, "")}\n${pageUrl}\n#${HASHTAG}`;
 }
 
 /**
@@ -23,12 +19,13 @@ function buildWebHref(text: string, pageUrl: string): string {
  * すべて message にまとめる。
  */
 function buildAppHref(text: string, pageUrl: string): string {
-  const message = `${text.replace(/\n+$/, "")}\n${pageUrl}\n#${HASHTAG}`;
-  return `twitter://post?message=${encodeURIComponent(message)}`;
+  return `twitter://post?message=${encodeURIComponent(buildPostMessage(text, pageUrl))}`;
 }
 
 /**
  * X (旧 Twitter) の投稿画面を開くリンクボタン。
+ * スマホで Web の投稿 intent URL を踏むと X アプリがアプリ内ブラウザで横取りして開き、
+ * 別セッション扱いでログイン画面に飛ばされてしまうため、
  * スマホではアプリのネイティブ投稿画面（ログイン済み）を直接起動し、
  * アプリ未インストール時や PC では Web の投稿 intent にフォールバックする。
  */

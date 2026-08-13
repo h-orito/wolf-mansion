@@ -1,10 +1,10 @@
-import { toBlob, toPng } from "html-to-image";
+import { toBlob } from "html-to-image";
 import { useEffect, useRef, useState } from "react";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { Button, LinkButton } from "~/components/ui/Button";
 import { selectClass } from "~/components/ui/Input";
-import { XPostLink } from "~/components/ui/XPostLink";
+import { XPostLink, buildPostMessage } from "~/components/ui/XPostLink";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
@@ -19,6 +19,7 @@ import {
 import { useMyVillageSituation, useVillage } from "~/features/village/useVillage";
 import { VillageProvider } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
+import { isMobile } from "~/lib/browser";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
 
@@ -64,11 +65,35 @@ export default function VillageReport({ params }: Route.ComponentProps) {
     if (node == null || village == null) return;
     setNotice(null);
     try {
-      const dataUrl = await toPng(node, { pixelRatio: 2, cacheBust: true });
+      const blob = await toBlob(node, { pixelRatio: 2, cacheBust: true });
+      if (blob == null) throw new Error("blob is null");
+      const fileName = `wolf-mansion-${String(village.id).padStart(4, "0")}-report.png`;
+
+      // スマホの <a download> は「ファイル」アプリ等に保存されて保存先が分かりづらいため、
+      // シェアシートを開いて写真への保存やアプリへの直接共有を選んでもらう。
+      // text は受け取りアプリによって無視されることがあるためベストエフォート
+      const file = new File([blob], fileName, { type: "image/png" });
+      if (
+        isMobile() &&
+        typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] })
+      ) {
+        try {
+          await navigator.share({ files: [file], text: buildPostMessage(postText, pageUrl) });
+          return;
+        } catch (e) {
+          if (e instanceof DOMException && e.name === "AbortError") return; // ユーザーキャンセル
+          // 共有シートを開けなかった場合は従来のダウンロードにフォールバック
+        }
+      }
+
+      const objectUrl = URL.createObjectURL(blob);
       const anchor = document.createElement("a");
-      anchor.href = dataUrl;
-      anchor.download = `wolf-mansion-${String(village.id).padStart(4, "0")}-report.png`;
+      anchor.href = objectUrl;
+      anchor.download = fileName;
       anchor.click();
+      // 即時 revoke するとダウンロード開始前に無効化されるブラウザがあるため遅延させる
+      window.setTimeout(() => URL.revokeObjectURL(objectUrl), 10_000);
       setNotice("画像を保存しました。X の投稿画面で添付してください。");
     } catch (e) {
       console.error("参加報告画像の生成に失敗", e);
