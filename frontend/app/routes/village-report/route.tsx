@@ -163,7 +163,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
   }
 
   const pageUrl = `${globalThis.location?.origin ?? ""}/wolf-mansion/village/${village.id}`;
-  const postText = `【参加報告】${village.name}\n${participant.name}\n`;
+  const postText = `${village.name}\n${participant.name}\n`;
 
   const textareaStyle =
     MESSAGE_STYLES[SAY_VARIANTS[messageType]?.styleKey ?? "message-normal"] ??
@@ -288,11 +288,11 @@ export default function VillageReport({ params }: Route.ComponentProps) {
             )}
           </div>
 
-          {/* プレビュー (このボックスがそのまま画像になる) */}
+          {/* プレビュー (このボックスがそのまま画像になる)。スマホ想定の横幅で固定する */}
           <p className="mt-[15px] mb-[5px] text-village-sm text-gray-300">
             プレビュー（この内容がそのまま画像になります）
           </p>
-          <div className="border border-border">
+          <div className="w-[400px] max-w-full border border-border">
             <div ref={previewRef}>
               <ReportPreview
                 village={village}
