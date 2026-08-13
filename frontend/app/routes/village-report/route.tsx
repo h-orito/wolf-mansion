@@ -1,5 +1,5 @@
 import { toBlob, toPng } from "html-to-image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { PageLayout } from "~/components/layout/PageLayout";
 import { Button, LinkButton } from "~/components/ui/Button";
@@ -8,7 +8,6 @@ import { XPostLink } from "~/components/ui/XPostLink";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import { useMe } from "~/features/auth/useMe";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
-import type { VillageParticipantView } from "~/features/village/api";
 import { SAY_TYPE_ORDER } from "~/features/village/components/action/SayPanel";
 import { SAY_VARIANTS } from "~/features/village/components/message/message";
 import { MessageType } from "~/features/village/components/message/messageType";
@@ -17,7 +16,6 @@ import {
   type ReportOptions,
   ReportPreview,
 } from "~/features/village/components/report/ReportPreview";
-import { allParticipants, sortByRoomNumber } from "~/features/village/participants";
 import { useMyVillageSituation, useVillage } from "~/features/village/useVillage";
 import { VillageProvider } from "~/features/village/VillageContext";
 import { ApiError } from "~/lib/api";
@@ -28,28 +26,21 @@ export function meta(_: Route.MetaArgs) {
   return siteMeta();
 }
 
-/** 表示可能な表情画像 (isDisplay のみ)。 */
-function displayImages(participant: VillageParticipantView) {
-  return participant.chara.images.list.filter((image) => image.isDisplay);
-}
-
 /**
- * 参加報告メーカー。エピローグ以降の村で、発言欄と同じ見た目の吹き出しに
- * 好きな発言を入れた画像を作成し、X への参加報告投稿を補助する。
+ * 参加報告メーカー。エピローグ以降の村で、参加した本人のキャラクターについて
+ * 発言欄と同じ見た目の吹き出しに好きな発言を入れた画像を作成し、
+ * X への参加報告投稿を補助する。
  */
 export default function VillageReport({ params }: Route.ComponentProps) {
   const villageId = Number(params.villageId);
   const { data: village, error: villageError } = useVillage(villageId);
   const { me, isLoading: meLoading } = useMe();
-  const { data: mySituation } = useMyVillageSituation(villageId, undefined);
+  const { data: mySituation, isLoading: mySituationLoading } = useMyVillageSituation(
+    villageId,
+    undefined,
+  );
   const randomKeywords = useRandomKeywordList();
 
-  const participants = useMemo(
-    () => (village != null ? sortByRoomNumber(allParticipants(village)) : []),
-    [village],
-  );
-
-  const [participantId, setParticipantId] = useState<number | null>(null);
   const [faceTypeCode, setFaceTypeCode] = useState<string | null>(null);
   const [messageType, setMessageType] = useState<string>(MessageType.NORMAL_SAY);
   const [messageText, setMessageText] = useState("");
@@ -62,30 +53,11 @@ export default function VillageReport({ params }: Route.ComponentProps) {
   const [notice, setNotice] = useState<string | null>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  // 初期選択: ログイン中の自分の参加者、いなければ先頭。
-  // /situation/me の到着を待たず初期選択できるよう、村詳細に含まれる公開プレイヤー名
-  // (PLAYER_NAME は UNIQUE) で自分の参加者を引く。ログイン判定の確定前に先頭を
-  // 選んでしまわないよう meLoading の間は保留する。
-  useEffect(() => {
-    if (participantId != null || participants.length === 0 || meLoading) return;
-    const mine = me != null ? participants.find((p) => p.player?.name === me.name) : null;
-    setParticipantId((mine ?? participants[0]).id);
-  }, [participantId, participants, me, meLoading]);
-
-  const participant = participants.find((p) => p.id === participantId) ?? null;
-  const images = participant != null ? displayImages(participant) : [];
+  // 参加した本人のキャラクターのみ対象にする (/situation/me はサーバ側で本人分しか返さない)
+  const participant = mySituation?.myself ?? null;
+  const images = participant?.chara.images.list.filter((image) => image.isDisplay) ?? [];
   const faceImage = images.find((i) => i.faceType.code === faceTypeCode) ?? images[0] ?? null;
-
-  // 能力行使履歴は本人ログイン時のみ取得できる (サーバ側で本人分しか返さない)
-  const abilityHistories =
-    participant != null && mySituation?.myself?.id === participant.id
-      ? (mySituation.ability.skillHistoryList ?? [])
-      : [];
-
-  const changeParticipant = (id: number) => {
-    setParticipantId(id);
-    setFaceTypeCode(null);
-  };
+  const abilityHistories = participant != null ? (mySituation?.ability.skillHistoryList ?? []) : [];
 
   const download = async () => {
     const node = previewRef.current;
@@ -160,11 +132,38 @@ export default function VillageReport({ params }: Route.ComponentProps) {
     );
   }
 
+  // ログイン判定・本人情報の取得が終わるまではガード文言を出さない (ちらつき防止)
+  if (meLoading || mySituationLoading) {
+    return (
+      <PageLayout noAd={noAd}>
+        <div className="px-[15px] pb-[30px]" />
+      </PageLayout>
+    );
+  }
+
+  if (participant == null) {
+    return (
+      <PageLayout noAd={noAd}>
+        <div className="px-[15px] py-[30px]">
+          <p>参加報告メーカーは、この村に参加した本人のみ利用できます。</p>
+          {me == null && <p>参加したユーザーでログインしてください。</p>}
+          <div className="mt-[10px] flex gap-[10px]">
+            {me == null && (
+              <LinkButton to="/login" variant="success">
+                ログイン
+              </LinkButton>
+            )}
+            <LinkButton to={`/village/${villageId}`} variant="default">
+              村へ
+            </LinkButton>
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
+
   const pageUrl = `${globalThis.location?.origin ?? ""}/wolf-mansion/village/${village.id}`;
-  const postLines = [`【参加報告】${village.name}`, participant?.name ?? ""].filter(
-    (line) => line !== "",
-  );
-  const postText = postLines.join("\n") + "\n";
+  const postText = `【参加報告】${village.name}\n${participant.name}\n`;
 
   const textareaStyle =
     MESSAGE_STYLES[SAY_VARIANTS[messageType]?.styleKey ?? "message-normal"] ??
@@ -184,21 +183,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
             の投稿画面には画像は自動添付されないため、保存またはコピーした画像を添付してください。
           </p>
 
-          {/* キャラクター選択 */}
-          <div className="mb-[10px]">
-            <select
-              className={selectClass}
-              value={participantId ?? ""}
-              onChange={(e) => changeParticipant(Number(e.target.value))}
-              aria-label="キャラクター"
-            >
-              {participants.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <p className="mb-[10px]">{participant.name}</p>
 
           {/* 発言種別 */}
           <div className="mb-[10px] flex flex-wrap">
@@ -228,13 +213,13 @@ export default function VillageReport({ params }: Route.ComponentProps) {
                 <img
                   src={faceImage.url}
                   alt={faceImage.faceType.name}
-                  width={participant?.chara.size.width ?? 60}
-                  height={participant?.chara.size.height ?? 77}
+                  width={participant.chara.size.width}
+                  height={participant.chara.size.height}
                 />
               )}
               <select
                 className={`${selectClass} mt-[5px]`}
-                style={{ maxWidth: participant?.chara.size.width ?? 80 }}
+                style={{ maxWidth: participant.chara.size.width }}
                 value={faceImage?.faceType.code ?? ""}
                 onChange={(e) => setFaceTypeCode(e.target.value)}
                 aria-label="表情"
@@ -308,21 +293,19 @@ export default function VillageReport({ params }: Route.ComponentProps) {
             プレビュー（この内容がそのまま画像になります）
           </p>
           <div className="border border-border">
-            {participant != null && (
-              <div ref={previewRef}>
-                <ReportPreview
-                  village={village}
-                  participant={participant}
-                  imageUrl={faceImage?.url ?? null}
-                  messageType={messageType}
-                  messageText={messageText}
-                  convertDisable={convertDisable}
-                  randomKeywords={randomKeywords}
-                  abilityHistories={abilityHistories}
-                  options={options}
-                />
-              </div>
-            )}
+            <div ref={previewRef}>
+              <ReportPreview
+                village={village}
+                participant={participant}
+                imageUrl={faceImage?.url ?? null}
+                messageType={messageType}
+                messageText={messageText}
+                convertDisable={convertDisable}
+                randomKeywords={randomKeywords}
+                abilityHistories={abilityHistories}
+                options={options}
+              />
+            </div>
           </div>
 
           {notice != null && <p className="mt-[10px] text-attention">{notice}</p>}
