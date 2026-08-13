@@ -72,18 +72,16 @@ export default function VillageReport({ params }: Route.ComponentProps) {
       // スマホの <a download> は「ファイル」アプリ等に保存されて保存先が分かりづらいため、
       // シェアシートを開いて写真への保存やアプリへの直接共有を選んでもらう。
       // text は受け取りアプリによって無視されることがあるためベストエフォート
-      const file = new File([blob], fileName, { type: "image/png" });
-      if (
-        isMobile() &&
-        typeof navigator.canShare === "function" &&
-        navigator.canShare({ files: [file] })
-      ) {
-        try {
-          await navigator.share({ files: [file], text: buildPostMessage(postText, pageUrl) });
-          return;
-        } catch (e) {
-          if (e instanceof DOMException && e.name === "AbortError") return; // ユーザーキャンセル
-          // 共有シートを開けなかった場合は従来のダウンロードにフォールバック
+      if (isMobile() && typeof navigator.canShare === "function") {
+        const file = new File([blob], fileName, { type: "image/png" });
+        if (navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({ files: [file], text: buildPostMessage(postText, pageUrl) });
+            return;
+          } catch (e) {
+            if (e instanceof DOMException && e.name === "AbortError") return; // ユーザーキャンセル
+            // 共有シートを開けなかった場合は従来のダウンロードにフォールバック
+          }
         }
       }
 
