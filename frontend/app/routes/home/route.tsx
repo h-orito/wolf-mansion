@@ -126,12 +126,6 @@ export default function Home() {
             <div className="grid grid-cols-3">
               <TileRoute to={`/user/${me.name}`} icon={UserIcon} jp="マイページ" en="My Page" />
               <TileRoute
-                to="/favorite-charas"
-                icon={StarIcon}
-                jp="お気に入りキャラ"
-                en="Favorite"
-              />
-              <TileRoute
                 to="/change-password"
                 icon={WrenchIcon}
                 jp="パスワード変更"
@@ -198,7 +192,17 @@ export default function Home() {
 
         {/* キャラチップ */}
         <MenuSection title="キャラチップ">
-          <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
+          <div className={me ? "grid grid-cols-2" : "grid grid-cols-1"}>
+            <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
+            {me && (
+              <TileRoute
+                to="/favorite-charas"
+                icon={StarIcon}
+                jp="お気に入りキャラ"
+                en="Favorite"
+              />
+            )}
+          </div>
         </MenuSection>
 
         <Footer />
