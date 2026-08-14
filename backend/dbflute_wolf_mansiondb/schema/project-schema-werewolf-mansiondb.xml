@@ -713,6 +713,43 @@
             <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
         </foreign-key>
     </table>
+    <table comment="お気に入りキャラ" name="player_favorite_chara"
+        schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
+        <column autoIncrement="true" comment="お気に入りキャラID"
+            dbType="INT UNSIGNED" javaType="Integer"
+            name="PLAYER_FAVORITE_CHARA_ID" pkName="PRIMARY"
+            pkPosition="1" primaryKey="true" required="true" size="10" type="INTEGER"/>
+        <column comment="プレイヤーID" dbType="INT UNSIGNED"
+            javaType="Integer" name="PLAYER_ID" required="true"
+            size="10" type="INTEGER"/>
+        <column comment="キャラクターID" dbType="INT UNSIGNED"
+            javaType="Integer" name="CHARA_ID" required="true" size="10" type="INTEGER"/>
+        <column comment="登録日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="REGISTER_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="登録トレース" dbType="VARCHAR" javaType="String"
+            name="REGISTER_TRACE" required="true" size="64" type="VARCHAR"/>
+        <column comment="更新日時" dbType="DATETIME"
+            javaType="java.time.LocalDateTime" name="UPDATE_DATETIME"
+            required="true" size="19" type="TIMESTAMP"/>
+        <column comment="更新トレース" dbType="VARCHAR" javaType="String"
+            name="UPDATE_TRACE" required="true" size="64" type="VARCHAR"/>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="chara" name="FK_PLAYER_FAVORITE_CHARA_CHARA">
+            <reference foreign="CHARA_ID" local="CHARA_ID"/>
+        </foreign-key>
+        <foreign-key foreignSchema="werewolf_mansiondb.$$NoNameSchema$$"
+            foreignTable="player" name="FK_PLAYER_FAVORITE_CHARA_PLAYER">
+            <reference foreign="PLAYER_ID" local="PLAYER_ID"/>
+        </foreign-key>
+        <unique name="UQ_PLAYER_FAVORITE_CHARA">
+            <unique-column name="PLAYER_ID" position="1"/>
+            <unique-column name="CHARA_ID" position="2"/>
+        </unique>
+        <index name="FK_PLAYER_FAVORITE_CHARA_CHARA">
+            <index-column name="CHARA_ID" position="1"/>
+        </index>
+    </table>
     <table comment="ランダム変換内容" name="random_content"
         schema="werewolf_mansiondb.$$NoNameSchema$$" type="TABLE">
         <column autoIncrement="true" comment="ランダム変換内容ID"

@@ -101,6 +101,40 @@ public class LoaderOfPlayer {
         return hd -> hd.handle(new LoaderOfMessage().ready(_referrerMessage, _selector));
     }
 
+    protected List<PlayerFavoriteChara> _referrerPlayerFavoriteChara;
+
+    /**
+     * Load referrer of playerFavoriteCharaList by the set-upper of referrer. <br>
+     * PLAYER_FAVORITE_CHARA by PLAYER_ID, named 'playerFavoriteCharaList'.
+     * <pre>
+     * <span style="color: #0000C0">playerBhv</span>.<span style="color: #994747">load</span>(<span style="color: #553000">playerList</span>, <span style="color: #553000">playerLoader</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     <span style="color: #553000">playerLoader</span>.<span style="color: #CC4747">loadPlayerFavoriteChara</span>(<span style="color: #553000">charaCB</span> <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *         <span style="color: #553000">charaCB</span>.setupSelect...
+     *         <span style="color: #553000">charaCB</span>.query().set...
+     *         <span style="color: #553000">charaCB</span>.query().addOrderBy...
+     *     }); <span style="color: #3F7E5E">// you can load nested referrer from here</span>
+     *     <span style="color: #3F7E5E">//}).withNestedReferrer(<span style="color: #553000">charaLoader</span> -&gt; {</span>
+     *     <span style="color: #3F7E5E">//    charaLoader.load...</span>
+     *     <span style="color: #3F7E5E">//});</span>
+     * });
+     * for (Player player : <span style="color: #553000">playerList</span>) {
+     *     ... = player.<span style="color: #CC4747">getPlayerFavoriteCharaList()</span>;
+     * }
+     * </pre>
+     * About internal policy, the value of primary key (and others too) is treated as case-insensitive. <br>
+     * The condition-bean, which the set-upper provides, has settings before callback as follows:
+     * <pre>
+     * cb.query().setPlayerId_InScope(pkList);
+     * cb.query().addOrderBy_PlayerId_Asc();
+     * </pre>
+     * @param refCBLambda The callback to set up referrer condition-bean for loading referrer. (NotNull)
+     * @return The callback interface which you can load nested referrer by calling withNestedReferrer(). (NotNull)
+     */
+    public NestedReferrerLoaderGateway<LoaderOfPlayerFavoriteChara> loadPlayerFavoriteChara(ReferrerConditionSetupper<PlayerFavoriteCharaCB> refCBLambda) {
+        myBhv().loadPlayerFavoriteChara(_selectedList, refCBLambda).withNestedReferrer(refLs -> _referrerPlayerFavoriteChara = refLs);
+        return hd -> hd.handle(new LoaderOfPlayerFavoriteChara().ready(_referrerPlayerFavoriteChara, _selector));
+    }
+
     protected List<RefreshToken> _referrerRefreshToken;
 
     /**

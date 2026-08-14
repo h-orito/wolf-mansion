@@ -14,17 +14,17 @@ import com.ort.dbflute.allcommon.*;
 import com.ort.dbflute.exentity.*;
 
 /**
- * The DB meta of player. (Singleton)
+ * The DB meta of player_favorite_chara. (Singleton)
  * @author DBFlute(AutoGenerator)
  */
-public class PlayerDbm extends AbstractDBMeta {
+public class PlayerFavoriteCharaDbm extends AbstractDBMeta {
 
     // ===================================================================================
     //                                                                           Singleton
     //                                                                           =========
-    private static final PlayerDbm _instance = new PlayerDbm();
-    private PlayerDbm() {}
-    public static PlayerDbm getInstance() { return _instance; }
+    private static final PlayerFavoriteCharaDbm _instance = new PlayerFavoriteCharaDbm();
+    private PlayerFavoriteCharaDbm() {}
+    public static PlayerFavoriteCharaDbm getInstance() { return _instance; }
 
     // ===================================================================================
     //                                                                       Current DBDef
@@ -43,25 +43,13 @@ public class PlayerDbm extends AbstractDBMeta {
     protected final Map<String, PropertyGateway> _epgMap = newHashMap();
     { xsetupEpg(); }
     protected void xsetupEpg() {
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerId(), (et, vl) -> ((Player)et).setPlayerId(cti(vl)), "playerId");
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerName(), (et, vl) -> ((Player)et).setPlayerName((String)vl), "playerName");
-        setupEpg(_epgMap, et -> ((Player)et).getPlayerPassword(), (et, vl) -> ((Player)et).setPlayerPassword((String)vl), "playerPassword");
-        setupEpg(_epgMap, et -> ((Player)et).getAuthorityCode(), (et, vl) -> {
-            CDef.Authority cls = (CDef.Authority)gcls(et, columnAuthorityCode(), vl);
-            if (cls != null) {
-                ((Player)et).setAuthorityCodeAsAuthority(cls);
-            } else {
-                ((Player)et).mynativeMappingAuthorityCode((String)vl);
-            }
-        }, "authorityCode");
-        setupEpg(_epgMap, et -> ((Player)et).getIsRestrictedParticipation(), (et, vl) -> {
-            ((Player)et).setIsRestrictedParticipation((Boolean)vl);
-        }, "isRestrictedParticipation");
-        setupEpg(_epgMap, et -> ((Player)et).getShouldCheckAccessInfo(), (et, vl) -> ((Player)et).setShouldCheckAccessInfo((Boolean)vl), "shouldCheckAccessInfo");
-        setupEpg(_epgMap, et -> ((Player)et).getRegisterDatetime(), (et, vl) -> ((Player)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
-        setupEpg(_epgMap, et -> ((Player)et).getRegisterTrace(), (et, vl) -> ((Player)et).setRegisterTrace((String)vl), "registerTrace");
-        setupEpg(_epgMap, et -> ((Player)et).getUpdateDatetime(), (et, vl) -> ((Player)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
-        setupEpg(_epgMap, et -> ((Player)et).getUpdateTrace(), (et, vl) -> ((Player)et).setUpdateTrace((String)vl), "updateTrace");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getPlayerFavoriteCharaId(), (et, vl) -> ((PlayerFavoriteChara)et).setPlayerFavoriteCharaId(cti(vl)), "playerFavoriteCharaId");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getPlayerId(), (et, vl) -> ((PlayerFavoriteChara)et).setPlayerId(cti(vl)), "playerId");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getCharaId(), (et, vl) -> ((PlayerFavoriteChara)et).setCharaId(cti(vl)), "charaId");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getRegisterDatetime(), (et, vl) -> ((PlayerFavoriteChara)et).setRegisterDatetime(ctldt(vl)), "registerDatetime");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getRegisterTrace(), (et, vl) -> ((PlayerFavoriteChara)et).setRegisterTrace((String)vl), "registerTrace");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getUpdateDatetime(), (et, vl) -> ((PlayerFavoriteChara)et).setUpdateDatetime(ctldt(vl)), "updateDatetime");
+        setupEpg(_epgMap, et -> ((PlayerFavoriteChara)et).getUpdateTrace(), (et, vl) -> ((PlayerFavoriteChara)et).setUpdateTrace((String)vl), "updateTrace");
     }
     public PropertyGateway findPropertyGateway(String prop)
     { return doFindEpg(_epgMap, prop); }
@@ -73,8 +61,8 @@ public class PlayerDbm extends AbstractDBMeta {
     { xsetupEfpg(); }
     @SuppressWarnings("unchecked")
     protected void xsetupEfpg() {
-        setupEfpg(_efpgMap, et -> ((Player)et).getAuthority(), (et, vl) -> ((Player)et).setAuthority((OptionalEntity<Authority>)vl), "authority");
-        setupEfpg(_efpgMap, et -> ((Player)et).getPlayerDetailAsOne(), (et, vl) -> ((Player)et).setPlayerDetailAsOne((OptionalEntity<PlayerDetail>)vl), "playerDetailAsOne");
+        setupEfpg(_efpgMap, et -> ((PlayerFavoriteChara)et).getChara(), (et, vl) -> ((PlayerFavoriteChara)et).setChara((OptionalEntity<Chara>)vl), "chara");
+        setupEfpg(_efpgMap, et -> ((PlayerFavoriteChara)et).getPlayer(), (et, vl) -> ((PlayerFavoriteChara)et).setPlayer((OptionalEntity<Player>)vl), "player");
     }
     public PropertyGateway findForeignPropertyGateway(String prop)
     { return doFindEfpg(_efpgMap, prop); }
@@ -82,10 +70,10 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                          Table Info
     //                                                                          ==========
-    protected final String _tableDbName = "player";
-    protected final String _tableDispName = "PLAYER";
-    protected final String _tablePropertyName = "player";
-    protected final TableSqlName _tableSqlName = new TableSqlName("PLAYER", _tableDbName);
+    protected final String _tableDbName = "player_favorite_chara";
+    protected final String _tableDispName = "PLAYER_FAVORITE_CHARA";
+    protected final String _tablePropertyName = "playerFavoriteChara";
+    protected final TableSqlName _tableSqlName = new TableSqlName("PLAYER_FAVORITE_CHARA", _tableDbName);
     { _tableSqlName.xacceptFilter(DBFluteConfig.getInstance().getTableSqlNameFilter()); }
     public String getTableDbName() { return _tableDbName; }
     public String getTableDispName() { return _tableDispName; }
@@ -95,47 +83,29 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "analyzerMemoList,messageList,playerFavoriteCharaList,refreshTokenList,villagePlayerList", null, false);
-    protected final ColumnInfo _columnPlayerName = cci("PLAYER_NAME", "PLAYER_NAME", null, null, String.class, "playerName", null, false, false, true, "VARCHAR", 12, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnPlayerPassword = cci("PLAYER_PASSWORD", "PLAYER_PASSWORD", null, null, String.class, "playerPassword", null, false, false, true, "CHAR", 60, 0, null, null, false, null, null, null, null, null, false);
-    protected final ColumnInfo _columnAuthorityCode = cci("AUTHORITY_CODE", "AUTHORITY_CODE", null, null, String.class, "authorityCode", null, false, false, true, "VARCHAR", 20, 0, null, null, false, null, null, "authority", null, CDef.DefMeta.Authority, false);
-    protected final ColumnInfo _columnIsRestrictedParticipation = cci("IS_RESTRICTED_PARTICIPATION", "IS_RESTRICTED_PARTICIPATION", null, null, Boolean.class, "isRestrictedParticipation", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, CDef.DefMeta.Flg, false);
-    protected final ColumnInfo _columnShouldCheckAccessInfo = cci("SHOULD_CHECK_ACCESS_INFO", "SHOULD_CHECK_ACCESS_INFO", null, null, Boolean.class, "shouldCheckAccessInfo", null, false, false, true, "BIT", null, null, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnPlayerFavoriteCharaId = cci("PLAYER_FAVORITE_CHARA_ID", "PLAYER_FAVORITE_CHARA_ID", null, null, Integer.class, "playerFavoriteCharaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, null, null, false);
+    protected final ColumnInfo _columnPlayerId = cci("PLAYER_ID", "PLAYER_ID", null, null, Integer.class, "playerId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "player", null, null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "chara", null, null, false);
     protected final ColumnInfo _columnRegisterDatetime = cci("REGISTER_DATETIME", "REGISTER_DATETIME", null, null, java.time.LocalDateTime.class, "registerDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnRegisterTrace = cci("REGISTER_TRACE", "REGISTER_TRACE", null, null, String.class, "registerTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateDatetime = cci("UPDATE_DATETIME", "UPDATE_DATETIME", null, null, java.time.LocalDateTime.class, "updateDatetime", null, false, false, true, "DATETIME", 19, 0, null, null, true, null, null, null, null, null, false);
     protected final ColumnInfo _columnUpdateTrace = cci("UPDATE_TRACE", "UPDATE_TRACE", null, null, String.class, "updateTrace", null, false, false, true, "VARCHAR", 64, 0, null, null, true, null, null, null, null, null, false);
 
     /**
-     * PLAYER_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * PLAYER_FAVORITE_CHARA_ID: {PK, ID, NotNull, INT UNSIGNED(10)}
+     * @return The information object of specified column. (NotNull)
+     */
+    public ColumnInfo columnPlayerFavoriteCharaId() { return _columnPlayerFavoriteCharaId; }
+    /**
+     * PLAYER_ID: {UQ+, NotNull, INT UNSIGNED(10), FK to player}
      * @return The information object of specified column. (NotNull)
      */
     public ColumnInfo columnPlayerId() { return _columnPlayerId; }
     /**
-     * PLAYER_NAME: {UQ, NotNull, VARCHAR(12)}
+     * CHARA_ID: {+UQ, IX, NotNull, INT UNSIGNED(10), FK to chara}
      * @return The information object of specified column. (NotNull)
      */
-    public ColumnInfo columnPlayerName() { return _columnPlayerName; }
-    /**
-     * PLAYER_PASSWORD: {NotNull, CHAR(60)}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnPlayerPassword() { return _columnPlayerPassword; }
-    /**
-     * AUTHORITY_CODE: {IX, NotNull, VARCHAR(20), FK to authority, classification=Authority}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnAuthorityCode() { return _columnAuthorityCode; }
-    /**
-     * IS_RESTRICTED_PARTICIPATION: {NotNull, BIT, classification=Flg}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnIsRestrictedParticipation() { return _columnIsRestrictedParticipation; }
-    /**
-     * SHOULD_CHECK_ACCESS_INFO: {NotNull, BIT}
-     * @return The information object of specified column. (NotNull)
-     */
-    public ColumnInfo columnShouldCheckAccessInfo() { return _columnShouldCheckAccessInfo; }
+    public ColumnInfo columnCharaId() { return _columnCharaId; }
     /**
      * REGISTER_DATETIME: {NotNull, DATETIME(19)}
      * @return The information object of specified column. (NotNull)
@@ -159,12 +129,9 @@ public class PlayerDbm extends AbstractDBMeta {
 
     protected List<ColumnInfo> ccil() {
         List<ColumnInfo> ls = newArrayList();
+        ls.add(columnPlayerFavoriteCharaId());
         ls.add(columnPlayerId());
-        ls.add(columnPlayerName());
-        ls.add(columnPlayerPassword());
-        ls.add(columnAuthorityCode());
-        ls.add(columnIsRestrictedParticipation());
-        ls.add(columnShouldCheckAccessInfo());
+        ls.add(columnCharaId());
         ls.add(columnRegisterDatetime());
         ls.add(columnRegisterTrace());
         ls.add(columnUpdateDatetime());
@@ -180,14 +147,19 @@ public class PlayerDbm extends AbstractDBMeta {
     // -----------------------------------------------------
     //                                       Primary Element
     //                                       ---------------
-    protected UniqueInfo cpui() { return hpcpui(columnPlayerId()); }
+    protected UniqueInfo cpui() { return hpcpui(columnPlayerFavoriteCharaId()); }
     public boolean hasPrimaryKey() { return true; }
     public boolean hasCompoundPrimaryKey() { return false; }
 
     // -----------------------------------------------------
     //                                        Unique Element
     //                                        --------------
-    public UniqueInfo uniqueOf() { return hpcui(columnPlayerName()); }
+    public UniqueInfo uniqueOf() {
+        List<ColumnInfo> ls = newArrayListSized(4);
+        ls.add(columnPlayerId());
+        ls.add(columnCharaId());
+        return hpcui(ls);
+    }
 
     // ===================================================================================
     //                                                                       Relation Info
@@ -198,65 +170,25 @@ public class PlayerDbm extends AbstractDBMeta {
     //                                      Foreign Property
     //                                      ----------------
     /**
-     * AUTHORITY by my AUTHORITY_CODE, named 'authority'.
+     * CHARA by my CHARA_ID, named 'chara'.
      * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignAuthority() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnAuthorityCode(), AuthorityDbm.getInstance().columnAuthorityCode());
-        return cfi("FK_PLAYER_AUTHORITY", "authority", this, AuthorityDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "playerList", false);
+    public ForeignInfo foreignChara() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), CharaDbm.getInstance().columnCharaId());
+        return cfi("FK_PLAYER_FAVORITE_CHARA_CHARA", "chara", this, CharaDbm.getInstance(), mp, 0, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "playerFavoriteCharaList", false);
     }
     /**
-     * player_detail by PLAYER_ID, named 'playerDetailAsOne'.
-     * @return The information object of foreign property(referrer-as-one). (NotNull)
+     * PLAYER by my PLAYER_ID, named 'player'.
+     * @return The information object of foreign property. (NotNull)
      */
-    public ForeignInfo foreignPlayerDetailAsOne() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), PlayerDetailDbm.getInstance().columnPlayerId());
-        return cfi("FK_PLAYER_DETAIL_PLAYER", "playerDetailAsOne", this, PlayerDetailDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, true, false, true, false, null, null, false, "player", false);
+    public ForeignInfo foreignPlayer() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), PlayerDbm.getInstance().columnPlayerId());
+        return cfi("FK_PLAYER_FAVORITE_CHARA_PLAYER", "player", this, PlayerDbm.getInstance(), mp, 1, org.dbflute.optional.OptionalEntity.class, false, false, false, false, null, null, false, "playerFavoriteCharaList", false);
     }
 
     // -----------------------------------------------------
     //                                     Referrer Property
     //                                     -----------------
-    /**
-     * ANALYZER_MEMO by PLAYER_ID, named 'analyzerMemoList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerAnalyzerMemoList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), AnalyzerMemoDbm.getInstance().columnPlayerId());
-        return cri("FK_ANALYZER_MEMO_PLAYER", "analyzerMemoList", this, AnalyzerMemoDbm.getInstance(), mp, false, "player");
-    }
-    /**
-     * MESSAGE by PLAYER_ID, named 'messageList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerMessageList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), MessageDbm.getInstance().columnPlayerId());
-        return cri("FK_MESSAGE_PLAYER", "messageList", this, MessageDbm.getInstance(), mp, false, "player");
-    }
-    /**
-     * PLAYER_FAVORITE_CHARA by PLAYER_ID, named 'playerFavoriteCharaList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerPlayerFavoriteCharaList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), PlayerFavoriteCharaDbm.getInstance().columnPlayerId());
-        return cri("FK_PLAYER_FAVORITE_CHARA_PLAYER", "playerFavoriteCharaList", this, PlayerFavoriteCharaDbm.getInstance(), mp, false, "player");
-    }
-    /**
-     * REFRESH_TOKEN by PLAYER_ID, named 'refreshTokenList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerRefreshTokenList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), RefreshTokenDbm.getInstance().columnPlayerId());
-        return cri("FK_REFRESH_TOKEN_PLAYER", "refreshTokenList", this, RefreshTokenDbm.getInstance(), mp, false, "player");
-    }
-    /**
-     * VILLAGE_PLAYER by PLAYER_ID, named 'villagePlayerList'.
-     * @return The information object of referrer property. (NotNull)
-     */
-    public ReferrerInfo referrerVillagePlayerList() {
-        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnPlayerId(), VillagePlayerDbm.getInstance().columnPlayerId());
-        return cri("FK_VILLAGE_PLAYER_PLAYER", "villagePlayerList", this, VillagePlayerDbm.getInstance(), mp, false, "player");
-    }
 
     // ===================================================================================
     //                                                                        Various Info
@@ -273,27 +205,27 @@ public class PlayerDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                           Type Name
     //                                                                           =========
-    public String getEntityTypeName() { return "com.ort.dbflute.exentity.Player"; }
-    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.PlayerCB"; }
-    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.PlayerBhv"; }
+    public String getEntityTypeName() { return "com.ort.dbflute.exentity.PlayerFavoriteChara"; }
+    public String getConditionBeanTypeName() { return "com.ort.dbflute.cbean.PlayerFavoriteCharaCB"; }
+    public String getBehaviorTypeName() { return "com.ort.dbflute.exbhv.PlayerFavoriteCharaBhv"; }
 
     // ===================================================================================
     //                                                                         Object Type
     //                                                                         ===========
-    public Class<Player> getEntityType() { return Player.class; }
+    public Class<PlayerFavoriteChara> getEntityType() { return PlayerFavoriteChara.class; }
 
     // ===================================================================================
     //                                                                     Object Instance
     //                                                                     ===============
-    public Player newEntity() { return new Player(); }
+    public PlayerFavoriteChara newEntity() { return new PlayerFavoriteChara(); }
 
     // ===================================================================================
     //                                                                   Map Communication
     //                                                                   =================
     public void acceptPrimaryKeyMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptPrimaryKeyMap((Player)et, mp); }
+    { doAcceptPrimaryKeyMap((PlayerFavoriteChara)et, mp); }
     public void acceptAllColumnMap(Entity et, Map<String, ? extends Object> mp)
-    { doAcceptAllColumnMap((Player)et, mp); }
+    { doAcceptAllColumnMap((PlayerFavoriteChara)et, mp); }
     public Map<String, Object> extractPrimaryKeyMap(Entity et) { return doExtractPrimaryKeyMap(et); }
     public Map<String, Object> extractAllColumnMap(Entity et) { return doExtractAllColumnMap(et); }
 }

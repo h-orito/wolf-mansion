@@ -177,6 +177,25 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     public abstract String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq);
 
     /**
+     * Set up ExistsReferrer (correlated sub-query). <br>
+     * {exists (select CHARA_ID from player_favorite_chara where ...)} <br>
+     * player_favorite_chara by CHARA_ID, named 'playerFavoriteCharaAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">existsPlayerFavoriteChara</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     charaCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of PlayerFavoriteCharaList for 'exists'. (NotNull)
+     */
+    public void existsPlayerFavoriteChara(SubQuery<PlayerFavoriteCharaCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        PlayerFavoriteCharaCB cb = new PlayerFavoriteCharaCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaId_ExistsReferrer_PlayerFavoriteCharaList(cb.query());
+        registerExistsReferrer(cb.query(), "CHARA_ID", "CHARA_ID", pp, "playerFavoriteCharaList");
+    }
+    public abstract String keepCharaId_ExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq);
+
+    /**
      * Set up NotExistsReferrer (correlated sub-query). <br>
      * {not exists (select CHARA_ID from chara_image where ...)} <br>
      * chara_image by CHARA_ID, named 'charaImageAsOne'.
@@ -195,6 +214,25 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     }
     public abstract String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq);
 
+    /**
+     * Set up NotExistsReferrer (correlated sub-query). <br>
+     * {not exists (select CHARA_ID from player_favorite_chara where ...)} <br>
+     * player_favorite_chara by CHARA_ID, named 'playerFavoriteCharaAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">notExistsPlayerFavoriteChara</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     charaCB.query().set...
+     * });
+     * </pre>
+     * @param subCBLambda The callback for sub-query of CharaId_NotExistsReferrer_PlayerFavoriteCharaList for 'not exists'. (NotNull)
+     */
+    public void notExistsPlayerFavoriteChara(SubQuery<PlayerFavoriteCharaCB> subCBLambda) {
+        assertObjectNotNull("subCBLambda", subCBLambda);
+        PlayerFavoriteCharaCB cb = new PlayerFavoriteCharaCB(); cb.xsetupForExistsReferrer(this);
+        lockCall(() -> subCBLambda.query(cb)); String pp = keepCharaId_NotExistsReferrer_PlayerFavoriteCharaList(cb.query());
+        registerNotExistsReferrer(cb.query(), "CHARA_ID", "CHARA_ID", pp, "playerFavoriteCharaList");
+    }
+    public abstract String keepCharaId_NotExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq);
+
     public void xsderiveCharaImageList(String fn, SubQuery<CharaImageCB> sq, String al, DerivedReferrerOption op) {
         assertObjectNotNull("subQuery", sq);
         CharaImageCB cb = new CharaImageCB(); cb.xsetupForDerivedReferrer(this);
@@ -202,6 +240,14 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
         registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_ID", "CHARA_ID", pp, "charaImageList", al, op);
     }
     public abstract String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq);
+
+    public void xsderivePlayerFavoriteCharaList(String fn, SubQuery<PlayerFavoriteCharaCB> sq, String al, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        PlayerFavoriteCharaCB cb = new PlayerFavoriteCharaCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String pp = keepCharaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList(cb.query());
+        registerSpecifyDerivedReferrer(fn, cb.query(), "CHARA_ID", "CHARA_ID", pp, "playerFavoriteCharaList", al, op);
+    }
+    public abstract String keepCharaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq);
 
     /**
      * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
@@ -229,6 +275,33 @@ public abstract class AbstractBsCharaCQ extends AbstractConditionQuery {
     }
     public abstract String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq);
     public abstract String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object vl);
+
+    /**
+     * Prepare for (Query)DerivedReferrer (correlated sub-query). <br>
+     * {FOO &lt;= (select max(BAR) from player_favorite_chara where ...)} <br>
+     * player_favorite_chara by CHARA_ID, named 'playerFavoriteCharaAsOne'.
+     * <pre>
+     * cb.query().<span style="color: #CC4747">derivedPlayerFavoriteChara()</span>.<span style="color: #CC4747">max</span>(charaCB <span style="color: #90226C; font-weight: bold"><span style="font-size: 120%">-</span>&gt;</span> {
+     *     charaCB.specify().<span style="color: #CC4747">columnFoo...</span> <span style="color: #3F7E5E">// derived column by function</span>
+     *     charaCB.query().setBar... <span style="color: #3F7E5E">// referrer condition</span>
+     * }).<span style="color: #CC4747">greaterEqual</span>(123); <span style="color: #3F7E5E">// condition to derived column</span>
+     * </pre>
+     * @return The object to set up a function for referrer table. (NotNull)
+     */
+    public HpQDRFunction<PlayerFavoriteCharaCB> derivedPlayerFavoriteChara() {
+        return xcreateQDRFunctionPlayerFavoriteCharaList();
+    }
+    protected HpQDRFunction<PlayerFavoriteCharaCB> xcreateQDRFunctionPlayerFavoriteCharaList() {
+        return xcQDRFunc((fn, sq, rd, vl, op) -> xqderivePlayerFavoriteCharaList(fn, sq, rd, vl, op));
+    }
+    public void xqderivePlayerFavoriteCharaList(String fn, SubQuery<PlayerFavoriteCharaCB> sq, String rd, Object vl, DerivedReferrerOption op) {
+        assertObjectNotNull("subQuery", sq);
+        PlayerFavoriteCharaCB cb = new PlayerFavoriteCharaCB(); cb.xsetupForDerivedReferrer(this);
+        lockCall(() -> sq.query(cb)); String sqpp = keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaList(cb.query()); String prpp = keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaListParameter(vl);
+        registerQueryDerivedReferrer(fn, cb.query(), "CHARA_ID", "CHARA_ID", sqpp, "playerFavoriteCharaList", rd, vl, prpp, op);
+    }
+    public abstract String keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq);
+    public abstract String keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaListParameter(Object vl);
 
     /**
      * IsNull {is null}. And OnlyOnceRegistered. <br>
