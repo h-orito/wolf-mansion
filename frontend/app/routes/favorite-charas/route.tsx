@@ -32,6 +32,13 @@ function FavoriteCharasContent() {
       <div className="px-[15px] pb-[10px]">
         <Heading>お気に入りキャラ</Heading>
 
+        <ul className="mb-[10px] list-disc pl-[20px]">
+          <li>お気に入りキャラはあなただけが閲覧でき、他のユーザーには公開されません。</li>
+          <li>
+            入村時に「お気に入りから選択」ボタンで、お気に入りキャラの中から参加キャラを選べます。
+          </li>
+        </ul>
+
         {favoriteError != null && <p className="mb-[5px] text-danger">{favoriteError}</p>}
 
         {!isLoading && chips.length === 0 && (
