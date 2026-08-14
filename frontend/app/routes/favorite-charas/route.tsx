@@ -24,13 +24,15 @@ export default function FavoriteCharas() {
 
 function FavoriteCharasContent() {
   const { data: charachips, isLoading } = useFavoriteCharachips();
-  const toggleFavorite = useToggleFavoriteChara();
+  const { toggle: toggleFavorite, error: favoriteError } = useToggleFavoriteChara();
   const chips = charachips?.list ?? [];
 
   return (
     <PageLayout>
       <div className="px-[15px] pb-[10px]">
         <Heading>お気に入りキャラ</Heading>
+
+        {favoriteError != null && <p className="mb-[5px] text-danger">{favoriteError}</p>}
 
         {!isLoading && chips.length === 0 && (
           <p>

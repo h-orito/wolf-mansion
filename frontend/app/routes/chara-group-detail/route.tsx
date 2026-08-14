@@ -40,7 +40,7 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
   const { data: roomData } = useRoomAssignment(personNum, personNum > 0);
   const { me } = useMe();
   const favoriteCharaIds = useFavoriteCharaIds();
-  const toggleFavorite = useToggleFavoriteChara();
+  const { toggle: toggleFavorite, error: favoriteError } = useToggleFavoriteChara();
 
   if (error) {
     return (
@@ -72,6 +72,7 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
           )}
         </div>
 
+        {favoriteError != null && <p className="mb-[5px] text-danger">{favoriteError}</p>}
         <div className="flex flex-wrap">
           {charachip.charas.list.map((chara) => (
             <CharaCard
