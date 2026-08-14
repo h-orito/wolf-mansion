@@ -4,9 +4,12 @@ import { useParams } from "react-router";
 import { Heading } from "~/components/ui/Heading";
 import { ExternalLink } from "~/components/ui/TextLink";
 import { PageLayout } from "~/components/layout/PageLayout";
+import { useMe } from "~/features/auth/useMe";
 import type { Chara, RoomAssignmentResponse } from "~/features/charachips/api";
 import { findNormalImage } from "~/features/charachips/charaImage";
+import { CharaCard } from "~/features/charachips/components/CharaCard";
 import { useCharachipDetail, useRoomAssignment } from "~/features/charachips/useCharachips";
+import { useFavoriteCharaIds, useToggleFavoriteChara } from "~/features/favorite/useFavoriteCharas";
 import { siteMeta } from "~/lib/meta";
 import type { Route } from "./+types/route";
 
@@ -35,6 +38,9 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
   const { data: charachip, error } = useCharachipDetail(charachipId);
   const personNum = charachip?.charas.list.length ?? 0;
   const { data: roomData } = useRoomAssignment(personNum, personNum > 0);
+  const { me } = useMe();
+  const favoriteCharaIds = useFavoriteCharaIds();
+  const { toggle: toggleFavorite, error: favoriteError } = useToggleFavoriteChara();
 
   if (error) {
     return (
@@ -66,28 +72,19 @@ function CharaGroupDetailContent({ charachipId }: { charachipId: number }) {
           )}
         </div>
 
+        {favoriteError != null && <p className="mb-[5px] text-danger">{favoriteError}</p>}
         <div className="flex flex-wrap">
           {charachip.charas.list.map((chara) => (
-            <div
+            <CharaCard
               key={chara.id}
-              className="box-border w-full border border-border p-[5px] min-[768px]:w-1/2"
-            >
-              <span className="block text-center">
-                {chara.images.list.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img.url}
-                    width={chara.size.width}
-                    height={chara.size.height}
-                    alt={chara.name}
-                    className="inline-block"
-                  />
-                ))}
-              </span>
-              <span className="block text-center">
-                [{chara.shortName}] {chara.name}
-              </span>
-            </div>
+              chara={chara}
+              isFavorite={favoriteCharaIds.has(chara.id)}
+              onToggleFavorite={
+                me != null
+                  ? () => toggleFavorite(chara.id, favoriteCharaIds.has(chara.id))
+                  : undefined
+              }
+            />
           ))}
         </div>
 

@@ -82,16 +82,30 @@ public class BsCharaCQ extends AbstractBsCharaCQ {
     public Map<String, CharaImageCQ> xdfgetCharaId_ExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_ExistsReferrer_CharaImageList"); }
     public String keepCharaId_ExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_ExistsReferrer_CharaImageList", sq); }
 
+    public Map<String, PlayerFavoriteCharaCQ> xdfgetCharaId_ExistsReferrer_PlayerFavoriteCharaList() { return xgetSQueMap("charaId_ExistsReferrer_PlayerFavoriteCharaList"); }
+    public String keepCharaId_ExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq) { return xkeepSQue("charaId_ExistsReferrer_PlayerFavoriteCharaList", sq); }
+
     public Map<String, CharaImageCQ> xdfgetCharaId_NotExistsReferrer_CharaImageList() { return xgetSQueMap("charaId_NotExistsReferrer_CharaImageList"); }
     public String keepCharaId_NotExistsReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_CharaImageList", sq); }
 
+    public Map<String, PlayerFavoriteCharaCQ> xdfgetCharaId_NotExistsReferrer_PlayerFavoriteCharaList() { return xgetSQueMap("charaId_NotExistsReferrer_PlayerFavoriteCharaList"); }
+    public String keepCharaId_NotExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq) { return xkeepSQue("charaId_NotExistsReferrer_PlayerFavoriteCharaList", sq); }
+
     public Map<String, CharaImageCQ> xdfgetCharaId_SpecifyDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_CharaImageList"); }
     public String keepCharaId_SpecifyDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_CharaImageList", sq); }
+
+    public Map<String, PlayerFavoriteCharaCQ> xdfgetCharaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList() { return xgetSQueMap("charaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList"); }
+    public String keepCharaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq) { return xkeepSQue("charaId_SpecifyDerivedReferrer_PlayerFavoriteCharaList", sq); }
 
     public Map<String, CharaImageCQ> xdfgetCharaId_QueryDerivedReferrer_CharaImageList() { return xgetSQueMap("charaId_QueryDerivedReferrer_CharaImageList"); }
     public String keepCharaId_QueryDerivedReferrer_CharaImageList(CharaImageCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_CharaImageList", sq); }
     public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_CharaImageListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_CharaImageList"); }
     public String keepCharaId_QueryDerivedReferrer_CharaImageListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_CharaImageList", pm); }
+
+    public Map<String, PlayerFavoriteCharaCQ> xdfgetCharaId_QueryDerivedReferrer_PlayerFavoriteCharaList() { return xgetSQueMap("charaId_QueryDerivedReferrer_PlayerFavoriteCharaList"); }
+    public String keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq) { return xkeepSQue("charaId_QueryDerivedReferrer_PlayerFavoriteCharaList", sq); }
+    public Map<String, Object> xdfgetCharaId_QueryDerivedReferrer_PlayerFavoriteCharaListParameter() { return xgetSQuePmMap("charaId_QueryDerivedReferrer_PlayerFavoriteCharaList"); }
+    public String keepCharaId_QueryDerivedReferrer_PlayerFavoriteCharaListParameter(Object pm) { return xkeepSQuePm("charaId_QueryDerivedReferrer_PlayerFavoriteCharaList", pm); }
 
     /**
      * Add order-by as ascend. <br>

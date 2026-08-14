@@ -66,6 +66,8 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
+    public String keepPlayerId_ExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq)
+    { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("ExistsReferrer"); return null; }
     public String keepPlayerId_ExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
@@ -74,6 +76,8 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
+    public String keepPlayerId_NotExistsReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq)
+    { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("NotExistsReferrer"); return null; }
     public String keepPlayerId_NotExistsReferrer_VillagePlayerList(VillagePlayerCQ sq)
@@ -81,6 +85,8 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     public String keepPlayerId_SpecifyDerivedReferrer_AnalyzerMemoList(AnalyzerMemoCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_MessageList(MessageCQ sq)
+    { throwIICBOE("(Specify)DerivedReferrer"); return null; }
+    public String keepPlayerId_SpecifyDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
     public String keepPlayerId_SpecifyDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("(Specify)DerivedReferrer"); return null; }
@@ -93,6 +99,10 @@ public class PlayerCIQ extends AbstractBsPlayerCQ {
     public String keepPlayerId_QueryDerivedReferrer_MessageList(MessageCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_MessageListParameter(Object vl)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_PlayerFavoriteCharaList(PlayerFavoriteCharaCQ sq)
+    { throwIICBOE("(Query)DerivedReferrer"); return null; }
+    public String keepPlayerId_QueryDerivedReferrer_PlayerFavoriteCharaListParameter(Object vl)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }
     public String keepPlayerId_QueryDerivedReferrer_RefreshTokenList(RefreshTokenCQ sq)
     { throwIICBOE("(Query)DerivedReferrer"); return null; }

@@ -133,6 +133,26 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         _charaImageList = charaImageList;
     }
 
+    /** PLAYER_FAVORITE_CHARA by CHARA_ID, named 'playerFavoriteCharaList'. */
+    protected List<PlayerFavoriteChara> _playerFavoriteCharaList;
+
+    /**
+     * [get] PLAYER_FAVORITE_CHARA by CHARA_ID, named 'playerFavoriteCharaList'.
+     * @return The entity list of referrer property 'playerFavoriteCharaList'. (NotNull: even if no loading, returns empty list)
+     */
+    public List<PlayerFavoriteChara> getPlayerFavoriteCharaList() {
+        if (_playerFavoriteCharaList == null) { _playerFavoriteCharaList = newReferrerList(); }
+        return _playerFavoriteCharaList;
+    }
+
+    /**
+     * [set] PLAYER_FAVORITE_CHARA by CHARA_ID, named 'playerFavoriteCharaList'.
+     * @param playerFavoriteCharaList The entity list of referrer property 'playerFavoriteCharaList'. (NullAllowed)
+     */
+    public void setPlayerFavoriteCharaList(List<PlayerFavoriteChara> playerFavoriteCharaList) {
+        _playerFavoriteCharaList = playerFavoriteCharaList;
+    }
+
     protected <ELEMENT> List<ELEMENT> newReferrerList() { // overriding to import
         return new ArrayList<ELEMENT>();
     }
@@ -166,6 +186,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { sb.append(li).append(xbRDS(_charaGroup, "charaGroup")); }
         if (_charaImageList != null) { for (CharaImage et : _charaImageList)
         { if (et != null) { sb.append(li).append(xbRDS(et, "charaImageList")); } } }
+        if (_playerFavoriteCharaList != null) { for (PlayerFavoriteChara et : _playerFavoriteCharaList)
+        { if (et != null) { sb.append(li).append(xbRDS(et, "playerFavoriteCharaList")); } } }
         return sb.toString();
     }
     protected <ET extends Entity> String xbRDS(org.dbflute.optional.OptionalEntity<ET> et, String name) { // buildRelationDisplayString()
@@ -201,6 +223,8 @@ public abstract class BsChara extends AbstractEntity implements DomainEntity, En
         { sb.append(dm).append("charaGroup"); }
         if (_charaImageList != null && !_charaImageList.isEmpty())
         { sb.append(dm).append("charaImageList"); }
+        if (_playerFavoriteCharaList != null && !_playerFavoriteCharaList.isEmpty())
+        { sb.append(dm).append("playerFavoriteCharaList"); }
         if (sb.length() > dm.length()) {
             sb.delete(0, dm.length()).insert(0, "(").append(")");
         }

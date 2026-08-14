@@ -87,7 +87,7 @@ public class CharaDbm extends AbstractDBMeta {
     // ===================================================================================
     //                                                                         Column Info
     //                                                                         ===========
-    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaImageList", null, false);
+    protected final ColumnInfo _columnCharaId = cci("CHARA_ID", "CHARA_ID", null, null, Integer.class, "charaId", null, true, true, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, null, "charaImageList,playerFavoriteCharaList", null, false);
     protected final ColumnInfo _columnCharaName = cci("CHARA_NAME", "CHARA_NAME", null, null, String.class, "charaName", null, false, false, true, "VARCHAR", 40, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaShortName = cci("CHARA_SHORT_NAME", "CHARA_SHORT_NAME", null, null, String.class, "charaShortName", null, false, false, true, "CHAR", 1, 0, null, null, false, null, null, null, null, null, false);
     protected final ColumnInfo _columnCharaGroupId = cci("CHARA_GROUP_ID", "CHARA_GROUP_ID", null, null, Integer.class, "charaGroupId", null, false, false, true, "INT UNSIGNED", 10, 0, null, null, false, null, null, "charaGroup", null, null, false);
@@ -217,6 +217,14 @@ public class CharaDbm extends AbstractDBMeta {
     public ReferrerInfo referrerCharaImageList() {
         Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), CharaImageDbm.getInstance().columnCharaId());
         return cri("FK_CHARA_IMAGE_CHARA", "charaImageList", this, CharaImageDbm.getInstance(), mp, false, "chara");
+    }
+    /**
+     * PLAYER_FAVORITE_CHARA by CHARA_ID, named 'playerFavoriteCharaList'.
+     * @return The information object of referrer property. (NotNull)
+     */
+    public ReferrerInfo referrerPlayerFavoriteCharaList() {
+        Map<ColumnInfo, ColumnInfo> mp = newLinkedHashMap(columnCharaId(), PlayerFavoriteCharaDbm.getInstance().columnCharaId());
+        return cri("FK_PLAYER_FAVORITE_CHARA_CHARA", "playerFavoriteCharaList", this, PlayerFavoriteCharaDbm.getInstance(), mp, false, "chara");
     }
 
     // ===================================================================================

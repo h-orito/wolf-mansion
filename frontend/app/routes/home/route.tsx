@@ -8,6 +8,7 @@ import {
   PencilIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
+  StarIcon,
   UserIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline";
@@ -191,7 +192,17 @@ export default function Home() {
 
         {/* キャラチップ */}
         <MenuSection title="キャラチップ">
-          <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
+          <div className={me ? "grid grid-cols-2" : "grid grid-cols-1"}>
+            <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
+            {me && (
+              <TileRoute
+                to="/favorite-charas"
+                icon={StarIcon}
+                jp="お気に入りキャラ"
+                en="Favorite"
+              />
+            )}
+          </div>
         </MenuSection>
 
         <Footer />
