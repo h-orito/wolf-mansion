@@ -236,9 +236,10 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
               </select>
             </VillageFormRow>
             <VillageFormRow labelWidth="wide">
-              <div className="flex items-center gap-[10px]">
+              {/* スマホでは select が極端に狭くなるため、ボタンは select の下の行に置く */}
+              <div className="flex flex-col gap-[10px] sm:flex-row sm:items-center">
                 <select
-                  className={`${selectClass} flex-1`}
+                  className={`${selectClass} sm:flex-1`}
                   value={charaId ?? ""}
                   onChange={(e) =>
                     selectChara(e.target.value === "" ? null : Number(e.target.value))
@@ -252,8 +253,10 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
                     </option>
                   ))}
                 </select>
-                <Button onClick={() => setCharaModalOpen(true)}>画像から選択</Button>
-                <Button onClick={() => setFavoriteModalOpen(true)}>お気に入りから選択</Button>
+                <div className="flex items-center gap-[10px]">
+                  <Button onClick={() => setCharaModalOpen(true)}>画像から選択</Button>
+                  <Button onClick={() => setFavoriteModalOpen(true)}>お気に入りから選択</Button>
+                </div>
               </div>
             </VillageFormRow>
           </>
