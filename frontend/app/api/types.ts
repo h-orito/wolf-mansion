@@ -163,6 +163,38 @@ export interface paths {
     patch?: never;
     trace?: never;
   };
+  "/api/v1/players/me/favorite-charas": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get: operations["getMyFavoriteCharas"];
+    put?: never;
+    post?: never;
+    delete?: never;
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
+  "/api/v1/players/me/favorite-charas/{charaId}": {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    get?: never;
+    put: operations["addMyFavoriteChara"];
+    post?: never;
+    delete: operations["deleteMyFavoriteChara"];
+    options?: never;
+    head?: never;
+    patch?: never;
+    trace?: never;
+  };
   "/api/v1/players/{name}": {
     parameters: {
       query?: never;
@@ -1101,6 +1133,9 @@ export interface components {
     };
     CharachipListResponse: {
       charachips: components["schemas"]["SimpleCharachipView"][];
+    };
+    Charachips: {
+      list: components["schemas"]["Charachip"][];
     };
     Charas: {
       list: components["schemas"]["Chara"][];
@@ -2392,6 +2427,66 @@ export interface operations {
         "application/json": components["schemas"]["PlayerDetailRequest"];
       };
     };
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  getMyFavoriteCharas: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path?: never;
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content: {
+          "*/*": components["schemas"]["Charachips"];
+        };
+      };
+    };
+  };
+  addMyFavoriteChara: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        charaId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
+    responses: {
+      /** @description No Content */
+      204: {
+        headers: {
+          [name: string]: unknown;
+        };
+        content?: never;
+      };
+    };
+  };
+  deleteMyFavoriteChara: {
+    parameters: {
+      query?: never;
+      header?: never;
+      path: {
+        charaId: number;
+      };
+      cookie?: never;
+    };
+    requestBody?: never;
     responses: {
       /** @description No Content */
       204: {

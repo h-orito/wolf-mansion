@@ -7,6 +7,7 @@ import { VillageFormRow } from "~/components/ui/Form";
 import { inputClass, selectClass, textareaClass } from "~/components/ui/Input";
 import { Panel } from "~/components/ui/Panel";
 import { findNormalImage } from "~/features/charachips/charaImage";
+import { useFavoriteCharaIds } from "~/features/favorite/useFavoriteCharas";
 import {
   confirmVillageParticipate,
   participateVillage,
@@ -33,6 +34,26 @@ function defaultImageUrl(c: CharaLike): string {
   return findNormalImage(c.images.list)?.url ?? "";
 }
 
+/** キャラ選択系モーダル (画像から選択 / お気に入りから選択) 共通のカード。 */
+function CharaSelectCard({ chara, onSelect }: { chara: CharaLike; onSelect: () => void }) {
+  return (
+    <div className="border border-border p-[5px] text-center">
+      <div className="flex justify-center">
+        <img
+          src={defaultImageUrl(chara)}
+          alt={chara.name}
+          width={chara.size.width}
+          height={chara.size.height}
+        />
+      </div>
+      <div>{chara.name}</div>
+      <Button size="xs" className="w-full" onClick={onSelect}>
+        選択
+      </Button>
+    </div>
+  );
+}
+
 type Step = "input" | "confirm";
 
 /**
@@ -47,7 +68,10 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
   const participate = mySituation.participate;
   const skillRequest = mySituation.skillRequest;
   const isOriginal = village.setting.chara.isOriginalCharachip;
-  const charachips = participate.selectableCharachipList ?? [];
+  const charachips = useMemo(
+    () => participate.selectableCharachipList ?? [],
+    [participate.selectableCharachipList],
+  );
 
   const [step, setStep] = useState<Step>("input");
   const [charachipId, setCharachipId] = useState<number | null>(charachips[0]?.id ?? null);
@@ -63,6 +87,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
   const [agreeMind, setAgreeMind] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [charaModalOpen, setCharaModalOpen] = useState(false);
+  const [favoriteModalOpen, setFavoriteModalOpen] = useState(false);
   const [charaImageFile, setCharaImageFile] = useState<File | null>(null);
 
   const charaImageUrl = useMemo(
@@ -93,6 +118,30 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
       setCharaName(selected.name);
       setCharaShortName(selected.shortName);
     }
+  };
+
+  // お気に入り ∩ 選択可能 (村の全キャラチップ横断)。チップごとにまとめて表示する
+  const favoriteCharaIds = useFavoriteCharaIds();
+  const favoriteChipGroups = useMemo(
+    () =>
+      charachips
+        .map((chip) => ({
+          chip,
+          charas: (chip.charas?.list ?? []).filter(
+            (c) => selectableCharaIds.has(c.id) && favoriteCharaIds.has(c.id),
+          ),
+        }))
+        .filter((group) => group.charas.length > 0),
+    [charachips, selectableCharaIds, favoriteCharaIds],
+  );
+
+  // チップをまたいで選択するため、currentChip 由来の selectChara は使わず選択キャラから直接セットする
+  const selectFavoriteChara = (charachipId: number, c: CharaLike) => {
+    setCharachipId(charachipId);
+    setCharaId(c.id);
+    setCharaName(c.name);
+    setCharaShortName(c.shortName);
+    setFavoriteModalOpen(false);
   };
 
   const length = joinMessage.length;
@@ -204,6 +253,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
                   ))}
                 </select>
                 <Button onClick={() => setCharaModalOpen(true)}>画像から選択</Button>
+                <Button onClick={() => setFavoriteModalOpen(true)}>お気に入りから選択</Button>
               </div>
             </VillageFormRow>
           </>
@@ -346,31 +396,51 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
             <h4 className="mb-[10px] font-bold">キャラクター選択</h4>
             <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
               {charas.map((c) => (
-                <div key={c.id} className="border border-border p-[5px] text-center">
-                  <div className="flex justify-center">
-                    <img
-                      src={defaultImageUrl(c)}
-                      alt={c.name}
-                      width={c.size.width}
-                      height={c.size.height}
-                    />
-                  </div>
-                  <div>{c.name}</div>
-                  <Button
-                    size="xs"
-                    className="w-full"
-                    onClick={() => {
-                      selectChara(c.id);
-                      setCharaModalOpen(false);
-                    }}
-                  >
-                    選択
-                  </Button>
-                </div>
+                <CharaSelectCard
+                  key={c.id}
+                  chara={c}
+                  onSelect={() => {
+                    selectChara(c.id);
+                    setCharaModalOpen(false);
+                  }}
+                />
               ))}
             </div>
             <div className="mt-[10px] flex justify-end">
               <Button variant="default" onClick={() => setCharaModalOpen(false)}>
+                閉じる
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {favoriteModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+          onClick={() => setFavoriteModalOpen(false)}
+        >
+          <div
+            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h4 className="mb-[10px] font-bold">お気に入りから選択</h4>
+            {favoriteChipGroups.length === 0 && <p>選択可能なお気に入りキャラがいません。</p>}
+            {favoriteChipGroups.map(({ chip, charas: chipCharas }) => (
+              <div key={chip.id} className="mb-[10px]">
+                <h5 className="mb-[5px] font-bold">{chip.name}</h5>
+                <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
+                  {chipCharas.map((c) => (
+                    <CharaSelectCard
+                      key={c.id}
+                      chara={c}
+                      onSelect={() => selectFavoriteChara(chip.id, c)}
+                    />
+                  ))}
+                </div>
+              </div>
+            ))}
+            <div className="mt-[10px] flex justify-end">
+              <Button variant="default" onClick={() => setFavoriteModalOpen(false)}>
                 閉じる
               </Button>
             </div>

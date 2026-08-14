@@ -256,6 +256,66 @@
         "tags": ["player-rest-controller"]
       }
     },
+    "/api/v1/players/me/favorite-charas": {
+      "get": {
+        "operationId": "getMyFavoriteCharas",
+        "responses": {
+          "200": {
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/Charachips"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "tags": ["favorite-chara-rest-controller"]
+      }
+    },
+    "/api/v1/players/me/favorite-charas/{charaId}": {
+      "delete": {
+        "operationId": "deleteMyFavoriteChara",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "charaId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["favorite-chara-rest-controller"]
+      },
+      "put": {
+        "operationId": "addMyFavoriteChara",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "charaId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "tags": ["favorite-chara-rest-controller"]
+      }
+    },
     "/api/v1/players/{name}": {
       "get": {
         "operationId": "getPlayerByName",
@@ -2655,6 +2715,18 @@
           }
         },
         "required": ["charachips"]
+      },
+      "Charachips": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Charachip"
+            }
+          }
+        },
+        "required": ["list"]
       },
       "Charas": {
         "type": "object",

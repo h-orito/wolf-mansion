@@ -8,6 +8,7 @@ import {
   PencilIcon,
   PlusIcon,
   QuestionMarkCircleIcon,
+  StarIcon,
   UserIcon,
   WrenchIcon,
 } from "@heroicons/react/24/outline";
@@ -124,6 +125,12 @@ export default function Home() {
           {me ? (
             <div className="grid grid-cols-3">
               <TileRoute to={`/user/${me.name}`} icon={UserIcon} jp="マイページ" en="My Page" />
+              <TileRoute
+                to="/favorite-charas"
+                icon={StarIcon}
+                jp="お気に入りキャラ"
+                en="Favorite"
+              />
               <TileRoute
                 to="/change-password"
                 icon={WrenchIcon}

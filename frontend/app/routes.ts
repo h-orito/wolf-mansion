@@ -18,6 +18,7 @@ export default [
   route("rule", "routes/rule/route.tsx"),
   route("chara-group", "routes/chara-group/route.tsx"),
   route("chara-group/:id", "routes/chara-group-detail/route.tsx"),
+  route("favorite-charas", "routes/favorite-charas/route.tsx"),
   route("random-message", "routes/random-message/route.tsx"),
   route("new-random-keyword", "routes/new-random-keyword/route.tsx"),
   route("random-keyword/:id", "routes/random-keyword/route.tsx"),
