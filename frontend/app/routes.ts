@@ -31,4 +31,14 @@ export default [
   route("login", "routes/login.tsx"),
   route("signup", "routes/signup.tsx"),
   route("change-password", "routes/change-password.tsx"),
+  // 外部公開 API (URL 変更不可) を backend へ素通しするリソースルート群。
+  // 同一モジュールを共有するため id を明示する (routes/legacy-api/route.ts)
+  route("recruiting", "routes/legacy-api/route.ts", { id: "legacy-recruiting" }),
+  route("village-record/list", "routes/legacy-api/route.ts", { id: "legacy-village-record-list" }),
+  route("village-record/latest-vid", "routes/legacy-api/route.ts", {
+    id: "legacy-village-record-latest-vid",
+  }),
+  route("skill/list", "routes/legacy-api/route.ts", { id: "legacy-skill-list" }),
+  route("api/village/:villageId", "routes/legacy-api/route.ts", { id: "legacy-api-village" }),
+  route("api/village-list", "routes/legacy-api/route.ts", { id: "legacy-api-village-list" }),
 ] satisfies RouteConfig;
