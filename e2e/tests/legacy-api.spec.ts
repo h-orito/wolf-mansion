@@ -61,9 +61,9 @@ test("api/village-list が JSON を返す", async ({ request }) => {
 });
 
 test("api/village/:id はパスパラメータが透過される", async ({ request }) => {
-  // ローカル DB に依存しないよう存在しない村 id を使う。現状の backend は
-  // 存在しない村に 500 を返す仕様 (公開 API の契約として維持中) のため、
-  // 404 (frontend ルート未定義) ではなく backend まで到達していることを確認する
+  // ローカル DB に依存しないよう存在しない村 id を使う。backend のエラー時ステータス
+  // (現状 500) は proxy と無関係に変わりうるため固定せず、frontend のルート未定義時は
+  // HTML (404 ページ) が返ることを利用して「JSON = backend まで到達」を確認する
   const res = await request.get("api/village/999999999");
-  expect(res.status()).toBe(500);
+  expect(res.headers()["content-type"]).toContain("application/json");
 });
