@@ -51,7 +51,7 @@ function groupParticipants(participants: VillageParticipantView[]): MemberGroup[
 
 function MemberTable({ group }: { group: MemberGroup }) {
   return (
-    <table className={`${cellBorderClass} mb-[21px] w-full border-collapse text-village-sm`}>
+    <table className={`${cellBorderClass} mb-[21px] w-full border-collapse`}>
       <tbody>
         <tr>
           <th className={`${cellBorderClass} p-[5px] text-left align-top`}>

@@ -55,7 +55,7 @@ function SimpleRoomMapCopyButton({
   };
 
   return (
-    <TextButton onClick={copy} className="text-village-sm">
+    <TextButton onClick={copy} className="">
       {copied ? "コピーしました" : "簡易部屋割をコピー"}
     </TextButton>
   );

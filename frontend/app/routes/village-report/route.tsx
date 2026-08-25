@@ -203,7 +203,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
           </h1>
           <hr className="mt-[5px] mb-[10px] border-border" />
 
-          <p className="mb-[10px] text-village-sm text-gray-300">
+          <p className="mb-[10px] text-gray-300">
             発言欄と同じ見た目で好きな発言を入れた画像を作成できます。X
             の投稿画面には画像は自動添付されないため、保存またはコピーした画像を添付してください。
           </p>
@@ -314,7 +314,7 @@ export default function VillageReport({ params }: Route.ComponentProps) {
           </div>
 
           {/* プレビュー (このボックスがそのまま画像になる)。スマホ想定の横幅で固定する */}
-          <p className="mt-[15px] mb-[5px] text-village-sm text-gray-300">
+          <p className="mt-[15px] mb-[5px] text-gray-300">
             プレビュー（この内容がそのまま画像になります）
           </p>
           <div className="w-[400px] max-w-full border border-border">

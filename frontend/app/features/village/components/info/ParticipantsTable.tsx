@@ -28,7 +28,7 @@ export function ParticipantsTable({ participants }: { participants: VillageParti
     <div>
       <p>館に集まった村人達の正体は、以下の通りだった。</p>
       <div className="overflow-x-auto">
-        <table className={`${cellBorderClass} w-full border-collapse text-village-sm`}>
+        <table className={`${cellBorderClass} w-full border-collapse`}>
           <thead>
             <tr>
               <th className={`${cellBorderClass} p-[5px] text-left`}>参加者</th>

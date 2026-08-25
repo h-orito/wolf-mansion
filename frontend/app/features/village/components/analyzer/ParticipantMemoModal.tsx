@@ -37,7 +37,7 @@ export function ParticipantMemoModal({
       title={participant?.name ?? ""}
     >
       <div className="mb-[10px] flex items-center gap-[8px]">
-        <label className="text-village-sm text-gray-300">表示色</label>
+        <label className=" text-gray-300">表示色</label>
         <ColorPicker value={memo?.color ?? "ffffff"} onChange={(color) => update({ color })} />
       </div>
       <textarea
@@ -45,7 +45,7 @@ export function ParticipantMemoModal({
         value={memo?.memo ?? ""}
         onChange={(e) => update({ memo: e.target.value })}
         rows={5}
-        className="mb-[10px] w-full rounded border border-border bg-surface p-[8px] text-village-sm text-white"
+        className="mb-[10px] w-full rounded border border-border bg-surface p-[8px] text-white"
         placeholder="メモを入力..."
       />
       <div className="flex justify-end">

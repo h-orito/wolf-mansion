@@ -121,15 +121,11 @@ export function AnalyzerTab({
   const epilogueDay = analyzerData?.village.epilogueDay ?? null;
 
   if (!me) {
-    return (
-      <p className="py-[10px] text-village-sm text-gray-400">
-        ログインすると推理補助が利用できます
-      </p>
-    );
+    return <p className="py-[10px] text-gray-400">ログインすると推理補助が利用できます</p>;
   }
 
   if (!analyzerData || !loaded) {
-    return <p className="py-[10px] text-village-sm text-gray-400">読み込み中...</p>;
+    return <p className="py-[10px] text-gray-400">読み込み中...</p>;
   }
 
   return (
@@ -176,8 +172,8 @@ export function AnalyzerTab({
             {/* エピローグ前の footstepList は鳴った部屋番号のみで上の分析表と重複するため、詳細が公開されてからのみ表示する */}
             {showsFootstepSpoiler && currentDayFootstepDetail != null && (
               <div className="mt-[10px]">
-                <p className="mb-[4px] text-village-sm font-bold text-gray-300">足音の内訳</p>
-                <p className="text-village-sm whitespace-pre-line">{currentDayFootstepDetail}</p>
+                <p className="mb-[4px] font-bold text-gray-300">足音の内訳</p>
+                <p className=" whitespace-pre-line">{currentDayFootstepDetail}</p>
               </div>
             )}
           </div>
@@ -189,7 +185,7 @@ export function AnalyzerTab({
         <div className="flex flex-col gap-[10px] py-[10px] lg:flex-row">
           {currentDaySituation && analyzerData.village.roomSize && (
             <div className="flex min-w-0 flex-1 flex-col">
-              <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
+              <label className="mb-[4px] block font-bold text-gray-300">
                 {dayLabel(activeDay, epilogueDay)} メモ
               </label>
               {/* 横並び時は全体メモと同じ高さまで伸ばす */}
@@ -203,9 +199,7 @@ export function AnalyzerTab({
             </div>
           )}
           <div className="flex min-w-0 flex-1 flex-col">
-            <label className="mb-[4px] block text-village-sm font-bold text-gray-300">
-              全体メモ
-            </label>
+            <label className="mb-[4px] block font-bold text-gray-300">全体メモ</label>
             <textarea
               value={wholeMemo}
               onChange={(e) => setWholeMemo(e.target.value)}

@@ -81,7 +81,7 @@ function BigEarsMessage({
 }) {
   return (
     <div className="mb-[15px]">
-      <div className="text-village-sm">
+      <div>
         <span>地獄耳</span>
         <span className="ml-[5px]">{formatMessageTime(message.messageDatetime)}</span>
       </div>
@@ -111,7 +111,7 @@ function CreatorSayMessage({
   const anchorText = message.messageNumber != null ? `>>#${message.messageNumber}` : ">>#";
   return (
     <div>
-      <div className="text-village-sm">
+      <div>
         <span>
           <button
             type="button"
@@ -149,7 +149,7 @@ function ActionMessage({
   const anchorText = message.messageNumber != null ? `>>a${message.messageNumber}` : ">>a";
   return (
     <div>
-      <div className="text-village-sm">
+      <div>
         <span>
           <button
             type="button"
@@ -214,7 +214,7 @@ function SayBubble({
 
   return (
     <div className={hasButtons ? "" : "mb-[20px]"}>
-      <div className="text-village-sm">
+      <div>
         <span>
           {anchorText != null && (
             <>

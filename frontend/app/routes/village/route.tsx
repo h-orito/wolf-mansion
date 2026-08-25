@@ -158,6 +158,7 @@ export default function Village({ params }: Route.ComponentProps) {
   );
 
   const largeText = useDisplaySettings((s) => s.largeText);
+  const textScaleClass = largeText ? "text-[150%]" : "";
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
@@ -198,7 +199,7 @@ export default function Village({ params }: Route.ComponentProps) {
     >
       <VillageProvider value={village}>
         <RefreshContext.Provider value={register}>
-          <div className={`px-[10px] md:px-[15px] ${largeText ? "text-[150%]" : ""}`}>
+          <div className={`px-[10px] md:px-[15px] ${textScaleClass}`}>
             {/* 村タイトル */}
             <div className="flex">
               <h1 className="my-[10.5px] flex-1 text-[1.125em]">
@@ -300,31 +301,34 @@ export default function Village({ params }: Route.ComponentProps) {
             onSettings={() => setSettingsOpen(true)}
             onInfo={() => setInfoOpen(true)}
           />
-          <SettingsModal
-            open={settingsOpen}
-            onClose={() => setSettingsOpen(false)}
-            mySituation={mySituation}
-          />
-          <VillageInfoModal
-            open={infoOpen}
-            onClose={() => setInfoOpen(false)}
-            canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
-          />
-          <InitialSkillModal
-            mySituation={mySituation}
-            suppressed={ageLimit != null && !ageLimitResolved}
-          />
-          <FilterModal
-            open={filterOpen}
-            onClose={() => setFilterOpen(false)}
-            filter={filter}
-            dayParam={dayParam}
-            onApply={applyFilter}
-            onApplyNewTab={applyFilterNewTab}
-          />
-          {ageLimit != null && (
-            <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
-          )}
+          {/* モーダルも文字拡大の対象にする (fixed 配置なので DOM 位置は表示に影響しない) */}
+          <div className={textScaleClass}>
+            <SettingsModal
+              open={settingsOpen}
+              onClose={() => setSettingsOpen(false)}
+              mySituation={mySituation}
+            />
+            <VillageInfoModal
+              open={infoOpen}
+              onClose={() => setInfoOpen(false)}
+              canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
+            />
+            <InitialSkillModal
+              mySituation={mySituation}
+              suppressed={ageLimit != null && !ageLimitResolved}
+            />
+            <FilterModal
+              open={filterOpen}
+              onClose={() => setFilterOpen(false)}
+              filter={filter}
+              dayParam={dayParam}
+              onApply={applyFilter}
+              onApplyNewTab={applyFilterNewTab}
+            />
+            {ageLimit != null && (
+              <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
+            )}
+          </div>
 
           {/* ステータス表示 */}
           <LeftTime />

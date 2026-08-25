@@ -39,7 +39,13 @@
   --color-attention: #ffff00; /* 返信引用・プレビューの注意枠 */
   --color-disabled: #aaaaaa; /* 無効化された入力の背景 */
 
-  --font-size-village-sm: 0.75em;
+  /*
+   * 村画面の文字サイズは本文 1em (PageLayout の text-xs / text-sm) を基準に em で指定し、
+   * 表示設定「文字を大きく表示する」(ラッパーの 150%) にモーダルも含めて追従させる。
+   */
+  --text-village-note: 0.85em; /* 補足文・入れ子の表 */
+  --text-village-heading: 1.15em; /* モーダル内の小見出し (h5) */
+  --text-village-title: 1.3em; /* モーダルのタイトル・セクション見出し (h4) */
 }
 
 /* ロゴフォント (font-anima)。frontend (/wolf-mansion) 配信の public/app/font の woff を参照する。 */

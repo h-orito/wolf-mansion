@@ -134,7 +134,7 @@ export function RoomAssignedTab({
       {tooltip && (
         <div
           ref={tooltipRef}
-          className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-village-sm text-white whitespace-nowrap"
+          className="absolute z-10 rounded bg-gray-800 px-2 py-1 text-white whitespace-nowrap"
           style={{
             top: tooltip.top - 4,
             left: tooltip.left,
@@ -146,7 +146,7 @@ export function RoomAssignedTab({
       )}
       {situationList.length > 0 && (
         <div className="mt-[10px]">
-          <table className={`${cellBorderClass} border-collapse text-village-sm`}>
+          <table className={`${cellBorderClass} border-collapse`}>
             <thead>
               <tr>
                 <th className={`${cellBorderClass} p-[5px] text-center`}>日付</th>
