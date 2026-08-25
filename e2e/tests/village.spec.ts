@@ -74,7 +74,7 @@ test("3日目以降の村で投票・足音タブを切り替えられる", asyn
   // 「[短縮名][役職] セット → 実際」の詳細形式、それ以外は「…足音…」の簡略形式になる
   await page.getByRole("button", { name: "足音", exact: true }).click();
   for (const day of ["2d", "3d"]) {
-    const row = page.getByRole("row").filter({ hasText: day });
+    const row = page.getByRole("row").filter({ has: page.getByRole("cell", { name: day, exact: true }) });
     await expect(row).toBeVisible();
     await expect(row).toContainText(/→|足音/);
   }
