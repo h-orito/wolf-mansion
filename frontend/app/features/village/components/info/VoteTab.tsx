@@ -5,8 +5,10 @@ import { RoomLegend } from "./RoomLegend";
 
 const cellBorderClass = "border border-border";
 
+type VoteMember = VillageVoteContent["voteList"][number];
+
 /**
- * 投票表。日付見出しをクリックするとその日の投票先でソートし、セルをクリックすると
+ * 投票表。日付見出しをクリックするとその日の投票先の得票数が多い順にソートし、セルをクリックすると
  * 同じ投票先のセルを色付けする (議論の追跡用)。
  */
 export function VoteTab({
@@ -23,18 +25,30 @@ export function VoteTab({
 
   const sortedList = useMemo(() => {
     const voteList = vote.voteList ?? [];
+    const byCharaName = (a: VoteMember, b: VoteMember) =>
+      (a.charaName ?? "").localeCompare(b.charaName ?? "");
     if (sortDayIndex === 0) {
-      return [...voteList].sort((a, b) => (a.charaName ?? "").localeCompare(b.charaName ?? ""));
+      return [...voteList].sort(byCharaName);
     }
-    // クリックした日の投票先 (なし = 末尾) で並べ替える
+    // クリックした日の投票先ごとに得票数の多い順に並べる (票が集まっている先を追いやすくする)。
+    // 同数なら投票先名順、同じ投票先内は投票者名順。未投票 (投票先なし) は末尾
     const targetIndex = sortDayIndex - 1;
+    const targetOf = (member: VoteMember) => member.voteTargetList?.[targetIndex] || "";
+    const voteCountByTarget = new Map<string, number>();
+    for (const member of voteList) {
+      const target = targetOf(member);
+      if (target === "") continue;
+      voteCountByTarget.set(target, (voteCountByTarget.get(target) ?? 0) + 1);
+    }
     return [...voteList].sort((a, b) => {
-      const aTarget = a.voteTargetList?.[targetIndex] || "";
-      const bTarget = b.voteTargetList?.[targetIndex] || "";
-      if (aTarget === bTarget) return 0;
+      const aTarget = targetOf(a);
+      const bTarget = targetOf(b);
+      if (aTarget === bTarget) return byCharaName(a, b);
       if (aTarget === "") return 1;
       if (bTarget === "") return -1;
-      return aTarget.localeCompare(bTarget);
+      const countDiff =
+        (voteCountByTarget.get(bTarget) ?? 0) - (voteCountByTarget.get(aTarget) ?? 0);
+      return countDiff !== 0 ? countDiff : aTarget.localeCompare(bTarget);
     });
   }, [vote, sortDayIndex]);
 
