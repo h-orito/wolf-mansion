@@ -5,6 +5,8 @@ import { RoomLegend } from "./RoomLegend";
 
 const cellBorderClass = "border border-border";
 
+type VoteMember = VillageVoteContent["voteList"][number];
+
 /**
  * 投票表。日付見出しをクリックするとその日の投票先の得票数が多い順にソートし、セルをクリックすると
  * 同じ投票先のセルを色付けする (議論の追跡用)。
@@ -23,7 +25,7 @@ export function VoteTab({
 
   const sortedList = useMemo(() => {
     const voteList = vote.voteList ?? [];
-    const byCharaName = (a: { charaName?: string | null }, b: { charaName?: string | null }) =>
+    const byCharaName = (a: VoteMember, b: VoteMember) =>
       (a.charaName ?? "").localeCompare(b.charaName ?? "");
     if (sortDayIndex === 0) {
       return [...voteList].sort(byCharaName);
@@ -31,8 +33,7 @@ export function VoteTab({
     // クリックした日の投票先ごとに得票数の多い順に並べる (票が集まっている先を追いやすくする)。
     // 同数なら投票先名順、同じ投票先内は投票者名順。未投票 (投票先なし) は末尾
     const targetIndex = sortDayIndex - 1;
-    const targetOf = (member: { voteTargetList?: string[] | null }) =>
-      member.voteTargetList?.[targetIndex] || "";
+    const targetOf = (member: VoteMember) => member.voteTargetList?.[targetIndex] || "";
     const voteCountByTarget = new Map<string, number>();
     for (const member of voteList) {
       const target = targetOf(member);
