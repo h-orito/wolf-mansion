@@ -40,7 +40,7 @@ function CheckRow({
         <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} />
         {text}
       </label>
-      {note != null && <p className="mt-[3px] text-village-note text-gray-400">{note}</p>}
+      {note != null && <p className="mt-[3px] text-ui-note text-gray-400">{note}</p>}
     </SettingRow>
   );
 }
@@ -49,7 +49,7 @@ function SectionTitle({ children }: { children: ReactNode }) {
   return (
     <>
       <hr className="my-[15px] border-border" />
-      <h5 className="mb-[10px] text-village-heading font-bold">{children}</h5>
+      <h5 className="mb-[10px] text-ui-heading font-bold">{children}</h5>
     </>
   );
 }
@@ -69,7 +69,7 @@ export function SettingsModal({
   return (
     <Modal open={open} onClose={onClose} title="ユーザー設定" size="wide">
       <div className="space-y-[10px] p-[15px]">
-        <h4 className="text-village-title font-bold">表示設定</h4>
+        <h4 className="text-ui-title font-bold">表示設定</h4>
         <SectionTitle>ページ分割</SectionTitle>
         <CheckRow
           label="ページ分割"
@@ -188,7 +188,7 @@ function NotificationSection({ mySituation }: { mySituation: ParticipantSituatio
   return (
     <div className="space-y-[10px]">
       <hr className="my-[15px] border-border" />
-      <h4 className="text-village-title font-bold">Discord通知設定</h4>
+      <h4 className="text-ui-title font-bold">Discord通知設定</h4>
       <ErrorMessage error={error} />
       {saved && <p className="text-success">保存しました。テスト通知を確認してください。</p>}
       <SettingRow label="WebhookURL">
@@ -251,12 +251,12 @@ function NotificationSection({ mySituation }: { mySituation: ParticipantSituatio
           onChange={(e) => setKeyword(e.target.value)}
           aria-label="通知キーワード"
         />
-        <p className="mt-[3px] text-village-note text-gray-400">
+        <p className="mt-[3px] text-ui-note text-gray-400">
           指定したキーワードが含まれる発言を受け取った際に通知します（梟視点の場合は通知されません）。
         </p>
       </SettingRow>
       <div className="flex items-center justify-end gap-[10px]">
-        <span className="text-village-note text-gray-400">保存するとテスト通知が届きます。</span>
+        <span className="text-ui-note text-gray-400">保存するとテスト通知が届きます。</span>
         <Button onClick={submit} disabled={submitting || webhookUrl.trim() === ""}>
           保存
         </Button>

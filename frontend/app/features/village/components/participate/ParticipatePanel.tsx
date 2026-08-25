@@ -460,7 +460,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
             onClick={(e) => e.stopPropagation()}
           >
             <h4 className="mb-[10px] font-bold">入村確認</h4>
-            <p className="">
+            <p>
               [{charaShortName}] {charaName}
             </p>
             <div className="flex pt-[5px]">

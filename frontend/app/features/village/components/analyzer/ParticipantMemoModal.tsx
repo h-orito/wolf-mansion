@@ -37,7 +37,7 @@ export function ParticipantMemoModal({
       title={participant?.name ?? ""}
     >
       <div className="mb-[10px] flex items-center gap-[8px]">
-        <label className=" text-gray-300">表示色</label>
+        <label className="text-gray-300">表示色</label>
         <ColorPicker value={memo?.color ?? "ffffff"} onChange={(color) => update({ color })} />
       </div>
       <textarea

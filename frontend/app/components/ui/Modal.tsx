@@ -43,12 +43,12 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-border p-[15px]">
-          <h4 className="text-village-title font-bold">{title}</h4>
+          <h4 className="text-ui-title font-bold">{title}</h4>
           <button
             type="button"
             onClick={onClose}
             aria-label="閉じる"
-            className="text-[1.7em] leading-none text-white hover:opacity-70"
+            className="text-ui-close leading-none text-white hover:opacity-70"
           >
             ×
           </button>

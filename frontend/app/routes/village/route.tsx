@@ -158,7 +158,7 @@ export default function Village({ params }: Route.ComponentProps) {
   );
 
   const largeText = useDisplaySettings((s) => s.largeText);
-  const textScaleClass = largeText ? "text-[150%]" : "";
+  const textScaleClass = largeText ? "text-[150%]" : undefined;
   // ログイン中のはずなのに認証が立て直せない (refresh 失敗) 場合は再ログインを促す
   const sessionExpired =
     me != null && mySituationError instanceof ApiError && mySituationError.status === 401;
@@ -199,7 +199,7 @@ export default function Village({ params }: Route.ComponentProps) {
     >
       <VillageProvider value={village}>
         <RefreshContext.Provider value={register}>
-          <div className={`px-[10px] md:px-[15px] ${textScaleClass}`}>
+          <div className={`px-[10px] md:px-[15px] ${textScaleClass ?? ""}`}>
             {/* 村タイトル */}
             <div className="flex">
               <h1 className="my-[10.5px] flex-1 text-[1.125em]">

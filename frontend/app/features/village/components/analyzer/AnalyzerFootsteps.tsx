@@ -78,16 +78,10 @@ export function AnalyzerFootsteps({
   return (
     <div>
       <div className="mb-[6px] flex items-center gap-[8px]">
-        <label className=" font-bold text-gray-300">足音</label>
-        <TextButton onClick={showAll} className="">
-          全ON
-        </TextButton>
-        <TextButton onClick={hideAll} className="">
-          全OFF
-        </TextButton>
-        <TextButton onClick={reverseAll} className="">
-          反転
-        </TextButton>
+        <label className="font-bold text-gray-300">足音</label>
+        <TextButton onClick={showAll}>全ON</TextButton>
+        <TextButton onClick={hideAll}>全OFF</TextButton>
+        <TextButton onClick={reverseAll}>反転</TextButton>
       </div>
       <div>
         <table className="w-full border-collapse">

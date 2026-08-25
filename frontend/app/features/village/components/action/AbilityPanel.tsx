@@ -112,12 +112,12 @@ export function AbilityPanel({
         )}
         {ability.canUseAbility && <Divider />}
         {ability.canUseAbility && ability.targetingMessage != null && (
-          <p className="">
+          <p>
             現在の選択: <strong className="text-base">{ability.targetingMessage}</strong>
           </p>
         )}
         {ability.canUseAbility && ability.footstep != null && (
-          <p className="">
+          <p>
             通過する部屋:{" "}
             <strong className="text-base">
               {ability.footstep === "" ? "なし" : ability.footstep}
@@ -180,7 +180,7 @@ export function AbilityPanel({
         )}
 
         {ability.canUseAbility && !isDisturb && !isInvestigate && (
-          <div className="">
+          <div>
             {isAttack && (
               <AlertList className="mb-[10px]">
                 <li>個人ごとに別々の襲撃内容をセットできます。</li>
@@ -288,9 +288,7 @@ export function AbilityPanel({
             <Divider />
             <p>能力セット履歴</p>
             {(ability.skillHistoryList ?? []).map((history, index) => (
-              <p key={index} className="">
-                {history}
-              </p>
+              <p key={index}>{history}</p>
             ))}
           </div>
         )}
@@ -371,7 +369,7 @@ function FactionNotes({
       {notes.map((note) => (
         <div key={note.key}>
           <Divider />
-          <p className="">
+          <p>
             {note.label}
             {note.names.map((name, i) => (
               <span key={i}>
@@ -387,7 +385,7 @@ function FactionNotes({
       {loversLines != null && (
         <div>
           <Divider />
-          <p className="">
+          <p>
             {"この村で恋に落ちているのは"}
             {loversLines.map((l, i) => (
               <span key={i}>

@@ -173,7 +173,7 @@ export function AnalyzerTab({
             {showsFootstepSpoiler && currentDayFootstepDetail != null && (
               <div className="mt-[10px]">
                 <p className="mb-[4px] font-bold text-gray-300">足音の内訳</p>
-                <p className=" whitespace-pre-line">{currentDayFootstepDetail}</p>
+                <p className="whitespace-pre-line">{currentDayFootstepDetail}</p>
               </div>
             )}
           </div>
