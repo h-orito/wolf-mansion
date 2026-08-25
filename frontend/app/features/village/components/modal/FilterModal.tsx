@@ -191,7 +191,7 @@ export function FilterModal({
 
   return (
     <Modal open={open} onClose={onClose} title="発言抽出" size="wide">
-      <div className="max-h-[70vh] overflow-x-hidden overflow-y-auto text-[12px]">
+      <div className="max-h-[70vh] overflow-x-hidden overflow-y-auto">
         <div>
           <strong>ショートカット機能</strong>
           <div className="mt-[10px]">
@@ -337,7 +337,7 @@ export function FilterModal({
         </div>
       </div>
 
-      <div className="mt-[20px] flex justify-end gap-[10px] text-[12px]">
+      <div className="mt-[20px] flex justify-end gap-[10px]">
         <Button variant="default" onClick={onClose}>
           閉じる
         </Button>

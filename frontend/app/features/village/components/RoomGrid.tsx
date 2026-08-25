@@ -20,7 +20,7 @@ export function RoomGrid({
   onRoomClick: (room: VillageRoomAssigned) => void;
 }) {
   return (
-    <table className="border-collapse border border-border text-village-sm">
+    <table className="border-collapse border border-border">
       <tbody>
         {rows.map((row, rowIndex) => (
           <tr key={rowIndex}>

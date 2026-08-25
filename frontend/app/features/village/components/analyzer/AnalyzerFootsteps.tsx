@@ -23,7 +23,7 @@ function FootstepRow({
         />
       </td>
       <td
-        className="min-w-[100px] border border-border p-[3px] align-middle text-village-sm whitespace-nowrap"
+        className="min-w-[100px] border border-border p-[3px] align-middle whitespace-nowrap"
         style={{ color: `#${fs.color}` }}
       >
         {fs.footstep}
@@ -72,22 +72,16 @@ export function AnalyzerFootsteps({
   }, [footsteps, onChange]);
 
   if (footsteps.length === 0) {
-    return <p className="py-[5px] text-village-sm text-gray-400">足音情報がありません</p>;
+    return <p className="py-[5px] text-gray-400">足音情報がありません</p>;
   }
 
   return (
     <div>
       <div className="mb-[6px] flex items-center gap-[8px]">
-        <label className="text-village-sm font-bold text-gray-300">足音</label>
-        <TextButton onClick={showAll} className="text-village-sm">
-          全ON
-        </TextButton>
-        <TextButton onClick={hideAll} className="text-village-sm">
-          全OFF
-        </TextButton>
-        <TextButton onClick={reverseAll} className="text-village-sm">
-          反転
-        </TextButton>
+        <label className="font-bold text-gray-300">足音</label>
+        <TextButton onClick={showAll}>全ON</TextButton>
+        <TextButton onClick={hideAll}>全OFF</TextButton>
+        <TextButton onClick={reverseAll}>反転</TextButton>
       </div>
       <div>
         <table className="w-full border-collapse">

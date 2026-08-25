@@ -60,11 +60,11 @@ export function InitialSkillModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4">
-      <div className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-surface p-[15px] text-[12px] text-white shadow-lg">
-        <h5 className="mb-[10px] text-[14px] font-bold">
+      <div className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg">
+        <h5 className="mb-[10px] text-ui-heading font-bold">
           村が開始されました。役職とルールは以下の通りです。
         </h5>
-        <h5 className="mt-[10px] mb-[5px] text-[14px]">役職</h5>
+        <h5 className="mt-[10px] mb-[5px] text-ui-heading">役職</h5>
         <p>
           あなたは <strong>{skill.name}</strong> です。
         </p>
@@ -73,7 +73,7 @@ export function InitialSkillModal({
             {item.content}
           </p>
         ))}
-        <h5 className="mt-[15px] mb-[5px] text-[14px]">村の設定</h5>
+        <h5 className="mt-[15px] mb-[5px] text-ui-heading">村の設定</h5>
         <table className="w-full border-collapse">
           <tbody>
             <Row label="更新間隔">{settings.dayChangeInterval}</Row>

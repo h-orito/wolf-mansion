@@ -42,7 +42,7 @@ export function RestrictionTable({
   return (
     <div>
       {leadText}
-      <table className="mt-[5px] border-collapse text-[10.32px]">
+      <table className="mt-[5px] border-collapse text-ui-note">
         <thead>
           <tr>
             <th className={innerThClass}>{headerLabel}</th>
@@ -69,7 +69,7 @@ export function RestrictionTable({
 /** 闇鍋編成の人狼カウント + 陣営・役職ごとの配分テーブル。 */
 function RandomOrganizationTable({ settings }: { settings: VillageSettingsContent }) {
   return (
-    <table className="border-collapse text-[10.32px]">
+    <table className="border-collapse text-ui-note">
       <tbody>
         <tr>
           <td className="border border-border bg-danger p-[3px] text-white" colSpan={9}>
@@ -147,7 +147,7 @@ export function VillageInfoModal({
 
   return (
     <Modal open={open} onClose={onClose} title="村情報" size="wide">
-      <div className="p-[15px] text-[12px]">
+      <div className="p-[15px]">
         <table className="w-full border-collapse">
           <tbody>
             {settings.welcomeRange != null && <Row label="募集範囲">{settings.welcomeRange}</Row>}
@@ -261,7 +261,7 @@ export function VillageInfoModal({
             )}
           </tbody>
         </table>
-        <p className="mt-[10px] text-[10.32px]">館を建てたプレイヤーのみ設定を変更できます。</p>
+        <p className="mt-[10px] text-ui-note">館を建てたプレイヤーのみ設定を変更できます。</p>
         <div className="mt-[10px] flex justify-end gap-[10px]">
           {canModifySetting && (
             <LinkButton to={`/village/${village.id}/settings`}>設定変更</LinkButton>

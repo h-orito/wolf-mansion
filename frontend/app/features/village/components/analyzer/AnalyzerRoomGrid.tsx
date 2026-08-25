@@ -54,11 +54,7 @@ function SimpleRoomMapCopyButton({
     timerRef.current = setTimeout(() => setCopied(false), 1500);
   };
 
-  return (
-    <TextButton onClick={copy} className="text-village-sm">
-      {copied ? "コピーしました" : "簡易部屋割をコピー"}
-    </TextButton>
-  );
+  return <TextButton onClick={copy}>{copied ? "コピーしました" : "簡易部屋割をコピー"}</TextButton>;
 }
 
 function charaImageUrl(

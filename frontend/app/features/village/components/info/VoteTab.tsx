@@ -46,7 +46,7 @@ export function VoteTab({
   return (
     <div className="pt-[10px] pb-[10px]">
       <div className="overflow-x-auto">
-        <table className={`${cellBorderClass} border-collapse text-village-sm`}>
+        <table className={`${cellBorderClass} border-collapse`}>
           <thead>
             {roomAssignedRows && (
               <tr>

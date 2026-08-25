@@ -50,7 +50,7 @@ export function ReportPreview({
 
   return (
     <div className="bg-wm-base p-[15px] text-white">
-      <div className="text-village-sm">
+      <div>
         {participant.name}
         {options.showSkillHistory && skillHistory !== "" && `（${skillHistory}）`}
       </div>
@@ -70,7 +70,7 @@ export function ReportPreview({
         </div>
       </div>
       {options.showSkillDescription && participant.skill != null && (
-        <Alert className="mt-[10px] text-village-sm">
+        <Alert className="mt-[10px]">
           <p dangerouslySetInnerHTML={{ __html: participant.skill.description }} />
           {participant.camp != null && (
             <p>
@@ -83,13 +83,11 @@ export function ReportPreview({
         <div className="mt-[10px]">
           <p>能力セット履歴</p>
           {abilityHistories.map((history, index) => (
-            <p key={index} className="text-village-sm">
-              {history}
-            </p>
+            <p key={index}>{history}</p>
           ))}
         </div>
       )}
-      <div className="mt-[10px] text-right text-village-sm text-gray-300">
+      <div className="mt-[10px] text-right text-gray-300">
         {String(village.id).padStart(4, "0")}. {village.name} - WOLF MANSION
       </div>
     </div>

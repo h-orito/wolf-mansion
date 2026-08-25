@@ -85,13 +85,13 @@ export function AbilityPanel({
       <div>
         <ErrorMessage error={error} />
         {mySituation.myself?.dead.isDead && (
-          <Alert variant="info" className="mb-[10px] text-village-sm">
+          <Alert variant="info" className="mb-[10px]">
             あなたは死亡しました。
           </Alert>
         )}
         {skill != null && (
           <>
-            <Alert className="mb-[5px] text-village-sm">
+            <Alert className="mb-[5px]">
               <p dangerouslySetInnerHTML={{ __html: skill.description ?? "" }} />
               {mySituation.myself?.camp != null && (
                 <p>
@@ -99,7 +99,7 @@ export function AbilityPanel({
                 </p>
               )}
             </Alert>
-            <div className="mb-[10px] text-right text-village-sm">
+            <div className="mb-[10px] text-right">
               <Link
                 to={`/skill#${skill.code.toLowerCase()}`}
                 target="_blank"
@@ -112,12 +112,12 @@ export function AbilityPanel({
         )}
         {ability.canUseAbility && <Divider />}
         {ability.canUseAbility && ability.targetingMessage != null && (
-          <p className="text-village-sm">
+          <p>
             現在の選択: <strong className="text-base">{ability.targetingMessage}</strong>
           </p>
         )}
         {ability.canUseAbility && ability.footstep != null && (
-          <p className="text-village-sm">
+          <p>
             通過する部屋:{" "}
             <strong className="text-base">
               {ability.footstep === "" ? "なし" : ability.footstep}
@@ -180,7 +180,7 @@ export function AbilityPanel({
         )}
 
         {ability.canUseAbility && !isDisturb && !isInvestigate && (
-          <div className="text-village-sm">
+          <div>
             {isAttack && (
               <AlertList className="mb-[10px]">
                 <li>個人ごとに別々の襲撃内容をセットできます。</li>
@@ -288,9 +288,7 @@ export function AbilityPanel({
             <Divider />
             <p>能力セット履歴</p>
             {(ability.skillHistoryList ?? []).map((history, index) => (
-              <p key={index} className="text-village-sm">
-                {history}
-              </p>
+              <p key={index}>{history}</p>
             ))}
           </div>
         )}
@@ -371,7 +369,7 @@ function FactionNotes({
       {notes.map((note) => (
         <div key={note.key}>
           <Divider />
-          <p className="text-village-sm">
+          <p>
             {note.label}
             {note.names.map((name, i) => (
               <span key={i}>
@@ -387,7 +385,7 @@ function FactionNotes({
       {loversLines != null && (
         <div>
           <Divider />
-          <p className="text-village-sm">
+          <p>
             {"この村で恋に落ちているのは"}
             {loversLines.map((l, i) => (
               <span key={i}>
