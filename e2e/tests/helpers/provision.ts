@@ -268,6 +268,16 @@ export async function provisionVotingVillage(page: Page): Promise<SimpleVillage>
   return village;
 }
 
+/**
+ * 投票タブが表示される村 (3日目) を作る。投票タブは前日の投票結果があって初めて
+ * 表示されるため、2日目の投票用の村では確認できない。
+ */
+export async function provisionThirdDayVillage(page: Page): Promise<SimpleVillage> {
+  const village = await provisionVotingVillage(page);
+  await debugForceDayChange(page, village.id);
+  return village;
+}
+
 export async function provisionCompletedVillage(
   page: Page,
 ): Promise<SimpleVillage> {

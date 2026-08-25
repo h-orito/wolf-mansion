@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { ensureVillagesExist, findVillages } from "./helpers/provision";
+import { ensureVillagesExist, findVillages, provisionThirdDayVillage } from "./helpers/provision";
 
 /**
  * 村画面 (`/village/{id}`) e2e。
@@ -58,25 +58,25 @@ test("進行中以降の村で日付ナビ遷移と状況タブが動く", async
   await expect(page.getByText("生存 (", { exact: false }).first()).toBeVisible();
 });
 
-test("進行中以降の村で投票・足音タブを切り替えられる", async ({ page }) => {
-  const villages = await ensureVillagesExist(page, ["IN_PROGRESS", "EPILOGUE", "COMPLETED"]);
-  const village = villages[0];
+test("3日目以降の村で投票・足音タブを切り替えられる", async ({ page }) => {
+  // 投票タブは前日の投票結果がある 3 日目以降にしか出ないため専用村を作る
+  const village = await provisionThirdDayVillage(page);
 
   await page.goto(`village/${village.id}`);
+  // 新しく作った村なので初回役職確認モーダルが必ず出る。閉じないと状況パネルを操作できない
+  await page.getByRole("button", { name: "確認したので次回以降表示しない" }).click();
   await expect(page.getByRole("button", { name: "状況" })).toBeVisible();
 
-  // 投票タブ (3日目以降のみ存在)。あれば切り替えて投票者ヘッダを確認
-  const voteTab = page.getByRole("button", { name: "投票" });
-  if ((await voteTab.count()) > 0) {
-    await voteTab.click();
-    await expect(page.getByRole("button", { name: "投票者" })).toBeVisible();
-  }
+  await page.getByRole("button", { name: "投票", exact: true }).click();
+  await expect(page.getByRole("button", { name: "投票者" })).toBeVisible();
 
-  // 足音タブ (足音があれば存在)
-  const footstepTab = page.getByRole("button", { name: "足音" });
-  if ((await footstepTab.count()) > 0) {
-    await footstepTab.click();
-    await expect(page.getByText("足音が聞こえた").first()).toBeVisible();
+  // 足音タブは 2 日目以降の足音を日別に一覧する。master はネタバレ閲覧可のため
+  // 「[短縮名][役職] セット → 実際」の詳細形式、それ以外は「…足音…」の簡略形式になる
+  await page.getByRole("button", { name: "足音", exact: true }).click();
+  for (const day of ["2d", "3d"]) {
+    const row = page.getByRole("row").filter({ hasText: day });
+    await expect(row).toBeVisible();
+    await expect(row).toContainText(/→|足音/);
   }
 });
 
