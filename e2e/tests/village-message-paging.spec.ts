@@ -13,12 +13,11 @@ type VillageDays = { days: { list: { day: number }[] } };
 type Target = { id: number; day: number; allPageCount: number };
 
 async function findMultiPageTarget(page: Page): Promise<Target | null> {
-  const villages = await ensureVillagesExist(page, [
-    "IN_PREPARATION",
-    "IN_PROGRESS",
-    "EPILOGUE",
-    "COMPLETED",
-  ]);
+  // ensureVillagesExist は募集中・進行中を含むと終了村を探さないため、発言が蓄積している終了村を先に別途集める
+  const villages = [
+    ...(await ensureVillagesExist(page, ["EPILOGUE", "COMPLETED"])),
+    ...(await ensureVillagesExist(page, ["IN_PROGRESS"])),
+  ];
   for (const village of villages) {
     const villageRes = await page.request.get(`/wolf-mansion-api/api/v1/villages/${village.id}`);
     if (!villageRes.ok()) continue;
@@ -35,8 +34,9 @@ async function findMultiPageTarget(page: Page): Promise<Target | null> {
   return null;
 }
 
+/** ページング操作は発言ログの上下 2 箇所に描画されるため、上側だけを対象にする */
 function pagingButton(page: Page, label: string) {
-  return page.getByRole("button", { name: label, exact: true });
+  return page.getByRole("button", { name: label, exact: true }).first();
 }
 
 test("「最新」表示中でも << < > >> でページ移動できる", async ({ page }) => {
@@ -53,20 +53,20 @@ test("「最新」表示中でも << < > >> でページ移動できる", async 
   const lastPage = String(target.allPageCount);
 
   await page.goto(`village/${target.id}/day/${target.day}`);
-  await expect(pagingButton(page, "最新").first()).toBeVisible({ timeout: 15000 });
+  await expect(pagingButton(page, "最新")).toBeVisible({ timeout: 15000 });
 
   const showLatest = async () => {
-    await pagingButton(page, "最新").first().click();
-    await expect(pagingButton(page, "最新").first()).toHaveClass(/bg-success-light/);
+    await pagingButton(page, "最新").click();
+    await expect(pagingButton(page, "最新")).toHaveClass(/bg-success-light/);
   };
 
   await showLatest();
-  await pagingButton(page, "<<").first().click();
-  await expect(pagingButton(page, "1").first()).toHaveClass(/bg-success-light/);
+  await pagingButton(page, "<<").click();
+  await expect(pagingButton(page, "1")).toHaveClass(/bg-success-light/);
 
   for (const label of ["<", ">", ">>"]) {
     await showLatest();
-    await pagingButton(page, label).first().click();
-    await expect(pagingButton(page, lastPage).first()).toHaveClass(/bg-success-light/);
+    await pagingButton(page, label).click();
+    await expect(pagingButton(page, lastPage)).toHaveClass(/bg-success-light/);
   }
 });
