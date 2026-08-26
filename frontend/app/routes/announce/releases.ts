@@ -12,6 +12,10 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/08/26 以下を変更しました。"],
+    items: [["発言のページ表示で「最新」を選択中に << < > >> でページ移動できない不具合を修正"]],
+  },
+  {
     lead: ["2026/08/14 以下を変更しました。"],
     items: [
       [

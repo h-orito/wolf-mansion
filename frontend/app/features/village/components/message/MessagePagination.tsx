@@ -15,19 +15,22 @@ export function MessagePagination({
 }) {
   if (content.allPageCount === 1) return null;
 
-  const currentPageNum = content.currentPageNum ?? 0;
+  const allPageCount = content.allPageCount;
+  // 「最新」表示は最終ページの次にある仮想ページとして扱う。
+  // これにより < は最終ページ、> >> は範囲外になり最終ページへ丸められ、<< は 1 ページ目に移動できる。
+  const currentPageNum = content.isDispLatest ? allPageCount + 1 : (content.currentPageNum ?? 0);
   const goto = (pageNum: number) => {
     if (pageNum < 1) return;
-    onChange({ pageNum, isDispLatest: false });
+    onChange({ pageNum: Math.min(pageNum, allPageCount), isDispLatest: false });
   };
 
   return (
     <Pagination
       currentPage={currentPageNum}
-      allPageCount={content.allPageCount}
+      allPageCount={allPageCount}
       pageNums={content.pageNumList ?? []}
-      hasPrev={content.isExistPrePage}
-      hasNext={content.isExistNextPage}
+      hasPrev={content.isDispLatest || content.isExistPrePage}
+      hasNext={content.isDispLatest || content.isExistNextPage}
       onPage={goto}
     >
       <li>
