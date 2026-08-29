@@ -104,8 +104,8 @@ Clean Architecture + DDD に基づき、**画面専用の API やレスポンス
 
 ### デプロイ
 
-- mainへのpushで`deploy-ocl.yml`によりOCLサーバーへ自動デプロイ。
-- feature/monorepoへのpushで `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバーへ自動デプロイ（ステージング環境）。
+- feature/monorepoへのpushで `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバー（k8s の `wolf-mansion-backend` / `wolf-mansion-frontend`）へ自動デプロイ。**マージ = 即デプロイ**で、2026-08 時点でこれが唯一の稼働系（本番）。
+- main の `deploy-ocl.yml`（旧 `wolf-mansion` Deployment 向け）は monorepo 移行前のもので、旧 Deployment は k8s 上に存在しない。
 
 ## Key Conventions
 
