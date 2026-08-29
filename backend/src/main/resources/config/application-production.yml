@@ -4,6 +4,11 @@ spring:
     username: ${WOLF_MANSION_DB_USERNAME}
     password: ${WOLF_MANSION_DB_PASSWORD}
     driverClassName: com.mysql.cj.jdbc.Driver
+    hikari:
+      # DB (wolf-db) は 1 コア相当・max_connections=200 を全アプリで共有するため、
+      # プール上限で DB への同時接続数に蓋をする
+      maximum-pool-size: 40
+      minimum-idle: 5
   thymeleaf:
     cache: false
     mode: HTML
