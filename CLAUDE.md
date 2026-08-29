@@ -30,7 +30,7 @@ cd backend
 - Java 21 / Kotlin 1.9.25 / Spring Boot 3.5.9
 - ローカルDB: MySQL `werewolf_mansiondb` (port 4306, user: wmansion)
 - アプリポート: 8089, コンテキストパス: `/wolf-mansion`
-- プロファイル: `playground`（Jib）、`production`（本番）
+- プロファイル: `playground`（Jib が指定。本番コンテナもこのプロファイルで動作）、`production`（現状どこからも指定されておらず未使用）
 
 ### Frontend
 
