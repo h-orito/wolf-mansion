@@ -51,6 +51,14 @@ test("設定モーダルで表示設定を変更でき、ブラウザに保存�
     () => localStorage.getItem("wolf-mansion-display-settings")?.includes('"pageSize":10'),
   );
 
+  // 「文字を大きく表示する」がモーダル自身にも効く。モーダルは固定パネルの外へ portal で描画される
+  // ため、DOM 上の位置に頼らず文字拡大を継承させる必要がある
+  const heading = dialog.getByRole("heading", { name: "表示設定", exact: true });
+  const fontSizeOf = () => heading.evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+  const baseFontSize = await fontSizeOf();
+  await dialog.getByLabel("文字を大きく表示する").check();
+  await expect.poll(async () => (await fontSizeOf()) / baseFontSize).toBeCloseTo(1.5, 2);
+
   // リセットでデフォルト (50) に戻る
   page.on("dialog", (d) => d.accept());
   await dialog.getByRole("button", { name: "リセット" }).click();

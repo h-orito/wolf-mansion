@@ -4,6 +4,7 @@ import { Link, useNavigate, useSearchParams } from "react-router";
 import { PageLayout } from "~/components/layout/PageLayout";
 import { ResponsiveAdSense } from "~/components/ui/AdSense";
 import { LinkButton } from "~/components/ui/Button";
+import { PortalContainerProvider } from "~/components/ui/Portal";
 import { XPostLink } from "~/components/ui/XPostLink";
 import { useMe } from "~/features/auth/useMe";
 import type { VillageDetailView } from "~/features/village/api";
@@ -106,6 +107,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const [infoOpen, setInfoOpen] = useState(false);
   // 年齢制限確認 → 初回役職確認の順で出す (同時に重ねない)
   const [ageLimitResolved, setAgeLimitResolved] = useState(false);
+  const [portalContainer, setPortalContainer] = useState<HTMLDivElement | null>(null);
   const applyFilter = (next: MessageFilter) =>
     setSearchParams(applyFilterToParams(searchParams, next));
   const applyFilterNewTab = (next: MessageFilter) => {
@@ -199,147 +201,152 @@ export default function Village({ params }: Route.ComponentProps) {
     >
       <VillageProvider value={village}>
         <RefreshContext.Provider value={register}>
-          <div className={`px-[10px] md:px-[15px] ${textScaleClass ?? ""}`}>
-            {/* 村タイトル */}
-            <div className="flex">
-              <h1 className="my-[10.5px] flex-1 text-[1.125em]">
-                {villageNumber(village.id)}. {village.name}
-              </h1>
-              <div className="my-[10.5px]">
-                <XPostButton />
+          <PortalContainerProvider container={portalContainer}>
+            <div className={`px-[10px] md:px-[15px] ${textScaleClass ?? ""}`}>
+              {/* 村タイトル */}
+              <div className="flex">
+                <h1 className="my-[10.5px] flex-1 text-[1.125em]">
+                  {villageNumber(village.id)}. {village.name}
+                </h1>
+                <div className="my-[10.5px]">
+                  <XPostButton />
+                </div>
               </div>
-            </div>
-            <hr className="mt-[5px] mb-[10px] border-border" />
+              <hr className="mt-[5px] mb-[10px] border-border" />
 
-            <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
+              <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
 
-            <MessageArea
-              day={dayParam}
-              filter={filter}
-              page={page}
-              setPage={setPage}
-              isPaging={isPaging}
-              pageSize={pageSize}
-              onReply={onReply}
-              onLoaded={onMessagesLoaded}
-              confirmArea={
-                <SayPreviewArea
-                  preview={sayPreview}
-                  submitting={saySubmitting}
-                  onDetermine={onSayDetermine}
-                  onCancel={onSayCancel}
-                />
-              }
-            />
-            <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
-            {!noAd && (
-              <ResponsiveAdSense
-                sm={{ slot: "2553009704", width: 300, height: 90 }}
-                lg={{ slot: "2768254717", width: 728, height: 90 }}
-                className="mt-[15px]"
+              <MessageArea
+                day={dayParam}
+                filter={filter}
+                page={page}
+                setPage={setPage}
+                isPaging={isPaging}
+                pageSize={pageSize}
+                onReply={onReply}
+                onLoaded={onMessagesLoaded}
+                confirmArea={
+                  <SayPreviewArea
+                    preview={sayPreview}
+                    submitting={saySubmitting}
+                    onDetermine={onSayDetermine}
+                    onCancel={onSayCancel}
+                  />
+                }
               />
-            )}
-            <div id="bottom" />
-            <hr className="mt-[5px] mb-[10px] border-border" />
+              <DayList currentDay={currentDay} onInfo={() => setInfoOpen(true)} />
+              {!noAd && (
+                <ResponsiveAdSense
+                  sm={{ slot: "2553009704", width: 300, height: 90 }}
+                  lg={{ slot: "2768254717", width: 728, height: 90 }}
+                  className="mt-[15px]"
+                />
+              )}
+              <div id="bottom" />
+              <hr className="mt-[5px] mb-[10px] border-border" />
 
-            {situation != null && (
-              <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
-            )}
+              {situation != null && (
+                <SituationPanel situation={situation} day={currentDay} spoiled={filter.spoiled} />
+              )}
 
-            <ActionPanels
-              dayParam={dayParam}
-              sayError={sayError}
-              reply={reply}
-              clearReply={clearReply}
-              onSayConfirm={onSayConfirm}
-              onActionConfirm={onActionConfirm}
-              onCreatorSayConfirm={onCreatorSayConfirm}
-              registerSayDone={registerSayDone}
-              refresh={refresh}
-            />
+              <ActionPanels
+                dayParam={dayParam}
+                sayError={sayError}
+                reply={reply}
+                clearReply={clearReply}
+                onSayConfirm={onSayConfirm}
+                onActionConfirm={onActionConfirm}
+                onCreatorSayConfirm={onCreatorSayConfirm}
+                registerSayDone={registerSayDone}
+                refresh={refresh}
+              />
 
-            <div className="mb-[10px]">
-              <LinkButton to="/" variant="default">
-                サイトトップへ
-              </LinkButton>
-              <LinkButton
-                to={`/village/${villageId}/scrap`}
-                target="_blank"
-                variant="success"
-                className="ml-[10px]"
-              >
-                切り抜き画面へ
-              </LinkButton>
-              {village.status.isSettled && mySituation?.myself != null && (
+              <div className="mb-[10px]">
+                <LinkButton to="/" variant="default">
+                  サイトトップへ
+                </LinkButton>
                 <LinkButton
-                  to={`/village/${villageId}/report`}
+                  to={`/village/${villageId}/scrap`}
                   target="_blank"
                   variant="success"
                   className="ml-[10px]"
                 >
-                  参加報告メーカーへ
+                  切り抜き画面へ
                 </LinkButton>
+                {village.status.isSettled && mySituation?.myself != null && (
+                  <LinkButton
+                    to={`/village/${villageId}/report`}
+                    target="_blank"
+                    variant="success"
+                    className="ml-[10px]"
+                  >
+                    参加報告メーカーへ
+                  </LinkButton>
+                )}
+              </div>
+            </div>
+
+            <FooterMenu
+              onRefresh={() => {
+                // 抽出中は再取得結果が変わらないことがあり load 経由ではフラグが下りないため、更新操作で明示的に下ろす
+                resetNewMessage();
+                resetToLatest();
+                pendingScroll.current = true;
+                if (dayParam != null) {
+                  navigate(`/village/${villageId}`);
+                } else {
+                  void refresh();
+                }
+              }}
+              hasNewMessage={hasNewMessage}
+              onFilter={() => setFilterOpen(true)}
+              filtering={isFiltering(filter)}
+              onSettings={() => setSettingsOpen(true)}
+              onInfo={() => setInfoOpen(true)}
+            />
+            {/*
+             * モーダルの描画先。固定パネルの中から開くモーダルも Portal でここに描画されるため、
+             * 文字拡大をここに当てれば全モーダルに継承される
+             */}
+            <div ref={setPortalContainer} className={textScaleClass}>
+              <SettingsModal
+                open={settingsOpen}
+                onClose={() => setSettingsOpen(false)}
+                mySituation={mySituation}
+              />
+              <VillageInfoModal
+                open={infoOpen}
+                onClose={() => setInfoOpen(false)}
+                canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
+              />
+              <InitialSkillModal
+                mySituation={mySituation}
+                suppressed={ageLimit != null && !ageLimitResolved}
+              />
+              <FilterModal
+                open={filterOpen}
+                onClose={() => setFilterOpen(false)}
+                filter={filter}
+                dayParam={dayParam}
+                onApply={applyFilter}
+                onApplyNewTab={applyFilterNewTab}
+              />
+              {ageLimit != null && (
+                <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
               )}
             </div>
-          </div>
 
-          <FooterMenu
-            onRefresh={() => {
-              // 抽出中は再取得結果が変わらないことがあり load 経由ではフラグが下りないため、更新操作で明示的に下ろす
-              resetNewMessage();
-              resetToLatest();
-              pendingScroll.current = true;
-              if (dayParam != null) {
-                navigate(`/village/${villageId}`);
-              } else {
-                void refresh();
-              }
-            }}
-            hasNewMessage={hasNewMessage}
-            onFilter={() => setFilterOpen(true)}
-            filtering={isFiltering(filter)}
-            onSettings={() => setSettingsOpen(true)}
-            onInfo={() => setInfoOpen(true)}
-          />
-          {/* モーダルも文字拡大の対象にする (fixed 配置なので DOM 位置は表示に影響しない) */}
-          <div className={textScaleClass}>
-            <SettingsModal
-              open={settingsOpen}
-              onClose={() => setSettingsOpen(false)}
-              mySituation={mySituation}
-            />
-            <VillageInfoModal
-              open={infoOpen}
-              onClose={() => setInfoOpen(false)}
-              canModifySetting={mySituation?.creator.isAvailableModifySetting ?? false}
-            />
-            <InitialSkillModal
-              mySituation={mySituation}
-              suppressed={ageLimit != null && !ageLimitResolved}
-            />
-            <FilterModal
-              open={filterOpen}
-              onClose={() => setFilterOpen(false)}
-              filter={filter}
-              dayParam={dayParam}
-              onApply={applyFilter}
-              onApplyNewTab={applyFilterNewTab}
-            />
-            {ageLimit != null && (
-              <AgeLimitModal ageLimit={ageLimit} onResolved={() => setAgeLimitResolved(true)} />
+            {/* ステータス表示 */}
+            <LeftTime />
+            {me != null && !sessionExpired && (
+              <Link to={`/user/${me.name}`} target="_blank">
+                <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-info p-[5px] text-white">
+                  ユーザID: {me.name}
+                </div>
+              </Link>
             )}
-          </div>
-
-          {/* ステータス表示 */}
-          <LeftTime />
-          {me != null && !sessionExpired && (
-            <Link to={`/user/${me.name}`} target="_blank">
-              <div className="fixed top-[5px] left-[5px] z-[100] rounded bg-info p-[5px] text-white">
-                ユーザID: {me.name}
-              </div>
-            </Link>
-          )}
-          <Toast />
+            <Toast />
+          </PortalContainerProvider>
         </RefreshContext.Provider>
       </VillageProvider>
     </PageLayout>

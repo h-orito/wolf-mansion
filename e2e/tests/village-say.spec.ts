@@ -47,6 +47,37 @@ test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) =
   });
 });
 
+test("表情選択モーダル: 発言パネル固定中でもパネルの外に描画され、選択が反映される", async ({
+  page,
+}) => {
+  const village = await ensureMasterInProgressVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+  const sayPanel = page.locator("#say-panel");
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+  expect(await sayPanel.count()).toBeGreaterThan(0);
+
+  await sayPanel.getByRole("button", { name: "固定", exact: true }).click();
+  await expect(sayPanel.getByRole("button", { name: "固定解除" })).toBeVisible();
+
+  await sayPanel.getByRole("img").first().click();
+  const dialog = page.getByRole("dialog", { name: "表情選択" });
+  await expect(dialog).toBeVisible();
+  // iOS の WebKit は overflow スクロールする固定パネルの中の position: fixed 要素をパネルの枠で
+  // clip する。デスクトップブラウザでは再現しないため、パネルの外に描画されることを DOM で確認する
+  await expect(sayPanel.getByRole("dialog")).toHaveCount(0);
+
+  const faceName = await dialog.getByRole("img").first().getAttribute("alt");
+  await dialog.getByRole("button", { name: "選択" }).first().click();
+  await expect(dialog).toHaveCount(0);
+  const selected = await sayPanel
+    .getByLabel("表情", { exact: true })
+    .evaluate((el: HTMLSelectElement) => el.selectedOptions[0]?.textContent);
+  expect(selected).toBe(faceName);
+});
+
 test("空入力では確認ボタンが無効", async ({ page }) => {
   const village = await ensureMasterInProgressVillage(page);
 
