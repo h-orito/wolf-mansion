@@ -1,5 +1,7 @@
 import { type ReactNode, useRef } from "react";
 
+import { Portal } from "~/components/ui/Portal";
+
 type ModalSize = "default" | "wide";
 
 const sizeClass: Record<ModalSize, string> = {
@@ -24,37 +26,39 @@ export function Modal({
 
   if (!open) return null;
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-label={title}
-      onMouseDown={(e) => {
-        mouseDownOnBackdrop.current = e.target === e.currentTarget;
-      }}
-      onClick={(e) => {
-        if (e.target === e.currentTarget && mouseDownOnBackdrop.current) {
-          onClose();
-        }
-      }}
-    >
+    <Portal>
       <div
-        className={`my-8 w-full ${sizeClass[size]} rounded-[6px] border border-black/20 bg-surface text-white shadow-lg`}
-        onClick={(e) => e.stopPropagation()}
+        className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
+        role="dialog"
+        aria-modal="true"
+        aria-label={title}
+        onMouseDown={(e) => {
+          mouseDownOnBackdrop.current = e.target === e.currentTarget;
+        }}
+        onClick={(e) => {
+          if (e.target === e.currentTarget && mouseDownOnBackdrop.current) {
+            onClose();
+          }
+        }}
       >
-        <div className="flex items-center justify-between border-b border-border p-[15px]">
-          <h4 className="text-ui-title font-bold">{title}</h4>
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="閉じる"
-            className="text-ui-close leading-none text-white hover:opacity-70"
-          >
-            ×
-          </button>
+        <div
+          className={`my-8 w-full ${sizeClass[size]} rounded-[6px] border border-black/20 bg-surface text-white shadow-lg`}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="flex items-center justify-between border-b border-border p-[15px]">
+            <h4 className="text-ui-title font-bold">{title}</h4>
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="閉じる"
+              className="text-ui-close leading-none text-white hover:opacity-70"
+            >
+              ×
+            </button>
+          </div>
+          <div className="p-[15px]">{children}</div>
         </div>
-        <div className="p-[15px]">{children}</div>
       </div>
-    </div>
+    </Portal>
   );
 }
