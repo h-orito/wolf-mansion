@@ -3,8 +3,8 @@ import { Link } from "react-router";
 
 import { AlertList } from "~/components/ui/Alert";
 import { Button } from "~/components/ui/Button";
+import { ModalDialog } from "~/components/ui/Modal";
 import { Panel } from "~/components/ui/Panel";
-import { Portal } from "~/components/ui/Portal";
 import { selectClass } from "~/components/ui/Input";
 import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
@@ -368,54 +368,41 @@ export function SayPanel({
           </div>
         )}
       </div>
-      {faceModalOpen && (
-        <Portal>
-          <div
-            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-label="表情選択"
-            onClick={() => setFaceModalOpen(false)}
-          >
-            <div
-              className="my-8 w-full max-w-lg rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h4 className="mb-[10px] font-bold">表情選択</h4>
-              <div className="flex flex-wrap gap-[5px]">
-                {displayImages.map((image) => (
-                  <div
-                    key={image.faceType.code}
-                    className="inline-block border border-border p-[5px] text-center"
-                  >
-                    <img
-                      src={image.url}
-                      alt={image.faceType.name}
-                      width={myself?.chara.size.width ?? 60}
-                      height={myself?.chara.size.height ?? 77}
-                    />
-                    <div>{image.faceType.name}</div>
-                    <Button
-                      size="xs"
-                      onClick={() => {
-                        setFaceType(image.faceType.code);
-                        setFaceModalOpen(false);
-                      }}
-                    >
-                      選択
-                    </Button>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-[10px] flex justify-end">
-                <Button variant="default" onClick={() => setFaceModalOpen(false)}>
-                  閉じる
+      <ModalDialog open={faceModalOpen} onClose={() => setFaceModalOpen(false)} label="表情選択">
+        <div className="p-[15px]">
+          <h4 className="mb-[10px] font-bold">表情選択</h4>
+          <div className="flex flex-wrap gap-[5px]">
+            {displayImages.map((image) => (
+              <div
+                key={image.faceType.code}
+                className="inline-block border border-border p-[5px] text-center"
+              >
+                <img
+                  src={image.url}
+                  alt={image.faceType.name}
+                  width={myself?.chara.size.width ?? 60}
+                  height={myself?.chara.size.height ?? 77}
+                />
+                <div>{image.faceType.name}</div>
+                <Button
+                  size="xs"
+                  onClick={() => {
+                    setFaceType(image.faceType.code);
+                    setFaceModalOpen(false);
+                  }}
+                >
+                  選択
                 </Button>
               </div>
-            </div>
+            ))}
           </div>
-        </Portal>
-      )}
+          <div className="mt-[10px] flex justify-end">
+            <Button variant="default" onClick={() => setFaceModalOpen(false)}>
+              閉じる
+            </Button>
+          </div>
+        </div>
+      </ModalDialog>
     </Panel>
   );
 }
