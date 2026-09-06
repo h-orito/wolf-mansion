@@ -124,9 +124,11 @@ export function SayPanel({
   const restrict = current?.restrict;
   const secretTargetCharaIds =
     selectable.find((t) => t.messageType.code === MessageType.SECRET_SAY)?.targetCharaIds ?? [];
-  // 画像から選ぶ用に、秘話可能な相手を参加者情報 (表示名 + キャラ画像) に解決する
+  // 画像から選ぶ用に、秘話可能な相手を参加者情報 (表示名 + キャラ画像) に解決する。
+  // 参加者に解決できない charaId は画像を出せないためモーダルの候補からは外す (select には残る)
+  const participants = allParticipants(village);
   const secretTargets = secretTargetCharaIds.flatMap((charaId) => {
-    const p = allParticipants(village).find((p) => p.chara.id === charaId);
+    const p = participants.find((p) => p.chara.id === charaId);
     return p == null
       ? []
       : [{ id: charaId, name: p.name, images: p.chara.images, size: p.chara.size }];

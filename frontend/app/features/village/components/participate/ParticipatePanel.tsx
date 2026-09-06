@@ -18,18 +18,12 @@ import { useVillageContext } from "~/features/village/VillageContext";
 import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { ApiError } from "~/lib/api";
-import { CharaSelectGrid, CharaSelectModal } from "../chara/CharaSelectModal";
+import { CharaSelectGrid, CharaSelectModal, type SelectableChara } from "../chara/CharaSelectModal";
 import { toMessageHtml } from "../message/message";
 
 const OMAKASE = "LEFTOVER";
 
-type CharaLike = {
-  id: number;
-  name: string;
-  shortName: string;
-  images: { list: { faceType: { code: string }; url: string }[] };
-  size: { width: number; height: number };
-};
+type CharaLike = SelectableChara & { shortName: string };
 
 type Step = "input" | "confirm";
 
