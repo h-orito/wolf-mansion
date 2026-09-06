@@ -213,6 +213,7 @@ test("設定流用セクションが表示され、流用で選択した村の�
     opts.map((o) => Number((o as HTMLOptionElement).value)),
   );
   expect(optionIds).toEqual(candidates.map((c) => c.id));
+  // API が order=desc を村番号降順として解釈していることも e2e で押さえる
   expect(optionIds[0]).toBe(Math.max(...optionIds));
   const villageId = candidates[0].id;
   const res = await page.request.get(`/wolf-mansion-api/api/v1/villages/${villageId}/setting`);
