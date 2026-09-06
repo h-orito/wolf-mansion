@@ -200,15 +200,21 @@ test("設定流用セクションが表示され、流用で選択した村の�
   // 流用候補 (エピローグ/終了/廃村の村) が存在することを保証する
   await ensureVillagesExist(page, ["EPILOGUE", "COMPLETED", "CANCEL"]);
 
-  // 流用候補が select に入るまで待つ
+  // 流用候補は村番号降順 (直近の村が先頭)
   const listRes = await page.request.get(
-    "/wolf-mansion-api/api/v1/villages?status=EPILOGUE&status=COMPLETED&status=CANCEL&order=asc",
+    "/wolf-mansion-api/api/v1/villages?status=EPILOGUE&status=COMPLETED&status=CANCEL&order=desc",
   );
   expect(listRes.ok()).toBe(true);
   const candidates = (await listRes.json()).villages as { id: number }[];
 
-  // 先頭候補が select に入るまで待つ (既定で選択される)
+  // 先頭候補 (= 最も村番号が大きい村) が select に入るまで待つ (既定で選択される)
   await expect(select).toHaveValue(String(candidates[0].id));
+  const optionIds = await select.locator("option").evaluateAll((opts) =>
+    opts.map((o) => Number((o as HTMLOptionElement).value)),
+  );
+  expect(optionIds).toEqual(candidates.map((c) => c.id));
+  // API が order=desc を村番号降順として解釈していることも e2e で押さえる
+  expect(optionIds[0]).toBe(Math.max(...optionIds));
   const villageId = candidates[0].id;
   const res = await page.request.get(`/wolf-mansion-api/api/v1/villages/${villageId}/setting`);
   expect(res.ok()).toBe(true);

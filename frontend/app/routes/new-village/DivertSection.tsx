@@ -20,7 +20,7 @@ export function DivertSection({
   errorMessage: string | null;
   onDivert: (villageId: number) => void;
 }) {
-  const { data } = useVillages({ statuses: NOT_PROGRESS_STATUSES, order: "asc" });
+  const { data } = useVillages({ statuses: NOT_PROGRESS_STATUSES, order: "desc" });
   const villages = data?.villages ?? [];
   const [selectedId, setSelectedId] = useState<number | null>(null);
   const villageId = selectedId ?? villages[0]?.id ?? null;
