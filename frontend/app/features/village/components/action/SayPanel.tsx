@@ -10,9 +10,10 @@ import { MESSAGE_STYLES } from "~/components/ui/messageStyles";
 import type { ParticipantSituationView, VillageSayRequest } from "~/features/village/api";
 import { useRandomKeywordList } from "~/features/random-keywords/useRandomKeywords";
 import { useVillageContext } from "~/features/village/VillageContext";
-import { resolveParticipantName } from "~/features/village/participants";
+import { allParticipants, resolveParticipantName } from "~/features/village/participants";
 import { useDisplaySettings } from "~/features/village/displaySettings";
 import { MessageType } from "~/features/village/components/message/messageType";
+import { CharaSelectGrid, CharaSelectModal } from "../chara/CharaSelectModal";
 import { MessageCard, type ReplyDraft } from "../message/MessageCard";
 import { useSayState } from "./useSayState";
 export type { ReplyDraft };
@@ -104,6 +105,7 @@ export function SayPanel({
   } = useSayState(say);
   registerOnDone("say", () => setMessage(""));
   const [faceModalOpen, setFaceModalOpen] = useState(false);
+  const [secretTargetModalOpen, setSecretTargetModalOpen] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   // 返信・秘話返信からの引き継ぎ (アンカー挿入 / 種別・宛先の切替)
@@ -122,6 +124,13 @@ export function SayPanel({
   const restrict = current?.restrict;
   const secretTargetCharaIds =
     selectable.find((t) => t.messageType.code === MessageType.SECRET_SAY)?.targetCharaIds ?? [];
+  // 画像から選ぶ用に、秘話可能な相手を参加者情報 (表示名 + キャラ画像) に解決する
+  const secretTargets = secretTargetCharaIds.flatMap((charaId) => {
+    const p = allParticipants(village).find((p) => p.chara.id === charaId);
+    return p == null
+      ? []
+      : [{ id: charaId, name: p.name, images: p.chara.images, size: p.chara.size }];
+  });
 
   const length = message.length;
   const lineCount = message.split("\n").length;
@@ -244,9 +253,9 @@ export function SayPanel({
 
         {/* 秘話相手 */}
         {messageType === MessageType.SECRET_SAY && (
-          <div className="mt-[10px]">
+          <div className="mt-[10px] flex flex-col gap-[10px] sm:flex-row sm:items-center">
             <select
-              className={selectClass}
+              className={`${selectClass} sm:flex-1`}
               value={secretTargetCharaId}
               onChange={(e) => setSecretTargetCharaId(e.target.value)}
               aria-label="秘話相手"
@@ -258,6 +267,9 @@ export function SayPanel({
                 </option>
               ))}
             </select>
+            <div>
+              <Button onClick={() => setSecretTargetModalOpen(true)}>画像から選択</Button>
+            </div>
           </div>
         )}
 
@@ -368,6 +380,19 @@ export function SayPanel({
           </div>
         )}
       </div>
+      <CharaSelectModal
+        open={secretTargetModalOpen}
+        title="秘話相手選択"
+        onClose={() => setSecretTargetModalOpen(false)}
+      >
+        <CharaSelectGrid
+          charas={secretTargets}
+          onSelect={(c) => {
+            setSecretTargetCharaId(String(c.id));
+            setSecretTargetModalOpen(false);
+          }}
+        />
+      </CharaSelectModal>
       <ModalDialog open={faceModalOpen} onClose={() => setFaceModalOpen(false)} label="表情選択">
         <div className="p-[15px]">
           <h4 className="mb-[10px] font-bold">表情選択</h4>

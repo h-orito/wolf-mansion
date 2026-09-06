@@ -18,6 +18,7 @@ import { useVillageContext } from "~/features/village/VillageContext";
 import { useVillageInvalidate } from "~/features/village/useVillage";
 import { useVillageScroll } from "~/features/village/useVillageScroll";
 import { ApiError } from "~/lib/api";
+import { CharaSelectGrid, CharaSelectModal } from "../chara/CharaSelectModal";
 import { toMessageHtml } from "../message/message";
 
 const OMAKASE = "LEFTOVER";
@@ -29,30 +30,6 @@ type CharaLike = {
   images: { list: { faceType: { code: string }; url: string }[] };
   size: { width: number; height: number };
 };
-
-function defaultImageUrl(c: CharaLike): string {
-  return findNormalImage(c.images.list)?.url ?? "";
-}
-
-/** キャラ選択系モーダル (画像から選択 / お気に入りから選択) 共通のカード。 */
-function CharaSelectCard({ chara, onSelect }: { chara: CharaLike; onSelect: () => void }) {
-  return (
-    <div className="border border-border p-[5px] text-center">
-      <div className="flex justify-center">
-        <img
-          src={defaultImageUrl(chara)}
-          alt={chara.name}
-          width={chara.size.width}
-          height={chara.size.height}
-        />
-      </div>
-      <div>{chara.name}</div>
-      <Button size="xs" className="w-full" onClick={onSelect}>
-        選択
-      </Button>
-    </div>
-  );
-}
 
 type Step = "input" | "confirm";
 
@@ -387,69 +364,35 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
           </div>
         )}
       </div>
-      {charaModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
-          onClick={() => setCharaModalOpen(false)}
-        >
-          <div
-            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h4 className="mb-[10px] font-bold">キャラクター選択</h4>
-            <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
-              {charas.map((c) => (
-                <CharaSelectCard
-                  key={c.id}
-                  chara={c}
-                  onSelect={() => {
-                    selectChara(c.id);
-                    setCharaModalOpen(false);
-                  }}
-                />
-              ))}
-            </div>
-            <div className="mt-[10px] flex justify-end">
-              <Button variant="default" onClick={() => setCharaModalOpen(false)}>
-                閉じる
-              </Button>
-            </div>
+      <CharaSelectModal
+        open={charaModalOpen}
+        title="キャラクター選択"
+        onClose={() => setCharaModalOpen(false)}
+      >
+        <CharaSelectGrid
+          charas={charas}
+          onSelect={(c) => {
+            selectChara(c.id);
+            setCharaModalOpen(false);
+          }}
+        />
+      </CharaSelectModal>
+      <CharaSelectModal
+        open={favoriteModalOpen}
+        title="お気に入りから選択"
+        onClose={() => setFavoriteModalOpen(false)}
+      >
+        {favoriteChipGroups.length === 0 && <p>選択可能なお気に入りキャラがいません。</p>}
+        {favoriteChipGroups.map(({ chip, charas: chipCharas }) => (
+          <div key={chip.id} className="mb-[10px]">
+            <h5 className="mb-[5px] font-bold">{chip.name}</h5>
+            <CharaSelectGrid
+              charas={chipCharas}
+              onSelect={(c) => selectFavoriteChara(chip.id, c)}
+            />
           </div>
-        </div>
-      )}
-      {favoriteModalOpen && (
-        <div
-          className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
-          onClick={() => setFavoriteModalOpen(false)}
-        >
-          <div
-            className="my-8 w-full max-w-2xl rounded-[6px] border border-black/20 bg-surface p-[15px] text-white shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h4 className="mb-[10px] font-bold">お気に入りから選択</h4>
-            {favoriteChipGroups.length === 0 && <p>選択可能なお気に入りキャラがいません。</p>}
-            {favoriteChipGroups.map(({ chip, charas: chipCharas }) => (
-              <div key={chip.id} className="mb-[10px]">
-                <h5 className="mb-[5px] font-bold">{chip.name}</h5>
-                <div className="grid grid-cols-2 gap-[5px] sm:grid-cols-3">
-                  {chipCharas.map((c) => (
-                    <CharaSelectCard
-                      key={c.id}
-                      chara={c}
-                      onSelect={() => selectFavoriteChara(chip.id, c)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-            <div className="mt-[10px] flex justify-end">
-              <Button variant="default" onClick={() => setFavoriteModalOpen(false)}>
-                閉じる
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
+        ))}
+      </CharaSelectModal>
       {step === "confirm" && (
         <div
           className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-4"
@@ -469,7 +412,7 @@ export function ParticipatePanel({ mySituation }: { mySituation: ParticipantSitu
                   <img src={charaImageUrl} width={60} height={60} alt={charaName} />
                 ) : chara != null ? (
                   <img
-                    src={defaultImageUrl(chara)}
+                    src={findNormalImage(chara.images.list)?.url ?? ""}
                     width={chara.size.width}
                     height={chara.size.height}
                     alt={charaName}

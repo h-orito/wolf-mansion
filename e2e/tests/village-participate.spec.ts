@@ -26,8 +26,20 @@ test("入村: キャラ選択 → 確認画面 (同意チェックで活性化) 
   await page.goto(`village/${village.id}`);
   await expect(page.getByText("入村", { exact: true })).toBeVisible({ timeout: 15000 });
 
-  // キャラ選択で名前・略称が自動補完される
+  // 画像から選択: モーダルで選んだキャラが select に反映される
+  await page.getByRole("button", { name: "画像から選択" }).click();
+  const charaDialog = page.getByRole("dialog", { name: "キャラクター選択" });
+  await expect(charaDialog).toBeVisible();
+  const pickedName = await charaDialog.getByRole("img").first().getAttribute("alt");
+  await charaDialog.getByRole("button", { name: "選択" }).first().click();
+  await expect(charaDialog).toHaveCount(0);
   const charaSelect = page.getByLabel("キャラクター", { exact: true });
+  const pickedOption = await charaSelect.evaluate(
+    (el: HTMLSelectElement) => el.selectedOptions[0]?.textContent,
+  );
+  expect(pickedOption).toBe(pickedName);
+
+  // キャラ選択で名前・略称が自動補完される
   await charaSelect.selectOption({ index: 1 });
   await expect(page.getByLabel("キャラクター名")).not.toHaveValue("");
   await expect(page.getByLabel("略称")).not.toHaveValue("");
