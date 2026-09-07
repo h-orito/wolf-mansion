@@ -144,7 +144,14 @@ export async function settleVillage(page: Page, villageId: number): Promise<void
   }
 }
 
-async function createVillageApi(page: Page): Promise<SimpleVillage> {
+type VillageCreateOverrides = {
+  allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
+};
+
+async function createVillageApi(
+  page: Page,
+  overrides: VillageCreateOverrides = {},
+): Promise<SimpleVillage> {
   await loginApi(page, "master");
 
   const villageName = `e2e自動テスト${Date.now().toString(36).slice(-6)}`;
@@ -190,6 +197,7 @@ async function createVillageApi(page: Page): Promise<SimpleVillage> {
     sayRestrictList: [],
     skillSayRestrictList: [],
     rpSayRestrictList: [],
+    ...overrides,
   };
 
   const res = await page.request.post(`${API}/villages`, {
@@ -250,11 +258,22 @@ export async function provisionRecruitingVillage(
  */
 export async function provisionInProgressVillage(
   page: Page,
+  overrides: VillageCreateOverrides = {},
 ): Promise<SimpleVillage> {
-  const village = await createVillageApi(page);
+  const village = await createVillageApi(page, overrides);
   await debugFillParticipants(page, village.id, 7);
   await debugForceDayChange(page, village.id);
   return village;
+}
+
+/**
+ * 秘話が全員に許可された進行中の村 (1日目) を作る。共有キャッシュの進行中村は
+ * 秘話なしで建てているため、秘話系のテストはこの専用村を使う。
+ */
+export async function provisionSecretSayVillage(
+  page: Page,
+): Promise<SimpleVillage> {
+  return provisionInProgressVillage(page, { allowedSecretSayCode: "EVERYTHING" });
 }
 
 /**

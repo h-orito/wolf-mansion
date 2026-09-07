@@ -2,10 +2,11 @@ import { type ReactNode, useRef } from "react";
 
 import { Portal } from "~/components/ui/Portal";
 
-type ModalSize = "default" | "wide";
+type ModalSize = "default" | "medium" | "wide";
 
 const sizeClass: Record<ModalSize, string> = {
   default: "max-w-lg",
+  medium: "max-w-2xl",
   wide: "max-w-3xl",
 };
 
