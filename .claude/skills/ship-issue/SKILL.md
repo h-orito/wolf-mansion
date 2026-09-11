@@ -1,6 +1,6 @@
 ---
 name: ship-issue
-description: ローカル `.issues/step-<N>(.M)-<slug>.md` を 1 PR 単位で消化する (wolf-mansion monorepo 移行版)。base は feature/monorepo。ブランチ作成 → 実装 → 動作確認 → PR → pr-reviewer → レビュー反映 → squash merge → 後片付け。`/ship-issue [step番号]` で呼び出す。
+description: ローカル `.issues/step-<N>(.M)-<slug>.md` を 1 PR 単位で消化する (wolf-mansion monorepo 移行版)。base は main。ブランチ作成 → 実装 → 動作確認 → PR → pr-reviewer → レビュー反映 → squash merge → 後片付け。`/ship-issue [step番号]` で呼び出す。
 ---
 
 # Ship Issue
@@ -20,10 +20,10 @@ monorepo 移行作業中の Issue を 1 つ受け取り、PR まで持ってい�
 
 ## §1 ブランチ作成
 
-**デフォルトブランチ (main) は使わない。base は常に `feature/monorepo`。**
+**base は常にデフォルトブランチ `main`。main に直接コミットしない。**
 
 ```bash
-git checkout feature/monorepo && git pull
+git checkout main && git pull
 git checkout -b <type>/step-<N>(.M)-<slug>
 ```
 
@@ -53,7 +53,7 @@ Issue ファイルの「作業内容」に従って実装する。
 - backend build: `cd backend && ./gradlew build -x test`
 - frontend build: `cd frontend && pnpm build`
 - e2e: `cd e2e && pnpm test`（ローカル専用、CI では走らせない）
-- **全チェック green が §4 以降への進行条件**。失敗を「既存の問題」と主張する場合は base ブランチ（feature/monorepo）で同コマンドを実行した失敗ログを添え、直すか issue 化するかユーザーの判断を仰ぐ。黙って先に進まない
+- **全チェック green が §4 以降への進行条件**。失敗を「既存の問題」と主張する場合は base ブランチ（main）で同コマンドを実行した失敗ログを添え、直すか issue 化するかユーザーの判断を仰ぐ。黙って先に進まない
 
 ## §4 コミット
 
@@ -64,7 +64,7 @@ Issue ファイルの「作業内容」に従って実装する。
 
 ```bash
 git push -u origin <branch>
-gh pr create --base feature/monorepo --title "<conventional commit>" --body "..."
+gh pr create --base main --title "<conventional commit>" --body "..."
 ```
 
 - 本文冒頭: `closes .issues/step-<N>(.M)-<slug>.md`
@@ -81,10 +81,10 @@ gh pr create --base feature/monorepo --title "<conventional commit>" --body "...
 ## §7 マージ
 
 - **PR マージは必ずユーザー確認**（branch protection は無いが手順で担保）
-- **squash merge** で feature/monorepo に積む: `gh pr merge <PR> --squash --delete-branch`
-- merge 後は **feature/monorepo に戻る**（デフォルトブランチに戻らない）:
+- **squash merge** で main に積む（**main への merge = 本番デプロイ**）: `gh pr merge <PR> --squash --delete-branch`
+- merge 後は main に戻る:
   ```bash
-  git checkout feature/monorepo && git pull
+  git checkout main && git pull
   ```
 
 ## §8 後片付け
@@ -95,5 +95,5 @@ gh pr create --base feature/monorepo --title "<conventional commit>" --body "...
 
 ## 必ず守るルール
 
-- **main には push しない / merge しない**。すべて feature/monorepo 上
+- **main に直接 push しない**。必ず PR 経由で squash merge する
 - プロジェクト固有ルールは `.issues/HANDOFF.md` / `CLAUDE.md` を最優先

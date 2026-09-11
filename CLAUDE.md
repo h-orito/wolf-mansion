@@ -104,14 +104,14 @@ Clean Architecture + DDD に基づき、**画面専用の API やレスポンス
 
 ### デプロイ
 
-- feature/monorepoへのpushで `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバー（k8s の `wolf-mansion-backend` / `wolf-mansion-frontend`）へ自動デプロイ。**マージ = 即デプロイ**で、2026-08 時点でこれが唯一の稼働系（本番）。
-- main の `deploy-ocl.yml`（旧 `wolf-mansion` Deployment 向け）は monorepo 移行前のもので、旧 Deployment は k8s 上に存在しない。
+- main への push で `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバー（k8s の `wolf-mansion-backend` / `wolf-mansion-frontend`）へ自動デプロイ。**マージ = 即デプロイ**で、これが唯一の稼働系（本番）。
+- monorepo 移行は 2026-09 に main へ cutover 済み。`feature/monorepo` は移行中の作業ブランチで、以後は使わない。
 
 ## Key Conventions
 
 - セッション開始時に、Serena の `initial_instructions` を呼び出し、関連するプロジェクトメモリを読み込んでからコンテキストを把握すること
 - コードベースの構造や規約に変更があった場合は、Serena の edit_memory / write_memory で該当メモリを更新すること
-- タスク/Issue ごとに必ず新しいブランチを作成してから変更する。feature/monorepo やその他の共有ブランチに直接コミットしない
+- タスク/Issue ごとに必ず新しいブランチを作成してから変更する。main やその他の共有ブランチに直接コミットしない
 - API の型を編集する場合は types.ts を直接編集せず、gen:api で再生成する
 - バグ調査時は、まず正確な根本原因を特定してユーザーに説明し、修正方針（特にUIの見た目・挙動に関わる場合）についてユーザーの合意を得てから編集する
 - 出力が長くなるコマンド（build/test/e2e 等）はログをファイルにリダイレクトし、失敗箇所だけ抽出して読む（ログ全文を会話に持ち込まない）
