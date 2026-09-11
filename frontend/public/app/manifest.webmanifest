@@ -1,0 +1,35 @@
+{
+  "id": "/wolf-mansion/",
+  "name": "WOLF MANSION 〜人狼館の事件簿村〜",
+  "short_name": "WOLF MANSION",
+  "description": "状況のみで推理・説得する、新しい人狼。人狼館で起きる事件の謎を推理しよう。",
+  "start_url": "/wolf-mansion/",
+  "scope": "/wolf-mansion/",
+  "display": "standalone",
+  "theme_color": "#303030",
+  "background_color": "#222222",
+  "icons": [
+    {
+      "src": "images/pwa/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/pwa/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "images/pwa/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "images/pwa/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: wolf-mansion-mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      # DBFlute のコード生成が実 DB のテーブル名の大文字小文字に依存するため、
+      # 大文字小文字を区別しない設定で初期化する (変更時は volume の再作成が必要)
+      - --lower-case-table-names=1
+    environment:
+      MYSQL_DATABASE: werewolf_mansiondb
+      MYSQL_USER: wmansion
+      MYSQL_PASSWORD: wmans10n
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Tokyo
+    ports:
+      - "4306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./initdb:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  nginx:
+    image: nginx:alpine
+    container_name: wolf-mansion-nginx
+    ports:
+      - "18080:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../data/original:/var/www/html/wmansion/original:ro
+
+volumes:
+  mysql-data:

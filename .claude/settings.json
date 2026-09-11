@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "deny": [
+      "Edit(frontend/app/api/types.ts)",
+      "Write(frontend/app/api/types.ts)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/ktlint-check.sh"
+          },
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/oxlint-check.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/hooks/typecheck-stop-check.sh",
+            "timeout": 120
+          }
+        ]
+      }
+    ]
+  }
+}

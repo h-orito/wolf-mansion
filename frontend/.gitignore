@@ -1,0 +1,16 @@
+.DS_Store
+
+# 依存
+/node_modules/
+
+# 環境変数 (ローカル)
+.env
+.env.*.local
+*.local
+
+# React Router (typegen / ビルド成果物)
+/.react-router/
+/build/
+
+# Vite
+/.vite/

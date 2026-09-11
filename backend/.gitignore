@@ -1,0 +1,24 @@
+### Gradle / ビルド成果物 ###
+/.gradle
+/build/
+/out/
+/bin/
+
+### Spring Tools / Eclipse (STS) ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### DBFlute ###
+# 生成ログのみ無視 (output/doc の html は追跡対象)
+/dbflute_wolf_mansiondb/log/

@@ -1,0 +1,17 @@
+map:{
+    ; 2026/06/05 00:49:23.438 = map:{
+        ; diffDate = 2026/06/05 00:49:23.438
+        ; tableCount = map:{
+            ; next = 46
+            ; previous = 45
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = chore/step-3.0-dbflute-regen-refresh-token
+        ; tableDiff = map:{
+            ; refresh_token = map:{
+                ; tableName = refresh_token
+                ; diffType = ADD
+            }
+        }
+    }
+}

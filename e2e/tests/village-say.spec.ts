@@ -1,0 +1,178 @@
+import { expect, test } from "@playwright/test";
+import {
+  ensureMasterInProgressVillage,
+  loginAsMasterUi,
+  dismissInitialSkillModal,
+  provisionSecretSayVillage,
+} from "./helpers/provision";
+
+/**
+ * 村画面の発言投稿 e2e。master でログインし、
+ * 発言できる村があれば 確認 → 投稿 → ログ反映 を通す。
+ */
+
+test("発言: 入力 → 確認 → 投稿 → ログ反映", async ({ page }) => {
+  const village = await ensureMasterInProgressVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+
+  const sayPanel = page.locator("#say-panel");
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+  expect(await sayPanel.count()).toBeGreaterThan(0);
+
+  // 独り言で投稿する (種別が無ければスキップ)
+  const monologue = sayPanel.getByRole("button", { name: "独り言" });
+  expect(await monologue.count()).toBeGreaterThan(0);
+  await monologue.click();
+
+  const text = `e2e 発言テスト ${Date.now()}`;
+  await sayPanel.locator("textarea").fill(text);
+  // 文字数カウントが入力に追従する
+  await expect(sayPanel.getByText(/文字数: \d+\/\d+/)).toBeVisible();
+
+  await sayPanel.getByRole("button", { name: "確認画面へ" }).click();
+
+  // 確認プレビュー (まだ投稿されていない)
+  const confirmArea = page.locator("#message-confirm-area");
+  await expect(confirmArea).toBeVisible();
+  await expect(confirmArea).toContainText(text);
+
+  await confirmArea.getByRole("button", { name: "発言する（独り言）" }).click();
+
+  // プレビューが消え、ログに反映される
+  await expect(confirmArea).toHaveCount(0);
+  await expect(page.locator(".message-monologue").filter({ hasText: text })).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test("表情選択モーダル: 発言パネル固定中でもパネルの外に描画され、選択が反映される", async ({
+  page,
+}) => {
+  const village = await ensureMasterInProgressVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+  const sayPanel = page.locator("#say-panel");
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+  expect(await sayPanel.count()).toBeGreaterThan(0);
+
+  await sayPanel.getByRole("button", { name: "固定", exact: true }).click();
+  await expect(sayPanel.getByRole("button", { name: "固定解除" })).toBeVisible();
+
+  await sayPanel.getByRole("img").first().click();
+  const dialog = page.getByRole("dialog", { name: "表情選択" });
+  await expect(dialog).toBeVisible();
+  // iOS の WebKit は overflow スクロールする固定パネルの中の position: fixed 要素をパネルの枠で
+  // clip する。デスクトップブラウザでは再現しないため、パネルの外に描画されることを DOM で確認する
+  await expect(sayPanel.getByRole("dialog")).toHaveCount(0);
+
+  const faceName = await dialog.getByRole("img").first().getAttribute("alt");
+  await dialog.getByRole("button", { name: "選択" }).first().click();
+  await expect(dialog).toHaveCount(0);
+  const selected = await sayPanel
+    .getByLabel("表情", { exact: true })
+    .evaluate((el: HTMLSelectElement) => el.selectedOptions[0]?.textContent);
+  expect(selected).toBe(faceName);
+});
+
+test("空入力では確認ボタンが無効", async ({ page }) => {
+  const village = await ensureMasterInProgressVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+  const sayPanel = page.locator("#say-panel");
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+  expect(await sayPanel.count()).toBeGreaterThan(0);
+
+  await expect(sayPanel.getByRole("button", { name: "確認画面へ" })).toBeDisabled();
+});
+
+test("アクション: 対象選択 + 本文 → 確認 → 投稿 → ログ反映", async ({ page }) => {
+  const village = await ensureMasterInProgressVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await dismissInitialSkillModal(page);
+
+  const actionInput = page.getByLabel("アクション本文");
+  expect(await actionInput.count()).toBeGreaterThan(0);
+  const actionBodyId = await page
+    .locator("button[aria-controls]")
+    .filter({ hasText: /^アクション$/ })
+    .getAttribute("aria-controls");
+  const actionBody = page.locator(`[id="${actionBodyId}"]`);
+  // 共有 DB で繰り返し実行すると 1 日のアクション回数を使い切るため、枯渇時はアサーション失敗
+  expect(await actionBody.getByText(/残り0\/\d+回/).count()).toBe(0);
+
+  const text = `に e2e アクション ${Date.now()}`;
+  await page.getByLabel("アクションの対象").selectOption("全員");
+  await actionInput.fill(text);
+  await actionBody.getByRole("button", { name: "確認画面へ" }).click();
+
+  const confirmArea = page.locator("#message-confirm-area");
+  await expect(confirmArea).toBeVisible();
+  await expect(confirmArea).toContainText(text);
+
+  await confirmArea.getByRole("button", { name: "アクション" }).click();
+  await expect(confirmArea).toHaveCount(0);
+  await expect(page.locator(".message-action").filter({ hasText: text })).toBeVisible({
+    timeout: 15000,
+  });
+});
+
+test("秘話: 画像から相手を選択 → 投稿 → ログ反映", async ({ page }) => {
+  test.setTimeout(120000);
+  const village = await provisionSecretSayVillage(page);
+
+  await loginAsMasterUi(page);
+  await page.goto(`village/${village.id}`);
+  const sayPanel = page.locator("#say-panel");
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  // 新しく作った村なので初回役職確認モーダルが必ず出る。閉じないと発言パネルを操作できない
+  await page.getByRole("button", { name: "確認したので次回以降表示しない" }).click();
+
+  await sayPanel.getByRole("button", { name: "秘話" }).click();
+  const targetSelect = sayPanel.getByLabel("秘話相手");
+  await expect(targetSelect).toHaveValue("");
+
+  // 画像から選択: モーダルの候補は select の候補 (自分以外の参加者) と一致する
+  await sayPanel.getByRole("button", { name: "画像から選択" }).click();
+  const dialog = page.getByRole("dialog", { name: "秘話相手選択" });
+  await expect(dialog).toBeVisible();
+  const optionNames = await targetSelect
+    .locator("option:not([value=''])")
+    .evaluateAll((opts) => opts.map((o) => o.textContent));
+  const cardNames = await dialog
+    .getByRole("img")
+    .evaluateAll((imgs) => imgs.map((img) => img.getAttribute("alt")));
+  expect(cardNames).toEqual(optionNames);
+
+  // 2 番目の候補 (カードはモーダル内で候補と同順) を選ぶと select にも反映され、モーダルが閉じる
+  const target = cardNames[1];
+  await dialog.getByRole("button", { name: "選択" }).nth(1).click();
+  await expect(dialog).toHaveCount(0);
+  const selectedName = await targetSelect.evaluate(
+    (el: HTMLSelectElement) => el.selectedOptions[0]?.textContent,
+  );
+  expect(selectedName).toBe(target);
+
+  const text = `e2e 秘話テスト ${Date.now()}`;
+  await sayPanel.locator("textarea").fill(text);
+  await sayPanel.getByRole("button", { name: "確認画面へ" }).click();
+
+  const confirmArea = page.locator("#message-confirm-area");
+  await expect(confirmArea).toBeVisible();
+  await expect(confirmArea).toContainText(text);
+  await confirmArea.getByRole("button", { name: "発言する（秘話）" }).click();
+
+  await expect(confirmArea).toHaveCount(0);
+  await expect(page.locator(".message-secret").filter({ hasText: text })).toBeVisible({
+    timeout: 15000,
+  });
+});

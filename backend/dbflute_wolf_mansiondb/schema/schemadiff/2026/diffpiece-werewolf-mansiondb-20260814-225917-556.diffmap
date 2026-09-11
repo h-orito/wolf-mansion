@@ -1,0 +1,17 @@
+map:{
+    ; 2026/08/14 22:59:17.556 = map:{
+        ; diffDate = 2026/08/14 22:59:17.556
+        ; tableCount = map:{
+            ; next = 49
+            ; previous = 48
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = feature/favorite-chara
+        ; tableDiff = map:{
+            ; player_favorite_chara = map:{
+                ; tableName = player_favorite_chara
+                ; diffType = ADD
+            }
+        }
+    }
+}

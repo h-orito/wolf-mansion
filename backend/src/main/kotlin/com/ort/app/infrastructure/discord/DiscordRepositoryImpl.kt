@@ -1,0 +1,109 @@
+package com.ort.app.infrastructure.discord
+
+import com.ort.app.domain.model.discord.DiscordRepository
+import com.ort.app.domain.model.discord.DiscordWebhookUrl
+import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
+import org.springframework.http.client.SimpleClientHttpRequestFactory
+import org.springframework.stereotype.Repository
+import org.springframework.web.client.RestTemplate
+
+@Repository
+class DiscordRepositoryImpl : DiscordRepository {
+    companion object {
+        private val logger = LoggerFactory.getLogger(DiscordRepositoryImpl::class.java)
+        private const val CONNECT_TIMEOUT_MS = 5000
+        private const val READ_TIMEOUT_MS = 5000
+    }
+
+    @Value("\${discord.webhook-url:}")
+    private lateinit var webhookUrl: String
+
+    @Value("\${discord.master-userid:}")
+    private lateinit var masterUserId: String
+
+    override fun post(
+        villageId: Int,
+        day: Int,
+        message: String,
+    ) {
+        if (webhookUrl.isEmpty()) return
+        try {
+            val restTemplate = restTemplate()
+            val request =
+                Request(
+                    content = "<@!$masterUserId>\n<https://wolfort.net/wolf-mansion/village/$villageId>\n$message",
+                )
+            val formHeaders = HttpHeaders()
+            formHeaders.contentType = MediaType.APPLICATION_JSON
+            val formEntity = HttpEntity(request, formHeaders)
+            restTemplate.exchange(webhookUrl, HttpMethod.POST, formEntity, String::class.java)
+        } catch (e: Exception) {
+            logger.error("discord投稿に失敗しました", e)
+        }
+    }
+
+    override fun postToMaster(message: String) {
+        if (webhookUrl.isEmpty()) return
+        try {
+            val restTemplate = restTemplate()
+            val mention = if (masterUserId.isEmpty()) "" else "<@!$masterUserId>\n"
+            val request = Request(content = "$mention$message")
+            val formHeaders = HttpHeaders()
+            formHeaders.contentType = MediaType.APPLICATION_JSON
+            val formEntity = HttpEntity(request, formHeaders)
+            restTemplate.exchange(webhookUrl, HttpMethod.POST, formEntity, String::class.java)
+        } catch (e: Exception) {
+            logger.error("discord(master)投稿に失敗しました", e)
+        }
+    }
+
+    override fun postToWebhook(
+        webhookUrl: String,
+        villageId: Int,
+        message: String,
+        shouldContainVillageUrl: Boolean,
+    ) {
+        // 検証導入前に保存された URL が残っている可能性があるため、送信側でも検証する (SSRF 対策)
+        if (!DiscordWebhookUrl.isValid(webhookUrl)) {
+            logger.warn("Discord 以外の webhook URL への通知をスキップしました: villageId={}", villageId)
+            return
+        }
+        try {
+            val restTemplate = restTemplate()
+            val content =
+                if (shouldContainVillageUrl) {
+                    "<https://wolfort.net/wolf-mansion/village/$villageId>\n$message"
+                } else {
+                    message
+                }
+            val request =
+                Request(
+                    content = content,
+                    username = "WOLF MANSION ${villageId.toString().padStart(4, '0')}村通知",
+                )
+            val formHeaders = HttpHeaders()
+            formHeaders.contentType = MediaType.APPLICATION_JSON
+            val formEntity = HttpEntity(request, formHeaders)
+            restTemplate.exchange(webhookUrl, HttpMethod.POST, formEntity, String::class.java)
+        } catch (e: Exception) {
+            logger.error("discord投稿に失敗しました", e)
+        }
+    }
+
+    private fun restTemplate(): RestTemplate {
+        val factory = SimpleClientHttpRequestFactory()
+        factory.setConnectTimeout(CONNECT_TIMEOUT_MS)
+        factory.setReadTimeout(READ_TIMEOUT_MS)
+        return RestTemplate(factory)
+    }
+
+    data class Request(
+        val content: String,
+        val username: String? = null,
+    ) : java.io.Serializable
+}

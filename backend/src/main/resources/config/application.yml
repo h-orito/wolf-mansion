@@ -1,0 +1,76 @@
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:4306/werewolf_mansiondb?character_set_server=utf8mb4
+    username: wmansion
+    password: wmans10n
+    driverClassName: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
+    mode: HTML
+  messages:
+    basename: messages
+    cache-seconds: -1
+    encoding: UTF-8
+
+server:
+  servlet:
+    contextPath: /wolf-mansion-api
+    session:
+      timeout: 86400
+  port: 8089
+  tomcat:
+    max-part-count: 3000
+    max-parameter-count: 10000
+
+logging:
+  level:
+    org.springframework: INFO
+    root: INFO
+    org.seasar.dbflute: ERROR
+
+app:
+  debug: true
+  original-image:
+    basedir: ../data/original
+    baseurl: /wmansion/original
+
+mastodon:
+  oauth:
+    host: mstdn.jp
+    access-token:
+
+slack:
+  webhook-url:
+
+discord:
+  webhook-url:
+  master-userid:
+
+microsoft:
+  translator:
+    key:
+
+jwt:
+  # HS256 署名鍵。本番は環境変数必須。ローカルは dev 既定値 (32 バイト以上)
+  secret: ${WOLF_MANSION_JWT_SECRET:wolf-mansion-local-dev-secret-change-me-please-0123456789abcdef}
+  access-token-validity-minutes: 15
+  refresh-token-validity-days: 14
+  # ローカル (http) では Secure Cookie を無効化
+  cookie-secure: false
+
+# ログイン失敗のレート制限 (ブルートフォース対策)。2軸 (アカウント / IP) で時間窓内の失敗数を制限する
+login-rate-limit:
+  # 時間窓 (分)。この窓内の失敗数でカウントし、窓を超えたら自動回復 (スライディング)
+  window-minutes: 15
+  # アカウント (login ID) 単位の失敗上限。超過で 429
+  max-per-account: 5
+  # IP 単位の失敗上限。共有 NAT を許容しつつ bulk を抑止
+  max-per-ip: 30
+
+# OpenAPI (SpringDoc)。frontend の TS 型生成 (pnpm gen:api) が /v3/api-docs を取得する
+springdoc:
+  # 新 REST 面 (/api/v1/**) のみを spec に含める。旧 SSR Controller / 公開 API (/api/login 等) は対象外
+  paths-to-match: /api/v1/**
+  # spec のキーをアルファベット順で出力する。Kotlin の isXxx() 由来プロパティはリフレクションの
+  # 列挙順 (JVM 実行ごとに不定) で並ぶため、ソートしないと再生成のたびに差分が出て drift 検知が壊れる
+  writer-with-order-by-keys: true

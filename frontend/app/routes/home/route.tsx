@@ -1,0 +1,252 @@
+import {
+  ArrowRightStartOnRectangleIcon,
+  BookOpenIcon,
+  InformationCircleIcon,
+  ListBulletIcon,
+  LockClosedIcon,
+  MegaphoneIcon,
+  PencilIcon,
+  PlusIcon,
+  QuestionMarkCircleIcon,
+  StarIcon,
+  UserIcon,
+  WrenchIcon,
+} from "@heroicons/react/24/outline";
+
+import { Link } from "react-router";
+
+import { Footer } from "~/components/layout/Footer";
+import { RenewalBanner } from "~/components/layout/RenewalBanner";
+import { logout } from "~/features/auth/api";
+import { useInvalidateMe, useMe } from "~/features/auth/useMe";
+import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/villages/api";
+import { participateNumLabel, villageListTags, villageNumber } from "~/features/villages/format";
+import { useVillages } from "~/features/villages/useVillages";
+import { assetUrl } from "~/lib/api";
+import { MenuSection, TileButton, TileRoute } from "./MenuTile";
+import type { Route } from "./+types/route";
+
+export function meta(_: Route.MetaArgs) {
+  const description =
+    "WOLF MANSIONでは、占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と【投票】 の2つを使って推理・説得する 「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。";
+  return [
+    { title: "WOLF MANSION 〜人狼館の事件簿村〜" },
+    { name: "description", content: description },
+    { property: "og:site_name", content: "WOLF MANSION" },
+    { property: "og:type", content: "website" },
+    { property: "og:url", content: "https://wolfort.net/wolf-mansion/" },
+    { property: "og:title", content: "WOLF MANSION" },
+    { property: "og:description", content: description },
+    // OGP 画像は frontend (/wolf-mansion) 配信の public/app/images の静的アセット (本番の絶対 URL)。
+    {
+      property: "og:image",
+      content: "https://wolfort.net/wolf-mansion/app/images/ogp-top.png",
+    },
+    { name: "twitter:card", content: "summary_large_image" },
+    { name: "twitter:site", content: "@ort_dev" },
+  ];
+}
+
+export default function Home() {
+  const { me } = useMe();
+  // トップは未終了 (募集中/進行中/エピローグ) の村を村ID 昇順で表示する。村一覧 API を共有利用する。
+  const { data: villageData } = useVillages({ statuses: NOT_FINISHED_STATUSES, order: "asc" });
+  const invalidateMe = useInvalidateMe();
+
+  const onLogout = async () => {
+    try {
+      await logout();
+    } finally {
+      // 公開ページなので遷移は不要。me を取り直して未ログインへ収束させる (canCreateVillage も me 由来)。
+      await invalidateMe();
+    }
+  };
+
+  const villages = villageData?.villages ?? [];
+  // 村作成可否はプレイヤーの情報 (me 由来)。匿名は false。
+  const canCreateVillage = me?.canCreateVillage ?? false;
+
+  return (
+    // ページ地色は既存 `:8091` の body 背景 (#222) を全幅・全高で再現する。
+    // body 自体は変えない (旧方針で作った認証画面 (明色) を壊さないため。認証画面は step-3.6 で忠実再現)。
+    <div className="min-h-screen bg-wm-base text-xs min-[768px]:text-sm">
+      {/* 既存 Bootstrap3 .container と同じレスポンシブ最大幅 (768→750 / 992→970 / 1200→1170)。 */}
+      <div className="mx-auto w-full min-[768px]:max-w-[750px] min-[992px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
+        {/* トップ画像 + ロゴ + (ログイン中) ユーザID。
+            既存はトップ画像も col の 15px padding で帯と同じ幅 (横 15px インセット) になる。 */}
+        <div className="mb-[15px] px-[15px]">
+          <div className="relative">
+            <img src={assetUrl("/app/images/top.jpg")} alt="WOLF MANSION" className="w-full" />
+            <span className="font-anima absolute bottom-0 left-5 text-2xl leading-6 text-white">
+              <span className="text-wm-danger">W</span>OLF
+              <br />
+              <span className="text-wm-danger">M</span>ANSION
+            </span>
+            {me && (
+              <span className="absolute right-5 bottom-1 text-white">ユーザID: {me.name}</span>
+            )}
+          </div>
+        </div>
+
+        <RenewalBanner />
+
+        {/* サイト紹介 + ナビ (見出し・説明は 100px 高の中央行。:8091 再現) */}
+        <section className="bg-wm-band bg-clip-content p-[15px] text-center text-white">
+          <div className="flex min-h-[100px] items-center justify-center">
+            <h2 className="text-[15px] font-normal">状況のみで推理・説得する、新しい人狼</h2>
+          </div>
+          <div className="flex min-h-[100px] items-center justify-center px-10">
+            <p className="leading-relaxed break-words">
+              WOLF MANSIONでは、
+              <br className="hidden sm:inline" />
+              占い・襲撃・護衛・狂狐の徘徊によって起こる【足音】と
+              <br className="hidden sm:inline" />
+              【投票】 の2つを使って推理・説得する <br className="hidden sm:inline" />
+              「人狼館の事件簿村」ルールの人狼ゲームを楽しむことができます。
+            </p>
+          </div>
+          <div className="grid grid-cols-3">
+            <TileRoute to="/about" icon={InformationCircleIcon} jp="本サイトは" en="About" />
+            <TileRoute
+              to="/intro"
+              icon={QuestionMarkCircleIcon}
+              jp="人狼館の事件簿村"
+              en="Introduction"
+            />
+            <TileRoute to="/announce" icon={MegaphoneIcon} jp="お知らせ" en="Announce" />
+            <TileRoute to="/rule" icon={BookOpenIcon} jp="ルール" en="Rule" />
+            <TileRoute to="/faq" icon={QuestionMarkCircleIcon} jp="よくある質問" en="FAQ" />
+            <TileRoute to="/skill" icon={BookOpenIcon} jp="役職一覧" en="Skill" />
+          </div>
+        </section>
+
+        {/* 登録/ログイン */}
+        <MenuSection title="登録/ログイン">
+          {me ? (
+            <div className="grid grid-cols-3">
+              <TileRoute to={`/user/${me.name}`} icon={UserIcon} jp="マイページ" en="My Page" />
+              <TileRoute
+                to="/change-password"
+                icon={WrenchIcon}
+                jp="パスワード変更"
+                en="Change Password"
+              />
+              <TileButton
+                onClick={onLogout}
+                icon={ArrowRightStartOnRectangleIcon}
+                jp="ログアウト"
+                en="Logout"
+              />
+            </div>
+          ) : (
+            <div className="grid grid-cols-2">
+              <TileRoute to="/signup" icon={PencilIcon} jp="ID登録" en="Register" />
+              <TileRoute to="/login" icon={LockClosedIcon} jp="ログイン" en="Login" />
+            </div>
+          )}
+        </MenuSection>
+
+        {/* 開催中の村 */}
+        <MenuSection title="開催中の村">
+          <div className="overflow-x-auto bg-wm-tile">
+            <table className="w-full border-collapse text-white">
+              {/* 既存 :8091 の列幅 (Bootstrap3 grid): 村番号 col-1=8.33% / 村名=残り / 参加人数・状態 col-2=16.67%。 */}
+              <colgroup>
+                <col className="w-[8.333%]" />
+                <col />
+                <col className="w-[16.667%]" />
+                <col className="w-[16.667%]" />
+              </colgroup>
+              <tbody>
+                {villages.map((v) => (
+                  <VillageRow key={v.id} village={v} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </MenuSection>
+
+        {/* 村一覧/村作成 + ユーザー (PC では横並び) */}
+        <div className="flex flex-col sm:flex-row">
+          <div className="sm:flex-1">
+            <MenuSection title="村一覧/村作成">
+              <div className={canCreateVillage ? "grid grid-cols-2" : "grid grid-cols-1"}>
+                <TileRoute to="/village-list" icon={ListBulletIcon} jp="村一覧" en="Village list" />
+                {canCreateVillage && (
+                  <TileRoute
+                    to="/new-village"
+                    icon={PlusIcon}
+                    jp="村を建てる"
+                    en="Create Village"
+                  />
+                )}
+              </div>
+            </MenuSection>
+          </div>
+          <div className="sm:flex-1">
+            <MenuSection title="ユーザー">
+              <TileRoute to="/user-list" icon={ListBulletIcon} jp="一覧" en="User list" />
+            </MenuSection>
+          </div>
+        </div>
+
+        {/* キャラチップ */}
+        <MenuSection title="キャラチップ">
+          <div className={me ? "grid grid-cols-2" : "grid grid-cols-1"}>
+            <TileRoute to="/chara-group" icon={ListBulletIcon} jp="一覧" en="Character list" />
+            {me && (
+              <TileRoute
+                to="/favorite-charas"
+                icon={StarIcon}
+                jp="お気に入りキャラ"
+                en="Favorite"
+              />
+            )}
+          </div>
+        </MenuSection>
+
+        <Footer />
+      </div>
+    </div>
+  );
+}
+
+function VillageRow({ village }: { village: SimpleVillageView }) {
+  const url = `/village/${village.id}`;
+  const cell = "border border-wm-band p-0";
+  const link = "block p-[5px] text-white no-underline hover:text-wm-accent";
+  return (
+    <tr className="border border-wm-band hover:bg-wm-tile-hover">
+      <td className={`${cell} text-center`}>
+        <Link to={url} className={link}>
+          {villageNumber(village.id)}
+        </Link>
+      </td>
+      <td className={`${cell} text-left`}>
+        <Link to={url} className={link}>
+          {villageListTags(village).map((tag) => (
+            <span
+              key={tag.name}
+              className={`mr-1 rounded border px-1 ${
+                tag.danger ? "border-wm-danger text-wm-danger" : "border-wm-accent text-wm-accent"
+              }`}
+            >
+              {tag.name}
+            </span>
+          ))}
+          {village.name}
+        </Link>
+      </td>
+      <td className={`${cell} text-center`}>
+        <Link to={url} className={link}>
+          {participateNumLabel(village)}
+        </Link>
+      </td>
+      <td className={`${cell} text-center`}>
+        <Link to={url} className={link}>
+          {village.status.name}
+        </Link>
+      </td>
+    </tr>
+  );
+}

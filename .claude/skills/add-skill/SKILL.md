@@ -64,12 +64,13 @@ disp_order の昇順になるよう適切な位置に挿入してください。
 ### Step 4: DBFlute コード再生成
 
 ```bash
-cd dbflute_wolf_mansiondb && sh manage.sh 1
+cd dbflute_wolf_mansiondb && sh manage.sh 2
 ```
 
 これにより `src/main/java/com/ort/dbflute/allcommon/CDef.java` が再生成され、新役職の enum エントリが追加されます。
 
-**manage.sh 1 は「regenerate（再自動生成）」に対応します。** ユーザーに実行の許可を取ってください。
+**manage.sh 2 が「regenerate（再自動生成）」に対応します。** ユーザーに実行の許可を取ってください。
+**manage.sh 0 (replace-schema) と 1 (renewal) は ReplaceSchema = 全テーブル drop を含むため絶対に実行しないこと。**
 
 ### Step 5: Skill.kt を更新
 

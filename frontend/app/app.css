@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+    "Noto Color Emoji";
+
+  /* WOLF MANSION ブランド配色 */
+  --color-wm-base: #222222; /* ページ全体の地色 (body 背景) */
+  --color-wm-band: #333333; /* メニュー帯・タイル枠 */
+  --color-wm-tile: #0b162a; /* タイル背景 */
+  --color-wm-tile-hover: #22224a; /* タイル hover 背景 */
+  --color-wm-accent: #0ce3ac; /* アクセント (hover 文字・枠 / 誰歓タグ) */
+  --color-wm-danger: #ff0000; /* R15/R18 タグ・ロゴの赤・未投票警告 */
+
+  /*
+   * 意味ベースの UI トークン。
+   * 発言 (メッセージ) の背景色・文字色はゲーム上の意味を持つ学習資産のためトークン化しない
+   * (messageStyles.ts / MessageBubble.tsx / SystemMessage.tsx に hex 直書きのまま保持する)。
+   */
+  --color-surface: #303030; /* パネル・モーダル本体の背景 */
+  --color-surface-raised: #464545; /* パネルヘッダー・タブ・デフォルトボタン等の持ち上がった面 */
+  --color-surface-alt: #3a3a3a; /* テーブルヘッダー等の淡い持ち上げ */
+  --color-surface-dim: #2a2a2a; /* 縞テーブルの片側の行等の沈んだ面 */
+  --color-border: #464545; /* 標準の境界線 */
+  --color-border-soft: #cccccc; /* ダーク面上の淡い区切り線 (チェックリストの行区切り等) */
+  --color-success: #00bc8c; /* 主ボタン・成功 */
+  --color-success-light: #00dba3; /* success の hover / active */
+  --color-success-dark: #009c6c; /* success 面同士の区切り線 */
+  --color-success-muted: #007053; /* success 系の無効状態 */
+  --color-success-tint: #334033; /* 成功通知の背景 (濃緑) */
+  --color-danger: #e74c3c; /* 危険ボタン・エラー文字 */
+  --color-danger-soft: #d9534f; /* 強調文字の赤 (判定表・ルール強調) */
+  --color-info: #3498db;
+  --color-warning: #f39c12;
+  --color-warning-soft: #f0ad4e; /* 強調文字の橙 (判定表) */
+  --color-ink: #555555; /* 白地フォーム部品の上の文字 */
+  --color-ink-strong: #464545; /* 白地フォーム部品の上の文字 (濃) */
+  --color-attention: #ffff00; /* 返信引用・プレビューの注意枠 */
+  --color-disabled: #aaaaaa; /* 無効化された入力の背景 */
+
+  /*
+   * UI 部品の文字サイズは本文 1em (PageLayout の text-xs / text-sm) を基準に em で指定し、
+   * 親の font-size (村画面の表示設定「文字を大きく表示する」= 150% 等) に追従させる。
+   */
+  --text-ui-note: 0.85em; /* 補足文・入れ子の表 */
+  --text-ui-heading: 1.15em; /* 小見出し (h5) */
+  --text-ui-title: 1.3em; /* モーダルのタイトル・セクション見出し (h4) */
+  --text-ui-emphasis: 1.4em; /* 本文中の強調 (年齢制限の R18 等) */
+  --text-ui-close: 1.7em; /* モーダルの閉じる (×) */
+}
+
+/* ロゴフォント (font-anima)。frontend (/wolf-mansion) 配信の public/app/font の woff を参照する。 */
+@font-face {
+  font-family: "anima";
+  src: url("/wolf-mansion/app/font/anima-regular.woff") format("woff");
+  font-display: swap;
+}
+
+.font-anima {
+  font-family: "anima";
+}
+
+/* AA (アスキーアート) 表示用フォント (font-aahub)。public/app/font の woff2 を参照する。 */
+@font-face {
+  font-family: "aahub_light";
+  src: url("/wolf-mansion/app/font/aahub_light.woff2") format("woff2");
+  font-display: swap;
+}
+
+.font-aahub {
+  font-family: "aahub_light";
+}
+
+html,
+body {
+  @apply bg-white dark:bg-gray-950;
+
+  @media (prefers-color-scheme: dark) {
+    color-scheme: dark;
+  }
+}
+
+/* viewport-fit=cover 環境 (ノッチ付き iPhone の横向き等) で本文が画面端の下に潜らないようにする */
+body {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* 発言本文の装飾 (messageHtml.ts が生成する HTML から参照する) */
+.msg-extra-small {
+  font-size: 6px;
+  font-weight: bold;
+}
+
+.netabare {
+  cursor: pointer;
+  background-color: #333;
+  color: #333 !important;
+}
+
+.transparency {
+  cursor: pointer;
+  opacity: 0;
+}
+
+/* 拡声能力を受けた発言 */
+.loud {
+  font-size: 300%;
+}
+
+/* 虹塗り能力を受けた発言 (グラデーションを文字でマスクして流す) */
+.rainbow {
+  background: linear-gradient(
+      to right,
+      #f00 0%,
+      #f80 14.28%,
+      #dd0 28.56%,
+      #0d0 42.85%,
+      #0dd 57.14%,
+      #00f 71.42%,
+      #e0e 85.71%,
+      #f00 100%
+    )
+    0% center / 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 10s linear infinite;
+}
+
+@keyframes rainbow {
+  to {
+    background-position-x: 200%;
+  }
+}
+
+/* 新着発言を検知したときの更新ボタン点滅 */
+.flash {
+  animation: wm-flash 1s infinite;
+}
+
+@keyframes wm-flash {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 発言本文中のリンク色 (アンカー・ハッシュタグ・ユーザページ) */
+.message a {
+  color: #f00000;
+}
+
+.message.message-public-system a {
+  color: #0ce3ac;
+}

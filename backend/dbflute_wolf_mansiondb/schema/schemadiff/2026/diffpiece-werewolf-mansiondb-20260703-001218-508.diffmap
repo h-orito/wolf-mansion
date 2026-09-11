@@ -1,0 +1,27 @@
+map:{
+    ; 2026/07/03 00:12:18.508 = map:{
+        ; diffDate = 2026/07/03 00:12:18.508
+        ; tableCount = map:{
+            ; next = 48
+            ; previous = 47
+        }
+        ; diffAuthor = h-orito
+        ; diffGitBranch = enhance/step-13-analyzer-reasoning-support
+        ; tableDiff = map:{
+            ; analyzer_memo = map:{
+                ; tableName = analyzer_memo
+                ; diffType = ADD
+            }
+            ; refresh_token = map:{
+                ; tableName = refresh_token
+                ; diffType = CHANGE
+                ; indexDiff = map:{
+                    ; IX_REFRESH_TOKEN_EXPIRES = map:{
+                        ; constraintName = IX_REFRESH_TOKEN_EXPIRES
+                        ; diffType = ADD
+                    }
+                }
+            }
+        }
+    }
+}

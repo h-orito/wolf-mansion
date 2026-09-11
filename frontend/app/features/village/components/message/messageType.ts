@@ -1,0 +1,67 @@
+export const MessageType = {
+  // 発言系
+  NORMAL_SAY: "NORMAL_SAY",
+  WEREWOLF_SAY: "WEREWOLF_SAY",
+  MONOLOGUE_SAY: "MONOLOGUE_SAY",
+  SECRET_SAY: "SECRET_SAY",
+  MASON_SAY: "MASON_SAY",
+  LOVERS_SAY: "LOVERS_SAY",
+  TELEPATHY: "TELEPATHY",
+  GRAVE_SAY: "GRAVE_SAY",
+  SPECTATE_SAY: "SPECTATE_SAY",
+  CREATOR_SAY: "CREATOR_SAY",
+  ACTION: "ACTION",
+  // システム系
+  PUBLIC_SYSTEM: "PUBLIC_SYSTEM",
+  PRIVATE_SYSTEM: "PRIVATE_SYSTEM",
+  PRIVATE_SEER: "PRIVATE_SEER",
+  PRIVATE_WISE: "PRIVATE_WISE",
+  PRIVATE_PSYCHIC: "PRIVATE_PSYCHIC",
+  PRIVATE_GURU: "PRIVATE_GURU",
+  PRIVATE_CORONER: "PRIVATE_CORONER",
+  PRIVATE_INVESTIGATE: "PRIVATE_INVESTIGATE",
+  PRIVATE_WEREWOLF: "PRIVATE_WEREWOLF",
+  PRIVATE_LOVER: "PRIVATE_LOVER",
+  PRIVATE_FOX: "PRIVATE_FOX",
+  PRIVATE_ABILITY: "PRIVATE_ABILITY",
+  // 特殊
+  PARTICIPANTS: "PARTICIPANTS",
+} as const;
+
+/** ネタバレ防止の対象種別 (エピローグ前は見えなかったもの)。 */
+export const SPOILED_TYPES: Set<string> = new Set([
+  MessageType.WEREWOLF_SAY,
+  MessageType.MONOLOGUE_SAY,
+  MessageType.SECRET_SAY,
+  MessageType.MASON_SAY,
+  MessageType.LOVERS_SAY,
+  MessageType.TELEPATHY,
+  MessageType.GRAVE_SAY,
+  MessageType.SPECTATE_SAY,
+  MessageType.PRIVATE_SYSTEM,
+  MessageType.PRIVATE_SEER,
+  MessageType.PRIVATE_WISE,
+  MessageType.PRIVATE_PSYCHIC,
+  MessageType.PRIVATE_GURU,
+  MessageType.PRIVATE_CORONER,
+  MessageType.PRIVATE_INVESTIGATE,
+  MessageType.PRIVATE_WEREWOLF,
+  MessageType.PRIVATE_LOVER,
+  MessageType.PRIVATE_FOX,
+  MessageType.PRIVATE_ABILITY,
+]);
+
+/** 発言系メッセージの種別。SayMessage で描画する対象の判定に使う。 */
+export const SAY_TYPES: Set<string> = new Set([
+  MessageType.NORMAL_SAY,
+  MessageType.WEREWOLF_SAY,
+  MessageType.MONOLOGUE_SAY,
+  MessageType.SECRET_SAY,
+  MessageType.MASON_SAY,
+  MessageType.LOVERS_SAY,
+  MessageType.TELEPATHY,
+  MessageType.GRAVE_SAY,
+  MessageType.SPECTATE_SAY,
+  MessageType.CREATOR_SAY,
+  MessageType.ACTION,
+]);
