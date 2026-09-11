@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - feature/monorepo
+      - main
     paths:
       - frontend/**
       - .github/workflows/deploy-frontend.yml
