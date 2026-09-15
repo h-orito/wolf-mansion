@@ -96,3 +96,57 @@ test("参加者の設定モーダルには Discord 通知設定が表示され�
   await dialog.getByLabel("WebhookURL").fill("https://discord.com/api/webhooks/x/y");
   await expect(dialog.getByRole("button", { name: "保存" })).toBeEnabled();
 });
+
+test("保存済みの通知キーワードはスペース区切りで設定モーダルと抽出モーダルに反映される", async ({
+  page,
+}) => {
+  const candidate = await findParticipant(page);
+  expect(candidate, "進行中の村の参加者が見つからない").not.toBeNull();
+  if (candidate == null) return;
+
+  // 保存はサーバへ書き込むため行わず、保存済みキーワードが 2 語ある応答を差し込んで表示側だけを確認する
+  const keywords = ["狼", "占い"];
+  await page.route("**/situation/me*", async (route) => {
+    const response = await route.fetch();
+    const body = (await response.json()) as {
+      myself: {
+        notification: {
+          discordWebhookUrl: string;
+          village: { start: boolean; dayChange: boolean; epilogue: boolean };
+          message: { secretSay: boolean; anchor: boolean; abilitySay: boolean; keywords: string[] };
+        } | null;
+      };
+    };
+    const notification = body.myself.notification ?? {
+      discordWebhookUrl: "",
+      village: { start: false, dayChange: false, epilogue: false },
+      message: { secretSay: false, anchor: false, abilitySay: false, keywords: [] },
+    };
+    body.myself.notification = {
+      ...notification,
+      message: { ...notification.message, keywords },
+    };
+    await route.fulfill({ response, json: body });
+  });
+
+  await page.goto(`village/${candidate.villageId}`);
+  await expect(page.getByRole("button", { name: "設定" })).toBeVisible({ timeout: 15000 });
+  await dismissAgeLimitModal(page);
+  await page
+    .getByRole("button", { name: "確認したので次回以降表示しない" })
+    .click({ timeout: 10000 })
+    .catch(() => {});
+
+  // 設定モーダル: 入力欄は 1 行テキストなので、単語間がスペースで保たれている
+  await page.getByRole("button", { name: "設定" }).click();
+  const settings = page.getByRole("dialog", { name: "設定" });
+  await expect(settings.getByLabel("通知キーワード")).toHaveValue("狼 占い");
+  await settings.getByRole("button", { name: "閉じる", exact: true }).last().click();
+  await expect(settings).toHaveCount(0);
+
+  // 抽出モーダル: 「通知キーワード」でスペース区切りのキーワード抽出が適用される
+  await page.getByRole("button", { name: "抽出", exact: true }).click();
+  await expect(page.getByRole("heading", { name: "発言抽出" })).toBeVisible();
+  await page.getByRole("button", { name: "通知キーワード" }).click();
+  await expect.poll(() => new URL(page.url()).searchParams.get("kwd")).toBe("狼 占い");
+});
