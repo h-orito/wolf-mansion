@@ -16,7 +16,6 @@ import {
 import { Link } from "react-router";
 
 import { Footer } from "~/components/layout/Footer";
-import { RenewalBanner } from "~/components/layout/RenewalBanner";
 import { logout } from "~/features/auth/api";
 import { useInvalidateMe, useMe } from "~/features/auth/useMe";
 import { NOT_FINISHED_STATUSES, type SimpleVillageView } from "~/features/villages/api";
@@ -87,8 +86,6 @@ export default function Home() {
             )}
           </div>
         </div>
-
-        <RenewalBanner />
 
         {/* サイト紹介 + ナビ (見出し・説明は 100px 高の中央行。:8091 再現) */}
         <section className="bg-wm-band bg-clip-content p-[15px] text-center text-white">
