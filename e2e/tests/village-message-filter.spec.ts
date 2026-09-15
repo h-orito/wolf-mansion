@@ -35,3 +35,19 @@ test("抽出モーダルからキーワード抽出すると URL に保存され
 
   await expect(page).toHaveURL(/kwd=/);
 });
+
+test("過去日を表示中にフッターの「更新」を押しても抽出条件が引き継がれる", async ({ page }) => {
+  const villages = await ensureVillagesExist(page, ["IN_PREPARATION", "IN_PROGRESS"]);
+  const village = villages[villages.length - 1];
+
+  // 0 日目 (プロローグ) はどの村にもあるので、日付指定ページとして使う
+  await page.goto(`village/${village.id}/day/0?typ=PUBLIC_SYSTEM`);
+  await expect(page.locator(".message").first()).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole("button", { name: "抽出中" })).toBeVisible();
+
+  await page.getByRole("button", { name: "更新" }).click();
+
+  // 最新日 (日付指定なし) へ戻り、抽出条件は URL に残る
+  await expect(page).toHaveURL(new RegExp(`/village/${village.id}\\?typ=PUBLIC_SYSTEM$`));
+  await expect(page.getByRole("button", { name: "抽出中" })).toBeVisible();
+});
