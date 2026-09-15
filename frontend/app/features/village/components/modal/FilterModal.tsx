@@ -169,7 +169,7 @@ export function FilterModal({
   const participants = sortByRoomNumber(allParticipants(village)).map(toFilterParticipant);
   const myselfId = mySituation?.myself?.id ?? null;
   const notificationKeyword =
-    mySituation?.myself?.notification?.message?.keywords?.join("\n") ?? null;
+    mySituation?.myself?.notification?.message?.keywords?.join(" ") ?? null;
 
   const allParticipantIds = participants.map((p) => p.id);
   const [draft, setDraft] = useState<Draft>(() => toDraft(filter, allParticipantIds));

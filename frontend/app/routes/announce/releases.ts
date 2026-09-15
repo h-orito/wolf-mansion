@@ -12,6 +12,14 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/09/15 以下を変更しました。"],
+    items: [
+      [
+        "通知キーワードを複数設定して保存すると、設定を開き直した際に単語が連結されてしまう不具合を修正",
+      ],
+    ],
+  },
+  {
     lead: ["2026/09/03 以下を変更しました。"],
     items: [
       [
