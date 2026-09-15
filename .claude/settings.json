@@ -1,8 +1,7 @@
 {
   "permissions": {
     "deny": [
-      "Edit(frontend/app/api/types.ts)",
-      "Write(frontend/app/api/types.ts)"
+      "Edit(frontend/app/api/types.ts)"
     ]
   },
   "hooks": {
