@@ -518,14 +518,10 @@ class MessageDomainService(
                 )
 
             fun createBarlowText(text: String): String {
-                // 10%の確率で変換しない
-                val rnd = Random()
-                var num = rnd.nextInt(10)
-                if (num == 0) return text
-
-                // 10％の確率で特定のセリフを喋る
-                num = rnd.nextInt(10)
-                if (num == 0) return barlowMessages.random()
+                // 50%: 変換しない、10%: 特定のセリフ、40%: ラーン
+                val num = Random().nextInt(100)
+                if (num < 50) return text
+                if (num < 60) return barlowMessages.random()
 
                 var suffixCount = text.length / 3
                 if (suffixCount < 1) {
