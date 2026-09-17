@@ -12,6 +12,10 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/09/17 以下を変更しました。"],
+    items: [["バー狼がそのまま話せる確率を10%から50%に変更"]],
+  },
+  {
     lead: ["2026/09/15 以下を変更しました。"],
     items: [
       [
