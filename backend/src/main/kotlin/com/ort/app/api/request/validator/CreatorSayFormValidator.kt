@@ -19,10 +19,10 @@ class CreatorSayFormValidator : Validator {
         form.message = form.message!!.trim()
         if (form.message!!.isEmpty()) return
 
-        val message = form.message!!
+        val message = form.message!!.replace("\r\n", "\n")
 
         val length = message.length
-        val lineSeparetorNum = message.split("\r\n").size - 1
+        val lineSeparetorNum = message.split("\n").size - 1
         val messageLength = length - lineSeparetorNum
         if (messageLength !in 1..1000) {
             errors.rejectValue("message", "VillageSayForm.validator.creator.message.length")

@@ -94,14 +94,15 @@ class NewVillageFormValidator : Validator {
         field: String,
     ) {
         // 改行数＋それ以外の文字が400文字以上
-        val length = message.length
-        val lineSeparatorNum = message.split("\r\n").size - 1
+        val normalized = message.replace("\r\n", "\n")
+        val length = normalized.length
+        val lineSeparatorNum = normalized.split("\n").size - 1
         val messageLength = length - lineSeparatorNum
         if (messageLength !in 1..400) {
             errors.rejectValue(field, "VillageSayForm.validator.message.length")
         }
         // 行数が21以上
-        if (message.split("\r\n").size > 20) {
+        if (normalized.split("\n").size > 20) {
             errors.rejectValue(field, "VillageSayForm.validator.message.line")
         }
     }
