@@ -156,7 +156,7 @@ function NotificationSection({ mySituation }: { mySituation: ParticipantSituatio
   const [secretSay, setSecretSay] = useState(current?.message?.secretSay ?? false);
   const [anchorSay, setAnchorSay] = useState(current?.message?.anchor ?? false);
   const [abilitySay, setAbilitySay] = useState(current?.message?.abilitySay ?? false);
-  const [keyword, setKeyword] = useState(current?.message?.keywords?.join("\n") ?? "");
+  const [keyword, setKeyword] = useState(current?.message?.keywords?.join(" ") ?? "");
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
   const [submitting, setSubmitting] = useState(false);

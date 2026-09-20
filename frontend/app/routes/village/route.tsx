@@ -293,7 +293,8 @@ export default function Village({ params }: Route.ComponentProps) {
                 resetToLatest();
                 pendingScroll.current = true;
                 if (dayParam != null) {
-                  navigate(`/village/${villageId}`);
+                  // 抽出条件は searchParams が正本なので、最新日へ戻る際も引き継ぐ
+                  navigate({ pathname: `/village/${villageId}`, search: searchParams.toString() });
                 } else {
                   void refresh();
                 }
