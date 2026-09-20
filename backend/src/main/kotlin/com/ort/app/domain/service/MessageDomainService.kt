@@ -537,10 +537,11 @@ class MessageDomainService(
 
         // 再翻訳以外の変換
         fun transform(messageContent: MessageContent): MessageContent {
-            var text = messageContent.text
+            // 行単位で変換するため、改行コードを LF に揃えてから分割する
+            var text = messageContent.text.replace("\r\n", "\n")
             if (barlow) {
                 text =
-                    text.split("\r\n").joinToString("\r\n") {
+                    text.split("\n").joinToString("\n") {
                         if (it.isEmpty()) it else createBarlowText(it)
                     }
             }
@@ -550,7 +551,7 @@ class MessageDomainService(
                     text = text.replace("！", "")
                 }
                 text =
-                    text.split("\r\n").joinToString("\r\n") {
+                    text.split("\n").joinToString("\n") {
                         if (it.isEmpty()) it else "$it──────"
                     }
             }
@@ -560,7 +561,7 @@ class MessageDomainService(
                     text = text.replace("！", "")
                 }
                 text =
-                    text.split("\r\n").joinToString("\r\n") {
+                    text.split("\n").joinToString("\n") {
                         if (it.isEmpty()) {
                             it
                         } else {
@@ -571,8 +572,8 @@ class MessageDomainService(
             }
             if (dakuten) {
                 text =
-                    text.split("\r\n").joinToString(
-                        separator = "\r\n",
+                    text.split("\n").joinToString(
+                        separator = "\n",
                         prefix = "[[large]][[b]]",
                         postfix = "[[/b]][[/large]]",
                     ) {
