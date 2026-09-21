@@ -76,7 +76,7 @@ export default function Village({ params }: Route.ComponentProps) {
   const dayParam = params.day != null ? Number(params.day) : undefined;
 
   const navigate = useNavigate();
-  const { scrollToBottom } = useVillageScroll();
+  const { scrollToBottom, scrollToVotePanel } = useVillageScroll();
   const { me } = useMe();
   const { data: village, error: villageError } = useVillage(villageId);
   const { data: situation } = useVillageSituation(villageId, dayParam, me?.name ?? null);
@@ -117,6 +117,12 @@ export default function Village({ params }: Route.ComponentProps) {
   };
   const latestDay = village != null ? latestDayOf(village) : undefined;
   const currentDay = dayParam ?? latestDay ?? 0;
+  // 投票パネルは最新日にしか出ないので、警告も最新日を表示中のときだけ出す
+  const isVoteUnset =
+    currentDay === latestDay &&
+    mySituation != null &&
+    mySituation.vote.canVote &&
+    mySituation.vote.targetCharaId == null;
 
   const daychangeDetected = useVillagePolling(villageId, latestDay);
   const showToast = useToast((s) => s.show);
@@ -300,6 +306,7 @@ export default function Village({ params }: Route.ComponentProps) {
                 }
               }}
               hasNewMessage={hasNewMessage}
+              onGotoVote={isVoteUnset ? scrollToVotePanel : undefined}
               onFilter={() => setFilterOpen(true)}
               filtering={isFiltering(filter)}
               onSettings={() => setSettingsOpen(true)}

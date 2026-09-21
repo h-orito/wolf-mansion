@@ -15,7 +15,22 @@ import {
 } from "~/features/village/useVillageScroll";
 
 const buttonBaseClass =
-  "flex flex-1 items-center justify-center gap-[2px] border border-success px-[5px] py-[10px] min-[768px]:py-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";
+  "flex flex-1 items-center justify-center gap-[2px] border px-[5px] py-[10px] min-[768px]:py-[4px] first:rounded-l-[3px] last:rounded-r-[3px]";
+
+const variantClass = {
+  default: {
+    border: "border-success",
+    active: "bg-success text-white",
+    inactive: "bg-wm-base text-success",
+    hover: "hover:bg-success hover:text-white",
+  },
+  danger: {
+    border: "border-wm-danger",
+    active: "bg-wm-danger text-white",
+    inactive: "bg-wm-base text-wm-danger",
+    hover: "hover:bg-wm-danger hover:text-white",
+  },
+} as const;
 
 function MenuButton({
   icon,
@@ -23,35 +38,43 @@ function MenuButton({
   onClick,
   disabled = false,
   active = false,
+  variant = "default",
+  hideLabelOnMobile = true,
 }: {
-  icon: ReactNode;
+  icon?: ReactNode;
   label: string;
   onClick?: () => void;
   disabled?: boolean;
   /** 適用中の状態表示 (塗りつぶし)。 */
   active?: boolean;
+  variant?: keyof typeof variantClass;
+  /** スマホ幅ではアイコンだけにしてラベルを隠す。 */
+  hideLabelOnMobile?: boolean;
 }) {
+  const c = variantClass[variant];
   return (
     <button
       type="button"
-      className={`${buttonBaseClass} ${
-        active ? "bg-success text-white" : "bg-wm-base text-success"
-      } ${disabled ? "opacity-50" : "cursor-pointer hover:bg-success hover:text-white"}`}
+      className={`${buttonBaseClass} ${c.border} ${active ? c.active : c.inactive} ${
+        disabled ? "opacity-50" : `cursor-pointer ${c.hover}`
+      }`}
       onClick={onClick}
       disabled={disabled}
     >
       {icon}
-      <span className="max-[768px]:hidden">{label}</span>
+      <span className={hideLabelOnMobile ? "max-[768px]:hidden" : ""}>{label}</span>
     </button>
   );
 }
 
 /**
  * 画面下部に固定表示する操作メニュー。新着発言を検知したら更新アイコンを点滅させる。
+ * 投票先が未セットのときは、突然死を防ぐための警告ボタンを常時表示する。
  */
 export function FooterMenu({
   onRefresh,
   hasNewMessage = false,
+  onGotoVote,
   onFilter,
   filtering = false,
   onSettings,
@@ -59,6 +82,8 @@ export function FooterMenu({
 }: {
   onRefresh: () => void;
   hasNewMessage?: boolean;
+  /** 投票先へスクロールする。渡されたときだけ未投票警告を表示する。 */
+  onGotoVote?: () => void;
   /** 抽出モーダルを開く。 */
   onFilter?: () => void;
   /** 抽出条件が適用中か (ボタンを「抽出中」のアクティブ表示にする) */
@@ -90,6 +115,16 @@ export function FooterMenu({
 
   return (
     <div id={FOOTER_MENU_ID} ref={rootRef} className="fixed bottom-0 left-0 z-20 w-screen">
+      {onGotoVote != null && (
+        <div className="flex rounded-[4px] bg-surface p-[3px] pl-[calc(3px+env(safe-area-inset-left))] pr-[calc(3px+env(safe-area-inset-right))]">
+          <MenuButton
+            label="投票欄へ (未セットのままだと突然死します)"
+            onClick={onGotoVote}
+            variant="danger"
+            hideLabelOnMobile={false}
+          />
+        </div>
+      )}
       <div className="flex rounded-[4px] bg-surface p-[3px] pb-[calc(3px+env(safe-area-inset-bottom))] pl-[calc(3px+env(safe-area-inset-left))] pr-[calc(3px+env(safe-area-inset-right))]">
         <MenuButton
           icon={<ArrowUpIcon className={iconClass} />}
