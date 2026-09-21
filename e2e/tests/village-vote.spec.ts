@@ -115,8 +115,18 @@ test("投票可能な参加者に投票パネルが表示される", async ({ pa
   await expect(page.getByRole("button", { name: "投票セット" })).toBeVisible({ timeout: 15000 });
   await dismissInitialSkillModal(page);
   await expect(page.getByText(`現在の投票先: ${targetName ?? "なし"}`)).toBeVisible();
+  const votePanel = page.locator("#vote-panel");
+  const footerVoteButton = page.getByRole("button", {
+    name: "投票欄へ (未セットのままだと突然死します)",
+  });
   if (candidate.vote.targetCharaId == null) {
-    await expect(page.getByText("(未セットのままだと突然死します)")).toBeVisible();
+    // 未投票なら投票パネルのヘッダーと画面下部フッターの両方で警告する
+    await expect(votePanel.getByText("(未セットのままだと突然死します)")).toBeVisible();
+    await expect(footerVoteButton).toBeVisible();
+    await footerVoteButton.click();
+    await expect(votePanel).toBeInViewport();
+  } else {
+    await expect(footerVoteButton).toHaveCount(0);
   }
 });
 

@@ -6,6 +6,9 @@ export const FOOTER_MENU_ID = "footer-menu";
 /** FooterMenu が実高さを書き込む CSS 変数名。下部余白の確保に使う。 */
 export const FOOTER_MENU_HEIGHT_VAR = "--footer-menu-height";
 
+/** 投票パネルを囲む要素の ID。フッターの未投票警告からのスクロール先。 */
+export const VOTE_PANEL_ID = "vote-panel";
+
 /** FooterMenu 未マウント時 (SSR 直後など) のフォールバック高さ。 */
 const DEFAULT_FOOTER_HEIGHT = 45;
 
@@ -53,5 +56,10 @@ export function useVillageScroll() {
     scrollToElementBottom("message-bottom", smooth);
   }, []);
 
-  return { scrollToTop, scrollToBottom, scrollToMessageBottom };
+  /** 投票パネルの上端を画面上端に合わせる。フッターの未投票警告ボタン用。 */
+  const scrollToVotePanel = useCallback(() => {
+    document.getElementById(VOTE_PANEL_ID)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
+
+  return { scrollToTop, scrollToBottom, scrollToMessageBottom, scrollToVotePanel };
 }

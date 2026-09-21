@@ -28,6 +28,7 @@ import {
   SwitchParticipatePanel,
 } from "~/features/village/components/participate/ParticipantOpsPanels";
 import { ParticipatePanel } from "~/features/village/components/participate/ParticipatePanel";
+import { VOTE_PANEL_ID } from "~/features/village/useVillageScroll";
 
 export function ActionPanels({
   dayParam,
@@ -88,7 +89,9 @@ export function ActionPanels({
       )}
 
       {isLatestDay && mySituation != null && mySituation.vote.canVote && (
-        <VotePanel mySituation={mySituation} roomAssignedRows={situation?.roomAssignedRowList} />
+        <div id={VOTE_PANEL_ID}>
+          <VotePanel mySituation={mySituation} roomAssignedRows={situation?.roomAssignedRowList} />
+        </div>
       )}
 
       {isLatestDay && mySituation != null && mySituation.myself?.skill != null && (
