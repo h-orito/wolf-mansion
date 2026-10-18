@@ -14,14 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 @Configuration
 @EnableWebSecurity
 class WolfMansionWebSecurityConfig {
     /**
-     * REST API チェーン (`/api/v1` 配下)。JWT による stateless 認証。
-     * 移行期間は本チェーンと既存 SSR チェーン ([webFilterChain]) が共存する。
+     * REST API チェーン (`/api/v1` 配下)。JWT による stateless 認証。それ以外は [webFilterChain]。
      */
     @Bean
     @Order(1)
@@ -87,55 +85,16 @@ class WolfMansionWebSecurityConfig {
     }
 
     /**
-     * 既存 SSR チェーン (`/api/v1` 配下 以外すべて)。セッション + formLogin。
-     * 公開 API (`/recruiting`, `/api/login` 等) はこの構成で動かす。
+     * `/api/v1` 以外のチェーン。外部ツール向けの公開 API (`/recruiting`, `/api/login` 等) だけが残っており、
+     * 認証を要する画面は無い。フォームログインや remember-me は資格情報の総当たりの抜け道になるため持たない。
      */
     @Bean
     @Order(2)
-    fun webFilterChain(
-        http: HttpSecurity,
-        userInfoService: UserInfoService,
-    ): SecurityFilterChain {
-        // Spring Security 5 互換: BREACH 対策の XOR を無効化 (multipart フォームとの互換性のため)
-        val csrfTokenHandler = CsrfTokenRequestAttributeHandler()
+    fun webFilterChain(http: HttpSecurity): SecurityFilterChain {
         http
-            .authorizeHttpRequests { auth ->
-                auth
-                    .requestMatchers("/admin/**")
-                    .hasRole("ADMIN")
-                    .requestMatchers("/change-password")
-                    .fullyAuthenticated()
-                    .anyRequest()
-                    .permitAll()
-            }.formLogin { form ->
-                form
-                    .loginProcessingUrl("/login")
-                    .loginPage("/")
-                    .defaultSuccessUrl("/")
-                    .failureUrl("/login?error=true")
-                    .usernameParameter("userId")
-                    .passwordParameter("password")
-                    .permitAll()
-            }.logout { logout ->
-                logout
-                    .logoutUrl("/logout")
-                    .logoutSuccessUrl("/")
-                    .deleteCookies("JSESSIONID")
-                    .invalidateHttpSession(true)
-                    .permitAll()
-            }.rememberMe { rm ->
-                rm
-                    .userDetailsService(userInfoService)
-                    .key("X7kmptSvar")
-            }.csrf { csrf ->
-                csrf.csrfTokenRequestHandler(csrfTokenHandler)
-                csrf.ignoringRequestMatchers(
-                    "/village/*/confirm",
-                    "/village/*/say",
-                    "/api/login",
-                    "/village/*/update",
-                )
-            }.authenticationProvider(authenticationProvider(userInfoService))
+            .csrf { it.disable() }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+            .authorizeHttpRequests { it.anyRequest().permitAll() }
         return http.build()
     }
 

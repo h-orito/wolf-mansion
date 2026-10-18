@@ -114,6 +114,28 @@ internal class AuthCoordinatorTest {
     }
 
     @Test
+    fun verifyCredentials_returns_true_only_for_correct_password() {
+        val coordinator = newCoordinator(FakeRefreshTokenRepository())
+        assertTrue(coordinator.verifyCredentials("alice", "correct-horse", CLIENT_IP))
+        assertFalse(coordinator.verifyCredentials("alice", "wrong", CLIENT_IP))
+        assertFalse(coordinator.verifyCredentials("nobody", "correct-horse", CLIENT_IP))
+    }
+
+    @Test
+    fun verifyCredentials_shares_rate_limit_with_login() {
+        val attemptRepo = FakeLoginAttemptRepository()
+        val coordinator = newCoordinator(FakeRefreshTokenRepository(), attemptRepo = attemptRepo)
+        // レガシー API での失敗も同じアカウントの失敗として数える
+        repeat(MAX_PER_ACCOUNT) {
+            assertFalse(coordinator.verifyCredentials("alice", "wrong", CLIENT_IP))
+        }
+        assertThrows<WolfMansionTooManyRequestsException> {
+            coordinator.verifyCredentials("alice", "correct-horse", CLIENT_IP)
+        }
+        assertThrows<WolfMansionTooManyRequestsException> { coordinator.login("alice", "correct-horse", CLIENT_IP) }
+    }
+
+    @Test
     fun signup_creates_player_and_auto_logs_in() {
         val repo = FakeRefreshTokenRepository()
         val playerService = mock(PlayerService::class.java)

@@ -87,6 +87,28 @@ class AuthCoordinator(
         return issueTokens(playerAuth)
     }
 
+    /**
+     * トークンを発行せずに資格情報だけを検証する (外部ツール向けのレガシー `/api/login` 用)。
+     * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返すため、
+     * 失敗記録はそのままコミットされる。
+     */
+    @Transactional(rollbackFor = [Exception::class], noRollbackFor = [WolfMansionTooManyRequestsException::class])
+    fun verifyCredentials(
+        userId: String,
+        rawPassword: String,
+        clientIp: String,
+    ): Boolean {
+        val now = LocalDateTime.now()
+        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
+        val playerAuth = playerAuthRepository.findByName(userId)
+        if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
+            loginRateLimiter.recordFailure(userId, clientIp, now)
+            return false
+        }
+        loginRateLimiter.reset(userId)
+        return true
+    }
+
     /** ログイン中ユーザー自身のパスワード変更。確認用一致チェックは呼び出し側で行う。 */
     @Transactional(rollbackFor = [Exception::class])
     fun changePassword(
