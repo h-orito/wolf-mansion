@@ -4,6 +4,7 @@ import com.ort.app.api.request.NewVillageForm
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
+import com.ort.app.fw.util.CharaImageType
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
@@ -117,6 +118,8 @@ class NewVillageFormValidator : Validator {
         val file = form.dummyCharaImageFile ?: return
         if (file.size == 0L || 100000L < file.size) {
             errors.rejectValue("dummyCharaName", "NewVillageForm.validator.dummyCharaImageFile.size")
+        } else if (CharaImageType.detect(file) == null) {
+            errors.rejectValue("dummyCharaName", "NewVillageForm.validator.dummyCharaImageFile.type")
         }
     }
 

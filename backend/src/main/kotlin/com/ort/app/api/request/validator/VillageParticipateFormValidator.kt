@@ -1,6 +1,7 @@
 package com.ort.app.api.request.validator
 
 import com.ort.app.api.request.VillageParticipateForm
+import com.ort.app.fw.util.CharaImageType
 import org.springframework.stereotype.Component
 import org.springframework.validation.Errors
 import org.springframework.validation.Validator
@@ -56,6 +57,8 @@ class VillageParticipateFormValidator : Validator {
         form.charaImageFile?.let {
             if (it.size == 0L || 100000L < it.size) {
                 errors.rejectValue("charaImageFile", "NewVillageForm.validator.dummyCharaImageFile.size")
+            } else if (CharaImageType.detect(it) == null) {
+                errors.rejectValue("charaImageFile", "NewVillageForm.validator.dummyCharaImageFile.type")
             }
         }
     }
