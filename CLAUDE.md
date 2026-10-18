@@ -104,7 +104,7 @@ Clean Architecture + DDD に基づき、**画面専用の API やレスポンス
 
 ### デプロイ
 
-- main への push で `deploy-backend.yml` / `deploy-frontend.yml` により OCL サーバー（k8s の `wolf-mansion-backend` / `wolf-mansion-frontend`）へ自動デプロイ。**マージ = 即デプロイ**で、これが唯一の稼働系（本番）。
+- main への push で `deploy-backend.yml` / `deploy-frontend.yml` が GHCR にイメージを push し、本番 k3s（wolf-kubernetes）の image-watcher が digest の変化を検知して `wolf-mansion-backend` / `wolf-mansion-frontend` を rollout restart する（2 分おき）。**マージ = 即デプロイ**で、これが唯一の稼働系（本番）。
 - monorepo 移行は 2026-09 に main へ cutover 済み。`feature/monorepo` は移行中の作業ブランチで、以後は使わない。
 
 ## Key Conventions
