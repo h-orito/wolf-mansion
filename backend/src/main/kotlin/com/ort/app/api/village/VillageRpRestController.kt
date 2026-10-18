@@ -12,6 +12,7 @@ import com.ort.app.domain.service.RpDomainService
 import com.ort.app.fw.exception.WolfMansionAuthException
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.security.jwt.JwtPrincipal
+import com.ort.app.fw.util.CharaImageType
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
@@ -134,8 +135,8 @@ class VillageRpRestController(
         if (image.isEmpty || image.size > 100_000L) {
             throw WolfMansionBusinessException("画像は100KB以下のファイルを指定してください")
         }
-        if (image.contentType?.startsWith("image/") != true) {
-            throw WolfMansionBusinessException("画像ファイルを指定してください")
+        if (CharaImageType.detect(image) == null) {
+            throw WolfMansionBusinessException("画像は PNG / JPEG / GIF / WebP 形式のファイルを指定してください")
         }
     }
 

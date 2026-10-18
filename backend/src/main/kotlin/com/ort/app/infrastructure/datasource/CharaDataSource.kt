@@ -2,6 +2,8 @@ package com.ort.app.infrastructure.datasource
 
 import com.ort.app.domain.model.chara.*
 import com.ort.app.domain.model.chara.Chara
+import com.ort.app.fw.exception.WolfMansionBusinessException
+import com.ort.app.fw.util.CharaImageType
 import com.ort.dbflute.bsbhv.loader.LoaderOfChara
 import com.ort.dbflute.cbean.CharaImageCB
 import com.ort.dbflute.exbhv.*
@@ -380,9 +382,11 @@ class CharaDataSource(
         // フォルダ作成
         val dir = File("$basedir/$charachipId")
         dir.mkdir()
-        // 画像
-        val ext = charaImage.originalFilename.let { it!!.substring(it.lastIndexOf('.')) }
-        val filename = "${charaId}_${charaImageId}$ext"
+        // 画像 (拡張子はファイル名ではなく中身から決める)
+        val type =
+            CharaImageType.detect(charaImage)
+                ?: throw WolfMansionBusinessException("画像は PNG / JPEG / GIF / WebP 形式のファイルを指定してください")
+        val filename = "${charaId}_${charaImageId}${type.extension}"
         uploadFile(dir, charaImage, filename)
         return "$baseurl/$charachipId/$filename"
     }
