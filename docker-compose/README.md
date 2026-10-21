@@ -23,6 +23,15 @@ docker compose down
 docker compose down -v
 ```
 
+## プロジェクト名を固定する前の環境からの移行
+
+compose のプロジェクト名を `wolf-mansion` に固定した（以前はフォルダ名の `docker-compose`）。以前のコンテナが残っているとコンテナ名が衝突するので、一度だけ旧プロジェクトのコンテナを削除してから起動する。DB のボリューム（`docker-compose_mysql-data`）はそのまま引き継ぐのでデータは消えない。
+
+```bash
+docker compose -p docker-compose down   # 旧プロジェクトのコンテナを削除 (-v は付けない)
+docker compose up -d
+```
+
 ## 接続情報
 
 `backend/src/main/resources/config/application.yml` の datasource と一致させています。
