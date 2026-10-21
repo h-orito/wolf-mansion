@@ -61,6 +61,7 @@ internal class AuthCoordinatorTest {
             passwordEncoder = encoder,
             playerService = playerService,
             loginRateLimiter = LoginRateLimiter(attemptRepo, FakeDiscordRepository(), NoOpTransactionManager(), 15, MAX_PER_ACCOUNT, 30),
+            transactionManager = NoOpTransactionManager(),
         )
 
     @Test

@@ -16,6 +16,12 @@ interface LoginAttemptRepository {
         since: LocalDateTime,
     ): Int
 
+    /** `since` 以降の、当該ログイン ID の (IP を問わない) 試行回数。 */
+    fun countByLoginName(
+        loginName: String,
+        since: LocalDateTime,
+    ): Int
+
     /** `since` 以降の、当該 IP の試行回数。 */
     fun countByIpAddress(
         ipAddress: String,

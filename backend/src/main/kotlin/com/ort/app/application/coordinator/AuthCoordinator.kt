@@ -13,7 +13,9 @@ import com.ort.app.fw.security.jwt.RefreshTokenFactory
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -31,11 +33,16 @@ class AuthCoordinator(
     private val passwordEncoder: PasswordEncoder,
     private val playerService: PlayerService,
     private val loginRateLimiter: LoginRateLimiter,
+    transactionManager: PlatformTransactionManager,
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val transactionTemplate = TransactionTemplate(transactionManager)
 
-    // 試行の記録は LoginRateLimiter が別トランザクションでコミットするので、401 / 429 でロールバックしても残る
-    @Transactional(rollbackFor = [Exception::class])
+    /**
+     * 外側のトランザクションは張らない。試行の記録 ([LoginRateLimiter.acquire]) は独自のトランザクションで行うため、
+     * ここで接続を保持したまま呼ぶと 1 リクエストが接続を 2 本使い、ログインが殺到すると接続プールを使い切って止まる。
+     * 資格情報の検証 (BCrypt) 中も接続を保持しない。書き込みは成功時のトークン発行だけを 1 トランザクションで行う。
+     */
     fun login(
         userId: String,
         rawPassword: String,
@@ -48,9 +55,11 @@ class AuthCoordinator(
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
             throw WolfMansionAuthException("ユーザIDまたはパスワードが違います")
         }
-        // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする
-        loginRateLimiter.reset(userId, clientIp)
-        return issueTokens(playerAuth)
+        return transactionTemplate.execute {
+            // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする
+            loginRateLimiter.reset(userId, clientIp)
+            issueTokens(playerAuth)
+        }!!
     }
 
     /**
@@ -85,8 +94,8 @@ class AuthCoordinator(
     /**
      * トークンを発行せずに資格情報だけを検証する (外部ツール向けのレガシー `/api/login` 用)。
      * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返す。
+     * [login] と同じ理由で外側のトランザクションは張らない。
      */
-    @Transactional(rollbackFor = [Exception::class])
     fun verifyCredentials(
         userId: String,
         rawPassword: String,
@@ -98,7 +107,7 @@ class AuthCoordinator(
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
             return false
         }
-        loginRateLimiter.reset(userId, clientIp)
+        transactionTemplate.executeWithoutResult { loginRateLimiter.reset(userId, clientIp) }
         return true
     }
 

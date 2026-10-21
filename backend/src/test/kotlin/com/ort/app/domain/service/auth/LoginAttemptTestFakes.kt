@@ -26,6 +26,11 @@ internal class FakeLoginAttemptRepository : LoginAttemptRepository {
             rows.count { it.loginName == loginName && it.ipAddress == ipAddress && !it.attemptAt.isBefore(since) }
         }
 
+    override fun countByLoginName(
+        loginName: String,
+        since: LocalDateTime,
+    ): Int = synchronized(rows) { rows.count { it.loginName == loginName && !it.attemptAt.isBefore(since) } }
+
     override fun countByIpAddress(
         ipAddress: String,
         since: LocalDateTime,
