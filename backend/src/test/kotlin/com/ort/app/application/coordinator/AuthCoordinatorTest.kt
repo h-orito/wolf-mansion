@@ -60,7 +60,16 @@ internal class AuthCoordinatorTest {
             refreshTokenFactory = refreshFactory,
             passwordEncoder = encoder,
             playerService = playerService,
-            loginRateLimiter = LoginRateLimiter(attemptRepo, FakeDiscordRepository(), NoOpTransactionManager(), 15, MAX_PER_ACCOUNT, 30),
+            loginRateLimiter =
+                LoginRateLimiter(
+                    attemptRepo,
+                    FakeDiscordRepository(),
+                    NoOpTransactionManager(),
+                    15,
+                    MAX_PER_ACCOUNT,
+                    30,
+                    50,
+                ),
             transactionManager = NoOpTransactionManager(),
         )
 

@@ -19,12 +19,13 @@ internal class LoginRateLimiterTest {
     private val window = 15L
     private val maxAccount = 5
     private val maxIp = 30
+    private val alertAccount = 50
     private val now: LocalDateTime = LocalDateTime.of(2026, 6, 5, 12, 0, 0)
 
     private fun newLimiter(
         repo: FakeLoginAttemptRepository,
         discord: FakeDiscordRepository = FakeDiscordRepository(),
-    ): LoginRateLimiter = LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp)
+    ): LoginRateLimiter = LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
 
     private fun LoginRateLimiter.isBlocked(
         loginName: String,
@@ -148,7 +149,7 @@ internal class LoginRateLimiterTest {
                 (1..threads).map {
                     executor.submit {
                         try {
-                            LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp)
+                            LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
                                 .acquire("alice", "1.1.1.1", now)
                             passed.incrementAndGet()
                         } catch (_: WolfMansionTooManyRequestsException) {
@@ -204,8 +205,51 @@ internal class LoginRateLimiterTest {
                 override fun deleteOlderThan(threshold: LocalDateTime): Unit = throw IllegalStateException("deadlock")
             }
         assertDoesNotThrow {
-            LoginRateLimiter(repo, FakeDiscordRepository(), NoOpTransactionManager(), window, maxAccount, maxIp)
+            LoginRateLimiter(repo, FakeDiscordRepository(), NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
                 .acquire("alice", "1.1.1.1", now)
+        }
+    }
+
+    @Test
+    fun sweep_runs_at_most_once_per_interval() {
+        val repo = FakeLoginAttemptRepository()
+        val limiter = newLimiter(repo)
+        limiter.acquire("bob", "2.2.2.2", now)
+        // 直後に窓外の行が増えても、間隔内なので掃除しない
+        repo.recordAttempt("carol", "3.3.3.3", now.minusMinutes(window + 5))
+        limiter.acquire("bob", "2.2.2.2", now.plusSeconds(30))
+        assertEquals(3, repo.rows.size)
+        // 間隔を過ぎれば掃除する
+        limiter.acquire("bob", "2.2.2.2", now.plusMinutes(2))
+        assertEquals(3, repo.rows.count { it.loginName == "bob" })
+        assertEquals(0, repo.rows.count { it.loginName == "carol" })
+    }
+
+    @Test
+    fun notification_is_sent_once_per_key_within_window() {
+        val discord = FakeDiscordRepository()
+        val repo = FakeLoginAttemptRepository()
+        val limiter = newLimiter(repo, discord)
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now) }
+        // 窓内に一度リセットされて再び上限に達しても、同じキーの通知は 1 回だけ
+        limiter.reset("alice", "1.1.1.1")
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now.plusMinutes(1)) }
+        assertEquals(1, discord.masterMessages.size)
+    }
+
+    @Test
+    fun reset_failure_does_not_break_login() {
+        val fake = FakeLoginAttemptRepository()
+        val repo =
+            object : LoginAttemptRepository by fake {
+                override fun deleteByLoginNameAndIpAddress(
+                    loginName: String,
+                    ipAddress: String,
+                ): Unit = throw IllegalStateException("deadlock")
+            }
+        assertDoesNotThrow {
+            LoginRateLimiter(repo, FakeDiscordRepository(), NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
+                .reset("alice", "1.1.1.1")
         }
     }
 

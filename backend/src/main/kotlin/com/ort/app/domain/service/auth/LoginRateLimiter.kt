@@ -13,6 +13,8 @@ import org.springframework.transaction.support.TransactionTemplate
 import java.net.Inet6Address
 import java.net.InetAddress
 import java.time.LocalDateTime
+import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * ログイン試行のレート制限。ブルートフォース対策として 2 軸で時間窓内の試行数を制限する。
@@ -35,9 +37,15 @@ class LoginRateLimiter(
     @Value("\${login-rate-limit.window-minutes:15}") private val windowMinutes: Long,
     @Value("\${login-rate-limit.max-per-account:5}") private val maxPerAccount: Int,
     @Value("\${login-rate-limit.max-per-ip:30}") private val maxPerIp: Int,
-    @Value("\${login-rate-limit.alert-per-account:50}") private val alertPerAccount: Int = 50,
+    @Value("\${login-rate-limit.alert-per-account:50}") private val alertPerAccount: Int,
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
+    // 掃除は全件スキャンの DELETE になるので、毎回ではなく間隔をあけて行う (このインスタンス内で)
+    private val lastSweptAt = AtomicReference<LocalDateTime>(LocalDateTime.MIN)
+
+    // 同時送信で同じ通知が大量に飛ばないよう、通知の種類とキーごとに時間窓内 1 回へ間引く (このインスタンス内で)
+    private val lastNotifiedAt = ConcurrentHashMap<String, LocalDateTime>()
 
     // 呼び出し側とは独立にコミットし、並行リクエストから見えるようにする
     private val requiresNew =
@@ -74,7 +82,7 @@ class LoginRateLimiter(
         if (before.pair >= maxPerAccount || before.ip >= maxPerIp) throw tooManyRequests()
 
         requiresNew.executeWithoutResult { loginAttemptRepository.recordAttempt(loginName, ipKey, now) }
-        sweep(since)
+        sweep(now, since)
         // 記録のコミット後に新しいトランザクションで数え、並行リクエストの記録も確実に含める
         val after = count(loginName, ipKey, since)
 
@@ -82,6 +90,8 @@ class LoginRateLimiter(
         // 同時送信では複数のリクエストが閾値に達したと判定しうるので、通知が重複することはある
         if (before.pair < maxPerAccount && after.pair >= maxPerAccount) {
             notifyMaster(
+                "pair:$loginName:$ipKey",
+                now,
                 "⚠️ 同じIPから同じアカウントへのログイン試行が上限に達しました。\n" +
                     "アカウント: $loginName\n" +
                     "IP: $ipKey\n" +
@@ -90,6 +100,8 @@ class LoginRateLimiter(
         }
         if (before.ip < maxPerIp && after.ip >= maxPerIp) {
             notifyMaster(
+                "ip:$ipKey",
+                now,
                 "⚠️ 同じIPからのログイン試行が上限に達しました。\n" +
                     "IP: $ipKey\n" +
                     "試行: ${after.ip}回 / 直近${windowMinutes}分\n" +
@@ -98,6 +110,8 @@ class LoginRateLimiter(
         }
         if (before.account < alertPerAccount && after.account >= alertPerAccount) {
             notifyMaster(
+                "account:$loginName",
+                now,
                 "⚠️ 1つのアカウントへのログイン試行が多数のIPから来ています (ブロックはしていません)。\n" +
                     "アカウント: $loginName\n" +
                     "試行: ${after.account}回 / 直近${windowMinutes}分",
@@ -106,12 +120,21 @@ class LoginRateLimiter(
         if (after.pair > maxPerAccount || after.ip > maxPerIp) throw tooManyRequests()
     }
 
-    /** ログイン成功時に当該アカウント・当該 IP の試行履歴 (今回の試行を含む) をリセットする。 */
+    /**
+     * ログイン成功時に当該アカウント・当該 IP の試行履歴 (今回の試行を含む) をリセットする。
+     * 独自のトランザクションで行い、ロック競合などで失敗してもログインは成功させる (残った記録は時間窓で消える)。
+     */
     fun reset(
         loginName: String,
         ipAddress: String,
     ) {
-        loginAttemptRepository.deleteByLoginNameAndIpAddress(loginName, toRateLimitKey(ipAddress))
+        try {
+            requiresNew.executeWithoutResult {
+                loginAttemptRepository.deleteByLoginNameAndIpAddress(loginName, toRateLimitKey(ipAddress))
+            }
+        } catch (e: Exception) {
+            logger.warn("ログイン試行のリセットに失敗しました", e)
+        }
     }
 
     private fun count(
@@ -128,7 +151,12 @@ class LoginRateLimiter(
         }!!
 
     // 窓外の古い行の掃除。記録とは別トランザクションにし、ロック競合などで失敗してもログインは止めない
-    private fun sweep(since: LocalDateTime) {
+    private fun sweep(
+        now: LocalDateTime,
+        since: LocalDateTime,
+    ) {
+        val last = lastSweptAt.get()
+        if (last.isAfter(now.minusMinutes(SWEEP_INTERVAL_MINUTES)) || !lastSweptAt.compareAndSet(last, now)) return
         try {
             requiresNew.executeWithoutResult { loginAttemptRepository.deleteOlderThan(since) }
         } catch (e: Exception) {
@@ -136,7 +164,16 @@ class LoginRateLimiter(
         }
     }
 
-    private fun notifyMaster(message: String) {
+    private fun notifyMaster(
+        key: String,
+        now: LocalDateTime,
+        message: String,
+    ) {
+        val notifiable = now.minusMinutes(windowMinutes)
+        val last = lastNotifiedAt[key]
+        if (last != null && last.isAfter(notifiable)) return
+        if (lastNotifiedAt.put(key, now) != last) return // 同時に別のリクエストが通知した
+        lastNotifiedAt.entries.removeIf { it.value.isBefore(notifiable) }
         // ベストエフォート (DiscordRepository 側で例外は握り潰される)。通知失敗でログインを壊さない
         discordRepository.postToMaster(message)
     }
@@ -144,6 +181,7 @@ class LoginRateLimiter(
     private fun tooManyRequests() = WolfMansionTooManyRequestsException(TOO_MANY_MESSAGE)
 
     companion object {
+        private const val SWEEP_INTERVAL_MINUTES = 1L
         private const val TOO_MANY_MESSAGE = "ログイン試行が多すぎます。しばらくしてから再度お試しください。"
         private val IPV6_LITERAL = Regex("^[0-9A-Fa-f:.]+$")
 

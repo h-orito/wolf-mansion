@@ -55,11 +55,10 @@ class AuthCoordinator(
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
             throw WolfMansionAuthException("ユーザIDまたはパスワードが違います")
         }
-        return transactionTemplate.execute {
-            // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする
-            loginRateLimiter.reset(userId, clientIp)
-            issueTokens(playerAuth)
-        }!!
+        val tokens = transactionTemplate.execute { issueTokens(playerAuth) }!!
+        // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする (独自のトランザクション、失敗してもログインは成功)
+        loginRateLimiter.reset(userId, clientIp)
+        return tokens
     }
 
     /**
@@ -107,7 +106,7 @@ class AuthCoordinator(
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
             return false
         }
-        transactionTemplate.executeWithoutResult { loginRateLimiter.reset(userId, clientIp) }
+        loginRateLimiter.reset(userId, clientIp)
         return true
     }
 
