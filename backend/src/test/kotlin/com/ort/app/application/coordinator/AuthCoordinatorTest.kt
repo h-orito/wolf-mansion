@@ -1,13 +1,14 @@
 package com.ort.app.application.coordinator
 
 import com.ort.app.application.service.PlayerService
-import com.ort.app.domain.model.auth.LoginAttemptRepository
 import com.ort.app.domain.model.auth.PlayerAuth
 import com.ort.app.domain.model.auth.PlayerAuthRepository
 import com.ort.app.domain.model.auth.RefreshToken
 import com.ort.app.domain.model.auth.RefreshTokenRepository
 import com.ort.app.domain.model.discord.DiscordRepository
+import com.ort.app.domain.service.auth.FakeLoginAttemptRepository
 import com.ort.app.domain.service.auth.LoginRateLimiter
+import com.ort.app.domain.service.auth.NoOpTransactionManager
 import com.ort.app.fw.exception.WolfMansionAuthException
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.app.fw.exception.WolfMansionTooManyRequestsException
@@ -59,7 +60,17 @@ internal class AuthCoordinatorTest {
             refreshTokenFactory = refreshFactory,
             passwordEncoder = encoder,
             playerService = playerService,
-            loginRateLimiter = LoginRateLimiter(attemptRepo, FakeDiscordRepository(), 15, MAX_PER_ACCOUNT, 30),
+            loginRateLimiter =
+                LoginRateLimiter(
+                    attemptRepo,
+                    FakeDiscordRepository(),
+                    NoOpTransactionManager(),
+                    15,
+                    MAX_PER_ACCOUNT,
+                    30,
+                    50,
+                ),
+            transactionManager = NoOpTransactionManager(),
         )
 
     @Test
@@ -100,6 +111,18 @@ internal class AuthCoordinatorTest {
     }
 
     @Test
+    fun failures_from_other_ip_do_not_lock_out_owner() {
+        val coordinator = newCoordinator(FakeRefreshTokenRepository())
+        // 攻撃者が別の IP から上限まで失敗させても
+        repeat(MAX_PER_ACCOUNT) {
+            assertThrows<WolfMansionAuthException> { coordinator.login("alice", "wrong", ATTACKER_IP) }
+        }
+        assertThrows<WolfMansionTooManyRequestsException> { coordinator.login("alice", "wrong", ATTACKER_IP) }
+        // 本人は自分の IP からログインできる
+        coordinator.login("alice", "correct-horse", CLIENT_IP)
+    }
+
+    @Test
     fun successful_login_resets_failures() {
         val attemptRepo = FakeLoginAttemptRepository()
         val coordinator = newCoordinator(FakeRefreshTokenRepository(), attemptRepo = attemptRepo)
@@ -108,6 +131,7 @@ internal class AuthCoordinatorTest {
             assertThrows<WolfMansionAuthException> { coordinator.login("alice", "wrong", CLIENT_IP) }
         }
         coordinator.login("alice", "correct-horse", CLIENT_IP)
+        // 今回の成功した試行を含めて記録が消える
         assertEquals(0, attemptRepo.rows.count { it.loginName == "alice" })
         // リセット後は再び閾値手前まで失敗できる (即ブロックされない)
         assertThrows<WolfMansionAuthException> { coordinator.login("alice", "wrong", CLIENT_IP) }
@@ -268,43 +292,8 @@ internal class AuthCoordinatorTest {
 
     companion object {
         private const val CLIENT_IP = "203.0.113.10"
+        private const val ATTACKER_IP = "198.51.100.20"
         private const val MAX_PER_ACCOUNT = 5
-    }
-}
-
-private class FakeLoginAttemptRepository : LoginAttemptRepository {
-    data class Row(
-        val loginName: String,
-        val ipAddress: String,
-        val attemptAt: LocalDateTime,
-    )
-
-    val rows = mutableListOf<Row>()
-
-    override fun countByLoginName(
-        loginName: String,
-        since: LocalDateTime,
-    ): Int = rows.count { it.loginName == loginName && !it.attemptAt.isBefore(since) }
-
-    override fun countByIpAddress(
-        ipAddress: String,
-        since: LocalDateTime,
-    ): Int = rows.count { it.ipAddress == ipAddress && !it.attemptAt.isBefore(since) }
-
-    override fun recordFailure(
-        loginName: String,
-        ipAddress: String,
-        attemptAt: LocalDateTime,
-    ) {
-        rows.add(Row(loginName, ipAddress, attemptAt))
-    }
-
-    override fun deleteByLoginName(loginName: String) {
-        rows.removeAll { it.loginName == loginName }
-    }
-
-    override fun deleteOlderThan(threshold: LocalDateTime) {
-        rows.removeAll { it.attemptAt.isBefore(threshold) }
     }
 }
 

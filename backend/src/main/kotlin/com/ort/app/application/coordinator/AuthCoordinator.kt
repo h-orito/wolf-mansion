@@ -13,7 +13,9 @@ import com.ort.app.fw.security.jwt.RefreshTokenFactory
 import org.slf4j.LoggerFactory
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.transaction.support.TransactionTemplate
 import java.time.LocalDateTime
 import java.time.ZoneId
 
@@ -31,31 +33,32 @@ class AuthCoordinator(
     private val passwordEncoder: PasswordEncoder,
     private val playerService: PlayerService,
     private val loginRateLimiter: LoginRateLimiter,
+    transactionManager: PlatformTransactionManager,
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val transactionTemplate = TransactionTemplate(transactionManager)
 
-    // 失敗試行の記録 (recordFailure) は 401 を投げた後もコミットさせる必要があるため、
-    // WolfMansionAuthException ではロールバックしない。429 は記録前に投げるので書き込みは無い。
-    @Transactional(
-        rollbackFor = [Exception::class],
-        noRollbackFor = [WolfMansionAuthException::class, WolfMansionTooManyRequestsException::class],
-    )
+    /**
+     * 外側のトランザクションは張らない。試行の記録 ([LoginRateLimiter.acquire]) は独自のトランザクションで行うため、
+     * ここで接続を保持したまま呼ぶと 1 リクエストが接続を 2 本使い、ログインが殺到すると接続プールを使い切って止まる。
+     * 資格情報の検証 (BCrypt) 中も接続を保持しない。書き込みは成功時のトークン発行だけを 1 トランザクションで行う。
+     */
     fun login(
         userId: String,
         rawPassword: String,
         clientIp: String,
     ): AuthTokens {
         val now = LocalDateTime.now()
-        // 資格情報を検証する前にレート制限を判定する (超過なら 429)
-        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
+        // 資格情報を検証する前に試行を記録してレート制限を判定する (超過なら 429)
+        loginRateLimiter.acquire(userId, clientIp, now)
         val playerAuth = playerAuthRepository.findByName(userId)
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
-            loginRateLimiter.recordFailure(userId, clientIp, now)
             throw WolfMansionAuthException("ユーザIDまたはパスワードが違います")
         }
-        // 窓内でログイン成功したら当該アカウントの失敗履歴をリセットする
-        loginRateLimiter.reset(userId)
-        return issueTokens(playerAuth)
+        val tokens = transactionTemplate.execute { issueTokens(playerAuth) }!!
+        // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする (独自のトランザクション、失敗してもログインは成功)
+        loginRateLimiter.reset(userId, clientIp)
+        return tokens
     }
 
     /**
@@ -89,23 +92,21 @@ class AuthCoordinator(
 
     /**
      * トークンを発行せずに資格情報だけを検証する (外部ツール向けのレガシー `/api/login` 用)。
-     * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返すため、
-     * 失敗記録はそのままコミットされる。
+     * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返す。
+     * [login] と同じ理由で外側のトランザクションは張らない。
      */
-    @Transactional(rollbackFor = [Exception::class], noRollbackFor = [WolfMansionTooManyRequestsException::class])
     fun verifyCredentials(
         userId: String,
         rawPassword: String,
         clientIp: String,
     ): Boolean {
         val now = LocalDateTime.now()
-        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
+        loginRateLimiter.acquire(userId, clientIp, now)
         val playerAuth = playerAuthRepository.findByName(userId)
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
-            loginRateLimiter.recordFailure(userId, clientIp, now)
             return false
         }
-        loginRateLimiter.reset(userId)
+        loginRateLimiter.reset(userId, clientIp)
         return true
     }
 

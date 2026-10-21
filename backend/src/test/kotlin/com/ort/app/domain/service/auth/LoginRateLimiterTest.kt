@@ -5,129 +5,262 @@ import com.ort.app.domain.model.discord.DiscordRepository
 import com.ort.app.fw.exception.WolfMansionTooManyRequestsException
 import org.junit.jupiter.api.Assertions.assertDoesNotThrow
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import org.springframework.transaction.support.TransactionSynchronizationManager
 import java.time.LocalDateTime
+import java.util.concurrent.CyclicBarrier
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
 
 internal class LoginRateLimiterTest {
     private val window = 15L
     private val maxAccount = 5
     private val maxIp = 30
+    private val alertAccount = 50
     private val now: LocalDateTime = LocalDateTime.of(2026, 6, 5, 12, 0, 0)
 
     private fun newLimiter(
         repo: FakeLoginAttemptRepository,
         discord: FakeDiscordRepository = FakeDiscordRepository(),
-    ): LoginRateLimiter = LoginRateLimiter(repo, discord, window, maxAccount, maxIp)
+    ): LoginRateLimiter = LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
+
+    private fun LoginRateLimiter.isBlocked(
+        loginName: String,
+        ipAddress: String,
+    ): Boolean =
+        try {
+            acquire(loginName, ipAddress, now)
+            false
+        } catch (_: WolfMansionTooManyRequestsException) {
+            true
+        }
 
     @Test
-    fun under_account_threshold_passes() {
-        val repo = FakeLoginAttemptRepository()
-        repeat(maxAccount - 1) { repo.recordFailure("alice", "1.1.1.1", now) }
-        assertDoesNotThrow { newLimiter(repo).assertNotBlocked("alice", "1.1.1.1", now) }
+    fun attempts_up_to_account_threshold_pass() {
+        val limiter = newLimiter(FakeLoginAttemptRepository())
+        repeat(maxAccount) { assertDoesNotThrow { limiter.acquire("alice", "1.1.1.1", now) } }
     }
 
     @Test
-    fun account_threshold_blocks() {
-        val repo = FakeLoginAttemptRepository()
-        repeat(maxAccount) { repo.recordFailure("alice", "1.1.1.1", now) }
-        assertThrows<WolfMansionTooManyRequestsException> {
-            newLimiter(repo).assertNotBlocked("alice", "1.1.1.1", now)
-        }
+    fun attempt_over_account_threshold_is_blocked() {
+        val limiter = newLimiter(FakeLoginAttemptRepository())
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now) }
+        assertThrows<WolfMansionTooManyRequestsException> { limiter.acquire("alice", "1.1.1.1", now) }
+    }
+
+    @Test
+    fun account_threshold_from_other_ip_does_not_block_owner() {
+        val limiter = newLimiter(FakeLoginAttemptRepository())
+        // 攻撃者が別の IP から上限を超えて試しても、本人の IP からは試せる (締め出し対策)
+        repeat(maxAccount + 3) { limiter.isBlocked("alice", "6.6.6.6") }
+        assertTrue(limiter.isBlocked("alice", "6.6.6.6"))
+        assertDoesNotThrow { limiter.acquire("alice", "1.1.1.1", now) }
     }
 
     @Test
     fun ip_threshold_blocks_across_accounts() {
-        val repo = FakeLoginAttemptRepository()
-        // 同一 IP・異なるアカウントで maxIp 回失敗
-        repeat(maxIp) { i -> repo.recordFailure("user$i", "9.9.9.9", now) }
-        assertThrows<WolfMansionTooManyRequestsException> {
-            newLimiter(repo).assertNotBlocked("fresh-account", "9.9.9.9", now)
-        }
+        val limiter = newLimiter(FakeLoginAttemptRepository())
+        // 同一 IP・異なるアカウントで maxIp 回試行
+        repeat(maxIp) { i -> limiter.acquire("user$i", "9.9.9.9", now) }
+        assertThrows<WolfMansionTooManyRequestsException> { limiter.acquire("fresh-account", "9.9.9.9", now) }
     }
 
     @Test
-    fun failures_outside_window_are_ignored() {
+    fun attempts_outside_window_are_ignored() {
         val repo = FakeLoginAttemptRepository()
         val old = now.minusMinutes(window + 1)
-        repeat(maxAccount) { repo.recordFailure("alice", "1.1.1.1", old) }
-        // 窓外 (window+1 分前) の失敗は数えない
-        assertDoesNotThrow { newLimiter(repo).assertNotBlocked("alice", "1.1.1.1", now) }
+        repeat(maxAccount) { repo.recordAttempt("alice", "1.1.1.1", old) }
+        // 窓外 (window+1 分前) の試行は数えない
+        assertDoesNotThrow { newLimiter(repo).acquire("alice", "1.1.1.1", now) }
     }
 
     @Test
-    fun reset_clears_account_failures() {
+    fun reset_clears_only_that_account_and_ip() {
         val repo = FakeLoginAttemptRepository()
         val limiter = newLimiter(repo)
-        repeat(maxAccount) { repo.recordFailure("alice", "1.1.1.1", now) }
-        limiter.reset("alice")
-        assertDoesNotThrow { limiter.assertNotBlocked("alice", "1.1.1.1", now) }
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now) }
+        repeat(2) { limiter.acquire("alice", "6.6.6.6", now) }
+        limiter.reset("alice", "1.1.1.1")
+        assertEquals(0, repo.rows.count { it.ipAddress == "1.1.1.1" })
+        assertEquals(2, repo.rows.count { it.ipAddress == "6.6.6.6" })
+        assertDoesNotThrow { limiter.acquire("alice", "1.1.1.1", now) }
     }
 
     @Test
-    fun record_failure_sweeps_out_of_window_rows() {
+    fun acquire_sweeps_out_of_window_rows() {
         val repo = FakeLoginAttemptRepository()
-        val limiter = newLimiter(repo)
         // 窓外の古い行を 3 件仕込む
-        repeat(3) { repo.recordFailure("bob", "2.2.2.2", now.minusMinutes(window + 5)) }
-        // 新しい失敗を記録すると deleteOlderThan で古い行が掃除される
-        limiter.recordFailure("bob", "2.2.2.2", now)
+        repeat(3) { repo.recordAttempt("bob", "2.2.2.2", now.minusMinutes(window + 5)) }
+        // 新しい試行を記録すると deleteOlderThan で古い行が掃除される
+        newLimiter(repo).acquire("bob", "2.2.2.2", now)
         assertEquals(1, repo.rows.size)
     }
 
     @Test
-    fun notifies_master_once_at_account_threshold_via_login_loop() {
-        val repo = FakeLoginAttemptRepository()
+    fun notifies_master_once_when_account_threshold_is_exceeded() {
         val discord = FakeDiscordRepository()
-        val limiter = newLimiter(repo, discord)
-        // 実フロー再現: assertNotBlocked → 失敗時のみ recordFailure。閾値到達後は assertNotBlocked で弾かれ記録されない
-        repeat(10) {
-            try {
-                limiter.assertNotBlocked("alice", "1.1.1.1", now)
-                limiter.recordFailure("alice", "1.1.1.1", now)
-            } catch (_: WolfMansionTooManyRequestsException) {
-                // 閾値到達後はブロック
-            }
-        }
+        val limiter = newLimiter(FakeLoginAttemptRepository(), discord)
+        repeat(10) { limiter.isBlocked("alice", "1.1.1.1") }
         assertEquals(1, discord.masterMessages.size)
-        assertEquals(maxAccount, repo.rows.count { it.loginName == "alice" })
-        assert(discord.masterMessages.single().contains("アカウント"))
-    }
-}
-
-private class FakeLoginAttemptRepository : LoginAttemptRepository {
-    data class Row(
-        val loginName: String,
-        val ipAddress: String,
-        val attemptAt: LocalDateTime,
-    )
-
-    val rows = mutableListOf<Row>()
-
-    override fun countByLoginName(
-        loginName: String,
-        since: LocalDateTime,
-    ): Int = rows.count { it.loginName == loginName && !it.attemptAt.isBefore(since) }
-
-    override fun countByIpAddress(
-        ipAddress: String,
-        since: LocalDateTime,
-    ): Int = rows.count { it.ipAddress == ipAddress && !it.attemptAt.isBefore(since) }
-
-    override fun recordFailure(
-        loginName: String,
-        ipAddress: String,
-        attemptAt: LocalDateTime,
-    ) {
-        rows.add(Row(loginName, ipAddress, attemptAt))
+        assertTrue(discord.masterMessages.single().contains("同じアカウント"))
     }
 
-    override fun deleteByLoginName(loginName: String) {
-        rows.removeAll { it.loginName == loginName }
+    @Test
+    fun concurrent_attempts_do_not_exceed_account_threshold() {
+        // 並行リクエストが全員「記録前の件数」を見て通ることがないか確認する。
+        // 全スレッドが事前チェックを通って記録し終えてから数え始める、最悪の順序を作る
+        val threads = 10
+        val barrier = CyclicBarrier(threads)
+        val fake = FakeLoginAttemptRepository()
+        val preChecked = ThreadLocal.withInitial { false }
+        val repo =
+            object : LoginAttemptRepository by fake {
+                override fun countByLoginNameAndIpAddress(
+                    loginName: String,
+                    ipAddress: String,
+                    since: LocalDateTime,
+                ): Int {
+                    val count = fake.countByLoginNameAndIpAddress(loginName, ipAddress, since)
+                    // 1 回目 (記録前の事前チェック) は全スレッドが終えるまで待つ
+                    if (!preChecked.get()) {
+                        preChecked.set(true)
+                        barrier.await(5, TimeUnit.SECONDS)
+                    }
+                    return count
+                }
+
+                override fun recordAttempt(
+                    loginName: String,
+                    ipAddress: String,
+                    attemptAt: LocalDateTime,
+                ) {
+                    fake.recordAttempt(loginName, ipAddress, attemptAt)
+                    barrier.await(5, TimeUnit.SECONDS)
+                }
+            }
+        val discord = FakeDiscordRepository()
+        val passed = AtomicInteger()
+        val executor = Executors.newFixedThreadPool(threads)
+        try {
+            val futures =
+                (1..threads).map {
+                    executor.submit {
+                        try {
+                            LoginRateLimiter(repo, discord, NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
+                                .acquire("alice", "1.1.1.1", now)
+                            passed.incrementAndGet()
+                        } catch (_: WolfMansionTooManyRequestsException) {
+                            // 上限超過
+                        }
+                    }
+                }
+            futures.forEach { it.get(10, TimeUnit.SECONDS) }
+        } finally {
+            executor.shutdownNow()
+        }
+        assertTrue(passed.get() <= maxAccount, "passed=${passed.get()}")
+        // 同時送信でも管理者への通知は出る
+        assertTrue(discord.masterMessages.isNotEmpty())
     }
 
-    override fun deleteOlderThan(threshold: LocalDateTime) {
-        rows.removeAll { it.attemptAt.isBefore(threshold) }
+    @Test
+    fun blocked_attempts_are_not_recorded() {
+        val repo = FakeLoginAttemptRepository()
+        val limiter = newLimiter(repo)
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now) }
+        // 上限に達した後の試行は記録しない (ブロック中に行が増えたりブロックが延びたりしない)
+        repeat(10) { assertTrue(limiter.isBlocked("alice", "1.1.1.1")) }
+        assertEquals(maxAccount, repo.rows.size)
+    }
+
+    @Test
+    fun ipv6_addresses_in_same_64_are_counted_together() {
+        assertEquals("2001:db8:1:2::/64", LoginRateLimiter.toRateLimitKey("2001:db8:1:2:aaaa:bbbb:cccc:1"))
+        assertEquals("1.2.3.4", LoginRateLimiter.toRateLimitKey("1.2.3.4"))
+        val limiter = newLimiter(FakeLoginAttemptRepository())
+        // /64 の中でアドレスを替えても同じ IP として数える
+        repeat(maxAccount) { i -> limiter.acquire("alice", "2001:db8:1:2::${i + 1}", now) }
+        assertThrows<WolfMansionTooManyRequestsException> { limiter.acquire("alice", "2001:db8:1:2:ffff::9", now) }
+        // 別の /64 からは試せる
+        assertDoesNotThrow { limiter.acquire("alice", "2001:db8:1:3::1", now) }
+    }
+
+    @Test
+    fun many_attempts_to_one_account_from_many_ips_are_alerted_but_not_blocked() {
+        val discord = FakeDiscordRepository()
+        val limiter = newLimiter(FakeLoginAttemptRepository(), discord)
+        repeat(60) { i -> assertDoesNotThrow { limiter.acquire("alice", "10.0.0.$i", now) } }
+        assertEquals(1, discord.masterMessages.size)
+        assertTrue(discord.masterMessages.single().contains("多数のIP"))
+    }
+
+    @Test
+    fun sweep_failure_does_not_break_login() {
+        val fake = FakeLoginAttemptRepository()
+        val repo =
+            object : LoginAttemptRepository by fake {
+                override fun deleteOlderThan(threshold: LocalDateTime): Unit = throw IllegalStateException("deadlock")
+            }
+        assertDoesNotThrow {
+            LoginRateLimiter(repo, FakeDiscordRepository(), NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
+                .acquire("alice", "1.1.1.1", now)
+        }
+    }
+
+    @Test
+    fun sweep_runs_at_most_once_per_interval() {
+        val repo = FakeLoginAttemptRepository()
+        val limiter = newLimiter(repo)
+        limiter.acquire("bob", "2.2.2.2", now)
+        // 直後に窓外の行が増えても、間隔内なので掃除しない
+        repo.recordAttempt("carol", "3.3.3.3", now.minusMinutes(window + 5))
+        limiter.acquire("bob", "2.2.2.2", now.plusSeconds(30))
+        assertEquals(3, repo.rows.size)
+        // 間隔を過ぎれば掃除する
+        limiter.acquire("bob", "2.2.2.2", now.plusMinutes(2))
+        assertEquals(3, repo.rows.count { it.loginName == "bob" })
+        assertEquals(0, repo.rows.count { it.loginName == "carol" })
+    }
+
+    @Test
+    fun notification_is_sent_once_per_key_within_window() {
+        val discord = FakeDiscordRepository()
+        val repo = FakeLoginAttemptRepository()
+        val limiter = newLimiter(repo, discord)
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now) }
+        // 窓内に一度リセットされて再び上限に達しても、同じキーの通知は 1 回だけ
+        limiter.reset("alice", "1.1.1.1")
+        repeat(maxAccount) { limiter.acquire("alice", "1.1.1.1", now.plusMinutes(1)) }
+        assertEquals(1, discord.masterMessages.size)
+    }
+
+    @Test
+    fun reset_failure_does_not_break_login() {
+        val fake = FakeLoginAttemptRepository()
+        val repo =
+            object : LoginAttemptRepository by fake {
+                override fun deleteByLoginNameAndIpAddress(
+                    loginName: String,
+                    ipAddress: String,
+                ): Unit = throw IllegalStateException("deadlock")
+            }
+        assertDoesNotThrow {
+            LoginRateLimiter(repo, FakeDiscordRepository(), NoOpTransactionManager(), window, maxAccount, maxIp, alertAccount)
+                .reset("alice", "1.1.1.1")
+        }
+    }
+
+    @Test
+    fun acquire_inside_transaction_is_rejected() {
+        TransactionSynchronizationManager.setActualTransactionActive(true)
+        try {
+            assertThrows<IllegalStateException> { newLimiter(FakeLoginAttemptRepository()).acquire("alice", "1.1.1.1", now) }
+        } finally {
+            TransactionSynchronizationManager.setActualTransactionActive(false)
+        }
     }
 }
 

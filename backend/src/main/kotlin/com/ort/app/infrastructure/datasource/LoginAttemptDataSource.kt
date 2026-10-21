@@ -6,10 +6,22 @@ import org.springframework.stereotype.Repository
 import java.time.LocalDateTime
 import com.ort.dbflute.exentity.LoginFailure as DbLoginFailure
 
+/** テーブル名は LOGIN_FAILURE のままだが、中身は「ログイン試行」(成功したものは消える)。 */
 @Repository
 class LoginAttemptDataSource(
     private val loginFailureBhv: LoginFailureBhv,
 ) : LoginAttemptRepository {
+    override fun countByLoginNameAndIpAddress(
+        loginName: String,
+        ipAddress: String,
+        since: LocalDateTime,
+    ): Int =
+        loginFailureBhv.selectCount {
+            it.query().setLoginName_Equal(loginName)
+            it.query().setIpAddress_Equal(ipAddress)
+            it.query().setAttemptDatetime_GreaterEqual(since)
+        }
+
     override fun countByLoginName(
         loginName: String,
         since: LocalDateTime,
@@ -28,7 +40,7 @@ class LoginAttemptDataSource(
             it.query().setAttemptDatetime_GreaterEqual(since)
         }
 
-    override fun recordFailure(
+    override fun recordAttempt(
         loginName: String,
         ipAddress: String,
         attemptAt: LocalDateTime,
@@ -40,9 +52,13 @@ class LoginAttemptDataSource(
         loginFailureBhv.insert(entity)
     }
 
-    override fun deleteByLoginName(loginName: String) {
+    override fun deleteByLoginNameAndIpAddress(
+        loginName: String,
+        ipAddress: String,
+    ) {
         loginFailureBhv.queryDelete {
             it.query().setLoginName_Equal(loginName)
+            it.query().setIpAddress_Equal(ipAddress)
         }
     }
 
