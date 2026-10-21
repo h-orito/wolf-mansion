@@ -34,27 +34,22 @@ class AuthCoordinator(
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    // 失敗試行の記録 (recordFailure) は 401 を投げた後もコミットさせる必要があるため、
-    // WolfMansionAuthException ではロールバックしない。429 は記録前に投げるので書き込みは無い。
-    @Transactional(
-        rollbackFor = [Exception::class],
-        noRollbackFor = [WolfMansionAuthException::class, WolfMansionTooManyRequestsException::class],
-    )
+    // 試行の記録は LoginRateLimiter が別トランザクションでコミットするので、401 / 429 でロールバックしても残る
+    @Transactional(rollbackFor = [Exception::class])
     fun login(
         userId: String,
         rawPassword: String,
         clientIp: String,
     ): AuthTokens {
         val now = LocalDateTime.now()
-        // 資格情報を検証する前にレート制限を判定する (超過なら 429)
-        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
+        // 資格情報を検証する前に試行を記録してレート制限を判定する (超過なら 429)
+        loginRateLimiter.acquire(userId, clientIp, now)
         val playerAuth = playerAuthRepository.findByName(userId)
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
-            loginRateLimiter.recordFailure(userId, clientIp, now)
             throw WolfMansionAuthException("ユーザIDまたはパスワードが違います")
         }
-        // 窓内でログイン成功したら当該アカウントの失敗履歴をリセットする
-        loginRateLimiter.reset(userId)
+        // ログイン成功したら当該アカウント・当該 IP の試行履歴をリセットする
+        loginRateLimiter.reset(userId, clientIp)
         return issueTokens(playerAuth)
     }
 
@@ -89,23 +84,21 @@ class AuthCoordinator(
 
     /**
      * トークンを発行せずに資格情報だけを検証する (外部ツール向けのレガシー `/api/login` 用)。
-     * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返すため、
-     * 失敗記録はそのままコミットされる。
+     * レート制限は [login] と共有し、超過なら 429 相当の例外を投げる。失敗は例外ではなく false で返す。
      */
-    @Transactional(rollbackFor = [Exception::class], noRollbackFor = [WolfMansionTooManyRequestsException::class])
+    @Transactional(rollbackFor = [Exception::class])
     fun verifyCredentials(
         userId: String,
         rawPassword: String,
         clientIp: String,
     ): Boolean {
         val now = LocalDateTime.now()
-        loginRateLimiter.assertNotBlocked(userId, clientIp, now)
+        loginRateLimiter.acquire(userId, clientIp, now)
         val playerAuth = playerAuthRepository.findByName(userId)
         if (playerAuth == null || !passwordEncoder.matches(rawPassword, playerAuth.passwordHash)) {
-            loginRateLimiter.recordFailure(userId, clientIp, now)
             return false
         }
-        loginRateLimiter.reset(userId)
+        loginRateLimiter.reset(userId, clientIp)
         return true
     }
 
