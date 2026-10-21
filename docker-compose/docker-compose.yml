@@ -1,3 +1,5 @@
+# プロジェクト名を固定する (未指定だとフォルダ名の docker-compose になり、他リポジトリの同名フォルダと衝突する)
+name: wolf-mansion
 services:
   mysql:
     image: mysql:8.0
@@ -37,3 +39,5 @@ services:
 
 volumes:
   mysql-data:
+    # プロジェクト名を固定する前 (docker-compose プロジェクト) に作ったボリュームをそのまま使う
+    name: docker-compose_mysql-data
