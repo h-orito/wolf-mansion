@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import { fieldErrorClass, FormRow } from "~/components/ui/Form";
 import { inputClass } from "~/components/ui/Input";
 import { NumberSelect, RadioRow, range, SettingSection } from "./fields";
-import type { NewVillageFormInput } from "./schema";
+import { INTERVAL_MAX_HOURS, type NewVillageFormInput } from "./schema";
 
 const labelClass =
   "shrink-0 pb-1 min-[768px]:pt-[5px] min-[768px]:pr-[15px] min-[768px]:pb-0 min-[768px]:text-right";
@@ -70,7 +70,7 @@ export function BasicSection({ nowYear }: { nowYear: number }) {
         <div className="grid grid-cols-3 gap-x-[30px]">
           <NumberSelect
             name="dayChangeIntervalHours"
-            options={range(0, 72)}
+            options={range(0, INTERVAL_MAX_HOURS)}
             suffix="時間"
             ariaLabel="更新間隔 (時間)"
           />

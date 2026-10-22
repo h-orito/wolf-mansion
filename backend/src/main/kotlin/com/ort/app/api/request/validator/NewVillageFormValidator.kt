@@ -4,6 +4,7 @@ import com.ort.app.api.request.NewVillageForm
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
+import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.fw.util.CharaImageType
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
@@ -30,13 +31,18 @@ class NewVillageFormValidator : Validator {
             errors.rejectValue("personMaxNum", "NewVillageForm.validator.personMaxNum")
         }
 
-        // 1分 <= 更新間隔 <= 48時間　に収まらない
+        // 1分 <= 更新間隔 <= 上限時間 に収まらない
         val intervalSeconds =
             form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
-        if (intervalSeconds !in 60..72 * 60 * 60) {
-            errors.rejectValue("dayChangeIntervalHours", "NewVillageForm.validator.dayChangeIntervalHours")
+        if (intervalSeconds !in VillageSetting.DAY_CHANGE_INTERVAL_MIN_SECONDS..VillageSetting.DAY_CHANGE_INTERVAL_MAX_SECONDS) {
+            errors.rejectValue(
+                "dayChangeIntervalHours",
+                "NewVillageForm.validator.dayChangeIntervalHours",
+                arrayOf(VillageSetting.DAY_CHANGE_INTERVAL_MAX_HOURS),
+                null,
+            )
         }
 
         // 開始日時が過去や存在しない日付

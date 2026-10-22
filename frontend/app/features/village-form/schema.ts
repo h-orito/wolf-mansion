@@ -19,9 +19,10 @@ export const START_PERSON_MIN_NUM = 8;
 export const PERSON_MAX_NUM_LIMIT = 999;
 export const JOIN_PASSWORD_MIN_LENGTH = 3;
 export const JOIN_PASSWORD_MAX_LENGTH = 12;
-/** 更新間隔の下限/上限 (秒)。 */
+/** 更新間隔の上限 (時間) と、下限/上限 (秒)。 */
 export const INTERVAL_MIN_SECONDS = 60;
-export const INTERVAL_MAX_SECONDS = 72 * 60 * 60;
+export const INTERVAL_MAX_HOURS = 120;
+export const INTERVAL_MAX_SECONDS = INTERVAL_MAX_HOURS * 60 * 60;
 /** 開始日時は現在から 14 日以内。 */
 export const START_DATETIME_MAX_DAYS = 14;
 
@@ -29,7 +30,7 @@ const VILLAGE_NAME_MESSAGE = `村名は${VILLAGE_NAME_MIN_LENGTH}文字以上${V
 const START_PERSON_MIN_MESSAGE = `最低開始人数は${START_PERSON_MIN_NUM}以上で入力してください`;
 const PERSON_MAX_MESSAGE = `定員は${PERSON_MAX_NUM_LIMIT}以下で入力してください`;
 const PERSON_MAX_CORRELATION_MESSAGE = "定員は最少開始人数以上で設定してください";
-const INTERVAL_MESSAGE = "更新間隔は1分以上72時間以内で設定してください";
+const INTERVAL_MESSAGE = `更新間隔は1分以上${INTERVAL_MAX_HOURS}時間以内で設定してください`;
 const START_DATETIME_MESSAGE = "開始日時は現在から14日以内の存在する日付にしてください";
 const JOIN_PASSWORD_MESSAGE = `入村パスワードは${JOIN_PASSWORD_MIN_LENGTH}文字以上${JOIN_PASSWORD_MAX_LENGTH}文字以内にしてください`;
 const JOIN_PASSWORD_ORIGINAL_MESSAGE = "オリジナル画像を使用する場合、パスワードは必須です";
@@ -140,7 +141,7 @@ const villageFormShape = {
     .number(PERSON_MAX_MESSAGE)
     .int(PERSON_MAX_MESSAGE)
     .max(PERSON_MAX_NUM_LIMIT, PERSON_MAX_MESSAGE),
-  dayChangeIntervalHours: z.number().int().min(0).max(72),
+  dayChangeIntervalHours: z.number().int().min(0).max(INTERVAL_MAX_HOURS),
   dayChangeIntervalMinutes: z.number().int().min(0).max(59),
   dayChangeIntervalSeconds: z.number().int().min(0).max(59),
   startYear: z.number().int(),

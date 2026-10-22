@@ -6,6 +6,7 @@ import com.ort.app.api.request.setting.RandomOrganizationCampForm
 import com.ort.app.api.request.setting.RandomOrganizationSkillForm
 import com.ort.app.api.request.setting.RandomOrganizationWolfForm
 import com.ort.app.api.request.setting.SkillSayRestrictForm
+import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.media.Schema
@@ -38,7 +39,7 @@ data class VillageCreateRequest(
     val personMaxNum: Int? = null,
     @field:NotNull
     @field:Min(0)
-    @field:Max(72)
+    @field:Max(VillageSetting.DAY_CHANGE_INTERVAL_MAX_HOURS.toLong())
     val dayChangeIntervalHours: Int? = null,
     @field:NotNull
     @field:Min(0)

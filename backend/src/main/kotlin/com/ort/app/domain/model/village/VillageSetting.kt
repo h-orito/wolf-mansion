@@ -47,4 +47,15 @@ data class VillageSetting(
         organize.mapToSkillCount(rule.isRandomOrganization, participantsCount)
 
     fun getReincarnationSkillByRandom(camp: Camp?): Skill? = organize.getReincarnationSkill(camp)
+
+    companion object {
+        /** 更新間隔の上限 (時間)。 */
+        const val DAY_CHANGE_INTERVAL_MAX_HOURS = 120
+
+        /** 更新間隔の下限 (秒)。 */
+        const val DAY_CHANGE_INTERVAL_MIN_SECONDS = 60
+
+        /** 更新間隔の上限 (秒)。 */
+        const val DAY_CHANGE_INTERVAL_MAX_SECONDS = DAY_CHANGE_INTERVAL_MAX_HOURS * 60 * 60
+    }
 }

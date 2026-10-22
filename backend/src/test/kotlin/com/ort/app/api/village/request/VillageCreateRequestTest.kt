@@ -95,6 +95,36 @@ internal class VillageCreateRequestTest {
         assertTrue(errors.fieldErrors.any { it.field == "organization" })
     }
 
+    @Test
+    fun `NewVillageFormValidator は更新間隔 120 時間ちょうどを許可する`() {
+        val form = fixture(dayChangeIntervalHours = 120).toForm(null)
+        val errors = BeanPropertyBindingResult(form, "villageForm")
+
+        NewVillageFormValidator().validate(form, errors)
+
+        assertFalse(errors.hasFieldErrors("dayChangeIntervalHours"), errors.allErrors.toString())
+    }
+
+    @Test
+    fun `NewVillageFormValidator は更新間隔 120 時間 1 秒を拒否する`() {
+        val form = fixture(dayChangeIntervalHours = 120, dayChangeIntervalSeconds = 1).toForm(null)
+        val errors = BeanPropertyBindingResult(form, "villageForm")
+
+        NewVillageFormValidator().validate(form, errors)
+
+        assertTrue(errors.hasFieldErrors("dayChangeIntervalHours"))
+    }
+
+    @Test
+    fun `NewVillageFormValidator は更新間隔 1 分未満を拒否する`() {
+        val form = fixture(dayChangeIntervalHours = 0, dayChangeIntervalSeconds = 59).toForm(null)
+        val errors = BeanPropertyBindingResult(form, "villageForm")
+
+        NewVillageFormValidator().validate(form, errors)
+
+        assertTrue(errors.hasFieldErrors("dayChangeIntervalHours"))
+    }
+
     /** 村人陣営を含まない人狼陣営のみの配分 (闇鍋構造チェック用)。 */
     private fun wolfCampOnly(): VillageCreateRequest.CampAllocation =
         VillageCreateRequest.CampAllocation(
@@ -120,6 +150,9 @@ internal class VillageCreateRequestTest {
         dummyCharaId: Int? = 1,
         personMaxNum: Int = 8,
         randomOrganization: Boolean = false,
+        dayChangeIntervalHours: Int = 24,
+        dayChangeIntervalMinutes: Int = 0,
+        dayChangeIntervalSeconds: Int = 0,
     ): VillageCreateRequest {
         val start = LocalDateTime.now().plusDays(7)
         return VillageCreateRequest(
@@ -127,9 +160,9 @@ internal class VillageCreateRequestTest {
             welcomeRange = null,
             startPersonMinNum = 8,
             personMaxNum = personMaxNum,
-            dayChangeIntervalHours = 24,
-            dayChangeIntervalMinutes = 0,
-            dayChangeIntervalSeconds = 0,
+            dayChangeIntervalHours = dayChangeIntervalHours,
+            dayChangeIntervalMinutes = dayChangeIntervalMinutes,
+            dayChangeIntervalSeconds = dayChangeIntervalSeconds,
             startYear = start.year,
             startMonth = start.monthValue,
             startDay = start.dayOfMonth,
