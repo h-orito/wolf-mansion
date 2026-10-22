@@ -151,8 +151,8 @@ internal class VillageCreateRequestTest {
         personMaxNum: Int = 8,
         randomOrganization: Boolean = false,
         dayChangeIntervalHours: Int = 24,
-        dayChangeIntervalSeconds: Int = 0,
         dayChangeIntervalMinutes: Int = 0,
+        dayChangeIntervalSeconds: Int = 0,
     ): VillageCreateRequest {
         val start = LocalDateTime.now().plusDays(7)
         return VillageCreateRequest(
