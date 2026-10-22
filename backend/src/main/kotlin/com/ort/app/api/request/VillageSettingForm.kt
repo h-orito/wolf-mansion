@@ -6,6 +6,7 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.village.Village
+import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.domain.model.village.setting.SayRestriction
 import com.ort.app.domain.model.village.setting.SecretSayRange
 import com.ort.app.domain.model.village.setting.VillageOrganize
@@ -35,7 +36,7 @@ data class VillageSettingForm(
     var personMaxNum: Int? = null,
     /** 更新間隔時間 */
     @field:Min(0)
-    @field:Max(DAY_CHANGE_INTERVAL_MAX_HOURS.toLong())
+    @field:Max(VillageSetting.DAY_CHANGE_INTERVAL_MAX_HOURS.toLong())
     var dayChangeIntervalHours: Int? = null,
     /** 更新間隔分 */
     @field:Min(0)

@@ -1,12 +1,10 @@
 package com.ort.app.api.request.validator
 
-import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MAX_HOURS
-import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MAX_SECONDS
-import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MIN_SECONDS
 import com.ort.app.api.request.NewVillageForm
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
 import com.ort.app.domain.model.skill.toModel
+import com.ort.app.domain.model.village.VillageSetting
 import com.ort.app.fw.util.CharaImageType
 import com.ort.dbflute.allcommon.CDef
 import org.springframework.stereotype.Component
@@ -38,11 +36,11 @@ class NewVillageFormValidator : Validator {
             form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
-        if (intervalSeconds !in DAY_CHANGE_INTERVAL_MIN_SECONDS..DAY_CHANGE_INTERVAL_MAX_SECONDS) {
+        if (intervalSeconds !in VillageSetting.DAY_CHANGE_INTERVAL_MIN_SECONDS..VillageSetting.DAY_CHANGE_INTERVAL_MAX_SECONDS) {
             errors.rejectValue(
                 "dayChangeIntervalHours",
                 "NewVillageForm.validator.dayChangeIntervalHours",
-                arrayOf(DAY_CHANGE_INTERVAL_MAX_HOURS),
+                arrayOf(VillageSetting.DAY_CHANGE_INTERVAL_MAX_HOURS),
                 null,
             )
         }
