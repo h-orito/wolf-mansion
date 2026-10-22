@@ -30,12 +30,12 @@ class NewVillageFormValidator : Validator {
             errors.rejectValue("personMaxNum", "NewVillageForm.validator.personMaxNum")
         }
 
-        // 1分 <= 更新間隔 <= 48時間　に収まらない
+        // 1分 <= 更新間隔 <= 120時間 に収まらない
         val intervalSeconds =
             form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
-        if (intervalSeconds !in 60..72 * 60 * 60) {
+        if (intervalSeconds !in 60..120 * 60 * 60) {
             errors.rejectValue("dayChangeIntervalHours", "NewVillageForm.validator.dayChangeIntervalHours")
         }
 

@@ -12,6 +12,10 @@ export interface Release {
 
 export const releases: Release[] = [
   {
+    lead: ["2026/10/22 以下を変更しました。"],
+    items: [["更新間隔の上限を72時間から120時間に変更"]],
+  },
+  {
     lead: ["2026/09/20 以下を変更しました。"],
     items: [
       [

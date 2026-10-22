@@ -4549,7 +4549,7 @@
           "dayChangeIntervalHours": {
             "type": ["integer", "null"],
             "format": "int32",
-            "maximum": 72,
+            "maximum": 120,
             "minimum": 0
           },
           "dayChangeIntervalMinutes": {
@@ -5692,7 +5692,7 @@
           "dayChangeIntervalHours": {
             "type": ["integer", "null"],
             "format": "int32",
-            "maximum": 72,
+            "maximum": 120,
             "minimum": 0
           },
           "dayChangeIntervalMinutes": {

@@ -38,7 +38,7 @@ data class VillageCreateRequest(
     val personMaxNum: Int? = null,
     @field:NotNull
     @field:Min(0)
-    @field:Max(72)
+    @field:Max(120)
     val dayChangeIntervalHours: Int? = null,
     @field:NotNull
     @field:Min(0)
