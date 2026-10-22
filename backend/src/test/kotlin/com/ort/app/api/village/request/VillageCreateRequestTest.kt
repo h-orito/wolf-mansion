@@ -115,6 +115,16 @@ internal class VillageCreateRequestTest {
         assertTrue(errors.hasFieldErrors("dayChangeIntervalHours"))
     }
 
+    @Test
+    fun `NewVillageFormValidator は更新間隔 1 分未満を拒否する`() {
+        val form = fixture(dayChangeIntervalHours = 0, dayChangeIntervalSeconds = 59).toForm(null)
+        val errors = BeanPropertyBindingResult(form, "villageForm")
+
+        NewVillageFormValidator().validate(form, errors)
+
+        assertTrue(errors.hasFieldErrors("dayChangeIntervalHours"))
+    }
+
     /** 村人陣営を含まない人狼陣営のみの配分 (闇鍋構造チェック用)。 */
     private fun wolfCampOnly(): VillageCreateRequest.CampAllocation =
         VillageCreateRequest.CampAllocation(
@@ -142,6 +152,7 @@ internal class VillageCreateRequestTest {
         randomOrganization: Boolean = false,
         dayChangeIntervalHours: Int = 24,
         dayChangeIntervalSeconds: Int = 0,
+        dayChangeIntervalMinutes: Int = 0,
     ): VillageCreateRequest {
         val start = LocalDateTime.now().plusDays(7)
         return VillageCreateRequest(
@@ -150,7 +161,7 @@ internal class VillageCreateRequestTest {
             startPersonMinNum = 8,
             personMaxNum = personMaxNum,
             dayChangeIntervalHours = dayChangeIntervalHours,
-            dayChangeIntervalMinutes = 0,
+            dayChangeIntervalMinutes = dayChangeIntervalMinutes,
             dayChangeIntervalSeconds = dayChangeIntervalSeconds,
             startYear = start.year,
             startMonth = start.monthValue,

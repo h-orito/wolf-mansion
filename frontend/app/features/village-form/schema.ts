@@ -19,7 +19,7 @@ export const START_PERSON_MIN_NUM = 8;
 export const PERSON_MAX_NUM_LIMIT = 999;
 export const JOIN_PASSWORD_MIN_LENGTH = 3;
 export const JOIN_PASSWORD_MAX_LENGTH = 12;
-/** 更新間隔の下限/上限 (秒)。 */
+/** 更新間隔の上限 (時間) と、下限/上限 (秒)。 */
 export const INTERVAL_MIN_SECONDS = 60;
 export const INTERVAL_MAX_HOURS = 120;
 export const INTERVAL_MAX_SECONDS = INTERVAL_MAX_HOURS * 60 * 60;

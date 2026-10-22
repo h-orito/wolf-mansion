@@ -1,5 +1,6 @@
 package com.ort.app.api.village.request
 
+import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MAX_HOURS
 import com.ort.app.api.request.NewVillageForm
 import com.ort.app.api.request.setting.MessageTypeSayRestrictForm
 import com.ort.app.api.request.setting.RandomOrganizationCampForm
@@ -38,7 +39,7 @@ data class VillageCreateRequest(
     val personMaxNum: Int? = null,
     @field:NotNull
     @field:Min(0)
-    @field:Max(120)
+    @field:Max(DAY_CHANGE_INTERVAL_MAX_HOURS.toLong())
     val dayChangeIntervalHours: Int? = null,
     @field:NotNull
     @field:Min(0)

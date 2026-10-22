@@ -1,5 +1,8 @@
 package com.ort.app.api.request.validator
 
+import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MAX_HOURS
+import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MAX_SECONDS
+import com.ort.app.api.request.DAY_CHANGE_INTERVAL_MIN_SECONDS
 import com.ort.app.api.request.NewVillageForm
 import com.ort.app.domain.model.skill.Skill
 import com.ort.app.domain.model.skill.Skills
@@ -30,13 +33,18 @@ class NewVillageFormValidator : Validator {
             errors.rejectValue("personMaxNum", "NewVillageForm.validator.personMaxNum")
         }
 
-        // 1分 <= 更新間隔 <= 120時間 に収まらない
+        // 1分 <= 更新間隔 <= 上限時間 に収まらない
         val intervalSeconds =
             form.dayChangeIntervalHours!! * 60 * 60 +
                 form.dayChangeIntervalMinutes!! * 60 +
                 form.dayChangeIntervalSeconds!!
-        if (intervalSeconds !in 60..120 * 60 * 60) {
-            errors.rejectValue("dayChangeIntervalHours", "NewVillageForm.validator.dayChangeIntervalHours")
+        if (intervalSeconds !in DAY_CHANGE_INTERVAL_MIN_SECONDS..DAY_CHANGE_INTERVAL_MAX_SECONDS) {
+            errors.rejectValue(
+                "dayChangeIntervalHours",
+                "NewVillageForm.validator.dayChangeIntervalHours",
+                arrayOf(DAY_CHANGE_INTERVAL_MAX_HOURS),
+                null,
+            )
         }
 
         // 開始日時が過去や存在しない日付
