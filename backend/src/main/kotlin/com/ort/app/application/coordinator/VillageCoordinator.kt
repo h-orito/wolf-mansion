@@ -4,6 +4,7 @@ import com.ort.app.application.service.AbilityService
 import com.ort.app.application.service.CharaService
 import com.ort.app.application.service.CommitService
 import com.ort.app.application.service.FootstepApplicationService
+import com.ort.app.application.service.JoinPasswordAttemptLimiter
 import com.ort.app.application.service.MessageService
 import com.ort.app.application.service.NotificationService
 import com.ort.app.application.service.PlayerService
@@ -75,6 +76,7 @@ class VillageCoordinator(
     private val footstepDomainService: FootstepDomainService,
     private val messageDomainService: MessageDomainService,
     private val attackDomainService: AttackDomainService,
+    private val joinPasswordAttemptLimiter: JoinPasswordAttemptLimiter,
 ) {
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun participate(
@@ -176,6 +178,14 @@ class VillageCoordinator(
             if (charaImageFile?.size == 0L) throw WolfMansionBusinessException("キャラクター画像は必須です。")
         } else {
             charaId ?: throw WolfMansionBusinessException("キャラクターを選択してください")
+        }
+
+        // 入村パスワードは試行回数を制限する (実際の確認は下の assertParticipate / assertSpectate で行う)
+        if (village.setting.isJoinPasswordRequired()) {
+            if (!joinPasswordAttemptLimiter.acquire(player.id, village.id)) {
+                throw WolfMansionBusinessException("入村パスワードを続けて間違えたため、しばらく参加できません。時間をおいてから再度お試しください。")
+            }
+            joinPasswordAttemptLimiter.release(player.id, village.id, failed = !village.setting.matchesJoinPassword(joinPassword))
         }
 
         if (isSpectator) {

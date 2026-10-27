@@ -146,6 +146,7 @@ export async function settleVillage(page: Page, villageId: number): Promise<void
 
 type VillageCreateOverrides = {
   allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
+  joinPassword?: string;
 };
 
 async function createVillageApi(
@@ -247,8 +248,9 @@ async function debugForceDayChange(
 
 export async function provisionRecruitingVillage(
   page: Page,
+  overrides: VillageCreateOverrides = {},
 ): Promise<SimpleVillage> {
-  return createVillageApi(page);
+  return createVillageApi(page, overrides);
 }
 
 /**

@@ -11,6 +11,7 @@ import com.ort.app.domain.model.village.setting.VillageOrganize
 import com.ort.app.domain.model.village.setting.VillageRule
 import com.ort.app.domain.model.village.setting.VillageTags
 import com.ort.dbflute.allcommon.CDef
+import java.security.MessageDigest
 import java.time.LocalDateTime
 
 data class VillageSetting(
@@ -25,6 +26,15 @@ data class VillageSetting(
     val sayRestriction: SayRestriction,
     val tags: VillageTags,
 ) {
+    fun isJoinPasswordRequired(): Boolean = !joinPassword.isNullOrEmpty()
+
+    /** 入村パスワードが合っているか (パスワードのない村は常に true)。一定時間で比較する */
+    fun matchesJoinPassword(password: String?): Boolean {
+        if (!isJoinPasswordRequired()) return true
+        password ?: return false
+        return MessageDigest.isEqual(joinPassword!!.toByteArray(), password.toByteArray())
+    }
+
     fun allRequestableSkillList(): List<Skill> =
         if (rule.isRandomOrganization) {
             Skills.requestables().list
