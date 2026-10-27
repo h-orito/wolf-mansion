@@ -731,6 +731,58 @@ class MessageDomainService(
         return list.distinct().map { it.toModel() }
     }
 
+    /**
+     * 発言 1 件を見られるか
+     * 個人宛ての能力結果・独り言・秘話は、種別を見られる役職でも本人 (秘話は送信者と宛先) のものしか見られない
+     */
+    fun isViewableMessage(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?,
+        messageType: CDef.MessageType,
+        day: Int,
+        fromParticipantId: Int?,
+        toParticipantId: Int?,
+    ): Boolean {
+        if (myself?.isAdmin() == true ||
+            village.status.isSettled() ||
+            village.status.isCanceled() ||
+            village.isProducer(player)
+        ) {
+            return true
+        }
+        if (MessageType.personalSystemTypeList.contains(messageType) || messageType == CDef.MessageType.独り言) {
+            return myself != null && fromParticipantId == myself.id
+        }
+        if (messageType == CDef.MessageType.秘話) {
+            return myself != null && (fromParticipantId == myself.id || toParticipantId == myself.id)
+        }
+        return isViewable(village, myself, player, messageType, day)
+    }
+
+    /**
+     * アンカーで参照した発言を、発言の宛先 (アンカー先の発言者) として記録してよいか
+     * 発言者が見られない発言を記録すると、宛先での絞り込みからアンカー先の発言者が分かってしまうため、
+     * 発言者が見られる発言だけを記録する
+     */
+    fun isAnchorableMessage(
+        village: Village,
+        sender: VillageParticipant?,
+        anchoredMessageType: CDef.MessageType,
+        anchoredMessageDay: Int,
+        anchoredMessageFromParticipantId: Int?,
+        anchoredMessageToParticipantId: Int?,
+    ): Boolean =
+        isViewableMessage(
+            village,
+            sender,
+            null,
+            anchoredMessageType,
+            anchoredMessageDay,
+            anchoredMessageFromParticipantId,
+            anchoredMessageToParticipantId,
+        )
+
     fun isViewable(
         village: Village,
         myself: VillageParticipant?,

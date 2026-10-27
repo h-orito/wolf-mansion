@@ -9,6 +9,7 @@ import com.ort.app.domain.model.message.MessageType
 import com.ort.app.domain.model.message.Messages
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
+import com.ort.app.domain.service.MessageDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.allcommon.CDef
 import com.ort.dbflute.cbean.MessageCB
@@ -25,6 +26,7 @@ import com.ort.dbflute.exentity.Message as DbMessage
 class MessageDataSource(
     private val messageBhv: MessageBhv,
     private val messageSendtoBhv: MessageSendtoBhv,
+    private val messageDomainService: MessageDomainService,
 ) : MessageRepository {
     companion object {
         val patternMessageTypeMap =
@@ -238,7 +240,7 @@ class MessageDataSource(
         repeat(3) {
             try {
                 messageBhv.insert(m)
-                insertMessageSendTo(m)
+                insertMessageSendTo(village, m)
                 return m.messageId
             } catch (e: Exception) {
             }
@@ -246,11 +248,15 @@ class MessageDataSource(
         throw WolfMansionBusinessException("混み合っているため発言に失敗しました")
     }
 
-    private fun insertMessageSendTo(m: DbMessage) {
+    private fun insertMessageSendTo(
+        village: Village,
+        m: DbMessage,
+    ) {
         val splitted = m.messageContent.split(">>")
         if (splitted.size <= 1) {
             return // >>が含まれていない
         }
+        val sender = m.villagePlayerId?.let { village.allParticipants().member(it) }
         splitted.drop(1).forEach { str ->
             patternMessageTypeMap.forEach { (pattern: Pattern, messageType: CDef.MessageType) ->
                 val matcher = pattern.matcher(str)
@@ -265,6 +271,17 @@ class MessageDataSource(
                     if (!optMessage.isPresent || optMessage.get().villagePlayerId == null) {
                         return@forEach
                     }
+                    val anchored = optMessage.get()
+                    val isAnchorable =
+                        messageDomainService.isAnchorableMessage(
+                            village,
+                            sender,
+                            messageType,
+                            anchored.day,
+                            anchored.villagePlayerId,
+                            anchored.toVillagePlayerId,
+                        )
+                    if (!isAnchorable) return@forEach
                     val sendTo = MessageSendto()
                     sendTo.messageId = m.messageId
                     sendTo.villagePlayerId = optMessage.get().villagePlayerId
