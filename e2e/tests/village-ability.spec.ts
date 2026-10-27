@@ -3,7 +3,9 @@ import {
   ensureVillagesExist,
   loginApi,
   dismissInitialSkillModal,
+  provisionInProgressVillage,
   CANDIDATE_USERS,
+  DEFAULT_ORGANIZATION,
   type SimpleVillage,
 } from "./helpers/provision";
 
@@ -15,6 +17,9 @@ import {
 
 type AbilityView = {
   canUseAbility: boolean;
+  isTargetingAndFootstep: boolean;
+  isAvailableNoTarget: boolean;
+  targetCharaIds: number[];
   attackerCharaIds: number[];
   attackerCharaId: number | null;
   targetCharaId: number | null;
@@ -106,5 +111,79 @@ test("人狼が現在の襲撃セットを再セットできる (共有 DB の�
 
   if (candidate.ability.targetingMessage != null) {
     await expect(page.getByText(candidate.ability.targetingMessage)).toBeVisible();
+  }
+});
+
+/** 対象なしを選べる足音能力 (拡声者の拡声) を確実に含む村を建て、その能力者を探す */
+async function findLoudSpeakerCandidate(page: Page): Promise<Candidate | null> {
+  const village = await provisionInProgressVillage(page, {
+    organization: DEFAULT_ORGANIZATION.split("\n")
+      .map((line) => line.replace("導", "拡"))
+      .join("\n"),
+  });
+  return scanAbilityCandidate(
+    page,
+    [village],
+    (ability) =>
+      (ability.attackerCharaIds?.length ?? 0) === 0 &&
+      ability.isTargetingAndFootstep &&
+      ability.isAvailableNoTarget,
+  );
+}
+
+test("襲撃以外の能力では襲撃者を指定できない", async ({ page }) => {
+  test.setTimeout(180000);
+  const candidate = await findLoudSpeakerCandidate(page);
+  expect(candidate, "対象なしを選べる足音能力者が見つからない").not.toBeNull();
+  if (candidate == null) return;
+
+  const villageRes = await page.request.get(
+    `/wolf-mansion-api/api/v1/villages/${candidate.villageId}`,
+  );
+  const me = await page.request.get(
+    `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/situation/me`,
+  );
+  const myCharaId = ((await me.json()) as { myself: { chara: { id: number } } }).myself.chara.id;
+  const village = (await villageRes.json()) as {
+    participants: { list: { chara: { id: number } }[] };
+  };
+  const other = village.participants.list.find((p) => p.chara.id !== myCharaId)!.chara.id;
+
+  // 足音を他人のものとして記録させようとする
+  const res = await page.request.post(
+    `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/ability`,
+    { data: { attackerCharaId: other, targetCharaId: null, footstep: "なし" } },
+  );
+  expect(res.status()).toBe(400);
+  expect((await res.json()).detail).toBe("襲撃者を指定できない能力です");
+});
+
+test("対象なしで足音能力をセットすると、足音は送った値によらず「なし」になる", async ({ page }) => {
+  test.setTimeout(180000);
+  const candidate = await findLoudSpeakerCandidate(page);
+  expect(candidate, "対象なしを選べる足音能力者が見つからない").not.toBeNull();
+  if (candidate == null) return;
+
+  const url = `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/ability`;
+  const res = await page.request.post(url, {
+    data: { targetCharaId: null, footstep: "1,2,3,4,5,6,7,8,9" },
+  });
+  expect(res.status()).toBe(204);
+
+  try {
+    const me = await page.request.get(
+      `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/situation/me`,
+    );
+    const ability = ((await me.json()) as { ability: AbilityView }).ability;
+    expect(ability.targetCharaId).toBeNull();
+    expect(ability.footstep).toBe("なし");
+  } finally {
+    // 元のセットに戻す
+    await page.request.post(url, {
+      data: {
+        targetCharaId: candidate.ability.targetCharaId,
+        footstep: candidate.ability.footstep,
+      },
+    });
   }
 });

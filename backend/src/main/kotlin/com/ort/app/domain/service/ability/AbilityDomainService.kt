@@ -363,10 +363,16 @@ class AbilityDomainService(
         if (!canUseAbility(village, myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない状態です")
         if (!canUseDay(myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない日数です")
         if (myself.skill.hasDisturbAbility()) {
+            if (attackerCharaId != null) throw WolfMansionBusinessException("襲撃者を指定できない能力です")
             disturbDomainService.assertAbility(village, footstep)
         } else {
             val abilityType = myself.skill.getAbility() ?: throw WolfMansionBusinessException("行使可能な能力がありません")
-            detectAbilityTypeService(abilityType).assertAbility(
+            val abilityTypeService = detectAbilityTypeService(abilityType)
+            // 足音は襲撃者のものとして記録されるため、襲撃以外で指定されると他人の足音にできてしまう
+            if (attackerCharaId != null && abilityTypeService !== attackDomainService) {
+                throw WolfMansionBusinessException("襲撃者を指定できない能力です")
+            }
+            abilityTypeService.assertAbility(
                 village,
                 myself,
                 attackerCharaId,
@@ -384,6 +390,21 @@ class AbilityDomainService(
                 )
             }
         }
+    }
+
+    /**
+     * 記録する足音
+     * 対象を指定しない足音能力は通過する部屋がないため、送られた値によらず「なし」にする
+     */
+    fun fixFootstep(
+        myself: VillageParticipant,
+        targetCharaId: Int?,
+        footstep: String?,
+    ): String? {
+        val skill = myself.skill ?: return footstep
+        if (skill.hasDisturbAbility() || targetCharaId != null) return footstep
+        val abilityType = skill.getAbility() ?: return footstep
+        return if (detectAbilityTypeService(abilityType).isTargetingAndFootstep()) "なし" else footstep
     }
 
     fun assertGetSelectableFootsteps(
