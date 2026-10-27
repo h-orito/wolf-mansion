@@ -84,6 +84,23 @@ class SayDomainService(
         assertMessageRestrict(village, myself, messageContent, latestDayMessageCountMap)
     }
 
+    /**
+     * 秘話の宛先が、村の秘話の範囲 (全員・村建てとのみ等) で選べる相手か
+     */
+    fun assertSecretSayTarget(
+        village: Village,
+        creatorPlayerId: Int,
+        myself: VillageParticipant,
+        player: Player,
+        messageContent: MessageContent,
+        target: VillageParticipant?,
+    ) {
+        if (messageContent.type.toCdef() != CDef.MessageType.秘話) return
+        target ?: throw WolfMansionBusinessException("秘話の相手を選択してください")
+        val targetList = getSecretSayTargetList(CDef.MessageType.秘話, village, creatorPlayerId, myself, player)
+        if (targetList.none { it.id == target.id }) throw WolfMansionBusinessException("秘話を送れない相手です")
+    }
+
     private fun isAvailableSay(
         village: Village,
         myself: VillageParticipant?,
