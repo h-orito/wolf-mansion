@@ -119,12 +119,12 @@ class VillageSayRestController(
         @RequestBody @Validated request: VillageActionRequest,
     ): VillageSayConfirmContent {
         val (village, myself) = resolveSayer(principal, id)
-        validateAction(request)
+        validateAction(request, myself)
         val message =
             messageCoordinator.confirmToSay(
                 village,
                 myself,
-                composeActionText(request),
+                village.createActionText(myself, request.target, request.message!!),
                 CDef.MessageType.アクション.code(),
                 null,
                 request.convertDisable,
@@ -155,11 +155,11 @@ class VillageSayRestController(
         @RequestBody @Validated request: VillageActionRequest,
     ) {
         val (village, myself) = resolveSayer(principal, id)
-        validateAction(request)
+        validateAction(request, myself)
         messageCoordinator.say(
             village,
             myself,
-            composeActionText(request),
+            village.createActionText(myself, request.target, request.message!!),
             CDef.MessageType.アクション.code(),
             null,
             request.convertDisable,
@@ -168,10 +168,12 @@ class VillageSayRestController(
         )
     }
 
-    private fun composeActionText(request: VillageActionRequest): String = "${request.myself!!}${request.target ?: ""}${request.message!!}"
-
-    private fun validateAction(request: VillageActionRequest) {
-        val form = request.toForm()
+    private fun validateAction(
+        request: VillageActionRequest,
+        myself: VillageParticipant,
+    ) {
+        // 文字数は、サーバーで付ける行為者名で数える
+        val form = request.toForm(Village.actionPrefix(myself.name()))
         val errors = BeanPropertyBindingResult(form, "actionForm")
         actionFormValidator.validate(form, errors)
         if (errors.hasErrors()) {

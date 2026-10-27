@@ -17,7 +17,10 @@ class ActionFormValidator : Validator {
 
         val form = target as VillageActionForm
         form.message = form.message!!.trim()
-        if (form.message!!.isEmpty()) return
+        if (form.message!!.isEmpty()) {
+            errors.rejectValue("message", "VillageSayForm.validator.message.length")
+            return
+        }
 
         val targetMessage = if (form.target.isNullOrBlank()) "" else form.target
         val messageText = form.myself!! + targetMessage + form.message
