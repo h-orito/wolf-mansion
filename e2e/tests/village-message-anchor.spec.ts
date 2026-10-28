@@ -9,7 +9,7 @@ import {
 
 /**
  * アンカーまわりの閲覧範囲の e2e。
- * 個人宛ての発言はアンカーでも本人しか読めないこと、見られない発言へのアンカーが
+ * 発言以外の種別や、進行中は見られない発言をアンカーで読めないこと、見られない発言へのアンカーが
  * 宛先での絞り込みに使われないことを、専用に建てた村で確認する。
  */
 
@@ -46,7 +46,7 @@ async function findMessages(
   return ((await res.json()) as { messageList: Message[] }).messageList;
 }
 
-test("他の賢者の役職占い結果はアンカーで読めない", async ({ page }) => {
+test("役職占い結果はアンカーで読めない", async ({ page }) => {
   test.setTimeout(240000);
   // 賢者が 2 人いる村を 2 日目まで進める (1 日目の占い結果が 2 件できる)
   const village = await provisionVotingVillage(page, {
@@ -67,8 +67,33 @@ test("他の賢者の役職占い結果はアンカーで読めない", async ({
     const body = (await res.json()) as { message: Message | null };
     if (body.message != null) readable.push(body.message);
   }
-  // 自分の結果 1 件だけ読める
-  expect(readable).toHaveLength(1);
+  // 発言ではないので自分の結果も読めない
+  expect(readable).toHaveLength(0);
+});
+
+test("進行中は自分の独り言もアンカーで読めない", async ({ page }) => {
+  test.setTimeout(240000);
+  const village = await provisionInProgressVillage(page);
+  const participant = (await collectParticipants(page, village.id))[0];
+  expect(participant, "参加者が見つからない").toBeDefined();
+  if (participant == null) return;
+
+  await loginApi(page, participant.userId);
+  const say = await page.request.post(`${API}/villages/${village.id}/say`, {
+    data: { message: "e2e の独り言", messageType: "MONOLOGUE_SAY", faceType: "NORMAL" },
+  });
+  expect(say.status()).toBe(204);
+  const monologues = await findMessages(page, village.id, { types: "MONOLOGUE_SAY" });
+  expect(monologues.map((m) => m.messageContent)).toContain("e2e の独り言");
+
+  // 独り言は番号を表示しないため、番号を総当たりで指定しても読めないことを確認する
+  for (const messageNumber of [1, 2, 3]) {
+    const res = await page.request.get(
+      `${API}/villages/${village.id}/messages/anchor?messageType=MONOLOGUE_SAY&messageNumber=${messageNumber}`,
+    );
+    expect(res.ok()).toBe(true);
+    expect(((await res.json()) as { message: Message | null }).message).toBeNull();
+  }
 });
 
 test("囁きへのアンカーで、宛先の絞り込みから囁いた人が分からない", async ({ page }) => {

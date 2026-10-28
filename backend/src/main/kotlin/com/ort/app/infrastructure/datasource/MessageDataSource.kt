@@ -271,17 +271,10 @@ class MessageDataSource(
                     if (!optMessage.isPresent || optMessage.get().villagePlayerId == null) {
                         return@forEach
                     }
-                    val anchored = optMessage.get()
-                    val isAnchorable =
-                        messageDomainService.isAnchorableMessage(
-                            village,
-                            sender,
-                            messageType,
-                            anchored.day,
-                            anchored.villagePlayerId,
-                            anchored.toVillagePlayerId,
-                        )
-                    if (!isAnchorable) return@forEach
+                    // 発言者が見られる発言だけを宛先として記録する
+                    val isViewable =
+                        messageDomainService.isViewableAnchorMessage(village, sender, null, messageType, optMessage.get().day)
+                    if (!isViewable) return@forEach
                     val sendTo = MessageSendto()
                     sendTo.messageId = m.messageId
                     sendTo.villagePlayerId = optMessage.get().villagePlayerId

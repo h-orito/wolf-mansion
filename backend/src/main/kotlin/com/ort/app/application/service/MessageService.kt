@@ -27,7 +27,7 @@ class MessageService(
         return messageRepository.findMessages(village, myself, query)
     }
 
-    fun findMessage(
+    fun findAnchorMessage(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
@@ -36,16 +36,7 @@ class MessageService(
     ): Message? {
         val cdef = requireNotNull(CDef.MessageType.codeOf(messageType))
         val message = messageRepository.findMessage(village, cdef, messageNumber) ?: return null
-        val isViewable =
-            messageDomainService.isViewableMessage(
-                village,
-                myself,
-                player,
-                cdef,
-                message.time.day,
-                message.fromParticipantId,
-                message.toParticipantId,
-            )
+        val isViewable = messageDomainService.isViewableAnchorMessage(village, myself, player, cdef, message.time.day)
         return if (isViewable) message else null
     }
 
