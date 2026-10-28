@@ -78,7 +78,7 @@ export function uniqueUserId(): string {
 
 // ─── Provisioning ────────────────────────────────────────
 
-const DEFAULT_ORGANIZATION = [
+export const DEFAULT_ORGANIZATION = [
   "村狼狼賢導村村村",
   "村狼狼賢導村村村村",
   "村狼狼狂賢導村村村村",
@@ -146,6 +146,7 @@ export async function settleVillage(page: Page, villageId: number): Promise<void
 
 type VillageCreateOverrides = {
   allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
+  organization?: string;
 };
 
 async function createVillageApi(

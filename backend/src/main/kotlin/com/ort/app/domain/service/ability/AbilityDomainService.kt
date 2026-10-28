@@ -362,6 +362,9 @@ class AbilityDomainService(
         myself?.skill ?: throw WolfMansionBusinessException("役職なし")
         if (!canUseAbility(village, myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない状態です")
         if (!canUseDay(myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない日数です")
+        if (attackerCharaId != null && !myself.skill.hasAttackAbility()) {
+            throw WolfMansionBusinessException("襲撃者を指定できない能力です")
+        }
         if (myself.skill.hasDisturbAbility()) {
             disturbDomainService.assertAbility(village, footstep)
         } else {
