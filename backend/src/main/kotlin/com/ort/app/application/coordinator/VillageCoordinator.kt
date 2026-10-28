@@ -285,13 +285,12 @@ class VillageCoordinator(
             votes,
             footsteps,
         )
-        val fixedFootstep = abilityDomainService.fixFootstep(myself, targetCharaId, footstep)
-        abilityService.updateAbility(village, myself, attackerCharaId, targetCharaId, fixedFootstep)
+        abilityService.updateAbility(village, myself, attackerCharaId, targetCharaId, footstep)
         val footstepParticipant = attackerCharaId?.let { village.participants.chara(it) } ?: myself
-        footstepService.updateFootstep(village, myself, footstepParticipant, fixedFootstep)
+        footstepService.updateFootstep(village, myself, footstepParticipant, footstep)
         messageService.registerMessage(
             village,
-            abilityDomainService.createSetMessage(village, myself, attackerCharaId, targetCharaId, fixedFootstep),
+            abilityDomainService.createSetMessage(village, myself, attackerCharaId, targetCharaId, footstep),
         )
     }
 

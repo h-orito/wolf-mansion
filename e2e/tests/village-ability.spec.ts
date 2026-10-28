@@ -158,19 +158,52 @@ test("襲撃以外の能力では襲撃者を指定できない", async ({ page 
   expect((await res.json()).detail).toBe("襲撃者を指定できない能力です");
 });
 
-test("対象なしで足音能力をセットすると、足音は送った値によらず「なし」になる", async ({ page }) => {
+test("対象なしの足音能力に通過する部屋を指定するとエラーになる", async ({ page }) => {
+  test.setTimeout(180000);
+  const candidate = await findLoudSpeakerCandidate(page);
+  expect(candidate, "対象なしを選べる足音能力者が見つからない").not.toBeNull();
+  if (candidate == null) return;
+
+  const res = await page.request.post(
+    `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/ability`,
+    { data: { targetCharaId: null, footstep: "1,2,3,4,5,6,7,8,9" } },
+  );
+  expect(res.status()).toBe(400);
+  expect((await res.json()).detail).toBe("選択できない足音を選択しています");
+});
+
+test("画面で対象をなしに切り替えてセットすると、足音なしでセットされる", async ({ page }) => {
   test.setTimeout(180000);
   const candidate = await findLoudSpeakerCandidate(page);
   expect(candidate, "対象なしを選べる足音能力者が見つからない").not.toBeNull();
   if (candidate == null) return;
 
   const url = `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/ability`;
-  const res = await page.request.post(url, {
-    data: { targetCharaId: null, footstep: "1,2,3,4,5,6,7,8,9" },
-  });
-  expect(res.status()).toBe(204);
-
   try {
+    await page.goto(`village/${candidate.villageId}`);
+    await expect(page.getByRole("button", { name: "能力セット" })).toBeVisible({ timeout: 15000 });
+    await dismissInitialSkillModal(page);
+
+    // 対象を選んで通過する部屋が入った状態から、なしに切り替える
+    const targetSelect = page.getByRole("combobox", { name: "能力の対象" });
+    await targetSelect.selectOption(String(candidate.ability.targetCharaIds[0]));
+    await expect(page.getByLabel("通過する部屋")).not.toHaveValue("", { timeout: 15000 });
+    await targetSelect.selectOption("");
+
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes(`/api/v1/villages/${candidate.villageId}/ability`) &&
+          res.request().method() === "POST",
+      ),
+      page.getByRole("button", { name: "能力セット" }).click(),
+    ]);
+    expect(response.status()).toBe(204);
+    expect(response.request().postDataJSON()).toMatchObject({
+      targetCharaId: null,
+      footstep: null,
+    });
+
     const me = await page.request.get(
       `/wolf-mansion-api/api/v1/villages/${candidate.villageId}/situation/me`,
     );
@@ -182,7 +215,7 @@ test("対象なしで足音能力をセットすると、足音は送った値�
     await page.request.post(url, {
       data: {
         targetCharaId: candidate.ability.targetCharaId,
-        footstep: candidate.ability.footstep,
+        footstep: candidate.ability.targetCharaId == null ? null : candidate.ability.footstep,
       },
     });
   }

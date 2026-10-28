@@ -392,21 +392,6 @@ class AbilityDomainService(
         }
     }
 
-    /**
-     * 記録する足音
-     * 対象を指定しない足音能力は通過する部屋がないため、送られた値によらず「なし」にする
-     */
-    fun fixFootstep(
-        myself: VillageParticipant,
-        targetCharaId: Int?,
-        footstep: String?,
-    ): String? {
-        val skill = myself.skill ?: return footstep
-        if (skill.hasDisturbAbility() || targetCharaId != null) return footstep
-        val abilityType = skill.getAbility() ?: return footstep
-        return if (detectAbilityTypeService(abilityType).isTargetingAndFootstep()) "なし" else footstep
-    }
-
     fun assertGetSelectableFootsteps(
         village: Village,
         myself: VillageParticipant,
