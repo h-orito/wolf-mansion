@@ -362,17 +362,14 @@ class AbilityDomainService(
         myself?.skill ?: throw WolfMansionBusinessException("役職なし")
         if (!canUseAbility(village, myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない状態です")
         if (!canUseDay(myself, village.latestDay())) throw WolfMansionBusinessException("能力を使えない日数です")
+        if (attackerCharaId != null && !myself.skill.hasAttackAbility()) {
+            throw WolfMansionBusinessException("襲撃者を指定できない能力です")
+        }
         if (myself.skill.hasDisturbAbility()) {
-            if (attackerCharaId != null) throw WolfMansionBusinessException("襲撃者を指定できない能力です")
             disturbDomainService.assertAbility(village, footstep)
         } else {
             val abilityType = myself.skill.getAbility() ?: throw WolfMansionBusinessException("行使可能な能力がありません")
-            val abilityTypeService = detectAbilityTypeService(abilityType)
-            // 足音は襲撃者のものとして記録されるため、襲撃以外で指定されると他人の足音にできてしまう
-            if (attackerCharaId != null && abilityTypeService !== attackDomainService) {
-                throw WolfMansionBusinessException("襲撃者を指定できない能力です")
-            }
-            abilityTypeService.assertAbility(
+            detectAbilityTypeService(abilityType).assertAbility(
                 village,
                 myself,
                 attackerCharaId,
