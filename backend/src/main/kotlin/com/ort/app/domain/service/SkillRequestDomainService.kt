@@ -40,24 +40,24 @@ class SkillRequestDomainService {
         assertRequestable(village, second)
     }
 
-    /**
-     * 入村時の役職希望
-     * 役職希望ができない村では、送られた希望によらずおまかせにする
-     */
-    fun fixParticipateRequestSkill(
+    fun assertParticipateRequestSkill(
         village: Village,
-        skill: Skill,
-    ): Skill {
-        if (!village.canRequestSkill()) return Skill(CDef.Skill.おまかせ)
-        assertRequestable(village, skill)
-        return skill
+        first: Skill,
+        second: Skill,
+    ) {
+        assertRequestable(village, first)
+        assertRequestable(village, second)
     }
+
+    /** 希望できる役職 (役職希望ができない村ではおまかせのみ) */
+    fun getRequestableSkillList(village: Village): List<Skill> =
+        if (village.canRequestSkill()) village.allRequestableSkillList() else listOf(Skill(CDef.Skill.おまかせ))
 
     private fun assertRequestable(
         village: Village,
         skill: Skill,
     ) {
-        if (village.allRequestableSkillList().none { it.code == skill.code }) {
+        if (getRequestableSkillList(village).none { it.code == skill.code }) {
             throw WolfMansionBusinessException("希望できない役職です")
         }
     }
