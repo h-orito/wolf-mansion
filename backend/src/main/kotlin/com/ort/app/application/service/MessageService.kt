@@ -27,7 +27,7 @@ class MessageService(
         return messageRepository.findMessages(village, myself, query)
     }
 
-    fun findMessage(
+    fun findAnchorMessage(
         village: Village,
         myself: VillageParticipant?,
         player: Player?,
@@ -35,10 +35,9 @@ class MessageService(
         messageNumber: Int,
     ): Message? {
         val cdef = requireNotNull(CDef.MessageType.codeOf(messageType))
-        if (!messageDomainService.isViewable(village, myself, player, cdef, village.latestDay())) {
-            return null
-        }
-        return messageRepository.findMessage(village, cdef, messageNumber)
+        val message = messageRepository.findMessage(village, cdef, messageNumber) ?: return null
+        val isViewable = messageDomainService.isViewableAnchorMessage(village, myself, player, cdef, message.time.day)
+        return if (isViewable) message else null
     }
 
     fun findLatestMessageDatetime(
