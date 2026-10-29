@@ -83,7 +83,7 @@ data class Village(
         if (allParticipants().list.any { it.charaId == charaId }) {
             throw WolfMansionBusinessException("既に参加しているキャラクターです。")
         }
-        if (!setting.joinPassword.isNullOrEmpty() && setting.joinPassword != joinPassword) {
+        if (!setting.matchesJoinPassword(joinPassword)) {
             throw WolfMansionBusinessException("入村パスワードが誤っています。")
         }
     }
@@ -110,7 +110,7 @@ data class Village(
         if (allParticipants().list.any { it.charaId == charaId }) {
             throw WolfMansionBusinessException("既に参加しているキャラクターです。")
         }
-        if (!setting.joinPassword.isNullOrEmpty() && setting.joinPassword != joinPassword) {
+        if (!setting.matchesJoinPassword(joinPassword)) {
             throw WolfMansionBusinessException("入村パスワードが誤っています。")
         }
     }

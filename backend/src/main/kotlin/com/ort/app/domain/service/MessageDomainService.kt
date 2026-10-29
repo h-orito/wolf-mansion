@@ -17,6 +17,7 @@ import com.ort.app.domain.model.translate.TranslateRepository
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.model.village.participant.VillageParticipants
+import com.ort.app.domain.service.message.say.ActionSayDomainService
 import com.ort.app.domain.service.message.say.MessageTypeDomainService
 import com.ort.app.domain.service.message.system.AttackMessageDomainService
 import com.ort.app.domain.service.message.system.CoronerMessageDomainService
@@ -37,6 +38,7 @@ import java.util.regex.Pattern
 @Component
 class MessageDomainService(
     private val sayDomainService: SayDomainService,
+    private val actionSayDomainService: ActionSayDomainService,
     private val psychicMessageDomainService: PsychicMessageDomainService,
     private val guruMessageDomainService: GuruMessageDomainService,
     private val attackMessageDomainService: AttackMessageDomainService,
@@ -732,6 +734,13 @@ class MessageDomainService(
             }
         return list.distinct().map { it.toModel() }
     }
+
+    fun createActionText(
+        village: Village,
+        myself: VillageParticipant,
+        targetText: String?,
+        messageText: String,
+    ): String = actionSayDomainService.createActionText(village, myself, targetText, messageText)
 
     /**
      * アンカーで参照した発言を見られるか

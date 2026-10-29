@@ -23,6 +23,7 @@ internal class RandomMessageReplaceTest {
     private val service =
         MessageDomainService(
             mock(SayDomainService::class.java),
+            mock(com.ort.app.domain.service.message.say.ActionSayDomainService::class.java),
             mock(com.ort.app.domain.service.message.system.PsychicMessageDomainService::class.java),
             mock(com.ort.app.domain.service.message.system.GuruMessageDomainService::class.java),
             mock(com.ort.app.domain.service.message.system.AttackMessageDomainService::class.java),

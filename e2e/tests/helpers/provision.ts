@@ -147,6 +147,7 @@ export async function settleVillage(page: Page, villageId: number): Promise<void
 type VillageCreateOverrides = {
   allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
   organization?: string;
+  joinPassword?: string;
   possibleSkillRequest?: boolean;
 };
 
