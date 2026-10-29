@@ -26,10 +26,10 @@ test("アクション発言の行為者名はサーバーで付け、村にい�
   }
   expect(myName, "村に参加しているテストユーザーが見つからない").not.toBeNull();
 
-  const action = (data: { myself: string; target: string | null; message: string }) =>
+  const action = (data: { myself?: string; target: string | null; message: string }) =>
     page.request.post(`${API}/villages/${village.id}/action`, { data });
 
-  // 行為者名を別人にしても、本人の名前で記録される
+  // 行為者名はサーバーで付けるため、送っても無視され本人の名前で記録される
   expect((await action({ myself: "[偽] 別人は、", target: null, message: "e2e で手を振った。" })).status()).toBe(204);
   const list = (await (
     await page.request.get(`${API}/villages/${village.id}/messages?day=1&types=ACTION`)
@@ -37,10 +37,10 @@ test("アクション発言の行為者名はサーバーで付け、村にい�
   expect(list.messageList.map((m) => m.messageContent)).toContain(`${myName}は、e2e で手を振った。`);
 
   // 村にいない対象は指定できない
-  const badTarget = await action({ myself: `${myName}は、`, target: "[偽] 別人に", message: "手を振った。" });
+  const badTarget = await action({ target: "[偽] 別人に", message: "手を振った。" });
   expect(badTarget.status()).toBe(400);
 
   // 本文が空白だけのものは受け付けない
-  const blank = await action({ myself: `${myName}は、`, target: "全員", message: " " });
+  const blank = await action({ target: "全員", message: " " });
   expect(blank.status()).toBe(400);
 });
