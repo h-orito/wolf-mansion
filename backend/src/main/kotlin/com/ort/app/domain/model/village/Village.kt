@@ -173,16 +173,6 @@ data class Village(
 
     fun isSayableActionSay(): Boolean = status.isNotFinished() && setting.rule.isAvailableAction
 
-    /**
-     * アクション発言の本文を作る
-     * 行為者名はサーバーで付け、対象は「全員」か村にいる人の名前だけを受け付ける
-     */
-    fun createActionText(
-        myself: VillageParticipant,
-        targetText: String?,
-        messageText: String,
-    ): String = buildActionText(myself.name(), allParticipants().list.map { it.name() }, targetText, messageText)
-
     fun isViewablePsychicMessage(): Boolean = status.isSettled()
 
     fun isViewableGuruMessage(): Boolean = status.isSettled()
@@ -470,25 +460,6 @@ data class Village(
                 val list = revivableSkills.filter { r -> allocatableSkills.any { r.code == it.code } }
                 list.randomOrNull() ?: revivableSkills.random()
             }
-        }
-    }
-
-    companion object {
-        const val ACTION_TARGET_EVERYONE = "全員"
-
-        fun actionPrefix(myselfName: String): String = "${myselfName}は、"
-
-        internal fun buildActionText(
-            myselfName: String,
-            participantNames: List<String>,
-            targetText: String?,
-            messageText: String,
-        ): String {
-            val target = targetText?.takeIf { it.isNotEmpty() }
-            if (target != null && target != ACTION_TARGET_EVERYONE && !participantNames.contains(target)) {
-                throw WolfMansionBusinessException("指定できない対象です")
-            }
-            return "${actionPrefix(myselfName)}${target ?: ""}$messageText"
         }
     }
 }
