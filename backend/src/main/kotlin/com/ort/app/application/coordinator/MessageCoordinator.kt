@@ -59,7 +59,8 @@ class MessageCoordinator(
         val messageContent = MessageContent.invoke(messageType, messageText, faceType, isConvertDisable)
         val player = playerService.findPlayer(myself.playerId)
         assertSay(village, myself, player, messageContent)
-        val toParticipant = targetCharaId?.let { village.allParticipants().chara(it) }
+        val toParticipant = findSecretSayTarget(messageContent, village, targetCharaId)
+        assertSecretSayTarget(village, myself, player, messageContent, toParticipant)
         return Message(
             fromParticipantId = myself.id,
             fromCharacterName = myself.name(),
@@ -120,18 +121,15 @@ class MessageCoordinator(
         val messageContent = MessageContent.invoke(messageType, message, faceType, convertDisable)
         val player = playerService.findPlayer(myself.playerId)
         assertSay(village, myself, player, messageContent)
+        val target = findSecretSayTarget(messageContent, village, targetCharaId)
+        assertSecretSayTarget(village, myself, player, messageContent, target)
         // register message
         val messages =
             messageDomainService
                 .createSayMessages(
                     village = village,
                     myself = myself,
-                    target =
-                        if (messageContent.type.toCdef() == CDef.MessageType.秘話) {
-                            targetCharaId?.let { village.allParticipants().chara(it) }
-                        } else {
-                            null
-                        },
+                    target = target,
                     messageContent = messageContent,
                     abilities = abilityService.findAbilities(village.id),
                 ).list
@@ -141,6 +139,31 @@ class MessageCoordinator(
         // notification
         val players = playerService.findPlayers(village.id)
         notificationService.notifyReceiveMessageToCustomerIfNeeded(village, players, messages.last())
+    }
+
+    private fun findSecretSayTarget(
+        messageContent: MessageContent,
+        village: Village,
+        targetCharaId: Int?,
+    ): VillageParticipant? {
+        if (messageContent.type.toCdef() != CDef.MessageType.秘話) return null
+        targetCharaId ?: return null
+        return village.allParticipants().list.firstOrNull { it.charaId == targetCharaId }
+            ?: throw WolfMansionBusinessException("秘話を送れない相手です")
+    }
+
+    private fun assertSecretSayTarget(
+        village: Village,
+        myself: VillageParticipant,
+        player: Player,
+        messageContent: MessageContent,
+        target: VillageParticipant?,
+    ) {
+        if (messageContent.type.toCdef() != CDef.MessageType.秘話) return
+        val creator =
+            playerService.findPlayer(village.createPlayerName)
+                ?: throw IllegalStateException("creator not found.")
+        sayDomainService.assertSecretSayTarget(village, creator.id, myself, player, messageContent, target)
     }
 
     private fun assertSay(

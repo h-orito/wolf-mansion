@@ -84,6 +84,18 @@ class SayDomainService(
         assertMessageRestrict(village, myself, messageContent, latestDayMessageCountMap)
     }
 
+    fun assertSecretSayTarget(
+        village: Village,
+        creatorPlayerId: Int,
+        myself: VillageParticipant,
+        player: Player,
+        messageContent: MessageContent,
+        target: VillageParticipant?,
+    ) {
+        if (messageContent.type.toCdef() != CDef.MessageType.秘話) return
+        secretSayDomainService.assertSecretSayTarget(village, creatorPlayerId, myself, player, target)
+    }
+
     private fun isAvailableSay(
         village: Village,
         myself: VillageParticipant?,
@@ -178,29 +190,7 @@ class SayDomainService(
         player: Player,
     ): List<VillageParticipant> {
         if (messageType != CDef.MessageType.秘話) return emptyList()
-        val base =
-            village
-                .allParticipants()
-                .sortedByRoomNumber()
-                .list
-                .filter { it.id != myself.id }
-        // 管理者および村建ては全員
-        return if (myself.isAdmin() || village.isCreator(player)) {
-            base
-        } // 全員秘話可能
-        else if (village.setting.rule.secretSayRange
-                .canSayAll()
-        ) {
-            base
-        } // 村建てとのみ
-        else if (village.setting.rule.secretSayRange
-                .canOnlyCreator()
-        ) {
-            base.filter { it.playerId == creatorPlayerId }
-        } // 秘話なし
-        else {
-            emptyList()
-        }
+        return secretSayDomainService.getSelectableTargetList(village, creatorPlayerId, myself, player)
     }
 
     private fun isSelectableFaceType(
