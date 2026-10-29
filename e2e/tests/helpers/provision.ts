@@ -148,6 +148,7 @@ type VillageCreateOverrides = {
   allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
   organization?: string;
   joinPassword?: string;
+  possibleSkillRequest?: boolean;
 };
 
 async function createVillageApi(

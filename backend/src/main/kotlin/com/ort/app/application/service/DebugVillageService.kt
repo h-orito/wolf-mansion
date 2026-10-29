@@ -2,7 +2,7 @@ package com.ort.app.application.service
 
 import com.ort.app.application.coordinator.DaychangeCoordinator
 import com.ort.app.application.coordinator.VillageCoordinator
-import com.ort.app.domain.model.skill.Skills
+import com.ort.app.domain.service.SkillRequestDomainService
 import com.ort.app.fw.exception.WolfMansionBusinessException
 import com.ort.dbflute.cbean.PlayerCB
 import com.ort.dbflute.cbean.VillageDayCB
@@ -26,6 +26,7 @@ class DebugVillageService(
     private val charaService: CharaService,
     private val daychangeCoordinator: DaychangeCoordinator,
     private val villageCoordinator: VillageCoordinator,
+    private val skillRequestDomainService: SkillRequestDomainService,
 ) {
     companion object {
         // ローカル開発 DB のテストアカウント (testuser01〜16)
@@ -59,18 +60,10 @@ class DebugVillageService(
             throw WolfMansionBusinessException("参加可能なテストアカウントが不足しています")
         }
         players.forEachIndexed { i, player ->
-            val randomSkill =
-                Skills
-                    .all()
-                    .list
-                    .shuffled()
-                    .first()
-            val randomSkill2 =
-                Skills
-                    .all()
-                    .list
-                    .shuffled()
-                    .first()
+            // 村で希望できる役職から選ぶ (それ以外は入村時に拒否される)
+            val requestableSkillList = skillRequestDomainService.getRequestableSkillList(village)
+            val randomSkill = requestableSkillList.random()
+            val randomSkill2 = requestableSkillList.random()
             villageCoordinator.participate(
                 village = village,
                 player = player,

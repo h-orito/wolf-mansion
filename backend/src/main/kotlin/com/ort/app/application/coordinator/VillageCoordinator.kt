@@ -102,6 +102,7 @@ class VillageCoordinator(
             joinPassword,
             isSpectator,
         )
+        skillRequestDomainService.assertParticipateRequestSkill(village, firstRequestSkill, secondRequestSkill)
         val chara =
             if (village.setting.chara.isOriginalCharachip) {
                 charaService.registerOriginalChara(
@@ -240,7 +241,7 @@ class VillageCoordinator(
         first: Skill,
         second: Skill,
     ) {
-        skillRequestDomainService.assertChangeRequestSkill(village, myself)
+        skillRequestDomainService.assertChangeRequestSkill(village, myself, first, second)
         villageService.changeRequestSkill(myself, first, second)
         val after = villageService.findVillageParticipant(myself.id)!!
         messageService.registerMessage(village, messageDomainService.createSkillRequestMessage(after))

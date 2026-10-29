@@ -623,6 +623,8 @@ class MessageDomainService(
                 ),
         )
 
+    // 置換文字列はキャラ名・ユーザー定義の文字列を含むため、すべて Regex.escapeReplacement で $ や \ を文字として扱う
+
     // [[2d6]]の変換
     private fun replaceDiceMessage(mes: String): String {
         val diceMatcher = Pattern.compile(diceRegex).matcher(mes)
@@ -636,7 +638,7 @@ class MessageDomainService(
             val num = if (diceSize <= 0) 0 else rnd.nextInt(diceSize) + 1
             diceStr += "($num)"
         }
-        return mes.replaceFirst(diceRegex.toRegex(), diceStr + diceMatcher.group(0))
+        return mes.replaceFirst(diceRegex.toRegex(), Regex.escapeReplacement(diceStr + diceMatcher.group(0)))
     }
 
     // [[fortune]]の変換
@@ -645,7 +647,7 @@ class MessageDomainService(
         if (!fortuneMatcher.find()) return mes
         // Randomクラスのインスタンス化
         val rnd = Random()
-        return mes.replace(fortuneRegex.toRegex(), rnd.nextInt(101).toString() + fortuneMatcher.group(0))
+        return mes.replace(fortuneRegex.toRegex(), Regex.escapeReplacement(rnd.nextInt(101).toString() + fortuneMatcher.group(0)))
     }
 
     // [[AorBorC]]の変換
@@ -654,7 +656,7 @@ class MessageDomainService(
         if (!orMatcher.find()) return mes
         val matchString = orMatcher.group(1)
         val selected = matchString.split("or").random()
-        return mes.replace(orRegex.toRegex(), selected + orMatcher.group(0))
+        return mes.replace(orRegex.toRegex(), Regex.escapeReplacement(selected + orMatcher.group(0)))
     }
 
     // [[who]]の変換
@@ -670,7 +672,7 @@ class MessageDomainService(
                 .filterAlive()
                 .list
                 .random()
-        return mes.replace(whoRegex.toRegex(), selected.charaName.name + whoMatcher.group(0))
+        return mes.replace(whoRegex.toRegex(), Regex.escapeReplacement(selected.charaName.name + whoMatcher.group(0)))
     }
 
     // [[allwho]]の変換
@@ -681,7 +683,7 @@ class MessageDomainService(
         val allwhoMatcher = Pattern.compile(allwhoRegex).matcher(mes)
         if (!allwhoMatcher.find()) return mes
         val selected = participants.list.random()
-        return mes.replace(allwhoRegex.toRegex(), selected.charaName.name + allwhoMatcher.group(0))
+        return mes.replace(allwhoRegex.toRegex(), Regex.escapeReplacement(selected.charaName.name + allwhoMatcher.group(0)))
     }
 
     // [[gwho]]の変換
@@ -692,7 +694,7 @@ class MessageDomainService(
         val gwhoMatcher = Pattern.compile(gwhoRegex).matcher(mes)
         if (!gwhoMatcher.find()) return mes
         val selected = participants.filterDead().list.randomOrNull() ?: return mes
-        return mes.replace(gwhoRegex.toRegex(), selected.charaName.name + gwhoMatcher.group(0))
+        return mes.replace(gwhoRegex.toRegex(), Regex.escapeReplacement(selected.charaName.name + gwhoMatcher.group(0)))
     }
 
     // ユーザ定義キーワードの変換
@@ -700,10 +702,10 @@ class MessageDomainService(
         mes: String,
         keyword: RandomKeyword,
     ): String {
-        val regex = "\\[\\[${keyword.keyword}$"
+        val regex = "\\[\\[${Regex.escape(keyword.keyword)}$"
         val matcher = Pattern.compile(regex).matcher(mes)
         if (!matcher.find()) return mes
-        return mes.replace(regex.toRegex(), keyword.contents.random().message + matcher.group(0))
+        return mes.replace(regex.toRegex(), Regex.escapeReplacement(keyword.contents.random().message + matcher.group(0)))
     }
 
     private fun getViewableMessageTypeList(
