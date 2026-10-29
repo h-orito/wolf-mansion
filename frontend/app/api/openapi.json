@@ -4383,14 +4383,11 @@
           "message": {
             "type": ["string", "null"]
           },
-          "myself": {
-            "type": ["string", "null"]
-          },
           "target": {
             "type": ["string", "null"]
           }
         },
-        "required": ["message", "myself"]
+        "required": ["message"]
       },
       "VillageAdminLeaveRequest": {
         "type": "object",

@@ -94,7 +94,6 @@ export function ActionPanel({
           <Button
             onClick={() =>
               onConfirm({
-                myself: prefix,
                 target: target === "" ? null : target,
                 message,
                 convertDisable,

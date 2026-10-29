@@ -1623,7 +1623,6 @@ export interface components {
     VillageActionRequest: {
       convertDisable?: boolean | null;
       message: string | null;
-      myself: string | null;
       target?: string | null;
     };
     VillageAdminLeaveRequest: {

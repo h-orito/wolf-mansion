@@ -70,6 +70,41 @@ class MessageCoordinator(
         )
     }
 
+    fun confirmToActionSay(
+        village: Village,
+        myself: VillageParticipant,
+        targetText: String?,
+        messageText: String,
+        isConvertDisable: Boolean?,
+    ): Message =
+        confirmToSay(
+            village,
+            myself,
+            messageDomainService.createActionText(village, myself, targetText, messageText),
+            CDef.MessageType.アクション.code(),
+            null,
+            isConvertDisable,
+            null,
+        )
+
+    fun actionSay(
+        village: Village,
+        myself: VillageParticipant,
+        targetText: String?,
+        messageText: String,
+        isConvertDisable: Boolean?,
+        ipAddress: String,
+    ) = say(
+        village,
+        myself,
+        messageDomainService.createActionText(village, myself, targetText, messageText),
+        CDef.MessageType.アクション.code(),
+        null,
+        isConvertDisable,
+        null,
+        ipAddress,
+    )
+
     fun say(
         village: Village,
         myself: VillageParticipant?,

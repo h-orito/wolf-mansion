@@ -1,6 +1,5 @@
 package com.ort.app.api.village
 
-import com.ort.app.api.request.validator.ActionFormValidator
 import com.ort.app.api.request.validator.SayFormValidator
 import com.ort.app.api.view.VillageSayConfirmContent
 import com.ort.app.api.village.request.VillageActionRequest
@@ -18,7 +17,6 @@ import com.ort.app.fw.exception.WolfMansionValidationException
 import com.ort.app.fw.exception.WolfMansionValidationException.FieldErrorItem
 import com.ort.app.fw.interceptor.getIpAddress
 import com.ort.app.fw.security.jwt.JwtPrincipal
-import com.ort.dbflute.allcommon.CDef
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.servlet.http.HttpServletRequest
 import org.springframework.context.MessageSource
@@ -48,7 +46,6 @@ class VillageSayRestController(
     private val randomKeywordService: RandomKeywordService,
     private val messageCoordinator: MessageCoordinator,
     private val sayFormValidator: SayFormValidator,
-    private val actionFormValidator: ActionFormValidator,
     private val messageSource: MessageSource,
     private val httpServletRequest: HttpServletRequest,
 ) {
@@ -119,16 +116,13 @@ class VillageSayRestController(
         @RequestBody @Validated request: VillageActionRequest,
     ): VillageSayConfirmContent {
         val (village, myself) = resolveSayer(principal, id)
-        validateAction(request)
         val message =
-            messageCoordinator.confirmToSay(
+            messageCoordinator.confirmToActionSay(
                 village,
                 myself,
-                composeActionText(request),
-                CDef.MessageType.アクション.code(),
-                null,
+                request.target,
+                request.message!!,
                 request.convertDisable,
-                null,
             )
         val player = playerService.findPlayer(myself.playerId)
         val charas =
@@ -155,32 +149,14 @@ class VillageSayRestController(
         @RequestBody @Validated request: VillageActionRequest,
     ) {
         val (village, myself) = resolveSayer(principal, id)
-        validateAction(request)
-        messageCoordinator.say(
+        messageCoordinator.actionSay(
             village,
             myself,
-            composeActionText(request),
-            CDef.MessageType.アクション.code(),
-            null,
+            request.target,
+            request.message!!,
             request.convertDisable,
-            null,
             httpServletRequest.getIpAddress(),
         )
-    }
-
-    private fun composeActionText(request: VillageActionRequest): String = "${request.myself!!}${request.target ?: ""}${request.message!!}"
-
-    private fun validateAction(request: VillageActionRequest) {
-        val form = request.toForm()
-        val errors = BeanPropertyBindingResult(form, "actionForm")
-        actionFormValidator.validate(form, errors)
-        if (errors.hasErrors()) {
-            throw WolfMansionValidationException(
-                errors.fieldErrors.map {
-                    FieldErrorItem(it.field, messageSource.getMessage(it, Locale.JAPAN))
-                },
-            )
-        }
     }
 
     private fun resolveSayer(
