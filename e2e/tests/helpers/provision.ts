@@ -78,7 +78,7 @@ export function uniqueUserId(): string {
 
 // ─── Provisioning ────────────────────────────────────────
 
-const DEFAULT_ORGANIZATION = [
+export const DEFAULT_ORGANIZATION = [
   "村狼狼賢導村村村",
   "村狼狼賢導村村村村",
   "村狼狼狂賢導村村村村",
@@ -146,6 +146,7 @@ export async function settleVillage(page: Page, villageId: number): Promise<void
 
 type VillageCreateOverrides = {
   allowedSecretSayCode?: "EVERYTHING" | "NOTHING" | "ONLY_CREATOR";
+  organization?: string;
 };
 
 async function createVillageApi(
@@ -281,8 +282,11 @@ export async function provisionSecretSayVillage(
  * テストができない。突然死なし村は日付更新時に全生存者へ自投票が自動セット
  * されるため、この村には「投票済みの参加者」が必ず存在する。
  */
-export async function provisionVotingVillage(page: Page): Promise<SimpleVillage> {
-  const village = await provisionInProgressVillage(page);
+export async function provisionVotingVillage(
+  page: Page,
+  overrides: VillageCreateOverrides = {},
+): Promise<SimpleVillage> {
+  const village = await provisionInProgressVillage(page, overrides);
   await debugForceDayChange(page, village.id);
   return village;
 }

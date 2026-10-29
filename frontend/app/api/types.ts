@@ -1203,6 +1203,7 @@ export interface components {
     };
     MessageType: {
       code: string;
+      isAnchorable: boolean;
       isOwlViewableType: boolean;
       isSayType: boolean;
       name: string;

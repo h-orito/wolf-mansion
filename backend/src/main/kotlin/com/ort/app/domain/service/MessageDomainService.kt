@@ -740,6 +740,18 @@ class MessageDomainService(
         messageText: String,
     ): String = actionSayDomainService.createActionText(village, myself, targetText, messageText)
 
+    /**
+     * アンカーで参照した発言を見られるか
+     * アンカーで参照できるのは発言系の種別だけ
+     */
+    fun isViewableAnchorMessage(
+        village: Village,
+        myself: VillageParticipant?,
+        player: Player?,
+        messageType: CDef.MessageType,
+        day: Int,
+    ): Boolean = MessageType(messageType).isAnchorable() && isViewable(village, myself, player, messageType, day)
+
     fun isViewable(
         village: Village,
         myself: VillageParticipant?,

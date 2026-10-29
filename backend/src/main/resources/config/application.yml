@@ -39,9 +39,6 @@ mastodon:
     host: mstdn.jp
     access-token:
 
-slack:
-  webhook-url:
-
 discord:
   webhook-url:
   master-userid:
