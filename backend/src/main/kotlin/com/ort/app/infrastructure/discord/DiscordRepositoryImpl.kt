@@ -1,5 +1,7 @@
 package com.ort.app.infrastructure.discord
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.annotation.JsonProperty
 import com.ort.app.domain.model.discord.DiscordRepository
 import com.ort.app.domain.model.discord.DiscordWebhookUrl
 import org.slf4j.LoggerFactory
@@ -18,6 +20,41 @@ class DiscordRepositoryImpl : DiscordRepository {
         private val logger = LoggerFactory.getLogger(DiscordRepositoryImpl::class.java)
         private const val CONNECT_TIMEOUT_MS = 5000
         private const val READ_TIMEOUT_MS = 5000
+
+        // Discord の書式・メンションの記号をエスケープし、ユーザーが入力した本文をそのまま表示させる
+        private val markdownCharacters = setOf('\\', '*', '_', '~', '`', '|', '>', '<', '[', ']', '(', ')', '#', '-', '@', ':')
+
+        internal fun escapeMarkdown(text: String): String =
+            buildString {
+                text.forEach {
+                    if (it in markdownCharacters) append('\\')
+                    append(it)
+                }
+            }
+
+        internal fun createPostRequest(
+            masterUserId: String,
+            villageId: Int,
+            message: String,
+        ): Request =
+            Request(
+                content = "<@!$masterUserId>\n<https://wolfort.net/wolf-mansion/village/$villageId>\n${escapeMarkdown(message)}",
+                // 開発者へのメンションだけを許可する
+                allowedMentions = AllowedMentions(users = listOf(masterUserId)),
+            )
+
+        internal fun createPostToMasterRequest(
+            masterUserId: String,
+            message: String,
+        ): Request =
+            if (masterUserId.isEmpty()) {
+                Request(content = escapeMarkdown(message))
+            } else {
+                Request(
+                    content = "<@!$masterUserId>\n${escapeMarkdown(message)}",
+                    allowedMentions = AllowedMentions(users = listOf(masterUserId)),
+                )
+            }
     }
 
     @Value("\${discord.webhook-url:}")
@@ -34,10 +71,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         if (webhookUrl.isEmpty()) return
         try {
             val restTemplate = restTemplate()
-            val request =
-                Request(
-                    content = "<@!$masterUserId>\n<https://wolfort.net/wolf-mansion/village/$villageId>\n$message",
-                )
+            val request = createPostRequest(masterUserId, villageId, message)
             val formHeaders = HttpHeaders()
             formHeaders.contentType = MediaType.APPLICATION_JSON
             val formEntity = HttpEntity(request, formHeaders)
@@ -51,8 +85,7 @@ class DiscordRepositoryImpl : DiscordRepository {
         if (webhookUrl.isEmpty()) return
         try {
             val restTemplate = restTemplate()
-            val mention = if (masterUserId.isEmpty()) "" else "<@!$masterUserId>\n"
-            val request = Request(content = "$mention$message")
+            val request = createPostToMasterRequest(masterUserId, message)
             val formHeaders = HttpHeaders()
             formHeaders.contentType = MediaType.APPLICATION_JSON
             val formEntity = HttpEntity(request, formHeaders)
@@ -102,8 +135,18 @@ class DiscordRepositoryImpl : DiscordRepository {
         return RestTemplate(factory)
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     data class Request(
         val content: String,
         val username: String? = null,
+        // メンションは既定では一切解釈させない
+        @get:JsonProperty("allowed_mentions")
+        val allowedMentions: AllowedMentions = AllowedMentions(),
+    ) : java.io.Serializable
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    data class AllowedMentions(
+        val parse: List<String> = emptyList(),
+        val users: List<String>? = null,
     ) : java.io.Serializable
 }

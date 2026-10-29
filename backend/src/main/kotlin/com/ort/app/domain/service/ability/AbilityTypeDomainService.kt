@@ -93,7 +93,14 @@ interface AbilityTypeDomainService {
             throw WolfMansionBusinessException("選択できない対象を指定しています")
         }
         // 足音
-        if (isTargetingAndFootstep() && targetCharaId != null) defaultFootstepAsserter.invoke()
+        if (isTargetingAndFootstep()) {
+            if (targetCharaId != null) {
+                defaultFootstepAsserter.invoke()
+            } else if (footstep != null && footstep != "なし") {
+                // 対象なしは通過する部屋もない
+                throw WolfMansionBusinessException("選択できない足音を選択しています")
+            }
+        }
     }
 
     fun createSetMessageText(

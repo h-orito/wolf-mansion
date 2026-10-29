@@ -74,7 +74,6 @@ infrastructure/
   discord/      → Discord通知
   mastodon/     → Mastodon連携
   twitter/      → Twitter連携
-  slack/        → Slack通知
   microsoft/    → Microsoft翻訳API
 fw/             → フレームワーク基盤（Security, Interceptor, Config, Exception）
 ```

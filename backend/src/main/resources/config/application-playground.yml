@@ -57,9 +57,6 @@ mastodon:
     host: mstdn.jp
     access-token: ${WOLF_MANSION_MASTODON_ACCESS_TOKEN}
 
-slack:
-  webhook-url: ${WOLF_MANSION_SLACK_WEBHOOK_URL}
-
 discord:
   webhook-url: ${WOLF_MANSION_DISCORD_WEBHOOK_URL}
   master-userid: ${WOLF_MANSION_DISCORD_MASTER_USERID}
