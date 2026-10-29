@@ -2954,6 +2954,9 @@
           "code": {
             "type": "string"
           },
+          "isAnchorable": {
+            "type": "boolean"
+          },
           "isOwlViewableType": {
             "type": "boolean"
           },
@@ -2964,7 +2967,7 @@
             "type": "string"
           }
         },
-        "required": ["code", "isOwlViewableType", "isSayType", "name"]
+        "required": ["code", "isAnchorable", "isOwlViewableType", "isSayType", "name"]
       },
       "MessageTypeSayRestrict": {
         "type": "object",

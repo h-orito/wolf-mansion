@@ -112,7 +112,7 @@ class VillageMessageRestController(
     ): VillageAnchorMessageContent {
         val village = findVillageOrThrow(id)
         val (_, myself, myselfPlayer) = resolveViewer(principal, village)
-        val message = messageService.findMessage(village, myself, myselfPlayer, messageType, messageNumber)
+        val message = messageService.findAnchorMessage(village, myself, myselfPlayer, messageType, messageNumber)
         val fromPlayer =
             message?.fromParticipantId?.let {
                 playerService.findPlayer(village.allParticipants().member(it).playerId)
@@ -135,7 +135,7 @@ class VillageMessageRestController(
         val parsed = Anchors.of(anchors)
         val messages =
             parsed.list.mapNotNull {
-                messageService.findMessage(village, myself, myselfPlayer, it.messageType, it.messageNumber)
+                messageService.findAnchorMessage(village, myself, myselfPlayer, it.messageType, it.messageNumber)
             }
         val players = playerService.findPlayers(village.id)
         val charas =

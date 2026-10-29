@@ -20,6 +20,7 @@ data class MessageType(
                 CDef.MessageType.秘話,
                 CDef.MessageType.アクション,
             )
+        val anchorableTypeList = sayTypeList + CDef.MessageType.村建て発言
         val owlViewableSayTypeList =
             listOf(
                 CDef.MessageType.人狼の囁き,
@@ -57,6 +58,8 @@ data class MessageType(
     fun toCdef(): CDef.MessageType = CDef.MessageType.codeOf(code) ?: throw IllegalStateException("unknown type: $code")
 
     fun isSayType(): Boolean = sayTypeList.contains(this.toCdef())
+
+    fun isAnchorable(): Boolean = anchorableTypeList.contains(this.toCdef())
 
     fun isOwlViewableType(): Boolean = owlViewableSayTypeList.contains(this.toCdef())
 }
