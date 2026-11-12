@@ -28,12 +28,12 @@ class DaychangeDomainService(
     fun changeDayIfNeeded(
         daychange: Daychange,
         commits: Commits,
-        charas: Charas,
+        charasProvider: () -> Charas,
     ): Daychange {
         val status = daychange.village.status
         return when {
-            status.isPrologue() -> prologueDomainService.changeDayIfNeeded(daychange, charas)
-            status.isProgress() -> progressDomainService.changeDayIfNeeded(daychange, commits, charas)
+            status.isPrologue() -> prologueDomainService.changeDayIfNeeded(daychange, charasProvider)
+            status.isProgress() -> progressDomainService.changeDayIfNeeded(daychange, commits, charasProvider)
             status.isEpilogue() -> epilogueDomainService.changeDayIfNeeded(daychange)
             else -> daychange
         }

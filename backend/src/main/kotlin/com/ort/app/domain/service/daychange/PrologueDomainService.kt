@@ -69,10 +69,10 @@ class PrologueDomainService(
 
     fun changeDayIfNeeded(
         daychange: Daychange,
-        charas: Charas,
+        charasProvider: () -> Charas,
     ): Daychange {
         if (!shouldChangeDay(daychange.village)) return daychange
-        return startVillage(daychange.copy(village = daychange.village.addNewDay()), charas)
+        return startVillage(daychange.copy(village = daychange.village.addNewDay()), charasProvider())
     }
 
     private fun shouldChangeDay(village: Village): Boolean = !LocalDateTime.now().isBefore(village.days.latestDay().dayChangeDatetime)
