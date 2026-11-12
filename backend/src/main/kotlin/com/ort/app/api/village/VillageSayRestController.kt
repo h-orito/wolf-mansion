@@ -80,7 +80,7 @@ class VillageSayRestController(
             fromParticipant = myself,
             player = player,
             charas = charas,
-            keywords = randomKeywordService.findRandomKeywords(),
+            keywords = randomKeywordService.findRandomKeywordsIfUsedIn(message.content.text),
         )
     }
 
@@ -135,7 +135,7 @@ class VillageSayRestController(
             fromParticipant = myself,
             player = player,
             charas = charas,
-            keywords = randomKeywordService.findRandomKeywords(),
+            keywords = randomKeywordService.findRandomKeywordsIfUsedIn(message.content.text),
         )
     }
 

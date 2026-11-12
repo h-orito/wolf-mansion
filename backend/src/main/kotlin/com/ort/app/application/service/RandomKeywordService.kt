@@ -20,6 +20,13 @@ class RandomKeywordService(
         return if (orderByKeyword) filtered.sortedByKeyword() else filtered
     }
 
+    /**
+     * 発言本文でランダムキーワード（`[[キーワード`）が使われうる場合だけ全件を読む。
+     * 使われない発言のたびに全件（キーワード + 内容）を読むのを避けるため。
+     */
+    fun findRandomKeywordsIfUsedIn(text: String): RandomKeywords =
+        if (text.contains("[[")) findRandomKeywords() else RandomKeywords(list = emptyList())
+
     fun findRandomKeyword(id: Int): RandomKeyword? = randomKeywordRepository.findRandomKeyword(id)
 
     fun findRandomKeyword(keyword: String): RandomKeyword? = randomKeywordRepository.findRandomKeyword(keyword)
