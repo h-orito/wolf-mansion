@@ -70,7 +70,7 @@ class VillageCreatorRestController(
             fromParticipant = null,
             player = null,
             charas = charas,
-            keywords = randomKeywordService.findRandomKeywords(),
+            keywords = randomKeywordService.findRandomKeywordsIfUsedIn(message.content.text),
         )
     }
 

@@ -5,6 +5,7 @@ import com.ort.app.domain.model.message.Message
 import com.ort.app.domain.model.message.MessageContent
 import com.ort.app.domain.model.message.MessageTime
 import com.ort.app.domain.model.player.Player
+import com.ort.app.domain.model.randomkeyword.RandomKeywords
 import com.ort.app.domain.model.village.Village
 import com.ort.app.domain.model.village.participant.VillageParticipant
 import com.ort.app.domain.service.MessageDomainService
@@ -39,7 +40,12 @@ class MessageCoordinator(
             messageDomainService.replaceRandomMessageIfNeeded(
                 message = message,
                 participants = village.allParticipants(),
-                randomKeywords = randomKeywordService.findRandomKeywords(),
+                randomKeywords =
+                    if (message.content.isConvertDisable) {
+                        RandomKeywords(list = emptyList())
+                    } else {
+                        randomKeywordService.findRandomKeywordsIfUsedIn(message.content.text)
+                    },
             )
         val registered = messageService.registerMessage(village, replacedMessage)
         notificationService.notifyToDeveloperIfNeeded(village.id, replacedMessage)
