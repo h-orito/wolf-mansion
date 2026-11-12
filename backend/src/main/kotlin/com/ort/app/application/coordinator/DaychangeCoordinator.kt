@@ -28,8 +28,11 @@ class DaychangeCoordinator(
         val commits = commitService.findCommits(village.id)
         val players = playerService.findPlayers(village.id)
         val footsteps = footstepService.findFootsteps(village.id)
-        val charas =
+        // キャラチップは日付更新が決まったときにしか使わないので、その時点まで読まない
+        // （ポーリングのたびに通るため、毎回読むと DB 負荷が大きい）
+        val charasProvider = {
             village.setting.chara.let { charaService.findCharachips(it.charachipIds, it.isOriginalCharachip).charas() }
+        }
 
         var daychange = Daychange(village, abilities, votes, footsteps, players)
         daychange =
@@ -49,7 +52,7 @@ class DaychangeCoordinator(
                 it
             }
         if (daychange.village.status.isCanceled()) return
-        daychangeDomainService.changeDayIfNeeded(daychange, commits, charas).also {
+        daychangeDomainService.changeDayIfNeeded(daychange, commits, charasProvider).also {
             updateIfNeeded(daychange, it)
             notifyIfNeeded(daychange, it)
         }

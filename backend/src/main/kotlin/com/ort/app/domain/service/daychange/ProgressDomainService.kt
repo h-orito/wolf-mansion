@@ -138,10 +138,10 @@ class ProgressDomainService(
     fun changeDayIfNeeded(
         daychange: Daychange,
         commits: Commits,
-        charas: Charas,
+        charasProvider: () -> Charas,
     ): Daychange {
         if (!shouldChangeDay(daychange.village, commits)) return daychange
-        return changeDay(daychange.copy(village = daychange.village.addNewDay()), charas)
+        return changeDay(daychange.copy(village = daychange.village.addNewDay()), charasProvider())
     }
 
     fun changeDay(
