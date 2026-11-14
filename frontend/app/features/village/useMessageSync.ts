@@ -14,6 +14,7 @@ export function useMessageSync(
   showToast: (msg: string) => void,
   canAutoReload: boolean,
   filtering: boolean,
+  villageFinished: boolean | undefined,
 ) {
   const [loadedMessages, setLoadedMessages] = useState<VillageMessageListContent | null>(null);
   const hashScrolled = useRef(false);
@@ -29,6 +30,7 @@ export function useMessageSync(
     dayParam,
     filtering ? null : loadedMessages?.latestMessageDatetime,
     isInLatestPage,
+    villageFinished,
   );
 
   const onMessagesLoaded = useCallback(
