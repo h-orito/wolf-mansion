@@ -116,9 +116,9 @@ internal class VillageMessageRestControllerLatestDatetimeTest {
     }
 
     @Test
-    @DisplayName("未ログインでは村・村設定・日付だけを読み、閲覧者なしで判定する")
+    @DisplayName("未ログインでは簡易な村だけを読み、閲覧者なしで判定する")
     fun anonymous() {
-        doReturn(village).`when`(villageService).findVillageWithoutParticipants(1)
+        doReturn(village).`when`(villageService).findSimpleVillage(1)
 
         val result = controller.latestMessageDatetime(null, 1, VillageMessageSearchRequest())
 
@@ -133,7 +133,7 @@ internal class VillageMessageRestControllerLatestDatetimeTest {
     @Test
     @DisplayName("ログイン中は閲覧者本人の参加情報とプレイヤーだけを読んで判定に渡す")
     fun loggedIn() {
-        doReturn(village).`when`(villageService).findVillageWithoutParticipants(1)
+        doReturn(village).`when`(villageService).findSimpleVillage(1)
         doReturn(viewer).`when`(villageService).findVillageParticipantWithoutHistories(1, "viewer")
         doReturn(player).`when`(playerService).findSimplePlayer("viewer")
 
@@ -145,15 +145,48 @@ internal class VillageMessageRestControllerLatestDatetimeTest {
     }
 
     @Test
-    @DisplayName("参加者で絞る場合は「全員選択 = 絞り込みなし」の判定のために村全体を読む")
+    @DisplayName("参加者で絞る場合も簡易な村で判定し、一部の参加者を選んだときはその参加者で絞る")
     fun filteredByParticipant() {
-        doReturn(village).`when`(villageService).findVillage(1, false)
+        doReturn(village).`when`(villageService).findSimpleVillage(1)
+        val selected =
+            village
+                .allParticipants()
+                .list
+                .take(1)
+                .map { it.id }
 
-        controller.latestMessageDatetime(null, 1, VillageMessageSearchRequest(participantIds = listOf(2)))
+        controller.latestMessageDatetime(
+            null,
+            1,
+            VillageMessageSearchRequest(participantIds = selected, toParticipantIds = selected),
+        )
 
-        verify(villageService).findVillage(1, false)
-        verify(villageService, never()).findVillageWithoutParticipants(anyInt())
-        assertEquals(listOf(2), repository.query!!.fromParticipantIds)
+        assertEquals(selected, repository.query!!.fromParticipantIds)
+        assertEquals(selected, repository.query!!.toParticipantIds)
+        verifyHeavyLoadsNotCalled()
+    }
+
+    @Test
+    @DisplayName("退村者を除く参加者・見学者を全員選んだときは、絞り込みなしとして扱う")
+    fun allParticipantsSelected() {
+        doReturn(village).`when`(villageService).findSimpleVillage(1)
+        val all =
+            village
+                .allParticipants()
+                .filterNotGone()
+                .list
+                .map { it.id }
+        check(all.size > 1)
+
+        controller.latestMessageDatetime(
+            null,
+            1,
+            VillageMessageSearchRequest(participantIds = all, toParticipantIds = all),
+        )
+
+        assertEquals(emptyList<Int>(), repository.query!!.fromParticipantIds)
+        assertEquals(emptyList<Int>(), repository.query!!.toParticipantIds)
+        verifyHeavyLoadsNotCalled()
     }
 
     @Test

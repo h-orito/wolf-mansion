@@ -28,7 +28,7 @@ class VillageService(
         excludeGone: Boolean = true,
     ): Village? = villageRepository.findVillage(villageId, excludeGone)
 
-    fun findVillageWithoutParticipants(villageId: Int): Village? = villageRepository.findVillageWithoutParticipants(villageId)
+    fun findSimpleVillage(villageId: Int): Village? = villageRepository.findSimpleVillage(villageId)
 
     fun registerVillage(paramVillage: Village): Village = villageRepository.registerVillage(paramVillage)
 

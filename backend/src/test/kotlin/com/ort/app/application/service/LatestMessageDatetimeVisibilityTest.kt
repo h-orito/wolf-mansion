@@ -57,7 +57,7 @@ import java.time.LocalDateTime
  * 新着検知 (latest-datetime) が「見られない発言の時刻を返さない」ことを、
  * 閲覧者・村の状態ごとに DB へ渡す検索条件 (種別と自分宛て/自分発の取り込み) で固定する。
  *
- * 新着検知は参加者一覧や各種履歴を読まない軽量な村・閲覧者で判定するため、
+ * 新着検知は簡易な村 (参加者は部屋・ステータス・履歴なし) と履歴を読まない閲覧者で判定するため、
  * 全情報を読んだ村・閲覧者と判定結果が一致することもあわせて確認する。
  */
 internal class LatestMessageDatetimeVisibilityTest {
@@ -191,11 +191,38 @@ internal class LatestMessageDatetimeVisibilityTest {
         )
     }
 
-    /** 新着検知で読む村: 参加者・見学者を読まない */
+    /** 新着検知で読む村: 参加者・見学者は簡易版 (部屋・ステータス・履歴を持たない) */
     private fun Village.light(): Village =
         copy(
-            participants = VillageParticipants(count = 0, list = emptyList()),
-            spectators = VillageParticipants(count = 0, list = emptyList()),
+            participants = participants.simple(),
+            spectators = spectators.simple(),
+        )
+
+    /** 村一覧と同じ簡易な参加者 (VillagePlayerDataSource.mapSimpleVillageParticipant と同じ欠け方) */
+    private fun VillageParticipants.simple(): VillageParticipants =
+        copy(
+            list =
+                list.map {
+                    it.copy(
+                        skill = it.skill?.copy(histories = SkillHistories(list = emptyList())),
+                        room = null,
+                        status =
+                            it.status.copy(
+                                loverIdList = emptyList(),
+                                foxPossessionedIdList = emptyList(),
+                                insanedIdList = emptyList(),
+                                persuadedIdList = emptyList(),
+                                insuranceIdList = emptyList(),
+                                disrespectfulList = emptyList(),
+                                hasCurseMark = false,
+                                hasCounterCurseMark = false,
+                                hasTelekinesis = false,
+                            ),
+                        dead = it.dead.copy(histories = DeadHistories(list = emptyList())),
+                        ipAddresses = emptyList(),
+                        notification = null,
+                    )
+                },
         )
 
     /** 新着検知で読む閲覧者: 死亡・部屋・役職の履歴、IP、通知設定を読まない */

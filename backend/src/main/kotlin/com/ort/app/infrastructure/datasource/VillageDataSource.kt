@@ -117,7 +117,7 @@ class VillageDataSource(
         return mapVillage(village)
     }
 
-    override fun findVillageWithoutParticipants(id: Int): Village? {
+    override fun findSimpleVillage(id: Int): Village? {
         val optVillage =
             villageBhv.selectEntity {
                 it.setupSelect_VillageSettingsAsOne()
@@ -126,6 +126,7 @@ class VillageDataSource(
         if (!optVillage.isPresent) return null
         val village = optVillage.get()
         villageBhv.load(village) { loader ->
+            loader.loadVillagePlayer { it.query().setIsGone_Equal_False() }
             loader.loadVillageDay { it.query().addOrderBy_Day_Asc() }
         }
         return mapSimpleVillage(village)

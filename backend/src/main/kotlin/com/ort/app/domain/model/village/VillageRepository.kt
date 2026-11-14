@@ -19,10 +19,11 @@ interface VillageRepository {
     ): Village?
 
     /**
-     * 公開範囲の判定に使う村。村・村設定・日付だけを読み、参加者・見学者は空、
+     * 公開範囲の判定に使う村 (村一覧と同じ簡易な形)。村・村設定・日付と、退村者を除く参加者・見学者を読む。
+     * 参加者・見学者は簡易版で、部屋・ステータス (恋人・狐憑きなど)・各種履歴・IP アドレス・通知設定は持たない。
      * 編成・発言制限・キャラチップ・タグは読まない。
      */
-    fun findVillageWithoutParticipants(id: Int): Village?
+    fun findSimpleVillage(id: Int): Village?
 
     fun updateStatus(
         id: Int,
