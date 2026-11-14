@@ -23,6 +23,8 @@ class DaychangeCoordinator(
 ) {
     @Transactional(rollbackFor = [Exception::class, WolfMansionBusinessException::class])
     fun changeDayIfNeeded(village: Village) {
+        // 終了・廃村の村は日付が進まないため、ポーリングのたびに投票・能力などを読まない
+        if (village.status.isFinished()) return
         val votes = voteService.findVotes(village.id)
         val abilities = abilityService.findAbilities(village.id)
         val commits = commitService.findCommits(village.id)

@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useMe } from "~/features/auth/useMe";
 import { fetchLatestMessageDatetime, fetchVillageMessages, type VillageMessageSearch } from "./api";
+import { usePollingActive } from "./usePollingActive";
 
 export const VILLAGE_MESSAGES_QUERY_KEY = "village-messages";
 
@@ -29,15 +30,22 @@ const POLLING_INTERVAL_MS = 30_000;
  * `baselineDatetime` は抽出していないとき (表示リスト = 村全体) だけ渡し、
  * ポーリングを待たず一覧ロード時点の日時を基準にできるようにする。
  * フラグは一覧のロード完了時に `resetNewMessage` で下ろす。
+ *
+ * 終了・廃村の村とタブが非表示の間は問い合わせない。非表示の間も基準日時は保持し、
+ * 表示に戻った直後に 1 回問い合わせて、非表示の間の新着を検知する。
  */
 export function useNewMessageDetector(
   id: number,
   day: number | undefined,
   baselineDatetime: string | null | undefined,
   enabled: boolean,
+  isFinished: boolean | undefined,
 ): { hasNewMessage: boolean; resetNewMessage: () => void } {
   const [hasNewMessage, setHasNewMessage] = useState(false);
   const lastKnownRef = useRef<string | null>(null);
+  const active = usePollingActive(isFinished);
+  // 止めていた間に新着があり得るため、再開時は間隔を待たずに問い合わせる
+  const pausedRef = useRef(false);
 
   const resetNewMessage = useCallback(() => setHasNewMessage(false), []);
 
@@ -54,11 +62,16 @@ export function useNewMessageDetector(
       lastKnownRef.current = null;
       return;
     }
-    let active = true;
+    if (!active) {
+      // 村の読み込み待ちは止めていた扱いにしない (読み込み直後に余分な問い合わせをしない)
+      if (isFinished === false) pausedRef.current = true;
+      return;
+    }
+    let mounted = true;
     const poll = async () => {
       try {
         const latest = await fetchLatestMessageDatetime(id, { day });
-        if (!active || latest === "0") return;
+        if (!mounted || latest === "0") return;
         const lastKnown = lastKnownRef.current;
         if (lastKnown == null) {
           // 基準が未確定の間 (抽出中の初回など) は保存のみ。次回以降の増分で検知する
@@ -73,12 +86,16 @@ export function useNewMessageDetector(
         // 次回ポーリングに任せる
       }
     };
+    if (pausedRef.current) {
+      pausedRef.current = false;
+      void poll();
+    }
     const timer = setInterval(poll, POLLING_INTERVAL_MS);
     return () => {
-      active = false;
+      mounted = false;
       clearInterval(timer);
     };
-  }, [id, day, enabled]);
+  }, [id, day, enabled, active, isFinished]);
 
   return { hasNewMessage, resetNewMessage };
 }

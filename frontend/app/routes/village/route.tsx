@@ -124,7 +124,7 @@ export default function Village({ params }: Route.ComponentProps) {
     mySituation.vote.canVote &&
     mySituation.vote.targetCharaId == null;
 
-  const daychangeDetected = useVillagePolling(villageId, latestDay);
+  const daychangeDetected = useVillagePolling(villageId, latestDay, village?.status.isFinished);
   const showToast = useToast((s) => s.show);
   const autoReload = useDisplaySettings((s) => s.autoReload);
   useEffect(() => {
@@ -151,6 +151,7 @@ export default function Village({ params }: Route.ComponentProps) {
     showToast,
     sayPreview == null,
     isNarrowingFilter(filter),
+    village?.status.isFinished,
   );
 
   const pendingScroll = useRef(false);

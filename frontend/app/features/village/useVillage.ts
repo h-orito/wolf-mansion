@@ -10,6 +10,7 @@ import {
   postVillageUpdate,
 } from "./api";
 import { VILLAGE_MESSAGES_QUERY_KEY } from "./useMessages";
+import { usePollingActive } from "./usePollingActive";
 
 import { useVillageId } from "./VillageContext";
 
@@ -93,21 +94,28 @@ const POLLING_INTERVAL_MS = 30_000;
 /**
  * 村ポーリング。30 秒ごとに村状態の更新 (最終アクセス・日付更新の駆動) を行い、
  * 既知の最新日より新しい日付を検知したら村系クエリを無効化して true を返す。
- * 初回マウント直後にも 1 回実行する。失敗 (ネットワーク断など) は次回ポーリングに任せる。
+ * 村を読み込んだ直後と、非表示のタブが表示に戻った直後にも 1 回実行する。
+ * 終了・廃村の村とタブが非表示の間は止める。失敗 (ネットワーク断など) は次回ポーリングに任せる。
  */
-export function useVillagePolling(id: number, knownLatestDay: number | undefined): boolean {
+export function useVillagePolling(
+  id: number,
+  knownLatestDay: number | undefined,
+  isFinished: boolean | undefined,
+): boolean {
   const invalidate = useInvalidateVillage(id);
+  const active = usePollingActive(isFinished);
   const [daychangeDetected, setDaychangeDetected] = useState(false);
   // ポーリングの比較基準。表示中データの最新日に追従する
   const latestDayRef = useRef<number | undefined>(knownLatestDay);
   latestDayRef.current = knownLatestDay;
 
   useEffect(() => {
-    let active = true;
+    if (!active) return;
+    let mounted = true;
     const poll = async () => {
       try {
         const response = await postVillageUpdate(id);
-        if (!active) return;
+        if (!mounted) return;
         const known = latestDayRef.current;
         if (known != null && response.latestDay > known) {
           setDaychangeDetected(true);
@@ -120,10 +128,10 @@ export function useVillagePolling(id: number, knownLatestDay: number | undefined
     poll();
     const timer = setInterval(poll, POLLING_INTERVAL_MS);
     return () => {
-      active = false;
+      mounted = false;
       clearInterval(timer);
     };
-  }, [id, invalidate]);
+  }, [id, invalidate, active]);
 
   return daychangeDetected;
 }
