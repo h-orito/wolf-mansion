@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "~/lib/zod";
 import {
   RANDOM_KEYWORD_MAX_LENGTH,
   RANDOM_KEYWORD_MESSAGE_MAX_LENGTH,

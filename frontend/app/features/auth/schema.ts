@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "~/lib/zod";
 import {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
