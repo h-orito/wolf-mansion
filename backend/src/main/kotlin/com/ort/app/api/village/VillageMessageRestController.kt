@@ -93,8 +93,17 @@ class VillageMessageRestController(
         @PathVariable id: Int,
         @ParameterObject request: VillageMessageSearchRequest,
     ): VillageLatestMessageDatetimeContent {
-        val village = findVillageOrThrow(id)
-        val (_, myself, myselfPlayer) = resolveViewer(principal, village)
+        // ポーリングで頻繁に呼ばれるため、公開範囲の判定に要る分だけを読む。
+        // 参加者で絞る場合は「全員選択 = 絞り込みなし」の判定に参加者数が要るため村全体を読む
+        val village =
+            if (request.participantIds.isNullOrEmpty() && request.toParticipantIds.isNullOrEmpty()) {
+                villageService.findVillageWithoutParticipants(id)
+                    ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "village not found")
+            } else {
+                findVillageOrThrow(id)
+            }
+        val myself = principal?.let { villageService.findVillageParticipantWithoutHistories(village.id, it.name) }
+        val myselfPlayer = principal?.let { playerService.findSimplePlayer(it.name) }
         val datetime =
             messageService.findLatestMessageDatetime(village, myself, myselfPlayer, request.toQuery(village))
         return VillageLatestMessageDatetimeContent(

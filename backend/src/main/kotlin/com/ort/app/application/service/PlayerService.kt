@@ -21,6 +21,8 @@ class PlayerService(
 
     fun findPlayer(userName: String): Player? = playerRepository.findPlayer(userName)
 
+    fun findSimplePlayer(userName: String): Player? = playerRepository.findSimplePlayer(userName)
+
     fun findPlayer(id: Int): Player = playerRepository.findPlayer(id)
 
     @Throws(WolfMansionBusinessException::class)

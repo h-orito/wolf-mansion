@@ -65,6 +65,12 @@ class PlayerDataSource(
         return mapPlayers(playerList)
     }
 
+    override fun findSimplePlayer(userName: String): Player? =
+        playerBhv
+            .selectEntity { it.query().setPlayerName_Equal(userName) }
+            .map { mapSimplePlayer(it) }
+            .orElse(null)
+
     override fun findPlayer(userName: String): Player? {
         val optPlayer =
             playerBhv.selectEntity {
