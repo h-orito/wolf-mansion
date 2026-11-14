@@ -28,6 +28,8 @@ class VillageService(
         excludeGone: Boolean = true,
     ): Village? = villageRepository.findVillage(villageId, excludeGone)
 
+    fun findSimpleVillage(villageId: Int): Village? = villageRepository.findSimpleVillage(villageId)
+
     fun registerVillage(paramVillage: Village): Village = villageRepository.registerVillage(paramVillage)
 
     fun cancel(villageId: Int) = villageRepository.updateStatus(villageId, VillageStatus(CDef.VillageStatus.廃村))
@@ -63,6 +65,11 @@ class VillageService(
             userName = username,
             excludeGone = excludeGone,
         )
+
+    fun findVillageParticipantWithoutHistories(
+        villageId: Int,
+        username: String,
+    ): VillageParticipant? = villageRepository.findVillageParticipantWithoutHistories(villageId, username)
 
     fun findVillageParticipant(
         id: Int,

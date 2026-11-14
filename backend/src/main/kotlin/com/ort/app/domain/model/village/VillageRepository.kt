@@ -18,6 +18,13 @@ interface VillageRepository {
         excludeGone: Boolean,
     ): Village?
 
+    /**
+     * 公開範囲の判定に使う村 (村一覧と同じ簡易な形)。村・村設定・日付と、退村者を除く参加者・見学者を読む。
+     * 参加者・見学者は簡易版で、部屋・ステータス (恋人・狐憑きなど)・各種履歴・IP アドレス・通知設定は持たない。
+     * 編成・発言制限・キャラチップ・タグは読まない。
+     */
+    fun findSimpleVillage(id: Int): Village?
+
     fun updateStatus(
         id: Int,
         status: VillageStatus,
@@ -59,6 +66,15 @@ interface VillageRepository {
         villageId: Int,
         userName: String,
         excludeGone: Boolean,
+    ): VillageParticipant?
+
+    /**
+     * 公開範囲の判定に使う参加者 (退村者は除く)。参加者本人とステータス (恋人・狐憑きなど) だけを読み、
+     * 死亡・部屋・役職の履歴、IP アドレス、通知設定は読まない。
+     */
+    fun findVillageParticipantWithoutHistories(
+        villageId: Int,
+        userName: String,
     ): VillageParticipant?
 
     fun registerVillage(paramVillage: Village): Village

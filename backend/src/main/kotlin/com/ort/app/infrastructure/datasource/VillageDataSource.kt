@@ -117,6 +117,21 @@ class VillageDataSource(
         return mapVillage(village)
     }
 
+    override fun findSimpleVillage(id: Int): Village? {
+        val optVillage =
+            villageBhv.selectEntity {
+                it.setupSelect_VillageSettingsAsOne()
+                it.query().setVillageId_Equal(id)
+            }
+        if (!optVillage.isPresent) return null
+        val village = optVillage.get()
+        villageBhv.load(village) { loader ->
+            loader.loadVillagePlayer { it.query().setIsGone_Equal_False() }
+            loader.loadVillageDay { it.query().addOrderBy_Day_Asc() }
+        }
+        return mapSimpleVillage(village)
+    }
+
     override fun updateStatus(
         id: Int,
         status: VillageStatus,
@@ -148,6 +163,11 @@ class VillageDataSource(
         userName: String,
         excludeGone: Boolean,
     ): VillageParticipant? = villagePlayerDataSource.findVillageParticipant(villageId, userName, excludeGone)
+
+    override fun findVillageParticipantWithoutHistories(
+        villageId: Int,
+        userName: String,
+    ): VillageParticipant? = villagePlayerDataSource.findVillageParticipantWithoutHistories(villageId, userName)
 
     override fun registerVillage(paramVillage: Village): Village {
         val id = insertVillage(paramVillage)

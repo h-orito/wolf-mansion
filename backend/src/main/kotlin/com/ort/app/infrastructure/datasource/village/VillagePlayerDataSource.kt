@@ -84,6 +84,25 @@ class VillagePlayerDataSource(
         return mapVillageParticipant(villagePlayer)
     }
 
+    fun findVillageParticipantWithoutHistories(
+        villageId: Int,
+        userName: String,
+    ): VillageParticipant? {
+        val optVillagePlayer =
+            villagePlayerBhv.selectEntity {
+                it.query().setVillageId_Equal(villageId)
+                it.query().queryPlayer().setPlayerName_Equal(userName)
+                it.query().setIsGone_Equal_False()
+            }
+        if (!optVillagePlayer.isPresent) return null
+        val villagePlayer = optVillagePlayer.get()
+        villagePlayerBhv.load(villagePlayer) { loader ->
+            loader.loadVillagePlayerStatusByVillagePlayerId { }
+            loader.loadVillagePlayerStatusByToVillagePlayerId { }
+        }
+        return mapVillageParticipant(villagePlayer)
+    }
+
     fun withNestedVillagePlayer(loader: LoaderOfVillagePlayer) {
         loader.loadVillagePlayerDeadHistory {
             it.query().addOrderBy_Day_Asc()

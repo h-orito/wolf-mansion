@@ -12,6 +12,9 @@ interface PlayerRepository {
 
     fun findPlayer(userName: String): Player?
 
+    /** プレイヤー本人の行だけを読む。プロフィール・参加した村・建てた村は読まない */
+    fun findSimplePlayer(userName: String): Player?
+
     fun findPlayer(id: Int): Player
 
     fun registerPlayer(
