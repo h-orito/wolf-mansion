@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "~/lib/zod";
 
 import type { SimpleSkillView } from "~/features/skills/api";
 import { MessageType } from "~/features/village/components/message/messageType";

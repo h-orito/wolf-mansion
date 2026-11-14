@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 
 import { assetUrl } from "~/lib/api";
+import { useCspNonce } from "~/lib/csp";
 import type { Route } from "./+types/root";
 import "./app.css";
 
@@ -31,6 +32,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const nonce = useCspNonce();
   return (
     <html lang="ja">
       <head>
@@ -47,8 +49,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         {children}
-        <ScrollRestoration />
-        <Scripts />
+        <ScrollRestoration nonce={nonce} />
+        <Scripts nonce={nonce} />
       </body>
     </html>
   );
